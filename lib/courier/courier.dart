@@ -85,7 +85,12 @@ class _CourierPageState extends State<CourierPage> {
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
               borderRadius: BorderRadius.circular(30)),
           prefixIcon: const Icon(Icons.key),
-          prefixIconColor: Theme.of(context).primaryColorDark),
+          prefixIconColor: Theme.of(context).primaryColorDark,
+        suffixIcon: IconButton(
+          onPressed: () => { _formKey.currentState!.fields['password']!.reset() },
+          icon: Icon(Icons.clear),
+        ),
+      ),
     );
   }
 
@@ -116,7 +121,12 @@ class _CourierPageState extends State<CourierPage> {
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
               borderRadius: BorderRadius.circular(30)),
           prefixIcon: const Icon(Icons.person),
-          prefixIconColor: Theme.of(context).primaryColorDark),
+          prefixIconColor: Theme.of(context).primaryColorDark,
+        suffixIcon: IconButton(
+          onPressed: () { _formKey.currentState!.fields['user']!.reset();},
+          icon: const Icon(Icons.clear),
+        ),
+      ),
     );
   }
 

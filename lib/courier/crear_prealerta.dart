@@ -56,60 +56,52 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
       height: 720,
       child: Scaffold(
           appBar: AppBar(title: const Text("Creación de Pre-Alerta"),
-          //   actions: [
-          //   IconButton(onPressed: () async {
-          //     if(_formKey.currentState?.saveAndValidate() ?? false) {
-          //       var value = _formKey.currentState!.fields['imagen']!.value as List<dynamic>;
-          //         var xfile = value.first as XFile;
-          //         var preAlerta = PreAlertaModel("", "", "", "", 100, "", "", "", "");
-          //         prePostAlertaBloc.add(SendPrePostAlertaEvent(xfile,preAlerta));
-          //       }
-          //       //Navigator.of(context).pop();
-          //   }, icon: const Icon(Icons.send, size: 30,))
-          // ],
           automaticallyImplyLeading: false,
           ),
-
           body: BlocProvider(
             create: (context) => prePostAlertaBloc,
             child: BlocBuilder<PrePostAlertaBloc,PrePostAlertaState>(
               builder: (context,state) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 65),
-                    child: FormBuilder(
-                      autovalidateMode: AutovalidateMode.disabled,
-                      key: _formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                        child: Column(
-                          children: [
-                            if(state is PrePostAlertaUpLoadingState)
-                              Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
-                            else if (state is PrePostAlertaDoneState)
-                              InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
-                            else if (state is PrePostAlertaErrorState)
-                              InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).errorColor),)))
-                            else
-                              buildEntryForm(context, () async {
+              return GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                onVerticalDragEnd: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 65),
+                      child: FormBuilder(
+                        autovalidateMode: AutovalidateMode.disabled,
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                          child: Column(
+                            children: [
+                              if(state is PrePostAlertaUpLoadingState)
+                                Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
+                              else if (state is PrePostAlertaDoneState)
+                                InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
+                              else if (state is PrePostAlertaErrorState)
+                                InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).errorColor),)))
+                              else
+                                buildEntryForm(context, () async {
 
-                                if(_formKey.currentState?.saveAndValidate() ?? false) {
+                                  if(_formKey.currentState?.saveAndValidate() ?? false) {
 
-                                  var transportista = _formKey.currentState!.fields['transportista']!.value.toString();
-                                  var tracking = _formKey.currentState!.fields['tracking']!.value.toString();
-                                  var contenido = _formKey.currentState!.fields['contenido']!.value.toString();
-                                  var proveedor = _formKey.currentState!.fields['proveedor']!.value.toString();
-                                  var strValor = _formKey.currentState!.fields['valor']!.value.toString();
-                                  strValor = strValor.replaceAll(',', '');
-                                  var valor = double.parse(strValor);
-                                  var fecha = formatDate.format(_formKey.currentState!.fields['fecha']!.value as DateTime);
-                                  var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
-                                  var preAlerta = PreAlertaModel("", "", transportista, tracking, valor, contenido, proveedor, fecha, "");
-                                  prePostAlertaBloc.add(SendPreAlertaEvent(xfile,preAlerta));
-                                }
-                              }),
-                          ],
+                                    var transportista = _formKey.currentState!.fields['transportista']!.value.toString();
+                                    var tracking = _formKey.currentState!.fields['tracking']!.value.toString();
+                                    var contenido = _formKey.currentState!.fields['contenido']!.value.toString();
+                                    var proveedor = _formKey.currentState!.fields['proveedor']!.value.toString();
+                                    var strValor = _formKey.currentState!.fields['valor']!.value.toString();
+                                    strValor = strValor.replaceAll(',', '');
+                                    var valor = double.parse(strValor);
+                                    var fecha = formatDate.format(_formKey.currentState!.fields['fecha']!.value as DateTime);
+                                    var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
+                                    var preAlerta = PreAlertaModel("", "", transportista, tracking, valor, contenido, proveedor, fecha, "");
+                                    prePostAlertaBloc.add(SendPreAlertaEvent(xfile,preAlerta));
+                                  }
+                                }),
+                            ],
+                          ),
                         ),
                       ),
                     ),

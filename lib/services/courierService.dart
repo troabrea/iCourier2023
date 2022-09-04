@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
@@ -83,7 +84,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('noticias');
     }
-
+    AppCenter.trackEventAsync("DOMEX_GET_NOTICIAS");
     var jsonData = await cache.remember('noticas', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions.azurewebsites.net/api/noticias/$empresaId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="));
@@ -96,7 +97,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('servicios');
     }
-
+    AppCenter.trackEventAsync("DOMEX_GET_SERVICIOS");
     var jsonData = await cache.remember('servicios', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions.azurewebsites.net/api/servicios/$empresaId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
@@ -128,7 +129,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('sucursales');
     }
-
+    AppCenter.trackEventAsync("DOMEX_GET_SUCURSALES");
     var jsonData = await cache.remember('sucursales', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions.azurewebsites.net/api/sucursales/$empresaId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
@@ -141,6 +142,9 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('preguntas');
     }
+
+    AppCenter.trackEventAsync("DOMEX_GET_PREGUNTAS");
+
     var jsonData = await cache.remember('preguntas', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions.azurewebsites.net/api/preguntas/$empresaId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
@@ -160,6 +164,9 @@ class CourierService {
 
   Future<List<CalculadoraResponse>> getCalculadoraResult(double libras,
       double valor, {String producto = ""}) async {
+
+    AppCenter.trackEventAsync("DOMEX_GET_CALCULADORA");
+
     final uri = Uri.parse(
         "https://icourierfunctions.azurewebsites.net/api/calculadora?code=UpOzDP0FHR4nhMaeqns1SzhmQuhFrzpZSlP1VVIui9HzAToeJ8ky5g==");
     final req = CalculadoraRequest(empresaId: empresaId,
@@ -204,7 +211,7 @@ class CourierService {
     if (forceRefresh) {
       cache.destroy('recepciones');
     }
-
+    AppCenter.trackEventAsync("DOMEX_GET_RECEPCIONES");
     var jsonData = await cache.remember('recepciones', () async {
       var sessionId = (await cache.load('sessionId', ''))
           .toString(); //  prefs.getString('sessionId');
@@ -234,6 +241,8 @@ class CourierService {
     }
 
     var dateFormat = DateFormat("yyy-MM-dd");
+
+    AppCenter.trackEventAsync("DOMEX_GET_HISTORIA");
 
     final uri = Uri.parse(
         "https://icourierfunctions.azurewebsites.net/api/historia?code=gerWGYCG2sXQyxgxx6QHTRFtWey7Ab/oJtEPHCQQ76qVwg3BMJvI4Q==");
@@ -412,6 +421,8 @@ class CourierService {
         return false;
       }
 
+      AppCenter.trackEventAsync("DOMEX_SEND_PREALERTA");
+
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
@@ -463,6 +474,8 @@ class CourierService {
         return false;
       }
 
+      AppCenter.trackEventAsync("DOMEX_UPDATE_PHOTO");
+
       var storage = AzureStorage.parse(
       'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
@@ -499,6 +512,9 @@ class CourierService {
       if (sessionId == "") {
         return false;
       }
+
+      AppCenter.trackEventAsync("DOMEX_SEND_POSTALERTA");
+
 
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -25,8 +26,10 @@ import 'dart:math' as math;
 import 'apptheme.dart';
 import 'calculadora/calculadora.dart';
 import 'courier/courier.dart';
-
+import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:event/event.dart' as event;
+
+import 'services/connectivityService.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   showFlutterNotification(message);
@@ -72,19 +75,19 @@ Future<void> setupFlutterNotifications() async {
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  if (kDebugMode) {
-    print('User granted permission: ${settings.authorizationStatus}');
-  }
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
+  //
+  // if (kDebugMode) {
+  //   print('User granted permission: ${settings.authorizationStatus}');
+  // }
 
   //
   messaging.subscribeToTopic("DOMEX");
@@ -117,7 +120,9 @@ void showFlutterNotification(RemoteMessage message) {
 Future<void> main()  async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   await setupFlutterNotifications();
+
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -126,7 +131,6 @@ Future<void> main()  async {
   }
 
   //final fcmToken = await FirebaseMessaging.instance.getToken();
-
   GetIt.I.registerSingleton<CourierService>(CourierService());
   GetIt.I.registerSingleton<event.Event<LoginChanged>>(event.Event<LoginChanged>());
   GetIt.I.registerSingleton<event.Event<LogoutRequested>>(event.Event<LogoutRequested>());
@@ -138,6 +142,11 @@ Future<void> main()  async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  AppCenter.startAsync(
+      appSecretAndroid: "65b95f03-1311-4e28-8bf5-59dd28d6c125", appSecretIOS: "7194f9c7-2c86-488f-b41e-9dd39595c001");
+
+  AppCenter.trackEventAsync("DOMEX_INICIO_SESION");
 
   runApp(const MyApp());
 }
@@ -185,6 +194,8 @@ class MainAppShell extends StatefulWidget {
 }
 
 class _MainAppShellState extends State<MainAppShell>  {
+
+  final _connectivityService = ConnectivityService();
 
   final _checker = VersionCheck(
     showUpdateDialog: (context, versionCheck) async {
@@ -253,6 +264,25 @@ class _MainAppShellState extends State<MainAppShell>  {
   @override
   void initState() {
     super.initState();
+
+    // Check Connectivity
+    var wasLost = false;
+    _connectivityService.connectivityStream.stream.listen((event) {
+      if (event == ConnectivityResult.none) {
+        wasLost = true;
+        ScaffoldMessenger.of(context).showMaterialBanner(
+          MaterialBanner( backgroundColor: Theme.of(context).errorColor, content: Text("Se ha perdido la conexión a internet, algunas funciones de la aplicación no estarán disponibles.", style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white)), actions: [TextButton(onPressed: () {
+            ScaffoldMessenger.of(context)
+                .hideCurrentMaterialBanner();
+          }, child: const Text("Aceptar"))])
+        );
+      } else {
+        if(wasLost) {
+          wasLost = false;
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Conexión a internet restaurda!")));
+        }
+      }});
+
     // Push Notifications
     // Foreground State
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

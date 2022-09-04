@@ -60,35 +60,39 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             create: (context) => prePostAlertaBloc,
             child: BlocBuilder<PrePostAlertaBloc,PrePostAlertaState>(
               builder: (context,state) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 65),
-                    child: FormBuilder(
-                      autovalidateMode: AutovalidateMode.disabled,
-                      key: _formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                        child: Column(
-                          children: [
-                            if(state is PrePostAlertaUpLoadingState)
-                              Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
-                            else if (state is PrePostAlertaDoneState)
-                              InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
-                            else if (state is PrePostAlertaErrorState)
-                              InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).errorColor),)))
-                            else
-                              buildEntryForm(context, () async {
-                                if(_formKey.currentState?.saveAndValidate() ?? false) {
-                                  var strValor = _formKey.currentState!.fields['valor']!.value.toString();
-                                  strValor = strValor.replaceAll(',', '');
-                                  var valor = double.parse(strValor);
-                                  var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
-                                  var postAlerta = PostAlertaModel("","",recepcion.recepcionID,valor,"" );
-                                  prePostAlertaBloc.add(SendPostAlertaEvent(xfile,postAlerta));
-                                }
-                              }),
-                          ],
+              return GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                onVerticalDragEnd: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 65),
+                      child: FormBuilder(
+                        autovalidateMode: AutovalidateMode.disabled,
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                          child: Column(
+                            children: [
+                              if(state is PrePostAlertaUpLoadingState)
+                                Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
+                              else if (state is PrePostAlertaDoneState)
+                                InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
+                              else if (state is PrePostAlertaErrorState)
+                                InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).errorColor),)))
+                              else
+                                buildEntryForm(context, () async {
+                                  if(_formKey.currentState?.saveAndValidate() ?? false) {
+                                    var strValor = _formKey.currentState!.fields['valor']!.value.toString();
+                                    strValor = strValor.replaceAll(',', '');
+                                    var valor = double.parse(strValor);
+                                    var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
+                                    var postAlerta = PostAlertaModel("","",recepcion.recepcionID,valor,"" );
+                                    prePostAlertaBloc.add(SendPostAlertaEvent(xfile,postAlerta));
+                                  }
+                                }),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -327,6 +331,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             height: 60,
             child: FormBuilderTextField(
               name: 'tracking',
+              maxLines: 2,
               initialValue: recepcion.enviadoPor,
               enabled: false,
               validator: FormBuilderValidators.compose(
@@ -337,7 +342,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                 hintText: 'Tracking',
                 floatingLabelAlignment: FloatingLabelAlignment.center,
                 floatingLabelStyle:
-                TextStyle(color: Theme.of(context).primaryColorDark),
+                TextStyle( color: Theme.of(context).primaryColorDark),
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
                     borderRadius: BorderRadius.circular(15)),

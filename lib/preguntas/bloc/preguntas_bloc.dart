@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../services/courierService.dart';
 
+import '../../services/connectivityService.dart';
 import '../../services/model/pregunta.dart';
 
 part 'preguntas_event.dart';
@@ -9,7 +10,7 @@ part 'preguntas_state.dart';
 
 class PreguntasBloc extends Bloc<PreguntasEvent, PreguntasState> {
   final CourierService _courierService;
-  // final ConnectivityService _connectivityService;
+  //final ConnectivityService _connectivityService;
 
   PreguntasBloc(this._courierService) : super(PreguntasLoadingState()) {
     // _connectivityService.connectivityStream.stream.listen((event) {
