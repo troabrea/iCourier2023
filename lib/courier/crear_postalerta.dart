@@ -163,6 +163,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                   ],
                 )
             ),
+            const Spacer(),
             if( selectedImage != null)
               SizedBox( height: 130, width: MediaQuery.of(context).size.width * .4,
                   child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(30)), child: Image.file(File(selectedImage!.path), fit: BoxFit.fill,)) ),

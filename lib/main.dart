@@ -279,7 +279,7 @@ class _MainAppShellState extends State<MainAppShell>  {
       } else {
         if(wasLost) {
           wasLost = false;
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Conexión a internet restaurda!")));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Conexión a internet restaurada!")));
         }
       }});
 
