@@ -458,7 +458,7 @@ class _MainAppShellState extends State<MainAppShell>  {
       destinationAnimationCurve: Curves.fastOutSlowIn,
       destinationAnimationDuration: 400,
       decoration: NavbarDecoration(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor, // Theme.of(context).primaryColor,
           selectedLabelTextStyle: Theme.of(context).navigationBarTheme.labelTextStyle!.resolve(<MaterialState>{ MaterialState.selected }),
           showUnselectedLabels: false,
           showSelectedLabels: false,

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 ThemeData getLightTheme()
 {
+
+  Color primaryColor = const Color(0xfff7d701);
+
   return FlexThemeData.light(
     colors: const FlexSchemeColor(
       primary: Color(0xfff7d701),
@@ -31,6 +34,7 @@ ThemeData getLightTheme()
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: true,
   )
+  .copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
   .copyWith(textTheme:  getLightTextTheme())
   .copyWith(dialogTheme: getLightDialogTheme())
   .copyWith(textButtonTheme: getLightTextButtonTheme())
@@ -38,7 +42,9 @@ ThemeData getLightTheme()
 }
 
 getLightAppBarTheme() {
-  return const AppBarTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22), backgroundColor: Color(0xfff7d701),foregroundColor: Colors.black);
+  return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
+      actionsIconTheme: IconThemeData(color: Colors.black),
+      titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22), backgroundColor: Color(0xfff7d701),foregroundColor: Colors.black);
 }
 
 getLightDialogTheme() {
@@ -46,7 +52,7 @@ getLightDialogTheme() {
 }
 
 getLightTextButtonTheme() {
-  return TextButtonThemeData( style: TextButton.styleFrom( primary: Colors.amber,textStyle: const TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, fontSize: 16)  ) );
+  return TextButtonThemeData( style: TextButton.styleFrom(foregroundColor: Colors.amber, textStyle: const TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, fontSize: 16)  ) );
 }
 
 ThemeData getDarkTheme()
@@ -62,11 +68,13 @@ ThemeData getDarkTheme()
       appBarColor: Color(0xfff7d701),
       error: Color(0xffb00020),
     ),
+
     fontFamily: 'Myriad',
     usedColors: 3,
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
     blendLevel: 15,
     appBarStyle: FlexAppBarStyle.background,
+
     appBarOpacity: 0.90,
     subThemesData: const FlexSubThemesData(
       blendOnLevel: 20,
@@ -80,14 +88,18 @@ ThemeData getDarkTheme()
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: true,
   )
+  //.copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
   .copyWith(dialogTheme: getDarkDialogTheme())
   .copyWith(textTheme:  getDarkTextTheme())
   .copyWith(appBarTheme: getDarkAppBarTheme());
-
 }
 
 getDarkAppBarTheme() {
-  return const AppBarTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22), backgroundColor: Color(0xfff7d701),foregroundColor: Colors.black);
+  return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
+      actionsIconTheme: IconThemeData(color: Colors.black),
+      titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Color(0xfff7d701), fontSize: 22),
+      backgroundColor: Colors.black,
+      foregroundColor: Color(0xfff7d701));
 }
 getDarkDialogTheme() {
   return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20));

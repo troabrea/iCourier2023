@@ -76,6 +76,9 @@ class _NoticiasPageState extends State<NoticiasPage> {
 
   Widget buildSlideShow(BuildContext context, List<BannerImage> banners)
   {
+    // return ImageSlideshow(height: 145, indicatorRadius: 0, children: banners.map((e) =>
+    //     Image.network(e.url, fit: BoxFit.fill,  )).toList(), autoPlayInterval: 5000, isLoop: true,);
+
     return ImageSlideshow(height: 145, indicatorRadius: 0, children: banners.map((e) =>
         CachedNetworkImage(
           imageUrl: e.url,
