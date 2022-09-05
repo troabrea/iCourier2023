@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
-import 'package:sampleapi/courier/courierappbar.dart';
-import 'package:sampleapi/courier/paquete_tile.dart';
-import 'package:sampleapi/services/model/empresa.dart';
+import '../../courier/courierappbar.dart';
+import '../../courier/paquete_tile.dart';
+import '../../services/model/empresa.dart';
 
 import '../services/courierService.dart';
 import '../services/model/recepcion.dart';

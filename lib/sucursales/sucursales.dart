@@ -9,10 +9,10 @@ import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:map_launcher/map_launcher.dart' as map_launcher;
-import 'package:sampleapi/services/app_events.dart';
+import '../../services/app_events.dart';
 
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/sucursales/bloc/location_bloc.dart';
+import '../../services/courierService.dart';
+import '../../sucursales/bloc/location_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../services/model/sucursal.dart';

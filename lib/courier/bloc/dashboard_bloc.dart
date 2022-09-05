@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sampleapi/services/app_events.dart';
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/services/model/empresa.dart';
-import 'package:sampleapi/services/model/recepcion.dart';
+import '../../services/app_events.dart';
+import '../../services/courierService.dart';
+import '../../services/model/empresa.dart';
+import '../../services/model/recepcion.dart';
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:event/event.dart' as event;
 import 'package:url_launcher/url_launcher.dart';

@@ -14,12 +14,12 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:navbar_router/navbar_router.dart';
 
-import 'package:sampleapi/calculadora/bloc/calculadora_bloc.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../calculadora/bloc/calculadora_bloc.dart';
+import '../../services/courierService.dart';
 import 'package:intl/intl.dart';
-import 'package:sampleapi/services/model/calculadora_model.dart';
-import 'package:sampleapi/services/model/prealerta_model.dart';
-import 'package:sampleapi/services/model/recepcion.dart';
+import '../../services/model/calculadora_model.dart';
+import '../../services/model/prealerta_model.dart';
+import '../../services/model/recepcion.dart';
 
 import '../services/model/postalerta_model.dart';
 import 'bloc/prepostalerta_bloc.dart';

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../services/courierService.dart';
 
 import '../../services/model/servicio.dart';
 

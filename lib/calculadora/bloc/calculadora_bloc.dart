@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/services/model/calculadora_model.dart';
+import '../../services/courierService.dart';
+import '../../services/model/calculadora_model.dart';
 import 'package:collection/collection.dart';
 
 part 'calculadora_event.dart';

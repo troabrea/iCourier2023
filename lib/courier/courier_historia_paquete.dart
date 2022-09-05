@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 import 'package:progress_stepper/progress_stepper.dart';
-import 'package:sampleapi/courier/paquete_tile.dart';
+import '../../courier/paquete_tile.dart';
 
 import 'package:im_stepper/stepper.dart';
 

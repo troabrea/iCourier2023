@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sampleapi/calculadora/bloc/calculadora_bloc.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../calculadora/bloc/calculadora_bloc.dart';
+import '../../services/courierService.dart';
 import 'package:intl/intl.dart';
-import 'package:sampleapi/services/model/calculadora_model.dart';
+import '../../services/model/calculadora_model.dart';
 import 'calculadoraappbar.dart';
 
 import 'package:empty_widget/empty_widget.dart';

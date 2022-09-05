@@ -8,9 +8,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sampleapi/preguntas/bloc/preguntas_bloc.dart';
-import 'package:sampleapi/services/app_events.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../preguntas/bloc/preguntas_bloc.dart';
+import '../../services/app_events.dart';
+import '../../services/courierService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/courier_bloc.dart';

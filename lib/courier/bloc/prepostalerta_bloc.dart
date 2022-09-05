@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/services/model/calculadora_model.dart';
+import '../../services/courierService.dart';
+import '../../services/model/calculadora_model.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sampleapi/services/model/postalerta_model.dart';
+import '../../services/model/postalerta_model.dart';
 
 import '../../services/model/prealerta_model.dart';
 

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
-import 'package:sampleapi/courier/bloc/historia_bloc.dart';
-import 'package:sampleapi/courier/courier_historia_paquete.dart';
-import 'package:sampleapi/courier/paquete_tile.dart';
+import '../../courier/bloc/historia_bloc.dart';
+import '../../courier/courier_historia_paquete.dart';
+import '../../courier/paquete_tile.dart';
 
 class ConsultaHistoricaPage extends StatefulWidget {
   const ConsultaHistoricaPage({Key? key}) : super(key: key);

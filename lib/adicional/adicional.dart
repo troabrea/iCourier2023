@@ -10,9 +10,9 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:navbar_router/navbar_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sampleapi/courier/bloc/courier_bloc.dart';
-import 'package:sampleapi/preguntas/preguntas.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../courier/bloc/courier_bloc.dart';
+import '../../preguntas/preguntas.dart';
+import '../../services/courierService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:event/event.dart' as event;

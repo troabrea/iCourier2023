@@ -8,11 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:navbar_router/navbar_router.dart';
-import 'package:sampleapi/adicional/adicional.dart';
-import 'package:sampleapi/noticas/noticias.dart';
-import 'package:sampleapi/services/app_events.dart';
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/services/model/appstate.dart';
+import '../../adicional/adicional.dart';
+import '../../noticas/noticias.dart';
+import '../../services/app_events.dart';
+import '../../services/courierService.dart';
+import '../../services/model/appstate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -20,7 +20,7 @@ import 'package:version_check/version_check.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:sampleapi/sucursales/sucursales.dart';
+import '../../sucursales/sucursales.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 import 'apptheme.dart';

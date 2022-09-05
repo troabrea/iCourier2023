@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../services/courierService.dart';
 import '../../services/app_events.dart';
 import '../../services/model/banner.dart';
 import '../../services/model/noticia.dart';

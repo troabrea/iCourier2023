@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sampleapi/services/courierService.dart';
+import '../../services/courierService.dart';
 import '../../services/model/sucursal.dart';
 
 part 'sucursales_event.dart';

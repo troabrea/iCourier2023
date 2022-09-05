@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/services/model/recepcion.dart';
+import '../../services/courierService.dart';
+import '../../services/model/recepcion.dart';
 
 part 'historia_event.dart';
 part 'historia_state.dart';

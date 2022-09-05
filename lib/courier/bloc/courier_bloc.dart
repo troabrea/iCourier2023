@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sampleapi/services/model/login_model.dart';
+import '../../services/model/login_model.dart';
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:event/event.dart' as event;
 import '../../services/app_events.dart';

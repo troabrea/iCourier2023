@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:sampleapi/noticas/bloc/noticias_bloc.dart';
-import 'package:sampleapi/services/courierService.dart';
-import 'package:sampleapi/services/connectivityService.dart';
+import '../../noticas/bloc/noticias_bloc.dart';
+import '../../services/courierService.dart';
+import '../../services/connectivityService.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
