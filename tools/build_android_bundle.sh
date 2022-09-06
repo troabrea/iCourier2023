@@ -1,0 +1,1 @@
+flutter build appbundle -t lib/main_domex.dart --flavor domex

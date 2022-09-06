@@ -21,6 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:collection/collection.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
+import '../appinfo.dart';
 import 'model/banner.dart';
 import 'model/empresa.dart';
 import 'model/login_model.dart';
@@ -78,16 +79,21 @@ List<UserAccount> userAccountsFromJson(String str) => List<UserAccount>.from(jso
 String userAccountsToJson(List<UserAccount> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CourierService {
-  static const empresaId = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
+  late String companyId;
+  late AppInfo appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
+  CourierService() {
+    appInfo = GetIt.I<AppInfo>();
+    companyId = appInfo.companyId;
+  }
 
   Future<List<Noticia>> getNoticias(bool ignoreCache) async {
     if(ignoreCache) {
       cache.destroy('noticias');
     }
-    AppCenter.trackEventAsync("DOMEX_GET_NOTICIAS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
     var jsonData = await cache.remember('noticas', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/noticias/$empresaId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="));
+          "https://icourierfunctions.azurewebsites.net/api/noticias/$companyId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="));
       return response.body;
     }, 60 * 20);
     return noticiasFromJson(jsonData);
@@ -97,10 +103,10 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('servicios');
     }
-    AppCenter.trackEventAsync("DOMEX_GET_SERVICIOS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SERVICIOS");
     var jsonData = await cache.remember('servicios', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/servicios/$empresaId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
+          "https://icourierfunctions.azurewebsites.net/api/servicios/$companyId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
       return response.body;
     }, 60 * 20);
     return servicioFromJson(jsonData);
@@ -119,7 +125,7 @@ class CourierService {
     }
     var jsonData = await cache.remember('banners', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/banners/$empresaId?code=OMjjM8DkJSlKfsKAoLEiC8W0nh1rDIvYVfLcuWQGXB1XVyqXD04/dw=="));
+          "https://icourierfunctions.azurewebsites.net/api/banners/$companyId?code=OMjjM8DkJSlKfsKAoLEiC8W0nh1rDIvYVfLcuWQGXB1XVyqXD04/dw=="));
       return response.body;
     }, 60 * 20);
     return bannerFromJson(jsonData);
@@ -129,10 +135,10 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('sucursales');
     }
-    AppCenter.trackEventAsync("DOMEX_GET_SUCURSALES");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
     var jsonData = await cache.remember('sucursales', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/sucursales/$empresaId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
+          "https://icourierfunctions.azurewebsites.net/api/sucursales/$companyId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
       return response.body;
     }, 60 * 20);
     return sucursalFromJson(jsonData);
@@ -143,11 +149,11 @@ class CourierService {
       cache.destroy('preguntas');
     }
 
-    AppCenter.trackEventAsync("DOMEX_GET_PREGUNTAS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PREGUNTAS");
 
     var jsonData = await cache.remember('preguntas', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/preguntas/$empresaId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
+          "https://icourierfunctions.azurewebsites.net/api/preguntas/$companyId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
       return response.body;
     }, 60 * 20);
     return preguntaFromJson(jsonData);
@@ -156,7 +162,7 @@ class CourierService {
   Future<Empresa> getEmpresa() async {
     var jsonData = await cache.remember('empresa', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/empresa/$empresaId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
+          "https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
       return response.body;
     });
     return empresaFromJson(jsonData);
@@ -165,11 +171,11 @@ class CourierService {
   Future<List<CalculadoraResponse>> getCalculadoraResult(double libras,
       double valor, {String producto = ""}) async {
 
-    AppCenter.trackEventAsync("DOMEX_GET_CALCULADORA");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
 
     final uri = Uri.parse(
         "https://icourierfunctions.azurewebsites.net/api/calculadora?code=UpOzDP0FHR4nhMaeqns1SzhmQuhFrzpZSlP1VVIui9HzAToeJ8ky5g==");
-    final req = CalculadoraRequest(empresaId: empresaId,
+    final req = CalculadoraRequest(empresaId: companyId,
         sessionId: "",
         producto: producto,
         libras: libras,
@@ -183,7 +189,7 @@ class CourierService {
   Future<LoginResult> getLoginResult(String usuario, String clave, {bool checkForNew = true}) async
   {
     final req = LoginRequest(
-        empresaId: empresaId, userAccount: usuario, password: clave);
+        empresaId: companyId, userAccount: usuario, password: clave);
     final uri = Uri.parse(
         "https://icourierfunctions.azurewebsites.net/api/session?code=ZlU5duHfxMjRUctLShLI0cvvJWdvKnT79YBfGF8UgjPThX4Et6RKJA==");
     final json = jsonEncode(req);
@@ -211,7 +217,7 @@ class CourierService {
     if (forceRefresh) {
       cache.destroy('recepciones');
     }
-    AppCenter.trackEventAsync("DOMEX_GET_RECEPCIONES");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
     var jsonData = await cache.remember('recepciones', () async {
       var sessionId = (await cache.load('sessionId', ''))
           .toString(); //  prefs.getString('sessionId');
@@ -220,7 +226,7 @@ class CourierService {
       }
       final uri = Uri.parse(
           "https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
-      final req = RecepcionRequest(empresaId: empresaId, sessionId: sessionId);
+      final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
       return response.body;
@@ -242,11 +248,11 @@ class CourierService {
 
     var dateFormat = DateFormat("yyy-MM-dd");
 
-    AppCenter.trackEventAsync("DOMEX_GET_HISTORIA");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_HISTORIA");
 
     final uri = Uri.parse(
         "https://icourierfunctions.azurewebsites.net/api/historia?code=gerWGYCG2sXQyxgxx6QHTRFtWey7Ab/oJtEPHCQQ76qVwg3BMJvI4Q==");
-    final req = ConsultaHistoricaRequest(empresaId: empresaId,
+    final req = ConsultaHistoricaRequest(empresaId: companyId,
         sessionId: sessionId,
         desde: dateFormat.format(desde),
         hasta: dateFormat.format(hasta));
@@ -310,7 +316,7 @@ class CourierService {
   }
 
   Future<void> saveLoggedInState(LoginResult loginResult, String userAccount, String userPassword) async {
-    FirebaseMessaging.instance.subscribeToTopic("DOMEX_$userAccount");
+    FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userAccount");
     await cache.write('sessionId', loginResult.sessionId);
     await cache.write('userAccount', userAccount);
     await cache.write('userPassword', userPassword);
@@ -323,7 +329,7 @@ class CourierService {
   Future<void> saveLoggedOutState() async {
     var userAccount =  await cache.load('userAccount', "") as String;
     if(userAccount.isNotEmpty) {
-      FirebaseMessaging.instance.unsubscribeFromTopic("DOMEX_$userAccount");
+      FirebaseMessaging.instance.unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
 
     await cache.write('sessionId', "");
@@ -383,7 +389,6 @@ class CourierService {
     }
 
 
-
     if(empresa.minDistanceToNotify > 0) {
       var status = await Permission.locationWhenInUse.status;
 
@@ -421,7 +426,7 @@ class CourierService {
         return false;
       }
 
-      AppCenter.trackEventAsync("DOMEX_SEND_PREALERTA");
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_PREALERTA");
 
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
@@ -442,7 +447,7 @@ class CourierService {
       var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
       var req = PreAlertaModel(
-          empresaId,
+          companyId,
           sessionId,
           preAlerta.transportista,
           preAlerta.tracking,
@@ -474,7 +479,7 @@ class CourierService {
         return false;
       }
 
-      AppCenter.trackEventAsync("DOMEX_UPDATE_PHOTO");
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_UPDATE_PHOTO");
 
       var storage = AzureStorage.parse(
       'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
@@ -490,7 +495,7 @@ class CourierService {
 
       var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
-      var req = UserProfileModel( cuenta: cuenta, empresaId: empresaId, photoUrl: imageUrl);
+      var req = UserProfileModel( cuenta: cuenta, empresaId: companyId, photoUrl: imageUrl);
 
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
@@ -513,7 +518,7 @@ class CourierService {
         return false;
       }
 
-      AppCenter.trackEventAsync("DOMEX_SEND_POSTALERTA");
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_POSTALERTA");
 
 
       var storage = AzureStorage.parse(
@@ -533,7 +538,7 @@ class CourierService {
       var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
       var req = PostAlertaModel(
-          empresaId,
+          companyId,
           sessionId,
           postAlerta.recepcionId,
           postAlerta.fob,

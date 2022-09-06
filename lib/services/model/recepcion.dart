@@ -74,9 +74,9 @@ class Recepcion {
     return 1;
   }
 
-  double montoTotal() => double.parse(totalNeto);
+  double montoTotal() => double.tryParse(totalNeto.replaceAll(',', '')) ?? 0.00;
 
-  DateTime fechaRecibido() => DateTime.parse(fecha.replaceAll(".", "-"));
+  DateTime fechaRecibido() => DateTime.tryParse(fecha.replaceAll(".", "-")) ?? DateTime(2000,1,1);
 
   Recepcion(
       { required this.recepcionID,

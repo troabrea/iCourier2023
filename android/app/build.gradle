@@ -44,12 +44,21 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.barolit.domex"
+        applicationId "com.barolit.icourier"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+    }
+
+    flavorDimensions "app"
+
+    productFlavors {
+        domex {
+            dimension "app"
+            applicationId "com.barolit.domex"
+        }
     }
 
     buildTypes {

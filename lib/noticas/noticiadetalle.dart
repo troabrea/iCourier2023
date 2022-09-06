@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../services/model/appstate.dart';
 import '../services/model/noticia.dart';
 import 'noticiasappbar.dart';
 
@@ -64,7 +63,7 @@ class NoticiaDetallePage extends StatelessWidget {
                       margin: const EdgeInsets.all(20),
                       child: SingleChildScrollView(
                         child: Text(
-                          noticia!.contenido,
+                          noticia!.contenido.isEmpty ? noticia!.resumen : noticia!.contenido,
                           textAlign: TextAlign.justify,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:navbar_router/navbar_router.dart';
-import '../../courier/courierappbar.dart';
 import '../../courier/paquete_tile.dart';
 import '../services/app_events.dart';
 import '../services/model/recepcion.dart';

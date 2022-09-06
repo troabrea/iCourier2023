@@ -25,7 +25,7 @@
         </intent>
     </queries>
    <application
-        android:label="Domex Courier"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

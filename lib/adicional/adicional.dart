@@ -3,14 +3,10 @@ import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
 
-import 'package:image_picker/image_picker.dart';
-import 'package:navbar_router/navbar_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../courier/bloc/courier_bloc.dart';
 import '../../preguntas/preguntas.dart';
 import '../../services/courierService.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -65,7 +61,6 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +82,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 const Icon(Icons.expand_circle_down_outlined),
                 title: const Text("Sobre Nosotros"),)),
             ),
-            Spacer(),
+            const Spacer(),
             Text(_userName, style: Theme.of(context).textTheme.titleSmall?.copyWith(shadows: [Shadow(
                 color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
                 offset: const Offset(3, 3),
@@ -145,7 +140,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
 
   Future<void> showAboutUs(
       BuildContext context) async {
-    var courierService = RepositoryProvider.of<CourierService>(context);
+    var courierService = GetIt.I<CourierService>();
     var empresa = await courierService.getEmpresa();
 
     //NavbarNotifier.hideBottomNavBar = true;
