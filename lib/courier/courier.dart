@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../services/courierService.dart';
 
+import '../appinfo.dart';
 import 'bloc/courier_bloc.dart';
 import 'courier_dashboard.dart';
 import 'courierappbar.dart';
@@ -18,6 +20,7 @@ class CourierPage extends StatefulWidget {
 }
 
 class _CourierPageState extends State<CourierPage> {
+  final appInfo = GetIt.I<AppInfo>();
   final courierBloc = CourierBloc(CourierIsBusyState());
   final ScrollController controller = ScrollController();
 
@@ -41,7 +44,7 @@ class _CourierPageState extends State<CourierPage> {
                 );
               }
               if (state is CourierIsNotLoggedState) {
-                return loginPage(context, state.showError);
+                return loginPage(context, state.showError, state.registerUrl);
               }
               if (state is CourierIsLoggedState) {
                 return const CourierDashboard();
@@ -79,10 +82,7 @@ class _CourierPageState extends State<CourierPage> {
               borderRadius: BorderRadius.circular(30)),
           prefixIcon: const Icon(Icons.key),
           prefixIconColor: Theme.of(context).primaryColorDark,
-        suffixIcon: IconButton(
-          onPressed: () => { _formKey.currentState!.fields['password']!.reset() },
-          icon: Icon(Icons.clear),
-        ),
+        suffixIcon:  GestureDetector(onTap: () { _formKey.currentState!.fields['password']!.reset(); }, child: const Icon(Icons.clear)),
       ),
     );
   }
@@ -99,7 +99,7 @@ class _CourierPageState extends State<CourierPage> {
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
-          hintText: 'Nombre de usuario',
+          hintText: 'Código de cliente',
           hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
@@ -115,15 +115,12 @@ class _CourierPageState extends State<CourierPage> {
               borderRadius: BorderRadius.circular(30)),
           prefixIcon: const Icon(Icons.person),
           prefixIconColor: Theme.of(context).primaryColorDark,
-        suffixIcon: IconButton(
-          onPressed: () { _formKey.currentState!.fields['user']!.reset();},
-          icon: const Icon(Icons.clear),
-        ),
+        suffixIcon:  GestureDetector(onTap: () { _formKey.currentState!.fields['user']!.reset(); }, child: const Icon(Icons.clear)),
       ),
     );
   }
 
-  Widget loginPage(BuildContext context, bool showError) {
+  Widget loginPage(BuildContext context, bool showError, String registerUrl) {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(bottom: 65),
@@ -140,7 +137,7 @@ class _CourierPageState extends State<CourierPage> {
                     SizedBox(
                         height: 150,
                         child: Image.asset(
-                          "images/brand_logo.png",
+                          appInfo.brandLogoImage,
                           fit: BoxFit.scaleDown,
                         )),
                     const SizedBox(
@@ -173,7 +170,7 @@ class _CourierPageState extends State<CourierPage> {
                       ),
                     if (showError)
                       AutoSizeText(
-                        "Usuario ó contraseña inválido, favor verificar",
+                        "Código de cliente ó contraseña inválido, favor verificar",
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme
@@ -214,6 +211,19 @@ class _CourierPageState extends State<CourierPage> {
                                 : const Text("Iniciar Sesión")),
                       ),
                     ),
+                    if(registerUrl.isNotEmpty)
+                      const SizedBox(height: 20,),
+                    if(registerUrl.isNotEmpty)
+                      Center(child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Aún no eres cliente -", style: Theme.of(context).textTheme.bodySmall,),
+                          TextButton( child: const Text('Solicita tu cuenta'), onPressed: () async {
+                            await launchUrlString(registerUrl);
+                          } , ),
+                        ],
+                      ),)
+
                   ],
                 ),
               ),

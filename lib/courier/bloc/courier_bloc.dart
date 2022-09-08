@@ -28,26 +28,27 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
 
     on<CheckLoggedEvent>((event,emit) async {
         emit(CourierIsBusyState());
-
+        var empresa = (await courierService.getEmpresa());
         var sessionId = (await cache.load('sessionId','')).toString();
         var cuenta = (await cache.load('userAccount','')).toString();
         var isLogged = sessionId.isNotEmpty && cuenta.isNotEmpty;
         if(isLogged) {
           emit(CourierIsLoggedState());
         } else {
-          emit(const CourierIsNotLoggedState(false));
+          emit(CourierIsNotLoggedState(false, empresa.registerUrl ?? ''));
         }
         loginChanged.broadcast(LoginChanged(isLogged, cuenta));
     });
 
     on<TryLoginEvent>((event,emit) async {
         emit(CourierIsBusyState());
+        var empresa = (await courierService.getEmpresa());
         var loginResult = await courierService.getLoginResult(event.usuario, event.clave);
         if(loginResult.sessionId.isNotEmpty) {
           loginChanged.broadcast(LoginChanged(true, event.usuario));
           emit(CourierIsLoggedState());
         } else {
-          emit(const CourierIsNotLoggedState(true));
+          emit(CourierIsNotLoggedState(true, empresa.registerUrl ?? ''));
         }
     });
 
@@ -58,9 +59,10 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
 
     on<LogoutEvent>( (event,emit) async {
       emit(CourierIsBusyState());
+      var empresa = (await courierService.getEmpresa());
       await courierService.saveLoggedOutState();
       loginChanged.broadcast(LoginChanged(false,""));
-      emit(const CourierIsNotLoggedState(false));
+      emit(CourierIsNotLoggedState(false, empresa.registerUrl ?? ''));
     });
 
   }

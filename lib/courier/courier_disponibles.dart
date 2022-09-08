@@ -63,20 +63,39 @@ class DisponiblesPage extends StatelessWidget {
                           PopupMenuButton<String>(itemBuilder: (context) {
                             return [
                               if(empresa.hasNotifyModule)
-                                const PopupMenuItem(value: 'retirar', child: Text('Notificar Retiro')),
+                                const PopupMenuItem(value: 'retirar', child: ListTile(title: Text('Notificar Retiro'), leading: Icon(Icons.meeting_room_rounded),)),
                               if(empresa.hasPaymentsModule)
-                                const PopupMenuItem(value: 'pagar', child: Text('Realizar Pago')),
+                                const PopupMenuItem(value: 'pagar', child: ListTile(title:Text('Realizar Pago'), leading: Icon(Icons.credit_card_outlined),)),
                               if(empresa.hasDelivery)
                                 const PopupMenuDivider(),
                               if(empresa.hasDelivery)
-                                const PopupMenuItem(value: 'domicilio', child: Text('Solicitar Domicilio'))];
+                                const PopupMenuItem(value: 'domicilio', child: ListTile(title:Text('Solicitar Domicilio'), leading: Icon(Icons.delivery_dining_outlined),))];
                           },icon: Icon(Icons.more_vert_sharp, color: Theme.of(context).appBarTheme.foregroundColor,), color: Theme.of(context).scaffoldBackgroundColor, onSelected: (String value) {
-                            if(value == 'retirar') BlocProvider.of<DisponibleBloc>(context).add(DisponibleNotificarRetiroEvent());
-                            if(value == 'pagar') BlocProvider.of<DisponibleBloc>(context).add(DisponiblePagoEnLineaEvent());
+                            if(value == 'retirar') BlocProvider.of<DisponibleBloc>(context).add(DisponibleNotificarRetiroEvent(context));
+                            if(value == 'pagar') BlocProvider.of<DisponibleBloc>(context).add(DisponiblePagoEnLineaEvent(context));
                           }, )
                         ],
                       ),
                     ),
+                    // const SizedBox(height: 5,),
+                    // Container(
+                    //   margin: const EdgeInsets.symmetric(horizontal: 2),
+                    //   padding: const EdgeInsets.all(0),
+                    //   decoration: BoxDecoration(
+                    //       border: Border.all(color: Theme.of(context).primaryColorDark),
+                    //       //borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))),
+                    //       borderRadius: const BorderRadius.all(Radius.circular(6))),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       if(empresa.hasNotifyModule)
+                    //         ElevatedButton.icon(onPressed: () {BlocProvider.of<DisponibleBloc>(context).add(DisponibleNotificarRetiroEvent());}, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),backgroundColor: Theme.of(context).appBarTheme.foregroundColor, foregroundColor: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(250)), icon: const Icon(Icons.meeting_room_outlined), label: const Text("Notificar Retiro")),
+                    //       const SizedBox(width: 5),
+                    //       if(empresa.hasPaymentsModule)
+                    //         ElevatedButton.icon(onPressed: () { BlocProvider.of<DisponibleBloc>(context).add(DisponiblePagoEnLineaEvent()); }, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),backgroundColor: Theme.of(context).appBarTheme.foregroundColor, foregroundColor: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(250)), icon: const Icon(Icons.payment), label: Text("Pagar En-linea")),
+                    //     ],
+                    //   ),
+                    // ),
                     const SizedBox(height: 5,),
                     Expanded(
                       child: ListView.builder(

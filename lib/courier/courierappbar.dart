@@ -77,7 +77,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
     var whatsApp =
         (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
     if (whatsApp.isNotEmpty) {
-      var _url = Uri.parse("whatsapp://$whatsApp");
+      var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';
       }
@@ -96,7 +96,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
           actions.add(  OutlinedButton(
             onPressed: () {Navigator.pop(context, element.userAccount);},
             child: Text('Cambiar a cuenta: ${element.userAccount}'),
-            style: OutlinedButton.styleFrom(primary: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
+            style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
           ) );
         }
         actions.add( const Divider() );
@@ -106,13 +106,16 @@ class _CourierAppBarState extends State<CourierAppBar> {
         children: [
           ElevatedButton(
             onPressed: () => {Navigator.pop(context, "cerrar")},
-            child: const Text('Cerrar esta sesión'),
+            child: const Text('Si'),
           ),
-          IconButton(
+          // IconButton(
+          //   onPressed: () => {Navigator.pop(context, "")},
+          //   icon: const Icon(Icons.close),
+          // ),
+          ElevatedButton(
             onPressed: () => {Navigator.pop(context, "")},
-            icon: const Icon(Icons.close),
+            child: const Text('No'),
           ),
-
         ],
       ));
 
@@ -125,7 +128,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
           actionsAlignment: MainAxisAlignment.spaceBetween,
               title: Text('Confirme',
                   style: Theme.of(context).textTheme.titleLarge),
-              content: const Text('Que acción desea tomar?'),
+              content: const Text('Estas seguro que deseas salir sesión?'),
               actions: getActions(context),));
     if (dlgResult != null) {
       if (dlgResult == "cerrar") {

@@ -16,6 +16,10 @@ class CourierRefreshRequested extends EventArgs {
   CourierRefreshRequested();
 }
 
+class EmpresaRefreshFinished extends EventArgs {
+  EmpresaRefreshFinished();
+}
+
 class NoticiasDataRefreshRequested extends EventArgs {
   NoticiasDataRefreshRequested();
 }

@@ -15,11 +15,13 @@ class CalculadoraLoadingState extends CalculadoraState {
 }
 
 class CalculadoraLoadedState extends CalculadoraState {
+  final double libras;
+  final double valorFob;
   final List<CalculadoraResponse> resultados;
   final double subtotal;
   final double impuestos;
   final double total;
-  const CalculadoraLoadedState(this.resultados, this.subtotal, this.impuestos, this.total);
+  const CalculadoraLoadedState(this.resultados, this.subtotal, this.impuestos, this.total, this.libras, this.valorFob);
   @override
-  List<Object?> get props => [resultados, subtotal, impuestos, total];
+  List<Object?> get props => [resultados, subtotal, impuestos, total, libras, valorFob];
 }

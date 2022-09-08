@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iCourier/helpers/dialogs.dart';
 import '../../services/app_events.dart';
 import '../../services/courierService.dart';
 import '../../services/model/empresa.dart';
@@ -26,10 +28,18 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<OnlinePaymentRequestEvent>((event,emit) async {
+      if(!await confirmDialog(event.context, "Seguro que desea realizar el pago en linea?", "Si", "No")) {
+        return;
+      }
       await _courierService.launchOnlinePayment();
     });
 
     on<NotificarRetiroEvent>((event,emit) async {
+
+      if(!await confirmDialog(event.context, "Seguro que desea notificar el retiro de sus paquetes disponibles?", "Si", "No")) {
+        return;
+      }
+
       emit(DashboardLoadingState());
       var result = await _courierService.notificaRetiro();
 

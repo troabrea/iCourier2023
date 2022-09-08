@@ -13,13 +13,17 @@ class LoadApiEvent extends DashboardEvent {
 }
 
 class OnlinePaymentRequestEvent extends DashboardEvent {
+  final BuildContext context;
+  const OnlinePaymentRequestEvent(this.context);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [context];
 }
 
 class NotificarRetiroEvent extends DashboardEvent {
+  final BuildContext context;
+  const NotificarRetiroEvent(this.context);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [context];
 }
 
 class StoreCurrentAccountEvent extends DashboardEvent {

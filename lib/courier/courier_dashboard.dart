@@ -32,6 +32,10 @@ class CourierDashboard extends StatefulWidget {
 class _CourierDashboardState extends State<CourierDashboard> {
   final ScrollController controller = ScrollController();
   final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
+
+  final showDisponiblesActionDrawer = false;
+  final showDisponiblesPopupMenu = true;
+
   DashboardBloc dashboardBloc = DashboardBloc(DashboardLoadingState());
 
   _CourierDashboardState() {
@@ -82,7 +86,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            if(state.recepcionesCount > 0)
+                            if(state.disponiblesCount > 0)
                             InkWell(
                                 onTap: () {
                                   Navigator.of(context,
@@ -102,19 +106,19 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                               )));
                                 },
                                 child: SummaryBox(
-                                    icon: (state.empresa.hasDelivery || state.empresa.hasNotifyModule || state.empresa.hasPaymentsModule) ? PopupMenuButton<String>(itemBuilder: (context) {
+                                    icon: (showDisponiblesPopupMenu && (state.empresa.hasDelivery || state.empresa.hasNotifyModule || state.empresa.hasPaymentsModule)) ? PopupMenuButton<String>(itemBuilder: (context) {
                                           return [
                                             if(state.empresa.hasNotifyModule)
-                                              const PopupMenuItem(value: 'retirar', child: Text('Notificar Retiro')),
+                                              const PopupMenuItem(value: 'retirar', child: ListTile(title:Text('Notificar Retiro'), leading: Icon(Icons.meeting_room_outlined),)),
                                             if(state.empresa.hasPaymentsModule)
-                                              PopupMenuItem(value: 'pagar', child: Text('Pagar : ' + formatCurrency.format(state.montoTotal))),
+                                              PopupMenuItem(value: 'pagar', child: ListTile(title:Text('Pagar : ' + formatCurrency.format(state.montoTotal)), leading: const Icon(Icons.credit_card_off_outlined),)),
                                             if(state.empresa.hasDelivery)
                                               const PopupMenuDivider(),
                                             if(state.empresa.hasDelivery)
-                                              const PopupMenuItem(value: 'domicilio', child: Text('Solicitar Domicilio'))];
+                                              const PopupMenuItem(value: 'domicilio', child: ListTile(title: Text('Solicitar Domicilio'), leading: Icon(Icons.delivery_dining_outlined),))];
                                     }, icon: const Icon(Icons.more_vert_sharp), onSelected: (String value) {
-                                      if(value == 'retirar') BlocProvider.of<DashboardBloc>(context).add(NotificarRetiroEvent());
-                                      if(value == 'pagar') BlocProvider.of<DashboardBloc>(context).add(OnlinePaymentRequestEvent());
+                                      if(value == 'retirar') BlocProvider.of<DashboardBloc>(context).add(NotificarRetiroEvent(context));
+                                      if(value == 'pagar') BlocProvider.of<DashboardBloc>(context).add(OnlinePaymentRequestEvent(context));
                                     }, ) : const Icon(
                                       IconData(0xe804,
                                           fontFamily: 'iCourier'),
@@ -122,24 +126,26 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                     ),
                                     title: "Disponibles",
                                     count: state.disponiblesCount)),
-                            // if(state.disponiblesCount > 0)
-                            //   Transform.translate( offset: const Offset(0,-1),
-                            //     child: Container(
-                            //       margin: const EdgeInsets.symmetric(horizontal: 15),
-                            //       padding: const EdgeInsets.all(0),
-                            //       decoration: BoxDecoration(
-                            //           border: Border.all(color: Theme.of(context).primaryColorDark),
-                            //           borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))),
-                            //       child: Row(
-                            //         mainAxisAlignment: MainAxisAlignment.center,
-                            //         children: [
-                            //           ElevatedButton.icon(onPressed: () {BlocProvider.of<DashboardBloc>(context).add(NotificarRetiroEvent());}, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),primary: Theme.of(context).appBarTheme.foregroundColor, onPrimary: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(200)), icon: const Icon(Icons.meeting_room_outlined), label: const Text("Retirar")),
-                            //           const SizedBox(width: 5),
-                            //           ElevatedButton.icon(onPressed: () { BlocProvider.of<DashboardBloc>(context).add(OnlinePaymentRequestEvent()); }, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),primary: Theme.of(context).appBarTheme.foregroundColor, onPrimary: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(200)), icon: const Icon(Icons.payment), label: Text(formatCurrency.format(state.montoTotal))),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
+                            if(showDisponiblesActionDrawer && state.disponiblesCount > 0 && (state.empresa.hasNotifyModule || state.empresa.hasPaymentsModule))
+                              Transform.translate( offset: const Offset(0,-1),
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                                  padding: const EdgeInsets.all(0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Theme.of(context).primaryColorDark),
+                                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if(state.empresa.hasNotifyModule)
+                                        ElevatedButton.icon(onPressed: () {BlocProvider.of<DashboardBloc>(context).add(NotificarRetiroEvent(context));}, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),backgroundColor: Theme.of(context).appBarTheme.foregroundColor, foregroundColor: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(250)), icon: const Icon(Icons.meeting_room_outlined), label: const Text("Retirar")),
+                                      const SizedBox(width: 5),
+                                      if(state.empresa.hasPaymentsModule)
+                                        ElevatedButton.icon(onPressed: () { BlocProvider.of<DashboardBloc>(context).add(OnlinePaymentRequestEvent(context)); }, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),backgroundColor: Theme.of(context).appBarTheme.foregroundColor, foregroundColor: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(250)), icon: const Icon(Icons.payment), label: Text(formatCurrency.format(state.montoTotal))),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             if(state.recepcionesCount > 0)
                             const SizedBox(
                               height: 10,

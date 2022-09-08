@@ -7,6 +7,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../preguntas/preguntas.dart';
 import '../../services/courierService.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,10 +31,14 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
   String _versionNumber = "";
   String _userAccount = "";
   String _userName = "";
+  Empresa? _empresa;
 
   _AdicionalInfoPageState()
   {
     GetIt.I<event.Event<LoginChanged>>().subscribe((args)  {
+      initPlatformState();
+    });
+    GetIt.I<event.Event<EmpresaRefreshFinished>>().subscribe((args)  {
       initPlatformState();
     });
   }
@@ -50,7 +55,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     final info = await PackageInfo.fromPlatform();
     var account = (await cache.load('userAccount','')).toString();
     var name = (await cache.load('userName','')).toString();
-
+    _empresa = await GetIt.I<CourierService>().getEmpresa();
 
     if (!mounted) return;
 
@@ -76,6 +81,20 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
             InkWell(onTap: () {
               Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(builder: (context)=> const PreguntasPage()));
             }, child:  Card(child: ListTile(leading: Icon(Icons.question_answer, color: Theme.of(context).primaryColorDark ), trailing: const Icon(Icons.chevron_right), title: const Text("Preguntas"),))),
+            if(_empresa?.correoServicio != null)
+              InkWell(
+                onTap: () => { openExteralUrl(_empresa!.correoServicio)},
+                child: Card(child: ListTile(leading: Icon(Icons.contact_phone_outlined, color: Theme.of(context).primaryColorDark ), trailing:
+                const Icon(Icons.launch),
+                  title: const Text("Servicio al Cliente"),)),
+              ),
+            if(_empresa?.twitter != null)
+              InkWell(
+                onTap: () => { openExteralUrl(_empresa!.twitter)},
+                child: Card(child: ListTile(leading: Icon(Icons.support, color: Theme.of(context).primaryColorDark ), trailing:
+                const Icon(Icons.launch),
+                  title: const Text("Solicitar Soporte"),)),
+              ),
             InkWell(
               onTap: () => {showAboutUs(context)},
               child: Card(child: ListTile(leading: Icon(Icons.info, color: Theme.of(context).primaryColorDark ), trailing:
@@ -101,16 +120,31 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
       ));
   }
 
+  Future<void> openExteralUrl(String url) async {
+    if(url.contains('@')) {
+      if(!url.contains('mailto:')) {
+        url = "mailto:$url";
+      }
+    } else {
+      if(!url.contains('http://') && !url.contains('https://')) {
+        url = 'https://$url';
+      }
+    }
+
+    var _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
   Future<void> openInBrowser(Empresa empresa) async {
     var _url = Uri.parse(empresa.paginaWeb);
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }
   }
-
   Future<void> sendEmail(Empresa empresa) async {
     var email = empresa.correoVentas;
-    var _url = Uri.parse("mailto://$email");
+    var _url = Uri.parse("mailto:$email");
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }

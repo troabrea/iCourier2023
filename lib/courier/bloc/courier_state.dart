@@ -19,7 +19,8 @@ class CourierIsLoggedState extends CourierState{
 
 class CourierIsNotLoggedState extends CourierState{
   final bool showError;
-  const CourierIsNotLoggedState(this.showError);
+  final String registerUrl;
+  const CourierIsNotLoggedState(this.showError, this.registerUrl);
 
   @override
   // TODO: implement props

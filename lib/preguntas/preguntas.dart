@@ -44,7 +44,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
         fieldHintText: 'Buscar',
-        keepAppBarColors: true,
+        keepAppBarColors: false,
         onChanged: (text) {
           setState(() {
             searchText = text;

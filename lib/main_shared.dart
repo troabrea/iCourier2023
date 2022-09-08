@@ -78,6 +78,7 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   GetIt.I.registerSingleton<event.Event<LoginChanged>>(event.Event<LoginChanged>());
   GetIt.I.registerSingleton<event.Event<LogoutRequested>>(event.Event<LogoutRequested>());
   GetIt.I.registerSingleton<event.Event<CourierRefreshRequested>>(event.Event<CourierRefreshRequested>());
+  GetIt.I.registerSingleton<event.Event<EmpresaRefreshFinished>>(event.Event<EmpresaRefreshFinished>());
   GetIt.I.registerSingleton<event.Event<ToogleBarEvent>>(event.Event<ToogleBarEvent>());
   GetIt.I.registerSingleton<event.Event<NoticiasDataRefreshRequested>>(event.Event<NoticiasDataRefreshRequested>());
   GetIt.I.registerSingleton<event.Event<SucursalesDataRefreshRequested>>(event.Event<SucursalesDataRefreshRequested>());
@@ -109,7 +110,6 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: const [Locale('es',''),] , //FormBuilderLocalizations.delegate.supportedLocales,
-
         title: 'iCourier',
         theme: appInfo.getLightTheme(), // getAppTheme(),
         darkTheme: appInfo.getDarkTheme(),

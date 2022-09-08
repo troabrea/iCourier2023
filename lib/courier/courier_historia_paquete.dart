@@ -30,7 +30,7 @@ class HistoricoPaquetePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("História de Paquete"),),
+        appBar: AppBar(title: const Text("Historial de Paquete"),),
         body: SafeArea(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),

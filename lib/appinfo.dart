@@ -7,6 +7,8 @@ abstract class AppInfo
   String get androidAnalyticsAppId;
   String get metricsPrefixKey;
   String get pushChannelTopic;
+  String get centerIconImage;
+  String get brandLogoImage;
   ThemeData getLightTheme();
   ThemeData getDarkTheme();
 }

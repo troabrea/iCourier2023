@@ -59,7 +59,10 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                               subTitle: "Especifique los valores y toque el boton calcular.",
                             ),))),
                           if (state is CalculadoraLoadedState)
-                            buildResults(context, state)
+                            buildResults(context, state),
+                          if (state is CalculadoraLoadedState && state.valorFob >= 200)
+                            const AutoSizeText("**Recordar que todos los paquetes importados cuyo valor comercial sea de US\$200.00 o mayor esta gravado con impuestos aduanales.", maxLines: 2,),
+
                         ],
                       ),
                     ),

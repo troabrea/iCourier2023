@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
+import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +23,7 @@ import 'package:collection/collection.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
 import '../appinfo.dart';
+import 'app_events.dart';
 import 'model/banner.dart';
 import 'model/empresa.dart';
 import 'model/login_model.dart';
@@ -216,6 +218,9 @@ class CourierService {
   Future<List<Recepcion>> getRecepciones(bool forceRefresh) async {
     if (forceRefresh) {
       cache.destroy('recepciones');
+      cache.destroy('empresa');
+      await getEmpresa();
+      GetIt.I<event.Event<EmpresaRefreshFinished>>().broadcast();
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
     var jsonData = await cache.remember('recepciones', () async {
@@ -409,7 +414,7 @@ class CourierService {
 
         if (distance < empresa.minDistanceToNotify) {
           return 'Debe estar a menos de ${empresa
-              .minDistanceToNotify} metros de su sucursal de retiro para poder ejecutar esta operación.';
+              .minDistanceToNotify / 1000} km. de su sucursal de retiro para poder ejecutar esta operación.';
         }
       }
     }

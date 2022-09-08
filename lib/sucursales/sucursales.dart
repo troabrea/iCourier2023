@@ -158,13 +158,13 @@ class _SucursalesPageState extends State<SucursalesPage> {
       }
     }
     Future<void> chatWithSucursal(String phone) async {
-      var _url = Uri.parse("whatsapp://$phone");
+      var _url = Uri.parse("whatsapp://send?phone=$phone");
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';
       }
     }
     Future<void> mailSucursal(String email) async {
-      var _url = Uri.parse("mailto://$email");
+      var _url = Uri.parse("mailto:$email");
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';
       }

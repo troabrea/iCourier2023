@@ -5,6 +5,11 @@ import 'package:flutter/src/material/theme_data.dart';
 import 'appinfo.dart';
 
 class DomexAppInfo implements AppInfo {
+  @override
+  String get brandLogoImage => "images/domex/brand_logo.png";
+
+  @override
+  String get centerIconImage => "images/domex/icon.png";
 
   @override
   String get androidAnalyticsAppId => "65b95f03-1311-4e28-8bf5-59dd28d6c125";
@@ -23,7 +28,8 @@ class DomexAppInfo implements AppInfo {
 
   @override
   ThemeData getLightTheme() {
-      Color primaryColor = const Color(0xfff7d701);
+      const primaryColor = Color(0xfff7d701);
+      const secondaryColor = Color(0xff000000);
 
       getLightAppBarTheme() {
         return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
@@ -76,22 +82,26 @@ class DomexAppInfo implements AppInfo {
 
       return FlexThemeData.light(
         colors: const FlexSchemeColor(
-          primary: Color(0xfff7d701),
-          primaryContainer: Color(0xffd0e4ff),
-          secondary: Color(0xff000000),
-          secondaryContainer: Color(0xfff7d701),
-          tertiary: Color(0xfff7d701),
-          tertiaryContainer: Color(0xfff7d701),
-          appBarColor: Color(0xfff7d701),
-          error: Color(0xffb00020),
+          primary: primaryColor,
+          secondary: secondaryColor,
+          appBarColor: primaryColor,
         ),
+        // colors: const FlexSchemeColor(
+        //   primary: primaryColor,
+        //   primaryContainer: Color(0xffd0e4ff),
+        //   secondary: secondaryColor,
+        //   secondaryContainer: Color(0xfff7d701),
+        //   tertiary: primaryColor,
+        //   tertiaryContainer: Color(0xfff7d701),
+        //   appBarColor: primaryColor,
+        //   error: Color(0xffb00020),
+        // ),
         fontFamily: 'Myriad',
-        surfaceMode: FlexSurfaceMode.highScaffoldLevelSurface, // .highScaffoldLowSurface,
+        //surfaceMode: FlexSurfaceMode.highScaffoldLevelSurface, // .highScaffoldLowSurface,
         blendLevel: 15,
-        appBarOpacity: 1,
         subThemesData: const FlexSubThemesData(
           blendOnLevel: 15,
-          blendOnColors: true,
+          //blendOnColors: true,
           navigationBarLabelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         ),
         keyColors: const FlexKeyColors(
@@ -104,24 +114,36 @@ class DomexAppInfo implements AppInfo {
       )
       .copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
       .copyWith(textTheme:  getLightTextTheme())
-      .copyWith(dialogTheme: getLightDialogTheme())
+      //.copyWith(dialogTheme: getLightDialogTheme())
       .copyWith(textButtonTheme: getLightTextButtonTheme())
       .copyWith(appBarTheme: getLightAppBarTheme());
   }
 
   @override
   ThemeData getDarkTheme() {
-
+    const primaryColor = Color(0xfff7d701);
+    const secondaryColor = Color(0xff000000);
     getDarkAppBarTheme() {
+      return const AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black),
+          actionsIconTheme: IconThemeData(color: Colors.black),
+          titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22),
+          toolbarTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22),
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.black,);
+    }
+    getDarkAppBarTheme2() {
       return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
           actionsIconTheme: IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Color(0xfff7d701), fontSize: 22),
+          titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: primaryColor, fontSize: 22),
           backgroundColor: Colors.black,
-          foregroundColor: Color(0xfff7d701));
+          foregroundColor: primaryColor);
     }
+
     getDarkDialogTheme() {
       return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20));
     }
+
     getDarkTextTheme() {
       return const TextTheme(
         titleLarge: TextStyle(
@@ -163,23 +185,13 @@ class DomexAppInfo implements AppInfo {
 
     return FlexThemeData.dark(
       colors: const FlexSchemeColor(
-        primary: Color(0xfff7d701),
-        primaryContainer: Color(0xffd0e4ff),
-        secondary: Color(0xff000000),
-        secondaryContainer: Color(0xfff7d701),
-        tertiary: Color(0xfff7d701),
-        tertiaryContainer: Color(0xfff7d701),
-        appBarColor: Color(0xfff7d701),
-        error: Color(0xffb00020),
+        primary: primaryColor,
+        secondary: secondaryColor,
       ),
-
       fontFamily: 'Myriad',
       usedColors: 3,
-      surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
-      blendLevel: 15,
-      appBarStyle: FlexAppBarStyle.background,
-
-      appBarOpacity: 0.90,
+      //surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
+      blendLevel: 10,
       subThemesData: const FlexSubThemesData(
         blendOnLevel: 20,
         navigationBarLabelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
@@ -193,10 +205,11 @@ class DomexAppInfo implements AppInfo {
       useMaterial3: true,
     )
     //.copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
-    .copyWith(dialogTheme: getDarkDialogTheme())
-    .copyWith(textTheme:  getDarkTextTheme())
-    .copyWith(appBarTheme: getDarkAppBarTheme());
+    //.copyWith(dialogTheme: getDarkDialogTheme())
+    .copyWith(textTheme:  getDarkTextTheme());
+    //.copyWith(appBarTheme: getDarkAppBarTheme());
   }
+
 
 
 }
