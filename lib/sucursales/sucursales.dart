@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
+import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +11,8 @@ import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:map_launcher/map_launcher.dart' as map_launcher;
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../services/app_events.dart';
 
 import '../../services/courierService.dart';
@@ -28,9 +32,10 @@ class SucursalesPage extends StatefulWidget {
 }
 
 class _SucursalesPageState extends State<SucursalesPage> {
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
   final sucursalesBloc = SucursalesBloc(GetIt.I<CourierService>());
-
+  late List<Sucursal> sucursales;
+  String searchText = "";
   var lastRefresh = DateTime.now();
   _SucursalesPageState() {
     GetIt.I<event.Event<SucursalesDataRefreshRequested>>().subscribe((args)  {
@@ -53,9 +58,50 @@ class _SucursalesPageState extends State<SucursalesPage> {
       );
 
   @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SucursalesAppBar(),
+      appBar: AppBarWithSearchSwitch(
+        fieldHintText: 'Buscar',
+        keepAppBarColors: false,
+        onChanged: (text) {
+          setState(() {
+            searchText = text;
+          });
+        },
+        // onSubmitted: (text) {
+        //   searchText.value = text;
+        // },
+        appBarBuilder: (context) {
+          return AppBar(
+            title: const Text("Sucursales"),
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.whatsapp_rounded,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
+                ),
+                onPressed: ()  {
+                  chatWithSucursal();
+                },
+              ),
+              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
+            ],
+          );
+        },
+      ),
       body: BlocProvider(
         create: (context) => sucursalesBloc..add(LoadApiEvent()),
         child: BlocBuilder<SucursalesBloc, SucursalesState>(
@@ -75,13 +121,20 @@ class _SucursalesPageState extends State<SucursalesPage> {
               ));
             }
             if (state is SucursalesLoadedState) {
+              sucursales = state.sucursales;
+              if(searchText.isNotEmpty) {
+                sucursales = sucursales.where((element) => element.nombre.toLowerCase().contains(searchText.toLowerCase())).toList();
+              }
               return SafeArea(
                 child: Container(margin: const EdgeInsets.only(bottom: 65),
-                  child: Column(children: [
-                    SizedBox(
+                  child: Column(
+                      children: [
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
                         height: MediaQuery.of(context).size.height * 0.30,
+                        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
                         child: GoogleMap(
-
                             zoomControlsEnabled: true,
                             initialCameraPosition: _kSantoDomingo,
                             mapType: MapType.normal,
@@ -90,29 +143,30 @@ class _SucursalesPageState extends State<SucursalesPage> {
                             myLocationButtonEnabled: true,
                             markers: state.markers.values.toSet())),
                     Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            border: Border.all(color: Theme.of(context).primaryColorDark),
-                          ),
-                          child: ListView.separated(
-                              itemBuilder: (_, index) => InkWell(
-                                  onTap: () {
-                                    mapController?.animateCamera(
-                                        CameraUpdate.newLatLngZoom(
-                                            LatLng(state.sucursales[index].latitud,
-                                                state.sucursales[index].longitud),
-                                            15));
-                                  },
-                                  child:
-                                      sucursalTile(context, state.sucursales[index])),
-                              controller: controller,
-                              itemCount: state.sucursales.length,
-                            separatorBuilder: (_,index) { return const Divider(); } ),
-                        ))
+                      child: Container(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(color: Theme.of(context).primaryColorDark),
+                        ),
+                        child: ListView.separated(
+                            itemBuilder: (_, index) => InkWell(
+                                onTap: () {
+                                  mapController?.animateCamera(
+                                      CameraUpdate.newLatLngZoom(
+                                          LatLng(sucursales[index].latitud,
+                                              sucursales[index].longitud),
+                                          15));
+                                },
+                                child:
+                                    sucursalTile(context, sucursales[index])),
+                            controller: controller,
+                            itemCount: sucursales.length,
+                          separatorBuilder: (_,index) { return Divider(color: Theme.of(context).dividerColor, height: 1,); } ),
+                      ),
+                    )
                   ]),
                 ),
               );
@@ -124,25 +178,44 @@ class _SucursalesPageState extends State<SucursalesPage> {
     );
   }
 
+  Future<void> chatWithSucursal() async {
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
+    if (whatsApp.isNotEmpty) {
+      var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
+      if (!await launchUrl(_url)) {
+        throw 'Could not launch $_url';
+      }
+    }
+  }
+
   Widget sucursalTile(BuildContext context, Sucursal sucursal) {
     return Container(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              if(sucursal.isFavorite)
+                const Icon(Icons.star, size: 16, ),
               Expanded(
-                  child: AutoSizeText(sucursal.nombre, maxLines: 1,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w700))),
-              IconButton(constraints: const BoxConstraints(maxHeight: 24),
+                child: Align(alignment: Alignment.centerLeft,
+                  child: AutoSizeText( sucursal.nombre, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w700)),
+                ),
+              ),
+              IconButton( iconSize: 25,
                 onPressed: () {
                   showSucursalOptions(context, sucursal);
                 },
-                icon: const Icon(Icons.pending),
+                icon: Icon(Icons.more_vert,color: Theme.of(context).iconTheme.color,),
               )
             ]),
-            Text(sucursal.telefonoOficina),
-            Text(sucursal.horario)
+            Text(sucursal.direccion),
+            const SizedBox(height: 5,),
+            AutoSizeText(sucursal.horario, maxLines: 2, minFontSize: 14, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.7)), )
           ],
         ));
   }
@@ -227,12 +300,12 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.phone_rounded),
-                          onPressed: () { callSucursal(sucursal.telefonoOficina); },
+                          onPressed: () { callSucursal(sucursal.telefonoVentas); },
                           iconSize: 36,
                         ),
                         IconButton(
                           icon: const Icon(Icons.whatsapp_rounded),
-                          onPressed: () { chatWithSucursal(sucursal.telefonoVentas); },
+                          onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },
                           iconSize: 36,
                         ),
                         IconButton(
@@ -271,12 +344,27 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
+                          const Icon(Icons.email, size: 14,),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Text(sucursal.email),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(top: 20, left: 20, right: 20),
+                      child: Row(
+                        children: [
                           const Icon(Icons.phone, size: 14,),
                           const SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: Text(sucursal.telefonoOficina),
+                            child: Text(sucursal.telefonoVentas),
                           )
                         ],
                       ),
@@ -291,7 +379,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                             width: 20,
                           ),
                           Expanded(
-                            child: Text(sucursal.telefonoVentas),
+                            child: Text(sucursal.telefonoOficina),
                           )
                         ],
                       ),

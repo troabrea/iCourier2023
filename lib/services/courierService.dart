@@ -3,8 +3,10 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
@@ -29,6 +31,7 @@ import 'model/empresa.dart';
 import 'model/login_model.dart';
 import 'model/noticia.dart';
 import 'model/pregunta.dart';
+import 'model/producto.dart';
 import 'model/recepcion.dart';
 import 'model/servicio.dart';
 import 'model/sucursal.dart';
@@ -80,6 +83,11 @@ LoginResult userProfileFromJson(String str) => LoginResult.fromJson(json.decode(
 List<UserAccount> userAccountsFromJson(String str) => List<UserAccount>.from(json.decode(str).map((x) => UserAccount.fromJson(x)));
 String userAccountsToJson(List<UserAccount> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+List<Producto> productoFromJson(String str) => List<Producto>.from(json.decode(str).map((x) => Producto.fromJson(x)));
+String productoToJson(List<Producto> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+List<PreAlertaDto> prealertasFromJson(String str) => List<PreAlertaDto>.from(json.decode(str).map((x) => PreAlertaDto.fromJson(x)));
+
 class CourierService {
   late String companyId;
   late AppInfo appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
@@ -95,10 +103,27 @@ class CourierService {
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
     var jsonData = await cache.remember('noticas', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/noticias/$companyId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="));
+          "https://icourierfunctions2023.azurewebsites.net/api/noticias/$companyId?code=_n9tPF7n6ipJa1pdVwjE1HkwBM2GFFX9x1xtyonGr-3lAzFuWf1yGw=="
+          //"https://icourierfunctions.azurewebsites.net/api/noticias/$companyId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="
+      ));
+
       return response.body;
     }, 60 * 20);
     return noticiasFromJson(jsonData);
+  }
+
+  Future<List<Producto>> getProductos(bool ignoreCache) async {
+    if(ignoreCache) {
+      cache.destroy('productos');
+    }
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PRODUCTOS");
+    var jsonData = await cache.remember('productos', () async {
+      final response = await get(Uri.parse(
+          "https://icourierfunctions2023.azurewebsites.net/api/productos/$companyId?code=-PG1iVKL1Uz4hl-Hr7ngl4djLHEyEYfd_Eg2Ub9w1c7MAzFu0MFcGA=="));
+          //"https://icourierfunctions.azurewebsites.net/api/productos/$companyId?code=YgH3eocpwnKeq23us7yRp95a8xwWC4fTjXwmJNlwCzBZCsmInv0mnQ=="));
+      return response.body;
+    }, 60 * 20);
+    return productoFromJson(jsonData);
   }
 
   Future<List<Servicio>> getServicios(bool ignoreCache) async {
@@ -108,7 +133,8 @@ class CourierService {
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SERVICIOS");
     var jsonData = await cache.remember('servicios', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/servicios/$companyId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
+          "https://icourierfunctions2023.azurewebsites.net/api/servicios/$companyId?code=LzA3Hq-PvVbdiWbdLkzSJ3XG6zPiCTznrhpOtW-eb9MgAzFuw5g9Cg=="));
+          //"https://icourierfunctions.azurewebsites.net/api/servicios/$companyId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
       return response.body;
     }, 60 * 20);
     return servicioFromJson(jsonData);
@@ -127,7 +153,8 @@ class CourierService {
     }
     var jsonData = await cache.remember('banners', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/banners/$companyId?code=OMjjM8DkJSlKfsKAoLEiC8W0nh1rDIvYVfLcuWQGXB1XVyqXD04/dw=="));
+          "https://icourierfunctions2023.azurewebsites.net/api/banners/$companyId?code=fpFuqeZ91UzYpzeIGnUrsnwmm1nR4bWFW-k0pdYHTgKOAzFu_7ZUkg=="));
+          //"https://icourierfunctions.azurewebsites.net/api/banners/$companyId?code=OMjjM8DkJSlKfsKAoLEiC8W0nh1rDIvYVfLcuWQGXB1XVyqXD04/dw=="));
       return response.body;
     }, 60 * 20);
     return bannerFromJson(jsonData);
@@ -140,7 +167,8 @@ class CourierService {
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
     var jsonData = await cache.remember('sucursales', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/sucursales/$companyId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
+          "https://icourierfunctions2023.azurewebsites.net/api/sucursales/$companyId?code=fM2zwJ-r5lxSzqmDKNIPuhr_F9Bp20rVSKpnm0_uwIoJAzFue_-i3A=="));
+          //"https://icourierfunctions.azurewebsites.net/api/sucursales/$companyId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
       return response.body;
     }, 60 * 20);
     return sucursalFromJson(jsonData);
@@ -155,16 +183,21 @@ class CourierService {
 
     var jsonData = await cache.remember('preguntas', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/preguntas/$companyId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
+          "https://icourierfunctions2023.azurewebsites.net/api/preguntas/$companyId?code=uij0AAno9gRDvYnZkQlMPTeo9olKXhhcIkG-TFaWZ_O9AzFuX2X5NA=="));
+          //"https://icourierfunctions.azurewebsites.net/api/preguntas/$companyId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
       return response.body;
     }, 60 * 20);
     return preguntaFromJson(jsonData);
   }
 
-  Future<Empresa> getEmpresa() async {
+  Future<Empresa> getEmpresa({bool ignoreCache = false}) async {
+    if(ignoreCache) {
+      cache.destroy('empresa');
+    }
     var jsonData = await cache.remember('empresa', () async {
       final response = await get(Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
+          "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
+          //"https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
       return response.body;
     });
     return empresaFromJson(jsonData);
@@ -173,12 +206,16 @@ class CourierService {
   Future<List<CalculadoraResponse>> getCalculadoraResult(double libras,
       double valor, {String producto = ""}) async {
 
+    var sessionId = (await cache.load('sessionId', ''))
+        .toString();
+
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
 
     final uri = Uri.parse(
-        "https://icourierfunctions.azurewebsites.net/api/calculadora?code=UpOzDP0FHR4nhMaeqns1SzhmQuhFrzpZSlP1VVIui9HzAToeJ8ky5g==");
+        "https://icourierfunctions2023.azurewebsites.net/api/calculadora?code=OXZ2S1poI-Un4oe8Eqe8GW-Jo0K77tHzYpJ1mC2mo-ZeAzFuXmN2IQ==");
+        //"https://icourierfunctions.azurewebsites.net/api/calculadora?code=UpOzDP0FHR4nhMaeqns1SzhmQuhFrzpZSlP1VVIui9HzAToeJ8ky5g==");
     final req = CalculadoraRequest(empresaId: companyId,
-        sessionId: "",
+        sessionId: sessionId,
         producto: producto,
         libras: libras,
         valorFob: valor);
@@ -193,11 +230,12 @@ class CourierService {
     final req = LoginRequest(
         empresaId: companyId, userAccount: usuario, password: clave);
     final uri = Uri.parse(
-        "https://icourierfunctions.azurewebsites.net/api/session?code=ZlU5duHfxMjRUctLShLI0cvvJWdvKnT79YBfGF8UgjPThX4Et6RKJA==");
+        "https://icourierfunctions2023.azurewebsites.net/api/session?code=sLPGA2x_ZUOHZjnBBse61KVSLZSsI81kZAiS_yLK0e32AzFuyWaLyg==");
+        //"https://icourierfunctions.azurewebsites.net/api/session?code=ZlU5duHfxMjRUctLShLI0cvvJWdvKnT79YBfGF8UgjPThX4Et6RKJA==");
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
-    var bodyStr = response.body;
-    final result = loginResponseFromJson(bodyStr);
+    //var bodyStr = response.body;
+    final result = (response.statusCode >= 200 && response.statusCode < 300) ? loginResponseFromJson(response.body) : LoginResult(sessionId: "", nombre: "", email: "", telefono: "", sucursal: "", fotoPerfilUrl: "");
     if(result.sessionId.isNotEmpty && checkForNew) {
       await saveLoggedInState(result, usuario, clave);
       var storedAccounts = await getStoredAccounts();
@@ -215,12 +253,32 @@ class CourierService {
     cache.destroy('recepciones');
   }
 
+  Future<List<PreAlertaDto>> getPrealertas() async {
+    var sessionId = (await cache.load('sessionId', ''))
+        .toString();
+    if(sessionId.isEmpty) {
+      return <PreAlertaDto>[].toList();
+    }
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/prealertas?code=d-XHphgtD-RFeh78aElmtpqMOCQPYGsPt57hrwwTjRfjAzFuDUWRrQ==");
+    final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
+    final json = jsonEncode(req);
+    final response = await post(uri, body: json);
+    var result = prealertasFromJson(response.body);
+    return result;
+  }
+
   Future<List<Recepcion>> getRecepciones(bool forceRefresh) async {
     if (forceRefresh) {
-      cache.destroy('recepciones');
-      cache.destroy('empresa');
-      await getEmpresa();
-      GetIt.I<event.Event<EmpresaRefreshFinished>>().broadcast();
+      final _connectivity = Connectivity();
+      final _result = await _connectivity.checkConnectivity();
+      if(_result != ConnectivityResult.none ) {
+        cache.destroy('recepciones');
+        cache.destroy('empresa');
+        cache.destroy('sucursales');
+        await getEmpresa();
+        GetIt.I<event.Event<EmpresaRefreshFinished>>().broadcast();
+      }
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
     var jsonData = await cache.remember('recepciones', () async {
@@ -230,7 +288,8 @@ class CourierService {
         return "[]";
       }
       final uri = Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
+          "https://icourierfunctions2023.azurewebsites.net/api/recepciones?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==");
+          //"https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
       final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
@@ -240,6 +299,24 @@ class CourierService {
     result.sort((a, b) {
       return b.fechaRecibido().compareTo(a.fechaRecibido());
     });
+    // Update Batch
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        var available = result.where((x) => x.disponible == true).length;
+        if( available > 0) {
+          FlutterAppBadger.updateBadgeCount(available);
+        } else {
+          FlutterAppBadger.removeBadge();
+        }
+      }
+    } catch (e) {
+      //
+      debugPrint('Failed to determine badge support');
+    }
+
+
+    //
     return result;
   }
 
@@ -256,7 +333,8 @@ class CourierService {
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_HISTORIA");
 
     final uri = Uri.parse(
-        "https://icourierfunctions.azurewebsites.net/api/historia?code=gerWGYCG2sXQyxgxx6QHTRFtWey7Ab/oJtEPHCQQ76qVwg3BMJvI4Q==");
+        "https://icourierfunctions2023.azurewebsites.net/api/historia?code=UFtMpySwLvK3tmPtw8Tj_Nr2gCJwb7v5FAs6todAO7IYAzFu4me6mQ==");
+        //"https://icourierfunctions.azurewebsites.net/api/historia?code=gerWGYCG2sXQyxgxx6QHTRFtWey7Ab/oJtEPHCQQ76qVwg3BMJvI4Q==");
     final req = ConsultaHistoricaRequest(empresaId: companyId,
         sessionId: sessionId,
         desde: dateFormat.format(desde),
@@ -271,17 +349,36 @@ class CourierService {
   }
 
   Future<UserProfile> getUserProfile() async {
+    var empresa = await getEmpresa();
     var cuenta = await cache.load('userAccount', "");
     var nombre = await cache.load('userName', "");
     var email = await cache.load('userEmail', "");
     var sucursal = await cache.load('userSucursal', "");
     var foto = await cache.load('userFotoPerfil', "");
+    var nombreSucrusal = "";
+    var telefonoSucrusal = "";
+    var whatsappSucrusal = empresa.telefonoVentas;
+
+    if(cuenta != "" && sucursal != "") {
+      var userSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == sucursal);
+      if(userSucursal != null) {
+        nombreSucrusal = userSucursal.nombre;
+        telefonoSucrusal = userSucursal.telefonoVentas;
+        if(userSucursal.telefonoOficina.isNotEmpty) {
+          whatsappSucrusal = userSucursal.telefonoOficina;
+        }
+      }
+    }
 
     return UserProfile(cuenta: cuenta,
         nombre: nombre,
         email: email,
         sucursal: sucursal,
-        fotoPerfilUrl: foto);
+        fotoPerfilUrl: foto,
+        nombreSucursal: nombreSucrusal,
+      telefonoSucursal: telefonoSucrusal,
+      whatsappSucursal: whatsappSucrusal
+    );
   }
 
   Future<List<UserAccount>> getStoredAccounts() async {
@@ -347,6 +444,19 @@ class CourierService {
 
   }
 
+  Future<void> resetPassword(String cuenta, String email) async {
+    final empresa = await getEmpresa();
+    final req = PasswordResetModel(empresaId: empresa.registroId, account: cuenta, email: email);
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/rememberpassword?code=jwj3RkB8ebqFF3DUQa3V1pyVvOvGv_Ue_nOPNZwkkI7BAzFuK3uAHg==");
+        //"https://icourierfunctions.azurewebsites.net/api/rememberpassword?code=XjJELASMoVOdOPW2BMG8og7C0g/o1jaSfnc4SRWZYSCejiKXhX1BEQ==");
+    final json = jsonEncode(req);
+    final response = await post(uri, body: json);
+    if(response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception(response.reasonPhrase);
+    }
+  }
+
   Future<void> launchOnlinePayment()  async {
     final empresa = await getEmpresa();
     final cuenta = await cache.load('userAccount', "");
@@ -388,7 +498,7 @@ class CourierService {
       return 'Funcinalidad no disponible';
     }
 
-    var paquetes = (await getRecepciones(false)).map((e) => e.recepcionID).toList();
+    var paquetes = (await getRecepciones(false)).where( (e) => e.disponible).map((e) => e.recepcionID).toList();
     if(paquetes.isEmpty) {
       return 'Funcinalidad no disponible';
     }
@@ -412,14 +522,19 @@ class CourierService {
             sucursal.latitud,
             sucursal.longitud) / 1000;
 
-        if (distance < empresa.minDistanceToNotify) {
+        if (distance > empresa.minDistanceToNotify) {
           return 'Debe estar a menos de ${empresa
               .minDistanceToNotify / 1000} km. de su sucursal de retiro para poder ejecutar esta operación.';
         }
       }
     }
 
-    return '';
+    //final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/notificarretiro?code=8WQvaSc2WvgWwsdZms/GYsWgI2V3FxAt4SrtQv4N6xa1NbPXTpybsg==");
+    final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/notificarretiro?code=wDhDdAsMvYhvy9WvDhZfn9dMK0s-hOMGgEbiuhDYl3tcAzFuEGrkmA==");
+    var req = NotificarRetiroModel(empresa.registroId, sessionId, cuenta, paquetes);
+    final json = jsonEncode(req);
+    final response = await post(uri, body: json);
+    return (response.statusCode >= 200 && response.statusCode <= 299) ? "" : response.reasonPhrase!;
 
   }
 
@@ -447,7 +562,8 @@ class CourierService {
       //
 
       final uri = Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/prealerta?code=cxsYglMU8mj4ECTBek9NpgudSAuMh8aaZsG/oSYdmknJ/IhyNWGlwA==");
+          "https://icourierfunctions2023.azurewebsites.net/api/prealerta?code=FFkkK6qTy-H5z3YAQ6c7lyEPl8IDIXVIz9YLaZjOGD57AzFuGJRY-A==");
+          //"https://icourierfunctions.azurewebsites.net/api/prealerta?code=cxsYglMU8mj4ECTBek9NpgudSAuMh8aaZsG/oSYdmknJ/IhyNWGlwA==");
 
       var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
@@ -496,7 +612,8 @@ class CourierService {
       var azPath = "/icourier/$fileName";
       Uint8List bytes = await file.readAsBytes();
       await storage.putBlob(azPath, bodyBytes: bytes);
-      final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/updateprofilephoto?code=hQ8Sz4aQv6grvBj0P4z/MppLEDnRYNohAWqxdORRuDYTGzpGAwknxQ==");
+      final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/updateprofilephoto?code=56vau-MkXBEyef6NKfRwRBq1ins7ANsdab9bdQGPeRKXAzFu_RE8Cg==");
+      //Uri.parse("https://icourierfunctions.azurewebsites.net/api/updateprofilephoto?code=hQ8Sz4aQv6grvBj0P4z/MppLEDnRYNohAWqxdORRuDYTGzpGAwknxQ==");
 
       var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
@@ -538,7 +655,7 @@ class CourierService {
       await storage.putBlob(azPath, bodyBytes: bytes);
       // https://barolitblobstorage.blob.core.windows.net/icourier/00001161-33a3-4cc7-8960-670b7ae47b30.jpg
       final uri = Uri.parse(
-          "https://icourierfunctions.azurewebsites.net/api/prealerta?code=cxsYglMU8mj4ECTBek9NpgudSAuMh8aaZsG/oSYdmknJ/IhyNWGlwA==");
+          "https://icourierfunctions2023.azurewebsites.net/api/postalerta?code=oqzfxlOlLyjRiMbv_J2WmFT1sEkxG62ZmvWPJUipGCqLAzFuO-NHzg==");
 
       var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 

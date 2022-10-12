@@ -40,10 +40,22 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
 
   final courierService = GetIt.I<CourierService>();
   final prePostAlertaBloc = PrePostAlertaBloc(GetIt.I<CourierService>());
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
   final ImagePicker _picker = ImagePicker();
   File? selectedFile;
   XFile? selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   final _formKey = GlobalKey<FormBuilderState>();
 
@@ -182,7 +194,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
           ],),
           const SizedBox(height: 15,),
           const Divider(),
-          ElevatedButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: const Text('Enviar post-Alerta'), icon: const Icon(Icons.send)),
+          ElevatedButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container(padding: const EdgeInsets.symmetric(horizontal: 5), child: const Text('Enviar post-Alerta')), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
         ],
       ),
     );

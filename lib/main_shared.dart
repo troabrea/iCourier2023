@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iCourier/appinfo.dart';
 import '../../services/app_events.dart';
@@ -13,7 +14,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'appinfo_domex.dart';
 import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:event/event.dart' as event;
-
+import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'main_app_shell.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -28,7 +29,7 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
     'high_importance_channel', // id
     'Notificaciones y Alertas', // title
     description:
-    'Notifiaciones y alertas sobres sus paquetes e información importante.', // description
+    'Notificaciones y alertas sobre sus paquetes e información importante.', // description
     importance: Importance.high,
   );
 
@@ -55,16 +56,23 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
   //
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-
   //
   messaging.subscribeToTopic(pushDefaultTopic);
-
 }
 
 Future<void> mainShared(AppInfo _appInfo)  async {
   final AppInfo appInfo = _appInfo;
-  WidgetsFlutterBinding.ensureInitialized();
+  var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  String strValue = (await cache.load('lastSelectedTab',"")).toString();
+  if(strValue.isNotEmpty) {
+    var intValue = int.tryParse(strValue);
+    if(intValue != null) {
+      appInfo.defaultTab = intValue;
+    }
+  }
+
 
   await Firebase.initializeApp();
   await setupFlutterNotifications(appInfo.pushChannelTopic);
@@ -75,6 +83,7 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   //final fcmToken = await FirebaseMessaging.instance.getToken();
   GetIt.I.registerSingleton<AppInfo>(appInfo);
   GetIt.I.registerSingleton<CourierService>(CourierService());
+  GetIt.I.registerSingleton<event.Event<UserPrealertaRequested>>(event.Event<UserPrealertaRequested>());
   GetIt.I.registerSingleton<event.Event<LoginChanged>>(event.Event<LoginChanged>());
   GetIt.I.registerSingleton<event.Event<LogoutRequested>>(event.Event<LogoutRequested>());
   GetIt.I.registerSingleton<event.Event<CourierRefreshRequested>>(event.Event<CourierRefreshRequested>());
@@ -88,7 +97,7 @@ Future<void> mainShared(AppInfo _appInfo)  async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   AppCenter.startAsync(
-      appSecretAndroid: appInfo.androidAnalyticsAppId, appSecretIOS: appInfo.iphoneAnalyticsAppId);
+      appSecretAndroid: appInfo.androidAnalyticsAppId, appSecretIOS: appInfo.iphoneAnalyticsAppId, enableAnalytics: true, enableCrashes: true, enableDistribute: false);
 
   AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_INICIO_SESION");
 

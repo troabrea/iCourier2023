@@ -34,6 +34,7 @@ class Sucursal {
   double longitud;
   double orden;
   bool deleted;
+  bool isFavorite = false;
 
   factory Sucursal.fromJson(Map<String, dynamic> json) => Sucursal(
         registroId: json["registroID"],

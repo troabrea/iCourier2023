@@ -15,8 +15,9 @@ class NoticiasErrorState extends NoticiasState {
 class NoticiasLoadedState extends NoticiasState {
   final List<Noticia> noticias;
   final List<BannerImage> banners;
+  final Empresa empresa;
 
-  const NoticiasLoadedState(this.noticias, this.banners);
+  const NoticiasLoadedState(this.noticias, this.banners, this.empresa);
   @override
   List<Object?> get props => [noticias];
 }

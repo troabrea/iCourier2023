@@ -4,7 +4,15 @@ abstract class CalculadoraState extends Equatable {
   const CalculadoraState();
 }
 
-class CalculadoraIdleState extends CalculadoraState {
+// class CalculadoraIdleState extends CalculadoraState {
+//   @override
+//   List<Object> get props => [];
+// }
+
+class CalculadoraPreparedState extends CalculadoraState {
+  final Producto productoDefault;
+  final List<Producto> productos;
+  const CalculadoraPreparedState(this.productos, this.productoDefault);
   @override
   List<Object> get props => [];
 }

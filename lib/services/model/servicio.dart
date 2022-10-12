@@ -20,6 +20,8 @@ class Servicio {
   double orden;
   bool deleted;
 
+  bool isExpanded = false;
+
   factory Servicio.fromJson(Map<String, dynamic> json) => Servicio(
         registroId: json["registroID"],
         empresa: json["empresa"],

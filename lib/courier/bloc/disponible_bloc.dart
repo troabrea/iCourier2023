@@ -17,7 +17,7 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
   DisponibleBloc() : super(DisponibleIdleState()) {
 
     on<DisponiblePagoEnLineaEvent>((event,emit) async {
-      if(!await confirmDialog(event.context, "Seguro que desea notificar realizar el pago en linea de paquetes disponibles?", "Si", "No")) {
+      if(!await confirmDialog(event.context, "Seguro que desea realizar el pago en linea de sus paquetes disponibles?", "Si", "No")) {
         return;
       }
       await _courierService.launchOnlinePayment();

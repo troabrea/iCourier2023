@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../services/courierService.dart';
 import '../services/model/servicio.dart';
@@ -17,10 +18,22 @@ class ServiciosPage extends StatefulWidget {
 
 class _ServiciosPageState extends State<ServiciosPage> {
 
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
 
   List<Servicio> servicios = <Servicio>[].toList();
   String searchText = "";
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +52,18 @@ class _ServiciosPageState extends State<ServiciosPage> {
         appBarBuilder: (context) {
           return AppBar(
             title: const Text("Servicios"),
-            actions: const [
-              AppBarSearchButton(),
-              // or
-              // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
+            automaticallyImplyLeading: false,
+            leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.whatsapp_rounded,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
+                ),
+                onPressed: ()  {
+                  chatWithSucursal();
+                },
+              ),
+              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
             ],
           );
         },
@@ -68,13 +89,17 @@ class _ServiciosPageState extends State<ServiciosPage> {
               return SafeArea(
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(5,10,5,65),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          side: BorderSide(color: Theme.of(context).primaryColorDark)
-                      ),
-                      child: ListView.builder(
-                          itemBuilder: (_, index) => ExpansionTile(
+                    child: ListView.builder(
+                        itemBuilder: (_, index) => Card(
+                            shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            side: BorderSide(color: Theme.of(context).primaryColorDark)),
+                            child: ExpansionTile(
+                                  onExpansionChanged: ( (isExpanded)  => {
+                                    setState( ()  => {
+                                      servicios[index].isExpanded = isExpanded
+                                    })
+                                  }),
                                   expandedAlignment: Alignment.centerLeft,
                                   expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
                                   title: Row(
@@ -83,8 +108,19 @@ class _ServiciosPageState extends State<ServiciosPage> {
                                       // Text(state.servicios[index].orden.toStringAsFixed(0), style: Theme.of(context).textTheme.titleLarge,),
                                       // const SizedBox(width: 10,),
                                       Expanded(
-                                        child: AutoSizeText(
+                                        child: servicios[index].isExpanded ?
+                                        AutoSizeText(
+                                        servicios[index].titulo,
+                                          maxLines: 5,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium!,
+                                        )
+                                        :
+                                        AutoSizeText(
                                           servicios[index].titulo,
+                                          overflow: TextOverflow.ellipsis,
+                                          minFontSize: 16,
                                           maxLines: 2,
                                           style: Theme.of(context)
                                               .textTheme
@@ -99,19 +135,21 @@ class _ServiciosPageState extends State<ServiciosPage> {
                                         child: Column(
                                           children: [
                                             const Divider(thickness: 2),
-                                            Text(
-                                              servicios[index].resumen,
-                                              textAlign: TextAlign.justify,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
+                                            Container( padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              child: Text(
+                                                servicios[index].resumen,
+                                                textAlign: TextAlign.justify,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
                                             ),
                                           ],
                                         )),
                                   ]),
-                          controller: controller,
-                          itemCount: servicios.length),
-                    )),
+                        ),
+                        controller: controller,
+                        itemCount: servicios.length)),
               );
             }
             return Container();
@@ -119,5 +157,15 @@ class _ServiciosPageState extends State<ServiciosPage> {
         ),
       ),
     );
+  }
+  Future<void> chatWithSucursal() async {
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
+    if (whatsApp.isNotEmpty) {
+      var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
+      if (!await launchUrl(_url)) {
+        throw 'Could not launch $_url';
+      }
+    }
   }
 }

@@ -16,13 +16,28 @@ class ConsultaHistoricaPage extends StatefulWidget {
 }
 
 class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
   final _formKey = GlobalKey<FormBuilderState>();
   final historiaBloc = HistoriaBloc(HistoriaIdleState());
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Consulta Histórica"),),
+        appBar: AppBar(title: Text("Consulta Histórica"),
+          leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+        ),
         body: BlocProvider(
           create: (context) => historiaBloc,
           child: BlocBuilder<HistoriaBloc, HistoriaState>(

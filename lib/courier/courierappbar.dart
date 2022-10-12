@@ -36,25 +36,32 @@ class _CourierAppBarState extends State<CourierAppBar> {
           if (appBarActions.isEmpty) {
             appBarActions = [
               IconButton(
-                icon: const Icon(Icons.refresh),
+                icon: Icon(Icons.refresh,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
+                ),
                 onPressed: () {
                   GetIt.I<Event<CourierRefreshRequested>>()
                       .broadcast(CourierRefreshRequested());
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.badge_outlined),
+                icon: Icon(Icons.badge_outlined,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
+                ),
                 onPressed: () => {showMembershipBadge(context)},
               ),
               IconButton(
-                icon: const Icon(Icons.whatsapp_rounded),
+                icon: Icon(Icons.whatsapp_rounded,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
+                ),
                 onPressed: ()  {
                     chatWithSucursal();
                   },
               ),
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.person,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: () => {doLogout()},
               ),
@@ -74,8 +81,8 @@ class _CourierAppBarState extends State<CourierAppBar> {
   }
 
   Future<void> chatWithSucursal() async {
-    var whatsApp =
-        (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
     if (whatsApp.isNotEmpty) {
       var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
       if (!await launchUrl(_url)) {

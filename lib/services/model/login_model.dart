@@ -88,3 +88,18 @@ class UserProfileModel {
   };
 
 }
+
+class PasswordResetModel {
+  String account;
+  String email;
+  String empresaId;
+
+  PasswordResetModel({required this.empresaId, required this.account, required this.email});
+
+  Map<String, dynamic> toJson() => {
+    "empresaId": empresaId,
+    "account": account,
+    "email" : email
+  };
+
+}

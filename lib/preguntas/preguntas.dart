@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../adicional/adicional.dart';
 import '../services/courierService.dart';
@@ -36,9 +37,22 @@ class PreguntasPage extends StatefulWidget {
 }
 
 class _PreguntasPageState extends State<PreguntasPage> {
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
   List<Pregunta> preguntas = <Pregunta>[].toList();
   String searchText = "";
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,10 +70,18 @@ class _PreguntasPageState extends State<PreguntasPage> {
         appBarBuilder: (context) {
           return AppBar(
             title: const Text("Preguntas"),
-            actions: const [
-              AppBarSearchButton( ),
-              // or
-              // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
+            automaticallyImplyLeading: false,
+            leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.whatsapp_rounded,
+                  color: Theme.of(context).appBarTheme.foregroundColor,
+                ),
+                onPressed: ()  {
+                  chatWithSucursal();
+                },
+              ),
+              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
             ],
           );
         },
@@ -85,60 +107,93 @@ class _PreguntasPageState extends State<PreguntasPage> {
             if (state is PreguntasLoadedState) {
               preguntas = state.preguntas;
               if(searchText.isNotEmpty) {
-                preguntas = preguntas.where((element) => element.titulo.contains(searchText) || element.resumen.contains(searchText)).toList();
+                preguntas = preguntas.where((element) => element.titulo.toLowerCase().contains(searchText.toLowerCase()) || element.resumen.toLowerCase().contains(searchText.toLowerCase())).toList();
               }
               return SafeArea(
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(10,10,10,65),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          side: BorderSide(color: Theme.of(context).primaryColorDark)
-                      ),
-                      child: ListView.builder(
-                          itemBuilder: (_, index) => ExpansionTile(
-                              expandedAlignment: Alignment.centerLeft,
-                              expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-                              title: Row(
-                                children: [
-                                  // CircleAvatar(child: Text(state.preguntas[index].orden.toStringAsFixed(0)),),
-                                  // SizedBox(width: 20,),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      preguntas[index].titulo,
-                                      maxLines: 2,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              children: [
-                                Container(
-                                    padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
-                                    child: Column(
-                                      children: [
-                                        const Divider(thickness: 2),
-                                        Text(
-                                          preguntas[index].resumen,
-                                          textAlign: TextAlign.justify,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                      ],
-                                    )),
-                              ]),
-                          controller: controller,
-                          itemCount: preguntas.length),
-                    )),
-              );
+                    child: _buildListView(context),
+              ));
             }
             return Container();
           },
         ),
       ),
     );
+  }
+
+  Widget _buildListView(BuildContext context) {
+    return ListView.builder(
+                      itemBuilder: (_, index) => Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              side: BorderSide(color: Theme.of(context).primaryColorDark)),
+                              child: ExpansionTile(
+                            onExpansionChanged: ( (isExpanded)  => {
+                              setState( ()  => {
+                                preguntas[index].isExpanded = isExpanded
+                              })
+                            }),
+                            expandedAlignment: Alignment.centerLeft,
+                            expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+                            title: Row(
+                              children: [
+                                // CircleAvatar(child: Text(state.preguntas[index].orden.toStringAsFixed(0)),),
+                                // SizedBox(width: 20,),
+                                Expanded(
+                                  child: preguntas[index].isExpanded ?
+                                    AutoSizeText(
+                                    preguntas[index].titulo,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 5,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium!,
+                                    )
+                                  :
+                                  AutoSizeText(
+                                    preguntas[index].titulo,
+                                    overflow: TextOverflow.ellipsis,
+                                    minFontSize: 16,
+                                    maxLines: 2,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                                  child: Column(
+                                    children: [
+                                      const Divider(thickness: 2),
+                                      Container(padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Text(
+                                          preguntas[index].resumen,
+                                          textAlign: TextAlign.justify,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ]),
+                      ),
+                      controller: controller,
+                      itemCount: preguntas.length);
+  }
+
+  Future<void> chatWithSucursal() async {
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
+    if (whatsApp.isNotEmpty) {
+      var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
+      if (!await launchUrl(_url)) {
+        throw 'Could not launch $_url';
+      }
+    }
   }
 }

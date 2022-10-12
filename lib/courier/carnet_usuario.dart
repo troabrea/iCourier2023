@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iCourier/appinfo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:user_profile_avatar/user_profile_avatar.dart';
 
@@ -10,7 +11,8 @@ import '../services/model/login_model.dart';
 
 class CarnetUsuario extends StatefulWidget {
   final UserProfile userProfile;
-  const CarnetUsuario({Key? key, required this.userProfile}) : super(key: key);
+  final appInfo = GetIt.I<AppInfo>();
+  CarnetUsuario({Key? key, required this.userProfile}) : super(key: key);
 
   @override
   State<CarnetUsuario> createState() => _CarnetUsuarioState(userProfile);
@@ -107,7 +109,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
                         .textTheme
                         .titleMedium
                 ))),
-        Padding(padding: const EdgeInsets.only(top: 15.0, left: 8.0, bottom: 15.0, right: 8.0),
+        Padding(padding: const EdgeInsets.all(8.0),
           child: Center(
             child: BarcodeWidget(
               barcode: Barcode.qrCode(),
@@ -116,6 +118,15 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
               errorBuilder: (context, error) => Center(child: Text(error)),
             ),
           ),),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+                child: Text(userProfile.nombreSucursal,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                ))),
+        Image.asset(widget.appInfo.brandLogoImage, width: 75, height: 75,),
         const SizedBox(height: 20,)
       ],
     );

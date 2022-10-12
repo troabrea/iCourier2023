@@ -35,7 +35,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
   final courierService = GetIt.I<CourierService>();
   final formatDate = DateFormat("yyyyMMdd");
   final prePostAlertaBloc = PrePostAlertaBloc(GetIt.I<CourierService>());
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
 
   File? selectedFile;
   XFile? selectedImage;
@@ -49,6 +49,18 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
     'Otro'
   ];
   final _formKey = GlobalKey<FormBuilderState>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +204,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
           ],),
           const SizedBox(height: 15,),
           const Divider(),
-          ElevatedButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: const Text('Enviar Pre-Alerta'), icon: const Icon(Icons.send)),
+          ElevatedButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container( padding: const EdgeInsets.symmetric(horizontal: 5), child: const Text('Enviar Pre-Alerta')), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
         ],
 
       ),

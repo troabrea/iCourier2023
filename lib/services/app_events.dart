@@ -2,6 +2,10 @@ import 'package:event/event.dart';
 
 import 'model/login_model.dart';
 
+class UserPrealertaRequested extends EventArgs {
+  UserPrealertaRequested();
+}
+
 class LoginChanged extends EventArgs {
   bool loggedIn;
   String account;

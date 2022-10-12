@@ -4,10 +4,17 @@ abstract class CalculadoraEvent extends Equatable {
   const CalculadoraEvent();
 }
 
+class CalculatorPrepareEvent extends CalculadoraEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class CalculateEvent extends CalculadoraEvent {
-  late double libras;
-  late double valor;
-  CalculateEvent(this.libras, this.valor);
+  final double libras;
+  final double valor;
+  final String codigoProducto;
+  CalculateEvent(this.libras, this.valor, this.codigoProducto);
   @override
   // TODO: implement props
   List<Object?> get props => [];

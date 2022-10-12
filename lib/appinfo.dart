@@ -9,7 +9,11 @@ abstract class AppInfo
   String get pushChannelTopic;
   String get centerIconImage;
   String get brandLogoImage;
+  double get centerIconSize;
+  double get centerInactiveIconSize;
+  int defaultTab = 2;
   ThemeData getLightTheme();
   ThemeData getDarkTheme();
+
 }
 

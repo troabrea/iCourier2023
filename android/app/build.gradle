@@ -28,7 +28,20 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 33
-
+    signingConfigs {
+        legacy {
+            storeFile file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/android.keystore")
+            storePassword "Msaxapta0201"
+            keyAlias "android"
+            keyPassword "Msaxapta0201"
+        }
+        release {
+            storeFile file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/upload-keystore.jks")
+            storePassword "Msaxapta0201"
+            keyAlias "upload"
+            keyPassword "Msaxapta0201"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,7 +56,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.barolit.icourier"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
@@ -59,13 +71,22 @@ android {
             dimension "app"
             applicationId "com.barolit.domex"
         }
+        bmcargo {
+            dimension "app"
+            applicationId "com.barolit.bmcargo"
+        }
+        caribepack {
+            dimension "app"
+            applicationId "com.barolit.caribepack"
+        }
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
+            // Uncomment appropiate signingConfig
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.legacy
+            //signingConfig signingConfigs.release
         }
     }
 }

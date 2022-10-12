@@ -26,7 +26,7 @@ class NoticiaDetallePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const NoticiasAppBar(),
+        appBar: const NoticiasAppBar(showBackButton: true,),
         body: Container( margin: const EdgeInsets.only(bottom: 65),
           child: Stack(children: [
             Container(
@@ -42,17 +42,21 @@ class NoticiaDetallePage extends StatelessWidget {
                 height: 10,
                 color: Colors.transparent,
               ),
-              Text(
-                noticia!.titulo,
-                style: Theme.of(context).textTheme.headlineLarge,
-                textAlign: TextAlign.center,
+              Hero( transitionOnUserGestures: true, tag: noticia!.registroId + '_' + noticia!.titulo,
+                child: Text(
+                  noticia!.titulo,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                  textAlign: TextAlign.center,
+                ),
               ),
               const Divider(
                 height: 10,
                 color: Colors.transparent,
               ),
-              Text(DateFormat("dd-MMM-yyyy").format(noticia!.fecha),
-                  style: Theme.of(context).textTheme.titleMedium),
+              Hero(transitionOnUserGestures: true, tag: noticia!.registroId + '_' + noticia!.fecha.toString(),
+                child: Text(DateFormat("dd-MMM-yyyy").format(noticia!.fecha),
+                    style: Theme.of(context).textTheme.titleMedium),
+              ),
               Expanded(
                   child: Container(
                       padding: const EdgeInsets.all(10),
@@ -73,11 +77,8 @@ class NoticiaDetallePage extends StatelessWidget {
                 color: Colors.transparent,
               ),
               if (noticia!.url.isNotEmpty)
-                IconButton(
-                    onPressed: () => {_launchUrl()},
-                    icon: const Icon(
-                      Icons.open_in_browser,
-                      size: 30,
+                TextButton(
+                    onPressed: () => {_launchUrl()}, child: const Text( 'Ver Mas...'
                     )),
               if (noticia!.url.isNotEmpty)
                 const Divider(

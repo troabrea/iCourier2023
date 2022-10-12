@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iCourier/helpers/social_media_links.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../noticas/bloc/noticias_bloc.dart';
 import '../../noticas/noticiadetalle.dart';
 import '../../services/courierService.dart';
@@ -20,9 +23,8 @@ class NoticiasPage extends StatefulWidget {
   State<NoticiasPage> createState() => _NoticiasPageState();
 }
 
-class _NoticiasPageState extends State<NoticiasPage> {
-
-  final ScrollController controller = ScrollController();
+class _NoticiasPageState extends State<NoticiasPage>  {
+  late ScrollController _controller;
   final noticiasBloc = NoticiasBloc(GetIt.I<CourierService>());
   var lastRefresh = DateTime.now();
   _NoticiasPageState() {
@@ -32,6 +34,18 @@ class _NoticiasPageState extends State<NoticiasPage> {
         lastRefresh = DateTime.now();
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller=ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,7 +76,9 @@ class _NoticiasPageState extends State<NoticiasPage> {
                   child: Column(children: [
                     if(state.banners.isNotEmpty)
                       buildSlideShow(context, state.banners),
-                    Expanded(child: buildListView(context, state.noticias))
+                      SizedBox(height: 30, child: SocialMediaLinks(empresa: state.empresa)),
+                    const SizedBox(height: 10,),
+                    Expanded(child: buildListView(context, state.noticias)),
                   ]),
                 ),
               );
@@ -83,7 +99,7 @@ class _NoticiasPageState extends State<NoticiasPage> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: imageProvider,
-                fit: BoxFit.fill,
+                fit: MediaQuery.of(context).size.width < 800 ? BoxFit.fill : BoxFit.cover,
               ),
             )),
           progressIndicatorBuilder: (context, url, downloadProgress) =>
@@ -98,12 +114,13 @@ class _NoticiasPageState extends State<NoticiasPage> {
       child: ListView.builder(
           itemBuilder: (_, index) => GestureDetector(
               onTap: () {
-                Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-                    builder: (context) =>
-                        NoticiaDetallePage(noticia: noticias[index])));
+                PersistentNavBarNavigator.pushNewScreen(context, screen: NoticiaDetallePage(noticia: noticias[index],));
+                // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
+                //     builder: (context) =>
+                //         NoticiaDetallePage(noticia: noticias[index])));
               },
               child: noticiaTile(context, noticias[index])),
-          controller: controller,
+          controller: _controller,
           itemCount: noticias.length),
     );
   }
@@ -119,10 +136,14 @@ class _NoticiasPageState extends State<NoticiasPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(noticia.titulo,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w700)),
-                Text(DateFormat("dd-MMM-yyyy").format(noticia.fecha),
-                    style: Theme.of(context).textTheme.titleSmall),
+                Hero(transitionOnUserGestures: true, tag: noticia.registroId + '_' + noticia.titulo,
+                  child: Text(noticia.titulo,
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w700)),
+                ),
+                Hero(transitionOnUserGestures: true, tag: noticia.registroId + '_' + noticia.fecha.toString(),
+                  child: Text(DateFormat("dd-MMM-yyyy").format(noticia.fecha),
+                      style: Theme.of(context).textTheme.titleSmall),
+                ),
                 Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Text(noticia.resumen,

@@ -24,6 +24,8 @@ class Pregunta {
   double orden;
   bool deleted;
 
+  bool isExpanded = false;
+
   factory Pregunta.fromJson(Map<String, dynamic> json) => Pregunta(
     registroId: json["registroID"],
     empresa: json["empresa"],

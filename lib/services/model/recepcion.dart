@@ -225,7 +225,12 @@ class Historia {
 
   DateTime dateTime()
   {
-    var theDateTime = DateFormat("yyyy-MM-dd hh:mm:ss").parse( soloFecha() + " " + soloHora() );
+    var horaPart = soloHora().replaceAll(" AM","").replaceAll(" PM", "");
+    if(horaPart.length == 5) {
+      horaPart = horaPart + ":00";
+    }
+
+    var theDateTime = DateFormat("yyyy-MM-dd hh:mm:ss").parse( soloFecha() + " " + horaPart );
     if(soloHora().contains("PM") && theDateTime.hour != 12)
       {
         theDateTime = theDateTime.add(const Duration(hours: 12));

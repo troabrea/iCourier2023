@@ -22,12 +22,24 @@ class CourierPage extends StatefulWidget {
 class _CourierPageState extends State<CourierPage> {
   final appInfo = GetIt.I<AppInfo>();
   final courierBloc = CourierBloc(CourierIsBusyState());
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
 
   bool isBusy = false;
 
   String userName = "";
   String password = "";
+
+  @override
+  void initState() {
+    controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   final _formKey = GlobalKey<FormBuilderState>();
   @override
@@ -58,7 +70,7 @@ class _CourierPageState extends State<CourierPage> {
     return FormBuilderTextField(
       name: 'password',
       keyboardType: TextInputType.text,
-      initialValue: initialValue,
+      //initialValue: initialValue,
       textAlign: TextAlign.center,
       obscureText: true,
       validator: FormBuilderValidators.compose([
@@ -94,6 +106,7 @@ class _CourierPageState extends State<CourierPage> {
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
       initialValue: initialValue,
+      autofocus: true,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
       ]),
@@ -177,7 +190,46 @@ class _CourierPageState extends State<CourierPage> {
                             .titleSmall
                             ?.copyWith(color: Theme.of(context).errorColor),
                       ),
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 5,),
+                    Center(child: TextButton(onPressed: () async {
+                          userForReset = _formKey
+                            .currentState!.fields['user']!.value
+                            .toString();
+                          emailForReset = "";
+                          //
+                          await _showRememberPassword(context);
+                          //
+                          if(userForReset.isNotEmpty && emailForReset.isNotEmpty) {
+                            try
+                            {
+                              setState(() {
+                                isBusy = true;
+                              });
+                              try {
+                                await courierBloc.courierService.resetPassword(userForReset, emailForReset);
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                  content: Text(
+                                      "Correo recordatorio de contraseña solicitado exitosamente."),
+                                ));
+                              } catch (ex) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Theme.of(context).errorColor,
+                                  content: const Text(
+                                      "Ha ocurrido un error favor intentar nuevamente."),
+                                ));
+                              }
+                            } finally {
+                              setState(() {
+                                isBusy = false;
+                              });
+                            }
+
+
+                          }
+                        },
+                        child: Text.rich(TextSpan(text: "¿La olvidaste? - ", style: Theme.of(context).textTheme.bodySmall, children: [
+                        TextSpan(text:'Recordar contraseña', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).primaryColorDark,))])))),
+                    const SizedBox(height: 30),
                     Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * .6,
@@ -214,15 +266,18 @@ class _CourierPageState extends State<CourierPage> {
                     if(registerUrl.isNotEmpty)
                       const SizedBox(height: 20,),
                     if(registerUrl.isNotEmpty)
-                      Center(child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Aún no eres cliente -", style: Theme.of(context).textTheme.bodySmall,),
-                          TextButton( child: const Text('Solicita tu cuenta'), onPressed: () async {
-                            await launchUrlString(registerUrl);
-                          } , ),
-                        ],
-                      ),)
+                      Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl); }, child: Text.rich(TextSpan(text: "¿Aún no eres cliente? - ", style: Theme.of(context).textTheme.bodySmall, children: [
+                        TextSpan(text:'Solicita tu cuenta', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold))])))),
+                    // if(registerUrl.isNotEmpty)
+                    //   Center(child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Text("Aún no eres cliente -", style: Theme.of(context).textTheme.bodySmall,),
+                    //       TextButton( child: const Text('Solicita tu cuenta'), onPressed: () async {
+                    //         await launchUrlString(registerUrl);
+                    //       } , ),
+                    //     ],
+                    //   ),)
 
                   ],
                 ),
@@ -234,13 +289,116 @@ class _CourierPageState extends State<CourierPage> {
     );
   }
 
+  var emailForReset = "";
+  var userForReset = "";
+
+  Future<void> _showRememberPassword(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Recordar Contraseña', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),),
+            content: SizedBox(height: 120,width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                children: [
+                  if(userForReset.isEmpty)
+                    TextField(
+                      keyboardType: TextInputType.text,
+                      autofocus: userForReset.isEmpty,
+                      autocorrect: false,
+                      onChanged: (value) {
+                        setState( () {
+                          userForReset = value;
+                        });
+                      },
+                      //controller: _textFieldController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(2),
+                        hintText: 'Código de cliente',
+                        hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                            borderRadius: BorderRadius.circular(30)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderRadius: BorderRadius.circular(30)),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderRadius: BorderRadius.circular(30)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                            borderRadius: BorderRadius.circular(30)),
+                        prefixIcon: const Icon(Icons.person),
+                        prefixIconColor: Theme.of(context).primaryColorDark,
+                      ),
+                    ),
+                  if(userForReset.isNotEmpty)
+                    Text(userForReset,textAlign: TextAlign.start,  style: Theme.of(context).textTheme.titleMedium,),
+                  const SizedBox(height: 20,),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    autofocus: userForReset.isNotEmpty,
+                    autocorrect: false,
+                    onChanged: (value) {
+                      setState( () {
+                        emailForReset = value;
+                      });
+                    },
+                    //controller: _textFieldController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(2),
+                      hintText: 'Correo electrónico',
+                      hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                          borderRadius: BorderRadius.circular(30)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).errorColor),
+                          borderRadius: BorderRadius.circular(30)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).errorColor),
+                          borderRadius: BorderRadius.circular(30)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                          borderRadius: BorderRadius.circular(30)),
+                      prefixIcon: const Icon(Icons.mail_outline),
+                      prefixIconColor: Theme.of(context).primaryColorDark,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  userForReset = "";
+                  emailForReset = "";
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: const Text('Aceptar'),
+                onPressed: () {
+                    if(userForReset.isEmpty || emailForReset.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Debe especificar su cuenta y correco electrónico registrado.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),), backgroundColor: Theme.of(context).errorColor, ));
+                      return;
+                    }
+                    Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   onSubmitLogin() async {
     if (_formKey.currentState!.saveAndValidate()) {
       setState(() {
         isBusy = true;
       });
 
-      userName = _formKey.currentState!.fields['user']!.value.toString();
+      userName = _formKey.currentState!.fields['user']!.value.toString().toUpperCase();
       password = _formKey.currentState!.fields['password']!.value.toString();
 
       var loginResult =
@@ -257,11 +415,14 @@ class _CourierPageState extends State<CourierPage> {
               "Cuenta de usuario ó clave incorrecta. Favor revisar."),
         ));
       } else if (!loginResult.shouldAskToStore) {
+        GetIt.I<CourierService>().clearCourierDataCache();
         courierBloc.add(UserDidLoginEvent(userName));
       } else {
         // We have a session and is a new additional user account
 
-        var dlgResult = await showDialog<bool>(
+      _formKey.currentState!.reset();
+
+      var dlgResult = await showDialog<bool>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             title: Text('Confirme',

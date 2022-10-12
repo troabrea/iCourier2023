@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../services/courierService.dart';
 import '../../services/app_events.dart';
 import '../../services/model/banner.dart';
+import '../../services/model/empresa.dart';
 import '../../services/model/noticia.dart';
 import 'package:event/event.dart' as event;
 
@@ -22,9 +23,10 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
     on<LoadApiEvent>((event, emit) async {
       try {
         emit(NoticiasLoadingState());
+        final empresa = await _courierService.getEmpresa();
         final noticias = await _courierService.getNoticias(event.ignoreCache);
-        final banners = await _courierService.getBanners(hideIfLogged: true, ignoreCache: event.ignoreCache);
-        emit(NoticiasLoadedState(noticias, banners));
+        final banners = await _courierService.getBanners(hideIfLogged: false, ignoreCache: event.ignoreCache);
+        emit(NoticiasLoadedState(noticias, banners, empresa));
       } on Exception catch (e) {
         emit(NoticiasErrorState());
       }

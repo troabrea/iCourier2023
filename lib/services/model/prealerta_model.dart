@@ -51,3 +51,46 @@ public class NotificarRetiroModel
         public List<String> Paquetes { get; set; }
     }
  */
+
+class PreAlertaDto {
+  String transportistaId;
+  String enviaNombre;
+  String tracking;
+  String contenido;
+  String facturaUrl;
+  String fechaEntrega;
+  String comentario;
+  String facturaTexto;
+  String agregadoPor;
+  String agregadoEn;
+  double fob;
+
+  PreAlertaDto({
+    required this.transportistaId,
+    required this.enviaNombre,
+    required this.tracking,
+    required this.contenido,
+    required this.facturaUrl,
+    required this.fechaEntrega,
+    required this.comentario,
+    required this.facturaTexto,
+    required this.agregadoPor,
+    required this.agregadoEn,
+    required this.fob
+  });
+
+  factory PreAlertaDto.fromJson(Map<String, dynamic> json) => PreAlertaDto(
+    transportistaId: json["transportistaID"] ?? "",
+    enviaNombre: json["enviaNombre"] ?? "",
+    tracking: json["tracking"] ?? "",
+    contenido: json["contenido"] ?? "",
+    facturaUrl: json["facturaUrl"] ?? "",
+    fechaEntrega: json["fechaEntrega"] ?? "",
+    comentario: json["comentario"] ?? "",
+    facturaTexto: json["facturaTexto"] ?? "",
+    agregadoPor: json["agregadoPor"] ?? "",
+    agregadoEn: json["agregadoEn"] ?? "",
+    fob: json["fob"] ?? 0
+  );
+
+}

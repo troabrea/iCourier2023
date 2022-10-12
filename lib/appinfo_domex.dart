@@ -5,12 +5,19 @@ import 'package:flutter/src/material/theme_data.dart';
 import 'appinfo.dart';
 
 class DomexAppInfo implements AppInfo {
+
+  @override
+  int defaultTab = 0;
+
   @override
   String get brandLogoImage => "images/domex/brand_logo.png";
 
   @override
   String get centerIconImage => "images/domex/icon.png";
-
+  @override
+  double get centerIconSize => 35;
+  @override
+  double get centerInactiveIconSize => 25;
   @override
   String get androidAnalyticsAppId => "65b95f03-1311-4e28-8bf5-59dd28d6c125";
 
@@ -71,6 +78,12 @@ class DomexAppInfo implements AppInfo {
             fontSize: 12,
             color: Colors.black,
           ),
+          headlineMedium: TextStyle(
+            fontFamily: 'Myriad',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: secondaryColor,
+          ),
           headlineLarge: TextStyle(
             fontFamily: 'Myriad',
             fontSize: 26,
@@ -112,7 +125,7 @@ class DomexAppInfo implements AppInfo {
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
         useMaterial3: true,
       )
-      .copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
+      .copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.symmetric(vertical: 6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)) , backgroundColor: secondaryColor, foregroundColor: primaryColor ) ) )
       .copyWith(textTheme:  getLightTextTheme())
       //.copyWith(dialogTheme: getLightDialogTheme())
       .copyWith(textButtonTheme: getLightTextButtonTheme())
@@ -173,7 +186,12 @@ class DomexAppInfo implements AppInfo {
           fontSize: 12,
           color: Colors.white,
         ),
-
+        headlineMedium: TextStyle(
+          fontFamily: 'Myriad',
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
         headlineLarge: TextStyle(
           fontFamily: 'Myriad',
           fontSize: 26,
@@ -204,6 +222,7 @@ class DomexAppInfo implements AppInfo {
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
     )
+    .copyWith(errorColor: Colors.red)
     //.copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
     //.copyWith(dialogTheme: getDarkDialogTheme())
     .copyWith(textTheme:  getDarkTextTheme());

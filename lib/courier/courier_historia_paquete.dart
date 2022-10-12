@@ -30,7 +30,9 @@ class HistoricoPaquetePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Historial de Paquete"),),
+        appBar: AppBar(title: const Text("Historial de Paquete"),
+          leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+        ),
         body: SafeArea(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
@@ -46,27 +48,25 @@ class HistoricoPaquetePage extends StatelessWidget {
                     ],  lineColor: Theme.of(context).primaryColorDark, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: recepcion.progresoActual()-1,),
                     const SizedBox(height: 10,),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: AnotherStepper(
-                          titleTextStyle: Theme.of(context).textTheme.titleMedium!,
-                        subtitleTextStyle: Theme.of(context).textTheme.bodySmall!,
-                        stepperList: stepperData,
-                        stepperDirection: Axis.vertical,
-                        horizontalStepperHeight: 70,
-                          dotWidget: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(Radius.circular(30))),
-                            child: const Icon(Icons.check, color: Colors.white, size: 12,),
-                          ),
-                        gap: 25,
-                        activeBarColor: Colors.green,
-                        inActiveBarColor: Colors.grey,
-                        activeIndex: 0,
-                        barThickness: 3,
+                      child: AnotherStepper(
+                        titleTextStyle: Theme.of(context).textTheme.titleMedium!,
+                      subtitleTextStyle: Theme.of(context).textTheme.bodySmall!,
+                      stepperList: stepperData,
+                      stepperDirection: Axis.vertical,
+                      horizontalStepperHeight: 70,
+                        dotWidget: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.all(Radius.circular(30))),
+                          child: const Icon(Icons.check, color: Colors.white, size: 12,),
+                        ),
+                      gap: 25,
+                      activeBarColor: Colors.green,
+                      inActiveBarColor: Colors.grey,
+                      activeIndex: 0,
+                      barThickness: 3,
     ),
-                      ),
                     ),
                   ],
                 ))));

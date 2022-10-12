@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import '../../appinfo.dart';
 import '../../services/model/login_model.dart';
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:event/event.dart' as event;
@@ -42,7 +44,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
 
     on<TryLoginEvent>((event,emit) async {
         emit(CourierIsBusyState());
-        var empresa = (await courierService.getEmpresa());
+        var empresa = (await courierService.getEmpresa(ignoreCache: true));
         var loginResult = await courierService.getLoginResult(event.usuario, event.clave);
         if(loginResult.sessionId.isNotEmpty) {
           loginChanged.broadcast(LoginChanged(true, event.usuario));
@@ -53,11 +55,24 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
     });
 
     on<UserDidLoginEvent>((event,emit) async {
+      final appInfo = GetIt.I<AppInfo>();
+      final pushUserTopic = appInfo.pushChannelTopic + "_" + event.usuario;
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      messaging.subscribeToTopic(pushUserTopic);
+
+      //
       loginChanged.broadcast(LoginChanged(true, event.usuario));
       emit(CourierIsLoggedState());
     });
 
     on<LogoutEvent>( (event,emit) async {
+      //
+      final cuenta = (await cache.load('userAccount','')).toString();
+      final appInfo = GetIt.I<AppInfo>();
+      final pushUserTopic = appInfo.pushChannelTopic + "_" + cuenta;
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      messaging.unsubscribeFromTopic(pushUserTopic);
+      //
       emit(CourierIsBusyState());
       var empresa = (await courierService.getEmpresa());
       await courierService.saveLoggedOutState();

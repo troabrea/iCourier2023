@@ -7,6 +7,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iCourier/courier/courier_prealertas_realizadas.dart';
+import 'package:iCourier/helpers/social_media_links.dart';
+import 'package:iCourier/services/courierService.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:navbar_router/navbar_router.dart';
@@ -30,10 +33,9 @@ class CourierDashboard extends StatefulWidget {
 }
 
 class _CourierDashboardState extends State<CourierDashboard> {
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
   final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
 
-  final showDisponiblesActionDrawer = false;
   final showDisponiblesPopupMenu = true;
 
   DashboardBloc dashboardBloc = DashboardBloc(DashboardLoadingState());
@@ -44,301 +46,304 @@ class _CourierDashboardState extends State<CourierDashboard> {
     });
   }
 
-  DashboardBloc getDashboardBloc()
-  {
-    if(dashboardBloc.isClosed) {
+  DashboardBloc getDashboardBloc() {
+    if (dashboardBloc.isClosed) {
       dashboardBloc = DashboardBloc(DashboardLoadingState());
     }
     return dashboardBloc;
   }
 
   @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    GetIt.I<event.Event<UserPrealertaRequested>>().subscribe((args) {
+      showPreAlertaSheet(context);
+    });
     return BlocProvider(
       create: (context) => getDashboardBloc()..add(const LoadApiEvent(false)),
       child: SafeArea(
         child: BlocListener<DashboardBloc, DashboardState>(
-  listener: (context, state) {
-    if(state is DashboardFinishedState) {
-      if(!state.withErrors) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Retiro de paquetes notificiado con éxito.')));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage), backgroundColor: Theme.of(context).errorColor,));
-      }
-    }
-  },
-  child: Container(
-            margin: const EdgeInsets.only(bottom: 65),
-            child: BlocBuilder<DashboardBloc, DashboardState>(
-                builder: (context, state) {
-              if (state is DashboardLoadingState) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+          listener: (context, state) {
+            if (state is DashboardFinishedState) {
+              if (!state.withErrors) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content:
+                        Text('Retiro de paquetes notificiado con éxito.')));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Theme.of(context).errorColor,
+                ));
               }
-              if (state is DashboardLoadedState) {
-                return SingleChildScrollView(
-                  controller: controller,
-                  child: Column(
-                    children: [
-                      buildSlideShow(context, state.banners),
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            if(state.disponiblesCount > 0)
-                            InkWell(
-                                onTap: () {
-                                  Navigator.of(context,
-                                          rootNavigator: false)
-                                      .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              DisponiblesPage(
-                                                empresa: state.empresa,
-                                                disponibles: state
-                                                    .recepciones
-                                                    .where((e) =>
-                                                        e.disponible ==
-                                                        true)
-                                                    .toList(),
-                                                montoTotal:
-                                                    state.montoTotal,
-                                              )));
-                                },
-                                child: SummaryBox(
-                                    icon: (showDisponiblesPopupMenu && (state.empresa.hasDelivery || state.empresa.hasNotifyModule || state.empresa.hasPaymentsModule)) ? PopupMenuButton<String>(itemBuilder: (context) {
-                                          return [
-                                            if(state.empresa.hasNotifyModule)
-                                              const PopupMenuItem(value: 'retirar', child: ListTile(title:Text('Notificar Retiro'), leading: Icon(Icons.meeting_room_outlined),)),
-                                            if(state.empresa.hasPaymentsModule)
-                                              PopupMenuItem(value: 'pagar', child: ListTile(title:Text('Pagar : ' + formatCurrency.format(state.montoTotal)), leading: const Icon(Icons.credit_card_off_outlined),)),
-                                            if(state.empresa.hasDelivery)
-                                              const PopupMenuDivider(),
-                                            if(state.empresa.hasDelivery)
-                                              const PopupMenuItem(value: 'domicilio', child: ListTile(title: Text('Solicitar Domicilio'), leading: Icon(Icons.delivery_dining_outlined),))];
-                                    }, icon: const Icon(Icons.more_vert_sharp), onSelected: (String value) {
-                                      if(value == 'retirar') BlocProvider.of<DashboardBloc>(context).add(NotificarRetiroEvent(context));
-                                      if(value == 'pagar') BlocProvider.of<DashboardBloc>(context).add(OnlinePaymentRequestEvent(context));
-                                    }, ) : const Icon(
-                                      IconData(0xe804,
-                                          fontFamily: 'iCourier'),
-                                      size: 30,
-                                    ),
-                                    title: "Disponibles",
-                                    count: state.disponiblesCount)),
-                            if(showDisponiblesActionDrawer && state.disponiblesCount > 0 && (state.empresa.hasNotifyModule || state.empresa.hasPaymentsModule))
-                              Transform.translate( offset: const Offset(0,-1),
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                                  padding: const EdgeInsets.all(0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Theme.of(context).primaryColorDark),
-                                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      if(state.empresa.hasNotifyModule)
-                                        ElevatedButton.icon(onPressed: () {BlocProvider.of<DashboardBloc>(context).add(NotificarRetiroEvent(context));}, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),backgroundColor: Theme.of(context).appBarTheme.foregroundColor, foregroundColor: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(250)), icon: const Icon(Icons.meeting_room_outlined), label: const Text("Retirar")),
-                                      const SizedBox(width: 5),
-                                      if(state.empresa.hasPaymentsModule)
-                                        ElevatedButton.icon(onPressed: () { BlocProvider.of<DashboardBloc>(context).add(OnlinePaymentRequestEvent(context)); }, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),backgroundColor: Theme.of(context).appBarTheme.foregroundColor, foregroundColor: Theme.of(context).appBarTheme.backgroundColor!.withAlpha(250)), icon: const Icon(Icons.payment), label: Text(formatCurrency.format(state.montoTotal))),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            if(state.recepcionesCount > 0)
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            if(state.recepcionesCount > 0)
-                            InkWell(
-                                onTap: () {
-                                  Navigator.of(context,
-                                          rootNavigator: false)
-                                      .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              RecepcionesPage(
-                                                  recepciones:
-                                                      state.recepciones)));
-                                },
-                                child: SummaryBox(
-                                    icon: const Icon(
-                                      IconData(0xe812,
-                                          fontFamily: 'iCourier'),
-                                      size: 30,
-                                    ),
-                                    title: "Recepciones",
-                                    count: state.recepcionesCount)),
-                            if(state.recepcionesCount > 0)
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            if(state.retenidosCount > 0)
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context, rootNavigator: false)
-                                    .push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        RecepcionesPage(
-                                            isRetenio: true,
-                                            titulo: "Sin Factura",
-                                            recepciones: state
-                                                .recepciones
-                                                .where((element) =>
-                                            element.retenido ==
-                                                true)
-                                                .toList())));
-                              },
-                              child: SummaryBox(
-                                  icon: const Icon(
-                                    IconData(0xe817,
-                                        fontFamily: 'iCourier'),
-                                    size: 30,
-                                  ),
-                                  title: "Sin Factura",
-                                  count: state.retenidosCount),
-                            ),
-                            if(state.recepcionesCount == 0)
-                              SizedBox(height: 180,width: 180,
-                                child: EmptyWidget(
-                                  hideBackgroundAnimation: true,
-                                  title: "No tiene paquetes!",
-                                ),
-                              ),
-                            // InkWell(
-                            //   onTap: () {
-                            //
-                            //   },
-                            //   child: SummaryBox(
-                            //       icon:  ElevatedButton(onPressed: () async {
-                            //         await showPreAlertaSheet(context);
-                            //       }, child: const Icon(Icons.add, size: 30,)
-                            //       , style: ElevatedButton.styleFrom(
-                            //             alignment: Alignment.topCenter,
-                            //             padding: const EdgeInsets.all(5),
-                            //             shape: RoundedRectangleBorder(
-                            //                 borderRadius:
-                            //                 BorderRadius.circular(6)),
-                            //             primary: Theme.of(context)
-                            //                 .appBarTheme
-                            //                 .foregroundColor,
-                            //             onPrimary: Theme.of(context)
-                            //                 .appBarTheme
-                            //                 .backgroundColor)),
-                            //       title: "Pre-Alertas",
-                            //       count: 0),
-                            // ),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton.icon(
-                                      icon: const Icon(
-                                        IconData(0xe817,
-                                            fontFamily: 'iCourier'),
-                                        size: 35,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          alignment: Alignment.topCenter,
-                                          padding:
-                                          const EdgeInsets.symmetric(vertical: 10),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  6)),
-                                          primary: Theme.of(context)
-                                              .appBarTheme
-                                              .foregroundColor,
-                                          onPrimary: Theme.of(context)
-                                              .appBarTheme
-                                              .backgroundColor),
-                                      onPressed: () {
-                                        showPreAlertaSheet(context);
-                                      },
-                                      label: const Text(
-                                          "Realizar Pre-Alerta")),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 40),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: ElevatedButton.icon(
-                                        icon: const Icon(
-                                          IconData(0xe811,
-                                              fontFamily: 'iCourier'),
-                                          size: 35,
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          alignment: Alignment.topCenter,
-                                            padding:
-                                                const EdgeInsets.all(5),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        6)),
-                                            primary: Theme.of(context)
-                                                .appBarTheme
-                                                .foregroundColor?.withOpacity(0.6),
-                                            onPrimary: Theme.of(context)
-                                                .appBarTheme
-                                                .backgroundColor),
-                                        onPressed: () {
-                                          showTrackingSheet(context);
-                                        },
-                                        label: const Text(
-                                            "Rastrear\nPaquete"))),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                  child: ElevatedButton.icon(
-                                      icon: const Icon(
-                                        IconData(0xe802,
-                                            fontFamily: 'iCourier'),
-                                        size: 35,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        alignment: Alignment.topCenter,
-                                          padding: const EdgeInsets.all(5),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6)),
-                                          primary: Theme.of(context)
-                                              .appBarTheme
-                                              .foregroundColor?.withOpacity(0.6),
-                                          onPrimary: Theme.of(context)
-                                              .appBarTheme
-                                              .backgroundColor),
-                                      onPressed: () {
+            }
+          },
+          child: Container(
+              margin: const EdgeInsets.only(bottom: 65),
+              child: BlocBuilder<DashboardBloc, DashboardState>(
+                  builder: (context, state) {
+                if (state is DashboardLoadingState) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is DashboardLoadedState) {
+                  return SingleChildScrollView(
+                    controller: controller,
+                    child: Column(
+                      children: [
+                        buildSlideShow(context, state.banners),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              if (state.disponiblesCount > 0)
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.of(context,
+                                              rootNavigator: false)
+                                          .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DisponiblesPage(
+                                                    empresa: state.empresa,
+                                                    disponibles: state
+                                                        .recepciones
+                                                        .where((e) =>
+                                                            e.disponible ==
+                                                            true)
+                                                        .toList(),
+                                                    montoTotal:
+                                                        state.montoTotal,
+                                                  )));
+                                    },
+                                    child: SummaryBox(
+                                        icon: (showDisponiblesPopupMenu &&
+                                                (state.empresa.hasDelivery ||
+                                                    state.empresa
+                                                        .hasNotifyModule ||
+                                                    state.empresa
+                                                        .hasPaymentsModule))
+                                            ? PopupMenuButton<String>(
+                                                itemBuilder: (context) {
+                                                  return [
+                                                    if (state.empresa
+                                                        .hasNotifyModule)
+                                                      const PopupMenuItem(
+                                                          value: 'retirar',
+                                                          child: ListTile(
+                                                            title: Text(
+                                                                'Notificar Retiro'),
+                                                            leading: Icon(Icons
+                                                                .meeting_room_outlined),
+                                                          )),
+                                                    if (state.empresa
+                                                        .hasPaymentsModule)
+                                                      PopupMenuItem(
+                                                          value: 'pagar',
+                                                          child: ListTile(
+                                                            title: Text('Pagar : ' +
+                                                                formatCurrency
+                                                                    .format(state
+                                                                        .montoTotal)),
+                                                            leading: const Icon(
+                                                                Icons
+                                                                    .credit_card_off_outlined),
+                                                          )),
+                                                    if (state
+                                                        .empresa.hasDelivery)
+                                                      const PopupMenuDivider(),
+                                                    if (state
+                                                        .empresa.hasDelivery)
+                                                      const PopupMenuItem(
+                                                          value: 'domicilio',
+                                                          child: ListTile(
+                                                            title: Text(
+                                                                'Solicitar Domicilio'),
+                                                            leading: Icon(Icons
+                                                                .delivery_dining_outlined),
+                                                          ))
+                                                  ];
+                                                },
+                                                icon: const Icon(
+                                                    Icons.more_vert_sharp),
+                                                onSelected: (String value) {
+                                                  if (value == 'retirar') {
+                                                    BlocProvider.of<
+                                                                DashboardBloc>(
+                                                            context)
+                                                        .add(
+                                                            NotificarRetiroEvent(
+                                                                context));
+                                                  }
+                                                  if (value == 'pagar') {
+                                                    BlocProvider.of<
+                                                                DashboardBloc>(
+                                                            context)
+                                                        .add(
+                                                            OnlinePaymentRequestEvent(
+                                                                context));
+                                                  }
+                                                },
+                                              )
+                                            : const Icon(
+                                                IconData(0xe804,
+                                                    fontFamily: 'iCourier'),
+                                                size: 30,
+                                              ),
+                                        title: "Disponibles",
+                                        count: state.disponiblesCount)),
+                              if (state.recepcionesCount > 0)
+                                Container( margin: const EdgeInsets.only(top:10.0, bottom: 10.0),
+                                  child: InkWell(
+                                      onTap: () {
                                         Navigator.of(context,
                                                 rootNavigator: false)
                                             .push(MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const ConsultaHistoricaPage()));
+                                                    RecepcionesPage(
+                                                        recepciones:
+                                                            state.recepciones)));
                                       },
-                                      label:
-                                          const Text("Consulta\nHistórica")),
+                                      child: SummaryBox(
+                                          icon: const Icon(
+                                            IconData(0xe812,
+                                                fontFamily: 'iCourier'),
+                                            size: 30,
+                                          ),
+                                          title: "Recepciones",
+                                          count: state.recepcionesCount)),
                                 ),
-                              ],
-                            ),
-                          ],
+                              if (state.retenidosCount > 0)
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context, rootNavigator: false)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                RecepcionesPage(
+                                                    isRetenio: true,
+                                                    titulo: "Sin Factura",
+                                                    recepciones: state
+                                                        .recepciones
+                                                        .where((element) =>
+                                                            element.retenido ==
+                                                            true)
+                                                        .toList())));
+                                  },
+                                  child: SummaryBox(
+                                      icon: const Icon(
+                                        IconData(0xe817,
+                                            fontFamily: 'iCourier'),
+                                        size: 30,
+                                      ),
+                                      title: "Sin Factura",
+                                      count: state.retenidosCount),
+                                ),
+                              if (state.recepcionesCount == 0)
+                                SizedBox(
+                                  height: 180,
+                                  width: 180,
+                                  child: EmptyWidget(
+                                    hideBackgroundAnimation: true,
+                                    title: "No tiene paquetes!",
+                                  ),
+                                ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                        icon: const Icon(
+                                          IconData(0xe817,
+                                              fontFamily: 'iCourier'),
+                                          size: 35,
+                                        ),
+                                        onPressed: () {
+                                          showPreAlertaSheet(context);
+                                        },
+                                        label:
+                                            const Text("Realizar\nPre-Alerta")),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                        icon: const Icon(
+                                          IconData(0xe802,
+                                              fontFamily: 'iCourier'),
+                                          size: 35,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                              rootNavigator: false)
+                                              .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                              const PrealertasRealizadas()));
+                                        },
+                                        label:
+                                        const Text("Consultar\nPre-Alertas")),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 40),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: ElevatedButton.icon(
+                                          icon: const Icon(
+                                            IconData(0xe811,
+                                                fontFamily: 'iCourier'),
+                                            size: 35,
+                                          ),
+                                          onPressed: () {
+                                            showTrackingSheet(context);
+                                          },
+                                          label:
+                                              const Text("Rastrear\nPaquete"))),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                        icon: const Icon(
+                                          IconData(0xe802,
+                                              fontFamily: 'iCourier'),
+                                          size: 35,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: false)
+                                              .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ConsultaHistoricaPage()));
+                                        },
+                                        label:
+                                            const Text("Consulta\nHistórica")),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                );
-              }
-              return Container();
-            })),
-),
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              })),
+        ),
       ),
     );
   }
@@ -346,13 +351,16 @@ class _CourierDashboardState extends State<CourierDashboard> {
   Future<void> showPreAlertaSheet(BuildContext context) async {
     //NavbarNotifier.hideBottomNavBar = true;
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
-    await showModalBottomSheet(context: context,
+    await showModalBottomSheet(
+      context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       isDismissible: true,
       builder: (context) {
-      return CrearPreAlertaPage();
-    }, );
+        return CrearPreAlertaPage();
+      },
+    );
 
     //NavbarNotifier.hideBottomNavBar = false;
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
@@ -389,7 +397,7 @@ Widget buildSlideShow(BuildContext context, List<BannerImage> banners) {
 
 Future<void> showTrackingSheet(BuildContext context) async {
   final _formKey = GlobalKey<FormBuilderState>();
-  var trackingNumber = await cache.load('lasttrackednumber','');
+  var trackingNumber = await cache.load('lasttrackednumber', '');
 
   Future<void> doShowTracking(String carrier) async {
     if (_formKey.currentState!.validate()) {
@@ -424,6 +432,7 @@ Future<void> showTrackingSheet(BuildContext context) async {
       }
     }
   }
+
   //NavbarNotifier.hideBottomNavBar = true;
   GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
   await showModalBottomSheet(
@@ -576,6 +585,7 @@ class SummaryBox extends StatelessWidget {
   final Widget icon;
   final String title;
   final int count;
+
   const SummaryBox(
       {Key? key, required this.icon, required this.title, required this.count})
       : super(key: key);
@@ -597,13 +607,18 @@ class SummaryBox extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleMedium,
           ))),
-          if(count > 0)
-          Transform.scale(scale: 0.8,
-            child: CircleAvatar(backgroundColor:Theme.of(context).appBarTheme.backgroundColor!.withOpacity(0.9),foregroundColor: Theme.of(context).appBarTheme.foregroundColor!,
-            child: Text(
-              count.toString())
-            ),
-          )
+          if (count > 0)
+            Transform.scale(
+              scale: 0.8,
+              child: CircleAvatar(
+                  backgroundColor: Theme.of(context)
+                      .appBarTheme
+                      .backgroundColor!
+                      .withOpacity(0.9),
+                  foregroundColor:
+                      Theme.of(context).appBarTheme.foregroundColor!,
+                  child: Text(count.toString())),
+            )
         ],
       ),
     );
