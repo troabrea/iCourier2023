@@ -85,8 +85,8 @@ android {
         release {
             // Uncomment appropiate signingConfig
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.legacy
-            //signingConfig signingConfigs.release
+            //signingConfig signingConfigs.legacy
+            signingConfig signingConfigs.release
         }
     }
 }

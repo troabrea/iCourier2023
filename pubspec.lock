@@ -18,9 +18,11 @@ packages:
   app_center_bundle_sdk:
     dependency: "direct main"
     description:
-      name: app_center_bundle_sdk
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "537d031583efce794c8acfbb18da2f89d0ae912e"
+      url: "https://github.com/troabrea/app_center_bundle_sdk.git"
+    source: git
     version: "0.0.2"
   archive:
     dependency: transitive

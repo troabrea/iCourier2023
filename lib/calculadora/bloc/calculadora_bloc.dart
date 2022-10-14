@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 import 'package:uuid/uuid.dart';
+import '../../services/app_events.dart';
 import '../../services/courierService.dart';
 import '../../services/model/calculadora_model.dart';
 import 'package:collection/collection.dart';
-
+import 'package:event/event.dart' as event;
 import '../../services/model/producto.dart';
 
 part 'calculadora_event.dart';
@@ -15,6 +17,11 @@ class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
   // final ConnectivityService _connectivityService;
 
   CalculadoraBloc(this._courierService) : super(CalculadoraLoadingState()) {
+
+    GetIt.I<event.Event<LoginChanged>>().subscribe((args)  {
+      add(CalculatorPrepareEvent());
+    });
+
 
     on<CalculatorPrepareEvent>((event,emit) async {
       emit(CalculadoraLoadingState());

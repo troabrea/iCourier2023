@@ -25,3 +25,6 @@ class NoInternetEvent extends CalculadoraEvent {
   // TODO: implement props
   List<Object?> get props => [];
 }
+
+
+

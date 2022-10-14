@@ -23,7 +23,7 @@ class CalculadoraRequest {
 
   Map<String, dynamic> toJson() => {
     "empresaId": empresaId,
-    "sesionId" : sessionId,
+    "sessionId" : sessionId,
     "producto": producto,
     "libras": libras,
     "valorFob": valorFob

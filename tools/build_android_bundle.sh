@@ -1,1 +1,1 @@
-flutter build appbundle -t lib/main_domex.dart --flavor domex
+flutter build appbundle -t lib/main_caribepack.dart --flavor caribepack

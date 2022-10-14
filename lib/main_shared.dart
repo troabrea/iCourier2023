@@ -1,3 +1,7 @@
+
+import 'dart:io';
+
+import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +16,7 @@ import '../../services/courierService.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'appinfo_domex.dart';
-import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
+
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'main_app_shell.dart';
@@ -96,15 +100,18 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  AppCenter.startAsync(
-      appSecretAndroid: appInfo.androidAnalyticsAppId, appSecretIOS: appInfo.iphoneAnalyticsAppId, enableAnalytics: true, enableCrashes: true, enableDistribute: false);
+  //final secret = Platform.isAndroid ? appInfo.androidAnalyticsAppId : appInfo.iphoneAnalyticsAppId;
 
+  AppCenter.startAsync( appSecretIOS: appInfo.iphoneAnalyticsAppId, appSecretAndroid: _appInfo.androidAnalyticsAppId, enableCrashes: true, enableAnalytics: true,  );
   AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_INICIO_SESION");
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
+
+
   final AppInfo appInfo = GetIt.I<AppInfo>();
   MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.

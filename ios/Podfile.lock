@@ -1,7 +1,6 @@
 PODS:
   - app_center_bundle_sdk (0.0.2):
     - AppCenter
-    - AppCenter/Distribute
     - Flutter
   - AppCenter (4.4.3):
     - AppCenter/Analytics (= 4.4.3)
@@ -10,8 +9,6 @@ PODS:
     - AppCenter/Core
   - AppCenter/Core (4.4.3)
   - AppCenter/Crashes (4.4.3):
-    - AppCenter/Core
-  - AppCenter/Distribute (4.4.3):
     - AppCenter/Core
   - connectivity_plus (0.0.1):
     - Flutter
@@ -107,10 +104,10 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMaps (4.2.0):
-    - GoogleMaps/Maps (= 4.2.0)
-  - GoogleMaps/Base (4.2.0)
-  - GoogleMaps/Maps (4.2.0):
+  - GoogleMaps (5.2.0):
+    - GoogleMaps/Maps (= 5.2.0)
+  - GoogleMaps/Base (5.2.0)
+  - GoogleMaps/Maps (5.2.0):
     - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (7.8.0):
     - GoogleUtilities/Environment
@@ -150,9 +147,9 @@ PODS:
   - quick_actions_ios (0.0.1):
     - Flutter
   - ReachabilitySwift (5.0.0)
-  - SDWebImage (5.13.2):
-    - SDWebImage/Core (= 5.13.2)
-  - SDWebImage/Core (5.13.2)
+  - SDWebImage (5.13.3):
+    - SDWebImage/Core (= 5.13.3)
+  - SDWebImage/Core (5.13.3)
   - shared_preferences_ios (0.0.1):
     - Flutter
   - sqflite (0.0.2):
@@ -256,7 +253,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  app_center_bundle_sdk: 8a102d23846effc4c5419597b470d1c17f62b9b8
+  app_center_bundle_sdk: 9d10e1c0e5ea4a048c8e184d4f38c6e490fa5313
   AppCenter: 3fd04aa1b166e16fdb03ec81dabe488aece83fbd
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
@@ -278,7 +275,7 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_maps_flutter_ios: 66201f392bf62d500f07670a30488a247b9bb5b9
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
-  GoogleMaps: eb03e327edfd70b06de1e6e321653f73712df7ad
+  GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
@@ -290,7 +287,7 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   quick_actions_ios: 5ec8f5f1ae81512ac803fe10c197ebb875767a9e
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  SDWebImage: 72f86271a6f3139cc7e4a89220946489d4b9a866
+  SDWebImage: af5bbffef2cde09f148d826f9733dcde1a9414cd
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
