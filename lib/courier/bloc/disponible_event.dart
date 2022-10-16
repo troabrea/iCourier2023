@@ -8,7 +8,7 @@ class DisponibleNotificarRetiroEvent extends DisponibleEvent {
   final BuildContext context;
   DisponibleNotificarRetiroEvent(this.context);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [context];
 
 }
@@ -17,7 +17,7 @@ class DisponiblePagoEnLineaEvent extends DisponibleEvent {
   final BuildContext context;
   DisponiblePagoEnLineaEvent(this.context);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [context];
 
 }

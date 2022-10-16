@@ -6,7 +6,7 @@ abstract class CourierEvent extends Equatable {
 
 class CheckLoggedEvent extends CourierEvent {
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }
 
@@ -15,7 +15,7 @@ class TryLoginEvent extends CourierEvent {
   late String clave;
   TryLoginEvent(this.usuario, this.clave);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }
 
@@ -24,13 +24,13 @@ class UserDidLoginEvent extends CourierEvent {
   bool forceRefresh;
   UserDidLoginEvent(this.usuario, {this.forceRefresh = false});
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [usuario];
 }
 
 class LogoutEvent extends CourierEvent {
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }
 

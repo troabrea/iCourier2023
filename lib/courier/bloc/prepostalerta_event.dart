@@ -9,7 +9,7 @@ class SendPreAlertaEvent extends PrePostAlertaEvent {
   final XFile file;
   const SendPreAlertaEvent(this.file, this.preAlerta);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [file];
 }
 
@@ -18,7 +18,7 @@ class SendPostAlertaEvent extends PrePostAlertaEvent {
   final XFile file;
   const SendPostAlertaEvent(this.file, this.postAlerta);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [file];
 }
 

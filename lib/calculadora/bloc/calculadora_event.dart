@@ -6,7 +6,6 @@ abstract class CalculadoraEvent extends Equatable {
 
 class CalculatorPrepareEvent extends CalculadoraEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -16,13 +15,12 @@ class CalculateEvent extends CalculadoraEvent {
   final String codigoProducto;
   CalculateEvent(this.libras, this.valor, this.codigoProducto);
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class NoInternetEvent extends CalculadoraEvent {
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }
 

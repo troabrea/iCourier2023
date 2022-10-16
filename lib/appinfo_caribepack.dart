@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/material/theme_data.dart';
 
 import 'appinfo.dart';
@@ -14,19 +15,15 @@ class CaribepackAppInfo implements AppInfo {
   String get androidAnalyticsAppId => "2202ed81-0fbb-4bcf-b051-4cf1bc9644ff";
 
   @override
-  // TODO: implement brandLogoImage
   String get brandLogoImage => "images/caribepack/brand_logo.png";
 
   @override
-  // TODO: implement centerIconImage
   String get centerIconImage => "images/caribepack/icon.png";
 
   @override
-  // TODO: implement centerIconSize
   double get centerIconSize => 80;
 
   @override
-  // TODO: implement centerInactiveIconSize
   double get centerInactiveIconSize => 35;
 
   @override
@@ -51,7 +48,7 @@ class CaribepackAppInfo implements AppInfo {
           actionsIconTheme: const IconThemeData(color: Colors.white),
           titleTextStyle: const TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22),
           backgroundColor: primaryColor.darken(10),
-          foregroundColor: Colors.white
+          foregroundColor: Colors.white,
       );
     }
     getDarkAppBarTheme2() {

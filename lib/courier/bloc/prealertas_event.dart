@@ -6,6 +6,6 @@ abstract class PrealertasEvent extends Equatable {
 
 class LoadPreAlertasEvent extends PrealertasEvent {
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }

@@ -8,12 +8,12 @@ class LoadApiEvent extends ServiciosEvent {
   bool ignoreCache;
   LoadApiEvent({this.ignoreCache = false});
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }
 
 class NoInternetEvent extends ServiciosEvent {
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [];
 }

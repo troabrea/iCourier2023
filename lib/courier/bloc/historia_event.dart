@@ -9,6 +9,6 @@ class LoadApiEvent extends HistoriaEvent {
   final DateTime hasta;
   const LoadApiEvent(this.desde,this.hasta);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [desde, hasta];
 }

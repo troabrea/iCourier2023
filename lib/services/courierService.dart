@@ -220,8 +220,12 @@ class CourierService {
         valorFob: valor);
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
-    final result = calculadoraResponseFromJson(response.body);
-    return result;
+    if(response.statusCode >= 200 && response.statusCode < 300) {
+      final result = calculadoraResponseFromJson(response.body);
+      return result;
+    } else {
+      return <CalculadoraResponse>[].toList();
+    }
   }
 
   Future<LoginResult> getLoginResult(String usuario, String clave, {bool checkForNew = true}) async

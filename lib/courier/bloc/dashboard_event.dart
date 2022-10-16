@@ -8,7 +8,7 @@ class LoadApiEvent extends DashboardEvent {
   final bool forceRefresh;
   const LoadApiEvent(this.forceRefresh);
   @override
-  // TODO: implement props
+  // AppCenter.track
   List<Object?> get props => [forceRefresh];
 }
 
