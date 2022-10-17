@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iCourier/courier/courier_prealertas_realizadas.dart';
+import 'courier_prealertas_realizadas.dart';
 import 'package:intl/intl.dart';
 import '../../courier/bloc/dashboard_bloc.dart';
 import '../../courier/courier_consulta_historica.dart';

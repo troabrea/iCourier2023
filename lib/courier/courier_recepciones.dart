@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
-import 'package:iCourier/services/courier_service.dart';
+import '../services/courier_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../courier/paquete_tile.dart';
 import '../services/app_events.dart';

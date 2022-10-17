@@ -19,15 +19,20 @@ class HistoricoPaquetePage extends StatefulWidget {
 class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
   late List<Historia> historia;
   late List<StepperData> stepperData;
-  _HistoricoPaquetePageState() {
-    historia = widget.recepcion.paquetes.first.historia;
-    historia.sort((a,b) => b.dateTime().compareTo(a.dateTime()));
-    stepperData = historia.map((e) => StepperData(title: e.nombreEstatus, subtitle: formatDate.format(e.dateTime()))).toList();
-
+  bool isLoaded = false;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      historia = widget.recepcion.paquetes.first.historia;
+      historia.sort((a,b) => b.dateTime().compareTo(a.dateTime()));
+      stepperData = historia.map((e) => StepperData(title: e.nombreEstatus, subtitle: formatDate.format(e.dateTime()))).toList();
+      isLoaded= true;
+    });
   }
+
   // final List<String> iconosProgreso = <String>['images/recibidomiami.svg','images/embarcado.svg','images/recibido.svg','images/disponible.svg'].toList();
   final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
-
   final List<String> labelsProgreso = <String>['Origen','En ruta','Destino','Disponible'].toList();
 
   final formatDate = DateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -38,8 +43,8 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
         appBar: AppBar(title: const Text("Historial de Paquete"),
           leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
         ),
-        body: SafeArea(
-            child: Container(
+        body:SafeArea(
+            child: !isLoaded ? const CircularProgressIndicator() :  Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
                 child: Column(
                   children: [

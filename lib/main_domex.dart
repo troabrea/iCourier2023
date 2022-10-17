@@ -1,4 +1,4 @@
-import 'package:iCourier/appinfo_domex.dart';
+import 'appinfo_domex.dart';
 
 import 'main_shared.dart';
 

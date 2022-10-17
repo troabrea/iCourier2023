@@ -1,4 +1,4 @@
-import 'package:iCourier/appinfo_caribepack.dart';
+import 'appinfo_caribepack.dart';
 
 import '../main_shared.dart';
 

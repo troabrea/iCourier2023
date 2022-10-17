@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iCourier/helpers/social_media_links.dart';
+import '../helpers/social_media_links.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../noticas/bloc/noticias_bloc.dart';
 import '../../noticas/noticiadetalle.dart';

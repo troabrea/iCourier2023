@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iCourier/helpers/dialogs.dart';
+import '../../helpers/dialogs.dart';
 import '../../services/courier_service.dart';
 import '../../services/model/empresa.dart';
 import '../../services/model/recepcion.dart';

@@ -1,4 +1,4 @@
-import 'package:iCourier/appinfo_bmcargo.dart';
+import 'appinfo_bmcargo.dart';
 
 import '../main_shared.dart';
 

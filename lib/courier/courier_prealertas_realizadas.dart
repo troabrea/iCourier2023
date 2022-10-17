@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iCourier/courier/bloc/prealertas_bloc.dart';
-import 'package:iCourier/services/model/prealerta_model.dart';
+import 'bloc/prealertas_bloc.dart';
+import '../services/model/prealerta_model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
