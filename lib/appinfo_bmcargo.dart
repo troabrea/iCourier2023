@@ -1,6 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/theme_data.dart';
 
 import 'appinfo.dart';
 
@@ -47,9 +46,9 @@ class BmcargoAppInfo implements AppInfo {
           actionsIconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22), backgroundColor: primaryColor,foregroundColor: Colors.white);
     }
-    getLightDialogTheme() {
-      return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20));
-    }
+    // getLightDialogTheme() {
+    //   return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20));
+    // }
     getLightTextButtonTheme() {
       return TextButtonThemeData( style: TextButton.styleFrom(foregroundColor: primaryVariantColor, textStyle: const TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, fontSize: 16)  ) );
     }
@@ -144,7 +143,7 @@ class BmcargoAppInfo implements AppInfo {
   ThemeData getDarkTheme() {
     const primaryColor = Color(0xff006aa0);
     const secondaryColor = Color(0xff42b02b);
-    const primaryVariantColor = Color(0xff005580);
+    // const primaryVariantColor = Color(0xff005580);
     const errorColor = Color(0xffb00020);
     getDarkAppBarTheme() {
       return AppBarTheme(iconTheme: const IconThemeData(color: Colors.white),
@@ -154,16 +153,16 @@ class BmcargoAppInfo implements AppInfo {
           foregroundColor: Colors.white
       );
     }
-    getDarkAppBarTheme2() {
-      return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
-          actionsIconTheme: IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: primaryColor, fontSize: 22),
-          backgroundColor: Colors.black,
-          foregroundColor: primaryColor);
-    }
-    getDarkDialogTheme() {
-      return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20));
-    }
+    // getDarkAppBarTheme2() {
+    //   return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
+    //       actionsIconTheme: IconThemeData(color: Colors.black),
+    //       titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: primaryColor, fontSize: 22),
+    //       backgroundColor: Colors.black,
+    //       foregroundColor: primaryColor);
+    // }
+    // getDarkDialogTheme() {
+    //   return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20));
+    // }
     getDarkTextTheme() {
       return const TextTheme(
         titleLarge: TextStyle(

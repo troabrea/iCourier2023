@@ -1,7 +1,3 @@
-
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class Producto {
   Producto({
     required this.registroId,

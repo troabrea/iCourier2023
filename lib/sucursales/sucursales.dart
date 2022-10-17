@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:math';
 
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -11,18 +9,16 @@ import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:map_launcher/map_launcher.dart' as map_launcher;
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../services/app_events.dart';
 
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import '../../sucursales/bloc/location_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../services/model/sucursal.dart';
 import 'package:event/event.dart' as event;
 import 'bloc/sucursales_bloc.dart';
-import 'sucursalesappbar.dart';
 
 class SucursalesPage extends StatefulWidget {
   const SucursalesPage({Key? key}) : super(key: key);
@@ -40,7 +36,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
   _SucursalesPageState() {
     GetIt.I<event.Event<SucursalesDataRefreshRequested>>().subscribe((args)  {
       if(DateTime.now().difference(lastRefresh).inMinutes >= 5) {
-        sucursalesBloc.add(LoadApiEvent());
+        sucursalesBloc.add(const LoadApiEvent());
         lastRefresh = DateTime.now();
       }
     });
@@ -103,7 +99,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
         },
       ),
       body: BlocProvider(
-        create: (context) => sucursalesBloc..add(LoadApiEvent()),
+        create: (context) => sucursalesBloc..add(const LoadApiEvent()),
         child: BlocBuilder<SucursalesBloc, SucursalesState>(
           builder: (context, state) {
             if (state is SucursalesLoadingState) {
@@ -116,7 +112,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
             if(state is SucursalesErrorState) {
               return SafeArea(child: Center(
                 child: InkWell(onTap: () {
-                  BlocProvider.of<SucursalesBloc>(context).add(LoadApiEvent(ignoreCache: true));
+                  BlocProvider.of<SucursalesBloc>(context).add(const LoadApiEvent(ignoreCache: true));
                 }, child: Center(child: Text("Ha ocurrido un error haga clic para reintentar.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
               ));
             }

@@ -554,7 +554,7 @@ class CourierService {
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
-      String fileName = Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
+      String fileName = const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
 
       // var fileName = Uuid().v1().toString() + ".jpg";
       var azPath = "/icourier/$fileName";
@@ -608,7 +608,7 @@ class CourierService {
       var storage = AzureStorage.parse(
       'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
-      String fileName = Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
+      String fileName = const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
 
       //var fileName = Uuid().v1().toString() + ".jpg";
 
@@ -649,7 +649,7 @@ class CourierService {
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
-      String fileName = Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
+      String fileName = const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
 
       //var fileName = Uuid().v1().toString() + ".jpg";
 

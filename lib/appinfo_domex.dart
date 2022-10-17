@@ -1,6 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/theme_data.dart';
 
 import 'appinfo.dart';
 
@@ -43,9 +42,9 @@ class DomexAppInfo implements AppInfo {
             actionsIconTheme: IconThemeData(color: Colors.black),
             titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22), backgroundColor: Color(0xfff7d701),foregroundColor: Colors.black);
       }
-      getLightDialogTheme() {
-        return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20));
-      }
+      // getLightDialogTheme() {
+      //   return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20));
+      // }
       getLightTextButtonTheme() {
         return TextButtonThemeData( style: TextButton.styleFrom(foregroundColor: Colors.amber, textStyle: const TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, fontSize: 16)  ) );
       }
@@ -136,26 +135,26 @@ class DomexAppInfo implements AppInfo {
   ThemeData getDarkTheme() {
     const primaryColor = Color(0xfff7d701);
     const secondaryColor = Color(0xff000000);
-    getDarkAppBarTheme() {
-      return const AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.black),
-          actionsIconTheme: IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22),
-          toolbarTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22),
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.black,);
-    }
-    getDarkAppBarTheme2() {
-      return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
-          actionsIconTheme: IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: primaryColor, fontSize: 22),
-          backgroundColor: Colors.black,
-          foregroundColor: primaryColor);
-    }
-
-    getDarkDialogTheme() {
-      return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20));
-    }
+    // getDarkAppBarTheme() {
+    //   return const AppBarTheme(
+    //       iconTheme: IconThemeData(color: Colors.black),
+    //       actionsIconTheme: IconThemeData(color: Colors.black),
+    //       titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22),
+    //       toolbarTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 22),
+    //       backgroundColor: primaryColor,
+    //       foregroundColor: Colors.black,);
+    // }
+    // getDarkAppBarTheme2() {
+    //   return const AppBarTheme(iconTheme: IconThemeData(color: Colors.black),
+    //       actionsIconTheme: IconThemeData(color: Colors.black),
+    //       titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: primaryColor, fontSize: 22),
+    //       backgroundColor: Colors.black,
+    //       foregroundColor: primaryColor);
+    // }
+    //
+    // getDarkDialogTheme() {
+    //   return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20));
+    // }
 
     getDarkTextTheme() {
       return const TextTheme(

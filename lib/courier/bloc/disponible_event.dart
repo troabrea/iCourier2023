@@ -6,7 +6,7 @@ abstract class DisponibleEvent extends Equatable {
 
 class DisponibleNotificarRetiroEvent extends DisponibleEvent {
   final BuildContext context;
-  DisponibleNotificarRetiroEvent(this.context);
+  const DisponibleNotificarRetiroEvent(this.context);
   @override
   // AppCenter.track
   List<Object?> get props => [context];
@@ -15,7 +15,7 @@ class DisponibleNotificarRetiroEvent extends DisponibleEvent {
 
 class DisponiblePagoEnLineaEvent extends DisponibleEvent {
   final BuildContext context;
-  DisponiblePagoEnLineaEvent(this.context);
+  const DisponiblePagoEnLineaEvent(this.context);
   @override
   // AppCenter.track
   List<Object?> get props => [context];

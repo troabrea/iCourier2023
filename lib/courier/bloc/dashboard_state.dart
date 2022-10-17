@@ -12,7 +12,7 @@ class DashboardLoadingState extends DashboardState {
 class DashboardFinishedState extends DashboardState {
   final bool withErrors;
   final String errorMessage;
-  DashboardFinishedState({required this.withErrors, required this.errorMessage});
+  const DashboardFinishedState({required this.withErrors, required this.errorMessage});
 
   @override
   List<Object> get props {

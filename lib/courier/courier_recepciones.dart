@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:grouped_list/grouped_list.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
-import 'package:iCourier/services/courierService.dart';
+import 'package:iCourier/services/courier_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../courier/paquete_tile.dart';
 import '../services/app_events.dart';
@@ -13,10 +12,10 @@ import 'package:event/event.dart' as event;
 
 class RecepcionesPage extends StatelessWidget {
   final List<Recepcion> recepciones;
-  late String titulo;
-  late bool isRetenio;
+  final String titulo;
+  final bool isRetenio;
 
-  RecepcionesPage(
+  const RecepcionesPage(
       {Key? key,
       required this.recepciones,
       this.titulo = "Recepciones",

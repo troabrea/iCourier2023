@@ -5,8 +5,8 @@ abstract class PreguntasEvent extends Equatable {
 }
 
 class LoadApiEvent extends PreguntasEvent {
-  bool ignoreCache;
-  LoadApiEvent({this.ignoreCache = false});
+  final bool ignoreCache;
+  const LoadApiEvent({this.ignoreCache = false});
   @override
   // AppCenter.track
   List<Object?> get props => [];

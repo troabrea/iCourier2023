@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 
-import '../../services/connectivityService.dart';
 import '../../services/model/pregunta.dart';
 
 part 'preguntas_event.dart';

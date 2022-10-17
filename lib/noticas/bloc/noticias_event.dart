@@ -5,8 +5,8 @@ abstract class NoticiasEvent extends Equatable {
 }
 
 class LoadApiEvent extends NoticiasEvent {
-  bool ignoreCache;
-  LoadApiEvent({this.ignoreCache = false});
+  final bool ignoreCache;
+  const LoadApiEvent({this.ignoreCache = false});
   @override
   // AppCenter.track
   List<Object?> get props => [];

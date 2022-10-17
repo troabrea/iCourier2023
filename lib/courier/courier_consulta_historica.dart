@@ -35,7 +35,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Consulta Histórica"),
+        appBar: AppBar(title: const Text("Consulta Histórica"),
           leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
         ),
         body: BlocProvider(

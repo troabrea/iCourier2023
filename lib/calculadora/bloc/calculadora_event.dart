@@ -13,7 +13,7 @@ class CalculateEvent extends CalculadoraEvent {
   final double libras;
   final double valor;
   final String codigoProducto;
-  CalculateEvent(this.libras, this.valor, this.codigoProducto);
+  const CalculateEvent(this.libras, this.valor, this.codigoProducto);
   @override
   List<Object?> get props => [];
 }

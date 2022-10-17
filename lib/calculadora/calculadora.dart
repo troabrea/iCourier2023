@@ -7,16 +7,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import '../../calculadora/bloc/calculadora_bloc.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
 import '../../services/model/calculadora_model.dart';
 import '../services/model/producto.dart';
 import 'calculadoraappbar.dart';
 
-import 'package:empty_widget/empty_widget.dart';
-
 class CalculadoraPage extends StatefulWidget {
-  const CalculadoraPage();
+  const CalculadoraPage({Key? key}) : super(key: key);
 
   @override
   State<CalculadoraPage> createState() => _CalculadoraPageState();
@@ -176,7 +174,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 
                   if(productos.isNotEmpty && productos.length > 1) {
                     productoActual = _formKey.currentState?.fields['producto']?.value;
-                    codigoProducto = productoActual?.codigo ?? "";
+                    codigoProducto = productoActual.codigo;
                   }
 
                   calculadoraBloc.add(CalculateEvent(libras, valor, codigoProducto));
@@ -215,7 +213,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
               borderRadius: BorderRadius.circular(30)),
-          prefixIcon: Icon(Icons.balance_outlined),
+          prefixIcon: const Icon(Icons.balance_outlined),
           prefixIconColor: Theme.of(context).primaryColorDark),
     );
   }

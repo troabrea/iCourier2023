@@ -1,13 +1,10 @@
-import 'dart:ui';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:event/event.dart' as event;
 import '../services/app_events.dart';
-import '../services/courierService.dart';
+import '../services/courier_service.dart';
 import 'carnet_usuario.dart';
 
 class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {

@@ -1,11 +1,3 @@
-
-// To parse this JSON data, do
-//
-//     final calculadoraResponse = calculadoraResponseFromJson(jsonString);
-
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class CalculadoraRequest {
   CalculadoraRequest({
     required this.empresaId,

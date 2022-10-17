@@ -1,31 +1,36 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:another_stepper/another_stepper.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
-import 'package:progress_stepper/progress_stepper.dart';
 import '../../courier/paquete_tile.dart';
 
 import 'package:im_stepper/stepper.dart';
 
 import '../services/model/recepcion.dart';
 
-class HistoricoPaquetePage extends StatelessWidget {
+class HistoricoPaquetePage extends StatefulWidget {
   final Recepcion recepcion;
+  const HistoricoPaquetePage({Key? key, required this.recepcion}) : super(key: key);
+
+  @override
+  State<HistoricoPaquetePage> createState() => _HistoricoPaquetePageState();
+}
+
+class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
   late List<Historia> historia;
-  // final List<String> iconosProgreso = <String>['images/recibidomiami.svg','images/embarcado.svg','images/recibido.svg','images/disponible.svg'].toList();
-  final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
-  final List<String> labelsProgreso = <String>['Origen','En ruta','Destino','Disponible'].toList();
-  final formatDate = DateFormat("dd-MMM-yyyy HH:mm:ss");
   late List<StepperData> stepperData;
-  HistoricoPaquetePage({Key? key, required this.recepcion}) : super(key: key)
-  {
-    historia = recepcion.paquetes.first.historia;
+  _HistoricoPaquetePageState() {
+    historia = widget.recepcion.paquetes.first.historia;
     historia.sort((a,b) => b.dateTime().compareTo(a.dateTime()));
     stepperData = historia.map((e) => StepperData(title: e.nombreEstatus, subtitle: formatDate.format(e.dateTime()))).toList();
+
   }
+  // final List<String> iconosProgreso = <String>['images/recibidomiami.svg','images/embarcado.svg','images/recibido.svg','images/disponible.svg'].toList();
+  final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
+
+  final List<String> labelsProgreso = <String>['Origen','En ruta','Destino','Disponible'].toList();
+
+  final formatDate = DateFormat("dd-MMM-yyyy HH:mm:ss");
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +43,14 @@ class HistoricoPaquetePage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
                 child: Column(
                   children: [
-                    Hero(transitionOnUserGestures: true, tag: recepcion, child: PaqueteTile(recepcion: recepcion)),
+                    Hero(transitionOnUserGestures: true, tag: widget.recepcion, child: PaqueteTile(recepcion: widget.recepcion)),
                     const SizedBox(height: 10,),
                     IconStepper( lineLength: 20, icons: [
-                      Icon(iconsProgreso[0], color: recepcion.progresoActual() == 1 ? Colors.white : Colors.black,),
-                      Icon(iconsProgreso[1], color: recepcion.progresoActual() == 2 ? Colors.white : Colors.black,),
-                      Icon(iconsProgreso[2], color: recepcion.progresoActual() == 3 ? Colors.white : Colors.black,),
-                      Icon(iconsProgreso[3], color: recepcion.progresoActual() == 4 ? Colors.white : Colors.black,),
-                    ],  lineColor: Theme.of(context).primaryColorDark, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: recepcion.progresoActual()-1,),
+                      Icon(iconsProgreso[0], color: widget.recepcion.progresoActual() == 1 ? Colors.white : Colors.black,),
+                      Icon(iconsProgreso[1], color: widget.recepcion.progresoActual() == 2 ? Colors.white : Colors.black,),
+                      Icon(iconsProgreso[2], color: widget.recepcion.progresoActual() == 3 ? Colors.white : Colors.black,),
+                      Icon(iconsProgreso[3], color: widget.recepcion.progresoActual() == 4 ? Colors.white : Colors.black,),
+                    ],  lineColor: Theme.of(context).primaryColorDark, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
                     const SizedBox(height: 10,),
                     Expanded(
                       child: AnotherStepper(

@@ -1,11 +1,9 @@
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../services/courierService.dart';
+import '../services/courier_service.dart';
 
 class SucursalesAppBar extends StatefulWidget implements PreferredSizeWidget {
   const SucursalesAppBar({Key? key}) : super(key: key);
@@ -50,10 +48,6 @@ class _SucursalesAppBarAppBarState extends State<SucursalesAppBar> {
           ],
         );
       },
-    );
-
-    return AppBar(
-      title: const Text("Sucursales"),
     );
   }
 

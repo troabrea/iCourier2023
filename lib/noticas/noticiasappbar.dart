@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../services/courierService.dart';
+import '../services/courier_service.dart';
 
 class NoticiasAppBar extends StatelessWidget implements PreferredSizeWidget {
   const NoticiasAppBar({Key? key, this.showBackButton = false}) : super(key: key);

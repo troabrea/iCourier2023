@@ -1,18 +1,12 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iCourier/courier/courier_prealertas_realizadas.dart';
-import 'package:iCourier/helpers/social_media_links.dart';
-import 'package:iCourier/services/courierService.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:navbar_router/navbar_router.dart';
 import '../../courier/bloc/dashboard_bloc.dart';
 import '../../courier/courier_consulta_historica.dart';
 import '../../courier/courier_recepciones.dart';
@@ -358,7 +352,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       isDismissible: true,
       builder: (context) {
-        return CrearPreAlertaPage();
+        return const CrearPreAlertaPage();
       },
     );
 

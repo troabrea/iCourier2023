@@ -6,7 +6,7 @@ import 'package:iCourier/appinfo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:user_profile_avatar/user_profile_avatar.dart';
 
-import '../services/courierService.dart';
+import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 
 class CarnetUsuario extends StatefulWidget {
@@ -15,15 +15,15 @@ class CarnetUsuario extends StatefulWidget {
   CarnetUsuario({Key? key, required this.userProfile}) : super(key: key);
 
   @override
-  State<CarnetUsuario> createState() => _CarnetUsuarioState(userProfile);
+  State<CarnetUsuario> createState() => _CarnetUsuarioState();
 }
 
 class _CarnetUsuarioState extends State<CarnetUsuario> {
-  UserProfile userProfile;
+  //late UserProfile userProfile;
   final ImagePicker _picker = ImagePicker();
   bool isBusy = false;
   //NavbarNotifier.hideBottomNavBar = true;
-  _CarnetUsuarioState(this.userProfile);
+  _CarnetUsuarioState();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +57,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
         ),
         Center(
           child: UserProfileAvatar(
-            avatarUrl: userProfile.fotoPerfilUrl,
+            avatarUrl: widget.userProfile.fotoPerfilUrl,
             onAvatarTap: () async {
               var xFile = await _picker.pickImage(source: ImageSource.gallery);
               if(xFile != null) {
@@ -67,7 +67,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
                 });
                 //
                 await GetIt.I<CourierService>().updateProfilePhoto(xFile);
-                userProfile = await GetIt.I<CourierService>().getUserProfile();
+                widget.userProfile.fotoPerfilUrl = (await GetIt.I<CourierService>().getUserProfile()).fotoPerfilUrl;
                 isBusy = false;
                 //
                 setState(() {
@@ -94,7 +94,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-              child: AutoSizeText(userProfile.nombre, maxLines: 1,
+              child: AutoSizeText(widget.userProfile.nombre, maxLines: 1,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge
@@ -104,7 +104,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
             padding: const EdgeInsets.only(
                 left: 8.0, bottom: 8.0, right: 8.0),
             child: Center(
-                child: Text(userProfile.cuenta,
+                child: Text(widget.userProfile.cuenta,
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -114,14 +114,14 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
             child: BarcodeWidget(
               barcode: Barcode.qrCode(),
               color: Theme.of(context).textTheme.titleMedium!.color!,
-              data: userProfile.cuenta,
+              data: widget.userProfile.cuenta,
               errorBuilder: (context, error) => Center(child: Text(error)),
             ),
           ),),
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-                child: Text(userProfile.nombreSucursal,
+                child: Text(widget.userProfile.nombreSucursal,
                     style: Theme.of(context)
                         .textTheme
                         .headlineMedium

@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../adicional/adicional.dart';
-import '../services/courierService.dart';
+import '../services/courier_service.dart';
 import '../services/model/pregunta.dart';
 import 'bloc/preguntas_bloc.dart';
 
@@ -89,7 +88,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
       body: BlocProvider(
         create: (context) => PreguntasBloc(
           GetIt.I<CourierService>(),
-        )..add(LoadApiEvent()),
+        )..add(const LoadApiEvent()),
         child: BlocBuilder<PreguntasBloc, PreguntasState>(
           builder: (context, state) {
             if (state is PreguntasLoadingState) {
@@ -100,7 +99,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
             if(state is PreguntasErrorState) {
               return SafeArea(child: Center(
                 child: InkWell(onTap: () {
-                  BlocProvider.of<PreguntasBloc>(context).add(LoadApiEvent(ignoreCache: true));
+                  BlocProvider.of<PreguntasBloc>(context).add(const LoadApiEvent(ignoreCache: true));
                 }, child: Center(child: Text("Ha ocurrido un error haga clic para reintentar.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
               ));
             }

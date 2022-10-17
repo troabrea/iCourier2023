@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:uuid/uuid.dart';
 import '../../services/app_events.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import '../../services/model/calculadora_model.dart';
 import 'package:collection/collection.dart';
 import 'package:event/event.dart' as event;
@@ -28,7 +28,7 @@ class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
       final empresa = await _courierService.getEmpresa();
       final products = await _courierService.getProductos(false);
       if(products.isEmpty) {
-        products.add(Producto(registroId: Uuid().toString(), empresa: empresa.registroId, titulo: 'FLETE', codigo: empresa.calculadoraProducto, orden: 1, deleted: false));
+        products.add(Producto(registroId: const Uuid().toString(), empresa: empresa.registroId, titulo: 'FLETE', codigo: empresa.calculadoraProducto, orden: 1, deleted: false));
       }
       final productoDefault = products.firstWhere((element) => element.codigo == empresa.calculadoraProducto);
       products.sort((a,b) => a.orden.compareTo(b.orden));

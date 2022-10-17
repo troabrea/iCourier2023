@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import '../services/model/servicio.dart';
 import 'bloc/servicios_bloc.dart';
 
@@ -71,7 +71,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
       body: BlocProvider(
         create: (context) => ServiciosBloc(
           GetIt.I<CourierService>(),
-        )..add(LoadApiEvent()),
+        )..add(const LoadApiEvent()),
         child: BlocBuilder<ServiciosBloc, ServiciosState>(
           builder: (context, state) {
             if (state is ServiciosLoadingState) {

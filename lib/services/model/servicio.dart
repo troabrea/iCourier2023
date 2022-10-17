@@ -1,6 +1,3 @@
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class Servicio {
   Servicio({
     required this.registroId,

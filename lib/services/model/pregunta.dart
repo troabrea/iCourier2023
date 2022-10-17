@@ -1,10 +1,3 @@
-// To parse this JSON data, do
-//
-//     final pregunta = preguntaFromJson(jsonString);
-
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class Pregunta {
   Pregunta({
     required this.registroId,

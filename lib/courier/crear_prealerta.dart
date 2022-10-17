@@ -3,21 +3,15 @@ import 'dart:io';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_mask/easy_mask.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:navbar_router/navbar_router.dart';
 
-import '../../calculadora/bloc/calculadora_bloc.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
-import '../../services/model/calculadora_model.dart';
 import '../../services/model/prealerta_model.dart';
 
 import 'bloc/prepostalerta_bloc.dart';

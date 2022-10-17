@@ -5,8 +5,8 @@ abstract class SucursalesEvent extends Equatable {
 }
 
 class LoadApiEvent extends SucursalesEvent {
-  bool ignoreCache;
-  LoadApiEvent({this.ignoreCache = false});
+  final bool ignoreCache;
+  const LoadApiEvent({this.ignoreCache = false});
   @override
   List<Object?> get props => [];
 }

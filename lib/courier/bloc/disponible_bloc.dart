@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../helpers/dialogs.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 
 part 'disponible_event.dart';
 part 'disponible_state.dart';

@@ -117,7 +117,7 @@ class Recepcion {
     if (json['paquetes'] != null) {
       paquetes = <Paquetes>[];
       json['paquetes'].forEach((v) {
-        paquetes.add(new Paquetes.fromJson(v));
+        paquetes.add(Paquetes.fromJson(v));
       });
     }
     fotoPaqueteSmallUrl = json['fotoPaqueteSmallUrl']  ?? "";
@@ -143,7 +143,7 @@ class Recepcion {
     data['estatus'] = estatus;
     data['retenido'] = retenido;
     data['disponible'] = disponible;
-    if (paquetes != null) {
+    if (paquetes.isNotEmpty) {
       data['paquetes'] = paquetes.map((v) => v.toJson()).toList();
     }
     data['fotoPaqueteSmallUrl'] = fotoPaqueteSmallUrl;
@@ -190,7 +190,7 @@ class Paquetes {
     if (json['historia'] != null) {
       historia = <Historia>[];
       json['historia'].forEach((v) {
-        historia.add(new Historia.fromJson(v));
+        historia.add(Historia.fromJson(v));
       });
     }
   }
@@ -205,7 +205,7 @@ class Paquetes {
     data['rastreo'] = rastreo;
     data['status'] = status;
     data['urlTracking'] = urlTracking;
-    if (historia != null) {
+    if (historia.isNotEmpty) {
       data['historia'] = historia.map((v) => v.toJson()).toList();
     }
     return data;

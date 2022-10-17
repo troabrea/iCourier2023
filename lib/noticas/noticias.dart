@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
@@ -8,7 +7,7 @@ import 'package:iCourier/helpers/social_media_links.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../noticas/bloc/noticias_bloc.dart';
 import '../../noticas/noticiadetalle.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
 import 'package:event/event.dart' as event;
 import '../services/app_events.dart';
@@ -30,7 +29,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
   _NoticiasPageState() {
     GetIt.I<event.Event<NoticiasDataRefreshRequested>>().subscribe((args)  {
       if(DateTime.now().difference(lastRefresh).inMinutes >= 5) {
-        noticiasBloc.add(LoadApiEvent());
+        noticiasBloc.add(const LoadApiEvent());
         lastRefresh = DateTime.now();
       }
     });
@@ -53,7 +52,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
     return Scaffold(
       appBar: const NoticiasAppBar(),
       body: BlocProvider(
-        create: (context) => noticiasBloc..add(LoadApiEvent()),
+        create: (context) => noticiasBloc..add(const LoadApiEvent()),
         child: BlocBuilder<NoticiasBloc, NoticiasState>(
           builder: (context, state) {
             if (state is NoticiasLoadingState) {
@@ -66,7 +65,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
             if(state is NoticiasErrorState) {
               return SafeArea(child: Center(
                 child: InkWell(onTap: () {
-                  BlocProvider.of<NoticiasBloc>(context).add(LoadApiEvent(ignoreCache: true));
+                  BlocProvider.of<NoticiasBloc>(context).add(const LoadApiEvent(ignoreCache: true));
                 }, child: Center(child: Text("Ha ocurrido un error haga clic para reintentar.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
               ));
             }

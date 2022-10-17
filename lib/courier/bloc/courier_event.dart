@@ -11,18 +11,18 @@ class CheckLoggedEvent extends CourierEvent {
 }
 
 class TryLoginEvent extends CourierEvent {
-  late String usuario;
-  late String clave;
-  TryLoginEvent(this.usuario, this.clave);
+  final String usuario;
+  final String clave;
+  const TryLoginEvent(this.usuario, this.clave);
   @override
   // AppCenter.track
   List<Object?> get props => [];
 }
 
 class UserDidLoginEvent extends CourierEvent {
-  String usuario;
-  bool forceRefresh;
-  UserDidLoginEvent(this.usuario, {this.forceRefresh = false});
+  final String usuario;
+  final bool forceRefresh;
+  const UserDidLoginEvent(this.usuario, {this.forceRefresh = false});
   @override
   // AppCenter.track
   List<Object?> get props => [usuario];

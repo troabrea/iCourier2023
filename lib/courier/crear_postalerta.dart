@@ -3,22 +3,15 @@ import 'dart:io';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_mask/easy_mask.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:navbar_router/navbar_router.dart';
 
-import '../../calculadora/bloc/calculadora_bloc.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
-import '../../services/model/calculadora_model.dart';
-import '../../services/model/prealerta_model.dart';
 import '../../services/model/recepcion.dart';
 
 import '../services/model/postalerta_model.dart';
@@ -29,14 +22,14 @@ class CrearPostAlertaPage extends StatefulWidget {
   const CrearPostAlertaPage({Key? key, required this.recepcion }) : super(key: key);
 
   @override
-  State<CrearPostAlertaPage> createState() => _CrearPostAlertaPageState(recepcion);
+  State<CrearPostAlertaPage> createState() => _CrearPostAlertaPageState();
 
 }
 
 class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
 
-  final Recepcion recepcion;
-  _CrearPostAlertaPageState(this.recepcion);
+  //final Recepcion recepcion;
+  _CrearPostAlertaPageState();
 
   final courierService = GetIt.I<CourierService>();
   final prePostAlertaBloc = PrePostAlertaBloc(GetIt.I<CourierService>());
@@ -64,7 +57,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
     return SizedBox(
       height: 700,
       child: Scaffold(
-          appBar: AppBar(title: Text("Creación de Post-Alerta"),
+          appBar: AppBar(title: const Text("Creación de Post-Alerta"),
           automaticallyImplyLeading: false,
           ),
 
@@ -99,7 +92,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                                     strValor = strValor.replaceAll(',', '');
                                     var valor = double.parse(strValor);
                                     var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
-                                    var postAlerta = PostAlertaModel("","",recepcion.recepcionID,valor,"" );
+                                    var postAlerta = PostAlertaModel("","",widget.recepcion.recepcionID,valor,"" );
                                     prePostAlertaBloc.add(SendPostAlertaEvent(xfile,postAlerta));
                                   }
                                 }),
@@ -208,7 +201,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
       enabled: false,
       inputType: InputType.date,
       textAlign: TextAlign.center,
-      initialValue: recepcion.fechaRecibido(),
+      initialValue: widget.recepcion.fechaRecibido(),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
       ]),
@@ -278,7 +271,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
         height: 60,
         child: FormBuilderTextField(
           name: 'contenido',
-          initialValue: recepcion.contenido,
+          initialValue: widget.recepcion.contenido,
           enabled: false,
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
@@ -311,7 +304,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
         height: 60,
         child: FormBuilderTextField(
           name: 'proveedor',
-          initialValue: recepcion.suplidor,
+          initialValue: widget.recepcion.suplidor,
           enabled: false,
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
@@ -345,7 +338,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             child: FormBuilderTextField(
               name: 'tracking',
               maxLines: 2,
-              initialValue: recepcion.enviadoPor,
+              initialValue: widget.recepcion.enviadoPor,
               enabled: false,
               validator: FormBuilderValidators.compose(
                   [FormBuilderValidators.required(errorText: 'Requerido')]),

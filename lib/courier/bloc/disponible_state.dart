@@ -12,7 +12,7 @@ class DisponibleIdleState extends DisponibleState {
 class DisponibleFinishedState extends DisponibleState {
   final bool withErrors;
   final String errorMessage;
-  DisponibleFinishedState({required this.withErrors, required this.errorMessage});
+  const DisponibleFinishedState({required this.withErrors, required this.errorMessage});
 
   @override
   List<Object> get props {

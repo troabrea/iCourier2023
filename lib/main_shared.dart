@@ -1,5 +1,4 @@
 
-import 'dart:io';
 
 import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,11 +10,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iCourier/appinfo.dart';
 import '../../services/app_events.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'appinfo_domex.dart';
 
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;

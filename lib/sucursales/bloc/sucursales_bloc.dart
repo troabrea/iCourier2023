@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../appinfo.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import '../../services/model/sucursal.dart';
 
 part 'sucursales_event.dart';
@@ -17,7 +14,7 @@ class SucursalesBloc extends Bloc<SucursalesEvent, SucursalesState> {
     on<LoadApiEvent>((event, emit) async {
       try {
         emit(SucursalesLoadingState());
-        final appInfo = GetIt.I<AppInfo>();
+        // final appInfo = GetIt.I<AppInfo>();
         final userProfile = await _courierService.getUserProfile();
         final sucursales = await _courierService.getSucursales(
             event.ignoreCache);

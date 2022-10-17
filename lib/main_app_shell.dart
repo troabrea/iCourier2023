@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,10 +9,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iCourier/services/app_events.dart';
-import 'package:iCourier/services/connectivityService.dart';
-import 'package:iCourier/services/courierService.dart';
+import 'package:iCourier/services/courier_service.dart';
 import 'package:iCourier/sucursales/sucursales.dart';
-import 'package:navbar_router/navbar_router.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,9 +58,9 @@ class MainAppShell extends StatefulWidget {
 }
 
 class _MainAppShellState extends State<MainAppShell> {
-  final _connectivityService = ConnectivityService();
+  //final _connectivityService = ConnectivityService();
   final _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  //late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final appInfo = GetIt.I<AppInfo>();
   var connectivityWasLost = false;
   DateTime? connectivityWasLostAt;
@@ -222,7 +219,7 @@ class _MainAppShellState extends State<MainAppShell> {
     _controller = PersistentTabController(initialIndex: GetIt.I<AppInfo>().defaultTab);
 
     initConnectivity();
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    //_connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
     // Push Notifications
     // Foreground State

@@ -5,8 +5,8 @@ abstract class ServiciosEvent extends Equatable {
 }
 
 class LoadApiEvent extends ServiciosEvent {
-  bool ignoreCache;
-  LoadApiEvent({this.ignoreCache = false});
+  final bool ignoreCache;
+  const LoadApiEvent({this.ignoreCache = false});
   @override
   // AppCenter.track
   List<Object?> get props => [];

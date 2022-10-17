@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../services/courierService.dart';
+import '../services/courier_service.dart';
 
 class AdicionalPageAppBar extends StatefulWidget implements PreferredSizeWidget {
   const AdicionalPageAppBar({Key? key}) : super(key: key);

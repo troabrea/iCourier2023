@@ -1,18 +1,11 @@
-import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import '../../preguntas/preguntas.dart';
-import '../../services/courierService.dart';
+import '../../services/courier_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:event/event.dart' as event;
@@ -31,12 +24,9 @@ class AdicionalInfoPage extends StatefulWidget {
 }
 
 class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
-
-  bool _infoLoaded = false;
   String _versionNumber = "";
   String _userAccount = "";
   String _userName = "";
-  String _photoUrl = "";
   String _userSucursal = "";
   Empresa? _empresa;
 
@@ -68,9 +58,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
       _versionNumber = info.version;
       _userAccount = userProfile.cuenta;
       _userName = userProfile.nombre;
-      _photoUrl = userProfile.fotoPerfilUrl;
       _userSucursal = userProfile.nombreSucursal;
-      _infoLoaded= true;
     });
   }
 
@@ -131,7 +119,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 offset: const Offset(2, 2),
                 blurRadius: 10)]),),
             const SizedBox(height: 10,),
-            if(_versionNumber != null)
+            if(_versionNumber.isNotEmpty)
             Text("Versión: $_versionNumber", style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(
                 color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
                 offset: const Offset(3, 3),
