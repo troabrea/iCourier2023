@@ -41,7 +41,7 @@ android {
             keyAlias "upload"
             keyPassword "Msaxapta0201"
         }
-        codmagic {
+        codemagic {
             if (System.getenv()["CI"]) {
                 storeFile = file(System.getenv()["CM_KEYSTORE_PATH"])
                 storePassword = System.getenv()["CM_KEYSTORE_PASSWORD"]
