@@ -26,12 +26,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-def keystoreProperties = new Properties()
-    def keystorePropertiesFile = rootProject.file('key.properties')
-    if(keystorePropertiesFile.exists()) {
-        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-    }
-
 android {
     compileSdkVersion 33
     signingConfigs {
@@ -46,12 +40,6 @@ android {
             storePassword "Msaxapta0201"
             keyAlias "upload"
             keyPassword "Msaxapta0201"
-        }
-        codemagic {
-            storeFile = file(System.getenv()["CM_KEYSTORE_PATH"])
-            storePassword = System.getenv()["CM_KEYSTORE_PASSWORD"]
-            keyAlias = System.getenv()["CM_KEY_ALIAS"]
-            keyPassword = System.getenv()["CM_KEY_PASSWORD"]
         }
     }
     compileOptions {
@@ -95,12 +83,18 @@ android {
 
     buildTypes {
         release {
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            // if local build - Uncomment appropiate signingConfig - for CI/CD leave as is
-            //signingConfigs.debug
-            //signingConfig signingConfigs.legacy
-            //signingConfig signingConfigs.release
-            signingConfig signingConfigs.codemagic
+            if (System.getenv()["CI"]) {
+                // Bulding in CI/CD read parameters from Environment
+                storeFile = file(System.getenv()["CM_KEYSTORE_PATH"])
+                storePassword = System.getenv()["CM_KEYSTORE_PASSWORD"]
+                keyAlias = System.getenv()["CM_KEY_ALIAS"]
+                keyPassword = System.getenv()["CM_KEY_PASSWORD"]
+            } else {
+                // if local build - Uncomment appropiate signingConfig
+                signingConfigs.debug
+                //signingConfig signingConfigs.legacy
+                //signingConfig signingConfigs.release
+            }
         }
     }
 }
