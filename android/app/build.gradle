@@ -47,6 +47,8 @@ android {
                 storePassword = System.getenv()["CM_KEYSTORE_PASSWORD"]
                 keyAlias = System.getenv()["CM_KEY_ALIAS"]
                 keyPassword = System.getenv()["CM_KEY_PASSWORD"]
+                v1SigningEnabled true
+                v2SigningEnabled true
                 println storeFile
                 println storePassword
                 println keyAlias
@@ -63,6 +65,7 @@ android {
             }
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

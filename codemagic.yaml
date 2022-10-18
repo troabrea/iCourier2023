@@ -234,15 +234,15 @@ workflows:
 #      - xcode-project use-profiles
 #      - flutter build ipa --export-options-plist ~/export_options.plist --flavor domex
 #        -t lib/main_domex.dart
-#    artifacts:
-#      - build/**/outputs/apk/**/*.apk
-#      - build/**/outputs/bundle/**/*.aab
-#      - build/**/outputs/**/mapping.txt
-#      - build/ios/ipa/*.ipa
-#      - /tmp/xcodebuild_logs/*.log
-#      - '*.snap'
-#      - build/windows/**/*.msix
-#      - flutter_drive.log
+    artifacts:
+      - build/**/outputs/apk/**/*.apk
+      - build/**/outputs/bundle/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - '*.snap'
+      - build/windows/**/*.msix
+      - flutter_drive.log
 #    publishing:
 #      email:
 #        recipients:
