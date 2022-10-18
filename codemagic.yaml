@@ -132,6 +132,8 @@ workflows:
     name: BMCargo
     max_build_duration: 60
     environment:
+      groups:
+        - keystore_credentials
       vars:
         FCI_KEYSTORE_PATH: /tmp/keystore.keystore
         FCI_KEYSTORE: Encrypted(Z0FBQUFBQmpUb0RVX0V2aGk0RzRTaEVYaFVXOWlTbEQ3cjNNMjZhbDFlam9VNEJQUGFUemRpMHk3SGRHbzV4LVZNNTVCS2lvTWNHejUyTFZPcTFIdjEyN0hERTU0V2F5SnFNaWxILUl4LWdDMjFheHd2cmppcmVySnZiYmVCZ1NaTHVwc09fZV9nWmpBanhuQk9taGxvY3kyS3lxNXpveE9HWlJjS0V4NmNkSGVBVUVRNTBzMXJ5cDNOVmkwM3J3VlB1MDdCQ1Jodkg2QXhxczA1RDdLV3FlM2lZb3haTVdld2k4X1JZQUxnY3EtaGloTE9vSUJqWmNTbm1lbHBnTmhpeURfOGhDeXAwRU9vTVhCbHQ1V0FXWDNUeUpmRkJZX041YWNEN240b08yYUt2SktzVmpoOW82ejFSRGlhOVVPdkZSalJ4bjFFWDBoT0ZZaHVmMHpTSGo4cTJiazIxRXdTMTR2cklxZWZ5WWJzTF92Q0FjM2NzMHEwN0pRdjJ1ZEFTQ1p5VmN2U1BGbzdDR2tPNDgyQWg3dWJ0OFYyeFFNMzlnaU93OG53SGRmNTNSVlFhUzhuV1ZQbEZHdXdqeVl5b2NqT2tGOHVqaA==)
@@ -149,14 +151,8 @@ workflows:
       cache_paths: []
     scripts:
       - |
-        # set up key.properties
-        echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
-        cat >> "$FCI_BUILD_DIR/android/key.properties" <<EOF
-        storePassword=$FCI_KEYSTORE_PASSWORD
-        keyPassword=$FCI_KEY_PASSWORD
-        keyAlias=$FCI_KEY_ALIAS
-        storeFile=/tmp/keystore.keystore
-        EOF
+        # set up keystore
+        echo $CM_KEYSTORE | base64 --decode > $CM_KEYSTORE_PATH
       - |
         # set up local properties
         echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
