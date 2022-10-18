@@ -164,7 +164,7 @@ workflows:
       - flutter build apk --release --flavor bmcargo -t lib/main_bmcargo.dart --split-per-abi
       - find . -name "Podfile" -execdir pod install \;
       - keychain initialize
-      - app-store-connect fetch-signing-files "com.barolit.caribepack" --type IOS_APP_STORE
+      - app-store-connect fetch-signing-files "com.barolit.bmcargo" --type IOS_APP_STORE
         --create
       - keychain add-certificates
       - xcode-project use-profiles
