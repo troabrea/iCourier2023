@@ -221,9 +221,9 @@ workflows:
         echo $CM_KEY_ALIAS
         echo $CM_KEY_PASSWORD
 
-      - |
-        # set up local properties
-        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+#      - |
+#        # set up local properties
+#        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
       - flutter packages pub get
       - flutter build apk --release --flavor domex -t lib/main_domex.dart --split-per-abi
 #      - find . -name "Podfile" -execdir pod install \;
