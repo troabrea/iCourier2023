@@ -145,8 +145,6 @@ workflows:
       flutter: default
       xcode: latest
       cocoapods: default
-      android_signing:
-        - keystore_reference
     cache:
       cache_paths: []
     scripts:
