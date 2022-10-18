@@ -216,11 +216,16 @@ workflows:
       - |
         # set up keystore
         echo $CM_KEYSTORE | base64 --decode > $CM_KEYSTORE_PATH
+        echo $CM_KEYSTORE_PATH
+        echo $CM_KEYSTORE_PASSWORD
+        echo $CM_KEY_ALIAS
+        echo $CM_KEY_PASSWORD
+
       - |
         # set up local properties
         echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
       - flutter packages pub get
-      - flutter build apk --release --flavor domex -t lib/main_domex.dart --split-per-abi -vv
+      - flutter build apk --release --flavor domex -t lib/main_domex.dart --split-per-abi
 #      - find . -name "Podfile" -execdir pod install \;
 #      - keychain initialize
 #      - app-store-connect fetch-signing-files "com.barolit.domex" --type IOS_APP_STORE

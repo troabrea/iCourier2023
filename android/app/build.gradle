@@ -47,11 +47,19 @@ android {
                 storePassword = System.getenv()["CM_KEYSTORE_PASSWORD"]
                 keyAlias = System.getenv()["CM_KEY_ALIAS"]
                 keyPassword = System.getenv()["CM_KEY_PASSWORD"]
+                println storeFile
+                println storePassword
+                println keyAlias
+                println keyPassword
             } else {
-                storeFile file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/upload-keystore.jks")
+                storeFile file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/android.keystore")
                 storePassword "Msaxapta0201"
-                keyAlias "upload"
+                keyAlias "android"
                 keyPassword "Msaxapta0201"
+                println storeFile
+                println storePassword
+                println keyAlias
+                println keyPassword
             }
         }
     }
@@ -98,9 +106,11 @@ android {
         release {
             if (System.getenv()["CI"]) {
                 // Bulding in CI/CD read parameters from Environment
+                println 'YES CI/CD'
                 signingConfigs.codemagic
             } else {
                 // if local build - Uncomment appropiate signingConfig
+                println 'NOPE!! ci/cd'
                 signingConfigs.debug
                 //signingConfig signingConfigs.legacy
                 //signingConfig signingConfigs.release
