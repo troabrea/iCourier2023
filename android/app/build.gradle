@@ -111,7 +111,7 @@ android {
 
     buildTypes {
         release {
-            signingConfigs.codemagic
+            signingConfig signingConfigs.codemagic
 //            if (System.getenv()["CI"]) {
 //                // Bulding in CI/CD read parameters from Environment
 //                println 'YES CI/CD'
