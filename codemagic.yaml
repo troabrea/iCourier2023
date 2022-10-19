@@ -158,14 +158,14 @@ workflows:
         echo $FCI_BUILD_DIR
       - flutter packages pub get
       - flutter build apk --release --flavor domex -t lib/main_domex.dart --split-per-abi
-#      - find . -name "Podfile" -execdir pod install \;
-#      - keychain initialize
-#      - app-store-connect fetch-signing-files "com.barolit.domex" --type IOS_APP_STORE
-#        --create
-#      - keychain add-certificates
-#      - xcode-project use-profiles
-#      - flutter build ipa --export-options-plist ~/export_options.plist --flavor domex
-#        -t lib/main_domex.dart
+      - find . -name "Podfile" -execdir pod install \;
+      - keychain initialize
+      - app-store-connect fetch-signing-files "com.barolit.domex" --type IOS_APP_STORE
+        --create
+      - keychain add-certificates
+      - xcode-project use-profiles
+      - flutter build ipa --export-options-plist ~/export_options.plist --flavor domex
+        -t lib/main_domex.dart
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/**/outputs/bundle/**/*.aab
@@ -175,17 +175,17 @@ workflows:
       - '*.snap'
       - build/windows/**/*.msix
       - flutter_drive.log
-#    publishing:
-#      email:
-#        recipients:
-#          - temis@barolit.com
-#      google_play:
-#        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-#        track: internal
-#        in_app_update_priority: 0
-#      app_store_connect:
-#        api_key: Encrypted(Z0FBQUFBQmpUb0RVVlA1N1RRQ2pYRlkzMTIwa3JVdGJwQUdxMnQ4a2tTMGp3dmdVcWktUTlHZ2pBTVZrVVA2Wm5wQnd1YkFQLUZQanBOQ0Jrb2JlcVN0YVd6QUw0TWw4djljOWdLeklrZHdTdk4tWHQ5eUVLbTJybk5BRms0MklxTnJtOXl3YVdLanlHNWxyOU5hNHpPQmFWeDVvNkxTcEFpd1JCVVN1NEtDV3cxR1A0ZkNDbGpFN05vVjVqd0J2VHNwbHltalEwUW1yQWFMM1JtX0xfUWZmMjRVYUxSN29ibUkxRkVFZC1GUUVOVnlYNFdFSHhTQ090cEFMc0l6dzZma3h0a3lsc3lPTExsSzYzMWFPbjhQVkpDcW1HS24yVnRlVmxLYm5wT01rNWQ5VDlqR0RsUlc3a19udE1zSExQNS16WEl5VFVjUXZPQVdxWEozVkpVYWZxVlVnRGFKNE5HMXd3MjVja28wUDJZWWZBb1R6N1MyNVdrLTNIRlBzeFkwSW8yZEJCNE1OSHJPdkg3clRDcDk5SGxEY0NTUERyTnU4aWpTY05ueUo1RVdDY0hzZU5fMD0=)
-#        key_id: 4Q6TY4KF2K
-#        issuer_id: 69a6de70-7f29-47e3-e053-5b8c7c11a4d1
-#        submit_to_testflight: true
-#        submit_to_app_store: false
+    publishing:
+      email:
+        recipients:
+          - temis@barolit.com
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        in_app_update_priority: 0
+      app_store_connect:
+        api_key: Encrypted(Z0FBQUFBQmpUb0RVVlA1N1RRQ2pYRlkzMTIwa3JVdGJwQUdxMnQ4a2tTMGp3dmdVcWktUTlHZ2pBTVZrVVA2Wm5wQnd1YkFQLUZQanBOQ0Jrb2JlcVN0YVd6QUw0TWw4djljOWdLeklrZHdTdk4tWHQ5eUVLbTJybk5BRms0MklxTnJtOXl3YVdLanlHNWxyOU5hNHpPQmFWeDVvNkxTcEFpd1JCVVN1NEtDV3cxR1A0ZkNDbGpFN05vVjVqd0J2VHNwbHltalEwUW1yQWFMM1JtX0xfUWZmMjRVYUxSN29ibUkxRkVFZC1GUUVOVnlYNFdFSHhTQ090cEFMc0l6dzZma3h0a3lsc3lPTExsSzYzMWFPbjhQVkpDcW1HS24yVnRlVmxLYm5wT01rNWQ5VDlqR0RsUlc3a19udE1zSExQNS16WEl5VFVjUXZPQVdxWEozVkpVYWZxVlVnRGFKNE5HMXd3MjVja28wUDJZWWZBb1R6N1MyNVdrLTNIRlBzeFkwSW8yZEJCNE1OSHJPdkg3clRDcDk5SGxEY0NTUERyTnU4aWpTY05ueUo1RVdDY0hzZU5fMD0=)
+        key_id: 4Q6TY4KF2K
+        issuer_id: 69a6de70-7f29-47e3-e053-5b8c7c11a4d1
+        submit_to_testflight: true
+        submit_to_app_store: false
