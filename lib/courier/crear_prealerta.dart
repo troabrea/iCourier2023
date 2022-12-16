@@ -87,7 +87,12 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
                               else if (state is PrePostAlertaDoneState)
                                 InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
                               else if (state is PrePostAlertaErrorState)
-                                InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).errorColor),)))
+                                InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Column(
+                                  children: [
+                                    Icon(Icons.error, size: 100, color: Theme.of(context).errorColor),
+                                    Text(state.errorMessage)
+                                  ],
+                                ),)))
                               else
                                 buildEntryForm(context, () async {
 

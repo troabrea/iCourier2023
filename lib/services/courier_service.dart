@@ -443,8 +443,17 @@ class CourierService {
     await cache.write('userEmail', "");
     await cache.write('userSucursal', "");
     await cache.write('userFotoPerfil', "");
-
-
+  
+    // Clear application badge
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        FlutterAppBadger.removeBadge();
+      }
+    } catch (e) {
+      //
+      debugPrint('Failed to determine badge support');
+    }
   }
 
   Future<void> resetPassword(String cuenta, String email) async {
@@ -541,12 +550,12 @@ class CourierService {
 
   }
 
-  Future<bool> sendPreAlerta(PreAlertaModel preAlerta, XFile file) async {
+  Future<String> sendPreAlerta(PreAlertaModel preAlerta, XFile file) async {
     try {
       var sessionId = (await cache.load('sessionId', ''))
           .toString(); //  prefs.getString('sessionId');
       if (sessionId == "") {
-        return false;
+        return "Sesión inválida";
       }
 
       // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_PREALERTA");
@@ -582,10 +591,11 @@ class CourierService {
           imageUrl);
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
+      final strResponse = (response.statusCode >= 200 && response.statusCode < 299) ? response.body : "Error enviando pre-alerta.";
       //
-      return (response.statusCode >= 200 && response.statusCode < 299);
+      return  strResponse;
     } catch (ex) {
-      return false;
+      return "Error inesperado enviando pre-alerta.";
     }
   }
 
@@ -635,12 +645,12 @@ class CourierService {
     }
   }
 
-  Future<bool> sendPostAlerta(PostAlertaModel postAlerta, XFile file) async {
+  Future<String> sendPostAlerta(PostAlertaModel postAlerta, XFile file) async {
     try {
       var sessionId = (await cache.load('sessionId', ''))
           .toString(); //  prefs.getString('sessionId');
       if (sessionId == "") {
-        return false;
+        return "Sesión inválida";
       }
 
       // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_POSTALERTA");
@@ -672,10 +682,11 @@ class CourierService {
 
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
+      final result = (response.statusCode >= 200 && response.statusCode < 299) ? response.body : "Error enviado post-alerta.";
       //
-      return (response.statusCode >= 200 && response.statusCode < 299);
+      return result;
     } catch (ex) {
-      return false;
+      return "Error inesperado enviando post-alerta.";
     }
   }
 }

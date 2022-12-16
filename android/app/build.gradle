@@ -91,13 +91,15 @@ android {
         }
         caribepack {
             dimension "app"
-            applicationId "com.barolit.caribepack"
+            applicationId "com.barolit.caribepackapp"
         }
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.codemagic
+            //signingConfig signingConfigs.release
+            //signingConfig signingConfigs.legacy
         }
     }
 }

@@ -15,14 +15,16 @@ class PrePostAlertaBloc extends Bloc<PrePostAlertaEvent, PrePostAlertaState> {
   PrePostAlertaBloc(this._courierService) : super(PrePostAlertaIdleState()) {
     on<SendPreAlertaEvent>((event,emit) async {
       emit(PrePostAlertaUpLoadingState());
-      var result = await _courierService.sendPreAlerta(event.preAlerta, event.file);
-      emit(result ? PrePostAlertaDoneState() : PrePostAlertaErrorState());
+      final resultStr = await _courierService.sendPreAlerta(event.preAlerta, event.file);
+      final result = resultStr.isEmpty || resultStr.toUpperCase() == "OK";
+      emit(result ? PrePostAlertaDoneState() : PrePostAlertaErrorState(errorMessage: resultStr));
     });
 
     on<SendPostAlertaEvent>((event,emit) async {
       emit(PrePostAlertaUpLoadingState());
-      var result = await _courierService.sendPostAlerta(event.postAlerta, event.file);
-      emit(result ? PrePostAlertaDoneState() : PrePostAlertaErrorState());
+      var resultStr = await _courierService.sendPostAlerta(event.postAlerta, event.file);
+      final result = resultStr.isEmpty || resultStr.toUpperCase() == "OK";
+      emit(result ? PrePostAlertaDoneState() : PrePostAlertaErrorState(errorMessage: resultStr));
     });
   }
 }

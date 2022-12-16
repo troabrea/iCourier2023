@@ -25,8 +25,8 @@ class PreAlertaModel
   Map<String, dynamic> toJson() => {
     "empresaId": empresaId,
     "sessionId" : sessionId,
-    "transpor" : transportista,
-    "hasta" : tracking,
+    "transportista" : transportista,
+    "tracking" : tracking,
     "fob" : fob,
     "contenido" : contenido,
     "proveedor" : proveedor,

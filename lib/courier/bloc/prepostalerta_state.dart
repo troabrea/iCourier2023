@@ -20,6 +20,8 @@ class PrePostAlertaDoneState extends PrePostAlertaState {
 }
 
 class PrePostAlertaErrorState extends PrePostAlertaState {
+  final String errorMessage;
+  const PrePostAlertaErrorState({required this.errorMessage});
   @override
   List<Object> get props => [];
 }
