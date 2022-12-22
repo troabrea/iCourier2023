@@ -20,7 +20,7 @@ class NoticiaDetallePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const NoticiasAppBar(showBackButton: true,),
+        appBar: NoticiasAppBar(showBackButton: true,),
         body: Container( margin: const EdgeInsets.only(bottom: 65),
           child: Stack(children: [
             Container(

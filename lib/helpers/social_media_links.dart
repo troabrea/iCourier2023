@@ -23,39 +23,67 @@ class SocialMediaLinks extends StatelessWidget {
 
   Future<void> openInBrowser(Empresa empresa) async {
     var _url = Uri.parse(empresa.paginaWeb);
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $_url';
     }
   }
   Future<void> sendEmail(Empresa empresa) async {
     var email = empresa.correoVentas;
     var _url = Uri.parse("mailto:$email");
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $_url';
     }
   }
 
   Future<void> viewInFacebook(Empresa empresa) async {
     var facebook = empresa.facebook;
-
     String fbProtocolUrl;
     if (Platform.isIOS) {
-      fbProtocolUrl = 'https://www.facebook.com/$facebook';// 'fb://profile?app_scoped_user_id=$facebook';
+      fbProtocolUrl = 'fb://profile/$facebook.';
     } else {
-      fbProtocolUrl = 'https://www.facebook.com/$facebook'; // 'fb://page/$facebook';
+      fbProtocolUrl = 'fb://page/$facebook';
     }
 
     String fallbackUrl = 'https://www.facebook.com/$facebook';
 
-    var _url = Uri.parse(fbProtocolUrl);
-    if (!await launchUrl(_url)) {
-      _url = Uri.parse(fallbackUrl);
-      if(!await launchUrl(_url))
-      {
-        throw 'Could not launch $_url';
+    try {
+      Uri fbBundleUri = Uri.parse(fbProtocolUrl);
+      var canLaunchNatively = await canLaunchUrl(fbBundleUri);
+
+      if (canLaunchNatively) {
+        launchUrl(fbBundleUri);
+      } else {
+        await launchUrl(Uri.parse(fallbackUrl),
+            mode: LaunchMode.externalApplication);
       }
+    } catch (e, st) {
+      // Handle this as you prefer
     }
   }
+
+  // Future<void> viewInFacebookOld(Empresa empresa) async {
+  //   var facebook = empresa.facebook;
+  //
+  //   String fbProtocolUrl;
+  //   if (Platform.isIOS) {
+  //     fbProtocolUrl = 'https://www.facebook.com/$facebook';// 'fb://profile?app_scoped_user_id=$facebook';
+  //   } else {
+  //     fbProtocolUrl = 'https://www.facebook.com/$facebook'; // 'fb://page/$facebook';
+  //   }
+  //
+  //   String fallbackUrl = 'https://www.facebook.com/$facebook';
+  //
+  //
+  //   var _url = Uri.parse(fbProtocolUrl);
+  //
+  //   if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
+  //     _url = Uri.parse(fallbackUrl);
+  //     if(!await launchUrl(_url, mode: LaunchMode.externalApplication))
+  //     {
+  //       throw 'Could not launch $_url';
+  //     }
+  //   }
+  // }
 
   Future<void> viewInInstagram(Empresa empresa) async {
     var facebook = empresa.facebook;
@@ -64,19 +92,25 @@ class SocialMediaLinks extends StatelessWidget {
     if (Platform.isIOS) {
       fbProtocolUrl = 'instagram://user?username=$facebook';
     } else {
-      fbProtocolUrl = 'https://www.instagram.com/$facebook';// 'instagram://user?username=$facebook';
+      fbProtocolUrl =  'instagram://user?username=$facebook'; //'https://www.instagram.com/$facebook';//
     }
 
     String fallbackUrl = 'https://www.instagram.com/$facebook';
 
-    var _url = Uri.parse(fbProtocolUrl);
-    if (!await launchUrl(_url)) {
-      _url = Uri.parse(fallbackUrl);
-      if(!await launchUrl(_url))
-      {
-        throw 'Could not launch $_url';
+    try {
+      Uri fbBundleUri = Uri.parse(fbProtocolUrl);
+      var canLaunchNatively = await canLaunchUrl(fbBundleUri);
+
+      if (canLaunchNatively) {
+        launchUrl(fbBundleUri);
+      } else {
+        await launchUrl(Uri.parse(fallbackUrl),
+            mode: LaunchMode.externalApplication);
       }
+    } catch (e, st) {
+      // Handle this as you prefer
     }
+
   }
 
 }

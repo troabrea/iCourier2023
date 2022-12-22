@@ -1,15 +1,17 @@
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:event/event.dart' as event;
+import '../appinfo.dart';
 import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import 'carnet_usuario.dart';
 
 class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CourierAppBar({Key? key}) : super(key: key);
-
+  const CourierAppBar({Key? key, required this.hasWhatsApp}) : super(key: key);
+  final bool hasWhatsApp;
   @override
   State<CourierAppBar> createState() => _CourierAppBarState();
 
@@ -21,6 +23,24 @@ class _CourierAppBarState extends State<CourierAppBar> {
   String title = "Mi Courier";
   bool isBusy = false;
   late List<Widget> appBarActions = <Widget>[].toList();
+  late UserProfile userProfile;
+  bool showWhatsApp = false;
+  @override
+  void initState() {
+    super.initState();
+    _configureWithProfile();
+  }
+
+  Future<void> _configureWithProfile() async {
+    userProfile = await GetIt.I<CourierService>().getUserProfile();
+    setState(() {
+      if(showWhatsApp != userProfile.whatsappSucursal.isNotEmpty) {
+        showWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+        appBarActions.clear();
+        GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(userProfile.cuenta.isNotEmpty, userProfile.cuenta));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +67,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
                 ),
                 onPressed: () => {showMembershipBadge(context)},
               ),
+              if(showWhatsApp)
               IconButton(
                 icon: Icon(Icons.whatsapp_rounded,
                   color: Theme.of(context).appBarTheme.foregroundColor,
@@ -78,7 +99,6 @@ class _CourierAppBarState extends State<CourierAppBar> {
   }
 
   Future<void> chatWithSucursal() async {
-    var userProfile = await GetIt.I<CourierService>().getUserProfile();
     var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
     if (whatsApp.isNotEmpty) {
       var _url = Uri.parse("whatsapp://send?phone=$whatsApp");

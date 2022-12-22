@@ -50,7 +50,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const NoticiasAppBar(),
+      appBar:  NoticiasAppBar(),
       body: BlocProvider(
         create: (context) => noticiasBloc..add(const LoadApiEvent()),
         child: BlocBuilder<NoticiasBloc, NoticiasState>(

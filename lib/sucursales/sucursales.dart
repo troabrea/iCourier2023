@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:icourier/services/model/login_model.dart';
 
 import 'package:map_launcher/map_launcher.dart' as map_launcher;
 
@@ -16,6 +17,7 @@ import '../../services/courier_service.dart';
 import '../../sucursales/bloc/location_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../appinfo.dart';
 import '../services/model/sucursal.dart';
 import 'package:event/event.dart' as event;
 import 'bloc/sucursales_bloc.dart';
@@ -30,6 +32,8 @@ class SucursalesPage extends StatefulWidget {
 class _SucursalesPageState extends State<SucursalesPage> {
   late ScrollController controller;
   final sucursalesBloc = SucursalesBloc(GetIt.I<CourierService>());
+  late UserProfile userProfile;
+  bool hasWhatsApp = false;
   late List<Sucursal> sucursales;
   String searchText = "";
   var lastRefresh = DateTime.now();
@@ -54,9 +58,17 @@ class _SucursalesPageState extends State<SucursalesPage> {
       );
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
+    _configureWithProfile();
     controller = ScrollController();
+  }
+
+  Future<void> _configureWithProfile() async {
+    userProfile = await GetIt.I<CourierService>().getUserProfile();
+    setState(() {
+      hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+    });
   }
 
   @override
@@ -85,6 +97,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
             automaticallyImplyLeading: false,
             centerTitle: true,
             actions: [
+              if(hasWhatsApp)
               IconButton(
                 icon: Icon(Icons.whatsapp_rounded,
                   color: Theme.of(context).appBarTheme.foregroundColor,

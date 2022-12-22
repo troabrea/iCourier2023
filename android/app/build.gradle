@@ -93,6 +93,11 @@ android {
             dimension "app"
             applicationId "com.barolit.caribepackapp"
         }
+        taino {
+            dimension "app"
+            applicationId "com.barolit.taino"
+            versionCode 520233
+        }
     }
 
     buildTypes {

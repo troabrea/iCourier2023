@@ -79,14 +79,14 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               PersistentNavBarNavigator.pushNewScreen(context,screen: const PreguntasPage());
               // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(builder: (context)=> const PreguntasPage()));
             }, child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.question_answer, color: Theme.of(context).primaryColorDark ), trailing: const Icon(Icons.chevron_right), title: const Text("Preguntas"),))),
-            if(_empresa?.correoServicio != null)
+            if(_empresa?.correoServicio != null && _empresa!.correoServicio.isNotEmpty)
               InkWell(
                 onTap: () => { openExteralUrl(_empresa!.correoServicio)},
                 child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.contact_phone_outlined, color: Theme.of(context).primaryColorDark ), trailing:
                 const Icon(Icons.launch),
                   title: const Text("Servicio al Cliente"),)),
               ),
-            if(_empresa?.twitter != null)
+            if(_empresa?.twitter != null && _empresa!.twitter.isNotEmpty)
               InkWell(
                 onTap: () => { openExteralUrl(_empresa!.twitter)},
                 child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.support, color: Theme.of(context).primaryColorDark ), trailing:

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
+import 'package:icourier/services/model/login_model.dart';
+import '../appinfo.dart';
 import '../services/courier_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../courier/paquete_tile.dart';
@@ -10,20 +12,40 @@ import 'courier_historia_paquete.dart';
 import 'crear_postalerta.dart';
 import 'package:event/event.dart' as event;
 
-class RecepcionesPage extends StatelessWidget {
+class RecepcionesPage extends StatefulWidget {
   final List<Recepcion> recepciones;
   final String titulo;
   final bool isRetenio;
 
-  const RecepcionesPage(
+  RecepcionesPage(
       {Key? key,
       required this.recepciones,
       this.titulo = "Recepciones",
       this.isRetenio = false})
       : super(key: key);
 
+  @override
+  State<RecepcionesPage> createState() => _RecepcionesPageState();
+}
+
+class _RecepcionesPageState extends State<RecepcionesPage> {
+  late UserProfile userProfile;
+  bool hasWhatsApp = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _configureWithProfile();
+  }
+
+  Future<void> _configureWithProfile() async {
+    userProfile = await GetIt.I<CourierService>().getUserProfile();
+    setState(() {
+      hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+    });
+  }
+
   Future<void> chatWithSucursal() async {
-    var userProfile = await GetIt.I<CourierService>().getUserProfile();
     var whatsApp = userProfile
         .whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
     if (whatsApp.isNotEmpty) {
@@ -38,10 +60,11 @@ class RecepcionesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(titulo),
+          title: Text(widget.titulo),
           leading:
               BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
           actions: [
+            if(hasWhatsApp)
             IconButton(
               icon: Icon(
                 Icons.whatsapp_rounded,
@@ -58,7 +81,7 @@ class RecepcionesPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
                 child: CustomScrollView(slivers: [
                   SliverGroupedListView<Recepcion, String>(
-                    elements: recepciones,
+                    elements: widget.recepciones,
                     groupBy: (element) => element.estatus,
                     groupSeparatorBuilder: (String value) => Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -73,7 +96,7 @@ class RecepcionesPage extends StatelessWidget {
                     ),
                     itemBuilder: (context, Recepcion recepcion) => InkWell(
                         onTap: () {
-                          if (isRetenio) {
+                          if (widget.isRetenio) {
                             showPostAlertaSheet(context, recepcion);
                           } else {
                             Navigator.of(context, rootNavigator: false).push(

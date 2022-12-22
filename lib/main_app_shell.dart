@@ -371,29 +371,55 @@ class _MainAppShellState extends State<MainAppShell> {
           inactiveIcon: Icon(Icons.place_outlined, size: 25,
             color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
           )),
-      PersistentBottomNavBarItem(
-          icon: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle
-            ),
-            //color: Colors.white,
-            child: Image.asset(appInfo.centerIconImage),
-            //height: appInfo.centerIconSize, width: appInfo.centerIconSize,
-          ),
-          inactiveIcon: Container(
-            padding: const EdgeInsets.all(5),
-            decoration:  BoxDecoration(
-                color: Colors.white.withOpacity(1),
+      if(appInfo.pushChannelTopic == "TAINO")
+        PersistentBottomNavBarItem(
+            icon: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: const BoxDecoration(
+                color: Colors.white,
                 shape: BoxShape.circle
+              ),
+              //color: Colors.white,
+              child: Image.asset(appInfo.centerIconImage),
+              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
             ),
-            //color: Colors.transparent,
-            child: Image.asset(appInfo.centerIconImage),
-            //height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
-          ),
-          title: null, //'Inicio',
-          activeColorPrimary: Colors.transparent,
-          inactiveColorPrimary: Colors.transparent),
+            inactiveIcon: Container(
+              padding: const EdgeInsets.all(5),
+              decoration:  BoxDecoration(
+                  color: Colors.white.withOpacity(1),
+                  shape: BoxShape.circle
+              ),
+              //color: Colors.transparent,
+              child: Image.asset(appInfo.centerIconImage),
+              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+            ),
+            title: null, //'Inicio',
+            activeColorPrimary: Colors.transparent,
+            inactiveColorPrimary: Colors.transparent),
+      if(appInfo.pushChannelTopic != "TAINO")
+        PersistentBottomNavBarItem(
+            icon: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle
+              ),
+              //color: Colors.white,
+              child: Image.asset(appInfo.centerIconImage),
+              // height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+            ),
+            inactiveIcon: Container(
+              padding: const EdgeInsets.all(5),
+              decoration:  BoxDecoration(
+                  color: Colors.white.withOpacity(1),
+                  shape: BoxShape.circle
+              ),
+              //color: Colors.transparent,
+              child: Image.asset(appInfo.centerIconImage),
+              // height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+            ),
+            title: null, //'Inicio',
+            activeColorPrimary: Colors.transparent,
+            inactiveColorPrimary: Colors.transparent),
       PersistentBottomNavBarItem(
           icon: Icon(
             Icons.calculate_outlined,

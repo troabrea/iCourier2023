@@ -23,7 +23,7 @@ class _CourierPageState extends State<CourierPage> {
   final appInfo = GetIt.I<AppInfo>();
   final courierBloc = CourierBloc(CourierIsBusyState());
   late ScrollController controller;
-
+  bool hasWhatsApp = false;
   bool isBusy = false;
 
   String userName = "";
@@ -33,8 +33,14 @@ class _CourierPageState extends State<CourierPage> {
   void initState() {
     controller = ScrollController();
     super.initState();
+    _configureWithProfile();
   }
-
+  Future<void> _configureWithProfile() async {
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    setState(() {
+      hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+    });
+  }
   @override
   void dispose() {
     controller.dispose();
@@ -45,7 +51,7 @@ class _CourierPageState extends State<CourierPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CourierAppBar(),
+        appBar: CourierAppBar(hasWhatsApp: hasWhatsApp),
         body: BlocProvider(
             create: (context) => courierBloc..add(CheckLoggedEvent()),
             child: BlocBuilder<CourierBloc, CourierState>(

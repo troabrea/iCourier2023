@@ -66,15 +66,15 @@ class CalculadoraResponse {
   String comentario;
 
   factory CalculadoraResponse.fromJson(Map<String, dynamic> json) => CalculadoraResponse(
-    companiaId: json["companiaID"],
-    oficinaId: json["oficinaID"],
-    transaccionId: json["transaccionID"],
-    transaccionDetalleId: json["transaccionDetalleID"],
-    productoId: json["productoID"],
-    productoNombre: json["productoNombre"],
-    almacenId: json["almacenID"],
+    companiaId: json["companiaID"] ?? '',
+    oficinaId: json["oficinaID"] ?? '',
+    transaccionId: json["transaccionID"] ?? '',
+    transaccionDetalleId: json["transaccionDetalleID"] ?? '',
+    productoId: json["productoID"] ?? '',
+    productoNombre: json["productoNombre"] ?? '',
+    almacenId: json["almacenID"] ?? '',
     cantidad: json["cantidad"].toDouble(),
-    unidadId: json["unidadID"],
+    unidadId: json["unidadID"] ?? '',
     piezas: json["piezas"].toDouble(),
     precio: json["precio"].toDouble(),
     bruto: json["bruto"].toDouble(),
@@ -83,8 +83,8 @@ class CalculadoraResponse {
     pctImp: json["pctImp"].toDouble(),
     impuesto: json["impuesto"].toDouble(),
     neto: json["neto"].toDouble(),
-    monedaId: json["monedaID"],
-    comentario: json["comentario"],
+    monedaId: json["monedaID"] ?? '',
+    comentario: json["comentario"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {

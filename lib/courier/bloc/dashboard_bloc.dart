@@ -64,7 +64,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
     on<LoadApiEvent>((event,emit) async {
         emit(DashboardLoadingState());
-        final empresa = await _courierService.getEmpresa();
+        final empresa = await _courierService.getEmpresa(ignoreCache: event.forceRefresh);
         final banners = await _courierService.getBanners();
         final recepciones = await _courierService.getRecepciones(event.forceRefresh);
 

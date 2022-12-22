@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>$(APP_DISPLAY_NAME)</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>$(APP_DISPLAY_NAME)</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>whatsapp</string>
-		<string>waze</string>
-		<string>comgooglemaps</string>
-	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Incluir fotos en pre y post alertas.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Incluir fotos en pre y post alertas.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>$(LAUNCH_SCREEN_STORYBOARD)</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIRequiresFullScreen</key>
-	<false/>
-	<key>UIStatusBarHidden</key>
-	<true/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
-</dict>
+	<dict>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>$(APP_DISPLAY_NAME)</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>$(APP_DISPLAY_NAME)</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(MARKETING_VERSION)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(CURRENT_PROJECT_VERSION)</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>whatsapp</string>
+			<string>waze</string>
+			<string>comgooglemaps</string>
+		</array>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>Incluir fotos en pre y post alertas.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Asistir en como llegar a nuestas oficinas</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Asistir en como llegar a nuestas oficinas</string>
+		<key>NSLocationUsageDescription</key>
+		<string>Asistir en como llegar a nuestas oficinas</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Asistir en como llegar a nuestas oficinas</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Incluir fotos en pre y post alertas.</string>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>$(LAUNCH_SCREEN_STORYBOARD)</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UIRequiresFullScreen</key>
+		<false/>
+		<key>UIStatusBarHidden</key>
+		<true/>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+	</dict>
 </plist>

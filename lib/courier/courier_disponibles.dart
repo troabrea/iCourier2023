@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/services/model/login_model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../courier/paquete_tile.dart';
 import '../../services/model/empresa.dart';
 
+import '../appinfo.dart';
 import '../services/courier_service.dart';
 import '../services/model/recepcion.dart';
 import 'bloc/disponible_bloc.dart';
@@ -30,11 +32,21 @@ class DisponiblesPage extends StatefulWidget {
 class _DisponiblesPageState extends State<DisponiblesPage> {
   final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
   bool _isInitialValue = true;
+  late UserProfile userProfile;
+  bool hasWhatsApp = false;
 
   @override
   void initState() {
     super.initState();
     startAnimation();
+    _configureWithProfile();
+  }
+
+  Future<void> _configureWithProfile() async {
+    userProfile = await GetIt.I<CourierService>().getUserProfile();
+    setState(() {
+      hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+    });
   }
 
   Future<void> startAnimation() async {
@@ -50,7 +62,6 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
   }
 
   Future<void> chatWithSucursal() async {
-    var userProfile = await GetIt.I<CourierService>().getUserProfile();
     var whatsApp = userProfile
         .whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
     if (whatsApp.isNotEmpty) {
@@ -69,6 +80,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
           leading:
               BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
           actions: [
+            if(hasWhatsApp)
             IconButton(
               icon: Icon(
                 Icons.whatsapp_rounded,
