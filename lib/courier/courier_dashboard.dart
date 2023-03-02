@@ -5,6 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/courier/courier_estado_cuenta.dart';
+import 'package:icourier/services/courier_service.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import '../appinfo.dart';
 import 'courier_prealertas_realizadas.dart';
 import 'package:intl/intl.dart';
 import '../../courier/bloc/dashboard_bloc.dart';
@@ -179,6 +183,18 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                             NotificarRetiroEvent(
                                                                 context));
                                                   }
+                                                  if (value == 'domicilio') {
+                                                    BlocProvider.of<
+                                                                DashboardBloc>(
+                                                            context)
+                                                        .add(SolicitarDomicilioEvent(
+                                                            context,
+                                                            state.recepciones
+                                                                .where((element) =>
+                                                                    element
+                                                                        .disponible)
+                                                                .toList()));
+                                                  }
                                                   if (value == 'pagar') {
                                                     BlocProvider.of<
                                                                 DashboardBloc>(
@@ -197,7 +213,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                         title: "Disponibles",
                                         count: state.disponiblesCount)),
                               if (state.recepcionesCount > 0)
-                                Container( margin: const EdgeInsets.only(top:10.0, bottom: 10.0),
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 10.0, bottom: 10.0),
                                   child: InkWell(
                                       onTap: () {
                                         Navigator.of(context,
@@ -205,8 +223,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                             .push(MaterialPageRoute(
                                                 builder: (context) =>
                                                     RecepcionesPage(
-                                                        recepciones:
-                                                            state.recepciones)));
+                                                        recepciones: state
+                                                            .recepciones)));
                                       },
                                       child: SummaryBox(
                                           icon: const Icon(
@@ -251,9 +269,35 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                     title: "No tiene paquetes!",
                                   ),
                                 ),
-                              const SizedBox(
-                                height: 30,
-                              ),
+                              if (state.disponiblesCount == 0)
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              if (state.empresa.hasNotifyModule &&
+                                  state.disponiblesCount > 0)
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                      icon: const Icon(
+                                        Icons.motorcycle,
+                                        size: 35,
+                                      ),
+                                      onPressed: () {
+                                        BlocProvider.of<DashboardBloc>(context)
+                                            .add(SolicitarDomicilioEvent(
+                                                context,
+                                                state.recepciones
+                                                    .where((element) =>
+                                                        element.disponible)
+                                                    .toList()));
+                                      },
+                                      label: const Text("Solicitar Domicilio")),
+                                ),
+                              if (state.disponiblesCount > 0)
+                                const SizedBox(
+                                  height: 30,
+                                ),
                               Row(
                                 children: [
                                   Expanded(
@@ -281,17 +325,17 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                         ),
                                         onPressed: () {
                                           Navigator.of(context,
-                                              rootNavigator: false)
+                                                  rootNavigator: false)
                                               .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                              const PrealertasRealizadas()));
+                                                  builder: (context) =>
+                                                      const PrealertasRealizadas()));
                                         },
-                                        label:
-                                        const Text("Consultar\nPre-Alertas")),
+                                        label: const Text(
+                                            "Consultar\nPre-Alertas")),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 25),
                               Row(
                                 children: [
                                   Expanded(
@@ -328,6 +372,29 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   ),
                                 ],
                               ),
+                              if(state.empresa.dominio.toUpperCase() == "TAINO")
+                                const SizedBox(height: 25,),
+                              if(state.empresa.dominio.toUpperCase() == "TAINO")
+                                Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                        icon: const Icon(
+                                          Icons.balance,
+                                          size: 25,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                              rootNavigator: false)
+                                              .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                              const EstadoDeCuenta()));
+                                        },
+                                        label:
+                                        const Text("Ver Estado de\nCuenta")),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -429,6 +496,53 @@ Future<void> showTrackingSheet(BuildContext context) async {
 
   //NavbarNotifier.hideBottomNavBar = true;
   GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+  final appInfo = GetIt.I<AppInfo>();
+
+  if (appInfo.metricsPrefixKey == "CARIBEPACK") {
+    await launchUrl(Uri.parse("https://caribepack-erp.iplus.app/fe/lg-es/ut/Estatus.aspx"));
+    // await showModalBottomSheet(
+    //     isScrollControlled: true,
+    //     shape: const RoundedRectangleBorder(
+    //         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    //     context: context,
+    //     builder: (builder) {
+    //       return Container(
+    //         height: 600,
+    //         padding: const EdgeInsets.fromLTRB(0, 0, 0, 65),
+    //         child: Column(mainAxisSize: MainAxisSize.min, children: [
+    //           Container(
+    //             decoration: ShapeDecoration(
+    //                 color: Theme.of(context).appBarTheme.backgroundColor,
+    //                 shape: const RoundedRectangleBorder(
+    //                     borderRadius:
+    //                         BorderRadius.vertical(top: Radius.circular(20)))),
+    //             child: Column(
+    //               children: [
+    //                 Padding(
+    //                   padding: const EdgeInsets.all(8.0),
+    //                   child: Center(
+    //                       child: Text("Rastreo de Paquete",
+    //                           style: Theme.of(context)
+    //                               .textTheme
+    //                               .titleLarge
+    //                               ?.copyWith(
+    //                                   color: Theme.of(context)
+    //                                       .appBarTheme
+    //                                       .foregroundColor))),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           // const SizedBox(
+    //           //   height: 20,
+    //           // ),
+    //           const Expanded(child: WebView(initialUrl: "https://caribepack-erp.iplus.app/fe/lg-es/ut/Estatus.aspx",))
+    //         ]),
+    //       );
+    //     });
+    return;
+  }
+
   await showModalBottomSheet(
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(

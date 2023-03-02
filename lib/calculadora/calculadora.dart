@@ -6,10 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../calculadora/bloc/calculadora_bloc.dart';
 import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
 import '../../services/model/calculadora_model.dart';
+import '../helpers/boxed_title_value.dart';
 import '../services/model/producto.dart';
 import 'calculadoraappbar.dart';
 
@@ -351,43 +353,5 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
     );
   }
 
-}
-
-class BoxedTitleAndValue extends StatelessWidget {
-  const BoxedTitleAndValue({Key? key, required this.title, required this.value}) : super(key: key);
-  final String title;
-  final String value;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
-            decoration: ShapeDecoration(color: Theme.of(context).appBarTheme.backgroundColor, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)))),
-            child: Column(
-              children: [
-                Center(
-                    child: Text(title,
-                        style:
-                        Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor))),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
-            decoration: ShapeDecoration(color: Theme.of(context).appBarTheme.foregroundColor, shape:  RoundedRectangleBorder(side: BorderSide(color: Theme.of(context).appBarTheme.backgroundColor!), borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)))),
-            child: Column(
-              children: [
-                Center(
-                    child: AutoSizeText(value, maxLines: 1,
-                        style:
-                        Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).appBarTheme.backgroundColor))),
-              ],
-            ),
-          ),
-        ],),
-    );
-  }
 }
 

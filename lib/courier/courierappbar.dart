@@ -69,7 +69,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
               ),
               if(showWhatsApp)
               IconButton(
-                icon: Icon(Icons.whatsapp_rounded,
+                icon: Icon(Icons.chat,
                   color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: ()  {
@@ -120,7 +120,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
           actions.add(  OutlinedButton(
             onPressed: () {Navigator.pop(context, element.userAccount);},
             child: Text('Cambiar a cuenta: ${element.userAccount}'),
-            style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
+            // style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
           ) );
         }
         actions.add( const Divider() );

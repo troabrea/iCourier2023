@@ -8,7 +8,7 @@ import '../services/model/recepcion.dart';
 
 class PaqueteTile extends StatelessWidget {
   final Recepcion recepcion;
-  final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
+  final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle, Icons.motorcycle ].toList();
   final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
   final formatDate = DateFormat("dd-MMM-yyyy");
   PaqueteTile({Key? key, required this.recepcion}) : super(key: key);

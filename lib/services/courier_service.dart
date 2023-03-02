@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
@@ -10,6 +11,8 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
+import 'package:icourier/services/model/estado_model.dart';
+import 'package:icourier/services/model/solicitardomicilio_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
@@ -68,6 +71,8 @@ Empresa empresaFromJson(String str) => Empresa.fromJson(json.decode(str));
 String empresaToJson(Pregunta data) => json.encode(data.toJson());
 
 List<CalculadoraResponse> calculadoraResponseFromJson(String str) => List<CalculadoraResponse>.from(json.decode(str).map((x) => CalculadoraResponse.fromJson(x)));
+
+List<EstadoResponse> estadoResponseFromJson(String str) => List<EstadoResponse>.from(json.decode(str).map((x) => EstadoResponse.fromJson(x)));
 
 String calculadoraResponseToJson(List<CalculadoraResponse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
@@ -202,11 +207,47 @@ class CourierService {
     return empresaFromJson(jsonData);
   }
 
+  Future<void> _validateSession() async {
+    final sessionId = (await cache.load('sessionId','')).toString();
+    final userId = (await cache.load('userAccount','')).toString();
+    final password = (await cache.load('userPassword','')).toString();
+    var loginResult = await getLoginResult(userId, password, checkForNew: false);
+    if(loginResult.sessionId.isEmpty) {
+      GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
+      GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
+    } else {
+      await cache.write('sessionId', sessionId);
+    }
+  }
+
+  Future<List<EstadoResponse>> getEstadoCuenta() async {
+    var sessionId = (await cache.load('sessionId', ''))
+        .toString();
+
+    await _validateSession();
+
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/estado?code=6_li5EkVBjDrA_5ItLqi1YX9KlAt9jYwHCZzCwlgFC6uAzFupT4cfg==");
+    final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
+    final json = jsonEncode(req);
+    final response = await post(uri, body: json);
+
+    if(response.statusCode >= 200 && response.statusCode < 300) {
+      final result = estadoResponseFromJson(response.body);
+      return result.sorted((a, b) => b.diasVencidos.compareTo(a.diasVencidos));
+    } else {
+      return <EstadoResponse>[].toList();
+    }
+
+  }
+
   Future<List<CalculadoraResponse>> getCalculadoraResult(double libras,
       double valor, {String producto = ""}) async {
 
     var sessionId = (await cache.load('sessionId', ''))
         .toString();
+
+    await _validateSession();
 
     // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
 
@@ -262,6 +303,9 @@ class CourierService {
     if(sessionId.isEmpty) {
       return <PreAlertaDto>[].toList();
     }
+
+    await _validateSession();
+
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/prealertas?code=d-XHphgtD-RFeh78aElmtpqMOCQPYGsPt57hrwwTjRfjAzFuDUWRrQ==");
     final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
@@ -290,6 +334,9 @@ class CourierService {
       if (sessionId == "") {
         return "[]";
       }
+
+      await _validateSession();
+
       final uri = Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/recepciones?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==");
           //"https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
@@ -330,6 +377,7 @@ class CourierService {
     if (sessionId == "") {
       return <Recepcion>[].toList();
     }
+    await _validateSession();
 
     var dateFormat = DateFormat("yyy-MM-dd");
 
@@ -470,6 +518,9 @@ class CourierService {
   }
 
   Future<void> launchOnlinePayment()  async {
+
+    await _validateSession();
+
     final empresa = await getEmpresa();
     final cuenta = await cache.load('userAccount', "");
     final password = await cache.load('userPassword', "");
@@ -541,9 +592,37 @@ class CourierService {
       }
     }
 
+    await _validateSession();
+
     //final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/notificarretiro?code=8WQvaSc2WvgWwsdZms/GYsWgI2V3FxAt4SrtQv4N6xa1NbPXTpybsg==");
     final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/notificarretiro?code=wDhDdAsMvYhvy9WvDhZfn9dMK0s-hOMGgEbiuhDYl3tcAzFuEGrkmA==");
     var req = NotificarRetiroModel(empresa.registroId, sessionId, cuenta, paquetes);
+    final json = jsonEncode(req);
+    final response = await post(uri, body: json);
+    return (response.statusCode >= 200 && response.statusCode <= 299) ? "" : response.reasonPhrase!;
+
+  }
+
+  Future<String> solicitaDomicilio(List<String> paquetes)  async {
+    final empresa = await getEmpresa();
+    if(!empresa.hasDelivery) {return 'Funcionalidad no disponible.';}
+
+    var sessionId = (await cache.load('sessionId', ''))
+        .toString(); //  prefs.getString('sessionId');
+    if (sessionId == "") {
+      return 'Funcinalidad no disponible';
+    }
+
+    var cuenta = await cache.load('userAccount', "");
+    if (cuenta == "") {
+      return 'Funcinalidad no disponible';
+    }
+
+    await _validateSession();
+
+    //final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/notificarretiro?code=8WQvaSc2WvgWwsdZms/GYsWgI2V3FxAt4SrtQv4N6xa1NbPXTpybsg==");
+    final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/solicitardomicilio?code=wIMWih5RrwiTtkIdDmmOwlLKiABtc2ETEqtar04wnIsaAzFuGmU9Mg==");
+    var req = SolicitarDomicilioModel(empresa.registroId, sessionId, paquetes);
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
     return (response.statusCode >= 200 && response.statusCode <= 299) ? "" : response.reasonPhrase!;
@@ -557,6 +636,7 @@ class CourierService {
       if (sessionId == "") {
         return "Sesión inválida";
       }
+      await _validateSession();
 
       // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_PREALERTA");
 
@@ -652,7 +732,7 @@ class CourierService {
       if (sessionId == "") {
         return "Sesión inválida";
       }
-
+      await _validateSession();
       // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_POSTALERTA");
 
 

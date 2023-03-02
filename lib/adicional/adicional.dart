@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:event/event.dart' as event;
 
+import '../appinfo.dart';
 import '../helpers/social_media_links.dart';
 import '../services/app_events.dart';
 import '../services/model/empresa.dart';
@@ -30,6 +31,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
   String _userSucursal = "";
   Empresa? _empresa;
 
+  final appInfo = GetIt.I<AppInfo>();
   _AdicionalInfoPageState()
   {
     GetIt.I<event.Event<LoginChanged>>().subscribe((args)  {
@@ -70,11 +72,12 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 65),
           child: Column(children: [
-            InkWell(onTap: () {
-              PersistentNavBarNavigator.pushNewScreen(context,screen: const ServiciosPage());
-              // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute( builder: (context) => const ServiciosPage()));
-              },
-                child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.miscellaneous_services, color: Theme.of(context).primaryColorDark), trailing: const Icon(Icons.chevron_right), title: const Text("Servicios"),))),
+            if(appInfo.metricsPrefixKey != "CARIBEPACK")
+              InkWell(onTap: () {
+                PersistentNavBarNavigator.pushNewScreen(context,screen: const ServiciosPage());
+                // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute( builder: (context) => const ServiciosPage()));
+                },
+                  child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.miscellaneous_services, color: Theme.of(context).primaryColorDark), trailing: const Icon(Icons.chevron_right), title: const Text("Servicios"),))),
             InkWell(onTap: () {
               PersistentNavBarNavigator.pushNewScreen(context,screen: const PreguntasPage());
               // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(builder: (context)=> const PreguntasPage()));

@@ -62,6 +62,18 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           retenidosCount: retenidosCount,));
     });
 
+    on<SolicitarDomicilioEvent>((event,emit) async {
+      final title = "Recibirá ${event.disponibles.length.toString()} paquete(s)";
+      var paquetes = await domicilioDialog(event.context, title, "Solicitar Domicilio", "Cancelar", event.disponibles);
+      if(paquetes.isEmpty) {
+        return;
+      }
+
+      emit(DashboardLoadingState());
+      var result = await _courierService.solicitaDomicilio(paquetes);
+      emit(DashboardFinishedState(withErrors:  result.isNotEmpty, errorMessage:  result  ));
+    });
+
     on<LoadApiEvent>((event,emit) async {
         emit(DashboardLoadingState());
         final empresa = await _courierService.getEmpresa(ignoreCache: event.forceRefresh);

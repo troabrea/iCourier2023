@@ -1,5 +1,3 @@
-
-
 import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -93,6 +91,7 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   GetIt.I.registerSingleton<event.Event<ToogleBarEvent>>(event.Event<ToogleBarEvent>());
   GetIt.I.registerSingleton<event.Event<NoticiasDataRefreshRequested>>(event.Event<NoticiasDataRefreshRequested>());
   GetIt.I.registerSingleton<event.Event<SucursalesDataRefreshRequested>>(event.Event<SucursalesDataRefreshRequested>());
+  GetIt.I.registerSingleton<event.Event<SessionExpired>>(event.Event<SessionExpired>());
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(

@@ -112,7 +112,7 @@ class _CourierPageState extends State<CourierPage> {
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
       initialValue: initialValue,
-      autofocus: true,
+      autofocus: false,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
       ]),
@@ -153,6 +153,7 @@ class _CourierPageState extends State<CourierPage> {
                 width: MediaQuery.of(context).size.width * .8,
                 child: Column(
                   children: [
+                    const SizedBox(height: 10,),
                     SizedBox(
                         height: 150,
                         child: Image.asset(

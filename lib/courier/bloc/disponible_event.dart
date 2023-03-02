@@ -19,5 +19,13 @@ class DisponiblePagoEnLineaEvent extends DisponibleEvent {
   @override
   // AppCenter.track
   List<Object?> get props => [context];
+}
 
+class DisponibleDomicilioEvent extends DisponibleEvent {
+  final BuildContext context;
+  final List<Recepcion> disponibles;
+  const DisponibleDomicilioEvent(this.context, this.disponibles);
+  @override
+  // AppCenter.track
+  List<Object?> get props => [context, disponibles];
 }

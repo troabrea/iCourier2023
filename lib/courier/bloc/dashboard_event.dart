@@ -26,6 +26,15 @@ class NotificarRetiroEvent extends DashboardEvent {
   List<Object?> get props => [context];
 }
 
+class SolicitarDomicilioEvent extends DashboardEvent {
+  final BuildContext context;
+  final List<Recepcion> disponibles;
+  const SolicitarDomicilioEvent(this.context, this.disponibles);
+  @override
+  // AppCenter.track
+  List<Object?> get props => [context, disponibles];
+}
+
 class StoreCurrentAccountEvent extends DashboardEvent {
   @override
   List<Object?> get props => [];

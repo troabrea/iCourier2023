@@ -83,7 +83,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
             if(hasWhatsApp)
             IconButton(
               icon: Icon(
-                Icons.whatsapp_rounded,
+                Icons.chat,
                 color: Theme.of(context).appBarTheme.foregroundColor,
               ),
               onPressed: () {
@@ -236,6 +236,12 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                                 .add(
                                                     DisponibleNotificarRetiroEvent(
                                                         context));
+                                          }
+                                          if(value == 'domicilio') {
+                                            BlocProvider.of<DisponibleBloc>(
+                                                context)
+                                                .add(DisponibleDomicilioEvent(
+                                                context,widget.disponibles ));
                                           }
                                           if (value == 'pagar') {
                                             BlocProvider.of<DisponibleBloc>(

@@ -25,7 +25,7 @@ class Noticia {
         fecha: DateTime.parse(json["fecha"]),
         titulo: json["titulo"],
         resumen: json["resumen"],
-        contenido: json["contenido"],
+        contenido: json["contenido"] ?? "",
         url: json["url"] ?? "",
         deleted: json["deleted"],
       );

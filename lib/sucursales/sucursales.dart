@@ -99,7 +99,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
             actions: [
               if(hasWhatsApp)
               IconButton(
-                icon: Icon(Icons.whatsapp_rounded,
+                icon: Icon(Icons.chat,
                   color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: ()  {
@@ -313,7 +313,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                           iconSize: 36,
                         ),
                         IconButton(
-                          icon: const Icon(Icons.whatsapp_rounded),
+                          icon: const Icon(Icons.chat),
                           onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },
                           iconSize: 36,
                         ),
@@ -383,7 +383,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const Icon(Icons.whatsapp, size: 14,),
+                          const Icon(Icons.chat, size: 14,),
                           const SizedBox(
                             width: 20,
                           ),

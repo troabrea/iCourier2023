@@ -60,6 +60,12 @@ class Recepcion {
   late String numeroRastreo;
 
   int progresoActual() {
+    if(estatus.toUpperCase() == "ENTREGADO AL CLIENTE") {
+      return 4;
+    }
+    if(disponible && progreso == 4) {
+      return 5;
+    }
     if(disponible) {
       return 4;
     } else if(estatus.toUpperCase().contains("EMBARCADO") || estatus.toUpperCase().contains("EMPACADO")) {

@@ -93,18 +93,27 @@ android {
             dimension "app"
             applicationId "com.barolit.caribepackapp"
         }
+        cps {
+            dimension "app"
+            applicationId "com.barolit.cps"
+        }
         taino {
             dimension "app"
             applicationId "com.barolit.taino"
-            versionCode 520233
+            versionCode 520245
+        }
+        fixocargo {
+            dimension "app"
+            applicationId "com.barolit.fixocargo"
+            versionCode 520230
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.codemagic
-            //signingConfig signingConfigs.release
-            //signingConfig signingConfigs.legacy
+            //signingConfig signingConfigs.codemagic
+//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.legacy
         }
     }
 }

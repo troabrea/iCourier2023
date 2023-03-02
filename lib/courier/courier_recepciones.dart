@@ -67,7 +67,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
             if(hasWhatsApp)
             IconButton(
               icon: Icon(
-                Icons.whatsapp_rounded,
+                Icons.chat,
                 color: Theme.of(context).appBarTheme.foregroundColor,
               ),
               onPressed: () {

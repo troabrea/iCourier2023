@@ -229,11 +229,12 @@ class TainoAppInfo implements AppInfo {
         keepSecondary: true,
       ),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      useMaterial3: true,
+      useMaterial3: false,
     )
         .copyWith(
         dividerColor: Colors.black12,
         elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)) ,  backgroundColor: secondaryColor, foregroundColor: Colors.white ) ) ,
+        primaryTextTheme: getLightTextTheme(),
         textTheme:  getLightTextTheme(),
         iconTheme: const IconThemeData(color: primaryColor),
         textButtonTheme: getLightTextButtonTheme(),

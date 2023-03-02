@@ -31,6 +31,7 @@
 			<string>whatsapp</string>
 			<string>waze</string>
 			<string>comgooglemaps</string>
+			<string>fb</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
@@ -72,5 +73,7 @@
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-	</dict>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+</dict>
 </plist>

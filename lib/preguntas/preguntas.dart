@@ -73,7 +73,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
             leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
             actions: [
               IconButton(
-                icon: Icon(Icons.whatsapp_rounded,
+                icon: Icon(Icons.chat,
                   color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: ()  {

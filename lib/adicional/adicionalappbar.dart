@@ -39,7 +39,7 @@ class _AdicionalPageAppBarState extends State<AdicionalPageAppBar> {
       actions: [
         if(hasWhatsApp)
         IconButton(
-          icon: Icon(Icons.whatsapp_rounded,
+          icon: Icon(Icons.chat,
             color: Theme.of(context).appBarTheme.foregroundColor,
           ),
           onPressed: ()  {

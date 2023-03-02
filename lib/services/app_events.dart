@@ -1,5 +1,8 @@
 import 'package:event/event.dart';
 
+class SessionExpired extends EventArgs {
+  SessionExpired();
+}
 
 class UserPrealertaRequested extends EventArgs {
   UserPrealertaRequested();

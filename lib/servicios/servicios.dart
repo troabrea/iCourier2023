@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../services/courier_service.dart';
+import '../appinfo.dart';
 import '../services/model/servicio.dart';
 import 'bloc/servicios_bloc.dart';
 
@@ -19,7 +20,7 @@ class ServiciosPage extends StatefulWidget {
 class _ServiciosPageState extends State<ServiciosPage> {
 
   late ScrollController controller;
-
+  final appInfo = GetIt.I<AppInfo>();
   List<Servicio> servicios = <Servicio>[].toList();
   String searchText = "";
 
@@ -53,10 +54,10 @@ class _ServiciosPageState extends State<ServiciosPage> {
           return AppBar(
             title: const Text("Servicios"),
             automaticallyImplyLeading: false,
-            leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+            leading: appInfo.metricsPrefixKey != "CARIBEPACK" ? BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color) : null,
             actions: [
               IconButton(
-                icon: Icon(Icons.whatsapp_rounded,
+                icon: Icon(Icons.chat,
                   color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: ()  {

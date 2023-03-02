@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../helpers/dialogs.dart';
 import '../../services/courier_service.dart';
+import '../../services/model/recepcion.dart';
 
 part 'disponible_event.dart';
 part 'disponible_state.dart';
@@ -32,5 +33,18 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
       emit(DisponibleFinishedState(withErrors:  result.isNotEmpty, errorMessage:  result  ));
       emit(DisponibleIdleState());
     });
+
+    on<DisponibleDomicilioEvent>((event,emit) async {
+      var paquetes = await domicilioDialog(event.context, "Seleccione Paquetes", "Solicitar Domicilio", "Cancelar", event.disponibles);
+      if(paquetes.isEmpty) {
+        return;
+      }
+
+      emit(DisponibleBusyState());
+      var result = await _courierService.solicitaDomicilio(paquetes);
+      emit(DisponibleFinishedState(withErrors:  result.isNotEmpty, errorMessage:  result  ));
+      emit(DisponibleIdleState());
+    });
+
   }
 }
