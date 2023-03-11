@@ -26,7 +26,16 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
     setState(() {
       historia = widget.recepcion.paquetes.first.historia;
       historia.sort((a,b) => b.dateTime().compareTo(a.dateTime()));
-      stepperData = historia.map((e) => StepperData(title: e.nombreEstatus, subtitle: formatDate.format(e.dateTime()))).toList();
+      stepperData = historia.map((e) => StepperData(
+          iconWidget: Container(
+            padding: const EdgeInsets.all(2),
+            decoration: const BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(24))),
+            child: const Icon(Icons.check, color: Colors.white, size: 12,),
+          ),
+          title: StepperText(e.nombreEstatus),
+          subtitle: StepperText(formatDate.format(e.dateTime())))).toList();
       isLoaded= true;
     });
   }
@@ -58,25 +67,31 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
                     ],  lineColor: Theme.of(context).primaryColorDark, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
                     const SizedBox(height: 10,),
                     Expanded(
-                      child: AnotherStepper(
-                        titleTextStyle: Theme.of(context).textTheme.titleMedium!,
-                      subtitleTextStyle: Theme.of(context).textTheme.bodySmall!,
-                      stepperList: stepperData,
-                      stepperDirection: Axis.vertical,
-                      horizontalStepperHeight: 70,
-                        dotWidget: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: const BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.all(Radius.circular(30))),
-                          child: const Icon(Icons.check, color: Colors.white, size: 12,),
-                        ),
-                      gap: 25,
-                      activeBarColor: Colors.green,
-                      inActiveBarColor: Colors.grey,
-                      activeIndex: 0,
-                      barThickness: 3,
+                      child: SingleChildScrollView(
+                        child: AnotherStepper(
+                        iconWidth: 30,
+                        //   titleTextStyle: Theme.of(context).textTheme.titleMedium!,
+                        // subtitleTextStyle: Theme.of(context).textTheme.bodySmall!,
+                        stepperList: stepperData,
+                        stepperDirection: Axis.vertical,
+                        iconHeight: 30,
+                        verticalGap: 15,
+
+                        // horizontalStepperHeight: 70,
+                        //   dotWidget: Container(
+                        //     padding: const EdgeInsets.all(2),
+                        //     decoration: const BoxDecoration(
+                        //         color: Colors.green,
+                        //         borderRadius: BorderRadius.all(Radius.circular(30))),
+                        //     child: const Icon(Icons.check, color: Colors.white, size: 12,),
+                        //   ),
+                        // gap: 25,
+                        activeBarColor: Colors.green,
+                        inActiveBarColor: Colors.grey,
+                        activeIndex: 0,
+                        barThickness: 3,
     ),
+                      ),
                     ),
                   ],
                 ))));

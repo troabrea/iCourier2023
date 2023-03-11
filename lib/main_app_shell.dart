@@ -46,7 +46,7 @@ void showFlutterNotification(RemoteMessage message) {
         android: AndroidNotificationDetails(
           channel.id,
           channel.name,
-          channelDescription: channel.description,
+          channel.description,
           icon: 'ic_push_icon',
         ),
       ),

@@ -78,6 +78,7 @@ class _CourierPageState extends State<CourierPage> {
       keyboardType: TextInputType.text,
       //initialValue: initialValue,
       textAlign: TextAlign.center,
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       obscureText: true,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
@@ -111,6 +112,7 @@ class _CourierPageState extends State<CourierPage> {
       name: 'user',
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       initialValue: initialValue,
       autofocus: false,
       validator: FormBuilderValidators.compose([

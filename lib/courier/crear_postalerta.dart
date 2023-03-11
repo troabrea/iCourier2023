@@ -199,6 +199,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
       initialEntryMode: DatePickerEntryMode.calendar,
       format: DateFormat("dd-MMM-yyyy"),
       enabled: false,
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputType: InputType.date,
       textAlign: TextAlign.center,
       initialValue: widget.recepcion.fechaRecibido(),
@@ -233,6 +234,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       initialValue: '0.00',
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputFormatters: [
         TextInputMask(
             mask: '9+,999.99',
@@ -273,6 +275,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
           name: 'contenido',
           initialValue: widget.recepcion.contenido,
           enabled: false,
+          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
           valueTransformer: (val) => val?.toString(),
@@ -304,6 +307,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
         height: 60,
         child: FormBuilderTextField(
           name: 'proveedor',
+          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           initialValue: widget.recepcion.suplidor,
           enabled: false,
           validator: FormBuilderValidators.compose(
@@ -338,6 +342,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             child: FormBuilderTextField(
               name: 'tracking',
               maxLines: 2,
+              style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
               initialValue: widget.recepcion.enviadoPor,
               enabled: false,
               validator: FormBuilderValidators.compose(

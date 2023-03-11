@@ -14,6 +14,4 @@ abstract class AppInfo
   int defaultTab = 2;
   ThemeData getLightTheme();
   ThemeData getDarkTheme();
-
-}
-
+ }

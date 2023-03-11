@@ -229,7 +229,7 @@ class TainoAppInfo implements AppInfo {
         keepSecondary: true,
       ),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      useMaterial3: false,
+      useMaterial3: true,
     )
         .copyWith(
         dividerColor: Colors.black12,
@@ -238,7 +238,7 @@ class TainoAppInfo implements AppInfo {
         textTheme:  getLightTextTheme(),
         iconTheme: const IconThemeData(color: primaryColor),
         textButtonTheme: getLightTextButtonTheme(),
-        appBarTheme: getLightAppBarTheme()
+        appBarTheme: getLightAppBarTheme(),
     );
   }
 

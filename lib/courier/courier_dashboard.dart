@@ -298,6 +298,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 const SizedBox(
                                   height: 30,
                                 ),
+                              if(state.empresa.dominio.toUpperCase() != "CARIBEPACK")
                               Row(
                                 children: [
                                   Expanded(

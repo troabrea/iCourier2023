@@ -217,6 +217,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
       format: DateFormat("dd-MMM-yyyy"),
       inputType: InputType.date,
       textAlign: TextAlign.center,
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       initialValue: DateTime.now(),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
@@ -249,6 +250,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       initialValue: '0.00',
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputFormatters: [
         TextInputMask(
             mask: '9+,999.99',
@@ -288,6 +290,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
         child: FormBuilderTextField(
           name: 'contenido',
           initialValue: '',
+          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
           valueTransformer: (val) => val?.toString(),
@@ -323,6 +326,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
           valueTransformer: (val) => val?.toString(),
+          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           decoration: InputDecoration(
             labelText: 'Proveedor',
             hintText: 'Proveedor',
@@ -355,6 +359,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
               validator: FormBuilderValidators.compose(
                   [FormBuilderValidators.required(errorText: 'Requerido')]),
               valueTransformer: (val) => val?.toString(),
+              style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
               decoration: InputDecoration(
                 labelText: 'Tracking',
                 hintText: 'Tracking',
