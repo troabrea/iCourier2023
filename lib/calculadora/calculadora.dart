@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../calculadora/bloc/calculadora_bloc.dart';
 import '../../services/courier_service.dart';
@@ -81,8 +82,16 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                           if (state is CalculadoraLoadedState)
                             const AutoSizeText("* Valores en RD\$ sujetos a cambios *", textAlign: TextAlign.center, maxLines: 2,),
                           if (state is CalculadoraLoadedState && state.valorFob >= 200)
-                            const AutoSizeText("**Paquetes con valor comercial de US\$200.00 o mayor, son gravados con impuestos aduanales.", textAlign: TextAlign.center, maxLines: 2,),
-
+                             const AutoSizeText("**Paquetes con valor comercial de US\$200.00 o mayor están sujetos al pago de impuestos y conllevan un cargo de gestión aduanal.", textAlign: TextAlign.center, maxLines: 2,),
+                          if(state is CalculadoraLoadedState && state.email.isNotEmpty)
+                            InkWell(onTap: () {
+                              launchUrl(Uri.parse("mailto://${state.email}"));
+                            }, child: AutoSizeText.rich(
+                              TextSpan( text: "**Este es un estimado; Para una cotización exacta, escribir a: ",
+                                children: [
+                                  TextSpan(text: state.email, style: const TextStyle(decoration: TextDecoration.underline) )
+                                ]
+                               ), textAlign: TextAlign.center, maxLines: 2,)),
                         ],
                       ),
                     ),
@@ -194,6 +203,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       initialValue: '1',
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
         FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
@@ -201,20 +211,21 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           labelText: 'Libras',
+          floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
               TextStyle(color: Theme.of(context).primaryColorDark),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).errorColor),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).errorColor),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.balance_outlined),
           prefixIconColor: Theme.of(context).primaryColorDark),
     );
@@ -223,24 +234,26 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
   FormBuilderDropdown buildProductoField(BuildContext context) {
     return FormBuilderDropdown<Producto>(
       name: 'producto',
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       initialValue: productoActual,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           labelText: 'Producto',
+          floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
           TextStyle(color: Theme.of(context).primaryColorDark),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).errorColor),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).errorColor),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.miscellaneous_services),
           prefixIconColor: Theme.of(context).primaryColorDark,
           hintText: 'Seleccione Producto'),
@@ -260,6 +273,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       initialValue: '100.00',
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputFormatters: [
         TextInputMask(
             mask: '9+,999.99',
@@ -274,20 +288,21 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           labelText: 'Valor FOB',
+          floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
               TextStyle(color: Theme.of(context).primaryColorDark),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).errorColor),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).errorColor),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.attach_money_outlined),
           prefixIconColor: Theme.of(context).primaryColorDark),
     );

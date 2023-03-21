@@ -28,7 +28,7 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
   channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'Notificaciones y Alertas',
-    'Notificaciones y alertas sobre sus paquetes e información importante.', // description
+    description: 'Notificaciones y alertas sobre sus paquetes e información importante.', // description
     importance: Importance.high,
   );
 

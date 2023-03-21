@@ -9,6 +9,7 @@ abstract class AppInfo
   String get pushChannelTopic;
   String get centerIconImage;
   String get brandLogoImage;
+  String get brandLogoImageDark;
   double get centerIconSize;
   double get centerInactiveIconSize;
   int defaultTab = 2;

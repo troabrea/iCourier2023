@@ -78,6 +78,11 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute( builder: (context) => const ServiciosPage()));
                 },
                   child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.miscellaneous_services, color: Theme.of(context).primaryColorDark), trailing: const Icon(Icons.chevron_right), title: const Text("Servicios"),))),
+            if(appInfo.metricsPrefixKey == "CARIBEPACK")
+              InkWell(onTap:  () async {
+                await launchUrl(Uri.parse("https://caribetours.com.do/caribe-pack/tarifa-de-envios/"));
+              },
+                  child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.price_check, color: Theme.of(context).primaryColorDark), trailing: const Icon(Icons.chevron_right), title: const Text("Nuestras Tarifas"),))),
             InkWell(onTap: () {
               PersistentNavBarNavigator.pushNewScreen(context,screen: const PreguntasPage());
               // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(builder: (context)=> const PreguntasPage()));

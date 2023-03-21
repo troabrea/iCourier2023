@@ -47,6 +47,8 @@
 		<string>Asistir en como llegar a nuestas oficinas</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Incluir fotos en pre y post alertas.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>
@@ -73,7 +75,5 @@
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-		<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-</dict>
+	</dict>
 </plist>

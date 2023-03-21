@@ -37,11 +37,14 @@ class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
 
     on<CalculateEvent>((event,emit) async {
         emit(CalculadoraLoadingState());
+        var empresa = await _courierService.getEmpresa();
         var result = await _courierService.getCalculadoraResult(event.libras, event.valor, producto: event.codigoProducto);
         var subtotal = result.isNotEmpty ? result.map((e) => e.bruto).toList().sum : 0.0;
         var impuesto = result.isNotEmpty ? result.map((e) => e.impuesto).toList().sum : 0.0;
         var total = result.isNotEmpty ? result.map((e) => e.neto).toList().sum : 0.0;
-        emit(CalculadoraLoadedState(result, subtotal, impuesto, total, event.libras, event.valor));
+        var correo = empresa.dominio.toUpperCase() == "PNS" ? empresa.correoVentas : "";
+        emit(CalculadoraLoadedState(result, subtotal, impuesto, total, event.libras, event.valor, correo));
+
     });
   }
 }

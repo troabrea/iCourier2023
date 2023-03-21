@@ -24,12 +24,30 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
     });
 
     on<DisponibleNotificarRetiroEvent>((event,emit) async {
-      if(!await confirmDialog(event.context, "Seguro que desea notificar el retiro de sus paquetes disponibles?", "Si", "No")) {
-        return;
+      final empresa = await _courierService.getEmpresa();
+      var puntoRetiro = "";
+
+      if(empresa.dominio.toUpperCase() == "BMCARGO") {
+        puntoRetiro = await optionsDialog(event.context, "Donde desea hacer el retiro?", ["Counter","Drive-Thru","Cancelar"].toList());
+        if(puntoRetiro.toUpperCase() == "CANCELAR") {
+          return;
+        }
+        if(puntoRetiro.toUpperCase() == "Counter".toUpperCase() ) {
+          puntoRetiro = "AppCounter";
+        }
+        if(puntoRetiro.toUpperCase() == "Drive-Thru".toUpperCase() ) {
+          puntoRetiro = "AppDriveThru";
+        }
+      } else {
+        if (!await confirmDialog(event.context,
+            "Seguro que desea notificar el retiro de sus paquetes disponibles?",
+            "Si", "No")) {
+          return;
+        }
       }
 
       emit(DisponibleBusyState());
-      var result = await _courierService.notificaRetiro();
+      var result = await _courierService.notificaRetiro(puntoRetiro: puntoRetiro);
       emit(DisponibleFinishedState(withErrors:  result.isNotEmpty, errorMessage:  result  ));
       emit(DisponibleIdleState());
     });

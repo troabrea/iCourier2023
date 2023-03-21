@@ -540,7 +540,7 @@ class CourierService {
     return 12742 * asin(sqrt(a));
   }
 
-  Future<String> notificaRetiro()  async {
+  Future<String> notificaRetiro({String puntoRetiro = ""})  async {
     final empresa = await getEmpresa();
     if(!empresa.hasNotifyModule) {return 'Funcionalidad no disponible.';}
 
@@ -548,24 +548,27 @@ class CourierService {
     if(codSucrusal.isEmpty) {return 'Funcionalidad no disponible.';}
 
     var sucursal = (await getSucursales(false)).firstWhereOrNull((x) => x.codigo == codSucrusal);
-    if(sucursal == null) return 'Funcinalidad no disponible';
+    if(sucursal == null) return 'Funcionalidad no disponible';
 
     var sessionId = (await cache.load('sessionId', ''))
         .toString(); //  prefs.getString('sessionId');
     if (sessionId == "") {
-      return 'Funcinalidad no disponible';
+      return 'Funcionalidad no disponible';
     }
 
     var cuenta = await cache.load('userAccount', "");
     if (cuenta == "") {
-      return 'Funcinalidad no disponible';
+      return 'Funcionalidad no disponible';
     }
 
     var paquetes = (await getRecepciones(false)).where( (e) => e.disponible).map((e) => e.recepcionID).toList();
     if(paquetes.isEmpty) {
-      return 'Funcinalidad no disponible';
+      return 'Funcionalidad no disponible';
     }
 
+    if(puntoRetiro.isNotEmpty) {
+      cuenta = puntoRetiro;
+    }
 
     if(empresa.minDistanceToNotify > 0) {
       var status = await Permission.locationWhenInUse.status;

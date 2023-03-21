@@ -104,7 +104,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
           progressIndicatorBuilder: (context, url, downloadProgress) =>
               Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
           errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),).toList(), autoPlayInterval: 5000, isLoop: true,);
+        ),).toList(), autoPlayInterval: 8500, isLoop: true,);
   }
 
   Widget buildListView(BuildContext context, List<Noticia> noticias) {

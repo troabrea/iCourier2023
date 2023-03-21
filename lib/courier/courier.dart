@@ -159,7 +159,7 @@ class _CourierPageState extends State<CourierPage> {
                     SizedBox(
                         height: 150,
                         child: Image.asset(
-                          appInfo.brandLogoImage,
+                          MediaQuery.of(context).platformBrightness == Brightness.dark ? appInfo.brandLogoImageDark : appInfo.brandLogoImage,
                           fit: BoxFit.scaleDown,
                         )),
                     const SizedBox(
@@ -239,6 +239,11 @@ class _CourierPageState extends State<CourierPage> {
                         child: Text.rich(TextSpan(text: "¿La olvidaste? - ", style: Theme.of(context).textTheme.bodySmall, children: [
                         TextSpan(text:'Recordar contraseña', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).primaryColorDark,))])))),
                     const SizedBox(height: 30),
+                    if(isBusy)
+                      const Center(
+                        child: const CircularProgressIndicator(),
+                      )
+                    else
                     Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * .6,

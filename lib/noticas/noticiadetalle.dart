@@ -53,6 +53,7 @@ class NoticiaDetallePage extends StatelessWidget {
               ),
               Expanded(
                   child: Container(
+                    width: MediaQuery.of(context).size.width * 0.85,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/appinfo.dart';
 import 'package:icourier/services/model/login_model.dart';
@@ -46,7 +47,7 @@ class _NoticiasAppBarState extends State<NoticiasAppBar> {
       actions: [
         if(hasWhatsApp)
         IconButton(
-        icon: Icon(Icons.chat,
+        icon: FaIcon(FontAwesomeIcons.whatsapp,
           color: Theme.of(context).appBarTheme.foregroundColor,
         ),
         onPressed: ()  {

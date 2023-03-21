@@ -29,7 +29,8 @@ class CalculadoraLoadedState extends CalculadoraState {
   final double subtotal;
   final double impuestos;
   final double total;
-  const CalculadoraLoadedState(this.resultados, this.subtotal, this.impuestos, this.total, this.libras, this.valorFob);
+  final String email;
+  const CalculadoraLoadedState(this.resultados, this.subtotal, this.impuestos, this.total, this.libras, this.valorFob, this.email);
   @override
-  List<Object?> get props => [resultados, subtotal, impuestos, total, libras, valorFob];
+  List<Object?> get props => [resultados, subtotal, impuestos, total, libras, valorFob, email];
 }

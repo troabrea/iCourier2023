@@ -25,6 +25,23 @@ Future<bool> confirmDialog(BuildContext context, String message, String okButton
   return dlgResult ?? false;
 }
 
+Future<String> optionsDialog(BuildContext context, String message, List<String> optionsText) async {
+  var dlgResult = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          title: Text('Seleccione',
+              style: Theme.of(context).textTheme.titleLarge),
+          content: Text(message),
+          actions: optionsText.map((e) => ElevatedButton(onPressed: () => {
+            Navigator.pop(context,e)
+          }, child: Text(e))).toList(),
+      )
+  );
+
+  return dlgResult ?? "Cancelar";
+}
+
 Future<List<String>> domicilioDialog(BuildContext context, String message, String okButtonText, String cancelButtonText, List<Recepcion> disponibles) async {
   var toSend = <Recepcion,String>{};
   toSend.addEntries( disponibles.map((e) => MapEntry(e, "Y")) );

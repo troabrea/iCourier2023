@@ -46,7 +46,7 @@ void showFlutterNotification(RemoteMessage message) {
         android: AndroidNotificationDetails(
           channel.id,
           channel.name,
-          channel.description,
+          channelDescription:  channel.description,
           icon: 'ic_push_icon',
         ),
       ),
@@ -477,7 +477,7 @@ class _MainAppShellState extends State<MainAppShell> {
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic != "TAINO")
+      if(appInfo.pushChannelTopic != "TAINO" )
         PersistentBottomNavBarItem(
             icon: Container(
               key: keyMainBottomNavigation,
@@ -493,7 +493,7 @@ class _MainAppShellState extends State<MainAppShell> {
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
               decoration:  BoxDecoration(
-                  color: appInfo.pushChannelTopic == "FIXOCARGO" ? Colors.transparent : Colors.white.withOpacity(1),
+                  color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" ? Colors.transparent : Colors.white.withOpacity(1),
                   shape: BoxShape.circle
               ),
               //color: Colors.transparent,
@@ -687,8 +687,8 @@ class _MainAppShellState extends State<MainAppShell> {
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
-    targets.add(_createTarget("keyNewsBottomNavigation",keyNewsBottomNavigation,"Mantengase al día con nuestras ofertas y anuncions."));
-    targets.add(_createTarget("keyLocationsBottomNavigation",keyLocationsBottomNavigation,"Conozca sobre nustras oficinas, ubicación, horario de servicio y vías de contacto."));
+    targets.add(_createTarget("keyNewsBottomNavigation",keyNewsBottomNavigation,"Mantengase al día con nuestras ofertas y anuncios."));
+    targets.add(_createTarget("keyLocationsBottomNavigation",keyLocationsBottomNavigation,"Conozca sobre nuestras oficinas, ubicación, horario de servicio y vías de contacto."));
     targets.add(_createTarget("keyMainBottomNavigation",keyMainBottomNavigation,"Acceda a su cuenta, consulte el estatus de sus paquetes y gestione sus operaciones."));
     if(appInfo.metricsPrefixKey != "CARIBEPACK") {
       targets.add(_createTarget("keyCalculatorBottomNavigation",keyCalculatorBottomNavigation,"Estime el costo de sus paquetes usando nuestra calculadora."));

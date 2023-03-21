@@ -16,8 +16,8 @@ class SocialMediaLinks extends StatelessWidget {
     return Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       IconButton(icon: FaIcon(Platform.isIOS ? FontAwesomeIcons.safari : FontAwesomeIcons.chrome, size: iconSize,), onPressed: () => { openInBrowser(empresa) },),
       IconButton(icon: FaIcon(FontAwesomeIcons.envelope, size: iconSize), onPressed: () => { sendEmail(empresa) },),
-      IconButton(icon: FaIcon(FontAwesomeIcons.facebook, size: iconSize), onPressed: () => { viewInFacebook(empresa) },),
       IconButton(icon: FaIcon(FontAwesomeIcons.instagram, size: iconSize), onPressed: () => { viewInInstagram(empresa) },),
+      IconButton(icon: FaIcon(FontAwesomeIcons.facebook, size: iconSize), onPressed: () => { viewInFacebook(empresa) },),
     ],);
   }
 
@@ -45,8 +45,13 @@ class SocialMediaLinks extends StatelessWidget {
     }
 
     String fallbackUrl = 'https://www.facebook.com/$facebook';
+    if(empresa.dominio.toUpperCase() == "CPS") {
+      fbProtocolUrl = "https://www.facebook.com/comunidadcps/?mibextid=LQQJ4d";
+      fallbackUrl = "https://www.facebook.com/comunidadcps/?mibextid=LQQJ4d";
+    }
 
-    try {
+
+      try {
       Uri fbBundleUri = Uri.parse(fbProtocolUrl);
       var canLaunchNatively = await canLaunchUrl(fbBundleUri);
 
@@ -87,7 +92,9 @@ class SocialMediaLinks extends StatelessWidget {
 
   Future<void> viewInInstagram(Empresa empresa) async {
     var facebook = empresa.facebook;
-
+    if(empresa.dominio.toUpperCase() == "CPS") {
+      facebook="cps.rd";
+    }
     String fbProtocolUrl;
     if (Platform.isIOS) {
       fbProtocolUrl = 'instagram://user?username=$facebook';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:intl/intl.dart';
@@ -82,8 +83,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
           actions: [
             if(hasWhatsApp)
             IconButton(
-              icon: Icon(
-                Icons.chat,
+              icon: FaIcon(FontAwesomeIcons.whatsapp,
                 color: Theme.of(context).appBarTheme.foregroundColor,
               ),
               onPressed: () {

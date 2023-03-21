@@ -30,16 +30,30 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<NotificarRetiroEvent>((event,emit) async {
-
-      if(!await confirmDialog(event.context, "Seguro que desea notificar el retiro de sus paquetes disponibles?", "Si", "No")) {
-        return;
+      final empresa = await _courierService.getEmpresa();
+      var puntoRetiro = "";      
+      if(empresa.dominio.toUpperCase() == "BMCARGO") {
+        puntoRetiro = await optionsDialog(event.context, "Donde desea hacer el retiro?", ["Counter","Drive-Thru","Cancelar"].toList());
+        if(puntoRetiro.toUpperCase() == "CANCELAR") {
+          return;
+        }
+        if(puntoRetiro.toUpperCase() == "Counter".toUpperCase() ) {
+          puntoRetiro = "AppCounter";
+        }
+        if(puntoRetiro.toUpperCase() == "Drive-Thru".toUpperCase() ) {
+          puntoRetiro = "AppDriveThru";
+        }
+      } else {
+        if(!await confirmDialog(event.context, "Seguro que desea notificar el retiro de sus paquetes disponibles?", "Si", "No")) {
+          return;
+        }
       }
 
       emit(DashboardLoadingState());
-      var result = await _courierService.notificaRetiro();
+      var result = await _courierService.notificaRetiro(puntoRetiro: puntoRetiro);
 
       //
-      final empresa = await _courierService.getEmpresa();
+      
       final banners = await _courierService.getBanners();
       final recepciones = await _courierService.getRecepciones(false);
       //final userAccounts = await _courierService.getStoredAccounts();

@@ -6,10 +6,13 @@ import 'appinfo.dart';
 class CpsAppInfo implements AppInfo {
 
   @override
-  int defaultTab = 0;
+  int defaultTab = 2;
 
   @override
   String get brandLogoImage => "images/cps/brand_logo.png";
+
+  @override
+  String get brandLogoImageDark => "images/cps/brand_logo_dark.png";
 
   @override
   String get centerIconImage => "images/cps/icon.png";

@@ -52,10 +52,10 @@ PODS:
   - Firebase/Messaging (10.3.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.3.0)
-  - firebase_core (2.7.0):
+  - firebase_core (2.7.1):
     - Firebase/CoreOnly (= 10.3.0)
     - Flutter
-  - firebase_messaging (14.2.5):
+  - firebase_messaging (14.2.6):
     - Firebase/Messaging (= 10.3.0)
     - firebase_core
     - Flutter
@@ -260,8 +260,8 @@ SPEC CHECKSUMS:
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
-  firebase_core: 128d8c43c3a453a4a67463314fc3761bedff860b
-  firebase_messaging: 8ac28baba96e69a58ad26b4bb5f9ee67c3e5efe2
+  firebase_core: 1ae9f9aa76e6e1edc14fb181637ad466fd6c6fa4
+  firebase_messaging: f8c01f8b540feb4196e8dbe45ae17534747d779d
   FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
   FirebaseCoreInternal: c7cd505e2136811096b225ac388d6254a2622362
   FirebaseInstallations: 13dde135fa0524e15bddb133ccc8465c53a1b3f3
@@ -273,7 +273,7 @@ SPEC CHECKSUMS:
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  google_maps_flutter_ios: 53f75334bad87ccd0473f4b0142756169846b42b
+  google_maps_flutter_ios: 3e0b99383a8003b8169d06e7e324170bd0424105
   GoogleDataTransport: ea169759df570f4e37bdee1623ec32a7e64e67c4
   GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
@@ -292,7 +292,7 @@ SPEC CHECKSUMS:
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
-  webview_flutter_wkwebview: d08f59cde5e8402c345c0bdda35ac0031352dcae
+  webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: 47bd18a9c1e1d9c0d7ec2711925dc9a60af77a83
 

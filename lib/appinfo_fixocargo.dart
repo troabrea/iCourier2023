@@ -5,7 +5,7 @@ import 'appinfo.dart';
 
 class FixocargoAppInfo implements AppInfo {
   @override
-  int defaultTab = 0;
+  int defaultTab = 2;
   @override
   String get iphoneAnalyticsAppId => "d4902556-b9b6-4716-9129-62b209461e0f";
 
@@ -14,7 +14,8 @@ class FixocargoAppInfo implements AppInfo {
 
   @override
   String get brandLogoImage => "images/fixocargo/brand_logo.png";
-
+  @override
+  String get brandLogoImageDark => "images/fixocargo/brand_logo.png";
   @override
   String get centerIconImage => "images/fixocargo/icon.png";
 
@@ -39,7 +40,7 @@ class FixocargoAppInfo implements AppInfo {
   @override //#b42129 #d2ab77
   ThemeData getDarkTheme() {
     const primaryColor = Color(0xff131d32);
-    const secondaryColor = Color(0xff131d32); //Color(0xffffb74d);
+    const secondaryColor = Color(0xffffb74d);
     // const primaryVariantColor = Color(0xff2b52b7);
     const errorColor = Color(0xff131d32);
     getDarkAppBarTheme() {
@@ -93,7 +94,7 @@ class FixocargoAppInfo implements AppInfo {
           fontFamily: 'Myriad',
           fontSize: 18,
           fontWeight: FontWeight.w700,
-          color: secondaryColor,
+          color: Colors.white70,
         ),
         headlineLarge: TextStyle(
           fontFamily: 'Myriad',
@@ -130,7 +131,7 @@ class FixocargoAppInfo implements AppInfo {
         errorColor: errorColor,
         dividerColor: Colors.white30,
         primaryColorDark: Colors.white70,
-        iconTheme: const IconThemeData(color: primaryColor),
+        iconTheme: const IconThemeData(color: secondaryColor),
         elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)), backgroundColor: secondaryColor, foregroundColor: Colors.white ) ),
         textTheme:  getDarkTextTheme(),
         appBarTheme: getDarkAppBarTheme()

@@ -2,6 +2,7 @@ import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -57,7 +58,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
             leading: appInfo.metricsPrefixKey != "CARIBEPACK" ? BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color) : null,
             actions: [
               IconButton(
-                icon: Icon(Icons.chat,
+                icon: FaIcon(FontAwesomeIcons.whatsapp,
                   color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: ()  {

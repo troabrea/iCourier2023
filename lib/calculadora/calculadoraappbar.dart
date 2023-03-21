@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,7 +38,7 @@ class _CalculadoraAppBarState extends State<CalculadoraAppBar> {
       actions: [
         if(hasWhatsApp)
         IconButton(
-          icon: Icon(Icons.chat,
+          icon: FaIcon(FontAwesomeIcons.whatsapp,
             color: Theme.of(context).appBarTheme.foregroundColor,
           ),
           onPressed: ()  {

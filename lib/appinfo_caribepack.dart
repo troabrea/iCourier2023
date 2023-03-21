@@ -5,7 +5,7 @@ import 'appinfo.dart';
 
 class CaribepackAppInfo implements AppInfo {
   @override
-  int defaultTab = 0;
+  int defaultTab = 2;
   @override
   String get iphoneAnalyticsAppId => "834f33d7-eefc-4c94-980b-8fb82ed81114";
 
@@ -14,7 +14,8 @@ class CaribepackAppInfo implements AppInfo {
 
   @override
   String get brandLogoImage => "images/caribepack/brand_logo.png";
-
+  @override
+  String get brandLogoImageDark => "images/caribepack/brand_logo.png";
   @override
   String get centerIconImage => "images/caribepack/icon.png";
 

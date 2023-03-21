@@ -6,11 +6,12 @@ import 'appinfo.dart';
 class DomexAppInfo implements AppInfo {
 
   @override
-  int defaultTab = 0;
+  int defaultTab = 2;
 
   @override
   String get brandLogoImage => "images/domex/brand_logo.png";
-
+  @override
+  String get brandLogoImageDark => "images/domex/brand_logo.png";
   @override
   String get centerIconImage => "images/domex/icon.png";
   @override

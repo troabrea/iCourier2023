@@ -4,6 +4,7 @@ import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -99,7 +100,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
             actions: [
               if(hasWhatsApp)
               IconButton(
-                icon: Icon(Icons.chat,
+                icon: FaIcon(FontAwesomeIcons.whatsapp,
                   color: Theme.of(context).appBarTheme.foregroundColor,
                 ),
                 onPressed: ()  {
@@ -313,7 +314,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                           iconSize: 36,
                         ),
                         IconButton(
-                          icon: const Icon(Icons.chat),
+                          icon: const FaIcon(FontAwesomeIcons.whatsapp),
                           onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },
                           iconSize: 36,
                         ),
@@ -383,7 +384,9 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const Icon(Icons.chat, size: 14,),
+                          const FaIcon(FontAwesomeIcons.whatsapp,
+                            size: 14,
+                          ),
                           const SizedBox(
                             width: 20,
                           ),

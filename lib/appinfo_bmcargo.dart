@@ -6,11 +6,12 @@ import 'appinfo.dart';
 class BmcargoAppInfo implements AppInfo {
 
   @override
-  int defaultTab = 0;
+  int defaultTab = 2;
 
   @override
   String get brandLogoImage => "images/bmcargo/brand_logo.png";
-
+  @override
+  String get brandLogoImageDark => "images/bmcargo/brand_logo.png";
   @override
   String get centerIconImage => "images/bmcargo/icon.png";
 
