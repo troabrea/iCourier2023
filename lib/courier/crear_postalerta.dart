@@ -273,6 +273,11 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
         height: 60,
         child: FormBuilderTextField(
           name: 'contenido',
+          contextMenuBuilder: (context, editableTextState) {
+            return AdaptiveTextSelectionToolbar.editableText(
+              editableTextState: editableTextState,
+            );
+          },
           initialValue: widget.recepcion.contenido,
           enabled: false,
           style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
@@ -341,6 +346,11 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             height: 60,
             child: FormBuilderTextField(
               name: 'tracking',
+              contextMenuBuilder: (context, editableTextState) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: editableTextState,
+                );
+              },
               maxLines: 2,
               style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
               initialValue: widget.recepcion.enviadoPor,

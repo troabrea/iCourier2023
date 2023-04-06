@@ -88,6 +88,11 @@ android {
         bmcargo {
             dimension "app"
             applicationId "com.barolit.bmcargo"
+            versionCode 5202322
+        }
+        jetpack {
+            dimension "app"
+            applicationId "com.barolit.jetpack"
             versionCode 5202321
         }
         boxpaq {
@@ -111,12 +116,12 @@ android {
         fixocargo {
             dimension "app"
             applicationId "com.barolit.fixocargo"
-            versionCode 5202320
+            versionCode 5202321
         }
         picknsend {
             dimension "app"
             applicationId "com.barolit.picknsend"
-            versionCode 5202320
+            versionCode 5202321
         }
     }
 

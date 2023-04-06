@@ -493,7 +493,7 @@ class _MainAppShellState extends State<MainAppShell> {
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
               decoration:  BoxDecoration(
-                  color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" ? Colors.transparent : Colors.white.withOpacity(1),
+                  color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" ? Colors.transparent : Colors.white.withOpacity(1),
                   shape: BoxShape.circle
               ),
               //color: Colors.transparent,

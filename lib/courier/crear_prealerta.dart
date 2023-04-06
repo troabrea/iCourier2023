@@ -290,6 +290,11 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
         child: FormBuilderTextField(
           name: 'contenido',
           initialValue: '',
+          contextMenuBuilder: (context, editableTextState) {
+            return AdaptiveTextSelectionToolbar.editableText(
+              editableTextState: editableTextState,
+            );
+          },
           style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
@@ -322,6 +327,11 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
         height: 60,
         child: FormBuilderTextField(
           name: 'proveedor',
+          contextMenuBuilder: (context, editableTextState) {
+            return AdaptiveTextSelectionToolbar.editableText(
+              editableTextState: editableTextState,
+            );
+          },
           initialValue: '',
           validator: FormBuilderValidators.compose(
               [FormBuilderValidators.required(errorText: 'Requerido')]),
@@ -355,6 +365,11 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
             height: 60,
             child: FormBuilderTextField(
               name: 'tracking',
+              contextMenuBuilder: (context, editableTextState) {
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: editableTextState,
+                );
+              },
               initialValue: '',
               validator: FormBuilderValidators.compose(
                   [FormBuilderValidators.required(errorText: 'Requerido')]),

@@ -75,6 +75,11 @@ class _CourierPageState extends State<CourierPage> {
       BuildContext context, String initialValue) {
     return FormBuilderTextField(
       name: 'password',
+      contextMenuBuilder: (context, editableTextState) {
+        return AdaptiveTextSelectionToolbar.editableText(
+          editableTextState: editableTextState,
+        );
+      },
       keyboardType: TextInputType.text,
       //initialValue: initialValue,
       textAlign: TextAlign.center,
@@ -110,6 +115,11 @@ class _CourierPageState extends State<CourierPage> {
       BuildContext context, String initialValue) {
     return FormBuilderTextField(
       name: 'user',
+      contextMenuBuilder: (context, editableTextState) {
+        return AdaptiveTextSelectionToolbar.editableText(
+          editableTextState: editableTextState,
+        );
+      },
       keyboardType: TextInputType.text,
       textAlign: TextAlign.center,
       style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
@@ -142,6 +152,9 @@ class _CourierPageState extends State<CourierPage> {
   }
 
   Widget loginPage(BuildContext context, bool showError, String registerUrl) {
+    if(appInfo.metricsPrefixKey == "BMCARGO" || appInfo.metricsPrefixKey == "PICKNSEND" || appInfo.metricsPrefixKey == "BOXPAQ" || appInfo.metricsPrefixKey == "JETPACK" || appInfo.metricsPrefixKey == "CPS") {
+      registerUrl = "";
+    }
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(bottom: 65),

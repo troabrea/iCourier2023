@@ -122,6 +122,19 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
             //     offset: const Offset(2, 2),
             //     blurRadius: 10)]),),
 
+            // if(_userName.isNotEmpty && _empresa != null && _empresa!.dominio.toUpperCase() == "BOXPAQ")
+            //   InkWell(
+            //     onTap:  () =>  { openExteralUrl("https://boxpaq-online.iplus.com.do/lg-es/ma/MiCuenta.aspx") },
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(vertical: 8.0),
+            //       child: Text('Borrar mi cuenta', style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(
+            //           color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
+            //           offset: const Offset(2, 2),
+            //           blurRadius: 10)]),),
+            //     ),
+            //   ),
+
+            if(_userSucursal.isNotEmpty)
             Text(_userSucursal, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
                 color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
                 offset: const Offset(2, 2),
