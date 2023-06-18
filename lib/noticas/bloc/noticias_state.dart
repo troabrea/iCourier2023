@@ -16,8 +16,9 @@ class NoticiasLoadedState extends NoticiasState {
   final List<Noticia> noticias;
   final List<BannerImage> banners;
   final Empresa empresa;
+  final UserProfile userProfile;
 
-  const NoticiasLoadedState(this.noticias, this.banners, this.empresa);
+  const NoticiasLoadedState(this.noticias, this.banners, this.empresa, this.userProfile);
   @override
   List<Object?> get props => [noticias];
 }

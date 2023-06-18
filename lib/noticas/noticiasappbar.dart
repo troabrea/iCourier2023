@@ -22,6 +22,7 @@ class NoticiasAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _NoticiasAppBarState extends State<NoticiasAppBar> {
   late UserProfile userProfile;
   bool hasWhatsApp = false;
+  bool hasChat = false;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _NoticiasAppBarState extends State<NoticiasAppBar> {
     userProfile = await GetIt.I<CourierService>().getUserProfile();
     setState(() {
       hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+      hasChat = !hasWhatsApp && userProfile.chatUrl.isNotEmpty;
     });
   }
 
@@ -53,7 +55,17 @@ class _NoticiasAppBarState extends State<NoticiasAppBar> {
         onPressed: ()  {
           chatWithSucursal();
         },
-      ),],
+      ),
+        if(hasChat)
+          IconButton(
+            icon: Icon(Icons.chat,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+            ),
+            onPressed: () async {
+              launchUrl(Uri.parse(userProfile.chatUrl));
+            },
+          ),
+      ],
       automaticallyImplyLeading: false);
   }
 

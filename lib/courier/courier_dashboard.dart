@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/courier/courier_estado_cuenta.dart';
+import 'package:icourier/courier/courier_webview.dart';
 import 'package:icourier/services/courier_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../appinfo.dart';
@@ -136,23 +138,27 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                   return [
                                                     if (state.empresa
                                                         .hasNotifyModule)
-                                                      const PopupMenuItem(
+                                                      PopupMenuItem(
                                                           value: 'retirar',
                                                           child: ListTile(
                                                             title: Text(
-                                                                'Notificar Retiro'),
-                                                            leading: Icon(Icons
+                                                                'Notificar Retiro',
+                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                                            ),
+                                                            leading: const Icon(Icons
                                                                 .meeting_room_outlined),
                                                           )),
                                                     if (state.empresa
-                                                        .hasPaymentsModule)
+                                                        .hasPaymentsModule && state.montoTotal > 0)
                                                       PopupMenuItem(
                                                           value: 'pagar',
                                                           child: ListTile(
                                                             title: Text('Pagar : ' +
                                                                 formatCurrency
                                                                     .format(state
-                                                                        .montoTotal)),
+                                                                        .montoTotal),
+                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                                            ),
                                                             leading: const Icon(
                                                                 Icons
                                                                     .credit_card_off_outlined),
@@ -162,12 +168,14 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                       const PopupMenuDivider(),
                                                     if (state
                                                         .empresa.hasDelivery)
-                                                      const PopupMenuItem(
+                                                      PopupMenuItem(
                                                           value: 'domicilio',
                                                           child: ListTile(
                                                             title: Text(
-                                                                'Solicitar Domicilio'),
-                                                            leading: Icon(Icons
+                                                                'Solicitar Domicilio',
+                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                                            ),
+                                                            leading: const Icon(Icons
                                                                 .delivery_dining_outlined),
                                                           ))
                                                   ];
@@ -196,6 +204,10 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                                 .toList()));
                                                   }
                                                   if (value == 'pagar') {
+                                                    if(state.empresa.dominio.toUpperCase() == "CPS") {
+                                                      doPayOnlineCPS();
+                                                      return;
+                                                    }
                                                     BlocProvider.of<
                                                                 DashboardBloc>(
                                                             context)
@@ -269,14 +281,51 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                     title: "No tiene paquetes!",
                                   ),
                                 ),
-                              if (state.disponiblesCount == 0)
+                              if (state.disponiblesCount == 0 || state.empresa.hasPointsModule)
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
-                              if (state.empresa.hasNotifyModule &&
+                              if(state.empresa.hasPointsModule)
+                                InkWell(
+                                  onTap: () { launchUrl(Uri.parse(state.puntos.urlCanjeo)); } ,
+                                  child: PointsSummaryBox(
+                                      icon: const Icon(
+                                        Icons.monetization_on_outlined,
+                                        size: 25,
+                                      ),
+                                      title: state.empresa.dominio.toUpperCase() == "DOMEX" ? "Domi Puntos disponibles" : "Puntos Disponibles",
+                                      count: state.puntos.balance.toInt()),
+                                ),
+                              if(state.empresa.hasPointsModule)
+                                const SizedBox(height: 10,),
+                              if(state.moreInfoText.isNotEmpty)
+                                const Padding(
+                                  padding: EdgeInsets.only(bottom: 5.0),
+                                  child: Divider(thickness: 2),
+                                ),
+                              if(state.moreInfoText.isNotEmpty)
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: ElevatedButton(
+                                      onPressed: () async {
+                                         await launchUrl(Uri.parse(state.moreInfoUrl));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),),
+                                          Text('Suscríbete', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white, decoration: TextDecoration.underline),),
+                                        ],
+                                      )),
+                                ),
+                              if(state.moreInfoText.isNotEmpty)
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 5.0),
+                                  child: Divider(thickness: 2,),
+                                ),
+                              if (state.empresa.hasDelivery &&
                                   state.disponiblesCount > 0)
                                 Container(
-                                  margin: const EdgeInsets.only(top: 20),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
                                       icon: const Icon(
@@ -296,7 +345,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 ),
                               if (state.disponiblesCount > 0)
                                 const SizedBox(
-                                  height: 30,
+                                  height: 15,
                                 ),
                               if(state.empresa.dominio.toUpperCase() != "CARIBEPACK")
                               Row(
@@ -336,7 +385,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 25),
+                              const SizedBox(height: 15),
+
                               Row(
                                 children: [
                                   Expanded(
@@ -373,6 +423,14 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   ),
                                 ],
                               ),
+                              if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
+                                const SizedBox(height: 25,),
+                              if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
+                                ElevatedButton.icon(
+                                  onPressed: () { launchUrl(Uri.parse("https://caribetours.com.do/caribe-pack/tarifa-de-envios/")); } ,
+                                  icon: const Icon(Icons.price_check),
+                                  label: const Text("Nuestras Tarifas"),
+                                ),
                               if(state.empresa.dominio.toUpperCase() == "TAINO")
                                 const SizedBox(height: 25,),
                               if(state.empresa.dominio.toUpperCase() == "TAINO")
@@ -426,6 +484,19 @@ class _CourierDashboardState extends State<CourierDashboard> {
 
     //NavbarNotifier.hideBottomNavBar = false;
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+  }
+
+  void doPayOnlineCPS() async {
+    final map = await GetIt.I<CourierService>().getPaymentUrl();
+    final actionUrl = map['ActionURL'] ?? "";
+    final userId = map['UsuarioID'] ?? "";
+    final userPwd = map['UsuarioPW'] ?? "";
+    final urlId = map['UrlID'] ?? "";
+    final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Realizar Pago")),
+    );
   }
 }
 
@@ -667,6 +738,11 @@ Future<void> showTrackingSheet(BuildContext context) async {
                       key: _formKey,
                       child: FormBuilderTextField(
                         name: 'tracking',
+                        contextMenuBuilder: (context, editableTextState) {
+                          return AdaptiveTextSelectionToolbar.editableText(
+                            editableTextState: editableTextState,
+                          );
+                        },
                         initialValue: trackingNumber,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.confirmation_number_outlined),
@@ -674,6 +750,7 @@ Future<void> showTrackingSheet(BuildContext context) async {
                           helperText:
                               'Introduzca el número ó el url de amazon.',
                         ),
+                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
                         validator: FormBuilderValidators.required(
                             errorText: 'Requerido'),
                       ),
@@ -727,6 +804,50 @@ class SummaryBox extends StatelessWidget {
                   foregroundColor:
                       Theme.of(context).appBarTheme.foregroundColor!,
                   child: Text(count.toString())),
+            )
+        ],
+      ),
+    );
+  }
+}
+
+class PointsSummaryBox extends StatelessWidget {
+  final Widget icon;
+  final String title;
+  final int count;
+
+  const PointsSummaryBox(
+      {Key? key, required this.icon, required this.title, required this.count})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          border: Border.all(color: Theme.of(context).primaryColorDark),
+          borderRadius: BorderRadius.circular(6)),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          icon,
+          Expanded(
+              child: Center(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ))),
+          if (count > 0)
+            Transform.scale(
+              scale: 0.8,
+              child: CircleAvatar(
+                  backgroundColor: Theme.of(context)
+                      .appBarTheme
+                      .backgroundColor!
+                      .withOpacity(0.9),
+                  foregroundColor:
+                  Theme.of(context).appBarTheme.foregroundColor!,
+                  child: Text(count.toString(), style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),)),
             )
         ],
       ),

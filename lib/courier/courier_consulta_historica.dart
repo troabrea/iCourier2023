@@ -133,6 +133,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
       name: 'desde',
       initialEntryMode: DatePickerEntryMode.calendar,
       format: DateFormat("dd-MMM-yyyy"),
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputType: InputType.date,
       textAlign: TextAlign.center,
       initialValue: DateTime.now(),
@@ -165,6 +166,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
     return FormBuilderDateTimePicker (
       name: 'hasta',
       initialEntryMode: DatePickerEntryMode.calendar,
+      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       format: DateFormat("dd-MMM-yyyy"),
       inputType: InputType.date,
       textAlign: TextAlign.center,

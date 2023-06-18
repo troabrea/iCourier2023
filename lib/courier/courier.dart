@@ -91,7 +91,7 @@ class _CourierPageState extends State<CourierPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           hintText: 'Contraseña',
-          hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+          hintStyle: TextStyle(color: Theme.of(context).primaryColorDark.withOpacity(0.3)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
               borderRadius: BorderRadius.circular(30)),
@@ -130,8 +130,8 @@ class _CourierPageState extends State<CourierPage> {
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
-          hintText: 'Código de cliente',
-          hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+          hintText: appInfo.metricsPrefixKey == "CPS" ? "ABC-123456" : 'Código de cliente',
+          hintStyle: TextStyle(color: Theme.of(context).primaryColorDark.withOpacity(0.3)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
               borderRadius: BorderRadius.circular(30)),
@@ -152,9 +152,9 @@ class _CourierPageState extends State<CourierPage> {
   }
 
   Widget loginPage(BuildContext context, bool showError, String registerUrl) {
-    if(appInfo.metricsPrefixKey == "BMCARGO" || appInfo.metricsPrefixKey == "PICKNSEND" || appInfo.metricsPrefixKey == "BOXPAQ" || appInfo.metricsPrefixKey == "JETPACK" || appInfo.metricsPrefixKey == "CPS") {
-      registerUrl = "";
-    }
+    // if(appInfo.metricsPrefixKey == "BMCARGO" || appInfo.metricsPrefixKey == "PICKNSEND" || appInfo.metricsPrefixKey == "BOXPAQ" || appInfo.metricsPrefixKey == "JETPACK" || appInfo.metricsPrefixKey == "CPS") {
+    //   registerUrl = "";
+    // }
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(bottom: 65),
@@ -293,8 +293,8 @@ class _CourierPageState extends State<CourierPage> {
                     if(registerUrl.isNotEmpty)
                       const SizedBox(height: 20,),
                     if(registerUrl.isNotEmpty)
-                      Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl); }, child: Text.rich(TextSpan(text: "¿Aún no eres cliente? - ", style: Theme.of(context).textTheme.bodySmall, children: [
-                        TextSpan(text:'Solicita tu cuenta', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold))])))),
+                      Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl, mode: LaunchMode.externalApplication); }, child: Text.rich(TextSpan(text: "¿Aún no eres cliente? - ", style: Theme.of(context).textTheme.bodySmall, children: [
+                        TextSpan(text:'Conoce más aquí.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold))])))),
                     // if(registerUrl.isNotEmpty)
                     //   Center(child: Row(
                     //     mainAxisAlignment: MainAxisAlignment.center,
@@ -325,13 +325,14 @@ class _CourierPageState extends State<CourierPage> {
         builder: (context) {
           return AlertDialog(
             title: Text('Recordar Contraseña', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),),
-            content: SizedBox(height: 120,width: MediaQuery.of(context).size.width * 0.8,
+            content: SizedBox(height: 160,width: MediaQuery.of(context).size.width * 0.95,
               child: Column(
                 children: [
                   if(userForReset.isEmpty)
                     TextField(
                       keyboardType: TextInputType.text,
                       autofocus: userForReset.isEmpty,
+                      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
                       autocorrect: false,
                       onChanged: (value) {
                         setState( () {
@@ -341,8 +342,8 @@ class _CourierPageState extends State<CourierPage> {
                       //controller: _textFieldController,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(2),
-                        hintText: 'Código de cliente',
-                        hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+                        hintText: appInfo.metricsPrefixKey == "CPS" ? 'ABC-123456' : 'Código de cliente',
+                        hintStyle: TextStyle(color: Theme.of(context).primaryColorDark.withOpacity(0.3)),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
                             borderRadius: BorderRadius.circular(30)),
@@ -366,6 +367,7 @@ class _CourierPageState extends State<CourierPage> {
                     keyboardType: TextInputType.emailAddress,
                     autofocus: userForReset.isNotEmpty,
                     autocorrect: false,
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
                     onChanged: (value) {
                       setState( () {
                         emailForReset = value;
@@ -375,7 +377,8 @@ class _CourierPageState extends State<CourierPage> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(2),
                       hintText: 'Correo electrónico',
-                      hintStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+                      helperText: 'Debe digitar el correo registrado en su cuenta.',
+                      hintStyle: TextStyle(color: Theme.of(context).primaryColorDark.withOpacity(0.3)),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
                           borderRadius: BorderRadius.circular(30)),
@@ -408,7 +411,7 @@ class _CourierPageState extends State<CourierPage> {
                 child: const Text('Aceptar'),
                 onPressed: () {
                     if(userForReset.isEmpty || emailForReset.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Debe especificar su cuenta y correco electrónico registrado.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),), backgroundColor: Theme.of(context).errorColor, ));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Debe especificar su cuenta y correo electrónico registrado.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),), backgroundColor: Theme.of(context).errorColor, ));
                       return;
                     }
                     Navigator.pop(context);

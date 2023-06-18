@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -12,6 +13,7 @@ import '../../calculadora/bloc/calculadora_bloc.dart';
 import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
 import '../../services/model/calculadora_model.dart';
+import '../appinfo.dart';
 import '../helpers/boxed_title_value.dart';
 import '../services/model/producto.dart';
 import 'calculadoraappbar.dart';
@@ -25,6 +27,7 @@ class CalculadoraPage extends StatefulWidget {
 
 class _CalculadoraPageState extends State<CalculadoraPage> {
   late ScrollController controller;
+  final appInfo = GetIt.I<AppInfo>();
   final _formKey = GlobalKey<FormBuilderState>();
   List<Producto> productos = <Producto>[].toList();
   late Producto productoActual;
@@ -200,13 +203,30 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
   FormBuilderTextField buildLibrasFormField(BuildContext context) {
     return FormBuilderTextField(
       name: 'libras',
-      keyboardType: TextInputType.number,
+      contextMenuBuilder: (context, editableTextState) {
+        return AdaptiveTextSelectionToolbar.editableText(
+          editableTextState: editableTextState,
+        );
+      },
+      keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
       textAlign: TextAlign.center,
-      initialValue: '1',
+      initialValue: appInfo.metricsPrefixKey == "BMCARGO" ? "1.00" : "1",
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+        // TextInputMask(
+        //     mask: '9+,999.99',
+        //     placeholder: appInfo.metricsPrefixKey == "BMCARGO" ? '' : '0',
+        //     maxPlaceHolders: -1,
+        //     reverse: true)
+      ],
+      autovalidateMode: AutovalidateMode.disabled,
       style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: 'Requerido'),
-        FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
+        if(appInfo.metricsPrefixKey == "BMCARGO")
+          FormBuilderValidators.min(0.20, errorText: 'Mayor de 0.20'),
+        if(appInfo.metricsPrefixKey != "BMCARGO")
+          FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
@@ -270,20 +290,29 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
   FormBuilderTextField buildValorFormField(BuildContext context) {
     return FormBuilderTextField(
       name: 'valor',
-      keyboardType: TextInputType.number,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true,signed: false),
       textAlign: TextAlign.center,
-      initialValue: '100.00',
+      contextMenuBuilder: (context, editableTextState) {
+        return AdaptiveTextSelectionToolbar.editableText(
+          editableTextState: editableTextState,
+        );
+      },
+      initialValue: appInfo.metricsPrefixKey == "BMCARGO" ? '0.20' : '100.00',
       style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputFormatters: [
-        TextInputMask(
-            mask: '9+,999.99',
-            placeholder: '0',
-            maxPlaceHolders: 2,
-            reverse: true)
-      ],
+        FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+        // TextInputMask(
+        //     mask: '9+,999.99',
+        //     placeholder: appInfo.metricsPrefixKey == "BMCARGO" ? '' : '0',
+        //     maxPlaceHolders: 2,
+        //     reverse: true)
+      ], autovalidateMode: AutovalidateMode.disabled,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(errorText: "Requerido"),
-        FormBuilderValidators.min(1, errorText: "Mayor de cero."),
+        if(appInfo.metricsPrefixKey == "BMCARGO")
+          FormBuilderValidators.min(0.20, errorText: 'Mayor de 0.20'),
+        if(appInfo.metricsPrefixKey != "BMCARGO")
+          FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),

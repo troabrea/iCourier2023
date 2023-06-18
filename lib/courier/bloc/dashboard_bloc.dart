@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/services/model/puntos_model.dart';
 import '../../helpers/dialogs.dart';
 import '../../services/courier_service.dart';
 import '../../services/model/empresa.dart';
@@ -31,7 +32,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
     on<NotificarRetiroEvent>((event,emit) async {
       final empresa = await _courierService.getEmpresa();
-      var puntoRetiro = "";      
+      var puntoRetiro = "";
       if(empresa.dominio.toUpperCase() == "BMCARGO") {
         puntoRetiro = await optionsDialog(event.context, "Donde desea hacer el retiro?", ["Counter","Drive-Thru","Cancelar"].toList());
         if(puntoRetiro.toUpperCase() == "CANCELAR") {
@@ -55,7 +56,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       //
       
       final banners = await _courierService.getBanners();
-      final recepciones = await _courierService.getRecepciones(false);
+      final recepciones = await _courierService.getRecepciones(true);
+      final puntos = empresa.hasPointsModule ? await _courierService.getPuntos() : Puntos.empty();
+      final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
+      final moreInfoUrl = await _courierService.empresaOptionValue("MoreInfoUrl");
+
       //final userAccounts = await _courierService.getStoredAccounts();
       final recepcionesCount = recepciones.length;
 
@@ -73,7 +78,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           recepcionesCount:  recepcionesCount,
           disponiblesCount: disponiblesCount,
           montoTotal: montoTotal,
-          retenidosCount: retenidosCount,));
+          retenidosCount: retenidosCount,
+          puntos: puntos,
+          moreInfoUrl: moreInfoUrl,
+          moreInfoText: moreInfoText
+      ));
     });
 
     on<SolicitarDomicilioEvent>((event,emit) async {
@@ -93,7 +102,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final empresa = await _courierService.getEmpresa(ignoreCache: event.forceRefresh);
         final banners = await _courierService.getBanners();
         final recepciones = await _courierService.getRecepciones(event.forceRefresh);
-
+        final puntos = empresa.hasPointsModule ? await _courierService.getPuntos() : Puntos.empty();
+        final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
+        final moreInfoUrl = await _courierService.empresaOptionValue("MoreInfoUrl");
         final recepcionesCount = recepciones.length;
 
         final retenidosCount = recepciones.where((element) => element.retenido == true).length;
@@ -109,6 +120,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             disponiblesCount: disponiblesCount,
             montoTotal: montoTotal,
             retenidosCount: retenidosCount,
+            puntos: puntos,
+            moreInfoText: moreInfoText,
+            moreInfoUrl: moreInfoUrl
             ));
     });
   }

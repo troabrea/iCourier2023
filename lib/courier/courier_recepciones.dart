@@ -1,7 +1,11 @@
+import 'package:event/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
+import 'package:icourier/courier/bloc/dashboard_bloc.dart';
+import 'package:icourier/courier/bloc/dashboard_bloc.dart';
 import 'package:icourier/services/model/login_model.dart';
 import '../appinfo.dart';
 import '../services/courier_service.dart';
@@ -14,7 +18,7 @@ import 'crear_postalerta.dart';
 import 'package:event/event.dart' as event;
 
 class RecepcionesPage extends StatefulWidget {
-  final List<Recepcion> recepciones;
+  List<Recepcion> recepciones;
   final String titulo;
   final bool isRetenio;
 
@@ -32,7 +36,7 @@ class RecepcionesPage extends StatefulWidget {
 class _RecepcionesPageState extends State<RecepcionesPage> {
   late UserProfile userProfile;
   bool hasWhatsApp = false;
-
+  bool isRefreshing = false;
   @override
   void initState() {
     super.initState();
@@ -65,6 +69,31 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
           leading:
               BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
           actions: [
+            IconButton(
+              icon: Icon(Icons.refresh,
+                color: Theme.of(context).appBarTheme.foregroundColor,
+              ),
+              onPressed: () async {
+                GetIt.I<Event<CourierRefreshRequested>>()
+                    .broadcast(CourierRefreshRequested());
+                try
+                {
+                  setState(() {
+                    isRefreshing = true;
+                  });
+
+                  widget.recepciones = await GetIt.I<CourierService>().getRecepciones(true);
+
+                } finally {
+                  setState(() {
+                    isRefreshing = false;
+                  });
+                }
+
+
+
+              },
+            ),
             if(hasWhatsApp)
             IconButton(
               icon: FaIcon(FontAwesomeIcons.whatsapp,
@@ -79,7 +108,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
         body: SafeArea(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
-                child: CustomScrollView(slivers: [
+                child: isRefreshing ? const Center(child: CircularProgressIndicator()) : CustomScrollView(slivers: [
                   SliverGroupedListView<Recepcion, String>(
                     elements: widget.recepciones,
                     groupBy: (element) => element.estatus,

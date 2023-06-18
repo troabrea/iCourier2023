@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event/event.dart';
@@ -34,6 +35,7 @@ import 'model/login_model.dart';
 import 'model/noticia.dart';
 import 'model/pregunta.dart';
 import 'model/producto.dart';
+import 'model/puntos_model.dart';
 import 'model/recepcion.dart';
 import 'model/servicio.dart';
 import 'model/sucursal.dart';
@@ -95,6 +97,8 @@ List<PreAlertaDto> prealertasFromJson(String str) => List<PreAlertaDto>.from(jso
 class CourierService {
   late String companyId;
   late AppInfo appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
+  bool firstTime = true;
+  Map? optionsMap;
   CourierService() {
     appInfo = GetIt.I<AppInfo>();
     companyId = appInfo.companyId;
@@ -194,17 +198,64 @@ class CourierService {
     return preguntaFromJson(jsonData);
   }
 
-  Future<Empresa> getEmpresa({bool ignoreCache = false}) async {
+  Future<Empresa> getEmpresa({bool ignoreCache = false, bool forceFirstTime = false}) async {
     if(ignoreCache) {
       cache.destroy('empresa');
     }
+    if(forceFirstTime) {
+      firstTime = true;
+    }
+    if(firstTime) {
+      firstTime = false;
+      await _refreshEmpresa();
+    }
+
     var jsonData = await cache.remember('empresa', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
           //"https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
+      optionsMap = null;
       return response.body;
     });
-    return empresaFromJson(jsonData);
+    var result = empresaFromJson(jsonData);
+    if(optionsMap == null) {
+      try {
+        optionsMap = json.decode(result.options);
+      } catch (e) {
+        optionsMap = <String,dynamic>{};
+      }
+    }
+    return result;
+  }
+
+  Future<void> _refreshEmpresa() async {
+    try {
+      final response = await get(Uri.parse(
+          "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
+      optionsMap = null;
+      var json = response.body;
+      await cache.write('empresa', json);
+    } on Exception catch (e) {
+      // TODO
+    }
+  }
+
+  Future<bool> empresaHasOption(String optionKey) async {
+    if(optionsMap == null || optionsMap!.isEmpty) return false;
+    return optionsMap!.containsKey(optionKey);
+  }
+
+  Future<String> empresaOptionValue(String optionKey) async {
+    if(optionsMap == null || optionsMap!.isEmpty || !optionsMap!.containsKey(optionKey)) return "";
+    return optionsMap![optionKey].toString();
+  }
+
+  Future<void> _validateEmpresa() async {
+    final response = await get(Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
+    var jsonData = response.body;
+    var empresa = empresaFromJson(jsonData);
+
   }
 
   Future<void> _validateSession() async {
@@ -217,6 +268,29 @@ class CourierService {
       GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
     } else {
       await cache.write('sessionId', sessionId);
+    }
+  }
+
+  Future<Puntos> getPuntos() async {
+    var sessionId = (await cache.load('sessionId', ''))
+        .toString();
+
+    await _validateSession();
+
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/puntos?code=T9_O5HIY8HBvTq2KvhlL59bMtWVHpy-EJRWHl24nS1x2AzFuEtqixA==");
+    final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
+    final jsonReq = jsonEncode(req);
+    final response = await post(uri, body: jsonReq);
+
+    if(response.statusCode >= 200 && response.statusCode < 300) {
+      var puntos = Puntos.fromJson(json.decode(response.body));
+      if(await empresaHasOption("PointsRedemUrl")) {
+        puntos.urlCanjeo = await empresaOptionValue("PointsRedemUrl");
+      }
+      return puntos;
+    } else {
+      return Puntos.empty();
     }
   }
 
@@ -379,7 +453,7 @@ class CourierService {
     }
     await _validateSession();
 
-    var dateFormat = DateFormat("yyy-MM-dd");
+    var dateFormat = DateFormat("yyyy-MM-dd");
 
     // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_HISTORIA");
 
@@ -408,17 +482,28 @@ class CourierService {
     var foto = await cache.load('userFotoPerfil', "");
     var nombreSucrusal = "";
     var telefonoSucrusal = "";
+    var emailSucursal = "";
     var whatsappSucrusal = empresa.telefonoVentas;
+    var chatUrl = empresa.correoServicio;
 
     if(cuenta != "" && sucursal != "") {
       var userSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == sucursal);
       if(userSucursal != null) {
         nombreSucrusal = userSucursal.nombre;
         telefonoSucrusal = userSucursal.telefonoVentas;
+        emailSucursal = userSucursal.email;
         if(userSucursal.telefonoOficina.isNotEmpty) {
           whatsappSucrusal = userSucursal.telefonoOficina;
         }
       }
+    }
+
+    if(chatUrl.isNotEmpty && chatUrl.contains("@")) {
+      chatUrl = "";
+    }
+
+    if(whatsappSucrusal.isNotEmpty) {
+      chatUrl = "";
     }
 
     return UserProfile(cuenta: cuenta,
@@ -426,9 +511,11 @@ class CourierService {
         email: email,
         sucursal: sucursal,
         fotoPerfilUrl: foto,
+        emailSucursal: emailSucursal,
         nombreSucursal: nombreSucrusal,
       telefonoSucursal: telefonoSucrusal,
-      whatsappSucursal: whatsappSucrusal
+      whatsappSucursal: whatsappSucrusal,
+      chatUrl: chatUrl
     );
   }
 
@@ -527,7 +614,13 @@ class CourierService {
     var url = empresa.urlServidor;
     url = url + "?UsuarioID=$cuenta&UsuarioPW=$password&UrlID=pagos&mn=0";
     url = Uri.encodeFull(url);
+
+    var paymentUrl = await empresaOptionValue("PaymentsUrl");
+    if(paymentUrl.isNotEmpty) {
+      url = paymentUrl;
+    }
     final uri = Uri.parse(url);
+
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
@@ -573,8 +666,12 @@ class CourierService {
     if(empresa.minDistanceToNotify > 0) {
       var status = await Permission.locationWhenInUse.status;
 
-      if (status.isDenied) {
+      if (!status.isGranted) {
+        if(status.isPermanentlyDenied) {
+          return 'Esta funcionalidad requiere permiso de GPS, favor intentar nuevamente, luego de activarlo en la configuración de su dispositivo.';
+        };
         await Permission.locationWhenInUse.request();
+        return 'Favor intentar nuevamente, luego de activar el permiso de GPS.';
       }
 
       if (await Permission.locationWhenInUse.isGranted) {
@@ -586,7 +683,7 @@ class CourierService {
             userLatitude,
             userLongitude,
             sucursal.latitud,
-            sucursal.longitud) / 1000;
+            sucursal.longitud) * 1000 ;
 
         if (distance > empresa.minDistanceToNotify) {
           return 'Debe estar a menos de ${empresa
@@ -728,6 +825,30 @@ class CourierService {
     }
   }
 
+  Future<Map<String,String>> getProfileUrl() async {
+    final userId = (await cache.load('userAccount','')).toString();
+    final password = (await cache.load('userPassword','')).toString();
+
+    var map = Map<String, String>();
+    map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
+    map['UsuarioID'] = userId;
+    map['UsuarioPW'] = password;
+    map['UrlID'] = 'micuenta';
+
+    return map;
+  }
+  Future<Map<String,String>> getPaymentUrl() async {
+    final userId = (await cache.load('userAccount','')).toString();
+    final password = (await cache.load('userPassword','')).toString();
+
+    var map = Map<String, String>();
+    map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
+    map['UsuarioID'] = userId;
+    map['UsuarioPW'] = password;
+    map['UrlID'] = 'pagos';
+
+    return map;
+  }
   Future<String> sendPostAlerta(PostAlertaModel postAlerta, XFile file) async {
     try {
       var sessionId = (await cache.load('sessionId', ''))

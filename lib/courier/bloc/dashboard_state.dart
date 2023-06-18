@@ -22,13 +22,16 @@ class DashboardFinishedState extends DashboardState {
 
 class DashboardLoadedState extends DashboardState {
   final Empresa empresa;
+  final Puntos puntos;
+  final String moreInfoText;
+  final String moreInfoUrl;
   final List<BannerImage> banners;
   final List<Recepcion> recepciones;
   final int recepcionesCount;
   final int disponiblesCount;
   final int retenidosCount;
   final double montoTotal;
-  const DashboardLoadedState({required this.banners,required this.recepciones, required this.recepcionesCount, required this.disponiblesCount, required this.retenidosCount, required this.empresa, required this.montoTotal});
+  const DashboardLoadedState({required this.moreInfoText, required this.moreInfoUrl, required this.banners,required this.recepciones, required this.recepcionesCount, required this.disponiblesCount, required this.retenidosCount, required this.empresa, required this.montoTotal, required this.puntos});
   @override
-  List<Object?> get props => [banners,recepciones, recepcionesCount, disponiblesCount, retenidosCount];
+  List<Object?> get props => [banners,recepciones, recepcionesCount, disponiblesCount, retenidosCount, puntos, moreInfoText, moreInfoUrl];
 }

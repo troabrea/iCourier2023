@@ -26,25 +26,27 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
     setState(() {
       historia = widget.recepcion.paquetes.first.historia;
       historia.sort((a,b) => b.dateTime().compareTo(a.dateTime()));
-      stepperData = historia.map((e) => StepperData(
-          iconWidget: Container(
-            padding: const EdgeInsets.all(2),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(24))),
-            child: const Icon(Icons.check, color: Colors.white, size: 12,),
-          ),
-          title: StepperText(e.nombreEstatus),
-          subtitle: StepperText(formatDate.format(e.dateTime())))).toList();
+
       isLoaded= true;
     });
+  }
+
+  List<StepperData> getStepperData(BuildContext context) {
+    return historia.map((e) => StepperData(
+        iconWidget: Container(
+          padding: const EdgeInsets.all(2),
+          decoration: const BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.all(Radius.circular(24))),
+          child: const Icon(Icons.check, color: Colors.white, size: 12,),
+        ),
+        title: StepperText(e.nombreEstatus, textStyle: Theme.of(context).textTheme.titleMedium),
+        subtitle: StepperText(DateFormat("dd-MMM-yyyy").add_jms().format(e.dateTime())))).toList();
   }
 
   // final List<String> iconosProgreso = <String>['images/recibidomiami.svg','images/embarcado.svg','images/recibido.svg','images/disponible.svg'].toList();
   final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
   final List<String> labelsProgreso = <String>['Origen','En ruta','Destino','Disponible'].toList();
-
-  final formatDate = DateFormat("dd-MMM-yyyy HH:mm:ss");
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +74,10 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
                         iconWidth: 30,
                         //   titleTextStyle: Theme.of(context).textTheme.titleMedium!,
                         // subtitleTextStyle: Theme.of(context).textTheme.bodySmall!,
-                        stepperList: stepperData,
+                        stepperList: getStepperData(context),
                         stepperDirection: Axis.vertical,
                         iconHeight: 30,
                         verticalGap: 15,
-
                         // horizontalStepperHeight: 70,
                         //   dotWidget: Container(
                         //     padding: const EdgeInsets.all(2),

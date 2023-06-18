@@ -75,7 +75,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
                   child: Column(children: [
                     if(state.banners.isNotEmpty)
                       buildSlideShow(context, state.banners),
-                      SizedBox(height: 30, child: SocialMediaLinks(empresa: state.empresa)),
+                      SizedBox(height: 30, child: SocialMediaLinks(empresa: state.empresa, userProfile: state.userProfile,)),
                     const SizedBox(height: 10,),
                     Expanded(child: buildListView(context, state.noticias)),
                   ]),

@@ -15,7 +15,7 @@ class CpsAppInfo implements AppInfo {
   String get brandLogoImageDark => "images/cps/brand_logo_dark.png";
 
   @override
-  String get centerIconImage => "images/cps/icon.png";
+  String get centerIconImage => "images/cps/ic_launcher_foreground.png";
 
   @override
   String get androidAnalyticsAppId => "e6eb3042-6bcc-4531-b9e6-ba04613f18af";
@@ -33,9 +33,9 @@ class CpsAppInfo implements AppInfo {
   String get pushChannelTopic => "CPS";
 
   @override
-  double get centerIconSize => 80;
+  double get centerIconSize => 120;
   @override
-  double get centerInactiveIconSize => 35;
+  double get centerInactiveIconSize => 60;
 
   @override
   ThemeData getLightTheme() {

@@ -35,6 +35,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
   final sucursalesBloc = SucursalesBloc(GetIt.I<CourierService>());
   late UserProfile userProfile;
   bool hasWhatsApp = false;
+  bool hasChat = false;
   late List<Sucursal> sucursales;
   String searchText = "";
   var lastRefresh = DateTime.now();
@@ -69,6 +70,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
     userProfile = await GetIt.I<CourierService>().getUserProfile();
     setState(() {
       hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+      hasChat = !hasWhatsApp && userProfile.chatUrl.isNotEmpty;
     });
   }
 
@@ -83,7 +85,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
         fieldHintText: 'Buscar',
-        keepAppBarColors: false,
+        keepAppBarColors: true,
         onChanged: (text) {
           setState(() {
             searchText = text;
@@ -107,6 +109,15 @@ class _SucursalesPageState extends State<SucursalesPage> {
                   chatWithSucursal();
                 },
               ),
+              if(hasChat)
+                IconButton(
+                  icon: Icon(Icons.chat,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
+                  ),
+                  onPressed: () async {
+                    launchUrl(Uri.parse(userProfile.chatUrl));
+                  },
+                ),
               IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
             ],
           );
@@ -313,6 +324,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                           onPressed: () { callSucursal(sucursal.telefonoVentas); },
                           iconSize: 36,
                         ),
+                        if(sucursal.telefonoOficina.isNotEmpty)
                         IconButton(
                           icon: const FaIcon(FontAwesomeIcons.whatsapp),
                           onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },

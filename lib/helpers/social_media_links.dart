@@ -2,21 +2,26 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../services/model/empresa.dart';
 
 class SocialMediaLinks extends StatelessWidget {
   final Empresa empresa;
+  final UserProfile userProfile;
   final double iconSize;
-  const SocialMediaLinks({Key? key, required this.empresa, this.iconSize = 30}) : super(key: key);
+  const SocialMediaLinks({Key? key, required this.empresa, required this.userProfile, this.iconSize = 30}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       IconButton(icon: FaIcon(Platform.isIOS ? FontAwesomeIcons.safari : FontAwesomeIcons.chrome, size: iconSize,), onPressed: () => { openInBrowser(empresa) },),
-      IconButton(icon: FaIcon(FontAwesomeIcons.envelope, size: iconSize), onPressed: () => { sendEmail(empresa) },),
+      if(empresa.correoVentas.isNotEmpty || userProfile.email.isNotEmpty)
+      IconButton(icon: FaIcon(FontAwesomeIcons.envelope, size: iconSize), onPressed: () => { sendEmail(empresa, userProfile) },),
+      if(empresa.facebook.isNotEmpty)
       IconButton(icon: FaIcon(FontAwesomeIcons.instagram, size: iconSize), onPressed: () => { viewInInstagram(empresa) },),
+      if(empresa.facebook.isNotEmpty)
       IconButton(icon: FaIcon(FontAwesomeIcons.facebook, size: iconSize), onPressed: () => { viewInFacebook(empresa) },),
     ],);
   }
@@ -27,8 +32,8 @@ class SocialMediaLinks extends StatelessWidget {
       throw 'Could not launch $_url';
     }
   }
-  Future<void> sendEmail(Empresa empresa) async {
-    var email = empresa.correoVentas;
+  Future<void> sendEmail(Empresa empresa, UserProfile userProfile) async {
+    var email = userProfile.emailSucursal.isEmpty ? empresa.correoVentas : userProfile.emailSucursal;
     var _url = Uri.parse("mailto:$email");
     if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $_url';
@@ -39,7 +44,7 @@ class SocialMediaLinks extends StatelessWidget {
     var facebook = empresa.facebook;
     String fbProtocolUrl;
     if (Platform.isIOS) {
-      fbProtocolUrl = 'fb://profile/$facebook.';
+      fbProtocolUrl = 'fb://profile/$facebook';
     } else {
       fbProtocolUrl = 'fb://page/$facebook';
     }
@@ -48,6 +53,10 @@ class SocialMediaLinks extends StatelessWidget {
     if(empresa.dominio.toUpperCase() == "CPS") {
       fbProtocolUrl = "https://www.facebook.com/comunidadcps/?mibextid=LQQJ4d";
       fallbackUrl = "https://www.facebook.com/comunidadcps/?mibextid=LQQJ4d";
+    }
+    if(empresa.dominio.toUpperCase() == "JETPACK") {
+      fbProtocolUrl = "https://www.facebook.com/jetpackcourier";
+      fallbackUrl = "https://www.facebook.com/jetpackcourier";
     }
 
 
@@ -94,6 +103,9 @@ class SocialMediaLinks extends StatelessWidget {
     var facebook = empresa.facebook;
     if(empresa.dominio.toUpperCase() == "CPS") {
       facebook="cps.rd";
+    }
+    if(empresa.dominio.toUpperCase() == "FIXOCARGO") {
+      facebook = 'fixocargo';
     }
     String fbProtocolUrl;
     if (Platform.isIOS) {

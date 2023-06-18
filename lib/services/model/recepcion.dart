@@ -236,7 +236,7 @@ class Historia {
       horaPart = horaPart + ":00";
     }
     // 2022-12-16T18:59:51.58
-    var theDateTime = fechaHora.contains("T") ? DateFormat("yyyy-MM-ddThh:mm:ss").parse(fechaHora) : DateFormat("yyyy-MM-dd hh:mm:ss").parse( soloFecha() + " " + horaPart );
+    var theDateTime = fechaHora.contains("T") ? DateFormat("yyyy-MM-ddTHH:mm:ss").parse(fechaHora) : DateFormat("yyyy-MM-dd HH:mm:ss").parse( soloFecha() + " " + horaPart );
     if(!fechaHora.contains("T")) {
       if (soloHora().contains("PM") && theDateTime.hour != 12) {
         theDateTime = theDateTime.add(const Duration(hours: 12));

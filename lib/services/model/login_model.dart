@@ -28,17 +28,20 @@ class LoginResult {
     email: json["email"] ?? "",
     telefono: json["telefono"] ?? "",
     sucursal: json["sucursal"] ?? "",
-    fotoPerfilUrl: json["fotoPerfilUrl"] ?? ""
+    fotoPerfilUrl: json["fotoPerfilUrl"] ?? "",
+
   );
 }
 
 class UserProfile {
   UserProfile({required  this.cuenta, required this.nombre, required this.email,
     required this.sucursal,required this.fotoPerfilUrl,
+    this.emailSucursal = "",
     this.telefono = "",
     this.nombreSucursal = "",
     this.telefonoSucursal = "",
-    this.whatsappSucursal = ""
+    this.whatsappSucursal = "",
+    this.chatUrl = "",
   });
   String cuenta;
   String nombre;
@@ -49,6 +52,8 @@ class UserProfile {
   String nombreSucursal;
   String telefonoSucursal;
   String whatsappSucursal;
+  String emailSucursal;
+  String chatUrl;
 }
 
 class UserAccount {

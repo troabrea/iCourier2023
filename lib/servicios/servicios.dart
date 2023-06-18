@@ -42,7 +42,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
         fieldHintText: 'Buscar',
-        keepAppBarColors: false,
+        keepAppBarColors: true,
         onChanged: (text) {
           setState(() {
             searchText = text;

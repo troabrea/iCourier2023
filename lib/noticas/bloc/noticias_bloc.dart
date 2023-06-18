@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/services/model/login_model.dart';
 import '../../services/courier_service.dart';
 import '../../services/app_events.dart';
 import '../../services/model/banner.dart';
@@ -24,10 +25,11 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
     on<LoadApiEvent>((event, emit) async {
       try {
         emit(NoticiasLoadingState());
+        final userProfile = await _courierService.getUserProfile();
         final empresa = await _courierService.getEmpresa();
         final noticias = await _courierService.getNoticias(event.ignoreCache);
         final banners = await _courierService.getBanners(hideIfLogged: false, ignoreCache: event.ignoreCache);
-        emit(NoticiasLoadedState(noticias, banners, empresa));
+        emit(NoticiasLoadedState(noticias, banners, empresa,userProfile));
       } on Exception catch (e) {
         debugPrint(e.toString());
         emit(NoticiasErrorState());

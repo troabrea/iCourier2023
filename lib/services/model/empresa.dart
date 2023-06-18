@@ -33,6 +33,7 @@ class Empresa {
     required this.clientSecret,
     required this.pushHubEndpoint,
     required this.pushHubName,
+    required this.options,
   });
 
   String registroId;
@@ -68,16 +69,17 @@ class Empresa {
   String clientSecret;
   String pushHubEndpoint;
   String pushHubName;
+  String options;
 
   factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
     registroId: json["registroID"],
     nombre: json["nombre"],
     dominio: json["dominio"],
-    mision: json["mision"],
-    vision: json["vision"],
-    correoServicio: json["correoServicio"],
-    correoVentas: json["correoVentas"],
-    paginaWeb: json["paginaWeb"],
+    mision: json["mision"] ?? "",
+    vision: json["vision"] ?? "",
+    correoServicio: json["correoServicio"] ?? "",
+    correoVentas: json["correoVentas"] ?? "",
+    paginaWeb: json["paginaWeb"] ?? "",
     telefonoOficina: json["telefonoOficina"] ?? "",
     telefonoVentas: json["telefonoVentas"] ?? "",
     twitter: json["twitter"] ?? "",
@@ -103,6 +105,7 @@ class Empresa {
     clientSecret: json["clientSecret"] ?? "",
     pushHubEndpoint: json["pushHubEndpoint"] ?? "",
     pushHubName: json["pushHubName"] ?? "",
+    options: json["options"] ?? ""
   );
 
   Map<String, dynamic> toJson() => {
@@ -139,5 +142,6 @@ class Empresa {
     "clientSecret": clientSecret,
     "pushHubEndpoint": pushHubEndpoint,
     "pushHubName": pushHubName,
+    "options" : options
   };
 }

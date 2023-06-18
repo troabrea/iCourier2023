@@ -77,7 +77,7 @@ class PaqueteTile extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Expanded(child: AutoSizeText(recepcion.enviadoPor,  maxLines: 1,)),
+                  Expanded(child: AutoSizeText(recepcion.enviadoPor,  maxLines: 2,)),
                   const SizedBox(width: 3,),
                   AutoSizeText(formatDate.format(recepcion.fechaRecibido()),  maxLines: 1, style: Theme.of(context).textTheme.bodySmall,)
                 ],

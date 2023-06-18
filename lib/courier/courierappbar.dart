@@ -1,7 +1,9 @@
+import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/courier/courier_webview.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:event/event.dart' as event;
@@ -26,6 +28,9 @@ class _CourierAppBarState extends State<CourierAppBar> {
   late List<Widget> appBarActions = <Widget>[].toList();
   late UserProfile userProfile;
   bool showWhatsApp = false;
+  bool showChat = false;
+  String profileUrl ="";
+
   @override
   void initState() {
     super.initState();
@@ -34,12 +39,16 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
   Future<void> _configureWithProfile() async {
     userProfile = await GetIt.I<CourierService>().getUserProfile();
+    profileUrl = await GetIt.I<CourierService>().empresaOptionValue("ProfileUrl");
+
     setState(() {
-      if(showWhatsApp != userProfile.whatsappSucursal.isNotEmpty) {
+      if(showWhatsApp != userProfile.whatsappSucursal.isNotEmpty || (showChat != (!showWhatsApp && userProfile.chatUrl.isNotEmpty)) ) {
         showWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+        showChat = !showWhatsApp && userProfile.chatUrl.isNotEmpty;
         appBarActions.clear();
         GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(userProfile.cuenta.isNotEmpty, userProfile.cuenta));
       }
+
     });
   }
 
@@ -77,13 +86,36 @@ class _CourierAppBarState extends State<CourierAppBar> {
                     chatWithSucursal();
                   },
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.person,
-                  color: Theme.of(context).appBarTheme.foregroundColor,
+              if(showChat)
+                IconButton(
+                  icon: Icon(Icons.chat,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
+                  ),
+                  onPressed: () async {
+                    launchUrl(Uri.parse(userProfile.chatUrl));
+                  },
                 ),
-                onPressed: () => {doLogout()},
-              ),
+              if(profileUrl.isEmpty)
+                IconButton(
+                  icon: Icon(
+                    Icons.person,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
+                  ),
+                  onPressed: () => {doLogout()},
+                ),
+              if(profileUrl.isNotEmpty)
+                AppPopupMenu<int>(
+                  menuItems: const [
+                    PopupMenuItem(child:  Text('Editar mi perfil'), value: 1,),
+                    PopupMenuItem(child:  Text('Cerrar Sesión'), value: 2,),
+                  ],
+                  icon: Icon(Icons.person, color: Theme.of(context).appBarTheme.foregroundColor,),
+                  onSelected: (x) =>
+                  {
+                    if(x==1) doEditProfile(context) else doLogout()
+                  },
+                ),
+
             ].toList();
           }
         } else {
@@ -181,5 +213,21 @@ class _CourierAppBarState extends State<CourierAppBar> {
           return CarnetUsuario(userProfile: userProfile);
         });
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+  }
+
+  doEditProfile(BuildContext context) async {
+
+    final map = await GetIt.I<CourierService>().getProfileUrl();
+    final actionUrl = map['ActionURL'] ?? "";
+    final userId = map['UsuarioID'] ?? "";
+    final userPwd = map['UsuarioPW'] ?? "";
+    final urlId = map['UrlID'] ?? "";
+    final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Mi Perfil")),
+    );
+
+
   }
 }

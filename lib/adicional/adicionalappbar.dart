@@ -20,6 +20,7 @@ class AdicionalPageAppBar extends StatefulWidget implements PreferredSizeWidget 
 class _AdicionalPageAppBarState extends State<AdicionalPageAppBar> {
   late UserProfile userProfile;
   bool hasWhatsApp = false;
+  bool hasChat = false;
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,7 @@ class _AdicionalPageAppBarState extends State<AdicionalPageAppBar> {
     userProfile = await GetIt.I<CourierService>().getUserProfile();
     setState(() {
       hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+      hasChat = !hasWhatsApp && userProfile.chatUrl.isNotEmpty;
     });
   }
 
@@ -47,6 +49,15 @@ class _AdicionalPageAppBarState extends State<AdicionalPageAppBar> {
             chatWithSucursal();
           },
         ),
+        if(hasChat)
+          IconButton(
+            icon: Icon(Icons.chat,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+            ),
+            onPressed: () async {
+              launchUrl(Uri.parse(userProfile.chatUrl));
+            },
+          ),
       ],
     );
   }

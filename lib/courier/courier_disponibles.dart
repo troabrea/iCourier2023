@@ -1,7 +1,10 @@
+import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/courier/courier_webview.dart';
+import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,11 +18,11 @@ import 'bloc/disponible_bloc.dart';
 import 'courier_historia_paquete.dart';
 
 class DisponiblesPage extends StatefulWidget {
-  final List<Recepcion> disponibles;
+  List<Recepcion> disponibles;
   final Empresa empresa;
   final double montoTotal;
 
-  const DisponiblesPage(
+  DisponiblesPage(
       {Key? key,
       required this.disponibles,
       required this.montoTotal,
@@ -35,12 +38,20 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
   bool _isInitialValue = true;
   late UserProfile userProfile;
   bool hasWhatsApp = false;
-
+  bool isRefreshing = false;
   @override
   void initState() {
     super.initState();
     startAnimation();
     _configureWithProfile();
+  }
+
+  DisponibleBloc disponibleBloc = DisponibleBloc(DisponibleInitialState());
+  DisponibleBloc getDisponibleBloc() {
+    if (disponibleBloc.isClosed || disponibleBloc.state is DisponibleInitialState) {
+      disponibleBloc = DisponibleBloc(DisponibleReadyState(disponibles: widget.disponibles));
+    }
+    return disponibleBloc;
   }
 
   Future<void> _configureWithProfile() async {
@@ -81,6 +92,14 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
           leading:
               BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
           actions: [
+            IconButton(
+              icon: Icon(Icons.refresh,
+                color: Theme.of(context).appBarTheme.foregroundColor,
+              ),
+              onPressed: () async {
+                getDisponibleBloc().add(DisponibleRefreshEvent());
+              },
+            ),
             if(hasWhatsApp)
             IconButton(
               icon: FaIcon(FontAwesomeIcons.whatsapp,
@@ -93,7 +112,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
           ],
         ),
         body: BlocProvider(
-          create: (context) => DisponibleBloc(),
+          create: (context) => getDisponibleBloc(),
           child: BlocListener<DisponibleBloc, DisponibleState>(
             listener: (context, state) {
               if (state is DisponibleFinishedState) {
@@ -115,7 +134,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else {
+                } else if(state is DisponibleReadyState) {
                   return SafeArea(
                       child: Container(
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
@@ -147,7 +166,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                                       .foregroundColor),
                                         ),
                                         Text(
-                                            widget.disponibles.length
+                                            state.disponibles.length
                                                 .toString(),
                                             style: Theme.of(context)
                                                 .textTheme
@@ -241,9 +260,13 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                             BlocProvider.of<DisponibleBloc>(
                                                 context)
                                                 .add(DisponibleDomicilioEvent(
-                                                context,widget.disponibles ));
+                                                context,state.disponibles ));
                                           }
                                           if (value == 'pagar') {
+                                            if(widget.empresa.dominio.toUpperCase() == "CPS") {
+                                              doPayOnlineCPS();
+                                              return;
+                                            }
                                             BlocProvider.of<DisponibleBloc>(
                                                     context)
                                                 .add(DisponiblePagoEnLineaEvent(
@@ -299,7 +322,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                               Icons.meeting_room_outlined),
                                           label: const Text("Retirar")),
                                     const Spacer(),
-                                    if (widget.empresa.hasPaymentsModule)
+                                    if (widget.empresa.hasPaymentsModule && widget.montoTotal > 0)
                                       OutlinedButton.icon(
                                           onPressed: () {
                                             BlocProvider.of<DisponibleBloc>(
@@ -344,18 +367,34 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                         },
                                         child: Hero(
                                             transitionOnUserGestures: true,
-                                            tag: widget.disponibles[index],
+                                            tag: state.disponibles[index],
                                             child: PaqueteTile(
-                                                recepcion: widget
+                                                recepcion: state
                                                     .disponibles[index]))),
-                                    itemCount: widget.disponibles.length),
+                                    itemCount: state.disponibles.length),
                               ),
                             ],
                           )));
+                } else {
+                  return Container();
                 }
               },
             ),
           ),
         ));
   }
+
+  void doPayOnlineCPS() async {
+    final map = await GetIt.I<CourierService>().getPaymentUrl();
+    final actionUrl = map['ActionURL'] ?? "";
+    final userId = map['UsuarioID'] ?? "";
+    final userPwd = map['UsuarioPW'] ?? "";
+    final urlId = map['UrlID'] ?? "";
+    final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Realizar Pago")),
+    );
+  }
+
 }

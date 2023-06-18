@@ -4,9 +4,21 @@ abstract class DisponibleState extends Equatable {
   const DisponibleState();
 }
 
-class DisponibleIdleState extends DisponibleState {
+// class DisponibleIdleState extends DisponibleState {
+//   @override
+//   List<Object> get props => [];
+// }
+
+class DisponibleInitialState extends DisponibleState {
   @override
   List<Object> get props => [];
+}
+
+class DisponibleReadyState extends DisponibleState {
+  final List<Recepcion> disponibles;
+  const DisponibleReadyState({required this.disponibles});
+  @override
+  List<Object> get props => [disponibles];
 }
 
 class DisponibleFinishedState extends DisponibleState {

@@ -54,14 +54,14 @@ void showFlutterNotification(RemoteMessage message) {
   }
 }
 
-class MainAppShell extends StatefulWidget {
+class MainAppShell extends StatefulWidget  {
   const MainAppShell({Key? key}) : super(key: key);
 
   @override
   State<MainAppShell> createState() => _MainAppShellState();
 }
 
-class _MainAppShellState extends State<MainAppShell> {
+class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver {
   //final _connectivityService = ConnectivityService();
   final _connectivity = Connectivity();
   //late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -134,7 +134,7 @@ class _MainAppShellState extends State<MainAppShell> {
   // });
 
   final _checker = AppVersionChecker();
-
+  AppLifecycleState? _appLifecycleState;
   void checkVersion() async {
     _checker.checkUpdate().then((value) async {
       var upgradAvailable = value.canUpdate;
@@ -177,6 +177,7 @@ class _MainAppShellState extends State<MainAppShell> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     String shortcut = 'no action set';
     createTutorial();
     Future.delayed(Duration.zero,showTutorial);
@@ -327,7 +328,18 @@ class _MainAppShellState extends State<MainAppShell> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _appLifecycleState = state;
+    });
+    if(state == AppLifecycleState.resumed) {
+      GetIt.I<CourierService>().getEmpresa(ignoreCache: false, forceFirstTime: true);
+    }
   }
 
   Future<void> initConnectivity() async {
@@ -371,7 +383,7 @@ class _MainAppShellState extends State<MainAppShell> {
           if(connectivityWasLostAt != null) {
             var duration = DateTime.now().difference(connectivityWasLostAt!);
             connectivityWasLostAt = null;
-            if(duration.inSeconds < 1) {
+            if(duration.inSeconds < 10) {
               return;
             }
           }
@@ -455,7 +467,7 @@ class _MainAppShellState extends State<MainAppShell> {
             icon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
-              decoration: const BoxDecoration(
+              decoration:  const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle
               ),
@@ -466,7 +478,7 @@ class _MainAppShellState extends State<MainAppShell> {
             inactiveIcon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
-              decoration:  BoxDecoration(
+              decoration:   BoxDecoration(
                   color: Colors.white.withOpacity(1),
                   shape: BoxShape.circle
               ),
@@ -477,7 +489,40 @@ class _MainAppShellState extends State<MainAppShell> {
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic != "TAINO" )
+      if(appInfo.pushChannelTopic == "CPS")
+        PersistentBottomNavBarItem(
+          contentPadding: 0.0,
+            icon:
+            Container(
+
+              key: keyMainBottomNavigation,
+              padding: const EdgeInsets.all(0),
+              decoration:  BoxDecoration(
+                borderRadius: BorderRadius.circular(300),
+                color: Colors.transparent,
+                border: Border.all(
+                  color: Colors.white,
+                width: 1)
+              ),
+              // color: Colors.white,
+              child: Image.asset(appInfo.centerIconImage),
+              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+            ),
+            inactiveIcon: Container(
+              key: keyMainBottomNavigation,
+              padding: const EdgeInsets.all(0),
+              // decoration:  const BoxDecoration(
+              //     color: Colors.transparent,
+              //     shape: BoxShape.circle
+              // ),
+              color: Colors.transparent,
+              child: Image.asset(appInfo.centerIconImage),
+              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+            ),
+            title: null, //'Inicio',
+            activeColorPrimary: Colors.transparent,
+            inactiveColorPrimary: Colors.transparent),
+      if(appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS")
         PersistentBottomNavBarItem(
             icon: Container(
               key: keyMainBottomNavigation,
@@ -574,6 +619,7 @@ class _MainAppShellState extends State<MainAppShell> {
 
   DateTime oldTime = DateTime.now();
   DateTime newTime = DateTime.now();
+  DateTime lastRefresh = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -611,6 +657,18 @@ class _MainAppShellState extends State<MainAppShell> {
               duration: Duration(milliseconds: 100),
             ),
             onItemSelected: (idx)  {
+              if(idx==1) {
+                GetIt.I<event.Event<SucursalesDataRefreshRequested>>().broadcast();
+              }
+              if(idx==0) {
+                GetIt.I<event.Event<NoticiasDataRefreshRequested>>().broadcast();
+              }
+              if(idx==2) {
+                if(DateTime.now().difference(lastRefresh).inMinutes >= 20) {
+                  lastRefresh = DateTime.now();
+                  GetIt.I<event.Event<CourierRefreshRequested>>().broadcast();
+                }
+              }
               cache.write('lastSelectedTab', idx.toString());
             },
             onWillPop: (context) async {
@@ -695,8 +753,10 @@ class _MainAppShellState extends State<MainAppShell> {
     }
     if(appInfo.metricsPrefixKey == "CARIBEPACK") {
       targets.add(_createTarget("keyServicesBottomNavigation",keyServicesBottomNavigation,"Conozca nuestros servicios."));
+      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"Conozca nuestras tarifas y solicite de nuestra asistencia."));
+    } else {
+      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"Conozca más sobre nosotros y solicite de nuestra asistencia."));
     }
-    targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"Conozca más sobre nosotros y solicite de nuestra asistencia."));
     return targets;
   }
 

@@ -62,7 +62,7 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
 Future<void> mainShared(AppInfo _appInfo)  async {
   final AppInfo appInfo = _appInfo;
   var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   String strValue = (await cache.load('lastSelectedTab',"")).toString();
   if(strValue.isNotEmpty) {
@@ -75,7 +75,8 @@ Future<void> mainShared(AppInfo _appInfo)  async {
 
   await Firebase.initializeApp();
   await setupFlutterNotifications(appInfo.pushChannelTopic);
-
+  // var token =  await FirebaseMessaging.instance.getAPNSToken();
+  // FirebaseMessaging.instance.requestPermission();
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -105,14 +106,12 @@ Future<void> mainShared(AppInfo _appInfo)  async {
 }
 
 class MyApp extends StatelessWidget {
-
-
-
   final AppInfo appInfo = GetIt.I<AppInfo>();
   MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // FlutterNativeSplash.remove();
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [

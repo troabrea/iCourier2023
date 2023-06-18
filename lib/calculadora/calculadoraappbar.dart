@@ -19,6 +19,7 @@ class CalculadoraAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CalculadoraAppBarState extends State<CalculadoraAppBar> {
   late UserProfile userProfile;
   bool hasWhatsApp = false;
+  bool hasChat = false;
   @override void initState() {
     super.initState();
     _configureWithProfile();
@@ -28,6 +29,7 @@ class _CalculadoraAppBarState extends State<CalculadoraAppBar> {
     userProfile = await GetIt.I<CourierService>().getUserProfile();
     setState(() {
       hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
+      hasChat = !hasWhatsApp && userProfile.chatUrl.isNotEmpty;
     });
   }
 
@@ -45,6 +47,15 @@ class _CalculadoraAppBarState extends State<CalculadoraAppBar> {
             chatWithSucursal();
           },
         ),
+        if(hasChat)
+          IconButton(
+            icon: Icon(Icons.chat,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+            ),
+            onPressed: () async {
+              launchUrl(Uri.parse(userProfile.chatUrl));
+            },
+          ),
       ],
     );
   }
