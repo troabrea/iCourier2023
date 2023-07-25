@@ -7,7 +7,7 @@ import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:icourier/courier/bloc/dashboard_bloc.dart';
 import 'package:icourier/courier/bloc/dashboard_bloc.dart';
 import 'package:icourier/services/model/login_model.dart';
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../services/courier_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../courier/paquete_tile.dart';
@@ -161,20 +161,27 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
 
   Future<void> showPostAlertaSheet(
       BuildContext context, Recepcion recepcion) async {
-    //NavbarNotifier.hideBottomNavBar = true;
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      isDismissible: true,
-      builder: (context) {
-        return CrearPostAlertaPage(recepcion: recepcion);
-      },
-    );
 
-    //NavbarNotifier.hideBottomNavBar = false;
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+    Navigator.of(context,
+        rootNavigator: false)
+        .push(MaterialPageRoute(fullscreenDialog: true,
+        builder: (context) =>
+         CrearPostAlertaPage(recepcion: recepcion)));
+
+    //NavbarNotifier.hideBottomNavBar = true;
+    // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    // await showModalBottomSheet(
+    //   context: context,
+    //   isScrollControlled: true,
+    //   shape: const RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    //   isDismissible: true,
+    //   builder: (context) {
+    //     return CrearPostAlertaPage(recepcion: recepcion);
+    //   },
+    // );
+    //
+    // //NavbarNotifier.hideBottomNavBar = false;
+    // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
   }
 }

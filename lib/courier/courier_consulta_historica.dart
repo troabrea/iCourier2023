@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/appinfo.dart';
 import 'package:intl/intl.dart';
 import '../../courier/bloc/historia_bloc.dart';
 import '../../courier/courier_historia_paquete.dart';
@@ -19,6 +21,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
   late ScrollController controller;
   final _formKey = GlobalKey<FormBuilderState>();
   final historiaBloc = HistoriaBloc(HistoriaIdleState());
+  final appInfo = GetIt.I<AppInfo>();
 
   @override
   void initState() {
@@ -70,11 +73,13 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: ListView.builder(itemBuilder: (_, index) {
                                     return InkWell(onTap: () {
-                                      Navigator.of(context,
-                                          rootNavigator: false)
-                                          .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                           HistoricoPaquetePage(recepcion: state.recepciones[index])));
+                                      if(appInfo.metricsPrefixKey != "TLS") {
+                                        Navigator.of(context,
+                                            rootNavigator: false)
+                                            .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                HistoricoPaquetePage(recepcion: state.recepciones[index])));
+                                      }
                                     }
                                         , child: PaqueteTile(recepcion: state.recepciones[index]));
                                 }, itemCount: state.recepciones.length,),
@@ -145,18 +150,18 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
         floatingLabelAlignment: FloatingLabelAlignment.center,
         labelText: 'Desde',
         floatingLabelStyle:
-        TextStyle(color: Theme.of(context).primaryColorDark),
+        TextStyle(color: Theme.of(context).dividerColor),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+            borderSide: BorderSide(color: Theme.of(context).dividerColor),
             borderRadius: BorderRadius.circular(15)),
         focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).errorColor),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
             borderRadius: BorderRadius.circular(15)),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).errorColor),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
             borderRadius: BorderRadius.circular(15)),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+            borderSide: BorderSide(color: Theme.of(context).dividerColor),
             borderRadius: BorderRadius.circular(15)),
       ),
     );
@@ -179,18 +184,18 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
         floatingLabelAlignment: FloatingLabelAlignment.center,
         labelText: 'Hasta',
         floatingLabelStyle:
-        TextStyle(color: Theme.of(context).primaryColorDark),
+        TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(15)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(15)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(15)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(15)),
           ),
     );

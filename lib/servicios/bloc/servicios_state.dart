@@ -16,8 +16,10 @@ class ServiciosErrorState extends ServiciosState {
 
 class ServiciosLoadedState extends ServiciosState {
   final List<Servicio> servicios;
-
-  const ServiciosLoadedState(this.servicios);
+  final List<BannerImage> banners;
+  final Empresa empresa;
+  final UserProfile userProfile;
+  const ServiciosLoadedState(this.servicios, this.empresa, this.userProfile, this.banners);
   @override
-  List<Object?> get props => [servicios];
+  List<Object?> get props => [servicios, empresa, userProfile, banners];
 }

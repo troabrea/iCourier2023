@@ -40,7 +40,7 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
               borderRadius: BorderRadius.all(Radius.circular(24))),
           child: const Icon(Icons.check, color: Colors.white, size: 12,),
         ),
-        title: StepperText(e.nombreEstatus, textStyle: Theme.of(context).textTheme.titleMedium),
+        title: StepperText(e.nombreEstatus.isEmpty ? e.ciudad : e.nombreEstatus, textStyle: Theme.of(context).textTheme.titleMedium),
         subtitle: StepperText(DateFormat("dd-MMM-yyyy").add_jms().format(e.dateTime())))).toList();
   }
 
@@ -66,7 +66,7 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
                       Icon(iconsProgreso[1], color: widget.recepcion.progresoActual() == 2 ? Colors.white : Colors.black,),
                       Icon(iconsProgreso[2], color: widget.recepcion.progresoActual() == 3 ? Colors.white : Colors.black,),
                       Icon(iconsProgreso[3], color: widget.recepcion.progresoActual() == 4 ? Colors.white : Colors.black,),
-                    ],  lineColor: Theme.of(context).primaryColorDark, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
+                    ],  lineColor: Theme.of(context).dividerColor, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
                     const SizedBox(height: 10,),
                     Expanded(
                       child: SingleChildScrollView(

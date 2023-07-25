@@ -4,7 +4,7 @@ abstract class CalculadoraState extends Equatable {
   const CalculadoraState();
 }
 
-// class CalculadoraIdleState extends CalculadoraState {
+// class CalculadoraInitialState extends CalculadoraState {
 //   @override
 //   List<Object> get props => [];
 // }

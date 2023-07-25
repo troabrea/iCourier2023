@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/appinfo.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../services/courier_service.dart';
@@ -27,6 +28,7 @@ class CrearPreAlertaPage extends StatefulWidget {
 class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
   final ImagePicker _picker = ImagePicker();
   final courierService = GetIt.I<CourierService>();
+  final appInfo = GetIt.I<AppInfo>();
   final formatDate = DateFormat("yyyyMMdd");
   final prePostAlertaBloc = PrePostAlertaBloc(GetIt.I<CourierService>());
   late ScrollController controller;
@@ -60,60 +62,66 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 720,
-      child: Scaffold(
-          appBar: AppBar(title: const Text("Creación de Pre-Alerta"),
-          automaticallyImplyLeading: false,
-          ),
-          body: BlocProvider(
+      child: BlocProvider(
             create: (context) => prePostAlertaBloc,
             child: BlocBuilder<PrePostAlertaBloc,PrePostAlertaState>(
               builder: (context,state) {
-              return GestureDetector(
-                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                onVerticalDragEnd: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                child: SafeArea(
+              return Scaffold(
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  title: const Text('Creación de Pre-Alerta'),
+                  actions: [
+                    IconButton(onPressed: () => {Navigator.of(context).pop()}, icon: const Icon(Icons.close))
+                  ],
+                ),
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                body: SafeArea(
                   child: SingleChildScrollView(
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 65),
-                      child: FormBuilder(
-                        autovalidateMode: AutovalidateMode.disabled,
-                        key: _formKey,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                          child: Column(
-                            children: [
-                              if(state is PrePostAlertaUpLoadingState)
-                                Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
-                              else if (state is PrePostAlertaDoneState)
-                                InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
-                              else if (state is PrePostAlertaErrorState)
-                                InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Column(
-                                  children: [
-                                    Icon(Icons.error, size: 100, color: Theme.of(context).errorColor),
-                                    Text(state.errorMessage)
-                                  ],
-                                ),)))
-                              else
-                                buildEntryForm(context, () async {
+                      child: Column(
+                        children: [
+                          FormBuilder(
+                            autovalidateMode: AutovalidateMode.disabled,
+                            key: _formKey,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                              child: Column(
+                                children: [
+                                  if(state is PrePostAlertaUpLoadingState)
+                                    Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
+                                  else if (state is PrePostAlertaDoneState)
+                                    InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
+                                  else if (state is PrePostAlertaErrorState)
+                                    InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Column(
+                                      children: [
+                                        Icon(Icons.error, size: 100, color: Theme.of(context).errorColor),
+                                        Text(state.errorMessage)
+                                      ],
+                                    ),)))
+                                  else
+                                    buildEntryForm(context, () async {
 
-                                  if(_formKey.currentState?.saveAndValidate() ?? false) {
+                                      if(_formKey.currentState?.saveAndValidate() ?? false) {
 
-                                    var transportista = _formKey.currentState!.fields['transportista']!.value.toString();
-                                    var tracking = _formKey.currentState!.fields['tracking']!.value.toString();
-                                    var contenido = _formKey.currentState!.fields['contenido']!.value.toString();
-                                    var proveedor = _formKey.currentState!.fields['proveedor']!.value.toString();
-                                    var strValor = _formKey.currentState!.fields['valor']!.value.toString();
-                                    strValor = strValor.replaceAll(',', '');
-                                    var valor = double.parse(strValor);
-                                    var fecha = formatDate.format(_formKey.currentState!.fields['fecha']!.value as DateTime);
-                                    var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
-                                    var preAlerta = PreAlertaModel("", "", transportista, tracking, valor, contenido, proveedor, fecha, "");
-                                    prePostAlertaBloc.add(SendPreAlertaEvent(xfile,preAlerta));
-                                  }
-                                }),
-                            ],
+                                        var transportista = _formKey.currentState!.fields['transportista']!.value.toString();
+                                        var tracking = _formKey.currentState!.fields['tracking']!.value.toString();
+                                        var contenido = _formKey.currentState!.fields['contenido']!.value.toString();
+                                        var proveedor = _formKey.currentState!.fields['proveedor']!.value.toString();
+                                        var strValor = _formKey.currentState!.fields['valor']!.value.toString();
+                                        strValor = strValor.replaceAll(',', '');
+                                        var valor = double.parse(strValor);
+                                        var fecha = formatDate.format(_formKey.currentState!.fields['fecha']!.value as DateTime);
+                                        var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
+                                        var preAlerta = PreAlertaModel("", "", transportista, tracking, valor, contenido, proveedor, fecha, "");
+                                        prePostAlertaBloc.add(SendPreAlertaEvent(xfile,preAlerta));
+                                      }
+                                    }),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -122,7 +130,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
             }
           )
     ),
-    ));
+    );
   }
 
   Widget buildEntryForm(BuildContext context, void Function() onSend) {
@@ -155,21 +163,21 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(width: MediaQuery.of(context).size.width * .5,
-                  child: ElevatedButton.icon(onPressed: () async {
+                  child: FilledButton.icon(onPressed: () async {
                     selectedImage = await _picker.pickImage(source: ImageSource.gallery);
                     if(selectedImage != null) selectedFile = null;
                     setState(() {});
-                  }, style: ElevatedButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12))), alignment: Alignment.centerLeft) , label: const Text('Cargar Imagen'),  icon: const Icon(Icons.image,)),
+                  }, style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: const Text('Cargar Imagen'),  icon: const Icon(Icons.image,)),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * .5,
-                  child: ElevatedButton.icon(onPressed: () async {
+                  child: FilledButton.icon(onPressed: () async {
                     selectedImage = await _picker.pickImage(source: ImageSource.camera);
                     if(selectedImage != null) selectedFile = null;
                     setState(() {});
-                  },style: ElevatedButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12))), alignment: Alignment.centerLeft) , label: const Text('Tomar Foto', ),  icon: const Icon(Icons.camera)),
+                  },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: const Text('Tomar Foto', ),  icon: const Icon(Icons.camera)),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * .5,
-                  child: ElevatedButton.icon(onPressed: () async {
+                  child: FilledButton.icon(onPressed: () async {
                     FilePickerResult? result = await FilePicker.platform.pickFiles(
                       type: FileType.custom,
                       allowedExtensions: ['jpg', 'pdf', 'png','doc'],
@@ -179,7 +187,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
                       selectedImage = null;
                       setState(() {});
                     }
-                  },style: ElevatedButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12))), alignment: Alignment.centerLeft) , label: const Text('Cargar Archivo', ),  icon: const Icon(Icons.file_open,)),
+                  },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: const Text('Cargar Archivo', ),  icon: const Icon(Icons.file_open,)),
                 ),
               ],
             )),
@@ -203,7 +211,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
           ],),
           const SizedBox(height: 15,),
           const Divider(),
-          ElevatedButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container( padding: const EdgeInsets.symmetric(horizontal: 5), child: const Text('Enviar Pre-Alerta')), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
+          FilledButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container( padding: const EdgeInsets.symmetric(horizontal: 5), child: const Text('Enviar Pre-Alerta')), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
         ],
 
       ),
@@ -227,18 +235,18 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
         floatingLabelAlignment: FloatingLabelAlignment.center,
         labelText: 'Fecha',
         floatingLabelStyle:
-        TextStyle(color: Theme.of(context).primaryColorDark),
+        TextStyle(color: Theme.of(context).dividerColor),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+            borderSide: BorderSide(color: Theme.of(context).dividerColor),
             borderRadius: BorderRadius.circular(10)),
         focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).errorColor),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
             borderRadius: BorderRadius.circular(10)),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).errorColor),
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
             borderRadius: BorderRadius.circular(10)),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+            borderSide: BorderSide(color: Theme.of(context).dividerColor),
             borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -265,22 +273,23 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           labelText: 'Valor FOB',
+          alignLabelWithHint: true,
           floatingLabelStyle:
-          TextStyle(color: Theme.of(context).primaryColorDark),
+          TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.attach_money_outlined),
-          prefixIconColor: Theme.of(context).primaryColorDark),
+          prefixIconColor: Theme.of(context).colorScheme.secondary),
     );
   }
 
@@ -304,18 +313,18 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
             hintText: 'Contenido',
             floatingLabelAlignment: FloatingLabelAlignment.center,
             floatingLabelStyle:
-            TextStyle(color: Theme.of(context).primaryColorDark),
+            TextStyle(color: Theme.of(context).dividerColor),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                borderSide: BorderSide(color: Theme.of(context).dividerColor),
                 borderRadius: BorderRadius.circular(15)),
             focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).errorColor),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                 borderRadius: BorderRadius.circular(15)),
             errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).errorColor),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                 borderRadius: BorderRadius.circular(15)),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                borderSide: BorderSide(color: Theme.of(context).dividerColor),
                 borderRadius: BorderRadius.circular(15)),
           ),
         )
@@ -342,18 +351,18 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
             hintText: 'Proveedor',
             floatingLabelAlignment: FloatingLabelAlignment.center,
             floatingLabelStyle:
-            TextStyle(color: Theme.of(context).primaryColorDark),
+            TextStyle(color: Theme.of(context).dividerColor),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                borderSide: BorderSide(color: Theme.of(context).dividerColor),
                 borderRadius: BorderRadius.circular(15)),
             focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).errorColor),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                 borderRadius: BorderRadius.circular(15)),
             errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).errorColor),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                 borderRadius: BorderRadius.circular(15)),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                borderSide: BorderSide(color: Theme.of(context).dividerColor),
                 borderRadius: BorderRadius.circular(15)),
           ),
         )
@@ -380,18 +389,18 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
                 hintText: 'Tracking',
                 floatingLabelAlignment: FloatingLabelAlignment.center,
                 floatingLabelStyle:
-                TextStyle(color: Theme.of(context).primaryColorDark),
+                TextStyle(color: Theme.of(context).dividerColor),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                    borderSide: BorderSide(color: Theme.of(context).dividerColor),
                     borderRadius: BorderRadius.circular(15)),
                 focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).errorColor),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                     borderRadius: BorderRadius.circular(15)),
                 errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).errorColor),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                     borderRadius: BorderRadius.circular(15)),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                    borderSide: BorderSide(color: Theme.of(context).dividerColor),
                     borderRadius: BorderRadius.circular(15)),
               ),
             )
@@ -412,18 +421,18 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
                 hintText: 'Seleccione transportista',
                 floatingLabelAlignment: FloatingLabelAlignment.center,
                 floatingLabelStyle:
-                TextStyle(color: Theme.of(context).primaryColorDark),
+                TextStyle(color: Theme.of(context).dividerColor),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                    borderSide: BorderSide(color: Theme.of(context).dividerColor),
                     borderRadius: BorderRadius.circular(15)),
                 focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).errorColor),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                     borderRadius: BorderRadius.circular(15)),
                 errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).errorColor),
+                    borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                     borderRadius: BorderRadius.circular(15)),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+                    borderSide: BorderSide(color: Theme.of(context).dividerColor),
                     borderRadius: BorderRadius.circular(15)),
               ),
               items: transportistas

@@ -27,7 +27,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:collection/collection.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import 'app_events.dart';
 import 'model/banner.dart';
 import 'model/empresa.dart';
@@ -320,8 +320,9 @@ class CourierService {
 
     var sessionId = (await cache.load('sessionId', ''))
         .toString();
-
-    await _validateSession();
+    if(sessionId.isNotEmpty) {
+      await _validateSession();
+    }
 
     // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
 
@@ -386,6 +387,24 @@ class CourierService {
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
     var result = prealertasFromJson(response.body);
+    return result;
+  }
+
+  Future<List<Recepcion>> getFacturados() async {
+    var sessionId = (await cache.load('sessionId', ''))
+        .toString(); //  prefs.getString('sessionId');
+    if (sessionId == "") {
+      return <Recepcion>[].toList();
+    }
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/facturados?code=Igbsi2cjVeSjaLaP8DYrHDyH7HSVmDWyej7PW_uUU8GbAzFu8BroAw==");
+    final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
+    final json = jsonEncode(req);
+    final response = await post(uri, body: json);
+    var result = recepcionFromJson(response.body);
+    result.sort((a, b) {
+      return b.fechaRecibido().compareTo(a.fechaRecibido());
+    });
     return result;
   }
 
@@ -556,7 +575,11 @@ class CourierService {
   }
 
   Future<void> saveLoggedInState(LoginResult loginResult, String userAccount, String userPassword) async {
-    FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userAccount");
+    if(appInfo.pushChannelTopic == "TLS") {
+      FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_${loginResult.sessionId}");
+    } else {
+      FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userAccount");
+    }
     await cache.write('sessionId', loginResult.sessionId);
     await cache.write('userAccount', userAccount);
     await cache.write('userPassword', userPassword);
@@ -568,7 +591,11 @@ class CourierService {
   }
   Future<void> saveLoggedOutState() async {
     var userAccount =  await cache.load('userAccount', "") as String;
-    if(userAccount.isNotEmpty) {
+    var sessionId =  await cache.load('sessionId', "") as String;
+    if(appInfo.pushChannelTopic == "TLS" && sessionId.isNotEmpty) {
+      FirebaseMessaging.instance.unsubscribeFromTopic("${appInfo.pushChannelTopic}_$sessionId");
+    }
+    if(appInfo.pushChannelTopic != "TLS" && userAccount.isNotEmpty) {
       FirebaseMessaging.instance.unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
 

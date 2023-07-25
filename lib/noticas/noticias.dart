@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/appinfo.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import '../helpers/social_media_links.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../noticas/bloc/noticias_bloc.dart';
 import '../../noticas/noticiadetalle.dart';
 import '../../services/courier_service.dart';
@@ -25,6 +27,7 @@ class NoticiasPage extends StatefulWidget {
 class _NoticiasPageState extends State<NoticiasPage>  {
   late ScrollController _controller;
   final noticiasBloc = NoticiasBloc(GetIt.I<CourierService>());
+  final appInfo = GetIt.I<AppInfo>();
   var lastRefresh = DateTime.now();
   _NoticiasPageState() {
     GetIt.I<event.Event<NoticiasDataRefreshRequested>>().subscribe((args)  {
@@ -50,7 +53,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  NoticiasAppBar(),
+      appBar:  NoticiasAppBar(showBackButton: (appInfo.metricsPrefixKey == "BMCARGO"),),
       body: BlocProvider(
         create: (context) => noticiasBloc..add(const LoadApiEvent()),
         child: BlocBuilder<NoticiasBloc, NoticiasState>(
@@ -75,7 +78,9 @@ class _NoticiasPageState extends State<NoticiasPage>  {
                   child: Column(children: [
                     if(state.banners.isNotEmpty)
                       buildSlideShow(context, state.banners),
-                      SizedBox(height: 30, child: SocialMediaLinks(empresa: state.empresa, userProfile: state.userProfile,)),
+                      if(appInfo.metricsPrefixKey != "BMCARGO")
+                      SizedBox(height: 50,
+                          child: SocialMediaLinks(empresa: state.empresa, userProfile: state.userProfile,)),
                     const SizedBox(height: 10,),
                     Expanded(child: buildListView(context, state.noticias)),
                   ]),
@@ -113,7 +118,8 @@ class _NoticiasPageState extends State<NoticiasPage>  {
       child: ListView.builder(
           itemBuilder: (_, index) => GestureDetector(
               onTap: () {
-                PersistentNavBarNavigator.pushNewScreen(context, screen: NoticiaDetallePage(noticia: noticias[index],));
+                pushNewScreen(context, screen: NoticiaDetallePage(noticia: noticias[index],));
+                // PersistentNavBarNavigator.pushNewScreen(context, screen: NoticiaDetallePage(noticia: noticias[index],));
                 // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
                 //     builder: (context) =>
                 //         NoticiaDetallePage(noticia: noticias[index])));
@@ -125,11 +131,13 @@ class _NoticiasPageState extends State<NoticiasPage>  {
   }
 
   Widget noticiaTile(BuildContext context, Noticia noticia) {
-    return Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-            side: BorderSide(color: Theme.of(context).primaryColorDark)
+    return Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: Theme.of(context).dividerColor)
         ),
+
         child: Container(
             margin: const EdgeInsets.all(10),
             child: Column(
@@ -137,11 +145,11 @@ class _NoticiasPageState extends State<NoticiasPage>  {
               children: [
                 Hero(transitionOnUserGestures: true, tag: noticia.registroId + '_' + noticia.titulo,
                   child: Text(noticia.titulo,
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w700)),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w700)),
                 ),
                 Hero(transitionOnUserGestures: true, tag: noticia.registroId + '_' + noticia.fecha.toString(),
                   child: Text(DateFormat("dd-MMM-yyyy").format(noticia.fecha),
-                      style: Theme.of(context).textTheme.titleSmall),
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).hintColor)),
                 ),
                 Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 10),

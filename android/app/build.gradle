@@ -95,12 +95,12 @@ android {
         bmcargo {
             dimension "app"
             applicationId "com.barolit.bmcargo"
-            versionCode 5202327
+            versionCode 5202329
         }
         jetpack {
             dimension "app"
             applicationId "com.barolit.jetpack"
-            versionCode 5202324
+            versionCode 5202325
         }
         almapaq {
             dimension "app"
@@ -131,9 +131,18 @@ android {
             dimension "app"
             applicationId "com.barolit.caribepackapp"
         }
+        tls {
+            dimension "app"
+            applicationId "com.barolit.tls"
+            versionCode 5202373
+        }
         cps {
             dimension "app"
             applicationId "com.barolit.cps"
+        }
+        cainca {
+            dimension "app"
+            applicationId "com.barolit.cainca"
         }
         taino {
             dimension "app"

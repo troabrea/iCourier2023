@@ -13,7 +13,7 @@ import '../../calculadora/bloc/calculadora_bloc.dart';
 import '../../services/courier_service.dart';
 import 'package:intl/intl.dart';
 import '../../services/model/calculadora_model.dart';
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../helpers/boxed_title_value.dart';
 import '../services/model/producto.dart';
 import 'calculadoraappbar.dart';
@@ -116,7 +116,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                   decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       border:
-                          Border.all(color: Theme.of(context).primaryColorDark),
+                          Border.all(color: Theme.of(context).dividerColor),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10))),
                   child: buildListView(context, state.resultados))),
@@ -146,7 +146,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       productoActual = _productoDefault;
     }
     return SizedBox(
-      height: productos.length == 1 ? 75 : 135, // 110,
+      height: productos.length == 1 ? 75 : 120, // 110,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: productos.length == 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -167,7 +167,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                 SizedBox(  width: MediaQuery.of(context).size.width * 0.8, child: buildProductoField(context)),
             ],
           ),
-          IconButton(iconSize: 30,  alignment: Alignment.topCenter,
+          IconButton(iconSize: 30, color: Theme.of(context).colorScheme.primary,  alignment: Alignment.topCenter,
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 if (_formKey.currentState!.saveAndValidate()) {
@@ -233,21 +233,21 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           labelText: 'Libras',
           floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
-              TextStyle(color: Theme.of(context).primaryColorDark),
+              TextStyle(color: Theme.of(context).colorScheme.onSurface),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.balance_outlined),
-          prefixIconColor: Theme.of(context).primaryColorDark),
+          prefixIconColor: Theme.of(context).colorScheme.secondary),
     );
   }
 
@@ -261,21 +261,21 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           labelText: 'Producto',
           floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
-          TextStyle(color: Theme.of(context).primaryColorDark),
+          TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.miscellaneous_services),
-          prefixIconColor: Theme.of(context).primaryColorDark,
+          prefixIconColor: Theme.of(context).colorScheme.secondary,
           hintText: 'Seleccione Producto'),
       items: productos
           .map((producto) => DropdownMenuItem(
@@ -297,7 +297,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           editableTextState: editableTextState,
         );
       },
-      initialValue: appInfo.metricsPrefixKey == "BMCARGO" ? '0.20' : '100.00',
+      initialValue: appInfo.metricsPrefixKey == "BMCARGO" ? '0.20' : appInfo.metricsPrefixKey == "JETPACK" ? '0.00' : '100.00',
       style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
@@ -308,10 +308,11 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
         //     reverse: true)
       ], autovalidateMode: AutovalidateMode.disabled,
       validator: FormBuilderValidators.compose([
+        if(appInfo.metricsPrefixKey != "JETPACK")
         FormBuilderValidators.required(errorText: "Requerido"),
         if(appInfo.metricsPrefixKey == "BMCARGO")
           FormBuilderValidators.min(0.20, errorText: 'Mayor de 0.20'),
-        if(appInfo.metricsPrefixKey != "BMCARGO")
+        if(appInfo.metricsPrefixKey != "BMCARGO" && appInfo.metricsPrefixKey != "JETPACK")
           FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
       ]),
       decoration: InputDecoration(
@@ -319,21 +320,21 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           labelText: 'Valor FOB',
           floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
-              TextStyle(color: Theme.of(context).primaryColorDark),
+              TextStyle(color: Theme.of(context).colorScheme.onSurface),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.attach_money_outlined),
-          prefixIconColor: Theme.of(context).primaryColorDark),
+          prefixIconColor: Theme.of(context).colorScheme.secondary),
     );
   }
 

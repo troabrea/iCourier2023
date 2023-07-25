@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../services/courier_service.dart';
 
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import 'bloc/courier_bloc.dart';
 import 'courier_dashboard.dart';
 import 'courierappbar.dart';
@@ -91,21 +91,21 @@ class _CourierPageState extends State<CourierPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           hintText: 'Contraseña',
-          hintStyle: TextStyle(color: Theme.of(context).primaryColorDark.withOpacity(0.3)),
+          hintStyle: TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(30)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(30)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(30)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(30)),
           prefixIcon: const Icon(Icons.key),
-          prefixIconColor: Theme.of(context).primaryColorDark,
+          prefixIconColor: Theme.of(context).dividerColor,
         suffixIcon:  GestureDetector(onTap: () { _formKey.currentState!.fields['password']!.reset(); }, child: const Icon(Icons.clear)),
       ),
     );
@@ -131,30 +131,30 @@ class _CourierPageState extends State<CourierPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           hintText: appInfo.metricsPrefixKey == "CPS" ? "ABC-123456" : 'Código de cliente',
-          hintStyle: TextStyle(color: Theme.of(context).primaryColorDark.withOpacity(0.3)),
+          hintStyle: TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(30)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(30)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).errorColor),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
               borderRadius: BorderRadius.circular(30)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(30)),
           prefixIcon: const Icon(Icons.person),
-          prefixIconColor: Theme.of(context).primaryColorDark,
+          prefixIconColor: Theme.of(context).dividerColor ,
         suffixIcon:  GestureDetector(onTap: () { _formKey.currentState!.fields['user']!.reset(); }, child: const Icon(Icons.clear)),
       ),
     );
   }
 
   Widget loginPage(BuildContext context, bool showError, String registerUrl) {
-    // if(appInfo.metricsPrefixKey == "BMCARGO" || appInfo.metricsPrefixKey == "PICKNSEND" || appInfo.metricsPrefixKey == "BOXPAQ" || appInfo.metricsPrefixKey == "JETPACK" || appInfo.metricsPrefixKey == "CPS") {
-    //   registerUrl = "";
-    // }
+    if(appInfo.metricsPrefixKey == "TLS") {
+      registerUrl = "";
+    }
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(bottom: 65),
@@ -250,7 +250,7 @@ class _CourierPageState extends State<CourierPage> {
                           }
                         },
                         child: Text.rich(TextSpan(text: "¿La olvidaste? - ", style: Theme.of(context).textTheme.bodySmall, children: [
-                        TextSpan(text:'Recordar contraseña', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).primaryColorDark,))])))),
+                        TextSpan(text:'Recordar contraseña', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
                     const SizedBox(height: 30),
                     if(isBusy)
                       const Center(
@@ -260,8 +260,8 @@ class _CourierPageState extends State<CourierPage> {
                     Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * .6,
-                        child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
+                        child: FilledButton.icon(
+                            style: FilledButton.styleFrom(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15)),
                             icon: isBusy
@@ -294,7 +294,7 @@ class _CourierPageState extends State<CourierPage> {
                       const SizedBox(height: 20,),
                     if(registerUrl.isNotEmpty)
                       Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl, mode: LaunchMode.externalApplication); }, child: Text.rich(TextSpan(text: "¿Aún no eres cliente? - ", style: Theme.of(context).textTheme.bodySmall, children: [
-                        TextSpan(text:'Conoce más aquí.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold))])))),
+                        TextSpan(text:'Conoce más aquí.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
                     // if(registerUrl.isNotEmpty)
                     //   Center(child: Row(
                     //     mainAxisAlignment: MainAxisAlignment.center,
@@ -446,7 +446,7 @@ class _CourierPageState extends State<CourierPage> {
         ));
       } else if (!loginResult.shouldAskToStore) {
         GetIt.I<CourierService>().clearCourierDataCache();
-        courierBloc.add(UserDidLoginEvent(userName));
+        courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId));
       } else {
         // We have a session and is a new additional user account
 
@@ -475,7 +475,7 @@ class _CourierPageState extends State<CourierPage> {
         if (dlgResult != null && dlgResult) {
           await GetIt.I<CourierService>().addCurrentAccountToStore();
           GetIt.I<CourierService>().clearCourierDataCache();
-          courierBloc.add(UserDidLoginEvent(userName));
+          courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId));
         }
       }
     }

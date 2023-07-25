@@ -20,6 +20,7 @@ class NoticiaDetallePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: NoticiasAppBar(showBackButton: true,),
         body: Container( margin: const EdgeInsets.only(bottom: 65),
           child: Stack(children: [
@@ -39,7 +40,7 @@ class NoticiaDetallePage extends StatelessWidget {
               Hero( transitionOnUserGestures: true, tag: noticia!.registroId + '_' + noticia!.titulo,
                 child: Text(
                   noticia!.titulo,
-                  style: Theme.of(context).textTheme.headlineLarge,
+                  style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
               ),

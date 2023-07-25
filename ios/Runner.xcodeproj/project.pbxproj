@@ -17,12 +17,14 @@
 		866C932528F59726001F87C2 /* LaunchScreenCaribepack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 866C932328F59726001F87C2 /* LaunchScreenCaribepack.storyboard */; };
 		868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868E6BED28C7695B00C42D2F /* LaunchScreenDomex.storyboard */; };
 		8693285C29C2437B00F914FF /* LaunchScreenFixocargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8693285A29C2437B00F914FF /* LaunchScreenFixocargo.storyboard */; };
+		869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 869EC95E2A4B152000333BC5 /* LaunchScreenTls.storyboard */; };
 		86A9CB9F29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A9CB9D29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard */; };
 		86AA7E6429D0715300E17FE0 /* LaunchScreenJetpack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AA7E6229D0715300E17FE0 /* LaunchScreenJetpack.storyboard */; };
 		86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86C1EDE228C238CE00430FFB /* GoogleService-Info.plist */; };
 		86CC403E28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86CC403C28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard */; };
 		86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D2031F29F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard */; };
 		86D2032A29F95E92000ED92C /* LaunchScreenBeexpress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D2032829F95E92000ED92C /* LaunchScreenBeexpress.storyboard */; };
+		86E9A9452A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86E9A9432A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard */; };
 		86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86EA7CA1299FDA69003DCCCF /* LaunchScreenCps.storyboard */; };
 		86FC0FCC29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FC0FCA29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -49,11 +51,13 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		15444E7D73009505A207599B /* Pods-Runner.debug-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-pintopaq.xcconfig"; sourceTree = "<group>"; };
+		2096CF3E387B690139FDF73A /* Pods-Runner.profile-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cainca.xcconfig"; sourceTree = "<group>"; };
 		22C718B9FB8B0F2B9C08AA9D /* Pods-Runner.release-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-jetpack.xcconfig"; sourceTree = "<group>"; };
 		2C354D4F8D8959E03F3BB1D0 /* Pods-Runner.release-boxpaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-boxpaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-boxpaq.xcconfig"; sourceTree = "<group>"; };
 		2C74D8B1574C23D4059407B7 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		2ECA4A698EBD73B787957A90 /* Pods-Runner.debug-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-beexpress.xcconfig"; sourceTree = "<group>"; };
 		30A67DFB1F5FA03405F0FFDE /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		32204A3F4A21539803EE9FEA /* Pods-Runner.profile-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tls.xcconfig"; sourceTree = "<group>"; };
 		34AEF4E12EE15D52C0CF8209 /* Pods-Runner.debug-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-domex.xcconfig"; sourceTree = "<group>"; };
 		35F437F0D64A9271695FA531 /* Pods-Runner.profile-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-encargopaq.xcconfig"; sourceTree = "<group>"; };
 		36E05AC631445E1CCF78C48A /* Pods-Runner.release-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-domex.xcconfig"; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 		866C932428F59726001F87C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCaribepack.storyboard; sourceTree = "<group>"; };
 		868E6BEE28C7695B00C42D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenDomex.storyboard; sourceTree = "<group>"; };
 		8693285B29C2437B00F914FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenFixocargo.storyboard; sourceTree = "<group>"; };
+		869EC95F2A4B152000333BC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTls.storyboard; sourceTree = "<group>"; };
 		86A9CB9E29F41319004AA7E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenEncargopaq.storyboard; sourceTree = "<group>"; };
 		86AA7E6329D0715300E17FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenJetpack.storyboard; sourceTree = "<group>"; };
 		86C1EDE228C238CE00430FFB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -90,9 +95,11 @@
 		86D2032029F94DDE000ED92C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenAlmapaq.storyboard; sourceTree = "<group>"; };
 		86D2032929F95E92000ED92C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBeexpress.storyboard; sourceTree = "<group>"; };
 		86D7745D28BDAC4600848F0E /* Runner.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		86E9A9442A6ADB3F00BBD3F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCainca.storyboard; sourceTree = "<group>"; };
 		86EA7CA2299FDA69003DCCCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCps.storyboard; sourceTree = "<group>"; };
 		86FC0FCB29C7BA4F00F0D20D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBoxpaq.storyboard; sourceTree = "<group>"; };
 		8946ABA8E933B37F31813D6A /* Pods-Runner.debug-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-taino.xcconfig"; sourceTree = "<group>"; };
+		9275107C099F0A5C40DAA174 /* Pods-Runner.debug-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tls.xcconfig"; sourceTree = "<group>"; };
 		92E506A1C334351F1AD9DCD7 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
@@ -104,13 +111,16 @@
 		A279EB029BA3E07C993A1ED9 /* Pods-Runner.profile-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-caribepack.xcconfig"; sourceTree = "<group>"; };
 		A2E207FD3177145673E060BD /* Pods-Runner.debug-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-jetpack.xcconfig"; sourceTree = "<group>"; };
 		A3C6DC0B1565613BDA6A6796 /* Pods-Runner.debug-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-almapaq.xcconfig"; sourceTree = "<group>"; };
+		AC20601E474FAF34265F796A /* Pods-Runner.release-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tls.xcconfig"; sourceTree = "<group>"; };
 		B17F09C7410D392A413323B9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		B24252B90E3533F870BEAF7B /* Pods-Runner.debug-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-fixocargo.xcconfig"; sourceTree = "<group>"; };
+		B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cainca.xcconfig"; sourceTree = "<group>"; };
 		CE97419F7ACB76D6BD8992EA /* Pods-Runner.release-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-taino.xcconfig"; sourceTree = "<group>"; };
 		E9DF823AFDE8F41A7048AFC8 /* Pods-Runner.release-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-picknsend.xcconfig"; sourceTree = "<group>"; };
 		EFA49F2401ACB52E618A2D4C /* Pods-Runner.release-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-caribepack.xcconfig"; sourceTree = "<group>"; };
 		F6DC16D8109ECFF199213122 /* Pods-Runner.release-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-almapaq.xcconfig"; sourceTree = "<group>"; };
 		F867633C8191D3537931360E /* Pods-Runner.release-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-fixocargo.xcconfig"; sourceTree = "<group>"; };
+		FB7768B91618AB5B32971655 /* Pods-Runner.debug-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cainca.xcconfig"; sourceTree = "<group>"; };
 		FC649561C3A2723B2FE11CCF /* Pods-Runner.profile-boxpaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-boxpaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-boxpaq.xcconfig"; sourceTree = "<group>"; };
 		FD5AA96F1AD3C0EBE196330F /* Pods-Runner.profile-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-fixocargo.xcconfig"; sourceTree = "<group>"; };
 		FF46A2033AD1CA3143EA9AD7 /* Pods-Runner.debug-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-encargopaq.xcconfig"; sourceTree = "<group>"; };
@@ -182,6 +192,12 @@
 				2ECA4A698EBD73B787957A90 /* Pods-Runner.debug-beexpress.xcconfig */,
 				3DC7AC2A0B025F61CA7FEE70 /* Pods-Runner.release-beexpress.xcconfig */,
 				7872E98A7934992E87CE1960 /* Pods-Runner.profile-beexpress.xcconfig */,
+				9275107C099F0A5C40DAA174 /* Pods-Runner.debug-tls.xcconfig */,
+				AC20601E474FAF34265F796A /* Pods-Runner.release-tls.xcconfig */,
+				32204A3F4A21539803EE9FEA /* Pods-Runner.profile-tls.xcconfig */,
+				FB7768B91618AB5B32971655 /* Pods-Runner.debug-cainca.xcconfig */,
+				B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */,
+				2096CF3E387B690139FDF73A /* Pods-Runner.profile-cainca.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -219,6 +235,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				86E9A9432A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard */,
+				869EC95E2A4B152000333BC5 /* LaunchScreenTls.storyboard */,
 				86D2032829F95E92000ED92C /* LaunchScreenBeexpress.storyboard */,
 				86D2031F29F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard */,
 				86A9CB9D29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard */,
@@ -313,6 +331,7 @@
 			files = (
 				860DDDEB29F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard in Resources */,
 				866C932528F59726001F87C2 /* LaunchScreenCaribepack.storyboard in Resources */,
+				86E9A9452A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				86CC403E28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard in Resources */,
 				86FC0FCC29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard in Resources */,
@@ -320,6 +339,7 @@
 				86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */,
 				868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */,
 				86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */,
@@ -503,6 +523,14 @@
 			name = LaunchScreenFixocargo.storyboard;
 			sourceTree = "<group>";
 		};
+		869EC95E2A4B152000333BC5 /* LaunchScreenTls.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				869EC95F2A4B152000333BC5 /* Base */,
+			);
+			name = LaunchScreenTls.storyboard;
+			sourceTree = "<group>";
+		};
 		86A9CB9D29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -541,6 +569,14 @@
 				86D2032929F95E92000ED92C /* Base */,
 			);
 			name = LaunchScreenBeexpress.storyboard;
+			sourceTree = "<group>";
+		};
+		86E9A9432A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86E9A9442A6ADB3F00BBD3F3 /* Base */,
+			);
+			name = LaunchScreenCainca.storyboard;
 			sourceTree = "<group>";
 		};
 		86EA7CA1299FDA69003DCCCF /* LaunchScreenCps.storyboard */ = {
@@ -2048,7 +2084,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2023.6.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2233,6 +2269,269 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-caribepack";
+		};
+		869EC9582A4B14AD00333BC5 /* Debug-tls */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-tls";
+		};
+		869EC9592A4B14AD00333BC5 /* Debug-tls */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "TLS Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tls";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 28;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTls.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTls;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-tls";
+		};
+		869EC95A2A4B14C400333BC5 /* Release-tls */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-tls";
+		};
+		869EC95B2A4B14C400333BC5 /* Release-tls */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "TLS Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tls";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 28;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTls.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTls;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-tls";
+		};
+		869EC95C2A4B14CD00333BC5 /* Profile-tls */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-tls";
+		};
+		869EC95D2A4B14CD00333BC5 /* Profile-tls */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "TLS Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tls";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 28;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTls.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTls;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-tls";
 		};
 		86A9CB9729F412B8004AA7E2 /* Debug-encargopaq */ = {
 			isa = XCBuildConfiguration;
@@ -2574,7 +2873,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2023.7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2662,7 +2961,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2023.7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2747,7 +3046,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2023.7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2824,7 +3123,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2912,7 +3211,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2925,7 +3224,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2023.6.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2997,7 +3296,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3010,7 +3309,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2023.6.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3549,6 +3848,269 @@
 			};
 			name = "Profile-beexpress";
 		};
+		86E9A93D2A6ADAE400BBD3F3 /* Debug-cainca */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-cainca";
+		};
+		86E9A93E2A6ADAE400BBD3F3 /* Debug-cainca */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cainca Express";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cainca";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 31;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCainca.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCainca;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-cainca";
+		};
+		86E9A93F2A6ADAF500BBD3F3 /* Release-cainca */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-cainca";
+		};
+		86E9A9402A6ADAF500BBD3F3 /* Release-cainca */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cainca Express";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cainca";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 31;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCainca.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCainca;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-cainca";
+		};
+		86E9A9412A6ADAFE00BBD3F3 /* Profile-cainca */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-cainca";
+		};
+		86E9A9422A6ADAFE00BBD3F3 /* Profile-cainca */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cainca Express";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cainca";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 31;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCainca.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCainca;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-cainca";
+		};
 		86EA7C9B299FD892003DCCCF /* Debug-cps */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3626,7 +4188,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.0.1;
+				MARKETING_VERSION = 2023.6.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3714,7 +4276,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.0.1;
+				MARKETING_VERSION = 2023.6.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3799,7 +4361,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2023.0.1;
+				MARKETING_VERSION = 2023.6.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4264,6 +4826,8 @@
 				860DDDE329F188E100F7A2E4 /* Debug-pintopaq */,
 				86AA7E5C29D070EC00E17FE0 /* Debug-jetpack */,
 				86EA7C9B299FD892003DCCCF /* Debug-cps */,
+				86E9A93D2A6ADAE400BBD3F3 /* Debug-cainca */,
+				869EC9582A4B14AD00333BC5 /* Debug-tls */,
 				862203E929C2635E009248F4 /* Debug-picknsend */,
 				8693285429C2430600F914FF /* Debug-fixocargo */,
 				869BBEFA28F57B9C00B5EA2B /* Debug-caribepack */,
@@ -4278,6 +4842,8 @@
 				860DDDE529F188EE00F7A2E4 /* Release-pintopaq */,
 				86AA7E5E29D070F600E17FE0 /* Release-jetpack */,
 				86EA7C9D299FD8A2003DCCCF /* Release-cps */,
+				86E9A93F2A6ADAF500BBD3F3 /* Release-cainca */,
+				869EC95A2A4B14C400333BC5 /* Release-tls */,
 				862203EB29C26369009248F4 /* Release-picknsend */,
 				8693285629C2431000F914FF /* Release-fixocargo */,
 				869BBEFC28F57BA500B5EA2B /* Release-caribepack */,
@@ -4292,6 +4858,8 @@
 				860DDDE729F188FB00F7A2E4 /* Profile-pintopaq */,
 				86AA7E6029D0710000E17FE0 /* Profile-jetpack */,
 				86EA7C9F299FD8AE003DCCCF /* Profile-cps */,
+				86E9A9412A6ADAFE00BBD3F3 /* Profile-cainca */,
+				869EC95C2A4B14CD00333BC5 /* Profile-tls */,
 				862203ED29C26374009248F4 /* Profile-picknsend */,
 				8693285829C2431B00F914FF /* Profile-fixocargo */,
 				869BBEFE28F57BB200B5EA2B /* Profile-caribepack */,
@@ -4313,6 +4881,8 @@
 				860DDDE429F188E100F7A2E4 /* Debug-pintopaq */,
 				86AA7E5D29D070EC00E17FE0 /* Debug-jetpack */,
 				86EA7C9C299FD892003DCCCF /* Debug-cps */,
+				86E9A93E2A6ADAE400BBD3F3 /* Debug-cainca */,
+				869EC9592A4B14AD00333BC5 /* Debug-tls */,
 				862203EA29C2635E009248F4 /* Debug-picknsend */,
 				8693285529C2430600F914FF /* Debug-fixocargo */,
 				869BBEFB28F57B9C00B5EA2B /* Debug-caribepack */,
@@ -4327,6 +4897,8 @@
 				860DDDE629F188EE00F7A2E4 /* Release-pintopaq */,
 				86AA7E5F29D070F600E17FE0 /* Release-jetpack */,
 				86EA7C9E299FD8A2003DCCCF /* Release-cps */,
+				86E9A9402A6ADAF500BBD3F3 /* Release-cainca */,
+				869EC95B2A4B14C400333BC5 /* Release-tls */,
 				862203EC29C26369009248F4 /* Release-picknsend */,
 				8693285729C2431000F914FF /* Release-fixocargo */,
 				869BBEFD28F57BA500B5EA2B /* Release-caribepack */,
@@ -4341,6 +4913,8 @@
 				860DDDE829F188FB00F7A2E4 /* Profile-pintopaq */,
 				86AA7E6129D0710000E17FE0 /* Profile-jetpack */,
 				86EA7CA0299FD8AE003DCCCF /* Profile-cps */,
+				86E9A9422A6ADAFE00BBD3F3 /* Profile-cainca */,
+				869EC95D2A4B14CD00333BC5 /* Profile-tls */,
 				862203EE29C26374009248F4 /* Profile-picknsend */,
 				8693285929C2431B00F914FF /* Profile-fixocargo */,
 				869BBEFF28F57BB200B5EA2B /* Profile-caribepack */,

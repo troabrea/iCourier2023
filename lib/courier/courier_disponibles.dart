@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../courier/paquete_tile.dart';
 import '../../services/model/empresa.dart';
 
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../services/courier_service.dart';
 import '../services/model/recepcion.dart';
 import 'bloc/disponible_bloc.dart';
@@ -203,9 +203,9 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                     ),
                                     // Expanded(child: AutoSizeText('Total: ' + formatCurrency.format(montoTotal), textAlign: TextAlign.start, maxLines: 1, style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor) )),
                                     // const SizedBox(width: 10,),
-                                    // ElevatedButton.icon(onPressed: () { BlocProvider.of<DisponibleBloc>(context).add(DisponibleNotificarRetiroEvent(context)); }, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),primary: Theme.of(context).appBarTheme.foregroundColor, onPrimary: Theme.of(context).appBarTheme.backgroundColor), icon: const Icon(Icons.meeting_room_outlined), label: const Text("Retirar")),
+                                    // FilledButton.icon(onPressed: () { BlocProvider.of<DisponibleBloc>(context).add(DisponibleNotificarRetiroEvent(context)); }, style: FilledButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),primary: Theme.of(context).appBarTheme.foregroundColor, onPrimary: Theme.of(context).appBarTheme.backgroundColor), icon: const Icon(Icons.meeting_room_outlined), label: const Text("Retirar")),
                                     // const SizedBox(width: 5),
-                                    // ElevatedButton.icon(onPressed: () { BlocProvider.of<DisponibleBloc>(context).add(DisponiblePagoEnLineaEvent(context)); }, style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),primary: Theme.of(context).appBarTheme.foregroundColor, onPrimary: Theme.of(context).appBarTheme.backgroundColor), icon: const Icon(Icons.payment), label: const Text("Pagar")),
+                                    // FilledButton.icon(onPressed: () { BlocProvider.of<DisponibleBloc>(context).add(DisponiblePagoEnLineaEvent(context)); }, style: FilledButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),primary: Theme.of(context).appBarTheme.foregroundColor, onPrimary: Theme.of(context).appBarTheme.backgroundColor), icon: const Icon(Icons.payment), label: const Text("Pagar")),
                                     if (widget.empresa.hasDelivery)
                                       PopupMenuButton<String>(
                                         itemBuilder: (context) {
@@ -285,9 +285,9 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 padding: const EdgeInsets.all(0),
                                 decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color:
-                                            Theme.of(context).primaryColorDark),
+                                    border: Border(top: BorderSide(color: Theme.of(context).dividerColor, width: 0), left: BorderSide(color: Theme.of(context).dividerColor),
+                                        bottom: BorderSide(color: Theme.of(context).dividerColor),
+                                        right: BorderSide(color: Theme.of(context).dividerColor)),
                                     borderRadius: const BorderRadius.only(
                                         bottomLeft: Radius.circular(6),
                                         bottomRight: Radius.circular(6))),
@@ -307,7 +307,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                                     DisponibleNotificarRetiroEvent(
                                                         context));
                                           },
-                                          style: ElevatedButton.styleFrom(
+                                          style: FilledButton.styleFrom(
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(6)),
@@ -330,7 +330,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                                 .add(DisponiblePagoEnLineaEvent(
                                                     context));
                                           },
-                                          style: ElevatedButton.styleFrom(
+                                          style: FilledButton.styleFrom(
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(6)),

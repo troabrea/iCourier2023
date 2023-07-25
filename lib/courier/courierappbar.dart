@@ -7,7 +7,7 @@ import 'package:icourier/courier/courier_webview.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:event/event.dart' as event;
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import 'carnet_usuario.dart';
@@ -161,7 +161,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
       actions.add( Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ElevatedButton(
+          FilledButton(
             onPressed: () => {Navigator.pop(context, "cerrar")},
             child: const Text('Si'),
           ),
@@ -169,7 +169,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
           //   onPressed: () => {Navigator.pop(context, "")},
           //   icon: const Icon(Icons.close),
           // ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () => {Navigator.pop(context, "")},
             child: const Text('No'),
           ),

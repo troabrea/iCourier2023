@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../services/courier_service.dart';
 
 class CalculadoraAppBar extends StatefulWidget implements PreferredSizeWidget {

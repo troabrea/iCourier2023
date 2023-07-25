@@ -11,11 +11,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/servicios/servicios.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'services/app_events.dart';
 import 'services/courier_service.dart';
 import 'sucursales/sucursales.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:version_check/version_check.dart';
@@ -24,7 +25,7 @@ import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 
 import 'adicional/adicional.dart';
-import 'appinfo.dart';
+import 'apps/appinfo.dart';
 import 'calculadora/calculadora.dart';
 import 'courier/courier.dart';
 import 'courier/courier_recepciones.dart';
@@ -422,7 +423,10 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   List<Widget> _buildScreens() {
     return [
-      const NoticiasPage(),
+      if(appInfo.metricsPrefixKey == "BMCARGO")
+        const ServiciosPage(),
+      if(appInfo.metricsPrefixKey != "BMCARGO")
+        const NoticiasPage(),
       const SucursalesPage(),
       const CourierPage(),
       if(appInfo.metricsPrefixKey != "CARIBEPACK")
@@ -437,14 +441,14 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     return [
       PersistentBottomNavBarItem(
           icon: Icon(
-            Icons.feed_outlined,
+            appInfo.metricsPrefixKey == "BMCARGO" ? Icons.airplane_ticket_outlined : Icons.feed_outlined,
             key: keyNewsBottomNavigation,
             color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
           ),
           title: null, //'Noticias',
           activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
           inactiveIcon: Icon(
-            Icons.feed_outlined,
+            appInfo.metricsPrefixKey == "BMCARGO" ? Icons.airplane_ticket_outlined : Icons.feed_outlined,
             key: keyNewsBottomNavigation,
             color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
             size: 25,
@@ -489,7 +493,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic == "CPS")
+      if(appInfo.pushChannelTopic == "CPS" )
         PersistentBottomNavBarItem(
           contentPadding: 0.0,
             icon:
@@ -522,28 +526,32 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS")
+      if(appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS" )
         PersistentBottomNavBarItem(
-            icon: Container(
-              key: keyMainBottomNavigation,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle
+            icon: ClipOval(
+              child: Container(
+                key: keyMainBottomNavigation,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle
+                ),
+                //color: Colors.white,
+                child: Image.asset(appInfo.centerIconImage),
+                height: appInfo.centerIconSize, width: appInfo.centerIconSize,
               ),
-              //color: Colors.white,
-              child: Image.asset(appInfo.centerIconImage),
-              // height: appInfo.centerIconSize, width: appInfo.centerIconSize,
             ),
-            inactiveIcon: Container(
-              key: keyMainBottomNavigation,
-              padding: const EdgeInsets.all(5),
-              decoration:  BoxDecoration(
-                  color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" ? Colors.transparent : Colors.white.withOpacity(1),
-                  shape: BoxShape.circle
+            inactiveIcon: ClipOval(
+              child: Container(
+                key: keyMainBottomNavigation,
+                padding: const EdgeInsets.all(5),
+                decoration:  BoxDecoration(
+                    color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" ? Colors.transparent : Colors.white.withOpacity(1),
+                    shape: BoxShape.circle
+                ),
+                //color: Colors.transparent,
+                child: Image.asset(appInfo.centerIconImage),
+                // height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
               ),
-              //color: Colors.transparent,
-              child: Image.asset(appInfo.centerIconImage),
-              // height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
             ),
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
@@ -607,7 +615,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
         margin: EdgeInsets.only(
             bottom: kBottomNavigationBarHeight, right: 2, left: 2),
         content:
-            Text('Presione el boton nuevamente para salir de la aplicación.'),
+            Text('Presione el botón nuevamente para salir de la aplicación.'),
       ),
     );
     return false;
@@ -620,7 +628,6 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   DateTime oldTime = DateTime.now();
   DateTime newTime = DateTime.now();
   DateTime lastRefresh = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

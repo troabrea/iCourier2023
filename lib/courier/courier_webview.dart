@@ -11,7 +11,7 @@ class CourierWebViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final webController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
+      // ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {

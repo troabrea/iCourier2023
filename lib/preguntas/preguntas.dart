@@ -124,63 +124,72 @@ class _PreguntasPageState extends State<PreguntasPage> {
 
   Widget _buildListView(BuildContext context) {
     return ListView.builder(
-                      itemBuilder: (_, index) => Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              side: BorderSide(color: Theme.of(context).primaryColorDark)),
-                              child: ExpansionTile(
-                            onExpansionChanged: ( (isExpanded)  => {
-                              setState( ()  => {
-                                preguntas[index].isExpanded = isExpanded
-                              })
-                            }),
-                            expandedAlignment: Alignment.centerLeft,
-                            expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-                            title: Row(
+                      itemBuilder: (_, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ExpansionTile(
+                            iconColor: Theme.of(context).colorScheme.primary,
+                            collapsedTextColor: Theme.of(context).colorScheme.onPrimary,
+                            collapsedShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                side: BorderSide(color: Theme.of(context).dividerColor)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                side: BorderSide(color: Theme.of(context).dividerColor)),
+                              onExpansionChanged: ( (isExpanded)  => {
+                        setState( ()  => preguntas[index].isExpanded = isExpanded
+                        )
+                              }),
+                              expandedAlignment: Alignment.centerLeft,
+                              expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+                              title: Row(
+                        children: [
+                          // CircleAvatar(child: Text(state.preguntas[index].orden.toStringAsFixed(0)),),
+                          // SizedBox(width: 20,),
+                          Expanded(
+                            child: preguntas[index].isExpanded ?
+                            AutoSizeText(
+                              preguntas[index].titulo,
+                              overflow: TextOverflow.ellipsis,
+                              minFontSize: 10,
+                              maxFontSize: 18,
+                              maxLines: 2,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!.copyWith(fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.secondary
+                              ),
+                            )
+                                : AutoSizeText(
+                              preguntas[index].titulo,
+                              overflow: TextOverflow.ellipsis,
+                              minFontSize: 10,
+                              maxFontSize: 18,
+                              maxLines: 2,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium,
+                            )
+                          ),
+                        ],
+                              ),
                               children: [
-                                // CircleAvatar(child: Text(state.preguntas[index].orden.toStringAsFixed(0)),),
-                                // SizedBox(width: 20,),
-                                Expanded(
-                                  child: preguntas[index].isExpanded ?
-                                    AutoSizeText(
-                                    preguntas[index].titulo,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 5,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium!,
-                                    )
-                                  :
-                                  AutoSizeText(
-                                    preguntas[index].titulo,
-                                    overflow: TextOverflow.ellipsis,
-                                    minFontSize: 16,
-                                    maxLines: 2,
+                        Container(
+                            padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                            child: Column(
+                              children: [
+                                const Divider(thickness: 2),
+                                Container(padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    preguntas[index].resumen,
+                                    textAlign: TextAlign.justify,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .titleMedium!,
+                                        .titleMedium,
                                   ),
                                 ),
                               ],
-                            ),
-                            children: [
-                              Container(
-                                  padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
-                                  child: Column(
-                                    children: [
-                                      const Divider(thickness: 2),
-                                      Container(padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        child: Text(
-                                          preguntas[index].resumen,
-                                          textAlign: TextAlign.justify,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium,
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ]),
+                            )),
+                              ]),
                       ),
                       controller: controller,
                       itemCount: preguntas.length);

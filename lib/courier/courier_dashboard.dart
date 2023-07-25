@@ -7,10 +7,13 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/courier/courier_estado_cuenta.dart';
+import 'package:icourier/courier/courier_facturados.dart';
 import 'package:icourier/courier/courier_webview.dart';
+import 'package:icourier/courier/crear_postalerta.dart';
 import 'package:icourier/services/courier_service.dart';
+import 'package:icourier/services/model/recepcion.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import 'courier_prealertas_realizadas.dart';
 import 'package:intl/intl.dart';
 import '../../courier/bloc/dashboard_bloc.dart';
@@ -35,7 +38,7 @@ class CourierDashboard extends StatefulWidget {
 class _CourierDashboardState extends State<CourierDashboard> {
   late ScrollController controller;
   final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
-
+  final appInfo = GetIt.I<AppInfo>();
   final showDisponiblesPopupMenu = true;
 
   DashboardBloc dashboardBloc = DashboardBloc(DashboardLoadingState());
@@ -107,7 +110,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                           padding: const EdgeInsets.all(20),
                           child: Column(
                             children: [
-                              if (state.disponiblesCount > 0)
+                              if (appInfo.metricsPrefixKey != "TLS" && state.disponiblesCount > 0)
                                 InkWell(
                                     onTap: () {
                                       Navigator.of(context,
@@ -247,6 +250,22 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                           title: "Recepciones",
                                           count: state.recepcionesCount)),
                                 ),
+                              if(appInfo.metricsPrefixKey == "TLS")
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context, rootNavigator: false)
+                                        .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            FacturadosPage(empresa: state.empresa,)));
+                                  },
+                                  child: SummaryBox(
+                                      icon: const Icon(
+                                        Icons.attach_money_sharp,
+                                        size: 30,
+                                      ),
+                                      title: "Facturas Pendientes",
+                                      count: state.retenidosCount),
+                                ),
                               if (state.retenidosCount > 0)
                                 InkWell(
                                   onTap: () {
@@ -306,7 +325,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                               if(state.moreInfoText.isNotEmpty)
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 2,
-                                  child: ElevatedButton(
+                                  child: FilledButton(
                                       onPressed: () async {
                                          await launchUrl(Uri.parse(state.moreInfoUrl));
                                       },
@@ -327,7 +346,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 Container(
                                   margin: const EdgeInsets.only(top: 10),
                                   width: double.infinity,
-                                  child: ElevatedButton.icon(
+                                  child: FilledButton.icon(
                                       icon: const Icon(
                                         Icons.motorcycle,
                                         size: 35,
@@ -351,7 +370,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: ElevatedButton.icon(
+                                    child: FilledButton.icon(
                                         icon: const Icon(
                                           IconData(0xe817,
                                               fontFamily: 'iCourier'),
@@ -367,7 +386,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                     width: 20,
                                   ),
                                   Expanded(
-                                    child: ElevatedButton.icon(
+                                    child: FilledButton.icon(
                                         icon: const Icon(
                                           IconData(0xe802,
                                               fontFamily: 'iCourier'),
@@ -390,7 +409,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                               Row(
                                 children: [
                                   Expanded(
-                                      child: ElevatedButton.icon(
+                                      child: FilledButton.icon(
                                           icon: const Icon(
                                             IconData(0xe811,
                                                 fontFamily: 'iCourier'),
@@ -405,7 +424,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                     width: 20,
                                   ),
                                   Expanded(
-                                    child: ElevatedButton.icon(
+                                    child: FilledButton.icon(
                                         icon: const Icon(
                                           IconData(0xe802,
                                               fontFamily: 'iCourier'),
@@ -426,7 +445,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                               if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
                                 const SizedBox(height: 25,),
                               if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
-                                ElevatedButton.icon(
+                                FilledButton.icon(
                                   onPressed: () { launchUrl(Uri.parse("https://caribetours.com.do/caribe-pack/tarifa-de-envios/")); } ,
                                   icon: const Icon(Icons.price_check),
                                   label: const Text("Nuestras Tarifas"),
@@ -437,7 +456,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 Row(
                                 children: [
                                   Expanded(
-                                    child: ElevatedButton.icon(
+                                    child: FilledButton.icon(
                                         icon: const Icon(
                                           Icons.balance,
                                           size: 25,
@@ -469,22 +488,32 @@ class _CourierDashboardState extends State<CourierDashboard> {
   }
 
   Future<void> showPreAlertaSheet(BuildContext context) async {
-    //NavbarNotifier.hideBottomNavBar = true;
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      isDismissible: true,
-      builder: (context) {
-        return const CrearPreAlertaPage();
-      },
-    );
 
-    //NavbarNotifier.hideBottomNavBar = false;
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+    Navigator.of(context,
+        rootNavigator: false)
+        .push( MaterialPageRoute( fullscreenDialog: true,
+        builder: (context) =>
+        const CrearPreAlertaPage()));
+
+    //NavbarNotifier.hideBottomNavBar = true;
+
+    // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    // await showModalBottomSheet(
+    //   context: context,
+    //   isScrollControlled: true,
+    //   shape: const RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    //   isDismissible: true,
+    //   builder: (context) {
+    //     return const CrearPreAlertaPage();
+    //   },
+    // );
+    //
+    // //NavbarNotifier.hideBottomNavBar = false;
+    // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
   }
+
+
 
   void doPayOnlineCPS() async {
     final map = await GetIt.I<CourierService>().getPaymentUrl();
@@ -781,7 +810,7 @@ class SummaryBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).primaryColorDark),
+          border: Border.all(color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(6)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

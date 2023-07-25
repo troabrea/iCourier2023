@@ -18,7 +18,7 @@ import '../../services/courier_service.dart';
 import '../../sucursales/bloc/location_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../services/model/sucursal.dart';
 import 'package:event/event.dart' as event;
 import 'bloc/sucursales_bloc.dart';
@@ -170,7 +170,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
                           borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(color: Theme.of(context).primaryColorDark),
+                          border: Border.all(color: Theme.of(context).dividerColor),
                         ),
                         child: ListView.separated(
                             itemBuilder: (_, index) => InkWell(
@@ -220,18 +220,18 @@ class _SucursalesPageState extends State<SucursalesPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
               if(sucursal.isFavorite)
-                const Icon(Icons.star, size: 16, ),
+                Icon(Icons.star, size: 16, color: Theme.of(context).colorScheme.primary,),
               Expanded(
                 child: Align(alignment: Alignment.centerLeft,
                   child: AutoSizeText( sucursal.nombre, maxLines: 1, overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w700)),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w700)),
                 ),
               ),
               IconButton( iconSize: 25,
                 onPressed: () {
                   showSucursalOptions(context, sucursal);
                 },
-                icon: Icon(Icons.more_vert,color: Theme.of(context).iconTheme.color,),
+                icon: Icon(Icons.more_vert,color: Theme.of(context).colorScheme.primary,),
               )
             ]),
             Text(sucursal.direccion),
@@ -320,25 +320,30 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.phone_rounded),
+                          icon: Icon(Icons.phone_rounded),
                           onPressed: () { callSucursal(sucursal.telefonoVentas); },
                           iconSize: 36,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         if(sucursal.telefonoOficina.isNotEmpty)
                         IconButton(
                           icon: const FaIcon(FontAwesomeIcons.whatsapp),
                           onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },
                           iconSize: 36,
+                          color: Theme.of(context).colorScheme.primary,
+
                         ),
                         IconButton(
                           icon: const Icon(Icons.email_rounded),
                           onPressed: () { mailSucursal(sucursal.email); },
                           iconSize: 36,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         IconButton(
                           icon: const Icon(Icons.navigation_rounded),
                           onPressed: () { navigateToSucursal(); },
                           iconSize: 36,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ],
                     ),
@@ -351,7 +356,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const Icon(Icons.place, size: 14,),
+                          Icon(Icons.place, size: 14, color: Theme.of(context).colorScheme.secondary,),
                           const SizedBox(
                             width: 20,
                           ),
@@ -366,7 +371,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const Icon(Icons.email, size: 14,),
+                          Icon(Icons.email, size: 14,color: Theme.of(context).colorScheme.secondary,),
                           const SizedBox(
                             width: 20,
                           ),
@@ -381,7 +386,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const Icon(Icons.phone, size: 14,),
+                          Icon(Icons.phone, size: 14, color: Theme.of(context).colorScheme.secondary,),
                           const SizedBox(
                             width: 20,
                           ),
@@ -396,8 +401,9 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const FaIcon(FontAwesomeIcons.whatsapp,
+                          FaIcon(FontAwesomeIcons.whatsapp,
                             size: 14,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                           const SizedBox(
                             width: 20,
@@ -413,7 +419,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
                       child: Row(
                         children: [
-                          const Icon(Icons.schedule, size: 14,),
+                          Icon(Icons.schedule, size: 14, color: Theme.of(context).colorScheme.secondary,),
                           const SizedBox(
                             width: 20,
                           ),

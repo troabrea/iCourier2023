@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import '../../appinfo.dart';
+import '../../apps/appinfo.dart';
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:event/event.dart' as event;
 import '../../services/app_events.dart';
@@ -53,7 +53,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
 
     on<UserDidLoginEvent>((event,emit) async {
       final appInfo = GetIt.I<AppInfo>();
-      final pushUserTopic = appInfo.pushChannelTopic + "_" + event.usuario;
+      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? appInfo.pushChannelTopic + "_" + event.sessionId : appInfo.pushChannelTopic + "_" + event.usuario;
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       messaging.subscribeToTopic(pushUserTopic);
 
@@ -65,8 +65,9 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
     on<LogoutEvent>( (event,emit) async {
       //
       final cuenta = (await cache.load('userAccount','')).toString();
+      final sessionId = (await cache.load('sessionId','')).toString();
       final appInfo = GetIt.I<AppInfo>();
-      final pushUserTopic = appInfo.pushChannelTopic + "_" + cuenta;
+      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? appInfo.pushChannelTopic + "_" + sessionId : appInfo.pushChannelTopic + "_" + cuenta;
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       messaging.unsubscribeFromTopic(pushUserTopic);
       //

@@ -1,13 +1,17 @@
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/helpers/social_media_links.dart';
+import 'package:icourier/services/model/banner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../services/courier_service.dart';
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../services/model/servicio.dart';
 import 'bloc/servicios_bloc.dart';
 
@@ -41,7 +45,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
-        fieldHintText: 'Buscar',
+        fieldHintText: 'buscar',
         keepAppBarColors: true,
         onChanged: (text) {
           setState(() {
@@ -54,8 +58,9 @@ class _ServiciosPageState extends State<ServiciosPage> {
         appBarBuilder: (context) {
           return AppBar(
             title: const Text("Servicios"),
+            centerTitle: true,
             automaticallyImplyLeading: false,
-            leading: appInfo.metricsPrefixKey != "CARIBEPACK" ? BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color) : null,
+            leading: appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO" ? BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color) : null,
             actions: [
               IconButton(
                 icon: FaIcon(FontAwesomeIcons.whatsapp,
@@ -65,7 +70,9 @@ class _ServiciosPageState extends State<ServiciosPage> {
                   chatWithSucursal();
                 },
               ),
-              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
+              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch,
+                  icon: Icon(Icons.search,
+                    color: Theme.of(context).appBarTheme.foregroundColor,)),
             ],
           );
         },
@@ -89,69 +96,74 @@ class _ServiciosPageState extends State<ServiciosPage> {
                 servicios = servicios.where((element) => element.titulo.contains(searchText) || element.resumen.contains(searchText)).toList();
               }
               return SafeArea(
-                child: Container(
-                    padding: const EdgeInsets.fromLTRB(5,10,5,65),
-                    child: ListView.builder(
-                        itemBuilder: (_, index) => Card(
-                            shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: BorderSide(color: Theme.of(context).primaryColorDark)),
-                            child: ExpansionTile(
-                                  onExpansionChanged: ( (isExpanded)  => {
-                                    setState( ()  => {
-                                      servicios[index].isExpanded = isExpanded
-                                    })
-                                  }),
-                                  expandedAlignment: Alignment.centerLeft,
-                                  expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-                                  title: Row(
-                                    children: [
-                                      // CircleAvatar(child: Text(state.servicios[index].orden.toStringAsFixed(0)),),
-                                      // Text(state.servicios[index].orden.toStringAsFixed(0), style: Theme.of(context).textTheme.titleLarge,),
-                                      // const SizedBox(width: 10,),
-                                      Expanded(
-                                        child: servicios[index].isExpanded ?
-                                        AutoSizeText(
-                                        servicios[index].titulo,
-                                          maxLines: 5,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium!,
-                                        )
-                                        :
-                                        AutoSizeText(
-                                          servicios[index].titulo,
-                                          overflow: TextOverflow.ellipsis,
-                                          minFontSize: 16,
-                                          maxLines: 2,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium!,
-                                        ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5,10,5,65),
+                  child: Column(
+                    children: [
+                      if(state.banners.isNotEmpty)
+                        buildSlideShow(context, state.banners),
+                      if(appInfo.metricsPrefixKey == "BMCARGO")
+                      SizedBox(height: 50,
+                          child: SocialMediaLinks(empresa: state.empresa, userProfile: state.userProfile,)),
+                      const SizedBox(height: 10,),
+                      Expanded(
+                        child: ListView.builder(
+                            itemBuilder: (_, index) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: ExpansionTile(
+                                iconColor: Theme.of(context).colorScheme.primary,
+                                  collapsedTextColor: Theme.of(context).colorScheme.onPrimary,
+                                  collapsedShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      side: BorderSide(color: Theme.of(context).dividerColor)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      side: BorderSide(color: Theme.of(context).dividerColor)),
+                                maintainState: true,
+                                    initiallyExpanded: false,
+                                    onExpansionChanged: ( (isExpanded)  => {
+                                      setState( ()  => servicios[index].isExpanded = isExpanded
+                                      )
+                                    }),
+                                    expandedAlignment: Alignment.centerLeft,
+                                    expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+                                    title: AutoSizeText(
+                                      servicios[index].titulo,
+                                      overflow: TextOverflow.ellipsis,
+                                      minFontSize: 10,
+                                      maxFontSize: 18,
+                                      maxLines: 2,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!.copyWith(fontWeight: servicios[index].isExpanded ? FontWeight.bold : FontWeight.normal,
+                                          color: servicios[index].isExpanded ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.onBackground
                                       ),
-                                    ],
-                                  ),
-                                  children: [
-                                    Container(
-                                        padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
-                                        child: Column(
-                                          children: [
-                                            const Divider(thickness: 2),
-                                            Container( padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: Text(
-                                                servicios[index].resumen,
-                                                textAlign: TextAlign.justify,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium,
+                                    ),
+                                    children: [
+                                      Container(
+                                          padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              // const Divider(thickness: 1),
+                                              Container( padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                child: Text(
+                                                  servicios[index].resumen,
+                                                  textAlign: TextAlign.justify,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        )),
-                                  ]),
-                        ),
-                        controller: controller,
-                        itemCount: servicios.length)),
+                                            ],
+                                          )),
+                                    ]),
+                            ),
+                            controller: controller,
+                            itemCount: servicios.length),
+                      ),
+                    ],
+                  ),
+                ),
               );
             }
             return Container();
@@ -160,6 +172,25 @@ class _ServiciosPageState extends State<ServiciosPage> {
       ),
     );
   }
+
+  Widget buildSlideShow(BuildContext context, List<BannerImage> banners)
+  {
+    return ImageSlideshow(height: 145, indicatorRadius: 0, children: banners.map((e) =>
+        CachedNetworkImage(
+          imageUrl: e.url,
+          imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: MediaQuery.of(context).size.width < 800 ? BoxFit.fill : BoxFit.cover,
+                ),
+              )),
+          progressIndicatorBuilder: (context, url, downloadProgress) =>
+              Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),).toList(), autoPlayInterval: 8500, isLoop: true,);
+  }
+
   Future<void> chatWithSucursal() async {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
     var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;

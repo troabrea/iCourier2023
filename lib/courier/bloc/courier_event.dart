@@ -21,8 +21,9 @@ class TryLoginEvent extends CourierEvent {
 
 class UserDidLoginEvent extends CourierEvent {
   final String usuario;
+  final String sessionId;
   final bool forceRefresh;
-  const UserDidLoginEvent(this.usuario, {this.forceRefresh = false});
+  const UserDidLoginEvent(this.usuario, this.sessionId, {this.forceRefresh = false});
   @override
   // AppCenter.track
   List<Object?> get props => [usuario];

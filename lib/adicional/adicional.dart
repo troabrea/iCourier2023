@@ -2,16 +2,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/noticas/noticias.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import '../../preguntas/preguntas.dart';
 import '../../services/courier_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:event/event.dart' as event;
 
-import '../appinfo.dart';
+import '../apps/appinfo.dart';
 import '../helpers/social_media_links.dart';
 import '../services/app_events.dart';
 import '../services/model/empresa.dart';
@@ -74,42 +76,69 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 65),
-          child: Column(children: [
-            if(appInfo.metricsPrefixKey != "CARIBEPACK")
+          child: Column( children: [
+            if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO")
               InkWell(onTap: () {
-                PersistentNavBarNavigator.pushNewScreen(context,screen: const ServiciosPage());
+                pushNewScreen(context, screen: const ServiciosPage());
+                // PersistentNavBarNavigator.pushNewScreen(context,screen: const ServiciosPage());
                 // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute( builder: (context) => const ServiciosPage()));
                 },
-                  child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.miscellaneous_services, color: Theme.of(context).primaryColorDark), trailing: const Icon(Icons.chevron_right), title: Text("Servicios", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),))),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.miscellaneous_services, size: 20, color: Theme.of(context).colorScheme.secondary,), trailing: const Icon(Icons.chevron_right), title: Text("Servicios", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                  )),
+            if(appInfo.metricsPrefixKey == "BMCARGO")
+              InkWell(onTap: () {
+                pushNewScreen(context, screen: const NoticiasPage());
+                // PersistentNavBarNavigator.pushNewScreen(context,screen: const ServiciosPage());
+                // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute( builder: (context) => const ServiciosPage()));
+              },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.feed, size: 20, color: Theme.of(context).colorScheme.secondary,), trailing: const Icon(Icons.chevron_right), title: Text("Noticias", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                  )),
             if(appInfo.metricsPrefixKey == "CARIBEPACK")
               InkWell(onTap:  () async {
                 await launchUrl(Uri.parse("https://caribetours.com.do/caribe-pack/tarifa-de-envios/"));
               },
-                  child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.price_check, color: Theme.of(context).primaryColorDark), trailing: const Icon(Icons.chevron_right), title: Text("Nuestras Tarifas", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),))),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.price_check, size: 20, color: Theme.of(context).colorScheme.secondary), trailing: const Icon(Icons.chevron_right), title: Text("Nuestras Tarifas", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                  )),
             InkWell(onTap: () {
-              PersistentNavBarNavigator.pushNewScreen(context,screen: const PreguntasPage());
+              pushNewScreen(context, screen: const PreguntasPage());
+              // PersistentNavBarNavigator.pushNewScreen(context,screen: const PreguntasPage());
               // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(builder: (context)=> const PreguntasPage()));
-            }, child:  Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.question_answer, color: Theme.of(context).primaryColorDark ), trailing: const Icon(Icons.chevron_right), title: Text("Preguntas", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),))),
+            }, child:  Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.question_answer, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing: const Icon(Icons.chevron_right), title: Text("Preguntas", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+            )),
             if(_empresa?.correoServicio != null && _empresa!.correoServicio.isNotEmpty)
               InkWell(
                 onTap: () => { openExteralUrl(_empresa!.correoServicio)},
-                child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.contact_phone_outlined, color: Theme.of(context).primaryColorDark ), trailing:
-                const Icon(Icons.launch),
-                  title: Text("Servicio al Cliente", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),)),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.contact_phone_outlined, size: 20 , color: Theme.of(context).colorScheme.secondary), trailing:
+                  const Icon(Icons.launch),
+                    title: Text("Servicio al Cliente", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                ),
               ),
             if(_empresa?.twitter != null && _empresa!.twitter.isNotEmpty)
               InkWell(
                 onTap: () => { openExteralUrl(_empresa!.twitter)},
-                child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.support, color: Theme.of(context).primaryColorDark ), trailing:
-                const Icon(Icons.launch),
-                  title: Text("Solicitar Soporte", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),)),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.support, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
+                  const Icon(Icons.launch),
+                    title: Text("Solicitar Soporte", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                ),
               ),
             if( _empresa != null && (_empresa!.mision.isNotEmpty || _empresa!.vision.isNotEmpty ) )
             InkWell(
               onTap: () => {showAboutUs(context)},
-              child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), child: ListTile(leading: Icon(Icons.info, color: Theme.of(context).primaryColorDark ), trailing:
+              child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.info, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
                 const Icon(Icons.expand_circle_down_outlined),
-                title: Text("Sobre Nosotros", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),)),
+                title: Text("Sobre Nosotros", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
             ),
             const Spacer(),
             if(_empresa != null && _userProfile != null)
@@ -205,11 +234,16 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 height: 475,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ImageSlideshow(  children: [
+                  child: ImageSlideshow(
+                  indicatorColor: empresa.vision.isNotEmpty && empresa.mision.isNotEmpty ? Theme.of(context).colorScheme.secondary : Colors.transparent,
+                      children: [
+                    if(empresa.mision.isNotEmpty)
                     Column(
                       children: [
                         const SizedBox(height: 10,),
+                        if(empresa.vision.isNotEmpty)
                         Text("Misión", style: Theme.of(context).textTheme.titleLarge, textAlign: TextAlign.center,),
+                        if(empresa.vision.isNotEmpty)
                         const SizedBox(height: 20,),
                         Expanded(
                           child: SingleChildScrollView(scrollDirection: Axis.vertical, child: Padding(
@@ -219,10 +253,13 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                         ),
                       ],
                     ),
+                    if(empresa.vision.isNotEmpty)
                     Column(
                       children: [
                         const SizedBox(height: 10,),
+                        if(empresa.mision.isNotEmpty)
                         Text("Visión", style: Theme.of(context).textTheme.titleLarge,textAlign: TextAlign.center, ),
+                        if(empresa.mision.isNotEmpty)
                         const SizedBox(height: 20,),
                         Expanded(
                           child: SingleChildScrollView(scrollDirection: Axis.vertical, child: Padding(

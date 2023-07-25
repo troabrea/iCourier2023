@@ -58,9 +58,13 @@ class Recepcion {
   late String fechaHora;
   late int progreso;
   late String numeroRastreo;
+  bool selected = false;
 
   int progresoActual() {
     if(estatus.toUpperCase() == "ENTREGADO AL CLIENTE") {
+      return 4;
+    }
+    if(estatus.toUpperCase() == "ENTREGADO") {
       return 4;
     }
     if(disponible && progreso == 4) {
@@ -82,7 +86,7 @@ class Recepcion {
 
   double montoTotal() => double.tryParse(totalNeto.replaceAll(',', '')) ?? 0.00;
 
-  DateTime fechaRecibido() => DateTime.tryParse(fecha.replaceAll(".", "-")) ?? DateTime(2000,1,1);
+  DateTime fechaRecibido() => DateTime.tryParse(fecha.replaceAll(".", "-").replaceAll("/", "-")) ?? DateTime(2000,1,1);
 
   Recepcion(
       { required this.recepcionID,

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
-import 'appinfo.dart';
+import 'apps/appinfo.dart';
 import '../../services/app_events.dart';
 import '../../services/courier_service.dart';
 
