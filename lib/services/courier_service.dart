@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -108,7 +109,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('noticias');
     }
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
     var jsonData = await cache.remember('noticas', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/noticias/$companyId?code=_n9tPF7n6ipJa1pdVwjE1HkwBM2GFFX9x1xtyonGr-3lAzFuWf1yGw=="
@@ -124,7 +125,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('productos');
     }
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PRODUCTOS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PRODUCTOS");
     var jsonData = await cache.remember('productos', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/productos/$companyId?code=-PG1iVKL1Uz4hl-Hr7ngl4djLHEyEYfd_Eg2Ub9w1c7MAzFu0MFcGA=="));
@@ -138,7 +139,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('servicios');
     }
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SERVICIOS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SERVICIOS");
     var jsonData = await cache.remember('servicios', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/servicios/$companyId?code=LzA3Hq-PvVbdiWbdLkzSJ3XG6zPiCTznrhpOtW-eb9MgAzFuw5g9Cg=="));
@@ -172,7 +173,7 @@ class CourierService {
     if(ignoreCache) {
       cache.destroy('sucursales');
     }
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
     var jsonData = await cache.remember('sucursales', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/sucursales/$companyId?code=fM2zwJ-r5lxSzqmDKNIPuhr_F9Bp20rVSKpnm0_uwIoJAzFue_-i3A=="));
@@ -187,7 +188,7 @@ class CourierService {
       cache.destroy('preguntas');
     }
 
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PREGUNTAS");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PREGUNTAS");
 
     var jsonData = await cache.remember('preguntas', () async {
       final response = await get(Uri.parse(
@@ -324,7 +325,7 @@ class CourierService {
       await _validateSession();
     }
 
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
 
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/calculadora?code=OXZ2S1poI-Un4oe8Eqe8GW-Jo0K77tHzYpJ1mC2mo-ZeAzFuXmN2IQ==");
@@ -420,7 +421,7 @@ class CourierService {
         GetIt.I<event.Event<EmpresaRefreshFinished>>().broadcast();
       }
     }
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
     var jsonData = await cache.remember('recepciones', () async {
       var sessionId = (await cache.load('sessionId', ''))
           .toString(); //  prefs.getString('sessionId');
@@ -474,7 +475,7 @@ class CourierService {
 
     var dateFormat = DateFormat("yyyy-MM-dd");
 
-    // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_HISTORIA");
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_HISTORIA");
 
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/historia?code=UFtMpySwLvK3tmPtw8Tj_Nr2gCJwb7v5FAs6todAO7IYAzFu4me6mQ==");
@@ -765,7 +766,7 @@ class CourierService {
       }
       await _validateSession();
 
-      // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_PREALERTA");
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_PREALERTA");
 
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
@@ -820,7 +821,7 @@ class CourierService {
         return false;
       }
 
-      // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_UPDATE_PHOTO");
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_UPDATE_PHOTO");
 
       var storage = AzureStorage.parse(
       'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
@@ -884,7 +885,7 @@ class CourierService {
         return "Sesión inválida";
       }
       await _validateSession();
-      // AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_POSTALERTA");
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_POSTALERTA");
 
 
       var storage = AzureStorage.parse(

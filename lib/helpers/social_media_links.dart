@@ -107,6 +107,15 @@ class SocialMediaLinks extends StatelessWidget {
     if(empresa.dominio.toUpperCase() == "FIXOCARGO") {
       facebook = 'fixocargo';
     }
+
+    if(empresa.instagram.isNotEmpty) {
+      var num = double.tryParse(empresa.instagram);
+      if(num == null) {
+        facebook = empresa.instagram;
+      }
+    }
+
+
     String fbProtocolUrl;
     if (Platform.isIOS) {
       fbProtocolUrl = 'instagram://user?username=$facebook';

@@ -67,7 +67,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
         appBar: AppBar(
           title: Text(widget.titulo),
           leading:
-              BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
+              BackButton(color: Theme.of(context).appBarTheme.foregroundColor),
           actions: [
             IconButton(
               icon: Icon(Icons.refresh,

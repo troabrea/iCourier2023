@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:another_stepper/another_stepper.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
+import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/appinfo.dart';
 import 'package:intl/intl.dart';
 import '../../courier/paquete_tile.dart';
 
@@ -19,6 +21,7 @@ class HistoricoPaquetePage extends StatefulWidget {
 class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
   late List<Historia> historia;
   late List<StepperData> stepperData;
+  final appInfo = GetIt.I<AppInfo>();
   bool isLoaded = false;
   @override
   void initState() {
@@ -35,9 +38,9 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
     return historia.map((e) => StepperData(
         iconWidget: Container(
           padding: const EdgeInsets.all(2),
-          decoration: const BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.all(Radius.circular(24))),
+          decoration: BoxDecoration(
+              color: appInfo.metricsPrefixKey == "CAINCA" ? const Color.fromRGBO(25, 135, 220, 1.0) : Colors.green,
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: const Icon(Icons.check, color: Colors.white, size: 12,),
         ),
         title: StepperText(e.nombreEstatus.isEmpty ? e.ciudad : e.nombreEstatus, textStyle: Theme.of(context).textTheme.titleMedium),
@@ -52,7 +55,7 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Historial de Paquete"),
-          leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+          leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
         ),
         body:SafeArea(
             child: !isLoaded ? const CircularProgressIndicator() :  Container(
@@ -66,7 +69,9 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
                       Icon(iconsProgreso[1], color: widget.recepcion.progresoActual() == 2 ? Colors.white : Colors.black,),
                       Icon(iconsProgreso[2], color: widget.recepcion.progresoActual() == 3 ? Colors.white : Colors.black,),
                       Icon(iconsProgreso[3], color: widget.recepcion.progresoActual() == 4 ? Colors.white : Colors.black,),
-                    ],  lineColor: Theme.of(context).dividerColor, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
+                    ], activeStepBorderColor: appInfo.metricsPrefixKey == "CAINCA" ? const Color.fromRGBO(25, 135, 220, 1.0) : Colors.green,
+                      activeStepColor: appInfo.metricsPrefixKey == "CAINCA" ? const Color.fromRGBO(25, 135, 220, 1.0) : Colors.green,
+                      lineColor: Theme.of(context).dividerColor, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
                     const SizedBox(height: 10,),
                     Expanded(
                       child: SingleChildScrollView(

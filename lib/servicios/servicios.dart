@@ -46,7 +46,9 @@ class _ServiciosPageState extends State<ServiciosPage> {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
         fieldHintText: 'buscar',
-        keepAppBarColors: true,
+        keepAppBarColors: appInfo.metricsPrefixKey != "CAINCA",
+        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+
         onChanged: (text) {
           setState(() {
             searchText = text;
@@ -60,7 +62,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
             title: const Text("Servicios"),
             centerTitle: true,
             automaticallyImplyLeading: false,
-            leading: appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO" ? BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color) : null,
+            leading: appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO" ? BackButton( color: Theme.of(context).appBarTheme.foregroundColor) : null,
             actions: [
               IconButton(
                 icon: FaIcon(FontAwesomeIcons.whatsapp,

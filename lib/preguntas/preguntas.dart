@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/appinfo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../services/courier_service.dart';
@@ -38,6 +39,7 @@ class PreguntasPage extends StatefulWidget {
 
 class _PreguntasPageState extends State<PreguntasPage> {
   late ScrollController controller;
+  final appInfo = GetIt.I<AppInfo>();
   List<Pregunta> preguntas = <Pregunta>[].toList();
   String searchText = "";
 
@@ -58,7 +60,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
         fieldHintText: 'Buscar',
-        keepAppBarColors: true,
+        keepAppBarColors: appInfo.metricsPrefixKey != "CAINCA",
         onChanged: (text) {
           setState(() {
             searchText = text;
@@ -71,7 +73,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
           return AppBar(
             title: const Text("Preguntas"),
             automaticallyImplyLeading: false,
-            leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+            leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
             actions: [
               IconButton(
                 icon: FaIcon(FontAwesomeIcons.whatsapp,

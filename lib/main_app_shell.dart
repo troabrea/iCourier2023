@@ -545,7 +545,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                 key: keyMainBottomNavigation,
                 padding: const EdgeInsets.all(5),
                 decoration:  BoxDecoration(
-                    color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" ? Colors.transparent : Colors.white.withOpacity(1),
+                    color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
                     shape: BoxShape.circle
                 ),
                 //color: Colors.transparent,

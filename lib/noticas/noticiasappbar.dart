@@ -43,7 +43,7 @@ class _NoticiasAppBarState extends State<NoticiasAppBar> {
     return widget.showBackButton ? AppBar(
       title: const Text("Noticias"),
       automaticallyImplyLeading: false,
-      leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color)) :
+      leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor)) :
           AppBar(
           title: const Text("Noticias"),
       actions: [

@@ -39,7 +39,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Consulta Histórica"),
-          leading: BackButton( color: Theme.of(context).appBarTheme.iconTheme?.color),
+          leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
         ),
         body: BlocProvider(
           create: (context) => historiaBloc,

@@ -90,7 +90,7 @@ android {
         domex {
             dimension "app"
             applicationId "com.barolit.domex"
-            versionCode 5202326
+            versionCode 5202339
         }
         bmcargo {
             dimension "app"
@@ -105,7 +105,7 @@ android {
         almapaq {
             dimension "app"
             applicationId "com.barolit.almapaq"
-            versionCode 5202322
+            versionCode 5202324
         }
         beexpress {
             dimension "app"
@@ -144,6 +144,10 @@ android {
             dimension "app"
             applicationId "com.barolit.cainca"
         }
+        tupaq {
+            dimension "app"
+            applicationId "com.barolit.tupaq"
+        }
         taino {
             dimension "app"
             applicationId "com.barolit.taino"
@@ -164,8 +168,8 @@ android {
     buildTypes {
         release {
             //signingConfig signingConfigs.codemagic
-            signingConfig signingConfigs.release
-//            signingConfig signingConfigs.recent
+//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.recent
 //            signingConfig signingConfigs.legacy
         }
     }

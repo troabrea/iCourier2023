@@ -331,8 +331,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                       },
                                       child: Column(
                                         children: [
-                                          Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),),
-                                          Text('Suscríbete', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white, decoration: TextDecoration.underline),),
+                                          Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.w600),),
+                                          Text('Suscríbete', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary, decoration: TextDecoration.underline),),
                                         ],
                                       )),
                                 ),
