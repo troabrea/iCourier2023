@@ -36,8 +36,7 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Pre-Alertas"),
-          leading:
-              BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
+          leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
         ),
         body: BlocProvider(
             create: (context) => prealertasBloc..add(LoadPreAlertasEvent()),
@@ -79,6 +78,8 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
                               hideBackgroundAnimation: true,
                               title: "No hay resultados",
                               subTitle: "No se encontraron pre-alertas recientes para su cuenta.",
+                              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                              subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                             )),
                       ),
                     ));

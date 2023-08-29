@@ -190,6 +190,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                   subtitleTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
                   title: " - ",
                   subTitle: "Seleccione imágen o archivo",
+                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
           ],),

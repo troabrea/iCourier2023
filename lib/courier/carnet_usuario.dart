@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import '../apps/appinfo.dart';
 import 'package:image_picker/image_picker.dart';
@@ -77,7 +78,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
 
             },
             avatarSplashColor: Theme.of(context).primaryColor,
-            radius: 100,
+            radius: 50,
             isActivityIndicatorSmall: false,
             avatarBorderData: AvatarBorderData(
               borderColor: Theme.of(context).primaryColorDark,
@@ -112,6 +113,8 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
         Padding(padding: const EdgeInsets.all(8.0),
           child: Center(
             child: BarcodeWidget(
+              height: 100,
+              width: 100,
               barcode: Barcode.qrCode(),
               color: Theme.of(context).textTheme.titleMedium!.color!,
               data: widget.userProfile.cuenta,
@@ -125,10 +128,34 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
                     style: Theme.of(context)
                         .textTheme
                         .headlineMedium
-                ))),
-        Image.asset(widget.appInfo.brandLogoImage, width: 75, height: 75,),
+                ))
+        ),
+        if(widget.userProfile.direccionBuzon.isNotEmpty)
+          buildDireccionBuzon(context, widget.userProfile),
+        Image.asset(widget.appInfo.metricsPrefixKey == "TUPAQ" ? "images/tupaq/icon_transparent.png" : widget.appInfo.brandLogoImage,
+          width: 75,
+          height: 75,),
         const SizedBox(height: 20,)
       ],
     );
   }
+}
+
+Widget buildDireccionBuzon(BuildContext context, UserProfile userProfile) {
+  return Column(children: [
+    Text('Dirección en Miami:', style: Theme.of(context).textTheme.bodySmall),
+    const SizedBox(height: 10,),
+    Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      Text(userProfile.direccionBuzon, style: Theme.of(context).textTheme.bodySmall,),
+      FilledButton.icon(icon: const Icon(Icons.copy),
+        style: FilledButton.styleFrom(padding: const EdgeInsets.all(8)),
+        onPressed: () {
+          Clipboard.setData(ClipboardData(text: userProfile.direccionBuzon));
+        },
+        label: const Text('Copiar'),)
+    ],)
+  ],);
 }

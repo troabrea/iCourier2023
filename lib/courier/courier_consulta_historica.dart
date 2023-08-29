@@ -66,6 +66,8 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
                                 hideBackgroundAnimation: true,
                                 title: "No hay resultados",
                                 subTitle: "Especifique rango de fecha y ejecuta la busqueda.",
+                              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                              subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                             ),))),
                           if (state is HistoriaLoadedState)
                             Expanded(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -362,7 +363,8 @@ class _SucursalesPageState extends State<SucursalesPage> {
                           ),
                           Expanded(
                             child: Text(sucursal.direccion),
-                          )
+                          ),
+                          IconButton(onPressed: () {Clipboard.setData(ClipboardData(text: sucursal.direccion));}, icon: Icon(Icons.copy, size: 24, color: Theme.of(context).colorScheme.secondary,),)
                         ],
                       ),
                     ),

@@ -59,7 +59,7 @@ class TupaqAppInfo implements AppInfo {
     //   return const DialogTheme(titleTextStyle: TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20));
     // }
     getLightTextButtonTheme() {
-      return TextButtonThemeData( style: TextButton.styleFrom(foregroundColor: primaryVariantColor, textStyle: const TextStyle(fontFamily: 'Myriad', fontWeight: FontWeight.bold, fontSize: 16)  ) );
+      return TextButtonThemeData( style: TextButton.styleFrom(foregroundColor: primaryVariantColor, textStyle: const TextStyle(fontFamily: 'Bossa', fontWeight: FontWeight.bold, fontSize: 16)  ) );
     }
     getLightTextTheme() {
       // return GoogleFonts.rubikTextTheme (Typography.blackMountainView);
@@ -76,10 +76,15 @@ class TupaqAppInfo implements AppInfo {
           color: Colors.black,
         ),
         titleSmall: TextStyle(
-          fontFamily: 'Myriad',
-          fontSize: 16,
+          fontFamily: 'Bossa',
+          fontSize: 14,
           fontWeight: FontWeight.w700,
           color: Colors.black45,
+        ),
+        bodyLarge: TextStyle(
+          fontFamily: 'Bossa',
+          fontSize: 18,
+          color: Colors.black,
         ),
         bodyMedium: TextStyle(
           fontFamily: 'Bossa',
@@ -115,7 +120,11 @@ class TupaqAppInfo implements AppInfo {
         useMaterial3: true,
         appBarTheme: getLightAppBarTheme(),
         textTheme: getLightTextTheme(),
-        filledButtonTheme: FilledButtonThemeData(style: FilledButton.styleFrom( shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)) , padding: const EdgeInsets.all(4.0), backgroundColor: secondaryColor, foregroundColor: Colors.white))
+        filledButtonTheme: FilledButtonThemeData(style: FilledButton.styleFrom( shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)) ,
+            padding: const EdgeInsets.all(4.0), backgroundColor: secondaryColor,
+            foregroundColor: Colors.white,
+          textStyle: const TextStyle(fontFamily: 'Bossa'),
+        ),)
       // elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)) ,  backgroundColor: secondaryColor, foregroundColor: Colors.white ) ) ,
     );
 
@@ -205,6 +214,11 @@ class TupaqAppInfo implements AppInfo {
           fontSize: 16,
           fontWeight: FontWeight.w700,
           color: Colors.white60,
+        ),
+        bodyLarge: TextStyle(
+          fontFamily: 'Bossa',
+          fontSize: 18,
+          color: Colors.white,
         ),
         bodyMedium: TextStyle(
           fontFamily: 'Bossa',

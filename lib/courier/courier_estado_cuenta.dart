@@ -81,6 +81,8 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
                                   hideBackgroundAnimation: true,
                                   title: "No hay resultados",
                                   subTitle: "No se encontraron registros en su estado de cuenta.",
+                                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                                  subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                                 )),
                           ),
                         ));

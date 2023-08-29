@@ -298,6 +298,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   child: EmptyWidget(
                                     hideBackgroundAnimation: true,
                                     title: "No tiene paquetes!",
+                                    titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                                    subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ),
                               if (state.disponiblesCount == 0 || state.empresa.hasPointsModule)

@@ -503,11 +503,12 @@ class CourierService {
     var nombreSucrusal = "";
     var telefonoSucrusal = "";
     var emailSucursal = "";
+    var direccionBuzon = "";
     var whatsappSucrusal = empresa.telefonoVentas;
     var chatUrl = empresa.correoServicio;
 
     if(cuenta != "" && sucursal != "") {
-      var userSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == sucursal);
+      final userSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == sucursal);
       if(userSucursal != null) {
         nombreSucrusal = userSucursal.nombre;
         telefonoSucrusal = userSucursal.telefonoVentas;
@@ -515,6 +516,10 @@ class CourierService {
         if(userSucursal.telefonoOficina.isNotEmpty) {
           whatsappSucrusal = userSucursal.telefonoOficina;
         }
+      }
+      final buzonSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == empresa.calculadoraDesde);
+      if(buzonSucursal != null) {
+        direccionBuzon = "$nombre ($cuenta)\n${buzonSucursal.direccion}";
       }
     }
 
@@ -531,6 +536,7 @@ class CourierService {
         email: email,
         sucursal: sucursal,
         fotoPerfilUrl: foto,
+        direccionBuzon: direccionBuzon,
         emailSucursal: emailSucursal,
         nombreSucursal: nombreSucrusal,
       telefonoSucursal: telefonoSucrusal,

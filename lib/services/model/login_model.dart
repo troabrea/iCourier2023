@@ -36,6 +36,7 @@ class LoginResult {
 class UserProfile {
   UserProfile({required  this.cuenta, required this.nombre, required this.email,
     required this.sucursal,required this.fotoPerfilUrl,
+    required this.direccionBuzon,
     this.emailSucursal = "",
     this.telefono = "",
     this.nombreSucursal = "",
@@ -54,6 +55,7 @@ class UserProfile {
   String whatsappSucursal;
   String emailSucursal;
   String chatUrl;
+  String direccionBuzon;
 }
 
 class UserAccount {

@@ -122,7 +122,7 @@ flutter:
 #    - images/domex/
 #    - images/bmcargo/
 #    - images/beexpress/
-    - images/almapaq/
+#    - images/almapaq/
 #    - images/pintopaq/
 #    - images/boxpaq/
 #    - images/encargopaq/
@@ -130,7 +130,7 @@ flutter:
 #    - images/cps/
 #    - images/taino/
 #    - images/fixocargo/
-#    - images/picknsend/
+    - images/picknsend/
 #    - images/jetpack/
 #    - images/tls/
 #    - images/cainca/

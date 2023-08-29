@@ -205,9 +205,9 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
                   subtitleTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
                   title: " - ",
                   subTitle: "Seleccione imágen o archivo",
-                ),
+                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
               ),
-
+            )
           ],),
           const SizedBox(height: 15,),
           const Divider(),

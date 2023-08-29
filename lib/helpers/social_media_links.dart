@@ -16,13 +16,21 @@ class SocialMediaLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      IconButton(icon: FaIcon(Platform.isIOS ? FontAwesomeIcons.safari : FontAwesomeIcons.chrome, size: iconSize,), onPressed: () => { openInBrowser(empresa) },),
+      IconButton(icon: FaIcon(Platform.isIOS ? FontAwesomeIcons.safari : FontAwesomeIcons.chrome, size: iconSize,),
+        color: Theme.of(context).colorScheme.secondary,
+        onPressed: () => { openInBrowser(empresa) },),
       if(empresa.correoVentas.isNotEmpty || userProfile.email.isNotEmpty)
-      IconButton(icon: FaIcon(FontAwesomeIcons.envelope, size: iconSize), onPressed: () => { sendEmail(empresa, userProfile) },),
+      IconButton(icon: FaIcon(FontAwesomeIcons.envelope, size: iconSize),
+        color: Theme.of(context).colorScheme.secondary,
+        onPressed: () => { sendEmail(empresa, userProfile) },),
       if(empresa.facebook.isNotEmpty)
-      IconButton(icon: FaIcon(FontAwesomeIcons.instagram, size: iconSize), onPressed: () => { viewInInstagram(empresa) },),
+      IconButton(icon: FaIcon(FontAwesomeIcons.instagram, size: iconSize),
+        color: Theme.of(context).colorScheme.secondary,
+        onPressed: () => { viewInInstagram(empresa) },),
       if(empresa.facebook.isNotEmpty)
-      IconButton(icon: FaIcon(FontAwesomeIcons.facebook, size: iconSize), onPressed: () => { viewInFacebook(empresa) },),
+      IconButton(icon: FaIcon(FontAwesomeIcons.facebook, size: iconSize),
+        color: Theme.of(context).colorScheme.secondary,
+        onPressed: () => { viewInFacebook(empresa) },),
     ],);
   }
 

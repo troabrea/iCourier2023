@@ -1,3 +1,4 @@
+flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
 #flutter build appbundle -t lib/apps/cainca/main_cainca.dart --flavor cainca
 #flutter build appbundle -t lib/main_caribepack.dart --flavor caribepack
 #flutter build appbundle -t lib/apps/cps/main_cps.dart --flavor cps
@@ -11,5 +12,5 @@
 #flutter build apk -t lib/main_pns.dart --flavor picknsend --split-per-abi
 #flutter build apk -t lib/apps/jetpack/main_jetpack.dart --flavor jetpack --split-per-abi
 #flutter build appbundle -t lib/main_encargopaq.dart --flavor encargopaq
-flutter build appbundle -t lib/apps/almapac/main_almapaq.dart --flavor almapaq
+#flutter build appbundle -t lib/apps/almapac/main_almapaq.dart --flavor almapaq
 #flutter build apk -t lib/main_beexpress.dart --flavor beexpress --split-per-abi

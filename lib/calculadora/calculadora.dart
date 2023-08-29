@@ -79,6 +79,8 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                               hideBackgroundAnimation: true,
                               title: "No hay resultados",
                               subTitle: "Especifique los valores y toque el boton calcular.",
+                              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                              subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                             ),))),
                           if (state is CalculadoraLoadedState)
                             buildResults(context, state),
