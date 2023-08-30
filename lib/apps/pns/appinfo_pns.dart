@@ -39,8 +39,8 @@ class PnsAppInfo implements AppInfo {
 
   @override
   ThemeData getLightTheme() {
-    const primaryColor = Color(0xff85d008);
-    const secondaryColor = Color(0xff156b32);
+    const primaryColor = Color(0xff95d600);
+    const secondaryColor = Color(0xff646469);
     const primaryVariantColor = Color(0xff063012);
     const errorColor = Color(0xffb00020);
 
@@ -61,7 +61,7 @@ class PnsAppInfo implements AppInfo {
           fontFamily: 'Myriad',
           fontSize: 20,
           fontWeight: FontWeight.w700,
-          color: secondaryColor,
+          color: Colors.black,
         ),
         titleMedium: TextStyle(
           fontFamily: 'Myriad',
@@ -88,13 +88,13 @@ class PnsAppInfo implements AppInfo {
           fontFamily: 'Myriad',
           fontSize: 18,
           fontWeight: FontWeight.w700,
-          color: secondaryColor,
+          color: Colors.black,
         ),
         headlineLarge: TextStyle(
           fontFamily: 'Myriad',
           fontSize: 26,
           fontWeight: FontWeight.w700,
-          color: secondaryColor,
+          color: Colors.black,
         ),
       );
     }
@@ -144,8 +144,8 @@ class PnsAppInfo implements AppInfo {
 
   @override
   ThemeData getDarkTheme() {
-    const secondaryColor = Color(0xff156b32); //
-    const primaryColor = Colors.greenAccent;//  Color(0xff156b32);
+    const secondaryColor = Color(0xff95d600); //
+    const primaryColor = Color(0xff646469);//  Color(0xff156b32);
     // const primaryVariantColor = Color(0xff005580);
     const errorColor = Color(0xffb00020);
     getDarkAppBarTheme() {

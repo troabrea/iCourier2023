@@ -526,7 +526,23 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS" )
+      if(appInfo.pushChannelTopic == "PICKNSEND" )
+        PersistentBottomNavBarItem(
+            contentPadding: 0.0,
+            icon:Icon(
+              Icons.inventory,
+              key: keyMainBottomNavigation,
+              color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
+            ),
+            inactiveIcon: Icon(
+              Icons.inventory,
+              key: keyMainBottomNavigation,
+              color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),size: 25,
+            ),
+            title: null, //'Inicio',
+            activeColorPrimary: Colors.transparent,
+            inactiveColorPrimary: Colors.transparent),
+      if(appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS" && appInfo.pushChannelTopic != "PICKNSEND" )
         PersistentBottomNavBarItem(
             icon: ClipOval(
               child: Container(

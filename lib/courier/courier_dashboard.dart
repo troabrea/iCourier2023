@@ -298,7 +298,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   child: EmptyWidget(
                                     hideBackgroundAnimation: true,
                                     title: "No tiene paquetes!",
-                                    titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                                    titleTextStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                                     subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ),
@@ -382,7 +382,10 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                           showPreAlertaSheet(context);
                                         },
                                         label:
-                                            const Text("Realizar\nPre-Alerta")),
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(vertical: 4.0),
+                                              child: Text("Crear\nPre-Alerta"),
+                                            )),
                                   ),
                                   const SizedBox(
                                     width: 20,
@@ -401,8 +404,11 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                   builder: (context) =>
                                                       const PrealertasRealizadas()));
                                         },
-                                        label: const Text(
-                                            "Consultar\nPre-Alertas")),
+                                        label: const Padding(
+                                          padding: EdgeInsets.symmetric(vertical:4.0),
+                                          child: Text(
+                                              "Ver Pre-Alertas"),
+                                        )),
                                   ),
                                 ],
                               ),
@@ -421,7 +427,10 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                             showTrackingSheet(context);
                                           },
                                           label:
-                                              const Text("Rastrear\nPaquete"))),
+                                              const Padding(
+                                                padding: EdgeInsets.symmetric(vertical: 4.0),
+                                                child: Text("Rastrear\nPaquete"),
+                                              ))),
                                   const SizedBox(
                                     width: 20,
                                   ),
@@ -440,7 +449,10 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                       const ConsultaHistoricaPage()));
                                         },
                                         label:
-                                            const Text("Consulta\nHistórica")),
+                                            const Padding(
+                                              padding: EdgeInsets.symmetric(vertical: 4.0),
+                                              child: Text("Consulta\nHistórica"),
+                                            )),
                                   ),
                                 ],
                               ),
