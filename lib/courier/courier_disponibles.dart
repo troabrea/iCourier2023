@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,7 +89,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Disponibles"),
+          title: Text("disponibles".tr()),
           leading:
               BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
           actions: [
@@ -117,13 +118,13 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
             listener: (context, state) {
               if (state is DisponibleFinishedState) {
                 if (!state.withErrors) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar( SnackBar(
                       content:
-                          Text('Retiro de paquetes notificiado con éxito.')));
+                          Text('retiro_notificado'.tr())));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(state.errorMessage),
-                    backgroundColor: Theme.of(context).errorColor,
+                    backgroundColor: Theme.of(context).colorScheme.error,
                   ));
                 }
               }
@@ -156,7 +157,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                     Column(
                                       children: [
                                         Text(
-                                          'Cantidad',
+                                          'cantidad'.tr(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -180,7 +181,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                     Column(
                                       children: [
                                         Text(
-                                          'Total',
+                                          'total'.tr(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -210,32 +211,32 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                       PopupMenuButton<String>(
                                         itemBuilder: (context) {
                                           return [
-                                            const PopupMenuItem(
+                                            PopupMenuItem(
                                                 value: 'domicilio',
                                                 child: ListTile(
                                                   title: Text(
-                                                      'Solicitar Domicilio'),
-                                                  leading: Icon(Icons
+                                                      'solicitar_domicilio'.tr()),
+                                                  leading: const Icon(Icons
                                                       .delivery_dining_outlined),
                                                 )),
                                             const PopupMenuDivider(),
                                             if (widget.empresa.hasNotifyModule)
-                                              const PopupMenuItem(
+                                               PopupMenuItem(
                                                   value: 'retirar',
                                                   child: ListTile(
                                                     title: Text(
-                                                        'Notificar Retiro'),
-                                                    leading: Icon(Icons
+                                                        'notificar_retiro'.tr()),
+                                                    leading: const Icon(Icons
                                                         .meeting_room_rounded),
                                                   )),
                                             if (widget
                                                 .empresa.hasPaymentsModule)
-                                              const PopupMenuItem(
+                                               PopupMenuItem(
                                                   value: 'pagar',
                                                   child: ListTile(
                                                     title:
-                                                        Text('Realizar Pago'),
-                                                    leading: Icon(Icons
+                                                        Text('realizar_pago'.tr()),
+                                                    leading: const Icon(Icons
                                                         .credit_card_outlined),
                                                   )),
                                           ];
@@ -320,7 +321,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                                   .withAlpha(250)),
                                           icon: const Icon(
                                               Icons.meeting_room_outlined),
-                                          label: const Text("Retirar")),
+                                          label: Text("retirar".tr())),
                                     const Spacer(),
                                     if (widget.empresa.hasPaymentsModule && widget.montoTotal > 0)
                                       OutlinedButton.icon(
@@ -342,7 +343,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                                   .backgroundColor!
                                                   .withAlpha(250)),
                                           icon: const Icon(Icons.payment),
-                                          label: const Text("Pagar")),
+                                          label: Text("pagar_ahora".tr())),
                                     const SizedBox(
                                       width: 15,
                                     ),
@@ -393,7 +394,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
     final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Realizar Pago")),
+      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "realizar_pago".tr())),
     );
   }
 

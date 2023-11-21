@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<OnlinePaymentRequestEvent>((event,emit) async {
-      if(!await confirmDialog(event.context, "Seguro que desea realizar el pago en linea?", "Si", "No")) {
+      if(!await confirmDialog(event.context, "seguro_pagar_en_linea".tr(), "si".tr(), "no".tr())) {
         return;
       }
       await _courierService.launchOnlinePayment();
@@ -34,8 +35,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       final empresa = await _courierService.getEmpresa();
       var puntoRetiro = "";
       if(empresa.dominio.toUpperCase() == "BMCARGO") {
-        puntoRetiro = await optionsDialog(event.context, "Donde desea hacer el retiro?", ["Counter","Drive-Thru","Cancelar"].toList());
-        if(puntoRetiro.toUpperCase() == "CANCELAR") {
+        puntoRetiro = await optionsDialog(event.context, "donde_notificar_retiro".tr(), ["Counter","Drive-Thru","cancelar".tr()].toList());
+        if(puntoRetiro.toUpperCase() == "cancelar".tr().toUpperCase()) {
           return;
         }
         if(puntoRetiro.toUpperCase() == "Counter".toUpperCase() ) {
@@ -45,7 +46,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           puntoRetiro = "AppDriveThru";
         }
       } else {
-        if(!await confirmDialog(event.context, "Seguro que desea notificar el retiro de sus paquetes disponibles?", "Si", "No")) {
+        if(!await confirmDialog(event.context, "seguro_notificar_retiro".tr(), "si".tr(), "no".tr())) {
           return;
         }
       }
@@ -86,8 +87,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<SolicitarDomicilioEvent>((event,emit) async {
-      final title = "Recibirá ${event.disponibles.length.toString()} paquete(s)";
-      var paquetes = await domicilioDialog(event.context, title, "Solicitar Domicilio", "Cancelar", event.disponibles);
+      final title = "recibira_n_paquetes".tr(args: [event.disponibles.length.toString()]);
+      var paquetes = await domicilioDialog(event.context, title, "solicitar_domicilio".tr(), "cancelar".tr(), event.disponibles);
       if(paquetes.isEmpty) {
         return;
       }
@@ -98,6 +99,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<LoadApiEvent>((event,emit) async {
+      try {
         emit(DashboardLoadingState());
         final empresa = await _courierService.getEmpresa(ignoreCache: event.forceRefresh);
         final banners = await _courierService.getBanners();
@@ -123,7 +125,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             puntos: puntos,
             moreInfoText: moreInfoText,
             moreInfoUrl: moreInfoUrl
-            ));
+        ));
+      } catch(e) {
+        emit(DashboardFinishedState(withErrors: true, errorMessage: "error_favor_reintentar".tr()));
+      }
+
     });
   }
 }

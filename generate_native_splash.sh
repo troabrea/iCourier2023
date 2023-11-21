@@ -4,12 +4,13 @@
 #flutter pub run flutter_native_splash:create --flavor taino
 #flutter pub run flutter_native_splash:create --flavor tls
 #flutter pub run flutter_native_splash:create --flavor cainca
-flutter pub run flutter_native_splash:create --flavor tupaq
+#flutter pub run flutter_native_splash:create --flavor tupaq
 #flutter pub run flutter_native_splash:create --flavor fixocargo
 #flutter pub run flutter_native_splash:create --flavor cps
 #flutter pub run flutter_native_splash:create --flavor pintopaq
 #flutter pub run flutter_native_splash:create --flavor encargopaq
 #flutter pub run flutter_native_splash:create --flavor almapaq
 #flutter pub run flutter_native_splash:create --flavor beexpress
-#flutter pub run flutter_native_splash:create --flavor picknsend
+flutter pub run flutter_native_splash:create --flavor picknsend
 #flutter pub run flutter_native_splash:create --flavor jetpack
+#flutter pub run flutter_native_splash:create --flavor swoop

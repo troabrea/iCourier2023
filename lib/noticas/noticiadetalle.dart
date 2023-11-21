@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -74,7 +75,7 @@ class NoticiaDetallePage extends StatelessWidget {
               ),
               if (noticia!.url.isNotEmpty)
                 TextButton(
-                    onPressed: () => {_launchUrl()}, child: const Text( 'Ver Mas...'
+                    onPressed: () => {_launchUrl()}, child: Text( 'ver_mas'.tr()
                     )),
               if (noticia!.url.isNotEmpty)
                 const Divider(

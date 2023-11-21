@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -38,7 +39,7 @@ class _AdicionalPageAppBarState extends State<AdicionalPageAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Información Adicional"),
+      title: Text("informacion_adicional".tr()),
       actions: [
         if(hasWhatsApp)
         IconButton(

@@ -61,10 +61,10 @@ class Recepcion {
   bool selected = false;
 
   int progresoActual() {
-    if(estatus.toUpperCase() == "ENTREGADO AL CLIENTE") {
+    if(estatus.toUpperCase() == "ENTREGADO AL CLIENTE" || estatus.toUpperCase() == "DELIVERED") {
       return 4;
     }
-    if(estatus.toUpperCase() == "ENTREGADO") {
+    if(estatus.toUpperCase() == "ENTREGADO" || estatus.toUpperCase() == "BILLED COUNTER") {
       return 4;
     }
     if(disponible && progreso == 4) {
@@ -72,13 +72,19 @@ class Recepcion {
     }
     if(disponible) {
       return 4;
-    } else if(estatus.toUpperCase().contains("EMBARCADO") || estatus.toUpperCase().contains("EMPACADO")) {
+    } else if(estatus.toUpperCase().contains("EMBARCADO") || estatus.toUpperCase().contains("EMPACADO") ||
+        estatus.toUpperCase().contains("EMBARCADO") || estatus.toUpperCase().contains("EMPACADO") ||
+        estatus.toUpperCase().contains("SHIPMENT SENT")
+    ) {
       return 2;
     } else if(estatus.toUpperCase().contains("TRANSFERIDO") || estatus.toUpperCase().contains("EMPACADO")
          || estatus.toUpperCase().contains("TRANSFERIDO") || estatus.toUpperCase().contains("EMPACADO")
          || estatus.toUpperCase().contains("ADUANA") || estatus.toUpperCase().contains("TRANSITO")
          || estatus.toUpperCase().contains("DISTRIBUCION") || estatus.toUpperCase().contains("DISTRIBUCIÓN")
-         || estatus.toUpperCase().contains("RECIBIDO AILA") || estatus.toUpperCase().contains("ALMACEN")) {
+         || estatus.toUpperCase().contains("RECIBIDO AILA") || estatus.toUpperCase().contains("ALMACEN")
+         || estatus.toUpperCase().contains("CUSTOM") || estatus.toUpperCase().contains("(DISTRIBUTION CENTER)")
+        || estatus.toUpperCase().contains("PACKED") || estatus.toUpperCase().contains("OUTGOING TRANSFER")
+    ) {
       return 3;
     }
     return 1;

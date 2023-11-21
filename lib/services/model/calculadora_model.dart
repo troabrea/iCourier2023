@@ -5,11 +5,13 @@ class CalculadoraRequest {
     required this.producto,
     required this.libras,
     required this.valorFob,
+    required this.hasta,
   });
 
   String empresaId;
   String sessionId;
   String producto;
+  String hasta;
   double libras;
   double valorFob;
 
@@ -17,6 +19,7 @@ class CalculadoraRequest {
     "empresaId": empresaId,
     "sessionId" : sessionId,
     "producto": producto,
+    "hasta" : hasta,
     "libras": libras,
     "valorFob": valorFob
   };

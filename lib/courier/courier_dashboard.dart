@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,9 +81,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
           listener: (context, state) {
             if (state is DashboardFinishedState) {
               if (!state.withErrors) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content:
-                        Text('Retiro de paquetes notificiado con éxito.')));
+                        Text('retiro_notificado'.tr())));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.errorMessage),
@@ -145,7 +146,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                           value: 'retirar',
                                                           child: ListTile(
                                                             title: Text(
-                                                                'Notificar Retiro',
+                                                                'notificar_retiro'.tr(),
                                                               style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
                                                             ),
                                                             leading: const Icon(Icons
@@ -156,10 +157,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                       PopupMenuItem(
                                                           value: 'pagar',
                                                           child: ListTile(
-                                                            title: Text('Pagar : ' +
-                                                                formatCurrency
-                                                                    .format(state
-                                                                        .montoTotal),
+                                                            title: Text('pagar'.tr(args: [formatCurrency
+                                                                .format(state
+                                                                .montoTotal)]),
                                                               style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
                                                             ),
                                                             leading: const Icon(
@@ -175,7 +175,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                           value: 'domicilio',
                                                           child: ListTile(
                                                             title: Text(
-                                                                'Solicitar Domicilio',
+                                                                'solicitar_domicilio'.tr(),
                                                               style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
                                                             ),
                                                             leading: const Icon(Icons
@@ -225,7 +225,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                     fontFamily: 'iCourier'),
                                                 size: 30,
                                               ),
-                                        title: "Disponibles",
+                                        title: "disponibles".tr(),
                                         count: state.disponiblesCount)),
                               if (state.recepcionesCount > 0)
                                 Container(
@@ -247,7 +247,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                 fontFamily: 'iCourier'),
                                             size: 30,
                                           ),
-                                          title: "Recepciones",
+                                          title: "recepciones".tr(),
                                           count: state.recepcionesCount)),
                                 ),
                               if(appInfo.metricsPrefixKey == "TLS")
@@ -263,7 +263,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                         Icons.attach_money_sharp,
                                         size: 30,
                                       ),
-                                      title: "Facturas Pendientes",
+                                      title: "facturas_pendientes".tr(),
                                       count: state.retenidosCount),
                                 ),
                               if (state.retenidosCount > 0)
@@ -274,7 +274,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                             builder: (context) =>
                                                 RecepcionesPage(
                                                     isRetenio: true,
-                                                    titulo: "Sin Factura",
+                                                    titulo: "sin_factura".tr(),
                                                     recepciones: state
                                                         .recepciones
                                                         .where((element) =>
@@ -288,7 +288,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                             fontFamily: 'iCourier'),
                                         size: 30,
                                       ),
-                                      title: "Sin Factura",
+                                      title: "sin_factura".tr(),
                                       count: state.retenidosCount),
                                 ),
                               if (state.recepcionesCount == 0)
@@ -297,9 +297,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   width: 180,
                                   child: EmptyWidget(
                                     hideBackgroundAnimation: true,
-                                    title: "No tiene paquetes!",
-                                    titleTextStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                                    subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
+                                    title: "no_paquetes".tr(),
+                                    titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                                    subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ),
                               if (state.disponiblesCount == 0 || state.empresa.hasPointsModule)
@@ -314,7 +314,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                         Icons.monetization_on_outlined,
                                         size: 25,
                                       ),
-                                      title: state.empresa.dominio.toUpperCase() == "DOMEX" ? "Domi Puntos disponibles" : "Puntos Disponibles",
+                                      title: state.empresa.dominio.toUpperCase() == "DOMEX" ? "domi_puntos_disponibles".tr() : "puntos_disponibles".tr(),
                                       count: state.puntos.balance.toInt()),
                                 ),
                               if(state.empresa.hasPointsModule)
@@ -334,7 +334,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                       child: Column(
                                         children: [
                                           Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.w600),),
-                                          Text('Suscríbete', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary, decoration: TextDecoration.underline),),
+                                          Text('suscribete'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary, decoration: TextDecoration.underline),),
                                         ],
                                       )),
                                 ),
@@ -362,7 +362,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                         element.disponible)
                                                     .toList()));
                                       },
-                                      label: const Text("Solicitar Domicilio")),
+                                      label: Text("solicitar_domicilio".tr())),
                                 ),
                               if (state.disponiblesCount > 0)
                                 const SizedBox(
@@ -382,9 +382,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                           showPreAlertaSheet(context);
                                         },
                                         label:
-                                            const Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 4.0),
-                                              child: Text("Crear\nPre-Alerta"),
+                                          Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                              child: Text("crear_prealerta".tr()),
                                             )),
                                   ),
                                   const SizedBox(
@@ -404,10 +404,10 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                   builder: (context) =>
                                                       const PrealertasRealizadas()));
                                         },
-                                        label: const Padding(
-                                          padding: EdgeInsets.symmetric(vertical:4.0),
+                                        label: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical:4.0),
                                           child: Text(
-                                              "Ver Pre-Alertas"),
+                                              "ver_prealertas".tr()),
                                         )),
                                   ),
                                 ],
@@ -427,9 +427,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                             showTrackingSheet(context);
                                           },
                                           label:
-                                              const Padding(
-                                                padding: EdgeInsets.symmetric(vertical: 4.0),
-                                                child: Text("Rastrear\nPaquete"),
+                                               Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                                child: Text("rastrear_paquete".tr()),
                                               ))),
                                   const SizedBox(
                                     width: 20,
@@ -449,9 +449,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                       const ConsultaHistoricaPage()));
                                         },
                                         label:
-                                            const Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 4.0),
-                                              child: Text("Consulta\nHistórica"),
+                                             Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                              child: Text("consulta_historica".tr()),
                                             )),
                                   ),
                                 ],
@@ -462,7 +462,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 FilledButton.icon(
                                   onPressed: () { launchUrl(Uri.parse("https://caribetours.com.do/caribe-pack/tarifa-de-envios/")); } ,
                                   icon: const Icon(Icons.price_check),
-                                  label: const Text("Nuestras Tarifas"),
+                                  label: Text("nuestras_tarifas".tr()),
                                 ),
                               if(state.empresa.dominio.toUpperCase() == "TAINO")
                                 const SizedBox(height: 25,),
@@ -483,7 +483,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                               const EstadoDeCuenta()));
                                         },
                                         label:
-                                        const Text("Ver Estado de\nCuenta")),
+                                        const Text("ver_estado_cuenta")),
                                   ),
                                 ],
                               )
@@ -538,7 +538,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
     final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Realizar Pago")),
+      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "realizar_pago")),
     );
   }
 }
@@ -600,9 +600,9 @@ Future<void> showTrackingSheet(BuildContext context) async {
           if (await launchUrl(_url)) {
             await cache.write('lasttrackednumber', trackingNumber);
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
-                    "Ha ocurrido un error intentando mostrar el rastreo.")));
+                    "error_favor_reintentar".tr())));
           }
         }
       }
@@ -681,7 +681,7 @@ Future<void> showTrackingSheet(BuildContext context) async {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
-                          child: Text("Rastreo de Paquete",
+                          child: Text("rastreo_paquete".tr(),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge
@@ -787,15 +787,15 @@ Future<void> showTrackingSheet(BuildContext context) async {
                           );
                         },
                         initialValue: trackingNumber,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.confirmation_number_outlined),
-                          label: Text('Número de rastreo'),
+                        decoration:  InputDecoration(
+                          prefixIcon: const Icon(Icons.confirmation_number_outlined),
+                          label: Text('numero_rastreo'.tr()),
                           helperText:
-                              'Introduzca el número ó el url de amazon.',
+                              'numero_o_amazon_url'.tr(),
                         ),
                         style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
                         validator: FormBuilderValidators.required(
-                            errorText: 'Requerido'),
+                            errorText: 'requerido'.tr()),
                       ),
                     )),
               ),

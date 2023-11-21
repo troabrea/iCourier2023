@@ -38,7 +38,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImagePicknsend" width="192" height="192"/>
+        <image name="LaunchImagePicknsend" width="432" height="432"/>
         <image name="LaunchBackgroundPicknsend" width="1" height="1"/>
     </resources>
 </document>

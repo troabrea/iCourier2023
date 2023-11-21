@@ -1,4 +1,5 @@
 import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,7 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
 Future<void> mainShared(AppInfo _appInfo)  async {
   final AppInfo appInfo = _appInfo;
   var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   String strValue = (await cache.load('lastSelectedTab',"")).toString();
@@ -102,7 +104,15 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   AppCenter.startAsync( appSecretIOS: appInfo.iphoneAnalyticsAppId, appSecretAndroid: _appInfo.androidAnalyticsAppId, enableCrashes: true, enableAnalytics: true,  );
   AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_INICIO_SESION");
 
-  runApp(MyApp());
+  runApp(
+    EasyLocalization(
+        child: MyApp(),
+        supportedLocales: [Locale(appInfo.defaultLocale)],
+        fallbackLocale: const Locale('es'),
+        useOnlyLangCode: true,
+        path: 'translations'
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -112,15 +122,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FlutterNativeSplash.remove();
+    var delegates = context.localizationDelegates;
+    delegates.addAll([
+      FormBuilderLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate
+    ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: const [
-          FormBuilderLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
-        ],
-        supportedLocales: const [Locale('es',''),] , //FormBuilderLocalizations.delegate.supportedLocales,
+        localizationsDelegates:  delegates,
+        supportedLocales: context.supportedLocales , //FormBuilderLocalizations.delegate.supportedLocales,
+        locale: Locale(appInfo.defaultLocale),
         title: 'iCourier',
         theme: appInfo.getLightTheme(), // getAppTheme(),
         darkTheme: appInfo.getDarkTheme(),

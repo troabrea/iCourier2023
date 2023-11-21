@@ -1,5 +1,6 @@
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,7 +26,7 @@ class _PreguntasAppBarState extends State<PreguntasAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Preguntas"),
+      title: Text("preguntas".tr()),
     );
   }
 }
@@ -59,7 +60,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
-        fieldHintText: 'Buscar',
+        fieldHintText: 'Buscar'.tr(),
         keepAppBarColors: appInfo.metricsPrefixKey != "CAINCA",
         onChanged: (text) {
           setState(() {
@@ -71,7 +72,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
         // },
         appBarBuilder: (context) {
           return AppBar(
-            title: const Text("Preguntas"),
+            title: Text("preguntas".tr()),
             automaticallyImplyLeading: false,
             leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
             actions: [

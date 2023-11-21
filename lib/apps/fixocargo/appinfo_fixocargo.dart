@@ -5,6 +5,12 @@ import '../appinfo.dart';
 
 class FixocargoAppInfo implements AppInfo {
   @override
+  String defaultLocale = 'es';
+
+  @override
+  String currencyCode = 'RD\$';
+
+  @override
   int defaultTab = 2;
   @override
   String get iphoneAnalyticsAppId => "d4902556-b9b6-4716-9129-62b209461e0f";

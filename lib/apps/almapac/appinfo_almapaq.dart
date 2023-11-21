@@ -6,6 +6,12 @@ import '../appinfo.dart';
 class AlmapaqAppInfo implements AppInfo {
 
   @override
+  String defaultLocale = 'es';
+
+  @override
+  String currencyCode = 'RD\$';
+
+  @override
   int defaultTab = 2;
 
   @override
@@ -240,6 +246,7 @@ class AlmapaqAppInfo implements AppInfo {
         appBarTheme: getDarkAppBarTheme()
     );
   }
+
 
 
 

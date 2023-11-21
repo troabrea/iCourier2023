@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -41,7 +42,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                    child: Text("Carnet de Membresía",
+                    child: Text("carnet_membresia".tr(),
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge
@@ -143,7 +144,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
 
 Widget buildDireccionBuzon(BuildContext context, UserProfile userProfile) {
   return Column(children: [
-    Text('Dirección en Miami:', style: Theme.of(context).textTheme.bodySmall),
+    Text('direccion_miami'.tr(), style: Theme.of(context).textTheme.bodySmall),
     const SizedBox(height: 10,),
     Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +156,7 @@ Widget buildDireccionBuzon(BuildContext context, UserProfile userProfile) {
         onPressed: () {
           Clipboard.setData(ClipboardData(text: userProfile.direccionBuzon));
         },
-        label: const Text('Copiar'),)
+        label: Text('copiar'.tr()),)
     ],)
   ],);
 }

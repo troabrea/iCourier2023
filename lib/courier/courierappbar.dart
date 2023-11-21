@@ -1,4 +1,5 @@
 import 'package:app_popup_menu/app_popup_menu.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,7 +24,7 @@ class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CourierAppBarState extends State<CourierAppBar> {
-  String title = "Mi Courier";
+  String title = "mi_courier".tr();
   bool isBusy = false;
   late List<Widget> appBarActions = <Widget>[].toList();
   late UserProfile userProfile;
@@ -57,7 +58,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
     var loginChangedEvent = GetIt.I<Event<LoginChanged>>();
     loginChangedEvent.subscribe((args) {
       setState(() {
-        title = args!.loggedIn ? args.account : "Inicio de Sesión";
+        title = args!.loggedIn ? args.account : "inicio_session".tr();
 
         if (args.loggedIn) {
           if (appBarActions.isEmpty) {
@@ -105,9 +106,9 @@ class _CourierAppBarState extends State<CourierAppBar> {
                 ),
               if(profileUrl.isNotEmpty)
                 AppPopupMenu<int>(
-                  menuItems: const [
-                    PopupMenuItem(child:  Text('Editar mi perfil'), value: 1,),
-                    PopupMenuItem(child:  Text('Cerrar Sesión'), value: 2,),
+                  menuItems: [
+                    PopupMenuItem(child:  Text('editar_perfil'.tr()), value: 1,),
+                    PopupMenuItem(child:  Text('cerrar_session'.tr()), value: 2,),
                   ],
                   icon: Icon(Icons.person, color: Theme.of(context).appBarTheme.foregroundColor,),
                   onSelected: (x) =>
@@ -152,7 +153,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
         for (var element in allAcounts) {
           actions.add(  OutlinedButton(
             onPressed: () {Navigator.pop(context, element.userAccount);},
-            child: Text('Cambiar a cuenta: ${element.userAccount}'),
+            child: Text('cambiar_cuenta'.tr(args: [element.userAccount])),
             // style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
           ) );
         }
@@ -163,7 +164,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
         children: [
           FilledButton(
             onPressed: () => {Navigator.pop(context, "cerrar")},
-            child: const Text('Si'),
+            child: Text('si'.tr()),
           ),
           // IconButton(
           //   onPressed: () => {Navigator.pop(context, "")},
@@ -171,7 +172,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
           // ),
           FilledButton(
             onPressed: () => {Navigator.pop(context, "")},
-            child: const Text('No'),
+            child: Text('no'.tr()),
           ),
         ],
       ));
@@ -183,9 +184,9 @@ class _CourierAppBarState extends State<CourierAppBar> {
         context: context,
         builder: (BuildContext context) => AlertDialog(
           actionsAlignment: MainAxisAlignment.spaceBetween,
-              title: Text('Confirme',
+              title: Text('confirme'.tr(),
                   style: Theme.of(context).textTheme.titleLarge),
-              content: const Text('Estas seguro que deseas salir sesión?'),
+              content: Text('confirme_cerrar_session'.tr()),
               actions: getActions(context),));
     if (dlgResult != null) {
       if (dlgResult == "cerrar") {

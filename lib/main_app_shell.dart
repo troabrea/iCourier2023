@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_app_version_checker/flutter_app_version_checker.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/services/connectivity_service.dart';
 import 'package:icourier/servicios/servicios.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -63,9 +65,9 @@ class MainAppShell extends StatefulWidget  {
 }
 
 class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver {
-  //final _connectivityService = ConnectivityService();
+  final _connectivityService = ConnectivityService();
   final _connectivity = Connectivity();
-  //late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final appInfo = GetIt.I<AppInfo>();
   var connectivityWasLost = false;
   DateTime? connectivityWasLostAt;
@@ -147,20 +149,17 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
         {
           return WillPopScope(
               child: AlertDialog(
-                title: Text('Actualización Disponible!', style: Theme.of(context).textTheme.titleLarge),
-                content: Text(
-                    'Existe una nueva versión (${value
-                        .newVersion}) más reciente que su versión actual (${value
-                        .currentVersion}), desea actualizar?'),
+                title: Text('actualizacion_disponible'.tr(), style: Theme.of(context).textTheme.titleLarge),
+                content: Text('nueva_version_desea_actualizar'.tr(args: [value.newVersion ?? "", value.currentVersion])),
                 actions: [
                   TextButton(
-                    child: const Text('Quizas Despues'),
+                    child: Text('quizas_despues'.tr()),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop();
                     },
                   ),
                   TextButton(
-                    child: const Text('Actualizar'),
+                    child: Text('actualizar'.tr()),
                     onPressed: () async {
                       await launchUrl(Uri.parse(value.appURL!));
                       Navigator.of(context, rootNavigator: true).pop();
@@ -201,7 +200,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
               builder: (context) =>
                   RecepcionesPage(
                       isRetenio: false,
-                      titulo: "Disponibles",
+                      titulo: "disponibles".tr(),
                       recepciones: value
                           .where((element) =>
                       element.disponible ==
@@ -217,7 +216,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                   builder: (context) =>
                       RecepcionesPage(
                           isRetenio: false,
-                          titulo: "Sin Factura",
+                          titulo: "sin_factura".tr(),
                           recepciones: value
                               .where((element) =>
                           element.retenido ==
@@ -234,25 +233,25 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     });
 
     quickActions.setShortcutItems(<ShortcutItem>[
-      if(appInfo.metricsPrefixKey != "CARIBEPACK")
-        const ShortcutItem(
+      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP")
+        ShortcutItem(
             type: 'calcular_envio',
-            localizedTitle: 'Calcular Envío',
+            localizedTitle: 'calcular_envio'.tr(),
           icon: 'ic_launcher'
             ),
-      const ShortcutItem(
+       ShortcutItem(
         type: 'crear_prealerta',
-        localizedTitle: 'Crear Pre-Alerta',
+        localizedTitle: 'crear_pre_alerta'.tr(),
           icon: 'ic_launcher'
       ),
-      const ShortcutItem(
+      ShortcutItem(
         type: 'show_disponible',
-        localizedTitle: 'Ver Disponibles',
+        localizedTitle: 'ver_disponibles'.tr(),
           icon: 'ic_launcher'
       ),
-      const ShortcutItem(
+      ShortcutItem(
         type: 'crear_postalerta',
-        localizedTitle: 'Crear Post-Alerta',
+        localizedTitle: 'crear_post_alerta'.tr(),
           icon: 'ic_launcher'
       ),
     ]).then((void _) {
@@ -267,7 +266,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     _controller = PersistentTabController(initialIndex: GetIt.I<AppInfo>().defaultTab);
 
     initConnectivity();
-    //_connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
     // Push Notifications
     // Foreground State
@@ -312,13 +311,13 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     GetIt.I<Event<SessionExpired>>().subscribe((args) {
       _controller.index = 2;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
           behavior: SnackBarBehavior.floating,
-          duration: Duration(milliseconds: 5000),
-          margin: EdgeInsets.only(
+          duration: const Duration(milliseconds: 5000),
+          margin: const EdgeInsets.only(
               bottom: kBottomNavigationBarHeight, right: 2, left: 2),
           content:
-          Text('Su contraseña ha cambiado, debe entrar nuevamente.'),
+          Text('password_invalido'.tr()),
         ),
       );
     });
@@ -363,7 +362,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
         ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
             backgroundColor: Theme.of(context).errorColor,
             content: Text(
-                "Se ha perdido la conexión a internet, algunas funciones de la aplicación no estarán disponibles.",
+                "no_internet".tr(),
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!
@@ -395,7 +394,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                       bottom: MediaQuery.of(context).size.height - 150,
                       right: 20,
                       left: 20),
-                  content: const Text("Conexión a internet restaurada!")));
+                  content: Text("internet_ok".tr())));
         }
       }
   }
@@ -429,9 +428,9 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
         const NoticiasPage(),
       const SucursalesPage(),
       const CourierPage(),
-      if(appInfo.metricsPrefixKey != "CARIBEPACK")
+      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP")
         const CalculadoraPage(),
-      if(appInfo.metricsPrefixKey == "CARIBEPACK")
+      if(appInfo.metricsPrefixKey == "CARIBEPACK" || appInfo.metricsPrefixKey == "SWOOP")
         const ServiciosPage(),
       const AdicionalInfoPage()
     ];
@@ -572,7 +571,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.metricsPrefixKey != "CARIBEPACK")
+      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP")
         PersistentBottomNavBarItem(
           icon: Icon(
             Icons.calculate_outlined,
@@ -586,7 +585,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             size: 25,
             color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
           )),
-      if(appInfo.metricsPrefixKey == "CARIBEPACK")
+      if(appInfo.metricsPrefixKey == "CARIBEPACK" || appInfo.metricsPrefixKey == "SWOOP")
         PersistentBottomNavBarItem(
             icon: Icon(
               Icons.room_service,
@@ -625,13 +624,13 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   Future<bool> showSnackBar() async {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+       SnackBar(
         behavior: SnackBarBehavior.floating,
-        duration: Duration(milliseconds: 600),
-        margin: EdgeInsets.only(
+        duration: const Duration(milliseconds: 600),
+        margin: const EdgeInsets.only(
             bottom: kBottomNavigationBarHeight, right: 2, left: 2),
         content:
-            Text('Presione el botón nuevamente para salir de la aplicación.'),
+            Text('presione_boton_para_salir_del_app'.tr()),
       ),
     );
     return false;
@@ -667,7 +666,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             bottomScreenMargin: 0.0,
             popAllScreensOnTapOfSelectedTab: _popAllScreensOnTapOfSelectedTab,
             decoration: NavBarDecoration(
-              colorBehindNavBar: Theme.of(context).backgroundColor,
+              colorBehindNavBar: Theme.of(context).colorScheme.background,
               borderRadius: const BorderRadius.all(Radius.zero),
             ),
             itemAnimationProperties: const ItemAnimationProperties(
@@ -720,7 +719,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(),
       colorShadow: Colors.black,
-      textSkip: "SALIR",
+      textSkip: "salir".tr(),
       paddingFocus: 10,
       opacityShadow: 0.8,
       onFinish: () async {
@@ -768,17 +767,17 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
-    targets.add(_createTarget("keyNewsBottomNavigation",keyNewsBottomNavigation,"Mantengase al día con nuestras ofertas y anuncios."));
-    targets.add(_createTarget("keyLocationsBottomNavigation",keyLocationsBottomNavigation,"Conozca sobre nuestras oficinas, ubicación, horario de servicio y vías de contacto."));
-    targets.add(_createTarget("keyMainBottomNavigation",keyMainBottomNavigation,"Acceda a su cuenta, consulte el estatus de sus paquetes y gestione sus operaciones."));
+    targets.add(_createTarget("keyNewsBottomNavigation",keyNewsBottomNavigation,"tutor_noticias".tr()));
+    targets.add(_createTarget("keyLocationsBottomNavigation",keyLocationsBottomNavigation,"tutor_sucursales".tr()));
+    targets.add(_createTarget("keyMainBottomNavigation",keyMainBottomNavigation,"tutor_courier".tr()));
     if(appInfo.metricsPrefixKey != "CARIBEPACK") {
-      targets.add(_createTarget("keyCalculatorBottomNavigation",keyCalculatorBottomNavigation,"Estime el costo de sus paquetes usando nuestra calculadora."));
+      targets.add(_createTarget("keyCalculatorBottomNavigation",keyCalculatorBottomNavigation,"tutor_calculadora".tr()));
     }
     if(appInfo.metricsPrefixKey == "CARIBEPACK") {
-      targets.add(_createTarget("keyServicesBottomNavigation",keyServicesBottomNavigation,"Conozca nuestros servicios."));
-      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"Conozca nuestras tarifas y solicite de nuestra asistencia."));
+      targets.add(_createTarget("keyServicesBottomNavigation",keyServicesBottomNavigation,"tutor_servicios".tr()));
+      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"tutor_adicional_2".tr()));
     } else {
-      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"Conozca más sobre nosotros y solicite de nuestra asistencia."));
+      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"tutor_adicional".tr()));
     }
     return targets;
   }

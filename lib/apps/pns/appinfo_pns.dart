@@ -6,7 +6,13 @@ import '../appinfo.dart';
 class PnsAppInfo implements AppInfo {
 
   @override
+  String defaultLocale = 'es';
+
+  @override
   int defaultTab = 2;
+
+  @override
+  String currencyCode = 'RD\$';
 
   @override
   String get brandLogoImage => "images/picknsend/brand_logo.png";
@@ -98,6 +104,19 @@ class PnsAppInfo implements AppInfo {
         ),
       );
     }
+
+    return ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: primaryColor,
+        brightness: Brightness.light,
+        secondary: secondaryColor,
+        error: errorColor,
+        tertiary: primaryVariantColor
+    ),
+        useMaterial3: true,
+        appBarTheme: getLightAppBarTheme(),
+        textTheme: getLightTextTheme(),
+        filledButtonTheme: FilledButtonThemeData(style: FilledButton.styleFrom( shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)) , padding: const EdgeInsets.all(4.0), backgroundColor: secondaryColor, foregroundColor: Colors.white))
+      // elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)) ,  backgroundColor: secondaryColor, foregroundColor: Colors.white ) ) ,
+    );
 
     return FlexThemeData.light(
       colors: const FlexSchemeColor(
@@ -209,6 +228,18 @@ class PnsAppInfo implements AppInfo {
         ),
       );
     }
+
+    return ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: primaryColor,
+        brightness: Brightness.dark,
+        secondary: secondaryColor,
+        error: errorColor,
+        tertiary: primaryColor
+    ),
+        useMaterial3: true,
+        appBarTheme: getDarkAppBarTheme(),
+        textTheme: getDarkTextTheme(),
+        filledButtonTheme: FilledButtonThemeData(style: FilledButton.styleFrom( shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)) , padding: const EdgeInsets.all(4.0), backgroundColor: secondaryColor, foregroundColor: Colors.white))
+    );
 
     return FlexThemeData.dark(
       colors: const FlexSchemeColor(

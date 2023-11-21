@@ -69,7 +69,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
               return SafeArea(child: Center(
                 child: InkWell(onTap: () {
                   BlocProvider.of<NoticiasBloc>(context).add(const LoadApiEvent(ignoreCache: true));
-                }, child: Center(child: Text("Ha ocurrido un error haga clic para reintentar.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
+                }, child: Center(child: Text("error_reintentar", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
               ));
             }
             if (state is NoticiasLoadedState) {

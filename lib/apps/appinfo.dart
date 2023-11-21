@@ -13,6 +13,8 @@ abstract class AppInfo
   double get centerIconSize;
   double get centerInactiveIconSize;
   int defaultTab = 2;
+  String defaultLocale = 'es';
+  String get currencyCode;
   ThemeData getLightTheme();
   ThemeData getDarkTheme();
  }

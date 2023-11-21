@@ -255,7 +255,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   app_center_bundle_sdk: 9d10e1c0e5ea4a048c8e184d4f38c6e490fa5313
   AppCenter: 18153bb6bc4241d14c8cce57466ac1c88136b476
-  connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
+  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
@@ -294,6 +294,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
-PODFILE CHECKSUM: 513e5ea55ed1d33c4e2345a737584aa68263e10c
+PODFILE CHECKSUM: 022bbd80b7ee4104a89d1ff8a7d816f409a2d046
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.13.0

@@ -14,6 +14,11 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>es</string>
+		<string>en</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>$(APP_DISPLAY_NAME)</string>
 	<key>CFBundlePackageType</key>
@@ -36,17 +41,24 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Incluir fotos en pre y post alertas.</string>
+	<string>$(CAMERA_USAGE_PERMISSION_TEXT)</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
+	<string>$(LOCATION_USAGE_PERMISSION_TEXT)</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
+	<string>$(LOCATION_USAGE_PERMISSION_TEXT)</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
+	<string>$(LOCATION_USAGE_PERMISSION_TEXT)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Asistir en como llegar a nuestas oficinas</string>
+	<string>$(LOCATION_USAGE_PERMISSION_TEXT)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Incluir fotos en pre y post alertas.</string>
+	<string>$(CAMERA_USAGE_PERMISSION_TEXT)</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

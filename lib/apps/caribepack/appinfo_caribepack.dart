@@ -6,6 +6,12 @@ import '../appinfo.dart';
 
 class CaribepackAppInfo implements AppInfo {
   @override
+  String defaultLocale = 'es';
+
+  @override
+  String currencyCode = 'RD\$';
+
+  @override
   int defaultTab = 2;
   @override
   String get iphoneAnalyticsAppId => "834f33d7-eefc-4c94-980b-8fb82ed81114";

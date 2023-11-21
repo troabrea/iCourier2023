@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get_it/get_it.dart';
@@ -77,7 +78,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 65),
           child: Column( children: [
-            if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO")
+            if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO" && appInfo.metricsPrefixKey != "SWOOP")
               InkWell(onTap: () {
                 pushNewScreen(context, screen: const ServiciosPage());
                 // PersistentNavBarNavigator.pushNewScreen(context,screen: const ServiciosPage());
@@ -85,7 +86,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 },
                   child:  Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.miscellaneous_services, size: 20, color: Theme.of(context).colorScheme.secondary,), trailing: const Icon(Icons.chevron_right), title: Text("Servicios", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.miscellaneous_services, size: 20, color: Theme.of(context).colorScheme.secondary,), trailing: const Icon(Icons.chevron_right), title: Text("servicios".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
                   )),
             if(appInfo.metricsPrefixKey == "BMCARGO")
               InkWell(onTap: () {
@@ -95,7 +96,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.feed, size: 20, color: Theme.of(context).colorScheme.secondary,), trailing: const Icon(Icons.chevron_right), title: Text("Noticias", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.feed, size: 20, color: Theme.of(context).colorScheme.secondary,), trailing: const Icon(Icons.chevron_right), title: Text("noticias".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
                   )),
             if(appInfo.metricsPrefixKey == "CARIBEPACK")
               InkWell(onTap:  () async {
@@ -103,7 +104,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               },
                   child:  Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.price_check, size: 20, color: Theme.of(context).colorScheme.secondary), trailing: const Icon(Icons.chevron_right), title: Text("Nuestras Tarifas", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.price_check, size: 20, color: Theme.of(context).colorScheme.secondary), trailing: const Icon(Icons.chevron_right), title: Text("nuestras_tarifas".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
                   )),
             InkWell(onTap: () {
               pushNewScreen(context, screen: const PreguntasPage());
@@ -111,7 +112,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               // Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(builder: (context)=> const PreguntasPage()));
             }, child:  Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.question_answer, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing: const Icon(Icons.chevron_right), title: Text("Preguntas", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+              child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.question_answer, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing: const Icon(Icons.chevron_right), title: Text("preguntas".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
             )),
             if(_empresa?.correoServicio != null && _empresa!.correoServicio.isNotEmpty)
               InkWell(
@@ -120,7 +121,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.contact_phone_outlined, size: 20 , color: Theme.of(context).colorScheme.secondary), trailing:
                   const Icon(Icons.launch),
-                    title: Text("Servicio al Cliente", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                    title: Text("servicio_al_cliente".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
                 ),
               ),
             if(_empresa?.twitter != null && _empresa!.twitter.isNotEmpty)
@@ -130,7 +131,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.support, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
                   const Icon(Icons.launch),
-                    title: Text("Solicitar Soporte", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                    title: Text("solicitar_soporte".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
                 ),
               ),
             if( _empresa != null && (_empresa!.mision.isNotEmpty || _empresa!.vision.isNotEmpty ) )
@@ -138,7 +139,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               onTap: () => {showAboutUs(context)},
               child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.info, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
                 const Icon(Icons.expand_circle_down_outlined),
-                title: Text("Sobre Nosotros", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                title: Text("sobre_nosotros".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
             ),
             const Spacer(),
             if(_empresa != null && _userProfile != null)
@@ -174,7 +175,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 blurRadius: 10)]),),
             const SizedBox(height: 10,),
             if(_versionNumber.isNotEmpty)
-            Text("Versión: $_versionNumber", style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(
+            Text("version_info".tr(args: [_versionNumber]), style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(
                 color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
                 offset: const Offset(3, 3),
                 blurRadius: 10)]),)
@@ -242,7 +243,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                       children: [
                         const SizedBox(height: 10,),
                         if(empresa.vision.isNotEmpty)
-                        Text("Misión", style: Theme.of(context).textTheme.titleLarge, textAlign: TextAlign.center,),
+                        Text("mision".tr(), style: Theme.of(context).textTheme.titleLarge, textAlign: TextAlign.center,),
                         if(empresa.vision.isNotEmpty)
                         const SizedBox(height: 20,),
                         Expanded(
@@ -258,7 +259,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                       children: [
                         const SizedBox(height: 10,),
                         if(empresa.mision.isNotEmpty)
-                        Text("Visión", style: Theme.of(context).textTheme.titleLarge,textAlign: TextAlign.center, ),
+                        Text("vision".tr(), style: Theme.of(context).textTheme.titleLarge,textAlign: TextAlign.center, ),
                         if(empresa.mision.isNotEmpty)
                         const SizedBox(height: 20,),
                         Expanded(

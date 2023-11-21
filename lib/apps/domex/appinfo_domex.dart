@@ -6,7 +6,13 @@ import '../appinfo.dart';
 class DomexAppInfo implements AppInfo {
 
   @override
+  String defaultLocale = 'es';
+
+  @override
   int defaultTab = 2;
+
+  @override
+  String currencyCode = 'RD\$';
 
   @override
   String get brandLogoImage => "images/domex/brand_logo.png";

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:another_stepper/another_stepper.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
@@ -49,12 +50,12 @@ class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
 
   // final List<String> iconosProgreso = <String>['images/recibidomiami.svg','images/embarcado.svg','images/recibido.svg','images/disponible.svg'].toList();
   final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
-  final List<String> labelsProgreso = <String>['Origen','En ruta','Destino','Disponible'].toList();
+  final List<String> labelsProgreso = <String>['origen'.tr(),'en_ruta'.tr(),'destino'.tr(),'disponible'.tr()].toList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Historial de Paquete"),
+        appBar: AppBar(title: Text("historia_del_paquete".tr()),
           leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
         ),
         body:SafeArea(

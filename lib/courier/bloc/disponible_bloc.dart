@@ -1,5 +1,6 @@
 
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -20,7 +21,7 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
   DisponibleBloc(DisponibleState initialState) : super(initialState) {
     refreshCourier = GetIt.I<event.Event<CourierRefreshRequested>>();
     on<DisponiblePagoEnLineaEvent>((event,emit) async {
-      if(!await confirmDialog(event.context, "Seguro que desea realizar el pago en linea de sus paquetes disponibles?", "Si", "No")) {
+      if(!await confirmDialog(event.context, "seguro_pagar_en_linea".tr(), "si".tr(), "no".tr())) {
         return;
       }
       await _courierService.launchOnlinePayment();
@@ -37,8 +38,8 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
       var puntoRetiro = "";
 
       if(empresa.dominio.toUpperCase() == "BMCARGO") {
-        puntoRetiro = await optionsDialog(event.context, "Donde desea hacer el retiro?", ["Counter","Drive-Thru","Cancelar"].toList());
-        if(puntoRetiro.toUpperCase() == "CANCELAR") {
+        puntoRetiro = await optionsDialog(event.context, "donde_notificar_retiro".tr(), ["Counter","Drive-Thru","cancelar".tr()].toList());
+        if(puntoRetiro.toUpperCase() == "cancelar".tr().toUpperCase()) {
           return;
         }
         if(puntoRetiro.toUpperCase() == "Counter".toUpperCase() ) {
@@ -49,8 +50,8 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
         }
       } else {
         if (!await confirmDialog(event.context,
-            "Seguro que desea notificar el retiro de sus paquetes disponibles?",
-            "Si", "No")) {
+            "seguro_notificar_retiro".tr(),
+            "si".tr(), "no".tr())) {
           return;
         }
       }
@@ -63,7 +64,7 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
     });
 
     on<DisponibleDomicilioEvent>((event,emit) async {
-      var paquetes = await domicilioDialog(event.context, "Seleccione Paquetes", "Solicitar Domicilio", "Cancelar", event.disponibles);
+      var paquetes = await domicilioDialog(event.context, "seleccione_paquetes".tr(), "solicitar_domicilio".tr(), "cancelar".tr(), event.disponibles);
       if(paquetes.isEmpty) {
         return;
       }

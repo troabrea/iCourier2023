@@ -6,6 +6,12 @@ import '../appinfo.dart';
 class BeexpressAppInfo implements AppInfo {
 
   @override
+  String defaultLocale = 'es';
+
+  @override
+  String currencyCode = 'RD\$';
+
+  @override
   int defaultTab = 2;
 
   @override

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,15 +20,19 @@ import 'package:event/event.dart' as event;
 
 class RecepcionesPage extends StatefulWidget {
   List<Recepcion> recepciones;
-  final String titulo;
+  late String titulo;
   final bool isRetenio;
 
   RecepcionesPage(
       {Key? key,
       required this.recepciones,
-      this.titulo = "Recepciones",
+      this.titulo = "",
       this.isRetenio = false})
-      : super(key: key);
+      : super(key: key) {
+    if(titulo.isEmpty) {
+      titulo = "recepciones".tr();
+    }
+  }
 
   @override
   State<RecepcionesPage> createState() => _RecepcionesPageState();

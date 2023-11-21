@@ -8,7 +8,13 @@ import '../appinfo.dart';
 class TupaqAppInfo implements AppInfo {
 
   @override
+  String defaultLocale = 'es';
+
+  @override
   int defaultTab = 2;
+
+  @override
+  String currencyCode = 'RD\$';
 
   @override
   String get brandLogoImage => "images/tupaq/brand_logo.png";

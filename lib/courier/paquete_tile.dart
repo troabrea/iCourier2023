@@ -1,5 +1,6 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
@@ -65,7 +66,7 @@ class PaqueteTile extends StatelessWidget {
                       TextSpan(
                           text: recepcion.totalPeso,
                           children: [
-                            TextSpan(text: 'lbs.', style: Theme.of(context).textTheme.labelSmall)
+                            TextSpan(text: 'lbs'.tr(), style: Theme.of(context).textTheme.labelSmall)
                           ]
                       )
                   ),

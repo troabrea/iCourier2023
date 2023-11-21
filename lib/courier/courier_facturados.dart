@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +86,7 @@ class _FacturadosPageState extends State<FacturadosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Facturas Pendientes"),
+          title: Text("facturas_pendientes".tr()),
           leading:
           BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
           actions: [
@@ -114,13 +115,13 @@ class _FacturadosPageState extends State<FacturadosPage> {
             listener: (context, state) {
               if (state is FacturadosFinishedState) {
                 if (!state.withErrors) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
-                      Text('Retiro de paquetes notificiado con éxito.')));
+                      Text('retiro_notificado'.tr())));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(state.errorMessage),
-                    backgroundColor: Theme.of(context).errorColor,
+                    backgroundColor: Theme.of(context).colorScheme.error,
                   ));
                 }
               }
@@ -153,7 +154,7 @@ class _FacturadosPageState extends State<FacturadosPage> {
                                     Column(
                                       children: [
                                         Text(
-                                          'Cantidad',
+                                          'cantidad'.tr(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -177,7 +178,7 @@ class _FacturadosPageState extends State<FacturadosPage> {
                                     Column(
                                       children: [
                                         Text(
-                                          'Total',
+                                          'total'.tr(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -204,12 +205,12 @@ class _FacturadosPageState extends State<FacturadosPage> {
                                           return [
                                             if (widget
                                                 .empresa.hasPaymentsModule)
-                                              const PopupMenuItem(
+                                              PopupMenuItem(
                                                   value: 'pagar',
                                                   child: ListTile(
                                                     title:
-                                                    Text('Realizar Pago'),
-                                                    leading: Icon(Icons
+                                                    Text('realizar_pago'.tr()),
+                                                    leading: const Icon(Icons
                                                         .credit_card_outlined),
                                                   )),
                                           ];
@@ -275,7 +276,7 @@ class _FacturadosPageState extends State<FacturadosPage> {
                                                   .backgroundColor!
                                                   .withAlpha(250)),
                                           icon: const Icon(Icons.payment),
-                                          label: const Text("Pagar")),
+                                          label: Text("pagar_ahora".tr())),
                                     const SizedBox(
                                       width: 15,
                                     ),
@@ -321,9 +322,9 @@ class _FacturadosPageState extends State<FacturadosPage> {
     if(factura == null) {
       showDialog(context: context, builder: (BuildContext context) => AlertDialog(
           actionsAlignment: MainAxisAlignment.spaceBetween,
-          title: Text('Alerta',
+          title: Text('alerta'.tr(),
               style: Theme.of(context).textTheme.titleLarge),
-          content: const Text("Debe seleccionar una factura para poder ejecutar esta opción."),
+          content: Text("sin_factura_seleccionada".tr()),
       ));
       return;
     }

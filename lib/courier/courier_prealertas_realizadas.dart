@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Pre-Alertas"),
+          title: Text("prealertas".tr()),
           leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
         ),
         body: BlocProvider(
@@ -58,7 +59,7 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
                     },
                     child: Center(
                         child: Text(
-                      "Ha ocurrido un error haga clic para reintentar.",
+                      "error_favor_reintentar".tr(),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge,
                     )),
@@ -76,10 +77,10 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
                         child: Center(
                             child: EmptyWidget(
                               hideBackgroundAnimation: true,
-                              title: "No hay resultados",
-                              subTitle: "No se encontraron pre-alertas recientes para su cuenta.",
-                              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                              subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
+                              title: "no_resultados".tr(),
+                              subTitle: "no_prealertas_recientes".tr(),
+                              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                              subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
                             )),
                       ),
                     ));

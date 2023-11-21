@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
               return Scaffold(
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
-                  title: const Text('Creación Post-Alerta'),
+                  title: Text('crear_post_alerta'.tr()),
                   actions: [
                     IconButton(onPressed: () => {Navigator.of(context).pop()}, icon: const Icon(Icons.close))
                   ],
@@ -89,7 +90,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                                     else if (state is PrePostAlertaDoneState)
                                       InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
                                     else if (state is PrePostAlertaErrorState)
-                                      InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).errorColor),)))
+                                      InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).colorScheme.error),)))
                                     else
                                       buildEntryForm(context, () async {
                                         if(_formKey.currentState?.saveAndValidate() ?? false) {
@@ -151,14 +152,14 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                         selectedImage = await _picker.pickImage(source: ImageSource.gallery);
                         if(selectedImage != null) selectedFile = null;
                         setState(() {});
-                      }, style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: const Text('Cargar Imagen'),  icon: const Icon(Icons.image,)),
+                      }, style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: Text('cargar_imagen'.tr()),  icon: const Icon(Icons.image,)),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * .5,
                       child: FilledButton.icon(onPressed: () async {
                         selectedImage = await _picker.pickImage(source: ImageSource.camera);
                         if(selectedImage != null) selectedFile = null;
                         setState(() {});
-                      },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12),)), alignment: Alignment.center) , label: const Text('Tomar Foto', ),  icon: const Icon(Icons.camera)),
+                      },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12),)), alignment: Alignment.center) , label: Text('tomar_foto'.tr(), ),  icon: const Icon(Icons.camera)),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * .5,
                       child: FilledButton.icon(onPressed: () async {
@@ -171,7 +172,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                           selectedImage = null;
                           setState(() {});
                         }
-                      },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: const Text('Cargar Archivo', ),  icon: const Icon(Icons.file_open,)),
+                      },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: Text('cargar_archivo'.tr(), ),  icon: const Icon(Icons.file_open,)),
                     ),
                   ],
                 )
@@ -189,14 +190,14 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
                   hideBackgroundAnimation: true,
                   subtitleTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
                   title: " - ",
-                  subTitle: "Seleccione imágen o archivo",
+                  subTitle: "seleccione_foto_archivo".tr(),
                   titleTextStyle: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
           ],),
           const SizedBox(height: 15,),
           const Divider(),
-          FilledButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container(padding: const EdgeInsets.symmetric(horizontal: 5), child: const Text('Enviar post-Alerta')), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
+          FilledButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container(padding: const EdgeInsets.symmetric(horizontal: 5), child: Text('enviar_post_alerta'.tr())), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
         ],
       ),
     );
@@ -213,12 +214,12 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
       textAlign: TextAlign.center,
       initialValue: widget.recepcion.fechaRecibido(),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'Requerido'),
+        FormBuilderValidators.required(errorText: 'requerido'.tr()),
       ]),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(2),
         floatingLabelAlignment: FloatingLabelAlignment.center,
-        labelText: 'Fecha',
+        labelText: 'fecha'.tr(),
         floatingLabelStyle:
         TextStyle(color: Theme.of(context).dividerColor),
         focusedBorder: OutlineInputBorder(
@@ -252,12 +253,12 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             reverse: true)
       ],
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: "Requerido"),
-        FormBuilderValidators.min(0.01, errorText: "Mayor de cero."),
+        FormBuilderValidators.required(errorText: "requerido".tr()),
+        FormBuilderValidators.min(0.01, errorText: "mayor_de_cero".tr()),
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
-          labelText: 'Valor FOB',
+          labelText: 'valor_fob'.tr(),
           alignLabelWithHint: true,
           floatingLabelStyle:
           TextStyle(color: Theme.of(context).dividerColor),
@@ -292,11 +293,11 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
           enabled: false,
           style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required(errorText: 'Requerido')]),
+              [FormBuilderValidators.required(errorText: 'requerido'.tr())]),
           valueTransformer: (val) => val?.toString(),
           decoration: InputDecoration(
-            labelText: 'Contenido',
-            hintText: 'Contenido',
+            labelText: 'contenido'.tr(),
+            hintText: 'contenido'.tr(),
             floatingLabelAlignment: FloatingLabelAlignment.center,
             floatingLabelStyle:
             TextStyle(color: Theme.of(context).dividerColor),
@@ -326,11 +327,11 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
           initialValue: widget.recepcion.suplidor,
           enabled: false,
           validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required(errorText: 'Requerido')]),
+              [FormBuilderValidators.required(errorText: 'requerido'.tr())]),
           valueTransformer: (val) => val?.toString(),
           decoration: InputDecoration(
-            labelText: 'Proveedor',
-            hintText: 'Proveedor',
+            labelText: 'proveedor'.tr(),
+            hintText: 'proveedor'.tr(),
             floatingLabelAlignment: FloatingLabelAlignment.center,
             floatingLabelStyle:
             TextStyle(color: Theme.of(context).dividerColor),
@@ -366,7 +367,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
               initialValue: widget.recepcion.enviadoPor,
               enabled: false,
               validator: FormBuilderValidators.compose(
-                  [FormBuilderValidators.required(errorText: 'Requerido')]),
+                  [FormBuilderValidators.required(errorText: 'requerido'.tr())]),
               valueTransformer: (val) => val?.toString(),
               decoration: InputDecoration(
                 labelText: 'Tracking',

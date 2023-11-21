@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Consulta Histórica"),
+        appBar: AppBar(title: Text("consulta_historica".tr()),
           leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
         ),
         body: BlocProvider(
@@ -64,10 +65,10 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
                           if(state is HistoriaIdleState)
                             Expanded(child: SizedBox( width: 250,height: 20, child: Center(child: EmptyWidget(
                                 hideBackgroundAnimation: true,
-                                title: "No hay resultados",
-                                subTitle: "Especifique rango de fecha y ejecuta la busqueda.",
-                              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                              subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
+                                title: "no_resultados".tr(),
+                                subTitle: "especifique_fechas_toque_buscar".tr(),
+                              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                              subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
                             ),))),
                           if (state is HistoriaLoadedState)
                             Expanded(
@@ -145,12 +146,12 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
       textAlign: TextAlign.center,
       initialValue: DateTime.now(),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'Requerido'),
+        FormBuilderValidators.required(errorText: 'requerido'.tr()),
       ]),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(2),
         floatingLabelAlignment: FloatingLabelAlignment.center,
-        labelText: 'Desde',
+        labelText: 'desde'.tr(),
         floatingLabelStyle:
         TextStyle(color: Theme.of(context).dividerColor),
         focusedBorder: OutlineInputBorder(
@@ -179,12 +180,12 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
       textAlign: TextAlign.center,
       initialValue: DateTime.now(),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'Requerido'),
+        FormBuilderValidators.required(errorText: 'requerido'.tr()),
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
         floatingLabelAlignment: FloatingLabelAlignment.center,
-        labelText: 'Hasta',
+        labelText: 'hasta'.tr(),
         floatingLabelStyle:
         TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(

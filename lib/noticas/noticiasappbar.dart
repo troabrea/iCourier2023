@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -41,11 +42,11 @@ class _NoticiasAppBarState extends State<NoticiasAppBar> {
   @override
   Widget build(BuildContext context) {
     return widget.showBackButton ? AppBar(
-      title: const Text("Noticias"),
+      title: Text("noticias".tr()),
       automaticallyImplyLeading: false,
       leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor)) :
           AppBar(
-          title: const Text("Noticias"),
+          title: Text("noticias".tr()),
       actions: [
         if(hasWhatsApp)
         IconButton(

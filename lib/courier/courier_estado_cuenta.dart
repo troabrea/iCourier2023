@@ -1,5 +1,6 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,7 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Estado de Cuenta"),
+          title: Text("estado_de_cuenta".tr()),
           leading:
           BackButton(color: Theme.of(context).appBarTheme.iconTheme?.color),
         ),
@@ -61,7 +62,7 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
                             },
                             child: Center(
                                 child: Text(
-                                  "Ha ocurrido un error haga clic para reintentar.",
+                                  "error_favor_reintentar".tr(),
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context).textTheme.titleLarge,
                                 )),
@@ -79,10 +80,10 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
                             child: Center(
                                 child: EmptyWidget(
                                   hideBackgroundAnimation: true,
-                                  title: "No hay resultados",
-                                  subTitle: "No se encontraron registros en su estado de cuenta.",
-                                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                                  subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
+                                  title: "no_resultados".tr(),
+                                  subTitle: "estado_de_cuenta_vacio".tr(),
+                                  titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                                  subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
                                 )),
                           ),
                         ));
@@ -110,7 +111,7 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(estado[index].diasVencidos.toString(),),
-              Text('dias', style: Theme.of(context).textTheme.bodySmall,)
+              Text('dias'.tr(), style: Theme.of(context).textTheme.bodySmall,)
             ],
           ),
           title: AutoSizeText(estado[index].documento, maxLines: 1,style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),),
@@ -137,11 +138,11 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
         child: SizedBox(height: 80,
             child: Row( mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                BoxedTitleAndValue(title: "No Vencido", value: formatCurrency.format(noVencido)),
+                BoxedTitleAndValue(title: "no_vencido".tr(), value: formatCurrency.format(noVencido)),
                 const SizedBox(width: 10,),
-                BoxedTitleAndValue(title: "Vencido", value: formatCurrency.format(vencido)),
+                BoxedTitleAndValue(title: "vencido".tr(), value: formatCurrency.format(vencido)),
                 const SizedBox(width: 10,),
-                BoxedTitleAndValue(title: "Total", value: formatCurrency.format(vencido + noVencido)),
+                BoxedTitleAndValue(title: "total".tr(), value: formatCurrency.format(vencido + noVencido)),
               ],)) );
   }
 

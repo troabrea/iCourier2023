@@ -319,10 +319,15 @@ class CourierService {
   Future<List<CalculadoraResponse>> getCalculadoraResult(double libras,
       double valor, {String producto = ""}) async {
 
-    var sessionId = (await cache.load('sessionId', ''))
+    final sessionId = (await cache.load('sessionId', ''))
         .toString();
+
+    var sucursalDestino = "";
+
     if(sessionId.isNotEmpty) {
       await _validateSession();
+      final profile = await getUserProfile();
+      sucursalDestino = profile.sucursal;
     }
 
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_CALCULADORA");
@@ -333,6 +338,7 @@ class CourierService {
     final req = CalculadoraRequest(empresaId: companyId,
         sessionId: sessionId,
         producto: producto,
+        hasta: sucursalDestino,
         libras: libras,
         valorFob: valor);
     final json = jsonEncode(req);
@@ -439,10 +445,12 @@ class CourierService {
       final response = await post(uri, body: json);
       return response.body;
     }, 60 * 5);
+
     var result = recepcionFromJson(jsonData);
     result.sort((a, b) {
       return b.fechaRecibido().compareTo(a.fechaRecibido());
     });
+
     // Update Batch
     try {
       bool res = await FlutterAppBadger.isAppBadgeSupported();

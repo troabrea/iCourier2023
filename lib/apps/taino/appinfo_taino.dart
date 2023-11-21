@@ -5,6 +5,12 @@ import '../appinfo.dart';
 
 class TainoAppInfo implements AppInfo {
   @override
+  String defaultLocale = 'es';
+
+  @override
+  String currencyCode = 'RD\$';
+
+  @override
   int defaultTab = 2;
   @override
   String get iphoneAnalyticsAppId => "1be0433e-677e-4423-97d9-200895450b4d";

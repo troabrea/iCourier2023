@@ -8,6 +8,12 @@ import '../appinfo.dart';
 class CaincaAppInfo implements AppInfo {
 
   @override
+  String defaultLocale = 'es';
+
+  @override
+  String currencyCode = 'RD\$';
+
+  @override
   int defaultTab = 2;
 
   @override

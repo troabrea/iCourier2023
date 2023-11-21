@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
@@ -77,22 +78,22 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                           if(state is CalculadoraPreparedState && state is! CalculadoraLoadedState)
                             Expanded(child: SizedBox( width: 250,height: 20, child: Center(child: EmptyWidget(
                               hideBackgroundAnimation: true,
-                              title: "No hay resultados",
-                              subTitle: "Especifique los valores y toque el boton calcular.",
-                              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                              subtitleTextStyle: Theme.of(context).textTheme.bodySmall,
+                              title: "no_resultados".tr(),
+                              subTitle: "especifique_valores_toque_calcular".tr(),
+                              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                              subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
                             ),))),
                           if (state is CalculadoraLoadedState)
                             buildResults(context, state),
                           if (state is CalculadoraLoadedState)
-                            const AutoSizeText("* Valores en RD\$ sujetos a cambios *", textAlign: TextAlign.center, maxLines: 2,),
+                            AutoSizeText("valores_en_moneda_sujeto_a_cambios".tr(args: [appInfo.currencyCode]), textAlign: TextAlign.center, maxLines: 2,),
                           if (state is CalculadoraLoadedState && state.valorFob >= 200)
-                             const AutoSizeText("**Paquetes con valor comercial de US\$200.00 o mayor están sujetos al pago de impuestos y conllevan un cargo de gestión aduanal.", textAlign: TextAlign.center, maxLines: 2,),
+                              AutoSizeText("aviso_pago_aduanal".tr(), textAlign: TextAlign.center, maxLines: 2,),
                           if(state is CalculadoraLoadedState && state.email.isNotEmpty)
                             InkWell(onTap: () {
                               launchUrl(Uri.parse("mailto://${state.email}"));
                             }, child: AutoSizeText.rich(
-                              TextSpan( text: "**Este es un estimado; Para una cotización exacta, escribir a: ",
+                              TextSpan( text: "aclaracion_estimado".tr(),
                                 children: [
                                   TextSpan(text: state.email, style: const TextStyle(decoration: TextDecoration.underline) )
                                 ]
@@ -134,11 +135,18 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
     child: SizedBox(height: 80,
     child: Row( mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-      BoxedTitleAndValue(title: "Subtotal", value: formatCurrency.format(state.subtotal)),
+      if(appInfo.metricsPrefixKey != "PICKNSEND")
+      BoxedTitleAndValue(title: "subtotal".tr(), value: formatCurrency.format(state.subtotal)),
+      if(appInfo.metricsPrefixKey != "PICKNSEND")
       const SizedBox(width: 10,),
-      BoxedTitleAndValue(title: "Impuestos", value: formatCurrency.format(state.impuestos)),
+      if(appInfo.metricsPrefixKey != "PICKNSEND")
+      BoxedTitleAndValue(title: "impuestos".tr(), value: formatCurrency.format(state.impuestos)),
+      if(appInfo.metricsPrefixKey != "PICKNSEND")
       const SizedBox(width: 10,),
-      BoxedTitleAndValue(title: "Total", value: formatCurrency.format(state.total)),
+      if(appInfo.metricsPrefixKey != "PICKNSEND")
+      BoxedTitleAndValue(title: "total".tr(), value: formatCurrency.format(state.total)),
+      if(appInfo.metricsPrefixKey == "PICKNSEND")
+      BoxedTitleAndValue(title: "total_flete".tr(), value: formatCurrency.format(state.total)),
     ],)) );
   }
 
@@ -224,15 +232,15 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       autovalidateMode: AutovalidateMode.disabled,
       style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'Requerido'),
+        FormBuilderValidators.required(errorText: 'requerido'.tr()),
         if(appInfo.metricsPrefixKey == "BMCARGO")
           FormBuilderValidators.min(0.20, errorText: 'Mayor de 0.20'),
         if(appInfo.metricsPrefixKey != "BMCARGO")
-          FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
+          FormBuilderValidators.min(1, errorText: 'mayor_de_cero'.tr()),
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
-          labelText: 'Libras',
+          labelText: 'libras'.tr(),
           floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
               TextStyle(color: Theme.of(context).colorScheme.onSurface),
@@ -260,7 +268,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       initialValue: productoActual,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
-          labelText: 'Producto',
+          labelText: 'producto'.tr(),
           floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
           TextStyle(color: Theme.of(context).dividerColor),
@@ -278,7 +286,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
               borderRadius: BorderRadius.circular(10)),
           prefixIcon: const Icon(Icons.miscellaneous_services),
           prefixIconColor: Theme.of(context).colorScheme.secondary,
-          hintText: 'Seleccione Producto'),
+          hintText: 'seleccione_producto'.tr()),
       items: productos
           .map((producto) => DropdownMenuItem(
         alignment: AlignmentDirectional.center,
@@ -311,15 +319,15 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       ], autovalidateMode: AutovalidateMode.disabled,
       validator: FormBuilderValidators.compose([
         if(appInfo.metricsPrefixKey != "JETPACK")
-        FormBuilderValidators.required(errorText: "Requerido"),
+        FormBuilderValidators.required(errorText: "requerido"),
         if(appInfo.metricsPrefixKey == "BMCARGO")
           FormBuilderValidators.min(0.20, errorText: 'Mayor de 0.20'),
         if(appInfo.metricsPrefixKey != "BMCARGO" && appInfo.metricsPrefixKey != "JETPACK")
-          FormBuilderValidators.min(1, errorText: 'Mayor de cero.'),
+          FormBuilderValidators.min(1, errorText: 'mayor_de_cero'),
       ]),
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
-          labelText: 'Valor FOB',
+          labelText: 'valor_fob'.tr(),
           floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
               TextStyle(color: Theme.of(context).colorScheme.onSurface),

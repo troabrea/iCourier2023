@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -36,7 +37,7 @@ class _CalculadoraAppBarState extends State<CalculadoraAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Calculadora"),
+      title: Text("calculadora".tr()),
       actions: [
         if(hasWhatsApp)
         IconButton(

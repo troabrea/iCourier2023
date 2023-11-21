@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,8 +56,8 @@ class _SucursalesPageState extends State<SucursalesPage> {
     mapController = controller;
   }
 
-  static CameraPosition get _kSantoDomingo => const CameraPosition(
-        target: LatLng(18.4801205, -69.9819853),
+  static CameraPosition get _kSantoDomingo => CameraPosition(
+        target: GetIt.I<AppInfo>().metricsPrefixKey == "SWOOP" ? const LatLng(18.0180136, -76.8418561) : const LatLng(18.4801205, -69.9819853),
         zoom: 10.0,
       );
 
@@ -85,7 +86,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
-        fieldHintText: 'Buscar',
+        fieldHintText: 'buscar'.tr(),
         keepAppBarColors: true,
         onChanged: (text) {
           setState(() {
@@ -97,7 +98,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
         // },
         appBarBuilder: (context) {
           return AppBar(
-            title: const Text("Sucursales"),
+            title: Text("sucursales".tr()),
             automaticallyImplyLeading: false,
             centerTitle: true,
             actions: [
@@ -139,7 +140,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
               return SafeArea(child: Center(
                 child: InkWell(onTap: () {
                   BlocProvider.of<SucursalesBloc>(context).add(const LoadApiEvent(ignoreCache: true));
-                }, child: Center(child: Text("Ha ocurrido un error haga clic para reintentar.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
+                }, child: Center(child: Text("error_reintentar".tr(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
               ));
             }
             if (state is SucursalesLoadedState) {
@@ -302,7 +303,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                             Padding(
                                 padding: const EdgeInsets.only(left: 8.0, bottom: 8.0, right: 8.0),
                                 child: Center(
-                                    child: Text("Calculando distancia...",
+                                    child: Text("calculando_distancia".tr(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor)))),
@@ -321,7 +322,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.phone_rounded),
+                          icon: const Icon(Icons.phone_rounded),
                           onPressed: () { callSucursal(sucursal.telefonoVentas); },
                           iconSize: 36,
                           color: Theme.of(context).colorScheme.primary,
