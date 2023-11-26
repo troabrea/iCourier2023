@@ -814,7 +814,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -904,7 +904,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -991,7 +991,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5116,7 +5116,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5206,7 +5206,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5293,7 +5293,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

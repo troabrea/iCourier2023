@@ -293,7 +293,7 @@ class _CourierPageState extends State<CourierPage> {
                     ),
                     if(registerUrl.isNotEmpty)
                       const SizedBox(height: 20,),
-                    if(appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "FIXOCARGO" && registerUrl.isNotEmpty)
+                    if(appInfo.metricsPrefixKey != "BOXPAQ" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "FIXOCARGO" && registerUrl.isNotEmpty)
                       Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl, mode: LaunchMode.inAppWebView); }, child: Text.rich(TextSpan(text: "no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
                         TextSpan(text:'conoce_mas_aqui'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
                     if(appInfo.metricsPrefixKey == "FIXOCARGO")

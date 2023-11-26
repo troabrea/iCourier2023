@@ -66,7 +66,7 @@ dependencies:
   tutorial_coach_mark:
   firebase_core:
   firebase_messaging:
-  flutter_local_notifications: ^13.0.0
+  flutter_local_notifications: ^16.1.0
   image_picker:
   quick_actions:
   barcode_widget:
@@ -103,7 +103,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -119,12 +119,12 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - translations/
-    - images/domex/
+#    - images/domex/
 #    - images/bmcargo/
 #    - images/beexpress/
 #    - images/almapaq/
 #    - images/pintopaq/
-#    - images/boxpaq/
+    - images/boxpaq/
 #    - images/encargopaq/
 #    - images/caribepack/
 #    - images/cps/

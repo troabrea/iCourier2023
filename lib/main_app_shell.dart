@@ -728,8 +728,9 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
       onClickOverlay: (target) {
         tutorialCoachMark.next();
       },
-      onSkip: () async {
-        await cache.write('tutorialShown',"X");
+      onSkip: ()  {
+        cache.write('tutorialShown',"X");
+        return true;
       },
     );
   }

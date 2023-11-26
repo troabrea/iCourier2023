@@ -115,7 +115,7 @@ android {
         boxpaq {
             dimension "app"
             applicationId "com.barolit.boxpaq"
-            versionCode 5202322
+            versionCode 5202323
         }
         encargopaq {
             dimension "app"
@@ -172,9 +172,9 @@ android {
     buildTypes {
         release {
             //signingConfig signingConfigs.codemagic
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
 //            signingConfig signingConfigs.recent
-            signingConfig signingConfigs.legacy
+//            signingConfig signingConfigs.legacy
         }
     }
 }
