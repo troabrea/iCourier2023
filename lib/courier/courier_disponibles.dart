@@ -286,7 +286,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 padding: const EdgeInsets.all(0),
                                 decoration: BoxDecoration(
-                                    border: Border(top: BorderSide(color: Theme.of(context).dividerColor, width: 0), left: BorderSide(color: Theme.of(context).dividerColor),
+                                    border: Border(top: BorderSide(color: Theme.of(context).dividerColor, width: 1), left: BorderSide(color: Theme.of(context).dividerColor),
                                         bottom: BorderSide(color: Theme.of(context).dividerColor),
                                         right: BorderSide(color: Theme.of(context).dividerColor)),
                                     borderRadius: const BorderRadius.only(

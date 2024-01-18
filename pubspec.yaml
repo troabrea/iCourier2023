@@ -124,7 +124,7 @@ flutter:
 #    - images/beexpress/
 #    - images/almapaq/
 #    - images/pintopaq/
-    - images/boxpaq/
+#    - images/boxpaq/
 #    - images/encargopaq/
 #    - images/caribepack/
 #    - images/cps/
@@ -133,7 +133,7 @@ flutter:
 #    - images/picknsend/
 #    - images/jetpack/
 #    - images/tls/
-#    - images/cainca/
+    - images/cainca/
 #    - images/tupaq/
 #    - images/swoop/
     - images/noticias.svg
