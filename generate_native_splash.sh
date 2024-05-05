@@ -11,6 +11,10 @@
 #flutter pub run flutter_native_splash:create --flavor encargopaq
 #flutter pub run flutter_native_splash:create --flavor almapaq
 #flutter pub run flutter_native_splash:create --flavor beexpress
-flutter pub run flutter_native_splash:create --flavor picknsend
+#flutter pub run flutter_native_splash:create --flavor picknsend
+#flutter pub run flutter_native_splash:create --flavor priority
+#flutter pub run flutter_native_splash:create --flavor qm
+#flutter pub run flutter_native_splash:create --flavor clickpack
 #flutter pub run flutter_native_splash:create --flavor jetpack
 #flutter pub run flutter_native_splash:create --flavor swoop
+flutter pub run flutter_native_splash:create --flavor skyhigh

@@ -153,7 +153,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
         for (var element in allAcounts) {
           actions.add(  OutlinedButton(
             onPressed: () {Navigator.pop(context, element.userAccount);},
-            child: Text('cambiar_cuenta'.tr(args: [element.userAccount])),
+            child: Text('cambiar_cuenta'.tr(args: [element.userAccount]),),
             // style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
           ) );
         }
@@ -179,6 +179,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
       return actions;
     }
+    if (!context.mounted) return;
 
     var dlgResult = await showDialog<String>(
         context: context,
@@ -205,6 +206,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
     //NavbarNotifier.hideBottomNavBar = true;
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    if (!context.mounted) return;
     await showModalBottomSheet(
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -217,13 +219,13 @@ class _CourierAppBarState extends State<CourierAppBar> {
   }
 
   doEditProfile(BuildContext context) async {
-
     final map = await GetIt.I<CourierService>().getProfileUrl();
     final actionUrl = map['ActionURL'] ?? "";
     final userId = map['UsuarioID'] ?? "";
     final userPwd = map['UsuarioPW'] ?? "";
     final urlId = map['UrlID'] ?? "";
     final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
+    if (!context.mounted) return;
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Mi Perfil")),

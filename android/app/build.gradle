@@ -27,7 +27,7 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     signingConfigs {
         legacy {
             storeFile file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/android.keystore")
@@ -90,12 +90,12 @@ android {
         domex {
             dimension "app"
             applicationId "com.barolit.domex"
-            versionCode 5202340
+            versionCode 5202342
         }
         bmcargo {
             dimension "app"
             applicationId "com.barolit.bmcargo"
-            versionCode 5202329
+            versionCode 5202330
         }
         jetpack {
             dimension "app"
@@ -115,7 +115,7 @@ android {
         boxpaq {
             dimension "app"
             applicationId "com.barolit.boxpaq"
-            versionCode 5202323
+            versionCode 5202324
         }
         encargopaq {
             dimension "app"
@@ -144,6 +144,24 @@ android {
             dimension "app"
             applicationId "com.barolit.cainca"
         }
+        priority {
+            dimension "app"
+            applicationId "com.barolit.priority"
+        }
+
+        qm {
+            dimension "app"
+            applicationId "com.barolit.qm"
+        }
+
+        clickpack {
+            dimension "app"
+            applicationId "com.barolit.clickpack"
+        }
+        skyhigh {
+            dimension "app"
+            applicationId "com.barolit.skyhigh"
+        }
         tupaq {
             dimension "app"
             applicationId "com.barolit.tupaq"
@@ -160,7 +178,7 @@ android {
         fixocargo {
             dimension "app"
             applicationId "com.barolit.fixocargo"
-            versionCode 5202325
+            versionCode 5202326
         }
         picknsend {
             dimension "app"

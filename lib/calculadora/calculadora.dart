@@ -177,7 +177,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                 SizedBox(  width: MediaQuery.of(context).size.width * 0.8, child: buildProductoField(context)),
             ],
           ),
-          IconButton(iconSize: 30, color: Theme.of(context).colorScheme.primary,  alignment: Alignment.topCenter,
+          IconButton(iconSize: 30, color: appInfo.metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,  alignment: Alignment.topCenter,
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 if (_formKey.currentState!.saveAndValidate()) {

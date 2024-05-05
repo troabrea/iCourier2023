@@ -175,8 +175,9 @@ class CourierService {
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
     var jsonData = await cache.remember('sucursales', () async {
-      final response = await get(Uri.parse(
-          "https://icourierfunctions2023.azurewebsites.net/api/sucursales/$companyId?code=fM2zwJ-r5lxSzqmDKNIPuhr_F9Bp20rVSKpnm0_uwIoJAzFue_-i3A=="));
+      final url = "https://icourierfunctions2023.azurewebsites.net/api/sucursales/$companyId?code=fM2zwJ-r5lxSzqmDKNIPuhr_F9Bp20rVSKpnm0_uwIoJAzFue_-i3A==";
+      final response = await get(Uri.parse(url
+          ));
           //"https://icourierfunctions.azurewebsites.net/api/sucursales/$companyId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
       return response.body;
     }, 60 * 20);

@@ -61,6 +61,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       final puntos = empresa.hasPointsModule ? await _courierService.getPuntos() : Puntos.empty();
       final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
       final moreInfoUrl = await _courierService.empresaOptionValue("MoreInfoUrl");
+      final reclamoUrl = await _courierService.empresaOptionValue("ReclamoUrl");
 
       //final userAccounts = await _courierService.getStoredAccounts();
       final recepcionesCount = recepciones.length;
@@ -82,7 +83,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           retenidosCount: retenidosCount,
           puntos: puntos,
           moreInfoUrl: moreInfoUrl,
-          moreInfoText: moreInfoText
+          moreInfoText: moreInfoText,
+          reclamoUrl: reclamoUrl
       ));
     });
 
@@ -107,6 +109,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final puntos = empresa.hasPointsModule ? await _courierService.getPuntos() : Puntos.empty();
         final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
         final moreInfoUrl = await _courierService.empresaOptionValue("MoreInfoUrl");
+        final reclamoUrl = await _courierService.empresaOptionValue("ReclamoUrl");
         final recepcionesCount = recepciones.length;
 
         final retenidosCount = recepciones.where((element) => element.retenido == true).length;
@@ -124,7 +127,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             retenidosCount: retenidosCount,
             puntos: puntos,
             moreInfoText: moreInfoText,
-            moreInfoUrl: moreInfoUrl
+            moreInfoUrl: moreInfoUrl,
+            reclamoUrl: reclamoUrl
         ));
       } catch(e) {
         emit(DashboardFinishedState(withErrors: true, errorMessage: "error_favor_reintentar".tr()));

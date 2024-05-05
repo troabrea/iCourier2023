@@ -251,11 +251,11 @@ class _CourierPageState extends State<CourierPage> {
                           }
                         },
                         child: Text.rich(TextSpan(text: "lo_olvidaste".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
-                        TextSpan(text:'recordar_contraseña'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
+                        TextSpan(text:'recordar_contraseña'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: appInfo.metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
                     const SizedBox(height: 30),
                     if(isBusy)
-                      const Center(
-                        child: const CircularProgressIndicator(),
+                      Center(
+                        child: CircularProgressIndicator(color: GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,),
                       )
                     else
                     Center(

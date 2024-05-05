@@ -11,9 +11,12 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
+		86049FA52BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */; };
 		860CC7432A7C3382008F7B7B /* LaunchScreenTupaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */; };
 		860DDDEB29F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860DDDE929F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard */; };
 		862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862203EF29C263C7009248F4 /* LaunchScreenPicknsend.storyboard */; };
+		862A2AF82BD7F74700001F62 /* LaunchScreenClickpack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */; };
+		863F1D342B8CE94800477140 /* LaunchScreenQm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */; };
 		865A9A462967221300498034 /* LaunchScreenTaino.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 865A9A442967221300498034 /* LaunchScreenTaino.storyboard */; };
 		866C932528F59726001F87C2 /* LaunchScreenCaribepack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 866C932328F59726001F87C2 /* LaunchScreenCaribepack.storyboard */; };
 		868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868E6BED28C7695B00C42D2F /* LaunchScreenDomex.storyboard */; };
@@ -22,6 +25,8 @@
 		86A0EEBE2AAB440B00924D08 /* LaunchScreenSwoop.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A0EEBC2AAB440B00924D08 /* LaunchScreenSwoop.storyboard */; };
 		86A9CB9F29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A9CB9D29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard */; };
 		86AA7E6429D0715300E17FE0 /* LaunchScreenJetpack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AA7E6229D0715300E17FE0 /* LaunchScreenJetpack.storyboard */; };
+		86ACE4002BA37F2600BE5194 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 86ACE3FF2BA37F2600BE5194 /* PrivacyInfo.xcprivacy */; };
+		86B07D9F2B59A76D0026249C /* LaunchScreenPriority.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B07D9D2B59A76D0026249C /* LaunchScreenPriority.storyboard */; };
 		86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86C1EDE228C238CE00430FFB /* GoogleService-Info.plist */; };
 		86CC403E28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86CC403C28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard */; };
 		86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D2031F29F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard */; };
@@ -49,10 +54,12 @@
 
 /* Begin PBXFileReference section */
 		0566375BEA3097428C93C47E /* Pods-Runner.debug-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-bmcargo.xcconfig"; sourceTree = "<group>"; };
+		05C57BAD21EC7750B1164FB7 /* Pods-Runner.release-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-clickpack.xcconfig"; sourceTree = "<group>"; };
 		0B3C198DA4C9DAFEDBE84A60 /* Pods-Runner.debug-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cps.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		15444E7D73009505A207599B /* Pods-Runner.debug-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-pintopaq.xcconfig"; sourceTree = "<group>"; };
+		15EFAEA8439AAA1D9E822044 /* Pods-Runner.profile-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-clickpack.xcconfig"; sourceTree = "<group>"; };
 		15F8E99DFEB83CD695378874 /* Pods-Runner.profile-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-swoop.xcconfig"; sourceTree = "<group>"; };
 		2096CF3E387B690139FDF73A /* Pods-Runner.profile-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cainca.xcconfig"; sourceTree = "<group>"; };
 		222E3A148A036A9CF6DA146A /* Pods-Runner.release-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tupaq.xcconfig"; sourceTree = "<group>"; };
@@ -61,8 +68,11 @@
 		2C74D8B1574C23D4059407B7 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		2ECA4A698EBD73B787957A90 /* Pods-Runner.debug-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-beexpress.xcconfig"; sourceTree = "<group>"; };
 		30A67DFB1F5FA03405F0FFDE /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		31616EFD942332F2CC608314 /* Pods-Runner.release-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-skyhigh.xcconfig"; sourceTree = "<group>"; };
 		32204A3F4A21539803EE9FEA /* Pods-Runner.profile-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tls.xcconfig"; sourceTree = "<group>"; };
+		322ECB203FF84461FED0ACAD /* Pods-Runner.debug-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-skyhigh.xcconfig"; sourceTree = "<group>"; };
 		34AEF4E12EE15D52C0CF8209 /* Pods-Runner.debug-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-domex.xcconfig"; sourceTree = "<group>"; };
+		3538209D0A38D2E85862DB62 /* Pods-Runner.profile-priority.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-priority.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-priority.xcconfig"; sourceTree = "<group>"; };
 		35F437F0D64A9271695FA531 /* Pods-Runner.profile-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-encargopaq.xcconfig"; sourceTree = "<group>"; };
 		36E05AC631445E1CCF78C48A /* Pods-Runner.release-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-domex.xcconfig"; sourceTree = "<group>"; };
 		37CC6C2E590AC172AB875CC5 /* Pods-Runner.release-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cps.xcconfig"; sourceTree = "<group>"; };
@@ -70,9 +80,12 @@
 		3DC7AC2A0B025F61CA7FEE70 /* Pods-Runner.release-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-beexpress.xcconfig"; sourceTree = "<group>"; };
 		3DFA78FC25EB71DF59CC1D12 /* Pods-Runner.profile-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-picknsend.xcconfig"; sourceTree = "<group>"; };
 		407ACC92283BB55C8F14EDB7 /* Pods-Runner.release-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-bmcargo.xcconfig"; sourceTree = "<group>"; };
+		45A12C51048500E06C3DB990 /* Pods-Runner.debug-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-clickpack.xcconfig"; sourceTree = "<group>"; };
 		485691B6B7F4054DC810E5E4 /* Pods-Runner.profile-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-almapaq.xcconfig"; sourceTree = "<group>"; };
+		492EE320EBD0E090BDA3B231 /* Pods-Runner.debug-priority.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-priority.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-priority.xcconfig"; sourceTree = "<group>"; };
 		4CB390C8791C058DAAD8C34D /* Pods-Runner.release-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-encargopaq.xcconfig"; sourceTree = "<group>"; };
 		4F39B2C9D9A78156BACB18BB /* Pods-Runner.profile-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-jetpack.xcconfig"; sourceTree = "<group>"; };
+		53B9D0B0D5CB222AFFDEC6D1 /* Pods-Runner.release-priority.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-priority.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-priority.xcconfig"; sourceTree = "<group>"; };
 		569265A3B79E77A16B24D9BF /* Pods-Runner.profile-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-pintopaq.xcconfig"; sourceTree = "<group>"; };
 		575B94315B460C09E4A93106 /* Pods-Runner.debug-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-caribepack.xcconfig"; sourceTree = "<group>"; };
 		5CAB8818132B0A6F73E7117A /* Pods-Runner.profile-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-domex.xcconfig"; sourceTree = "<group>"; };
@@ -80,6 +93,7 @@
 		6B876571E7C474E5833EB87C /* Pods-Runner.profile-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cps.xcconfig"; sourceTree = "<group>"; };
 		6B9AACF953CB1FD4F15FD4BF /* Pods-Runner.profile-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tupaq.xcconfig"; sourceTree = "<group>"; };
 		6F329CAF1159FA84DFB77E43 /* Pods-Runner.debug-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-swoop.xcconfig"; sourceTree = "<group>"; };
+		72B0027DA9C95620EA01ADF9 /* Pods-Runner.release-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-qm.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74A087C6CF4A5C50906C4A94 /* Pods-Runner.release-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-pintopaq.xcconfig"; sourceTree = "<group>"; };
@@ -87,10 +101,13 @@
 		780E2FDA44D43424266CF6B1 /* Pods-Runner.debug-boxpaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-boxpaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-boxpaq.xcconfig"; sourceTree = "<group>"; };
 		7872E98A7934992E87CE1960 /* Pods-Runner.profile-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-beexpress.xcconfig"; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		86049FA42BE2D8C80058E7C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenSkyhigh.storyboard; sourceTree = "<group>"; };
 		860CC7422A7C3382008F7B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTupaq.storyboard; sourceTree = "<group>"; };
 		860DDDEA29F1894900F7A2E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPintopaq.storyboard; sourceTree = "<group>"; };
 		862203F029C263C7009248F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPicknsend.storyboard; sourceTree = "<group>"; };
+		862A2AF72BD7F74700001F62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenClickpack.storyboard; sourceTree = "<group>"; };
 		86386640B0CACC9048497709 /* Pods-Runner.release-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-swoop.xcconfig"; sourceTree = "<group>"; };
+		863F1D332B8CE94800477140 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenQm.storyboard; sourceTree = "<group>"; };
 		865A9A452967221300498034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTaino.storyboard; sourceTree = "<group>"; };
 		866C932428F59726001F87C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCaribepack.storyboard; sourceTree = "<group>"; };
 		868E6BEE28C7695B00C42D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenDomex.storyboard; sourceTree = "<group>"; };
@@ -99,6 +116,8 @@
 		86A0EEBD2AAB440B00924D08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenSwoop.storyboard; sourceTree = "<group>"; };
 		86A9CB9E29F41319004AA7E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenEncargopaq.storyboard; sourceTree = "<group>"; };
 		86AA7E6329D0715300E17FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenJetpack.storyboard; sourceTree = "<group>"; };
+		86ACE3FF2BA37F2600BE5194 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		86B07D9E2B59A76D0026249C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPriority.storyboard; sourceTree = "<group>"; };
 		86C1EDE228C238CE00430FFB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		86CC403D28D8B910003B50D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBmcargo.storyboard; sourceTree = "<group>"; };
 		86D2032029F94DDE000ED92C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenAlmapaq.storyboard; sourceTree = "<group>"; };
@@ -124,10 +143,13 @@
 		B17F09C7410D392A413323B9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		B24252B90E3533F870BEAF7B /* Pods-Runner.debug-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-fixocargo.xcconfig"; sourceTree = "<group>"; };
 		B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cainca.xcconfig"; sourceTree = "<group>"; };
+		C960C22B42F15D54CB0A066C /* Pods-Runner.debug-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-qm.xcconfig"; sourceTree = "<group>"; };
 		CE97419F7ACB76D6BD8992EA /* Pods-Runner.release-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-taino.xcconfig"; sourceTree = "<group>"; };
 		CF869CDEEB6E92030ADBCCBB /* Pods-Runner.debug-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tupaq.xcconfig"; sourceTree = "<group>"; };
 		E9DF823AFDE8F41A7048AFC8 /* Pods-Runner.release-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-picknsend.xcconfig"; sourceTree = "<group>"; };
+		EA341B8D0D88B8B2DF1D6C9A /* Pods-Runner.profile-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-skyhigh.xcconfig"; sourceTree = "<group>"; };
 		EFA49F2401ACB52E618A2D4C /* Pods-Runner.release-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-caribepack.xcconfig"; sourceTree = "<group>"; };
+		F40B95984301B37FA1788DC9 /* Pods-Runner.profile-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-qm.xcconfig"; sourceTree = "<group>"; };
 		F6DC16D8109ECFF199213122 /* Pods-Runner.release-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-almapaq.xcconfig"; sourceTree = "<group>"; };
 		F867633C8191D3537931360E /* Pods-Runner.release-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-fixocargo.xcconfig"; sourceTree = "<group>"; };
 		FB7768B91618AB5B32971655 /* Pods-Runner.debug-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cainca.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +236,18 @@
 				6F329CAF1159FA84DFB77E43 /* Pods-Runner.debug-swoop.xcconfig */,
 				86386640B0CACC9048497709 /* Pods-Runner.release-swoop.xcconfig */,
 				15F8E99DFEB83CD695378874 /* Pods-Runner.profile-swoop.xcconfig */,
+				492EE320EBD0E090BDA3B231 /* Pods-Runner.debug-priority.xcconfig */,
+				53B9D0B0D5CB222AFFDEC6D1 /* Pods-Runner.release-priority.xcconfig */,
+				3538209D0A38D2E85862DB62 /* Pods-Runner.profile-priority.xcconfig */,
+				C960C22B42F15D54CB0A066C /* Pods-Runner.debug-qm.xcconfig */,
+				72B0027DA9C95620EA01ADF9 /* Pods-Runner.release-qm.xcconfig */,
+				F40B95984301B37FA1788DC9 /* Pods-Runner.profile-qm.xcconfig */,
+				45A12C51048500E06C3DB990 /* Pods-Runner.debug-clickpack.xcconfig */,
+				05C57BAD21EC7750B1164FB7 /* Pods-Runner.release-clickpack.xcconfig */,
+				15EFAEA8439AAA1D9E822044 /* Pods-Runner.profile-clickpack.xcconfig */,
+				322ECB203FF84461FED0ACAD /* Pods-Runner.debug-skyhigh.xcconfig */,
+				31616EFD942332F2CC608314 /* Pods-Runner.release-skyhigh.xcconfig */,
+				EA341B8D0D88B8B2DF1D6C9A /* Pods-Runner.profile-skyhigh.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -232,6 +266,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				86ACE3FF2BA37F2600BE5194 /* PrivacyInfo.xcprivacy */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -251,6 +286,10 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */,
+				862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */,
+				863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */,
+				86B07D9D2B59A76D0026249C /* LaunchScreenPriority.storyboard */,
 				86A0EEBC2AAB440B00924D08 /* LaunchScreenSwoop.storyboard */,
 				860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */,
 				86E9A9432A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard */,
@@ -296,9 +335,9 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				F2334426C62626587AF50573 /* [CP] Embed Pods Frameworks */,
-				7138A9B5FD5208A415AA4431 /* [CP] Copy Pods Resources */,
 				86CC404128D8C66E003B50D6 /* Copy Firebase Settings */,
+				648FE7584079F5FF6D6FCBF2 /* [CP] Embed Pods Frameworks */,
+				C895ABC71A10272A3600DC19 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -357,6 +396,8 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				86A0EEBE2AAB440B00924D08 /* LaunchScreenSwoop.storyboard in Resources */,
 				86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */,
+				862A2AF82BD7F74700001F62 /* LaunchScreenClickpack.storyboard in Resources */,
+				86049FA52BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard in Resources */,
 				868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */,
@@ -364,9 +405,12 @@
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */,
 				86D2032A29F95E92000ED92C /* LaunchScreenBeexpress.storyboard in Resources */,
+				863F1D342B8CE94800477140 /* LaunchScreenQm.storyboard in Resources */,
+				86ACE4002BA37F2600BE5194 /* PrivacyInfo.xcprivacy in Resources */,
 				8693285C29C2437B00F914FF /* LaunchScreenFixocargo.storyboard in Resources */,
 				86A9CB9F29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard in Resources */,
 				862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */,
+				86B07D9F2B59A76D0026249C /* LaunchScreenPriority.storyboard in Resources */,
 				86AA7E6429D0715300E17FE0 /* LaunchScreenJetpack.storyboard in Resources */,
 				865A9A462967221300498034 /* LaunchScreenTaino.storyboard in Resources */,
 			);
@@ -391,21 +435,21 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
 		};
-		7138A9B5FD5208A415AA4431 /* [CP] Copy Pods Resources */ = {
+		648FE7584079F5FF6D6FCBF2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		86CC404128D8C66E003B50D6 /* Copy Firebase Settings */ = {
@@ -441,6 +485,23 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
+		C895ABC71A10272A3600DC19 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D82C794C0DE7583371D9E056 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -463,23 +524,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F2334426C62626587AF50573 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -495,6 +539,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86049FA42BE2D8C80058E7C5 /* Base */,
+			);
+			name = LaunchScreenSkyhigh.storyboard;
+			sourceTree = "<group>";
+		};
 		860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -517,6 +569,22 @@
 				862203F029C263C7009248F4 /* Base */,
 			);
 			name = LaunchScreenPicknsend.storyboard;
+			sourceTree = "<group>";
+		};
+		862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				862A2AF72BD7F74700001F62 /* Base */,
+			);
+			name = LaunchScreenClickpack.storyboard;
+			sourceTree = "<group>";
+		};
+		863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				863F1D332B8CE94800477140 /* Base */,
+			);
+			name = LaunchScreenQm.storyboard;
 			sourceTree = "<group>";
 		};
 		865A9A442967221300498034 /* LaunchScreenTaino.storyboard */ = {
@@ -581,6 +649,14 @@
 				86AA7E6329D0715300E17FE0 /* Base */,
 			);
 			name = LaunchScreenJetpack.storyboard;
+			sourceTree = "<group>";
+		};
+		86B07D9D2B59A76D0026249C /* LaunchScreenPriority.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86B07D9E2B59A76D0026249C /* Base */,
+			);
+			name = LaunchScreenPriority.storyboard;
 			sourceTree = "<group>";
 		};
 		86CC403C28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard */ = {
@@ -715,7 +791,7 @@
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreen;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -734,6 +810,275 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
+		};
+		86049F9D2BE2D8630058E7C5 /* Debug-skyhigh */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-skyhigh";
+		};
+		86049F9E2BE2D8630058E7C5 /* Debug-skyhigh */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Sky High";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenSkyhigh.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenSkyhigh;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-skyhigh";
+		};
+		86049F9F2BE2D8750058E7C5 /* Release-skyhigh */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-skyhigh";
+		};
+		86049FA02BE2D8760058E7C5 /* Release-skyhigh */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Sky High";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenSkyhigh.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenSkyhigh;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-skyhigh";
+		};
+		86049FA12BE2D8820058E7C5 /* Profile-skyhigh */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-skyhigh";
+		};
+		86049FA22BE2D8820058E7C5 /* Profile-skyhigh */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Sky High";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenSkyhigh.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenSkyhigh;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-skyhigh";
 		};
 		860CC73B2A7C3311008F7B7B /* Debug-tupaq */ = {
 			isa = XCBuildConfiguration;
@@ -807,7 +1152,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTupaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTupaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -897,7 +1242,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTupaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTupaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -984,7 +1329,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTupaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTupaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1076,14 +1421,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPintopaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPintopaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1166,14 +1511,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPintopaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPintopaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1253,7 +1598,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPintopaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPintopaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1345,7 +1690,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPicknsend.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPicknsend;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1435,7 +1780,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPicknsend.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPicknsend;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1522,7 +1867,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPicknsend.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPicknsend;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1541,6 +1886,544 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-picknsend";
+		};
+		862A2AF02BD7F6C700001F62 /* Debug-clickpack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-clickpack";
+		};
+		862A2AF12BD7F6C700001F62 /* Debug-clickpack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = ClickPack;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenClickpack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenClickpack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-clickpack";
+		};
+		862A2AF22BD7F6DC00001F62 /* Release-clickpack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-clickpack";
+		};
+		862A2AF32BD7F6DC00001F62 /* Release-clickpack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = ClickPack;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenClickpack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenClickpack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-clickpack";
+		};
+		862A2AF42BD7F6E800001F62 /* Profile-clickpack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-clickpack";
+		};
+		862A2AF52BD7F6E800001F62 /* Profile-clickpack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = ClickPack;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenClickpack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenClickpack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-clickpack";
+		};
+		863F1D2C2B8CE8F400477140 /* Debug-qm */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-qm";
+		};
+		863F1D2D2B8CE8F400477140 /* Debug-qm */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "QM Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-qm";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenQm.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenQm;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-qm";
+		};
+		863F1D2E2B8CE90000477140 /* Release-qm */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-qm";
+		};
+		863F1D2F2B8CE90000477140 /* Release-qm */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "QM Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-qm";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenQm.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenQm;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-qm";
+		};
+		863F1D302B8CE90A00477140 /* Profile-qm */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-qm";
+		};
+		863F1D312B8CE90A00477140 /* Profile-qm */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "QM Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-qm";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenQm.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenQm;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-qm";
 		};
 		865A9A3E2967192400498034 /* Debug-taino */ = {
 			isa = XCBuildConfiguration;
@@ -1614,7 +2497,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTaino.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTaino;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1704,7 +2587,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTaino.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTaino;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1791,7 +2674,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTaino.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTaino;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1883,14 +2766,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenDomex.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDomex;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1973,14 +2856,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenDomex.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDomex;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2060,14 +2943,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenDomex.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDomex;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2153,14 +3036,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenFixocargo.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenFixocargo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2243,14 +3126,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenFixocargo.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenFixocargo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2330,14 +3213,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenFixocargo.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenFixocargo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2421,7 +3304,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCaribepack.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCaribepack;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2511,7 +3394,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCaribepack.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCaribepack;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2598,7 +3481,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCaribepack.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCaribepack;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2690,7 +3573,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTls.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTls;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2780,7 +3663,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTls.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTls;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2867,7 +3750,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTls.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTls;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2959,7 +3842,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenSwoop.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenSwoop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3049,7 +3932,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenSwoop.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenSwoop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3136,7 +4019,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenSwoop.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenSwoop;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3227,7 +4110,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenEncargopaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenEncargopaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3317,7 +4200,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenEncargopaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenEncargopaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3404,7 +4287,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenEncargopaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenEncargopaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3496,7 +4379,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenJetpack.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenJetpack;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3586,7 +4469,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenJetpack.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenJetpack;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3673,7 +4556,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenJetpack.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenJetpack;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3692,6 +4575,275 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-jetpack";
+		};
+		86B07D972B59A6C10026249C /* Debug-priority */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-priority";
+		};
+		86B07D982B59A6C10026249C /* Debug-priority */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = Priority;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-priority";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPriority.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPriority;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-priority";
+		};
+		86B07D992B59A6D80026249C /* Release-priority */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-priority";
+		};
+		86B07D9A2B59A6D80026249C /* Release-priority */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = Priority;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-priority";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPriority.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPriority;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-priority";
+		};
+		86B07D9B2B59A6EC0026249C /* Profile-priority */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-priority";
+		};
+		86B07D9C2B59A6EC0026249C /* Profile-priority */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = Priority;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-priority";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenPriority.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenPriority;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-priority";
 		};
 		86CC403628D8B78F003B50D6 /* Debug-bmcargo */ = {
 			isa = XCBuildConfiguration;
@@ -3765,14 +4917,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBmcargo.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBmcargo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.9;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3855,14 +5007,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBmcargo.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBmcargo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.9;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3942,14 +5094,14 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBmcargo.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBmcargo;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.9;
+				MARKETING_VERSION = 2023.7.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4034,7 +5186,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenAlmapaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenAlmapaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4124,7 +5276,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenAlmapaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenAlmapaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4211,7 +5363,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenAlmapaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenAlmapaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4303,7 +5455,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBeexpress.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBeexpress;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4393,7 +5545,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBeexpress.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBeexpress;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4480,7 +5632,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBeexpress.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBeexpress;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4572,7 +5724,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCainca.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCainca;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4662,7 +5814,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCainca.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCainca;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4749,7 +5901,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCainca.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCainca;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4840,7 +5992,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCps.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCps;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4930,7 +6082,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCps.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCps;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5017,7 +6169,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCps.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCps;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5109,7 +6261,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBoxpaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBoxpaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5199,7 +6351,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBoxpaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBoxpaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5286,7 +6438,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBoxpaq.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBoxpaq;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5428,7 +6580,7 @@
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreen;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5464,7 +6616,7 @@
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LAUNCH_SCREEN_STORYBOARD = LaunchScreen;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5500,6 +6652,10 @@
 				86AA7E5C29D070EC00E17FE0 /* Debug-jetpack */,
 				86EA7C9B299FD892003DCCCF /* Debug-cps */,
 				86E9A93D2A6ADAE400BBD3F3 /* Debug-cainca */,
+				86B07D972B59A6C10026249C /* Debug-priority */,
+				863F1D2C2B8CE8F400477140 /* Debug-qm */,
+				862A2AF02BD7F6C700001F62 /* Debug-clickpack */,
+				86049F9D2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73B2A7C3311008F7B7B /* Debug-tupaq */,
 				86A0EEB62AAB43A200924D08 /* Debug-swoop */,
 				869EC9582A4B14AD00333BC5 /* Debug-tls */,
@@ -5518,6 +6674,10 @@
 				86AA7E5E29D070F600E17FE0 /* Release-jetpack */,
 				86EA7C9D299FD8A2003DCCCF /* Release-cps */,
 				86E9A93F2A6ADAF500BBD3F3 /* Release-cainca */,
+				86B07D992B59A6D80026249C /* Release-priority */,
+				863F1D2E2B8CE90000477140 /* Release-qm */,
+				862A2AF22BD7F6DC00001F62 /* Release-clickpack */,
+				86049F9F2BE2D8750058E7C5 /* Release-skyhigh */,
 				860CC73D2A7C3323008F7B7B /* Release-tupaq */,
 				86A0EEB82AAB43B100924D08 /* Release-swoop */,
 				869EC95A2A4B14C400333BC5 /* Release-tls */,
@@ -5536,6 +6696,10 @@
 				86AA7E6029D0710000E17FE0 /* Profile-jetpack */,
 				86EA7C9F299FD8AE003DCCCF /* Profile-cps */,
 				86E9A9412A6ADAFE00BBD3F3 /* Profile-cainca */,
+				86B07D9B2B59A6EC0026249C /* Profile-priority */,
+				863F1D302B8CE90A00477140 /* Profile-qm */,
+				862A2AF42BD7F6E800001F62 /* Profile-clickpack */,
+				86049FA12BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC73F2A7C332E008F7B7B /* Profile-tupaq */,
 				86A0EEBA2AAB43B900924D08 /* Profile-swoop */,
 				869EC95C2A4B14CD00333BC5 /* Profile-tls */,
@@ -5561,6 +6725,10 @@
 				86AA7E5D29D070EC00E17FE0 /* Debug-jetpack */,
 				86EA7C9C299FD892003DCCCF /* Debug-cps */,
 				86E9A93E2A6ADAE400BBD3F3 /* Debug-cainca */,
+				86B07D982B59A6C10026249C /* Debug-priority */,
+				863F1D2D2B8CE8F400477140 /* Debug-qm */,
+				862A2AF12BD7F6C700001F62 /* Debug-clickpack */,
+				86049F9E2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73C2A7C3311008F7B7B /* Debug-tupaq */,
 				86A0EEB72AAB43A200924D08 /* Debug-swoop */,
 				869EC9592A4B14AD00333BC5 /* Debug-tls */,
@@ -5579,6 +6747,10 @@
 				86AA7E5F29D070F600E17FE0 /* Release-jetpack */,
 				86EA7C9E299FD8A2003DCCCF /* Release-cps */,
 				86E9A9402A6ADAF500BBD3F3 /* Release-cainca */,
+				86B07D9A2B59A6D80026249C /* Release-priority */,
+				863F1D2F2B8CE90000477140 /* Release-qm */,
+				862A2AF32BD7F6DC00001F62 /* Release-clickpack */,
+				86049FA02BE2D8760058E7C5 /* Release-skyhigh */,
 				860CC73E2A7C3323008F7B7B /* Release-tupaq */,
 				86A0EEB92AAB43B100924D08 /* Release-swoop */,
 				869EC95B2A4B14C400333BC5 /* Release-tls */,
@@ -5597,6 +6769,10 @@
 				86AA7E6129D0710000E17FE0 /* Profile-jetpack */,
 				86EA7CA0299FD8AE003DCCCF /* Profile-cps */,
 				86E9A9422A6ADAFE00BBD3F3 /* Profile-cainca */,
+				86B07D9C2B59A6EC0026249C /* Profile-priority */,
+				863F1D312B8CE90A00477140 /* Profile-qm */,
+				862A2AF52BD7F6E800001F62 /* Profile-clickpack */,
+				86049FA22BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC7402A7C332E008F7B7B /* Profile-tupaq */,
 				86A0EEBB2AAB43B900924D08 /* Profile-swoop */,
 				869EC95D2A4B14CD00333BC5 /* Profile-tls */,

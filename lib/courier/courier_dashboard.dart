@@ -293,7 +293,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 ),
                               if (state.recepcionesCount == 0)
                                 SizedBox(
-                                  height: 180,
+                                  height: appInfo.metricsPrefixKey == "DOMEX" ? 120 : 180,
                                   width: 180,
                                   child: EmptyWidget(
                                     hideBackgroundAnimation: true,
@@ -393,7 +393,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   Expanded(
                                     child: FilledButton.icon(
                                         icon: const Icon(
-                                          IconData(0xe802,
+                                          IconData(0xe804,
                                               fontFamily: 'iCourier'),
                                           size: 35,
                                         ),
@@ -456,6 +456,26 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   ),
                                 ],
                               ),
+                              if(state.reclamoUrl.isNotEmpty)
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 5.0),
+                                  child: Divider(thickness: 2,),
+                                ),
+                              if(state.reclamoUrl.isNotEmpty)
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: IconButton( padding: EdgeInsets.zero, icon: Image.asset("images/domex/reclamo.png"), onPressed: () async { await launchUrl(Uri.parse(state.reclamoUrl)); },)
+                                  // child: FilledButton.icon(
+                                  //     icon: const Icon(
+                                  //       IconData(0xe816,
+                                  //           fontFamily: 'iCourier'),
+                                  //       size: 35,
+                                  //     ),
+                                  //     onPressed: () async {
+                                  //       await launchUrl(Uri.parse(state.reclamoUrl));
+                                  //     },
+                                  //     label: Text('solicitar_reclamo'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.normal),)),
+                                ),
                               if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
                                 const SizedBox(height: 25,),
                               if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
@@ -544,9 +564,11 @@ class _CourierDashboardState extends State<CourierDashboard> {
 }
 
 Widget buildSlideShow(BuildContext context, List<BannerImage> banners) {
-  return ImageSlideshow(
+  return banners.isEmpty ? const SizedBox(height: 0,) : ImageSlideshow(
     height: 145,
     indicatorRadius: 0,
+    autoPlayInterval: 5000,
+    isLoop: true,
     children: banners
         .map(
           (e) => CachedNetworkImage(
@@ -566,8 +588,6 @@ Widget buildSlideShow(BuildContext context, List<BannerImage> banners) {
           ),
         )
         .toList(),
-    autoPlayInterval: 5000,
-    isLoop: true,
   );
 }
 

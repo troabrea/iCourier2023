@@ -139,6 +139,8 @@ class FixocargoAppInfo implements AppInfo {
         primaryColorDark: Colors.white70,
         iconTheme: const IconThemeData(color: secondaryColor),
         elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)), backgroundColor: secondaryColor, foregroundColor: Colors.white ) ),
+        textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom( iconColor: secondaryColor, foregroundColor: secondaryColor )),
+        outlinedButtonTheme: OutlinedButtonThemeData(style: OutlinedButton.styleFrom(foregroundColor: secondaryColor)),
         textTheme:  getDarkTextTheme(),
         appBarTheme: getDarkAppBarTheme()
     );

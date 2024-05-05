@@ -50,6 +50,7 @@
   "no_eres_cliente" : "Not yet a customer? - ",
   "aun_no_eres_cliente" : "Not yet a customer?",
   "conoce_mas_aqui" : "learn more here.",
+  "solicitar_reclamo": "Submit Claim",
   "correo_electronico" : "Email",
   "correo_registrado": "Specify the email associated with your account",
   "cancelar": "Cancel",

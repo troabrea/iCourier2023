@@ -233,7 +233,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                 onPressed: () {
                   showSucursalOptions(context, sucursal);
                 },
-                icon: Icon(Icons.more_vert,color: Theme.of(context).colorScheme.primary,),
+                icon: Icon(Icons.more_vert,color: GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,),
               )
             ]),
             Text(sucursal.direccion),
@@ -276,10 +276,14 @@ class _SucursalesPageState extends State<SucursalesPage> {
 
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
 
+    final iconColor = GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary;
+
+    if (!mounted) return; // Add this check before using context after an async call
+
     await showModalBottomSheet(
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         builder: (builder) {
           return BlocProvider(create: (context) => LocationBloc()..add(LocationBlocCalculateDistanceEvent(sucursal.latitud, sucursal.longitud)),
             child: BlocBuilder<LocationBloc,LocationBlocState>(
@@ -322,30 +326,30 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.phone_rounded),
+                          icon: Icon(Icons.phone_rounded),
                           onPressed: () { callSucursal(sucursal.telefonoVentas); },
                           iconSize: 36,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: iconColor,
                         ),
                         if(sucursal.telefonoOficina.isNotEmpty)
                         IconButton(
                           icon: const FaIcon(FontAwesomeIcons.whatsapp),
                           onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },
                           iconSize: 36,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: iconColor,
 
                         ),
                         IconButton(
                           icon: const Icon(Icons.email_rounded),
                           onPressed: () { mailSucursal(sucursal.email); },
                           iconSize: 36,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: iconColor,
                         ),
                         IconButton(
                           icon: const Icon(Icons.navigation_rounded),
                           onPressed: () { navigateToSucursal(); },
                           iconSize: 36,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: iconColor,
                         ),
                       ],
                     ),

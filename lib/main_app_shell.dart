@@ -7,7 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_version_checker/flutter_app_version_checker.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
@@ -136,41 +135,42 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   //   }
   // });
 
-  final _checker = AppVersionChecker();
+  // final _checker = AppVersionChecker();
   AppLifecycleState? _appLifecycleState;
   void checkVersion() async {
-    _checker.checkUpdate().then((value) async {
-      var upgradAvailable = value.canUpdate;
-      if(upgradAvailable) {
-        await showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context)
-        {
-          return WillPopScope(
-              child: AlertDialog(
-                title: Text('actualizacion_disponible'.tr(), style: Theme.of(context).textTheme.titleLarge),
-                content: Text('nueva_version_desea_actualizar'.tr(args: [value.newVersion ?? "", value.currentVersion])),
-                actions: [
-                  TextButton(
-                    child: Text('quizas_despues'.tr()),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  ),
-                  TextButton(
-                    child: Text('actualizar'.tr()),
-                    onPressed: () async {
-                      await launchUrl(Uri.parse(value.appURL!));
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  ),
-                ],
-              ),
-              onWillPop: () => Future.value(true));
-        });
-      }
-    });
+    return;
+    // _checker.checkUpdate().then((value) async {
+    //   var upgradAvailable = value.canUpdate;
+    //   if(upgradAvailable) {
+    //     await showDialog(
+    //       context: context,
+    //       barrierDismissible: true,
+    //       builder: (BuildContext context)
+    //     {
+    //       return WillPopScope(
+    //           child: AlertDialog(
+    //             title: Text('actualizacion_disponible'.tr(), style: Theme.of(context).textTheme.titleLarge),
+    //             content: Text('nueva_version_desea_actualizar'.tr(args: [value.newVersion ?? "", value.currentVersion])),
+    //             actions: [
+    //               TextButton(
+    //                 child: Text('quizas_despues'.tr()),
+    //                 onPressed: () {
+    //                   Navigator.of(context, rootNavigator: true).pop();
+    //                 },
+    //               ),
+    //               TextButton(
+    //                 child: Text('actualizar'.tr()),
+    //                 onPressed: () async {
+    //                   await launchUrl(Uri.parse(value.appURL!));
+    //                   Navigator.of(context, rootNavigator: true).pop();
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //           onWillPop: () => Future.value(true));
+    //     });
+    //   }
+    // });
     //await _checker.checkVersion(context);
   }
 
@@ -492,7 +492,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic == "CPS" )
+      if(appInfo.pushChannelTopic == "CPS"  )
         PersistentBottomNavBarItem(
           contentPadding: 0.0,
             icon:
@@ -560,7 +560,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                 key: keyMainBottomNavigation,
                 padding: const EdgeInsets.all(5),
                 decoration:  BoxDecoration(
-                    color: appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
+                    color:  appInfo.pushChannelTopic == "SKYHIGH" ||appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
                     shape: BoxShape.circle
                 ),
                 //color: Colors.transparent,
