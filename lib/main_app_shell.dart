@@ -465,18 +465,18 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             size: 25,
             color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
           )),
-      if(appInfo.pushChannelTopic == "TAINO")
+      if(appInfo.pushChannelTopic == "BLUMBOX" )
         PersistentBottomNavBarItem(
             icon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
               decoration:  const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle
+                  color: Colors.white,
+                  shape: BoxShape.circle
               ),
+              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
               //color: Colors.white,
               child: Image.asset(appInfo.centerIconImage),
-              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
             ),
             inactiveIcon: Container(
               key: keyMainBottomNavigation,
@@ -485,9 +485,36 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                   color: Colors.white.withOpacity(1),
                   shape: BoxShape.circle
               ),
+              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+              //color: Colors.transparent,
+              child: ClipOval(child: Image.asset(appInfo.centerIconImage)),
+            ),
+            title: null, //'Inicio',
+            activeColorPrimary: Colors.transparent,
+            inactiveColorPrimary: Colors.transparent),
+      if( appInfo.pushChannelTopic == "TAINO" )
+        PersistentBottomNavBarItem(
+            icon: Container(
+              key: keyMainBottomNavigation,
+              padding: const EdgeInsets.all(5),
+              decoration:  const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle
+              ),
+              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+              //color: Colors.white,
+              child: Image.asset(appInfo.centerIconImage),
+            ),
+            inactiveIcon: Container(
+              key: keyMainBottomNavigation,
+              padding: const EdgeInsets.all(5),
+              decoration:   BoxDecoration(
+                  color: Colors.white.withOpacity(1),
+                  shape: BoxShape.circle
+              ),
+              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
               //color: Colors.transparent,
               child: Image.asset(appInfo.centerIconImage),
-              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
             ),
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
@@ -541,7 +568,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS" && appInfo.pushChannelTopic != "PICKNSEND" )
+      if(appInfo.pushChannelTopic != "BLUMBOX" && appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS" && appInfo.pushChannelTopic != "PICKNSEND" )
         PersistentBottomNavBarItem(
             icon: ClipOval(
               child: Container(
@@ -550,9 +577,9 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                     color: Colors.white,
                     shape: BoxShape.circle
                 ),
+                height: appInfo.centerIconSize, width: appInfo.centerIconSize,
                 //color: Colors.white,
                 child: Image.asset(appInfo.centerIconImage),
-                height: appInfo.centerIconSize, width: appInfo.centerIconSize,
               ),
             ),
             inactiveIcon: ClipOval(

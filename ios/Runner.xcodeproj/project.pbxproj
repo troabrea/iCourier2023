@@ -14,6 +14,7 @@
 		86049FA52BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */; };
 		860CC7432A7C3382008F7B7B /* LaunchScreenTupaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */; };
 		860DDDEB29F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860DDDE929F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard */; };
+		86131F5D2BE955D000515E60 /* LaunchScreenBlumbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */; };
 		862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862203EF29C263C7009248F4 /* LaunchScreenPicknsend.storyboard */; };
 		862A2AF82BD7F74700001F62 /* LaunchScreenClickpack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */; };
 		863F1D342B8CE94800477140 /* LaunchScreenQm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */; };
@@ -28,6 +29,7 @@
 		86ACE4002BA37F2600BE5194 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 86ACE3FF2BA37F2600BE5194 /* PrivacyInfo.xcprivacy */; };
 		86B07D9F2B59A76D0026249C /* LaunchScreenPriority.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B07D9D2B59A76D0026249C /* LaunchScreenPriority.storyboard */; };
 		86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86C1EDE228C238CE00430FFB /* GoogleService-Info.plist */; };
+		86C7C8442BF3E2B90076413F /* LaunchScreenFlypack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86C7C8422BF3E2B90076413F /* LaunchScreenFlypack.storyboard */; };
 		86CC403E28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86CC403C28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard */; };
 		86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D2031F29F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard */; };
 		86D2032A29F95E92000ED92C /* LaunchScreenBeexpress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D2032829F95E92000ED92C /* LaunchScreenBeexpress.storyboard */; };
@@ -56,11 +58,13 @@
 		0566375BEA3097428C93C47E /* Pods-Runner.debug-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-bmcargo.xcconfig"; sourceTree = "<group>"; };
 		05C57BAD21EC7750B1164FB7 /* Pods-Runner.release-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-clickpack.xcconfig"; sourceTree = "<group>"; };
 		0B3C198DA4C9DAFEDBE84A60 /* Pods-Runner.debug-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cps.xcconfig"; sourceTree = "<group>"; };
+		110F37710C0A56B77C1E957C /* Pods-Runner.release-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-flypack.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		15444E7D73009505A207599B /* Pods-Runner.debug-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-pintopaq.xcconfig"; sourceTree = "<group>"; };
 		15EFAEA8439AAA1D9E822044 /* Pods-Runner.profile-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-clickpack.xcconfig"; sourceTree = "<group>"; };
 		15F8E99DFEB83CD695378874 /* Pods-Runner.profile-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-swoop.xcconfig"; sourceTree = "<group>"; };
+		1607A5F9ADE808E786BE08DB /* Pods-Runner.debug-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-blumbox.xcconfig"; sourceTree = "<group>"; };
 		2096CF3E387B690139FDF73A /* Pods-Runner.profile-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cainca.xcconfig"; sourceTree = "<group>"; };
 		222E3A148A036A9CF6DA146A /* Pods-Runner.release-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tupaq.xcconfig"; sourceTree = "<group>"; };
 		22C718B9FB8B0F2B9C08AA9D /* Pods-Runner.release-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-jetpack.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +108,7 @@
 		86049FA42BE2D8C80058E7C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenSkyhigh.storyboard; sourceTree = "<group>"; };
 		860CC7422A7C3382008F7B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTupaq.storyboard; sourceTree = "<group>"; };
 		860DDDEA29F1894900F7A2E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPintopaq.storyboard; sourceTree = "<group>"; };
+		86131F5C2BE955D000515E60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBlumbox.storyboard; sourceTree = "<group>"; };
 		862203F029C263C7009248F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPicknsend.storyboard; sourceTree = "<group>"; };
 		862A2AF72BD7F74700001F62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenClickpack.storyboard; sourceTree = "<group>"; };
 		86386640B0CACC9048497709 /* Pods-Runner.release-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-swoop.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 		86ACE3FF2BA37F2600BE5194 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		86B07D9E2B59A76D0026249C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPriority.storyboard; sourceTree = "<group>"; };
 		86C1EDE228C238CE00430FFB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		86C7C8432BF3E2B90076413F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenFlypack.storyboard; sourceTree = "<group>"; };
 		86CC403D28D8B910003B50D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBmcargo.storyboard; sourceTree = "<group>"; };
 		86D2032029F94DDE000ED92C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenAlmapaq.storyboard; sourceTree = "<group>"; };
 		86D2032929F95E92000ED92C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBeexpress.storyboard; sourceTree = "<group>"; };
@@ -143,11 +149,15 @@
 		B17F09C7410D392A413323B9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		B24252B90E3533F870BEAF7B /* Pods-Runner.debug-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-fixocargo.xcconfig"; sourceTree = "<group>"; };
 		B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cainca.xcconfig"; sourceTree = "<group>"; };
+		C3EF271C09B229CA8241D0B1 /* Pods-Runner.release-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-blumbox.xcconfig"; sourceTree = "<group>"; };
 		C960C22B42F15D54CB0A066C /* Pods-Runner.debug-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-qm.xcconfig"; sourceTree = "<group>"; };
 		CE97419F7ACB76D6BD8992EA /* Pods-Runner.release-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-taino.xcconfig"; sourceTree = "<group>"; };
 		CF869CDEEB6E92030ADBCCBB /* Pods-Runner.debug-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tupaq.xcconfig"; sourceTree = "<group>"; };
+		D11205DF576565D38BBE7043 /* Pods-Runner.profile-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-blumbox.xcconfig"; sourceTree = "<group>"; };
+		E50773BBCC8A474AFB2853D8 /* Pods-Runner.debug-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-flypack.xcconfig"; sourceTree = "<group>"; };
 		E9DF823AFDE8F41A7048AFC8 /* Pods-Runner.release-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-picknsend.xcconfig"; sourceTree = "<group>"; };
 		EA341B8D0D88B8B2DF1D6C9A /* Pods-Runner.profile-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-skyhigh.xcconfig"; sourceTree = "<group>"; };
+		ED4857A9625577A92F1BCD8C /* Pods-Runner.profile-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-flypack.xcconfig"; sourceTree = "<group>"; };
 		EFA49F2401ACB52E618A2D4C /* Pods-Runner.release-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-caribepack.xcconfig"; sourceTree = "<group>"; };
 		F40B95984301B37FA1788DC9 /* Pods-Runner.profile-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-qm.xcconfig"; sourceTree = "<group>"; };
 		F6DC16D8109ECFF199213122 /* Pods-Runner.release-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-almapaq.xcconfig"; sourceTree = "<group>"; };
@@ -248,6 +258,12 @@
 				322ECB203FF84461FED0ACAD /* Pods-Runner.debug-skyhigh.xcconfig */,
 				31616EFD942332F2CC608314 /* Pods-Runner.release-skyhigh.xcconfig */,
 				EA341B8D0D88B8B2DF1D6C9A /* Pods-Runner.profile-skyhigh.xcconfig */,
+				1607A5F9ADE808E786BE08DB /* Pods-Runner.debug-blumbox.xcconfig */,
+				C3EF271C09B229CA8241D0B1 /* Pods-Runner.release-blumbox.xcconfig */,
+				D11205DF576565D38BBE7043 /* Pods-Runner.profile-blumbox.xcconfig */,
+				E50773BBCC8A474AFB2853D8 /* Pods-Runner.debug-flypack.xcconfig */,
+				110F37710C0A56B77C1E957C /* Pods-Runner.release-flypack.xcconfig */,
+				ED4857A9625577A92F1BCD8C /* Pods-Runner.profile-flypack.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -286,6 +302,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				86C7C8422BF3E2B90076413F /* LaunchScreenFlypack.storyboard */,
+				86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */,
 				86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */,
 				862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */,
 				863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */,
@@ -401,6 +419,7 @@
 				868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */,
+				86C7C8442BF3E2B90076413F /* LaunchScreenFlypack.storyboard in Resources */,
 				86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */,
@@ -411,6 +430,7 @@
 				86A9CB9F29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard in Resources */,
 				862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */,
 				86B07D9F2B59A76D0026249C /* LaunchScreenPriority.storyboard in Resources */,
+				86131F5D2BE955D000515E60 /* LaunchScreenBlumbox.storyboard in Resources */,
 				86AA7E6429D0715300E17FE0 /* LaunchScreenJetpack.storyboard in Resources */,
 				865A9A462967221300498034 /* LaunchScreenTaino.storyboard in Resources */,
 			);
@@ -563,6 +583,14 @@
 			name = LaunchScreenPintopaq.storyboard;
 			sourceTree = "<group>";
 		};
+		86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86131F5C2BE955D000515E60 /* Base */,
+			);
+			name = LaunchScreenBlumbox.storyboard;
+			sourceTree = "<group>";
+		};
 		862203EF29C263C7009248F4 /* LaunchScreenPicknsend.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -657,6 +685,14 @@
 				86B07D9E2B59A76D0026249C /* Base */,
 			);
 			name = LaunchScreenPriority.storyboard;
+			sourceTree = "<group>";
+		};
+		86C7C8422BF3E2B90076413F /* LaunchScreenFlypack.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86C7C8432BF3E2B90076413F /* Base */,
+			);
+			name = LaunchScreenFlypack.storyboard;
 			sourceTree = "<group>";
 		};
 		86CC403C28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard */ = {
@@ -870,7 +906,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Sky High";
+				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
@@ -960,7 +996,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Sky High";
+				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
@@ -1047,7 +1083,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Sky High";
+				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
@@ -1159,7 +1195,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1249,7 +1285,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1336,7 +1372,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1617,6 +1653,275 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-pintopaq";
+		};
+		86131F552BE9557400515E60 /* Debug-blumbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-blumbox";
+		};
+		86131F562BE9557400515E60 /* Debug-blumbox */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Blumbox Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-blumbox";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBlumbox.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBlumbox;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-blumbox";
+		};
+		86131F572BE9558600515E60 /* Release-blumbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-blumbox";
+		};
+		86131F582BE9558600515E60 /* Release-blumbox */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Blumbox Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-blumbox";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBlumbox.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBlumbox;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-blumbox";
+		};
+		86131F592BE9559200515E60 /* Profile-blumbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-blumbox";
+		};
+		86131F5A2BE9559200515E60 /* Profile-blumbox */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Blumbox Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-blumbox";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenBlumbox.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenBlumbox;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-blumbox";
 		};
 		862203E929C2635E009248F4 /* Debug-picknsend */ = {
 			isa = XCBuildConfiguration;
@@ -1966,7 +2271,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2056,7 +2361,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2124,7 +2429,7 @@
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = ClickPack;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
 				CLANG_ENABLE_MODULES = YES;
@@ -2143,7 +2448,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4845,6 +5150,275 @@
 			};
 			name = "Profile-priority";
 		};
+		86C7C83C2BF3E2550076413F /* Debug-flypack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-flypack";
+		};
+		86C7C83D2BF3E2550076413F /* Debug-flypack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Flypack Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenFlypack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenFlypack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-flypack";
+		};
+		86C7C83E2BF3E26C0076413F /* Release-flypack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-flypack";
+		};
+		86C7C83F2BF3E26C0076413F /* Release-flypack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Flypack Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenFlypack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenFlypack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-flypack";
+		};
+		86C7C8402BF3E2790076413F /* Profile-flypack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-flypack";
+		};
+		86C7C8412BF3E2790076413F /* Profile-flypack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Flypack Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenFlypack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenFlypack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-flypack";
+		};
 		86CC403628D8B78F003B50D6 /* Debug-bmcargo */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5999,7 +6573,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6089,7 +6663,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6176,7 +6750,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2023.7.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6655,6 +7229,8 @@
 				86B07D972B59A6C10026249C /* Debug-priority */,
 				863F1D2C2B8CE8F400477140 /* Debug-qm */,
 				862A2AF02BD7F6C700001F62 /* Debug-clickpack */,
+				86C7C83C2BF3E2550076413F /* Debug-flypack */,
+				86131F552BE9557400515E60 /* Debug-blumbox */,
 				86049F9D2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73B2A7C3311008F7B7B /* Debug-tupaq */,
 				86A0EEB62AAB43A200924D08 /* Debug-swoop */,
@@ -6677,6 +7253,8 @@
 				86B07D992B59A6D80026249C /* Release-priority */,
 				863F1D2E2B8CE90000477140 /* Release-qm */,
 				862A2AF22BD7F6DC00001F62 /* Release-clickpack */,
+				86C7C83E2BF3E26C0076413F /* Release-flypack */,
+				86131F572BE9558600515E60 /* Release-blumbox */,
 				86049F9F2BE2D8750058E7C5 /* Release-skyhigh */,
 				860CC73D2A7C3323008F7B7B /* Release-tupaq */,
 				86A0EEB82AAB43B100924D08 /* Release-swoop */,
@@ -6699,6 +7277,8 @@
 				86B07D9B2B59A6EC0026249C /* Profile-priority */,
 				863F1D302B8CE90A00477140 /* Profile-qm */,
 				862A2AF42BD7F6E800001F62 /* Profile-clickpack */,
+				86C7C8402BF3E2790076413F /* Profile-flypack */,
+				86131F592BE9559200515E60 /* Profile-blumbox */,
 				86049FA12BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC73F2A7C332E008F7B7B /* Profile-tupaq */,
 				86A0EEBA2AAB43B900924D08 /* Profile-swoop */,
@@ -6728,6 +7308,8 @@
 				86B07D982B59A6C10026249C /* Debug-priority */,
 				863F1D2D2B8CE8F400477140 /* Debug-qm */,
 				862A2AF12BD7F6C700001F62 /* Debug-clickpack */,
+				86C7C83D2BF3E2550076413F /* Debug-flypack */,
+				86131F562BE9557400515E60 /* Debug-blumbox */,
 				86049F9E2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73C2A7C3311008F7B7B /* Debug-tupaq */,
 				86A0EEB72AAB43A200924D08 /* Debug-swoop */,
@@ -6750,6 +7332,8 @@
 				86B07D9A2B59A6D80026249C /* Release-priority */,
 				863F1D2F2B8CE90000477140 /* Release-qm */,
 				862A2AF32BD7F6DC00001F62 /* Release-clickpack */,
+				86C7C83F2BF3E26C0076413F /* Release-flypack */,
+				86131F582BE9558600515E60 /* Release-blumbox */,
 				86049FA02BE2D8760058E7C5 /* Release-skyhigh */,
 				860CC73E2A7C3323008F7B7B /* Release-tupaq */,
 				86A0EEB92AAB43B100924D08 /* Release-swoop */,
@@ -6772,6 +7356,8 @@
 				86B07D9C2B59A6EC0026249C /* Profile-priority */,
 				863F1D312B8CE90A00477140 /* Profile-qm */,
 				862A2AF52BD7F6E800001F62 /* Profile-clickpack */,
+				86C7C8412BF3E2790076413F /* Profile-flypack */,
+				86131F5A2BE9559200515E60 /* Profile-blumbox */,
 				86049FA22BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC7402A7C332E008F7B7B /* Profile-tupaq */,
 				86A0EEBB2AAB43B900924D08 /* Profile-swoop */,

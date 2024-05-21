@@ -453,7 +453,7 @@ class _CourierPageState extends State<CourierPage> {
         ));
       } else if (!loginResult.shouldAskToStore) {
         GetIt.I<CourierService>().clearCourierDataCache();
-        courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId));
+        courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId, loginResult.sucursal));
       } else {
         // We have a session and is a new additional user account
 
@@ -482,7 +482,7 @@ class _CourierPageState extends State<CourierPage> {
         if (dlgResult != null && dlgResult) {
           await GetIt.I<CourierService>().addCurrentAccountToStore();
           GetIt.I<CourierService>().clearCourierDataCache();
-          courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId));
+          courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId,loginResult.sucursal));
         }
       }
     }

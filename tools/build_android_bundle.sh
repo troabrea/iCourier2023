@@ -19,3 +19,5 @@
 #flutter build appbundle -t lib/apps/qm/main_qm.dart --flavor qm
 #flutter build appbundle -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
 flutter build appbundle -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
+#flutter build appbundle -t lib/apps/flypack/main_flypack.dart --flavor flypack
+#flutter build appbundle -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox

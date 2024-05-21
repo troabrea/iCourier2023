@@ -264,8 +264,9 @@ class CourierService {
     final sessionId = (await cache.load('sessionId','')).toString();
     final userId = (await cache.load('userAccount','')).toString();
     final password = (await cache.load('userPassword','')).toString();
+    final sucursal = (await cache.load('userSucursal','')).toString();
     var loginResult = await getLoginResult(userId, password, checkForNew: false);
-    if(loginResult.sessionId.isEmpty) {
+    if(loginResult.sessionId.isEmpty || loginResult.sucursal != sucursal) {
       GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
       GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
     } else {
@@ -935,5 +936,9 @@ class CourierService {
     } catch (ex) {
       return "Error inesperado enviando post-alerta.";
     }
+  }
+
+  clearDataCache() {
+    cache.clear();
   }
 }

@@ -130,10 +130,10 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.35,
                   child: buildFechaFormField(context)),
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.55,
                   child: buildValorFormField(context)),
               ]
           ),
@@ -259,7 +259,7 @@ class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           labelText: 'valor_fob'.tr(),
-          alignLabelWithHint: true,
+          floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
           TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(

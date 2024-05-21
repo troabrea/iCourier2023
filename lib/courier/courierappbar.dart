@@ -40,10 +40,14 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
   Future<void> _configureWithProfile() async {
     userProfile = await GetIt.I<CourierService>().getUserProfile();
+    final oldProfileUrl = profileUrl;
     profileUrl = await GetIt.I<CourierService>().empresaOptionValue("ProfileUrl");
+    if(profileUrl.isEmpty) {
+      profileUrl = await GetIt.I<CourierService>().empresaOptionValue("EditProfileUrl");
+    }
 
     setState(() {
-      if(showWhatsApp != userProfile.whatsappSucursal.isNotEmpty || (showChat != (!showWhatsApp && userProfile.chatUrl.isNotEmpty)) ) {
+      if(oldProfileUrl != profileUrl || showWhatsApp != userProfile.whatsappSucursal.isNotEmpty || (showChat != (!showWhatsApp && userProfile.chatUrl.isNotEmpty)) ) {
         showWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
         showChat = !showWhatsApp && userProfile.chatUrl.isNotEmpty;
         appBarActions.clear();
@@ -219,8 +223,9 @@ class _CourierAppBarState extends State<CourierAppBar> {
   }
 
   doEditProfile(BuildContext context) async {
+    final appInfo = GetIt.I<AppInfo>();
     final map = await GetIt.I<CourierService>().getProfileUrl();
-    final actionUrl = map['ActionURL'] ?? "";
+    final actionUrl =  appInfo.metricsPrefixKey == "CPS" ? map['ActionURL'] : profileUrl; // map['ActionURL'] ?? "";
     final userId = map['UsuarioID'] ?? "";
     final userPwd = map['UsuarioPW'] ?? "";
     final urlId = map['UrlID'] ?? "";

@@ -147,10 +147,10 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.35,
                   child: buildFechaFormField(context)),
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.55,
                   child: buildValorFormField(context)),
               ]
           ),
@@ -274,7 +274,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(2),
           labelText: 'valor_fob'.tr(),
-          alignLabelWithHint: true,
+          floatingLabelAlignment: FloatingLabelAlignment.center,
           floatingLabelStyle:
           TextStyle(color: Theme.of(context).dividerColor),
           focusedBorder: OutlineInputBorder(

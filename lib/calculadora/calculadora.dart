@@ -164,11 +164,11 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           Column(
             children: [Row(children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.3,
                   child: buildLibrasFormField(context)),
               const SizedBox(width: 3,),
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: buildValorFormField(context)),
             ],),
               if(productos.length > 1)

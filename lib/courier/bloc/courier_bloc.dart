@@ -53,10 +53,13 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
 
     on<UserDidLoginEvent>((event,emit) async {
       final appInfo = GetIt.I<AppInfo>();
-      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? appInfo.pushChannelTopic + "_" + event.sessionId : appInfo.pushChannelTopic + "_" + event.usuario;
+      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? "${appInfo.pushChannelTopic}_${event.sessionId}" : "${appInfo.pushChannelTopic}_${event.usuario}";
+      final pushSucursalTopic = "${appInfo.pushChannelTopic}_${event.sucursal}";
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       messaging.subscribeToTopic(pushUserTopic);
-
+      if(event.sucursal.isNotEmpty) {
+        messaging.subscribeToTopic(pushSucursalTopic);
+      }
       //
       loginChanged.broadcast(LoginChanged(true, event.usuario));
       emit(const CourierIsLoggedState());
@@ -65,11 +68,16 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
     on<LogoutEvent>( (event,emit) async {
       //
       final cuenta = (await cache.load('userAccount','')).toString();
+      final sucursal = (await cache.load('userSucursal','')).toString();
       final sessionId = (await cache.load('sessionId','')).toString();
       final appInfo = GetIt.I<AppInfo>();
-      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? appInfo.pushChannelTopic + "_" + sessionId : appInfo.pushChannelTopic + "_" + cuenta;
+      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? "${appInfo.pushChannelTopic}_$sessionId" : "${appInfo.pushChannelTopic}_$cuenta";
+      final pushSucursalTopic = "${appInfo.pushChannelTopic}_$sucursal";
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       messaging.unsubscribeFromTopic(pushUserTopic);
+      if(sucursal.isNotEmpty) {
+        messaging.subscribeToTopic(pushSucursalTopic);
+      }
       //
       emit(CourierIsBusyState());
       var empresa = (await courierService.getEmpresa());

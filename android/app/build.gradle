@@ -162,6 +162,14 @@ android {
             dimension "app"
             applicationId "com.barolit.skyhigh"
         }
+        blumbox {
+            dimension "app"
+            applicationId "com.barolit.blumbox"
+        }
+        flypack {
+            dimension "app"
+            applicationId "com.barolit.flypack"
+        }
         tupaq {
             dimension "app"
             applicationId "com.barolit.tupaq"

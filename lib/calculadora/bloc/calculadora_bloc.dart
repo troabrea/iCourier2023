@@ -26,13 +26,14 @@ class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
     on<CalculatorPrepareEvent>((event,emit) async {
       emit(CalculadoraLoadingState());
       final empresa = await _courierService.getEmpresa();
+      final empresaDefault = Producto(registroId: const Uuid().toString(), empresa: empresa.registroId, titulo: 'FLETE', codigo: empresa.calculadoraProducto, orden: 1, deleted: false);
       final products = await _courierService.getProductos(false);
       if(products.isEmpty) {
-        products.add(Producto(registroId: const Uuid().toString(), empresa: empresa.registroId, titulo: 'FLETE', codigo: empresa.calculadoraProducto, orden: 1, deleted: false));
+        products.add(empresaDefault);
       }
-      final productoDefault = products.firstWhere((element) => element.codigo == empresa.calculadoraProducto);
+      final productoDefault = products.firstWhereOrNull((element) => element.codigo == empresa.calculadoraProducto);
       products.sort((a,b) => a.orden.compareTo(b.orden));
-      emit(CalculadoraPreparedState(products, productoDefault));
+      emit(CalculadoraPreparedState(products, productoDefault ?? empresaDefault));
     });
 
     on<CalculateEvent>((event,emit) async {
