@@ -37,6 +37,11 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
   Empresa? _empresa;
 
   final appInfo = GetIt.I<AppInfo>();
+
+  String registroUrl = "";
+  String ruaUrl = "";
+  String correoEmpleos = "";
+
   _AdicionalInfoPageState()
   {
     GetIt.I<event.Event<LoginChanged>>().subscribe((args)  {
@@ -58,7 +63,9 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     final userProfile = await GetIt.I<CourierService>().getUserProfile();
     final info = await PackageInfo.fromPlatform();
     _empresa = await GetIt.I<CourierService>().getEmpresa();
-
+    registroUrl = await GetIt.I<CourierService>().empresaOptionValue("RegistroAdicional");
+    ruaUrl = await GetIt.I<CourierService>().empresaOptionValue("RegistroRua");
+    correoEmpleos = await GetIt.I<CourierService>().empresaOptionValue("CorreoEmpleos");
     if (!mounted) return;
 
     setState(() {
@@ -77,7 +84,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 65),
-          child: Column( children: [
+          child: ListView( children: [
             if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "BMCARGO" && appInfo.metricsPrefixKey != "SWOOP")
               InkWell(onTap: () {
                 pushNewScreen(context, screen: const ServiciosPage());
@@ -131,7 +138,37 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.support, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
                   const Icon(Icons.launch),
-                    title: Text("solicitar_soporte".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                    title: Text(appInfo.metricsPrefixKey == "BLUMBOX" ? "ticket_de_ayuda".tr() : "solicitar_soporte".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                ),
+              ),
+            if(registroUrl.isNotEmpty && _userAccount.isEmpty)
+              InkWell(
+                onTap: () => { openExteralUrl(registroUrl)},
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.edit, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
+                  const Icon(Icons.person),
+                    title: Text("registrate_aqui".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                ),
+              ),
+            if(ruaUrl.isNotEmpty)
+              InkWell(
+                onTap: () => { openExteralUrl(ruaUrl)},
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.airplanemode_active, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
+                  const Icon(Icons.web),
+                    title: Text("registrate_rua".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
+                ),
+              ),
+            if(correoEmpleos.isNotEmpty)
+              InkWell(
+                onTap: () => { openExteralUrl(correoEmpleos)},
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Theme.of(context).dividerColor)), leading: Icon(Icons.work, size: 20, color: Theme.of(context).colorScheme.secondary ), trailing:
+                  const Icon(Icons.mail),
+                    title: Text("empleate".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
                 ),
               ),
             if( _empresa != null && (_empresa!.mision.isNotEmpty || _empresa!.vision.isNotEmpty ) )
@@ -147,10 +184,12 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
             if(_empresa != null)
               const Spacer(),
             if(_empresa != null)
-            AutoSizeText(_userName.isNotEmpty ? "$_userName ($_userAccount)" : "", maxLines: 1, minFontSize: 12, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
-                color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
-                offset: const Offset(2, 2),
-                blurRadius: 10)]),),
+            Center(
+              child: AutoSizeText(_userName.isNotEmpty ? "$_userName ($_userAccount)" : "", maxLines: 1, minFontSize: 12, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
+                  color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
+                  offset: const Offset(2, 2),
+                  blurRadius: 10)]),),
+            ),
             // Text(_userAccount, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
             //     color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
             //     offset: const Offset(2, 2),
@@ -169,16 +208,20 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
             //   ),
 
             if(_userSucursal.isNotEmpty)
-            Text(_userSucursal, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
-                color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
-                offset: const Offset(2, 2),
-                blurRadius: 10)]),),
+            Center(
+              child: Text(_userSucursal, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
+                  color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
+                  offset: const Offset(2, 2),
+                  blurRadius: 10)]),),
+            ),
             const SizedBox(height: 10,),
             if(_versionNumber.isNotEmpty)
-            Text("version_info".tr(args: [_versionNumber]), style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(
-                color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
-                offset: const Offset(3, 3),
-                blurRadius: 10)]),)
+            Center(
+              child: Text("version_info".tr(args: [_versionNumber]), style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(
+                  color: Theme.of(context).textTheme.titleSmall!.color!.withOpacity(0.3),
+                  offset: const Offset(3, 3),
+                  blurRadius: 10)]),),
+            )
             ],),
         ),
       ));

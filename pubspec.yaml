@@ -119,8 +119,8 @@ flutter:
   assets:
     - translations/
 #    - images/flypack/
-#    - images/blumbox/
-    - images/skyhigh/
+    - images/blumbox/
+#    - images/skyhigh/
 #    - images/clickpack/
 #    - images/qm/
 #    - images/domex/
