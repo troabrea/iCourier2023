@@ -293,9 +293,17 @@ class _CourierPageState extends State<CourierPage> {
                     ),
                     if(registerUrl.isNotEmpty)
                       const SizedBox(height: 20,),
-                    if(appInfo.metricsPrefixKey != "TUPAQ" && appInfo.metricsPrefixKey != "BOXPAQ" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "FIXOCARGO" && registerUrl.isNotEmpty)
+                    if(appInfo.metricsPrefixKey != "TUPAQ" && appInfo.metricsPrefixKey != "FLYPACK" && appInfo.metricsPrefixKey != "BOXPAQ" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "FIXOCARGO" && registerUrl.isNotEmpty)
                       Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl, mode: LaunchMode.inAppWebView); }, child: Text.rich(TextSpan(text: "no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
                         TextSpan(text:'conoce_mas_aqui'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
+                    if(appInfo.additionalLocale.isNotEmpty)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(onPressed: () { context.setLocale(const Locale('es')); }, child: context.locale.languageCode == 'es' ? Text('Español', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),) : const Text('Español'),),
+                          Icon(Icons.circle, color: Theme.of(context).dividerColor, size: 6,),
+                          TextButton(onPressed: () { context.setLocale(const Locale('en')); }, child: context.locale.languageCode == 'en' ? Text('English', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),) : const Text('English'),),
+                      ],),
                     if(appInfo.metricsPrefixKey == "FIXOCARGO")
                       Center(child: OutlinedButton(onPressed: () async {
                         await launchUrlString("https://fixocargo.com/", mode: LaunchMode.externalApplication); },

@@ -9,7 +9,8 @@ class SwoopAppInfo implements AppInfo {
 
   @override
   String defaultLocale = 'en';
-
+  @override
+  String additionalLocale = '';
   @override
   String currencyCode = 'US\$';
 

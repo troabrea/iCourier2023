@@ -11,7 +11,8 @@ class CpsAppInfo implements AppInfo {
 
   @override
   String currencyCode = 'RD\$';
-
+  @override
+  String additionalLocale = '';
   @override
   int defaultTab = 2;
 

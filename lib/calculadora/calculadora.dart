@@ -220,7 +220,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       },
       keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
       textAlign: TextAlign.center,
-      initialValue: appInfo.metricsPrefixKey == "BMCARGO" ? "1.00" : "1",
+      initialValue: appInfo.metricsPrefixKey == "BMCARGO" ? "1.00" : appInfo.metricsPrefixKey == "BLUMBOX" ? "1.00" : "1",
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
         // TextInputMask(
@@ -235,7 +235,9 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
         FormBuilderValidators.required(errorText: 'requerido'.tr()),
         if(appInfo.metricsPrefixKey == "BMCARGO")
           FormBuilderValidators.min(0.20, errorText: 'Mayor de 0.20'),
-        if(appInfo.metricsPrefixKey != "BMCARGO")
+        if(appInfo.metricsPrefixKey == "BLUMBOX")
+          FormBuilderValidators.min(0.80, errorText: 'Mayor de 0.80'),
+        if(appInfo.metricsPrefixKey != "BMCARGO" && appInfo.metricsPrefixKey != "BLUMBOX")
           FormBuilderValidators.min(1, errorText: 'mayor_de_cero'.tr()),
       ]),
       decoration: InputDecoration(

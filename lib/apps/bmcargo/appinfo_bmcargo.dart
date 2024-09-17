@@ -8,6 +8,8 @@ class BmcargoAppInfo implements AppInfo {
 
   @override
   String defaultLocale = 'es';
+  @override
+  String additionalLocale = 'en';
 
   @override
   String currencyCode = 'RD\$';

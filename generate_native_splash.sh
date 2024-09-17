@@ -18,5 +18,7 @@
 #flutter pub run flutter_native_splash:create --flavor jetpack
 #flutter pub run flutter_native_splash:create --flavor swoop
 #flutter pub run flutter_native_splash:create --flavor skyhigh
-flutter pub run flutter_native_splash:create --flavor blumbox
+#flutter pub run flutter_native_splash:create --flavor blumbox
 #flutter pub run flutter_native_splash:create --flavor flypack
+#flutter pub run flutter_native_splash:create --flavor tdexpress
+flutter pub run flutter_native_splash:create --flavor mcccargo

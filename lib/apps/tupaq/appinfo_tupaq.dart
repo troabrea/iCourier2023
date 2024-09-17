@@ -9,7 +9,8 @@ class TupaqAppInfo implements AppInfo {
 
   @override
   String defaultLocale = 'es';
-
+  @override
+  String additionalLocale = '';
   @override
   int defaultTab = 2;
 

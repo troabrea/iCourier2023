@@ -18,7 +18,7 @@ part 'dashboard_state.dart';
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final _courierService = GetIt.I<CourierService>();
 
-  DashboardBloc(DashboardState initialState) : super(initialState) {
+  DashboardBloc(super.initialState) {
 
     on<StoreCurrentAccountEvent>((event,emit) async {
       await _courierService.addCurrentAccountToStore();
@@ -31,61 +31,93 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       await _courierService.launchOnlinePayment();
     });
 
+    on<ReferirAmigoRequestEvent>((event,emit) async {
+      await _courierService.launchReferirAmigoUrl();
+    });
+
+    bool isNotifying = false;
     on<NotificarRetiroEvent>((event,emit) async {
-      final empresa = await _courierService.getEmpresa();
-      var puntoRetiro = "";
-      if(empresa.dominio.toUpperCase() == "BMCARGO") {
-        puntoRetiro = await optionsDialog(event.context, "donde_notificar_retiro".tr(), ["Counter","Drive-Thru","cancelar".tr()].toList());
-        if(puntoRetiro.toUpperCase() == "cancelar".tr().toUpperCase()) {
+      try {
+        if (isNotifying) {
           return;
         }
-        if(puntoRetiro.toUpperCase() == "Counter".toUpperCase() ) {
-          puntoRetiro = "AppCounter";
+        isNotifying=true;
+        final empresa = await _courierService.getEmpresa();
+        var puntoRetiro = "";
+        if (empresa.dominio.toUpperCase() == "BMCARGO") {
+          puntoRetiro = await optionsDialog(
+              event.context, "donde_notificar_retiro".tr(),
+              ["Counter", "Drive-Thru", "cancelar".tr()].toList());
+          if (puntoRetiro.toUpperCase() == "cancelar".tr().toUpperCase()) {
+            return;
+          }
+          if (puntoRetiro.toUpperCase() == "Counter".toUpperCase()) {
+            puntoRetiro = "AppCounter";
+          }
+          if (puntoRetiro.toUpperCase() == "Drive-Thru".toUpperCase()) {
+            puntoRetiro = "AppDriveThru";
+          }
+        } else {
+          if (!await confirmDialog(
+              event.context, "seguro_notificar_retiro".tr(), "si".tr(),
+              "no".tr())) {
+            return;
+          }
         }
-        if(puntoRetiro.toUpperCase() == "Drive-Thru".toUpperCase() ) {
-          puntoRetiro = "AppDriveThru";
-        }
-      } else {
-        if(!await confirmDialog(event.context, "seguro_notificar_retiro".tr(), "si".tr(), "no".tr())) {
-          return;
-        }
+
+        emit(DashboardLoadingState());
+        var result = await _courierService.notificaRetiro(
+            puntoRetiro: puntoRetiro);
+
+        //
+
+        final banners = await _courierService.getBanners();
+        final recepciones = await _courierService.getRecepciones(true);
+        final puntos = empresa.hasPointsModule ? await _courierService
+            .getPuntos() : Puntos.empty();
+        final moreInfoText = await _courierService.empresaOptionValue(
+            "MoreInfoText");
+        final moreInfoUrl = await _courierService.empresaOptionValue(
+            "MoreInfoUrl");
+        final reclamoUrl = await _courierService.empresaOptionValue(
+            "ReclamoUrl");
+        final referirUrl = await _courierService.empresaOptionValue(
+            "ReferirUrl");
+        //final userAccounts = await _courierService.getStoredAccounts();
+        final recepcionesCount = recepciones.length;
+
+        final retenidosCount = recepciones
+            .where((element) => element.retenido == true)
+            .length;
+
+        var disponibles = recepciones.where((element) =>
+        element.disponible == true).toList();
+        final disponiblesCount = disponibles.length;
+        final montoTotal = disponibles
+            .map((e) => e.montoTotal())
+            .toList()
+            .sum;
+        //
+
+        emit(DashboardFinishedState(
+            withErrors: result.isNotEmpty, errorMessage: result));
+        emit(DashboardLoadedState(empresa: empresa,
+            banners: banners,
+            recepciones: recepciones,
+            recepcionesCount: recepcionesCount,
+            disponiblesCount: disponiblesCount,
+            montoTotal: montoTotal,
+            retenidosCount: retenidosCount,
+            puntos: puntos,
+            moreInfoUrl: moreInfoUrl,
+            moreInfoText: moreInfoText,
+            reclamoUrl: reclamoUrl,
+            referirUrl: referirUrl
+        ));
+        isNotifying = true;
+      } finally {
+        isNotifying = false;
       }
-
-      emit(DashboardLoadingState());
-      var result = await _courierService.notificaRetiro(puntoRetiro: puntoRetiro);
-
-      //
-      
-      final banners = await _courierService.getBanners();
-      final recepciones = await _courierService.getRecepciones(true);
-      final puntos = empresa.hasPointsModule ? await _courierService.getPuntos() : Puntos.empty();
-      final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
-      final moreInfoUrl = await _courierService.empresaOptionValue("MoreInfoUrl");
-      final reclamoUrl = await _courierService.empresaOptionValue("ReclamoUrl");
-
-      //final userAccounts = await _courierService.getStoredAccounts();
-      final recepcionesCount = recepciones.length;
-
-      final retenidosCount = recepciones.where((element) => element.retenido == true).length;
-
-      var disponibles = recepciones.where((element) => element.disponible == true).toList();
-      final disponiblesCount = disponibles.length;
-      final montoTotal = disponibles.map((e) => e.montoTotal()).toList().sum;
-      //
-
-      emit(DashboardFinishedState(withErrors:  result.isNotEmpty, errorMessage:  result  ));
-      emit(DashboardLoadedState(empresa: empresa,
-          banners:  banners,
-          recepciones: recepciones,
-          recepcionesCount:  recepcionesCount,
-          disponiblesCount: disponiblesCount,
-          montoTotal: montoTotal,
-          retenidosCount: retenidosCount,
-          puntos: puntos,
-          moreInfoUrl: moreInfoUrl,
-          moreInfoText: moreInfoText,
-          reclamoUrl: reclamoUrl
-      ));
     });
 
     on<SolicitarDomicilioEvent>((event,emit) async {
@@ -110,6 +142,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
         final moreInfoUrl = await _courierService.empresaOptionValue("MoreInfoUrl");
         final reclamoUrl = await _courierService.empresaOptionValue("ReclamoUrl");
+        final referirUrl  = await _courierService.empresaOptionValue("ReferirUrl");
         final recepcionesCount = recepciones.length;
 
         final retenidosCount = recepciones.where((element) => element.retenido == true).length;
@@ -128,7 +161,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             puntos: puntos,
             moreInfoText: moreInfoText,
             moreInfoUrl: moreInfoUrl,
-            reclamoUrl: reclamoUrl
+            reclamoUrl: reclamoUrl,
+            referirUrl: referirUrl
         ));
       } catch(e) {
         emit(DashboardFinishedState(withErrors: true, errorMessage: "error_favor_reintentar".tr()));

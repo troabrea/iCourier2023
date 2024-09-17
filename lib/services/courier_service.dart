@@ -95,10 +95,19 @@ String productoToJson(List<Producto> data) => json.encode(List<dynamic>.from(dat
 
 List<PreAlertaDto> prealertasFromJson(String str) => List<PreAlertaDto>.from(json.decode(str).map((x) => PreAlertaDto.fromJson(x)));
 
+enum ShortCutToRun {
+  NOTIFICARRETIRO,
+  SOLICITARDOMICILIO,
+  PREALERTA,
+  POSTALERTA,
+  NONE
+}
+
 class CourierService {
   late String companyId;
   late AppInfo appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
   bool firstTime = true;
+  ShortCutToRun shortCutToRun = ShortCutToRun.NONE;
   Map? optionsMap;
   CourierService() {
     appInfo = GetIt.I<AppInfo>();
@@ -648,6 +657,25 @@ class CourierService {
     }
   }
 
+  Future<void> launchReferirAmigoUrl() async {
+    await _validateSession();
+
+    final empresa = await getEmpresa();
+    final cuenta = await cache.load('userAccount', "");
+    final password = await cache.load('userPassword', "");
+    var url = empresa.urlServidor;
+    url = "$url?UsuarioID=$cuenta&UsuarioPW=$password&UrlID=Refiere&mn=0";
+    url = Uri.encodeFull(url);
+
+    var paymentUrl = await empresaOptionValue("PaymentsUrl");
+    if(paymentUrl.isNotEmpty) {
+      url = paymentUrl;
+    }
+    final uri = Uri.parse(url);
+
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
   Future<void> launchOnlinePayment()  async {
 
     await _validateSession();
@@ -656,7 +684,7 @@ class CourierService {
     final cuenta = await cache.load('userAccount', "");
     final password = await cache.load('userPassword', "");
     var url = empresa.urlServidor;
-    url = url + "?UsuarioID=$cuenta&UsuarioPW=$password&UrlID=pagos&mn=0";
+    url = "$url?UsuarioID=$cuenta&UsuarioPW=$password&UrlID=pagos&mn=0";
     url = Uri.encodeFull(url);
 
     var paymentUrl = await empresaOptionValue("PaymentsUrl");

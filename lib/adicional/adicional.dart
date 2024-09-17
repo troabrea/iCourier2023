@@ -178,11 +178,14 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 const Icon(Icons.expand_circle_down_outlined),
                 title: Text("sobre_nosotros".tr(), style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onBackground),),),
             ),
-            const Spacer(),
+            // const Spacer(),
             if(_empresa != null && _userProfile != null)
-              SocialMediaLinks(empresa: _empresa!, userProfile: _userProfile!,),
-            if(_empresa != null)
-              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 15),
+                child: SocialMediaLinks(empresa: _empresa!, userProfile: _userProfile!,),
+              ),
+            // if(_empresa != null)
+            //   const Spacer(),
             if(_empresa != null)
             Center(
               child: AutoSizeText(_userName.isNotEmpty ? "$_userName ($_userAccount)" : "", maxLines: 1, minFontSize: 12, style: Theme.of(context).textTheme.bodyMedium?.copyWith(shadows: [Shadow(
@@ -215,6 +218,14 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                   blurRadius: 10)]),),
             ),
             const SizedBox(height: 10,),
+            if(appInfo.additionalLocale.isNotEmpty)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(onPressed: () { context.setLocale(const Locale('es')); }, child: context.locale.languageCode == 'es' ? Text('Español', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),) : const Text('Español'),),
+                  Icon(Icons.circle, color: Theme.of(context).dividerColor, size: 6,),
+                  TextButton(onPressed: () { context.setLocale(const Locale('en')); }, child: context.locale.languageCode == 'en' ? Text('English', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),) : const Text('English'),),
+                ],),
             if(_versionNumber.isNotEmpty)
             Center(
               child: Text("version_info".tr(args: [_versionNumber]), style: Theme.of(context).textTheme.bodySmall?.copyWith(shadows: [Shadow(

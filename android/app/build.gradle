@@ -77,8 +77,9 @@ android {
 
     defaultConfig {
         applicationId "com.barolit.icourier"
+        compileSdkVersion 34
         minSdkVersion 21
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -90,7 +91,7 @@ android {
         domex {
             dimension "app"
             applicationId "com.barolit.domex"
-            versionCode 5202342
+            versionCode 5202344
         }
         bmcargo {
             dimension "app"
@@ -105,7 +106,7 @@ android {
         almapaq {
             dimension "app"
             applicationId "com.barolit.almapaq"
-            versionCode 5202324
+            versionCode 5202325
         }
         beexpress {
             dimension "app"
@@ -153,6 +154,10 @@ android {
             dimension "app"
             applicationId "com.barolit.qm"
         }
+        tdexpress {
+            dimension "app"
+            applicationId "com.barolit.tdexpress"
+        }
 
         clickpack {
             dimension "app"
@@ -169,6 +174,10 @@ android {
         flypack {
             dimension "app"
             applicationId "com.barolit.flypack"
+        }
+        mcccargo {
+            dimension "app"
+            applicationId "com.barolit.mcccargo"
         }
         tupaq {
             dimension "app"
@@ -198,9 +207,9 @@ android {
     buildTypes {
         release {
             //signingConfig signingConfigs.codemagic
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
 //            signingConfig signingConfigs.recent
-//            signingConfig signingConfigs.legacy
+            signingConfig signingConfigs.legacy
         }
     }
 }

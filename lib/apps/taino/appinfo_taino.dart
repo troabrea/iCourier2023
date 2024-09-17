@@ -6,7 +6,8 @@ import '../appinfo.dart';
 class TainoAppInfo implements AppInfo {
   @override
   String defaultLocale = 'es';
-
+  @override
+  String additionalLocale = '';
   @override
   String currencyCode = 'RD\$';
 

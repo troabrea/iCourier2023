@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
@@ -111,8 +113,8 @@ class _CourierAppBarState extends State<CourierAppBar> {
               if(profileUrl.isNotEmpty)
                 AppPopupMenu<int>(
                   menuItems: [
-                    PopupMenuItem(child:  Text('editar_perfil'.tr()), value: 1,),
-                    PopupMenuItem(child:  Text('cerrar_session'.tr()), value: 2,),
+                    PopupMenuItem(value: 1,child:  Text('editar_perfil'.tr()),),
+                    PopupMenuItem(value: 2,child:  Text('cerrar_session'.tr()),),
                   ],
                   icon: Icon(Icons.person, color: Theme.of(context).appBarTheme.foregroundColor,),
                   onSelected: (x) =>
@@ -223,18 +225,25 @@ class _CourierAppBarState extends State<CourierAppBar> {
   }
 
   doEditProfile(BuildContext context) async {
+    if (!context.mounted) return;
+
     final appInfo = GetIt.I<AppInfo>();
     final map = await GetIt.I<CourierService>().getProfileUrl();
-    final actionUrl =  appInfo.metricsPrefixKey == "CPS" ? map['ActionURL'] : profileUrl; // map['ActionURL'] ?? "";
     final userId = map['UsuarioID'] ?? "";
     final userPwd = map['UsuarioPW'] ?? "";
-    final urlId = map['UrlID'] ?? "";
-    final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
-    if (!context.mounted) return;
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "Mi Perfil")),
-    );
+
+    final String encodedCompany =
+    base64Encode(const Utf8Encoder().convert(appInfo.companyId));
+
+    final String encodedUser =
+    base64Encode(const Utf8Encoder().convert(userId));
+
+    final String encodedPwd =
+    base64Encode(const Utf8Encoder().convert(userPwd));
+
+
+    final functionUrl= 'https://icourier.barolit.net/EditProfile/$encodedCompany/$encodedUser/$encodedPwd';
+    await launchUrl(Uri.parse( functionUrl ));
 
 
   }

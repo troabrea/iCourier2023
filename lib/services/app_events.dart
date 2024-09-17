@@ -22,6 +22,14 @@ class CourierRefreshRequested extends EventArgs {
   CourierRefreshRequested();
 }
 
+class AutoNotificarRetiroRequested extends EventArgs {
+  AutoNotificarRetiroRequested();
+}
+
+class NotificarRetiroRequested extends EventArgs {
+  NotificarRetiroRequested();
+}
+
 class EmpresaRefreshFinished extends EventArgs {
   EmpresaRefreshFinished();
 }

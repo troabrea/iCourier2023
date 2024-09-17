@@ -5,8 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'apps/appinfo.dart';
 import '../../services/app_events.dart';
 import '../../services/courier_service.dart';
@@ -94,6 +94,8 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   GetIt.I.registerSingleton<event.Event<NoticiasDataRefreshRequested>>(event.Event<NoticiasDataRefreshRequested>());
   GetIt.I.registerSingleton<event.Event<SucursalesDataRefreshRequested>>(event.Event<SucursalesDataRefreshRequested>());
   GetIt.I.registerSingleton<event.Event<SessionExpired>>(event.Event<SessionExpired>());
+  GetIt.I.registerSingleton<event.Event<NotificarRetiroRequested>>(event.Event<NotificarRetiroRequested>());
+  GetIt.I.registerSingleton<event.Event<AutoNotificarRetiroRequested>>(event.Event<AutoNotificarRetiroRequested>());
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -104,20 +106,39 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   AppCenter.startAsync( appSecretIOS: appInfo.iphoneAnalyticsAppId, appSecretAndroid: _appInfo.androidAnalyticsAppId, enableCrashes: true, enableAnalytics: true,  );
   AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_INICIO_SESION");
 
+  Future<dynamic> appIntentHandler(MethodCall call) async {
+    switch (call.method) {
+      case 'notificar_retiro':
+        GetIt.I<event.Event<AutoNotificarRetiroRequested>>().broadcast();
+    // break;
+      default:
+        throw PlatformException(
+          code: 'No implementado',
+          details: 'El método ${call.method} no esta implementado.',
+        );
+    }
+  }
+
+  MethodChannel channel = const MethodChannel('icourier_app_intent_channel');
+  channel.setMethodCallHandler(appIntentHandler);
+
+
+
   runApp(
     EasyLocalization(
-        child: MyApp(),
-        supportedLocales: [Locale(appInfo.defaultLocale)],
+        startLocale: Locale(appInfo.defaultLocale),
+        supportedLocales: appInfo.additionalLocale.isEmpty ? [Locale(appInfo.defaultLocale)] : [Locale(appInfo.defaultLocale),Locale(appInfo.additionalLocale),],
         fallbackLocale: const Locale('es'),
         useOnlyLangCode: true,
-        path: 'translations'
+        path: 'translations',
+        child: MyApp()
     )
   );
 }
 
 class MyApp extends StatelessWidget {
   final AppInfo appInfo = GetIt.I<AppInfo>();
-  MyApp({Key? key}) : super(key: key);
+  MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -133,7 +154,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates:  delegates,
         supportedLocales: context.supportedLocales , //FormBuilderLocalizations.delegate.supportedLocales,
-        locale: Locale(appInfo.defaultLocale),
+        locale: context.locale,
         title: 'iCourier',
         theme: appInfo.getLightTheme(), // getAppTheme(),
         darkTheme: appInfo.getDarkTheme(),

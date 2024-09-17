@@ -30,6 +30,11 @@ class CourierWebViewPage extends StatelessWidget {
             // if (request.url.startsWith('https://www.youtube.com/')) {
             //   return NavigationDecision.prevent;
             // }
+            // if(request.url.contains("about:blank")) {
+            //   print(request.url);
+            //   return NavigationDecision.prevent;
+            // }
+            print(request.url);
             return NavigationDecision.navigate;
           },
         ),
@@ -40,6 +45,7 @@ class CourierWebViewPage extends StatelessWidget {
         appBar: AppBar(title: Text(titulo),
         ),
         body: SafeArea(child: WebViewWidget(
+            // controller: webController..loadRequest(Uri.parse("https://www.google.com"))
             controller: webController..loadHtmlString(htmlText)
         ))
     );

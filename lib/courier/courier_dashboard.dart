@@ -30,7 +30,7 @@ import 'package:event/event.dart' as event;
 import 'crear_prealerta.dart';
 
 class CourierDashboard extends StatefulWidget {
-  const CourierDashboard({Key? key}) : super(key: key);
+  const CourierDashboard({super.key});
 
   @override
   State<CourierDashboard> createState() => _CourierDashboardState();
@@ -48,6 +48,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
     GetIt.I<event.Event<CourierRefreshRequested>>().subscribe((args) {
       getDashboardBloc().add(const LoadApiEvent(true));
     });
+
   }
 
   DashboardBloc getDashboardBloc() {
@@ -61,6 +62,12 @@ class _CourierDashboardState extends State<CourierDashboard> {
   void initState() {
     super.initState();
     controller = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(GetIt.I<CourierService>().shortCutToRun == ShortCutToRun.NOTIFICARRETIRO) {
+        GetIt.I<CourierService>().shortCutToRun = ShortCutToRun.NONE;
+        GetIt.I<event.Event<NotificarRetiroRequested>>().broadcast();
+      }
+    });
   }
 
   @override
@@ -73,6 +80,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
   Widget build(BuildContext context) {
     GetIt.I<event.Event<UserPrealertaRequested>>().subscribe((args) {
       showPreAlertaSheet(context);
+    });
+    GetIt.I<event.Event<NotificarRetiroRequested>>().subscribe((args) {
+      getDashboardBloc().add(NotificarRetiroEvent(context));
     });
     return BlocProvider(
       create: (context) => getDashboardBloc()..add(const LoadApiEvent(false)),
@@ -87,7 +97,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.errorMessage),
-                  backgroundColor: Theme.of(context).errorColor,
+                  backgroundColor: Theme.of(context).colorScheme.error,
                 ));
               }
             }
@@ -324,19 +334,40 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                   padding: EdgeInsets.only(bottom: 5.0),
                                   child: Divider(thickness: 2),
                                 ),
-                              if(state.moreInfoText.isNotEmpty)
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: FilledButton(
-                                      onPressed: () async {
-                                         await launchUrl(Uri.parse(state.moreInfoUrl));
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.w600),),
-                                          Text('suscribete'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary, decoration: TextDecoration.underline),),
-                                        ],
-                                      )),
+                              if(state.moreInfoText.isNotEmpty || state.referirUrl.isNotEmpty)
+                                Row(
+
+                                  children: [
+                                    if(state.moreInfoUrl.isNotEmpty)
+                                      Expanded(
+                                        child: FilledButton(
+                                            onPressed: () async {
+                                               await launchUrl(Uri.parse(state.moreInfoUrl));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.w600),),
+                                                Text('suscribete'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary, decoration: TextDecoration.underline),),
+                                              ],
+                                            )),
+                                    ),
+                                    const SizedBox(width: 20),
+                                    if(state.referirUrl.isNotEmpty)
+                                      Expanded(
+                                        child: FilledButton.icon(
+                                            onPressed: () async {
+                                              BlocProvider.of<
+                                                  DashboardBloc>(
+                                                  context)
+                                                  .add(
+                                                  ReferirAmigoRequestEvent(
+                                                      context));
+                                              // await launchUrl(Uri.parse(state.referirUrl));
+                                            },
+                                            icon: const Icon(Icons.person_add),
+                                            label: Text('Refiere \nun amigo')),
+                                      ),
+                                  ],
                                 ),
                               if(state.moreInfoText.isNotEmpty)
                                 const Padding(

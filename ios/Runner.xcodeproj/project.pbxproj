@@ -12,9 +12,11 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		86049FA52BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */; };
+		8608CC322C11FD0200B8537F /* LaunchScreenTdexpress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8608CC302C11FD0200B8537F /* LaunchScreenTdexpress.storyboard */; };
 		860CC7432A7C3382008F7B7B /* LaunchScreenTupaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */; };
 		860DDDEB29F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860DDDE929F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard */; };
 		86131F5D2BE955D000515E60 /* LaunchScreenBlumbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */; };
+		861AC9D52C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 861AC9D32C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard */; };
 		862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862203EF29C263C7009248F4 /* LaunchScreenPicknsend.storyboard */; };
 		862A2AF82BD7F74700001F62 /* LaunchScreenClickpack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */; };
 		863F1D342B8CE94800477140 /* LaunchScreenQm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */; };
@@ -55,10 +57,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		030487FD368EB4D8496AC94B /* Pods-Runner.release-tdexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tdexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tdexpress.xcconfig"; sourceTree = "<group>"; };
 		0566375BEA3097428C93C47E /* Pods-Runner.debug-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-bmcargo.xcconfig"; sourceTree = "<group>"; };
 		05C57BAD21EC7750B1164FB7 /* Pods-Runner.release-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-clickpack.xcconfig"; sourceTree = "<group>"; };
 		0B3C198DA4C9DAFEDBE84A60 /* Pods-Runner.debug-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cps.xcconfig"; sourceTree = "<group>"; };
 		110F37710C0A56B77C1E957C /* Pods-Runner.release-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-flypack.xcconfig"; sourceTree = "<group>"; };
+		11CD9FFE0CCD0BD4831506AC /* Pods-Runner.profile-tdexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tdexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tdexpress.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		15444E7D73009505A207599B /* Pods-Runner.debug-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-pintopaq.xcconfig"; sourceTree = "<group>"; };
@@ -106,9 +110,11 @@
 		7872E98A7934992E87CE1960 /* Pods-Runner.profile-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-beexpress.xcconfig"; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		86049FA42BE2D8C80058E7C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenSkyhigh.storyboard; sourceTree = "<group>"; };
+		8608CC312C11FD0200B8537F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTdexpress.storyboard; sourceTree = "<group>"; };
 		860CC7422A7C3382008F7B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTupaq.storyboard; sourceTree = "<group>"; };
 		860DDDEA29F1894900F7A2E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPintopaq.storyboard; sourceTree = "<group>"; };
 		86131F5C2BE955D000515E60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBlumbox.storyboard; sourceTree = "<group>"; };
+		861AC9D42C5A9ADA00698E74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenMcccargo.storyboard; sourceTree = "<group>"; };
 		862203F029C263C7009248F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPicknsend.storyboard; sourceTree = "<group>"; };
 		862A2AF72BD7F74700001F62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenClickpack.storyboard; sourceTree = "<group>"; };
 		86386640B0CACC9048497709 /* Pods-Runner.release-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-swoop.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 		92E506A1C334351F1AD9DCD7 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
+		97AEE7035828B08E44A214B6 /* Pods-Runner.profile-mcccargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-mcccargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-mcccargo.xcconfig"; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C146FB1CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -148,6 +155,7 @@
 		AC20601E474FAF34265F796A /* Pods-Runner.release-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tls.xcconfig"; sourceTree = "<group>"; };
 		B17F09C7410D392A413323B9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		B24252B90E3533F870BEAF7B /* Pods-Runner.debug-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-fixocargo.xcconfig"; sourceTree = "<group>"; };
+		B55EF22307B1015A7CBC70B7 /* Pods-Runner.debug-mcccargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-mcccargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-mcccargo.xcconfig"; sourceTree = "<group>"; };
 		B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cainca.xcconfig"; sourceTree = "<group>"; };
 		C3EF271C09B229CA8241D0B1 /* Pods-Runner.release-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-blumbox.xcconfig"; sourceTree = "<group>"; };
 		C960C22B42F15D54CB0A066C /* Pods-Runner.debug-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-qm.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +173,8 @@
 		FB7768B91618AB5B32971655 /* Pods-Runner.debug-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cainca.xcconfig"; sourceTree = "<group>"; };
 		FC649561C3A2723B2FE11CCF /* Pods-Runner.profile-boxpaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-boxpaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-boxpaq.xcconfig"; sourceTree = "<group>"; };
 		FD5AA96F1AD3C0EBE196330F /* Pods-Runner.profile-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-fixocargo.xcconfig"; sourceTree = "<group>"; };
+		FDB02391CCA12A208F77A8EA /* Pods-Runner.release-mcccargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-mcccargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-mcccargo.xcconfig"; sourceTree = "<group>"; };
+		FF22C952DB6C87F90BCB8CBF /* Pods-Runner.debug-tdexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tdexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tdexpress.xcconfig"; sourceTree = "<group>"; };
 		FF46A2033AD1CA3143EA9AD7 /* Pods-Runner.debug-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-encargopaq.xcconfig"; sourceTree = "<group>"; };
 		FF979A940E4F1C06BC58A52C /* Pods-Runner.debug-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-picknsend.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -264,6 +274,12 @@
 				E50773BBCC8A474AFB2853D8 /* Pods-Runner.debug-flypack.xcconfig */,
 				110F37710C0A56B77C1E957C /* Pods-Runner.release-flypack.xcconfig */,
 				ED4857A9625577A92F1BCD8C /* Pods-Runner.profile-flypack.xcconfig */,
+				FF22C952DB6C87F90BCB8CBF /* Pods-Runner.debug-tdexpress.xcconfig */,
+				030487FD368EB4D8496AC94B /* Pods-Runner.release-tdexpress.xcconfig */,
+				11CD9FFE0CCD0BD4831506AC /* Pods-Runner.profile-tdexpress.xcconfig */,
+				B55EF22307B1015A7CBC70B7 /* Pods-Runner.debug-mcccargo.xcconfig */,
+				FDB02391CCA12A208F77A8EA /* Pods-Runner.release-mcccargo.xcconfig */,
+				97AEE7035828B08E44A214B6 /* Pods-Runner.profile-mcccargo.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -302,6 +318,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				861AC9D32C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard */,
+				8608CC302C11FD0200B8537F /* LaunchScreenTdexpress.storyboard */,
 				86C7C8422BF3E2B90076413F /* LaunchScreenFlypack.storyboard */,
 				86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */,
 				86049FA32BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard */,
@@ -416,10 +434,12 @@
 				86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */,
 				862A2AF82BD7F74700001F62 /* LaunchScreenClickpack.storyboard in Resources */,
 				86049FA52BE2D8C80058E7C5 /* LaunchScreenSkyhigh.storyboard in Resources */,
+				861AC9D52C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard in Resources */,
 				868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */,
 				86C7C8442BF3E2B90076413F /* LaunchScreenFlypack.storyboard in Resources */,
+				8608CC322C11FD0200B8537F /* LaunchScreenTdexpress.storyboard in Resources */,
 				86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */,
@@ -567,6 +587,14 @@
 			name = LaunchScreenSkyhigh.storyboard;
 			sourceTree = "<group>";
 		};
+		8608CC302C11FD0200B8537F /* LaunchScreenTdexpress.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8608CC312C11FD0200B8537F /* Base */,
+			);
+			name = LaunchScreenTdexpress.storyboard;
+			sourceTree = "<group>";
+		};
 		860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -589,6 +617,14 @@
 				86131F5C2BE955D000515E60 /* Base */,
 			);
 			name = LaunchScreenBlumbox.storyboard;
+			sourceTree = "<group>";
+		};
+		861AC9D32C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				861AC9D42C5A9ADA00698E74 /* Base */,
+			);
+			name = LaunchScreenMcccargo.storyboard;
 			sourceTree = "<group>";
 		};
 		862203EF29C263C7009248F4 /* LaunchScreenPicknsend.storyboard */ = {
@@ -818,7 +854,7 @@
 			buildSettings = {
 				APP_DISPLAY_NAME = iCourier;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 23;
@@ -909,7 +945,7 @@
 				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -926,7 +962,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -999,7 +1035,7 @@
 				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -1016,7 +1052,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1086,7 +1122,7 @@
 				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-skyhigh";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -1103,7 +1139,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1115,6 +1151,275 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-skyhigh";
+		};
+		8608CC2A2C11FAE100B8537F /* Debug-tdexpress */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-tdexpress";
+		};
+		8608CC2B2C11FAE100B8537F /* Debug-tdexpress */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "TD Express";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tdexpress";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 35;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTdexpress.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTdexpress;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tdexpress;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-tdexpress";
+		};
+		8608CC2C2C11FAF300B8537F /* Release-tdexpress */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-tdexpress";
+		};
+		8608CC2D2C11FAF300B8537F /* Release-tdexpress */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "TD Express";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tdexpress";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 35;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTdexpress.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTdexpress;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tdexpress;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-tdexpress";
+		};
+		8608CC2E2C11FB0700B8537F /* Profile-tdexpress */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-tdexpress";
+		};
+		8608CC2F2C11FB0700B8537F /* Profile-tdexpress */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "TD Express";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tdexpress";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 35;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTdexpress.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTdexpress;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tdexpress;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-tdexpress";
 		};
 		860CC73B2A7C3311008F7B7B /* Debug-tupaq */ = {
 			isa = XCBuildConfiguration;
@@ -1178,7 +1483,7 @@
 				APP_DISPLAY_NAME = Tupaq;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tupaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 35;
@@ -1268,7 +1573,7 @@
 				APP_DISPLAY_NAME = Tupaq;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tupaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 35;
@@ -1355,7 +1660,7 @@
 				APP_DISPLAY_NAME = Tupaq;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tupaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 35;
@@ -1447,7 +1752,7 @@
 				APP_DISPLAY_NAME = "Pintopaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-pintopaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -1537,7 +1842,7 @@
 				APP_DISPLAY_NAME = "Pintopaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-pintopaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -1624,7 +1929,7 @@
 				APP_DISPLAY_NAME = "Pintopaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-pintopaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -1716,7 +2021,7 @@
 				APP_DISPLAY_NAME = "Blumbox Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-blumbox";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -1733,7 +2038,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1806,7 +2111,7 @@
 				APP_DISPLAY_NAME = "Blumbox Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-blumbox";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -1823,7 +2128,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1893,7 +2198,7 @@
 				APP_DISPLAY_NAME = "Blumbox Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-blumbox";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -1910,7 +2215,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1922,6 +2227,275 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Profile-blumbox";
+		};
+		861AC9CD2C5A9A5A00698E74 /* Debug-mcccargo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-mcccargo";
+		};
+		861AC9CE2C5A9A5A00698E74 /* Debug-mcccargo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "MCC Cargo";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-mcccargo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenMcccargo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenMcccargo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.mcccargo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-mcccargo";
+		};
+		861AC9CF2C5A9A6C00698E74 /* Release-mcccargo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-mcccargo";
+		};
+		861AC9D02C5A9A6C00698E74 /* Release-mcccargo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "MCC Cargo";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-mcccargo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenMcccargo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenMcccargo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.mcccargo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-mcccargo";
+		};
+		861AC9D12C5A9A7800698E74 /* Profile-mcccargo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-mcccargo";
+		};
+		861AC9D22C5A9A7800698E74 /* Profile-mcccargo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "MCC Cargo";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-mcccargo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenMcccargo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenMcccargo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.mcccargo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-mcccargo";
 		};
 		862203E929C2635E009248F4 /* Debug-picknsend */ = {
 			isa = XCBuildConfiguration;
@@ -1985,7 +2559,7 @@
 				APP_DISPLAY_NAME = "Pick n' Send";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-picknsend";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 23;
@@ -2075,7 +2649,7 @@
 				APP_DISPLAY_NAME = "Pick n' Send";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-picknsend";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 23;
@@ -2162,7 +2736,7 @@
 				APP_DISPLAY_NAME = "Pick n' Send";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-picknsend";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 23;
@@ -2254,7 +2828,7 @@
 				APP_DISPLAY_NAME = ClickPack;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -2344,7 +2918,7 @@
 				APP_DISPLAY_NAME = ClickPack;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -2431,7 +3005,7 @@
 				APP_DISPLAY_NAME = ClickPack;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -2523,7 +3097,7 @@
 				APP_DISPLAY_NAME = "QM Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-qm";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -2613,7 +3187,7 @@
 				APP_DISPLAY_NAME = "QM Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-qm";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -2700,7 +3274,7 @@
 				APP_DISPLAY_NAME = "QM Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-qm";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -2792,7 +3366,7 @@
 				APP_DISPLAY_NAME = Taino;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-taino";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
@@ -2882,7 +3456,7 @@
 				APP_DISPLAY_NAME = Taino;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-taino";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
@@ -2969,7 +3543,7 @@
 				APP_DISPLAY_NAME = Taino;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-taino";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
@@ -3061,7 +3635,7 @@
 				APP_DISPLAY_NAME = "Domex Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-domex";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
@@ -3078,7 +3652,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3151,7 +3725,7 @@
 				APP_DISPLAY_NAME = "Domex Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-domex";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
@@ -3168,7 +3742,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3238,7 +3812,7 @@
 				APP_DISPLAY_NAME = "Domex Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-domex";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
@@ -3255,7 +3829,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3331,7 +3905,7 @@
 				APP_DISPLAY_NAME = "Fixo Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-fixocargo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 22;
@@ -3421,7 +3995,7 @@
 				APP_DISPLAY_NAME = "Fixo Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-fixocargo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 22;
@@ -3508,7 +4082,7 @@
 				APP_DISPLAY_NAME = "Fixo Cargo";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-fixocargo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 22;
@@ -3599,7 +4173,7 @@
 			buildSettings = {
 				APP_DISPLAY_NAME = "Caribe Pack";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-caribepack";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
@@ -3689,7 +4263,7 @@
 				APP_DISPLAY_NAME = "Caribe Pack";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-caribepack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
@@ -3776,7 +4350,7 @@
 				APP_DISPLAY_NAME = "Caribe Pack";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-caribepack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 3;
@@ -3868,7 +4442,7 @@
 				APP_DISPLAY_NAME = "TLS Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tls";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -3958,7 +4532,7 @@
 				APP_DISPLAY_NAME = "TLS Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tls";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -4045,7 +4619,7 @@
 				APP_DISPLAY_NAME = "TLS Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tls";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -4405,7 +4979,7 @@
 			buildSettings = {
 				APP_DISPLAY_NAME = "Encargopaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-encargopaq";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -4495,7 +5069,7 @@
 				APP_DISPLAY_NAME = "Encargopaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-encargopaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -4582,7 +5156,7 @@
 				APP_DISPLAY_NAME = "Encargopaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-encargopaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -4674,7 +5248,7 @@
 				APP_DISPLAY_NAME = "Jetpack Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-jetpack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -4764,7 +5338,7 @@
 				APP_DISPLAY_NAME = "Jetpack Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-jetpack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -4851,7 +5425,7 @@
 				APP_DISPLAY_NAME = "Jetpack Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-jetpack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
@@ -4943,7 +5517,7 @@
 				APP_DISPLAY_NAME = Priority;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-priority";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -5033,7 +5607,7 @@
 				APP_DISPLAY_NAME = Priority;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-priority";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -5120,7 +5694,7 @@
 				APP_DISPLAY_NAME = Priority;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-priority";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -5212,7 +5786,7 @@
 				APP_DISPLAY_NAME = "Flypack Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -5302,7 +5876,7 @@
 				APP_DISPLAY_NAME = "Flypack Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -5387,9 +5961,9 @@
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = "Flypack Courier";
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-clickpack";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-flypack";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -5481,7 +6055,7 @@
 				APP_DISPLAY_NAME = BMCargo;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-bmcargo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 35;
@@ -5571,7 +6145,7 @@
 				APP_DISPLAY_NAME = BMCargo;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-bmcargo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 35;
@@ -5658,7 +6232,7 @@
 				APP_DISPLAY_NAME = BMCargo;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-bmcargo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 35;
@@ -5750,7 +6324,7 @@
 				APP_DISPLAY_NAME = "Almapaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-almapaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 26;
@@ -5767,7 +6341,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5840,7 +6414,7 @@
 				APP_DISPLAY_NAME = "Almapaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-almapaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 26;
@@ -5857,7 +6431,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5927,7 +6501,7 @@
 				APP_DISPLAY_NAME = "Almapaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-almapaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 26;
@@ -5944,7 +6518,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6019,7 +6593,7 @@
 				APP_DISPLAY_NAME = "Beexpress Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beexpress";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 26;
@@ -6109,7 +6683,7 @@
 				APP_DISPLAY_NAME = "Beexpress Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beexpress";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 27;
@@ -6196,7 +6770,7 @@
 				APP_DISPLAY_NAME = "Beexpress Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beexpress";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -6288,7 +6862,7 @@
 				APP_DISPLAY_NAME = Cainca;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cainca";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -6378,7 +6952,7 @@
 				APP_DISPLAY_NAME = Cainca;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cainca";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -6465,7 +7039,7 @@
 				APP_DISPLAY_NAME = Cainca;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cainca";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 34;
@@ -6556,7 +7130,7 @@
 			buildSettings = {
 				APP_DISPLAY_NAME = "CPS Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cps";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 27;
@@ -6573,7 +7147,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6646,7 +7220,7 @@
 				APP_DISPLAY_NAME = "CPS Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cps";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 27;
@@ -6663,7 +7237,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6733,7 +7307,7 @@
 				APP_DISPLAY_NAME = "CPS Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cps";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 27;
@@ -6750,7 +7324,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2023.7.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6825,7 +7399,7 @@
 				APP_DISPLAY_NAME = "Boxpaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-boxpaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -6915,7 +7489,7 @@
 				APP_DISPLAY_NAME = "Boxpaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-boxpaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -7002,7 +7576,7 @@
 				APP_DISPLAY_NAME = "Boxpaq Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-boxpaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -7145,7 +7719,7 @@
 			buildSettings = {
 				APP_DISPLAY_NAME = iCourier;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 25;
@@ -7181,7 +7755,7 @@
 			buildSettings = {
 				APP_DISPLAY_NAME = iCourier;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CAMERA_USAGE_PERMISSION_TEXT = "Incluir fotos en las pre y post alertas.";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 23;
@@ -7230,9 +7804,11 @@
 				863F1D2C2B8CE8F400477140 /* Debug-qm */,
 				862A2AF02BD7F6C700001F62 /* Debug-clickpack */,
 				86C7C83C2BF3E2550076413F /* Debug-flypack */,
+				861AC9CD2C5A9A5A00698E74 /* Debug-mcccargo */,
 				86131F552BE9557400515E60 /* Debug-blumbox */,
 				86049F9D2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73B2A7C3311008F7B7B /* Debug-tupaq */,
+				8608CC2A2C11FAE100B8537F /* Debug-tdexpress */,
 				86A0EEB62AAB43A200924D08 /* Debug-swoop */,
 				869EC9582A4B14AD00333BC5 /* Debug-tls */,
 				862203E929C2635E009248F4 /* Debug-picknsend */,
@@ -7254,9 +7830,11 @@
 				863F1D2E2B8CE90000477140 /* Release-qm */,
 				862A2AF22BD7F6DC00001F62 /* Release-clickpack */,
 				86C7C83E2BF3E26C0076413F /* Release-flypack */,
+				861AC9CF2C5A9A6C00698E74 /* Release-mcccargo */,
 				86131F572BE9558600515E60 /* Release-blumbox */,
 				86049F9F2BE2D8750058E7C5 /* Release-skyhigh */,
 				860CC73D2A7C3323008F7B7B /* Release-tupaq */,
+				8608CC2C2C11FAF300B8537F /* Release-tdexpress */,
 				86A0EEB82AAB43B100924D08 /* Release-swoop */,
 				869EC95A2A4B14C400333BC5 /* Release-tls */,
 				862203EB29C26369009248F4 /* Release-picknsend */,
@@ -7278,9 +7856,11 @@
 				863F1D302B8CE90A00477140 /* Profile-qm */,
 				862A2AF42BD7F6E800001F62 /* Profile-clickpack */,
 				86C7C8402BF3E2790076413F /* Profile-flypack */,
+				861AC9D12C5A9A7800698E74 /* Profile-mcccargo */,
 				86131F592BE9559200515E60 /* Profile-blumbox */,
 				86049FA12BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC73F2A7C332E008F7B7B /* Profile-tupaq */,
+				8608CC2E2C11FB0700B8537F /* Profile-tdexpress */,
 				86A0EEBA2AAB43B900924D08 /* Profile-swoop */,
 				869EC95C2A4B14CD00333BC5 /* Profile-tls */,
 				862203ED29C26374009248F4 /* Profile-picknsend */,
@@ -7309,9 +7889,11 @@
 				863F1D2D2B8CE8F400477140 /* Debug-qm */,
 				862A2AF12BD7F6C700001F62 /* Debug-clickpack */,
 				86C7C83D2BF3E2550076413F /* Debug-flypack */,
+				861AC9CE2C5A9A5A00698E74 /* Debug-mcccargo */,
 				86131F562BE9557400515E60 /* Debug-blumbox */,
 				86049F9E2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73C2A7C3311008F7B7B /* Debug-tupaq */,
+				8608CC2B2C11FAE100B8537F /* Debug-tdexpress */,
 				86A0EEB72AAB43A200924D08 /* Debug-swoop */,
 				869EC9592A4B14AD00333BC5 /* Debug-tls */,
 				862203EA29C2635E009248F4 /* Debug-picknsend */,
@@ -7333,9 +7915,11 @@
 				863F1D2F2B8CE90000477140 /* Release-qm */,
 				862A2AF32BD7F6DC00001F62 /* Release-clickpack */,
 				86C7C83F2BF3E26C0076413F /* Release-flypack */,
+				861AC9D02C5A9A6C00698E74 /* Release-mcccargo */,
 				86131F582BE9558600515E60 /* Release-blumbox */,
 				86049FA02BE2D8760058E7C5 /* Release-skyhigh */,
 				860CC73E2A7C3323008F7B7B /* Release-tupaq */,
+				8608CC2D2C11FAF300B8537F /* Release-tdexpress */,
 				86A0EEB92AAB43B100924D08 /* Release-swoop */,
 				869EC95B2A4B14C400333BC5 /* Release-tls */,
 				862203EC29C26369009248F4 /* Release-picknsend */,
@@ -7357,9 +7941,11 @@
 				863F1D312B8CE90A00477140 /* Profile-qm */,
 				862A2AF52BD7F6E800001F62 /* Profile-clickpack */,
 				86C7C8412BF3E2790076413F /* Profile-flypack */,
+				861AC9D22C5A9A7800698E74 /* Profile-mcccargo */,
 				86131F5A2BE9559200515E60 /* Profile-blumbox */,
 				86049FA22BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC7402A7C332E008F7B7B /* Profile-tupaq */,
+				8608CC2F2C11FB0700B8537F /* Profile-tdexpress */,
 				86A0EEBB2AAB43B900924D08 /* Profile-swoop */,
 				869EC95D2A4B14CD00333BC5 /* Profile-tls */,
 				862203EE29C26374009248F4 /* Profile-picknsend */,

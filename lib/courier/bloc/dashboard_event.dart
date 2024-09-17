@@ -12,6 +12,13 @@ class LoadApiEvent extends DashboardEvent {
   List<Object?> get props => [forceRefresh];
 }
 
+class ReferirAmigoRequestEvent extends DashboardEvent {
+  final BuildContext context;
+  const ReferirAmigoRequestEvent(this.context);
+  @override
+  List<Object?> get props => [context];
+}
+
 class OnlinePaymentRequestEvent extends DashboardEvent {
   final BuildContext context;
   const OnlinePaymentRequestEvent(this.context);

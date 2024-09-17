@@ -13,15 +13,12 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/services/connectivity_service.dart';
 import 'package:icourier/servicios/servicios.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'services/app_events.dart';
 import 'services/courier_service.dart';
 import 'sucursales/sucursales.dart';
-// import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:url_launcher/url_launcher.dart';
-// import 'package:version_check/version_check.dart';
-import 'dart:math' as math;
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 
@@ -57,83 +54,20 @@ void showFlutterNotification(RemoteMessage message) {
 }
 
 class MainAppShell extends StatefulWidget  {
-  const MainAppShell({Key? key}) : super(key: key);
+  const MainAppShell({super.key});
 
   @override
   State<MainAppShell> createState() => _MainAppShellState();
 }
 
 class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver {
-  final _connectivityService = ConnectivityService();
   final _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final appInfo = GetIt.I<AppInfo>();
   var connectivityWasLost = false;
+
   DateTime? connectivityWasLostAt;
-  // final _checker =
-  //     VersionCheck(showUpdateDialog: (context, versionCheck) async {
-  //   if (versionCheck.storeUrl == null) return;
-  //   if (versionCheck.packageVersion == null) return;
-  //   if (versionCheck.storeVersion == null) return;
-  //   if (versionCheck.packageVersion == versionCheck.storeVersion) return;
-  //
-  //   bool shouldUpdate = false;
-  //
-  //   final versionNumbersA = versionCheck.packageVersion!
-  //       .split(".")
-  //       .map((e) => int.tryParse(e) ?? 0)
-  //       .toList();
-  //   final versionNumbersB = versionCheck.storeVersion!
-  //       .split(".")
-  //       .map((e) => int.tryParse(e) ?? 0)
-  //       .toList();
-  //
-  //   final int versionASize = versionNumbersA.length;
-  //   final int versionBSize = versionNumbersB.length;
-  //   int maxSize = math.max(versionASize, versionBSize);
-  //
-  //   for (int i = 0; i < maxSize; i++) {
-  //     if ((i < versionASize ? versionNumbersA[i] : 0) >
-  //         (i < versionBSize ? versionNumbersB[i] : 0)) {
-  //       shouldUpdate = false;
-  //     } else if ((i < versionASize ? versionNumbersA[i] : 0) <
-  //         (i < versionBSize ? versionNumbersB[i] : 0)) {
-  //       shouldUpdate = true;
-  //     }
-  //     if (i == 0 && shouldUpdate == false) break;
-  //   }
-  //
-  //   if (shouldUpdate) {
-  //     await showDialog(
-  //       context: context,
-  //       barrierDismissible: true,
-  //       builder: (BuildContext context) {
-  //         return WillPopScope(
-  //             child: AlertDialog(
-  //               title: const Text('Actualización Disponible!'),
-  //               content: Text(
-  //                   'Existe una nueva versión (${versionCheck.storeVersion!}) más reciente que su versión actual (${versionCheck.packageVersion}), desea actualizar?'),
-  //               actions: [
-  //                 TextButton(
-  //                   child: const Text('Quizas Despues'),
-  //                   onPressed: () {
-  //                     Navigator.of(context, rootNavigator: true).pop();
-  //                   },
-  //                 ),
-  //                 TextButton(
-  //                   child: const Text('Actualizar'),
-  //                   onPressed: () async {
-  //                     await launchUrl(Uri.parse(versionCheck.storeUrl!));
-  //                     Navigator.of(context, rootNavigator: true).pop();
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //             onWillPop: () => Future.value(true));
-  //       },
-  //     );
-  //   }
-  // });
+
 
   // final _checker = AppVersionChecker();
   AppLifecycleState? _appLifecycleState;
@@ -321,9 +255,11 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
         ),
       );
     });
-
-    //
-    FlutterNativeSplash.remove();
+    GetIt.I<Event<AutoNotificarRetiroRequested>>().subscribe((args)  {
+      _controller.jumpToTab(2);
+      GetIt.I<Event<NotificarRetiroRequested>>().broadcast();
+      GetIt.I<CourierService>().shortCutToRun = ShortCutToRun.NOTIFICARRETIRO;
+    });
   }
 
   @override
@@ -333,7 +269,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     setState(() {
       _appLifecycleState = state;
     });
@@ -360,7 +296,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
         connectivityWasLost = true;
         connectivityWasLostAt = DateTime.now();
         ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
-            backgroundColor: Theme.of(context).errorColor,
+            backgroundColor: Theme.of(context).colorScheme.error,
             content: Text(
                 "no_internet".tr(),
                 style: Theme.of(context)
@@ -534,9 +470,9 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                   color: Colors.white,
                 width: 1)
               ),
+              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
               // color: Colors.white,
               child: Image.asset(appInfo.centerIconImage),
-              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
             ),
             inactiveIcon: Container(
               key: keyMainBottomNavigation,
@@ -546,8 +482,8 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
               //     shape: BoxShape.circle
               // ),
               color: Colors.transparent,
-              child: Image.asset(appInfo.centerIconImage),
               height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+              child: Image.asset(appInfo.centerIconImage),
             ),
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,

@@ -9,7 +9,8 @@ class SkyHighAppInfo implements AppInfo {
 
   @override
   String defaultLocale = 'es';
-
+  @override
+  String additionalLocale = '';
   @override
   String currencyCode = 'RD\$';
 
@@ -48,7 +49,7 @@ class SkyHighAppInfo implements AppInfo {
   @override
   ThemeData getLightTheme() {
     const primaryColor = Color(0xffE0592A);
-    const secondaryColor = Color(0xff6f7271);
+    const secondaryColor = Color(0xffE0592A);
     const primaryVariantColor = Color(0xff009cd7);
     const errorColor = Color(0xffb00020);
 
@@ -130,7 +131,7 @@ class SkyHighAppInfo implements AppInfo {
   @override
   ThemeData getDarkTheme() {
     const primaryColor = Color(0xffE0592A);
-    const secondaryColor = Color(0xff6f7271);
+    const secondaryColor = Color(0xffE0592A);
     // const primaryVariantColor = Color(0xff005580);
     const errorColor = Color(0xffb00020);
     getDarkAppBarTheme() {

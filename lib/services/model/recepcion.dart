@@ -117,6 +117,7 @@ class Recepcion {
         required this.numeroRastreo});
 
   Recepcion.fromJson(Map<String, dynamic> json) {
+    print("${json['recepcionID']} - ${json["totalNeto"]}");
     recepcionID = json['recepcionID'] ?? "";
     fecha = json['fecha'] ?? "";
     producto = json['producto'] ?? "";
