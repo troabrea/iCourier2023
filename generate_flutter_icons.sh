@@ -1,1 +1,1 @@
-flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-mcccargo
+flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-inbox

@@ -36,6 +36,8 @@ class Sucursal {
   bool deleted;
   bool isFavorite = false;
 
+  int get buzonSortOrder => int.tryParse(imagenId) != null ? int.parse(imagenId) : 0;
+
   factory Sucursal.fromJson(Map<String, dynamic> json) => Sucursal(
         registroId: json["registroID"],
         empresa: json["empresa"],

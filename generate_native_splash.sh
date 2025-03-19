@@ -21,4 +21,6 @@
 #flutter pub run flutter_native_splash:create --flavor blumbox
 #flutter pub run flutter_native_splash:create --flavor flypack
 #flutter pub run flutter_native_splash:create --flavor tdexpress
-flutter pub run flutter_native_splash:create --flavor mcccargo
+#flutter pub run flutter_native_splash:create --flavor mcccargo
+#flutter pub run flutter_native_splash:create --flavor ecopaq
+flutter pub run flutter_native_splash:create --flavor inbox

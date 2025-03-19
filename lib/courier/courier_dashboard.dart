@@ -13,7 +13,6 @@ import 'package:icourier/courier/courier_webview.dart';
 import 'package:icourier/courier/crear_postalerta.dart';
 import 'package:icourier/services/courier_service.dart';
 import 'package:icourier/services/model/recepcion.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../apps/appinfo.dart';
 import 'courier_prealertas_realizadas.dart';
 import 'package:intl/intl.dart';

@@ -243,7 +243,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
 
     final functionUrl= 'https://icourier.barolit.net/EditProfile/$encodedCompany/$encodedUser/$encodedPwd';
-    await launchUrl(Uri.parse( functionUrl ));
+    await launchUrl(Uri.parse( functionUrl ), mode: LaunchMode.externalApplication);
 
 
   }

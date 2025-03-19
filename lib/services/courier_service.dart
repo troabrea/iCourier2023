@@ -119,7 +119,7 @@ class CourierService {
       cache.destroy('noticias');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
-    var jsonData = await cache.remember('noticas', () async {
+    var jsonData = await cache.remember('noticias', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/noticias/$companyId?code=_n9tPF7n6ipJa1pdVwjE1HkwBM2GFFX9x1xtyonGr-3lAzFuWf1yGw=="
           //"https://icourierfunctions.azurewebsites.net/api/noticias/$companyId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="
@@ -145,6 +145,7 @@ class CourierService {
   }
 
   Future<List<Servicio>> getServicios(bool ignoreCache) async {
+    ignoreCache = true;
     if(ignoreCache) {
       cache.destroy('servicios');
     }
@@ -525,9 +526,11 @@ class CourierService {
     var direccionBuzon = "";
     var whatsappSucrusal = empresa.telefonoVentas;
     var chatUrl = empresa.correoServicio;
+    var buzones = <InfoBuzon>[].toList();
 
+    final sucursales = await getSucursales(false);
     if(cuenta != "" && sucursal != "") {
-      final userSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == sucursal);
+      final userSucursal = (sucursales).firstWhereOrNull((element) => element.codigo == sucursal);
       if(userSucursal != null) {
         nombreSucrusal = userSucursal.nombre;
         telefonoSucrusal = userSucursal.telefonoVentas;
@@ -536,11 +539,18 @@ class CourierService {
           whatsappSucrusal = userSucursal.telefonoOficina;
         }
       }
-      final buzonSucursal = (await getSucursales(false)).firstWhereOrNull((element) => element.codigo == empresa.calculadoraDesde);
+    }
+    final sucursalesBuzon = sucursales.where((element) => element.imagenId != "" && element.imagenId != "0").toList();
+    if(sucursalesBuzon.isNotEmpty) {
+      sucursalesBuzon.sort((a, b) => a.buzonSortOrder.compareTo(b.buzonSortOrder));
+      buzones = sucursalesBuzon.map((element) => InfoBuzon(direccion: element.direccion, nombre: element.nombre)).toList();
+    } else {
+      final buzonSucursal = sucursales.firstWhereOrNull((element) => element.codigo == empresa.calculadoraDesde);
       if(buzonSucursal != null) {
         direccionBuzon = "$nombre ($cuenta)\n${buzonSucursal.direccion}";
       }
     }
+
 
     if(chatUrl.isNotEmpty && chatUrl.contains("@")) {
       chatUrl = "";
@@ -556,6 +566,7 @@ class CourierService {
         sucursal: sucursal,
         fotoPerfilUrl: foto,
         direccionBuzon: direccionBuzon,
+        buzones: buzones,
         emailSucursal: emailSucursal,
         nombreSucursal: nombreSucrusal,
       telefonoSucursal: telefonoSucrusal,

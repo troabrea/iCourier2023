@@ -126,7 +126,7 @@ android {
         pintopaq {
             dimension "app"
             applicationId "com.barolit.pintopaq"
-            versionCode 5202324
+            versionCode 5202325
         }
         caribepack {
             dimension "app"
@@ -179,6 +179,14 @@ android {
             dimension "app"
             applicationId "com.barolit.mcccargo"
         }
+        ecopaq {
+            dimension "app"
+            applicationId "com.barolit.ecopaq"
+        }
+        inbox {
+            dimension "app"
+            applicationId "com.barolit.inbox"
+        }
         tupaq {
             dimension "app"
             applicationId "com.barolit.tupaq"
@@ -190,12 +198,12 @@ android {
         taino {
             dimension "app"
             applicationId "com.barolit.taino"
-            versionCode 520246
+            versionCode 520247
         }
         fixocargo {
             dimension "app"
             applicationId "com.barolit.fixocargo"
-            versionCode 5202326
+            versionCode 5202329
         }
         picknsend {
             dimension "app"
@@ -207,9 +215,9 @@ android {
     buildTypes {
         release {
             //signingConfig signingConfigs.codemagic
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
 //            signingConfig signingConfigs.recent
-            signingConfig signingConfigs.legacy
+//            signingConfig signingConfigs.legacy
         }
     }
 }

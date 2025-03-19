@@ -18,6 +18,7 @@ import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'main_app_shell.dart';
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   showFlutterNotification(message);
 }

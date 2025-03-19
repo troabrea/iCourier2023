@@ -7,9 +7,9 @@
 #flutter build apk -t lib/apps/fixocargo/main_fixocargo.dart --flavor fixocargo --split-per-abi
 #flutter build apk -t lib/apps/bmcargo/main_bmcargo.dart --flavor bmcargo --split-per-abi
 #flutter build apk -t lib/apps/boxpaq/main_boxpaq.dart --flavor boxpaq --split-per-abi
-#flutter build apk -t lib/main_pintopaq.dart --flavor pintopaq --split-per-abi
-#flutter build apk -t lib/main_taino.dart --flavor taino --split-per-ab
-flutter build apk -t lib/apps/domex/main_domex.dart --flavor domex --split-per-abi
+#flutter build apk -t lib/apps/pintopaq/main_pintopaq.dart --flavor pintopaq --split-per-abi
+#flutter build apk -t lib/apps/taino/main_taino.dart --flavor taino --split-per-abi
+#flutter build apk -t lib/apps/domex/main_domex.dart --flavor domex --split-per-abi
 #flutter build apk -t lib/apps/pns/main_pns.dart --flavor picknsend --split-per-abi
 #flutter build apk -t lib/apps/jetpack/main_jetpack.dart --flavor jetpack --split-per-abi
 #flutter build appbundle -t lib/main_encargopaq.dart --flavor encargopaq
@@ -20,5 +20,7 @@ flutter build apk -t lib/apps/domex/main_domex.dart --flavor domex --split-per-a
 #flutter build appbundle -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
 #flutter build appbundle -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
 #flutter build appbundle -t lib/apps/flypack/main_flypack.dart --flavor flypack
-#flutter build appbundle -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox
+flutter build appbundle -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox
 #flutter build appbundle -t lib/apps/tdexpress/main_tdexpress.dart --flavor tdexpress
+#flutter build appbundle -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
+#flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox

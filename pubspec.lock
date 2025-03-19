@@ -250,6 +250,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.10"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   dropdown_search:
     dependency: transitive
     description:
@@ -922,10 +930,10 @@ packages:
     dependency: "direct main"
     description:
       name: map_launcher
-      sha256: cc94eff23dc35b56142bedc4f8553024454dfa8351508116888a418858d18ac0
+      sha256: "7436d6ef9ae57ff15beafcedafe0a8f0604006cbecd2d26024c4cfb0158c2b9a"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.5.0"
   matcher:
     dependency: transitive
     description:
@@ -1564,7 +1572,7 @@ packages:
     source: hosted
     version: "4.5.0"
   webview_flutter_android:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: webview_flutter_android
       sha256: "3e5f4e9d818086b0d01a66fb1ff9cc72ab0cc58c71980e3d3661c5685ea0efb0"

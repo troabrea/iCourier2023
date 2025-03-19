@@ -18,13 +18,13 @@ class CourierWebViewPage extends StatelessWidget {
             // Update loading bar.
           },
           onPageStarted: (String url) {
-            print('started');
+            debugPrint('started');
           },
           onPageFinished: (String url) {
-            print('finished');
+            debugPrint('finished');
           },
           onWebResourceError: (WebResourceError error) {
-            print(error);
+            debugPrint(error.toString());
           },
           onNavigationRequest: (NavigationRequest request) {
             // if (request.url.startsWith('https://www.youtube.com/')) {
@@ -34,7 +34,7 @@ class CourierWebViewPage extends StatelessWidget {
             //   print(request.url);
             //   return NavigationDecision.prevent;
             // }
-            print(request.url);
+            debugPrint(request.url);
             return NavigationDecision.navigate;
           },
         ),

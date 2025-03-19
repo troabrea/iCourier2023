@@ -38,7 +38,7 @@ class PintopaqAppInfo implements AppInfo {
   String get pushChannelTopic => "PINTOPAQ";
 
   @override
-  double get centerIconSize => 80;
+  double get centerIconSize => 42;
   @override
   double get centerInactiveIconSize => 35;
 

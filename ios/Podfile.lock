@@ -276,7 +276,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
-  map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
+  map_launcher: 5fde49ac9a52672bf99da746599f507b4490d7b5
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c

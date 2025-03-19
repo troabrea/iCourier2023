@@ -33,16 +33,24 @@ class LoginResult {
   );
 }
 
+class InfoBuzon {
+  InfoBuzon({required this.direccion, required this.nombre});
+  String direccion;
+  String nombre;
+}
+
 class UserProfile {
   UserProfile({required  this.cuenta, required this.nombre, required this.email,
     required this.sucursal,required this.fotoPerfilUrl,
     required this.direccionBuzon,
+    required this.buzones,
     this.emailSucursal = "",
     this.telefono = "",
     this.nombreSucursal = "",
     this.telefonoSucursal = "",
     this.whatsappSucursal = "",
     this.chatUrl = "",
+
   });
   String cuenta;
   String nombre;
@@ -56,6 +64,7 @@ class UserProfile {
   String emailSucursal;
   String chatUrl;
   String direccionBuzon;
+  List<InfoBuzon> buzones;
 }
 
 class UserAccount {

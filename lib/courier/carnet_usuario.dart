@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,17 +37,14 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
               color: Theme.of(context).appBarTheme.backgroundColor,
               shape: const RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20)))),
+                      BorderRadius.vertical(top: Radius.circular(20)))),
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Text("carnet_membresia".tr(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Theme.of(context)
                                 .appBarTheme
                                 .foregroundColor))),
@@ -62,21 +60,20 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
             avatarUrl: widget.userProfile.fotoPerfilUrl,
             onAvatarTap: () async {
               var xFile = await _picker.pickImage(source: ImageSource.gallery);
-              if(xFile != null) {
+              if (xFile != null) {
                 //
                 setState(() {
                   isBusy = true;
                 });
                 //
                 await GetIt.I<CourierService>().updateProfilePhoto(xFile);
-                widget.userProfile.fotoPerfilUrl = (await GetIt.I<CourierService>().getUserProfile()).fotoPerfilUrl;
+                widget.userProfile.fotoPerfilUrl =
+                    (await GetIt.I<CourierService>().getUserProfile())
+                        .fotoPerfilUrl;
                 isBusy = false;
                 //
-                setState(() {
-
-                });
+                setState(() {});
               }
-
             },
             avatarSplashColor: Theme.of(context).primaryColor,
             radius: 50,
@@ -91,27 +88,20 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
           //   fit: BoxFit.cover, width: 160, height: 160,)
           // ),
         ),
-        if(isBusy)
-          const LinearProgressIndicator(),
+        if (isBusy) const LinearProgressIndicator(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-              child: AutoSizeText(widget.userProfile.nombre, maxLines: 1,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-              )),
+              child: AutoSizeText(widget.userProfile.nombre,
+                  maxLines: 1, style: Theme.of(context).textTheme.titleLarge)),
         ),
         Padding(
-            padding: const EdgeInsets.only(
-                left: 8.0, bottom: 8.0, right: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, bottom: 8.0, right: 8.0),
             child: Center(
                 child: Text(widget.userProfile.cuenta,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                ))),
-        Padding(padding: const EdgeInsets.all(8.0),
+                    style: Theme.of(context).textTheme.titleMedium))),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Center(
             child: BarcodeWidget(
               height: 100,
@@ -121,42 +111,116 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
               data: widget.userProfile.cuenta,
               errorBuilder: (context, error) => Center(child: Text(error)),
             ),
-          ),),
+          ),
+        ),
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
                 child: Text(widget.userProfile.nombreSucursal,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium
-                ))
-        ),
-        if(widget.userProfile.direccionBuzon.isNotEmpty)
+                    style: Theme.of(context).textTheme.headlineMedium))),
+        if (widget.userProfile.direccionBuzon.isNotEmpty || widget.userProfile.buzones.isNotEmpty)
           buildDireccionBuzon(context, widget.userProfile),
-        Image.asset(widget.appInfo.metricsPrefixKey == "TUPAQ" ? "images/tupaq/icon_transparent.png" : widget.appInfo.brandLogoImage,
+        Image.asset(
+          widget.appInfo.metricsPrefixKey == "TUPAQ"
+              ? "images/tupaq/icon_transparent.png"
+              : widget.appInfo.brandLogoImage,
           width: 75,
-          height: 75,),
-        const SizedBox(height: 20,)
+          height: 75,
+        ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }
 }
 
 Widget buildDireccionBuzon(BuildContext context, UserProfile userProfile) {
-  return Column(children: [
-    Text('direccion_miami'.tr(), style: Theme.of(context).textTheme.bodySmall),
-    const SizedBox(height: 10,),
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
+  return Column(
     children: [
-      Text(userProfile.direccionBuzon, style: Theme.of(context).textTheme.bodySmall,),
-      FilledButton.icon(icon: const Icon(Icons.copy),
-        style: FilledButton.styleFrom(padding: const EdgeInsets.all(8)),
-        onPressed: () {
-          Clipboard.setData(ClipboardData(text: userProfile.direccionBuzon));
-        },
-        label: Text('copiar'.tr()),)
-    ],)
-  ],);
+      if (userProfile.buzones.isEmpty)
+        Text('direccion_miami'.tr(),
+            style: Theme.of(context).textTheme.bodySmall),
+      if (userProfile.buzones.isEmpty)
+        const SizedBox(
+          height: 10,
+        ),
+      if (userProfile.buzones.isEmpty)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              userProfile.direccionBuzon,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            FilledButton.icon(
+              icon: const Icon(Icons.copy),
+              style: FilledButton.styleFrom(padding: const EdgeInsets.all(8)),
+              onPressed: () {
+                Clipboard.setData(
+                    ClipboardData(text: userProfile.direccionBuzon));
+              },
+              label: Text('copiar'.tr()),
+            )
+          ],
+        ),
+      if (userProfile.buzones.isNotEmpty)
+        SizedBox(
+          height: 90,
+          child: PageView.builder(
+            itemCount: userProfile.buzones.length,
+            itemBuilder: (context, idx) {
+              return Column(
+                children: [
+                  Text(
+                    userProfile.buzones[idx].nombre,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            userProfile.buzones[idx].direccion,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: FilledButton.icon(
+                          icon: const Icon(Icons.copy),
+                          style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.all(8)),
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(
+                                text: userProfile.buzones[idx].direccion));
+                          },
+                          label: Text('copiar'.tr()),
+                        ),
+                      )
+                    ],
+                  ),
+                  if (userProfile.buzones.length > 1)
+                    DotsIndicator(
+                      dotsCount: userProfile.buzones.length,
+                      position: idx,
+                      decorator: DotsDecorator(
+                        color: Theme.of(context).dividerColor,
+                        activeColor: Theme.of(context).colorScheme.secondary,
+                        size: const Size(6, 6),
+                        activeSize: const Size(8, 8),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ),
+    ],
+  );
 }

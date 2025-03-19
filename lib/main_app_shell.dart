@@ -509,8 +509,8 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             icon: ClipOval(
               child: Container(
                 key: keyMainBottomNavigation,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
+                decoration: BoxDecoration(
+                    color: appInfo.pushChannelTopic == "INBOX" ? Colors.transparent : Colors.white,
                     shape: BoxShape.circle
                 ),
                 height: appInfo.centerIconSize, width: appInfo.centerIconSize,
@@ -523,7 +523,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                 key: keyMainBottomNavigation,
                 padding: const EdgeInsets.all(5),
                 decoration:  BoxDecoration(
-                    color:  appInfo.pushChannelTopic == "SKYHIGH" ||appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
+                    color: appInfo.pushChannelTopic == "INBOX" || appInfo.pushChannelTopic == "SKYHIGH" ||appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
                     shape: BoxShape.circle
                 ),
                 //color: Colors.transparent,
@@ -605,9 +605,13 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   DateTime oldTime = DateTime.now();
   DateTime newTime = DateTime.now();
-  DateTime lastRefresh = DateTime.now();
+  DateTime lastRefresh = DateTime.now().subtract(const Duration(days: 10));
   @override
   Widget build(BuildContext context) {
+    if(DateTime.now().difference(lastRefresh).inMinutes >= 10) {
+      lastRefresh = DateTime.now();
+      GetIt.I<event.Event<CourierRefreshRequested>>().broadcast();
+    }
     return Scaffold(
         body: PersistentTabView(context,
             key: keyBottomNavigation,
@@ -649,7 +653,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                 GetIt.I<event.Event<NoticiasDataRefreshRequested>>().broadcast();
               }
               if(idx==2) {
-                if(DateTime.now().difference(lastRefresh).inMinutes >= 20) {
+                if(DateTime.now().difference(lastRefresh).inMinutes >= 10) {
                   lastRefresh = DateTime.now();
                   GetIt.I<event.Event<CourierRefreshRequested>>().broadcast();
                 }
