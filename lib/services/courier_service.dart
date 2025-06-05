@@ -281,6 +281,7 @@ class CourierService {
       GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
     } else {
       await cache.write('sessionId', sessionId);
+      FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userId");
     }
   }
 
@@ -448,6 +449,10 @@ class CourierService {
       }
 
       await _validateSession();
+
+      if(!await Permission.notification.isGranted) {
+        await Permission.notification.request();
+      }
 
       final uri = Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/recepciones?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==");
@@ -682,6 +687,9 @@ class CourierService {
     if(paymentUrl.isNotEmpty) {
       url = paymentUrl;
     }
+
+
+
     final uri = Uri.parse(url);
 
     await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -702,6 +710,9 @@ class CourierService {
     if(paymentUrl.isNotEmpty) {
       url = paymentUrl;
     }
+
+    url = url.replaceAll("http://", "https://");
+
     final uri = Uri.parse(url);
 
     await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -834,6 +845,7 @@ class CourierService {
 
       Uint8List bytes = await file.readAsBytes();
       await storage.putBlob(azPath, bodyBytes: bytes);
+
       //
 
       final uri = Uri.parse(

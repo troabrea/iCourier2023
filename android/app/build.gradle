@@ -126,7 +126,7 @@ android {
         pintopaq {
             dimension "app"
             applicationId "com.barolit.pintopaq"
-            versionCode 5202325
+            versionCode 5202326
         }
         caribepack {
             dimension "app"
@@ -171,6 +171,10 @@ android {
             dimension "app"
             applicationId "com.barolit.blumbox"
         }
+        cargospot {
+            dimension "app"
+            applicationId "com.barolit.cargospot"
+        }
         flypack {
             dimension "app"
             applicationId "com.barolit.flypack"
@@ -203,7 +207,7 @@ android {
         fixocargo {
             dimension "app"
             applicationId "com.barolit.fixocargo"
-            versionCode 5202329
+            versionCode 5202330
         }
         picknsend {
             dimension "app"

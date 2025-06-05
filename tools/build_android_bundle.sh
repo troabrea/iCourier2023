@@ -20,7 +20,9 @@
 #flutter build appbundle -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
 #flutter build appbundle -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
 #flutter build appbundle -t lib/apps/flypack/main_flypack.dart --flavor flypack
-flutter build appbundle -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox
+#flutter build appbundle -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox
 #flutter build appbundle -t lib/apps/tdexpress/main_tdexpress.dart --flavor tdexpress
 #flutter build appbundle -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
 #flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox
+flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
+#flutter build appbundle -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot

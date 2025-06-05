@@ -1,1 +1,1 @@
-flutter build ipa -t lib/main_bmcargo.dart --flavor bmcargo --build-name 2023.0.0 --build-number 5
+flutter build ipa -t lib/main_cargospot.dart --flavor bmcargo --build-name 2023.0.0 --build-number 5

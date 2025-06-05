@@ -23,6 +23,7 @@
 		865A9A462967221300498034 /* LaunchScreenTaino.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 865A9A442967221300498034 /* LaunchScreenTaino.storyboard */; };
 		865C69CD2CC983C000CA985F /* LaunchScreenInbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 865C69CB2CC983C000CA985F /* LaunchScreenInbox.storyboard */; };
 		866C932528F59726001F87C2 /* LaunchScreenCaribepack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 866C932328F59726001F87C2 /* LaunchScreenCaribepack.storyboard */; };
+		867774FE2D96D448003A2045 /* LaunchScreenCargospot.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 867774FC2D96D448003A2045 /* LaunchScreenCargospot.storyboard */; };
 		868E6BEF28C7695C00C42D2F /* LaunchScreenDomex.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 868E6BED28C7695B00C42D2F /* LaunchScreenDomex.storyboard */; };
 		8693285C29C2437B00F914FF /* LaunchScreenFixocargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8693285A29C2437B00F914FF /* LaunchScreenFixocargo.storyboard */; };
 		869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 869EC95E2A4B152000333BC5 /* LaunchScreenTls.storyboard */; };
@@ -62,6 +63,7 @@
 		030487FD368EB4D8496AC94B /* Pods-Runner.release-tdexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tdexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tdexpress.xcconfig"; sourceTree = "<group>"; };
 		0566375BEA3097428C93C47E /* Pods-Runner.debug-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-bmcargo.xcconfig"; sourceTree = "<group>"; };
 		05C57BAD21EC7750B1164FB7 /* Pods-Runner.release-clickpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-clickpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-clickpack.xcconfig"; sourceTree = "<group>"; };
+		087B4E338412777FF088B9E6 /* Pods-Runner.release-cargospot.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cargospot.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cargospot.xcconfig"; sourceTree = "<group>"; };
 		0B3C198DA4C9DAFEDBE84A60 /* Pods-Runner.debug-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cps.xcconfig"; sourceTree = "<group>"; };
 		110F37710C0A56B77C1E957C /* Pods-Runner.release-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-flypack.xcconfig"; sourceTree = "<group>"; };
 		11CD9FFE0CCD0BD4831506AC /* Pods-Runner.profile-tdexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tdexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tdexpress.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		575B94315B460C09E4A93106 /* Pods-Runner.debug-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-caribepack.xcconfig"; sourceTree = "<group>"; };
 		5CAB8818132B0A6F73E7117A /* Pods-Runner.profile-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-domex.xcconfig"; sourceTree = "<group>"; };
 		64C967AD954750F8B1ED1DDF /* Pods-Runner.profile-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-bmcargo.xcconfig"; sourceTree = "<group>"; };
+		65832C067C15A754EC13DA66 /* Pods-Runner.debug-cargospot.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cargospot.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cargospot.xcconfig"; sourceTree = "<group>"; };
 		6B876571E7C474E5833EB87C /* Pods-Runner.profile-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cps.xcconfig"; sourceTree = "<group>"; };
 		6B9AACF953CB1FD4F15FD4BF /* Pods-Runner.profile-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tupaq.xcconfig"; sourceTree = "<group>"; };
 		6F329CAF1159FA84DFB77E43 /* Pods-Runner.debug-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-swoop.xcconfig"; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		865A9A452967221300498034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTaino.storyboard; sourceTree = "<group>"; };
 		865C69CC2CC983C000CA985F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenInbox.storyboard; sourceTree = "<group>"; };
 		866C932428F59726001F87C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCaribepack.storyboard; sourceTree = "<group>"; };
+		867774FD2D96D448003A2045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCargospot.storyboard; sourceTree = "<group>"; };
 		868E6BEE28C7695B00C42D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenDomex.storyboard; sourceTree = "<group>"; };
 		8693285B29C2437B00F914FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenFixocargo.storyboard; sourceTree = "<group>"; };
 		869EC95F2A4B152000333BC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTls.storyboard; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A279EB029BA3E07C993A1ED9 /* Pods-Runner.profile-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-caribepack.xcconfig"; sourceTree = "<group>"; };
 		A2E207FD3177145673E060BD /* Pods-Runner.debug-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-jetpack.xcconfig"; sourceTree = "<group>"; };
+		A3B04CEEA3D4664EB6EAB4BE /* Pods-Runner.profile-cargospot.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cargospot.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cargospot.xcconfig"; sourceTree = "<group>"; };
 		A3C6DC0B1565613BDA6A6796 /* Pods-Runner.debug-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-almapaq.xcconfig"; sourceTree = "<group>"; };
 		AC20601E474FAF34265F796A /* Pods-Runner.release-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tls.xcconfig"; sourceTree = "<group>"; };
 		B17F09C7410D392A413323B9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -296,6 +301,9 @@
 				E7C088C564FAFB2D4547D63E /* Pods-Runner.debug-inbox.xcconfig */,
 				D1067F6D84DE10F2D59E94E5 /* Pods-Runner.release-inbox.xcconfig */,
 				DE3509B15934E3B94F87B807 /* Pods-Runner.profile-inbox.xcconfig */,
+				65832C067C15A754EC13DA66 /* Pods-Runner.debug-cargospot.xcconfig */,
+				087B4E338412777FF088B9E6 /* Pods-Runner.release-cargospot.xcconfig */,
+				A3B04CEEA3D4664EB6EAB4BE /* Pods-Runner.profile-cargospot.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -334,6 +342,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				867774FC2D96D448003A2045 /* LaunchScreenCargospot.storyboard */,
 				865C69CB2CC983C000CA985F /* LaunchScreenInbox.storyboard */,
 				86ECEA552CADD4750092D2E3 /* LaunchScreenEcopaq.storyboard */,
 				861AC9D32C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard */,
@@ -468,6 +477,7 @@
 				8693285C29C2437B00F914FF /* LaunchScreenFixocargo.storyboard in Resources */,
 				86A9CB9F29F41319004AA7E2 /* LaunchScreenEncargopaq.storyboard in Resources */,
 				862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */,
+				867774FE2D96D448003A2045 /* LaunchScreenCargospot.storyboard in Resources */,
 				86B07D9F2B59A76D0026249C /* LaunchScreenPriority.storyboard in Resources */,
 				86131F5D2BE955D000515E60 /* LaunchScreenBlumbox.storyboard in Resources */,
 				86AA7E6429D0715300E17FE0 /* LaunchScreenJetpack.storyboard in Resources */,
@@ -693,6 +703,14 @@
 				866C932428F59726001F87C2 /* Base */,
 			);
 			name = LaunchScreenCaribepack.storyboard;
+			sourceTree = "<group>";
+		};
+		867774FC2D96D448003A2045 /* LaunchScreenCargospot.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				867774FD2D96D448003A2045 /* Base */,
+			);
+			name = LaunchScreenCargospot.storyboard;
 			sourceTree = "<group>";
 		};
 		868E6BED28C7695B00C42D2F /* LaunchScreenDomex.storyboard */ = {
@@ -1000,7 +1018,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.0;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1091,7 +1109,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.0;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1179,7 +1197,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.0;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1816,7 +1834,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1907,7 +1925,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1995,7 +2013,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2088,7 +2106,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2179,7 +2197,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2267,7 +2285,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3912,6 +3930,278 @@
 			};
 			name = "Profile-inbox";
 		};
+		867774F62D96D3A9003A2045 /* Debug-cargospot */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-cargospot";
+		};
+		867774F72D96D3A9003A2045 /* Debug-cargospot */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cagospot Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargospot";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCargosot.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCargospot;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-cargospot";
+		};
+		867774F82D96D3BC003A2045 /* Release-cargospot */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-cargospot";
+		};
+		867774F92D96D3BC003A2045 /* Release-cargospot */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cagospot Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargospot";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCargosot.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCargospot;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-cargospot";
+		};
+		867774FA2D96D3D0003A2045 /* Profile-cargospot */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-cargospot";
+		};
+		867774FB2D96D3D0003A2045 /* Profile-cargospot */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cagospot Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargospot";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCargosot.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCargospot;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-cargospot";
+		};
 		868E6BE728C6BA8800C42D2F /* Debug-domex */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4251,7 +4541,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4265,7 +4555,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4342,7 +4632,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4356,7 +4646,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4430,7 +4720,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4444,7 +4734,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5351,7 +5641,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5442,7 +5732,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5530,7 +5820,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2023.8.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8466,6 +8756,7 @@
 				86ECEA4F2CADD3FC0092D2E3 /* Debug-ecopaq */,
 				865C69C52CC9834A00CA985F /* Debug-inbox */,
 				86131F552BE9557400515E60 /* Debug-blumbox */,
+				867774F62D96D3A9003A2045 /* Debug-cargospot */,
 				86049F9D2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73B2A7C3311008F7B7B /* Debug-tupaq */,
 				8608CC2A2C11FAE100B8537F /* Debug-tdexpress */,
@@ -8494,6 +8785,7 @@
 				86ECEA512CADD40C0092D2E3 /* Release-ecopaq */,
 				865C69C72CC9836200CA985F /* Release-inbox */,
 				86131F572BE9558600515E60 /* Release-blumbox */,
+				867774F82D96D3BC003A2045 /* Release-cargospot */,
 				86049F9F2BE2D8750058E7C5 /* Release-skyhigh */,
 				860CC73D2A7C3323008F7B7B /* Release-tupaq */,
 				8608CC2C2C11FAF300B8537F /* Release-tdexpress */,
@@ -8522,6 +8814,7 @@
 				86ECEA532CADD4170092D2E3 /* Profile-ecopaq */,
 				865C69C92CC9837400CA985F /* Profile-inbox */,
 				86131F592BE9559200515E60 /* Profile-blumbox */,
+				867774FA2D96D3D0003A2045 /* Profile-cargospot */,
 				86049FA12BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC73F2A7C332E008F7B7B /* Profile-tupaq */,
 				8608CC2E2C11FB0700B8537F /* Profile-tdexpress */,
@@ -8557,6 +8850,7 @@
 				86ECEA502CADD3FC0092D2E3 /* Debug-ecopaq */,
 				865C69C62CC9834A00CA985F /* Debug-inbox */,
 				86131F562BE9557400515E60 /* Debug-blumbox */,
+				867774F72D96D3A9003A2045 /* Debug-cargospot */,
 				86049F9E2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73C2A7C3311008F7B7B /* Debug-tupaq */,
 				8608CC2B2C11FAE100B8537F /* Debug-tdexpress */,
@@ -8585,6 +8879,7 @@
 				86ECEA522CADD40C0092D2E3 /* Release-ecopaq */,
 				865C69C82CC9836200CA985F /* Release-inbox */,
 				86131F582BE9558600515E60 /* Release-blumbox */,
+				867774F92D96D3BC003A2045 /* Release-cargospot */,
 				86049FA02BE2D8760058E7C5 /* Release-skyhigh */,
 				860CC73E2A7C3323008F7B7B /* Release-tupaq */,
 				8608CC2D2C11FAF300B8537F /* Release-tdexpress */,
@@ -8613,6 +8908,7 @@
 				86ECEA542CADD4170092D2E3 /* Profile-ecopaq */,
 				865C69CA2CC9837400CA985F /* Profile-inbox */,
 				86131F5A2BE9559200515E60 /* Profile-blumbox */,
+				867774FB2D96D3D0003A2045 /* Profile-cargospot */,
 				86049FA22BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC7402A7C332E008F7B7B /* Profile-tupaq */,
 				8608CC2F2C11FB0700B8537F /* Profile-tdexpress */,

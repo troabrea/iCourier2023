@@ -233,7 +233,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                 onPressed: () {
                   showSucursalOptions(context, sucursal);
                 },
-                icon: Icon(Icons.more_vert,color: GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,),
+                icon: Icon(Icons.more_vert,color: GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" || GetIt.I<AppInfo>().metricsPrefixKey == "CARGOSPOT" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,),
               )
             ]),
             Text(sucursal.direccion),

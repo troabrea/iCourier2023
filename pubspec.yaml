@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2023.8.2+2023802
+version: 2023.8.3+2023803
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -123,9 +123,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - translations/
+    - images/cargospot/
 #    - images/inbox/
 #    - images/mcccargo/
-    - images/ecopaq/
+#    - images/ecopaq/
 #    - images/flypack/
 #    - images/blumbox/
 #    - images/skyhigh/
@@ -207,6 +208,11 @@ flutter:
     - family: ComicSans
       fonts:
         - asset: fonts/Comic-Sans-MS.ttf
+    - family: MadeTommy
+      fonts:
+        - asset: fonts/made-tommy-regular.OTF
+        - asset: fonts/made-tommy-bold.OTF
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
