@@ -96,7 +96,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
 
   Widget buildSlideShow(BuildContext context, List<BannerImage> banners)
   {
-    return ImageSlideshow(height: 145, indicatorRadius: 0, children: banners.map((e) =>
+    return ImageSlideshow(height: 145, indicatorRadius: 0, autoPlayInterval: 8500, isLoop: true, children: banners.map((e) =>
         CachedNetworkImage(
           imageUrl: e.url,
           imageBuilder: (context, imageProvider) => Container(
@@ -109,7 +109,7 @@ class _NoticiasPageState extends State<NoticiasPage>  {
           progressIndicatorBuilder: (context, url, downloadProgress) =>
               Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
           errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),).toList(), autoPlayInterval: 8500, isLoop: true,);
+        ),).toList(),);
   }
 
   Widget buildListView(BuildContext context, List<Noticia> noticias) {
@@ -143,11 +143,11 @@ class _NoticiasPageState extends State<NoticiasPage>  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Hero(transitionOnUserGestures: true, tag: noticia.registroId + '_' + noticia.titulo,
+                Hero(transitionOnUserGestures: true, tag: '${noticia.registroId}_${noticia.titulo}',
                   child: Text(noticia.titulo,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w700)),
                 ),
-                Hero(transitionOnUserGestures: true, tag: noticia.registroId + '_' + noticia.fecha.toString(),
+                Hero(transitionOnUserGestures: true, tag: '${noticia.registroId}_${noticia.fecha}',
                   child: Text(DateFormat("dd-MMM-yyyy").format(noticia.fecha),
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).hintColor)),
                 ),

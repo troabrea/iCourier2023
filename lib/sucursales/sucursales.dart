@@ -41,9 +41,10 @@ class _SucursalesPageState extends State<SucursalesPage> {
   late List<Sucursal> sucursales;
   String searchText = "";
   var lastRefresh = DateTime.now();
+
   _SucursalesPageState() {
-    GetIt.I<event.Event<SucursalesDataRefreshRequested>>().subscribe((args)  {
-      if(DateTime.now().difference(lastRefresh).inMinutes >= 5) {
+    GetIt.I<event.Event<SucursalesDataRefreshRequested>>().subscribe((args) {
+      if (DateTime.now().difference(lastRefresh).inMinutes >= 5) {
         sucursalesBloc.add(const LoadApiEvent());
         lastRefresh = DateTime.now();
       }
@@ -57,12 +58,14 @@ class _SucursalesPageState extends State<SucursalesPage> {
   }
 
   static CameraPosition get _kSantoDomingo => CameraPosition(
-        target: GetIt.I<AppInfo>().metricsPrefixKey == "SWOOP" ? const LatLng(18.0180136, -76.8418561) : const LatLng(18.4801205, -69.9819853),
+        target: GetIt.I<AppInfo>().metricsPrefixKey == "SWOOP"
+            ? const LatLng(18.0180136, -76.8418561)
+            : const LatLng(18.4801205, -69.9819853),
         zoom: 10.0,
       );
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     _configureWithProfile();
     controller = ScrollController();
@@ -102,25 +105,32 @@ class _SucursalesPageState extends State<SucursalesPage> {
             automaticallyImplyLeading: false,
             centerTitle: true,
             actions: [
-              if(hasWhatsApp)
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.whatsapp,
-                  color: Theme.of(context).appBarTheme.foregroundColor,
-                ),
-                onPressed: ()  {
-                  chatWithSucursal();
-                },
-              ),
-              if(hasChat)
+              if (hasWhatsApp)
                 IconButton(
-                  icon: Icon(Icons.chat,
+                  icon: FaIcon(
+                    FontAwesomeIcons.whatsapp,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
+                  ),
+                  onPressed: () {
+                    chatWithSucursal();
+                  },
+                ),
+              if (hasChat)
+                IconButton(
+                  icon: Icon(
+                    Icons.chat,
                     color: Theme.of(context).appBarTheme.foregroundColor,
                   ),
                   onPressed: () async {
                     launchUrl(Uri.parse(userProfile.chatUrl));
                   },
                 ),
-              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
+              IconButton(
+                  onPressed: AppBarWithSearchSwitch.of(context)?.startSearch,
+                  icon: Icon(
+                    Icons.search,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
+                  )),
             ],
           );
         },
@@ -136,27 +146,43 @@ class _SucursalesPageState extends State<SucursalesPage> {
                 ),
               );
             }
-            if(state is SucursalesErrorState) {
-              return SafeArea(child: Center(
-                child: InkWell(onTap: () {
-                  BlocProvider.of<SucursalesBloc>(context).add(const LoadApiEvent(ignoreCache: true));
-                }, child: Center(child: Text("error_reintentar".tr(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
+            if (state is SucursalesErrorState) {
+              return SafeArea(
+                  child: Center(
+                child: InkWell(
+                  onTap: () {
+                    BlocProvider.of<SucursalesBloc>(context)
+                        .add(const LoadApiEvent(ignoreCache: true));
+                  },
+                  child: Center(
+                      child: Text(
+                    "error_reintentar".tr(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  )),
+                ),
               ));
             }
             if (state is SucursalesLoadedState) {
               sucursales = state.sucursales;
-              if(searchText.isNotEmpty) {
-                sucursales = sucursales.where((element) => element.nombre.toLowerCase().contains(searchText.toLowerCase())).toList();
+              if (searchText.isNotEmpty) {
+                sucursales = sucursales
+                    .where((element) => element.nombre
+                        .toLowerCase()
+                        .contains(searchText.toLowerCase()))
+                    .toList();
               }
               return SafeArea(
-                child: Container(margin: const EdgeInsets.only(bottom: 65),
-                  child: Column(
-                      children: [
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 65),
+                  child: Column(children: [
                     Container(
-                      clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6)),
                         height: MediaQuery.of(context).size.height * 0.30,
-                        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                        margin:
+                            const EdgeInsets.only(left: 12, right: 12, top: 12),
                         child: GoogleMap(
                             zoomControlsEnabled: true,
                             initialCameraPosition: _kSantoDomingo,
@@ -171,8 +197,10 @@ class _SucursalesPageState extends State<SucursalesPage> {
                         padding: const EdgeInsets.symmetric(vertical: 3),
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(color: Theme.of(context).dividerColor),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          border:
+                              Border.all(color: Theme.of(context).dividerColor),
                         ),
                         child: ListView.separated(
                             itemBuilder: (_, index) => InkWell(
@@ -187,7 +215,12 @@ class _SucursalesPageState extends State<SucursalesPage> {
                                     sucursalTile(context, sucursales[index])),
                             controller: controller,
                             itemCount: sucursales.length,
-                          separatorBuilder: (_,index) { return Divider(color: Theme.of(context).dividerColor, height: 1,); } ),
+                            separatorBuilder: (_, index) {
+                              return Divider(
+                                color: Theme.of(context).dividerColor,
+                                height: 1,
+                              );
+                            }),
                       ),
                     )
                   ]),
@@ -203,7 +236,8 @@ class _SucursalesPageState extends State<SucursalesPage> {
 
   Future<void> chatWithSucursal() async {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
-    var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
+    var whatsApp = userProfile
+        .whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
     if (whatsApp.isNotEmpty) {
       var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
       if (!await launchUrl(_url)) {
@@ -218,47 +252,73 @@ class _SucursalesPageState extends State<SucursalesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-              if(sucursal.isFavorite)
-                Icon(Icons.star, size: 16, color: Theme.of(context).colorScheme.primary,),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              if (sucursal.isFavorite)
+                Icon(
+                  Icons.star,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               Expanded(
-                child: Align(alignment: Alignment.centerLeft,
-                  child: AutoSizeText( sucursal.nombre, maxLines: 1, overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w700)),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(sucursal.nombre,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontWeight: FontWeight.w700)),
                 ),
               ),
-              IconButton( iconSize: 25,
+              IconButton(
+                iconSize: 25,
                 onPressed: () {
                   showSucursalOptions(context, sucursal);
                 },
-                icon: Icon(Icons.more_vert,color: GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" || GetIt.I<AppInfo>().metricsPrefixKey == "CARGOSPOT" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,),
+                icon: Icon(
+                  Icons.more_vert,
+                  color: GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" ||
+                          GetIt.I<AppInfo>().metricsPrefixKey == "CARGOSPOT"
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primary,
+                ),
               )
             ]),
             Text(sucursal.direccion),
-            const SizedBox(height: 5,),
-            AutoSizeText(sucursal.horario, maxLines: 2, minFontSize: 14, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.7)), )
+            const SizedBox(
+              height: 5,
+            ),
+            AutoSizeText(
+              sucursal.horario,
+              maxLines: 2,
+              minFontSize: 14,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .color!
+                      .withOpacity(0.7)),
+            )
           ],
         ));
   }
 
   Future<void> showSucursalOptions(
       BuildContext context, Sucursal sucursal) async {
-
-
     Future<void> callSucursal(String phone) async {
       var _url = Uri.parse("tel://$phone");
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';
       }
     }
+
     Future<void> chatWithSucursal(String phone) async {
       var _url = Uri.parse("whatsapp://send?phone=$phone");
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';
       }
     }
+
     Future<void> mailSucursal(String email) async {
       var _url = Uri.parse("mailto:$email");
       if (!await launchUrl(_url)) {
@@ -269,30 +329,43 @@ class _SucursalesPageState extends State<SucursalesPage> {
     final availableMaps = await map_launcher.MapLauncher.installedMaps;
 
     Future<void> navigateToSucursal() async {
-      await availableMaps.first.showDirections(destination: map_launcher.Coords(sucursal.latitud, sucursal.longitud), destinationTitle: sucursal.nombre);
+      await availableMaps.first.showDirections(
+          destination: map_launcher.Coords(sucursal.latitud, sucursal.longitud),
+          destinationTitle: sucursal.nombre);
     }
 
     //NavbarNotifier.hideBottomNavBar = true;
 
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
 
-    final iconColor = GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary;
+    final iconColor = GetIt.I<AppInfo>().metricsPrefixKey == "FIXOCARGO"
+        ? Theme.of(context).colorScheme.secondary
+        : Theme.of(context).colorScheme.primary;
 
-    if (!mounted) return; // Add this check before using context after an async call
+    if (!mounted)
+      return; // Add this check before using context after an async call
 
     await showModalBottomSheet(
         isScrollControlled: true,
         context: context,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         builder: (builder) {
-          return BlocProvider(create: (context) => LocationBloc()..add(LocationBlocCalculateDistanceEvent(sucursal.latitud, sucursal.longitud)),
-            child: BlocBuilder<LocationBloc,LocationBlocState>(
+          return BlocProvider(
+            create: (context) => LocationBloc()
+              ..add(LocationBlocCalculateDistanceEvent(
+                  sucursal.latitud, sucursal.longitud)),
+            child: BlocBuilder<LocationBloc, LocationBlocState>(
               builder: (context, state) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      decoration: ShapeDecoration(color: Theme.of(context).appBarTheme.backgroundColor, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20)))),
+                      decoration: ShapeDecoration(
+                          color: Theme.of(context).appBarTheme.backgroundColor,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20)))),
                       child: Column(
                         children: [
                           Padding(
@@ -300,25 +373,40 @@ class _SucursalesPageState extends State<SucursalesPage> {
                             child: Center(
                                 child: AutoSizeText(sucursal.nombre,
                                     maxLines: 1,
-                                    style:
-                                    Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor))),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .appBarTheme
+                                                .foregroundColor))),
                           ),
-                          if(state is LocationBlocCalculatingDistinaceState)
+                          if (state is LocationBlocCalculatingDistinaceState)
                             Padding(
-                                padding: const EdgeInsets.only(left: 8.0, bottom: 8.0, right: 8.0),
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, bottom: 8.0, right: 8.0),
                                 child: Center(
                                     child: Text("calculando_distancia".tr(),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor)))),
+                                            .titleMedium
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .appBarTheme
+                                                    .foregroundColor)))),
                           if (state is LocationBlocDistanceAquiredState)
                             Padding(
-                                padding: const EdgeInsets.only(left: 8.0, bottom: 8.0, right: 8.0),
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, bottom: 8.0, right: 8.0),
                                 child: Center(
                                     child: Text(state.distance,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor))))
+                                            .titleMedium
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .appBarTheme
+                                                    .foregroundColor))))
                         ],
                       ),
                     ),
@@ -327,27 +415,34 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.phone_rounded),
-                          onPressed: () { callSucursal(sucursal.telefonoVentas); },
+                          onPressed: () {
+                            callSucursal(sucursal.telefonoVentas);
+                          },
                           iconSize: 36,
                           color: iconColor,
                         ),
-                        if(sucursal.telefonoOficina.isNotEmpty)
-                        IconButton(
-                          icon: const FaIcon(FontAwesomeIcons.whatsapp),
-                          onPressed: () { chatWithSucursal(sucursal.telefonoOficina); },
-                          iconSize: 36,
-                          color: iconColor,
-
-                        ),
+                        if (sucursal.telefonoOficina.isNotEmpty)
+                          IconButton(
+                            icon: const FaIcon(FontAwesomeIcons.whatsapp),
+                            onPressed: () {
+                              chatWithSucursal(sucursal.telefonoOficina);
+                            },
+                            iconSize: 36,
+                            color: iconColor,
+                          ),
                         IconButton(
                           icon: const Icon(Icons.email_rounded),
-                          onPressed: () { mailSucursal(sucursal.email); },
+                          onPressed: () {
+                            mailSucursal(sucursal.email);
+                          },
                           iconSize: 36,
                           color: iconColor,
                         ),
                         IconButton(
                           icon: const Icon(Icons.navigation_rounded),
-                          onPressed: () { navigateToSucursal(); },
+                          onPressed: () {
+                            navigateToSucursal();
+                          },
                           iconSize: 36,
                           color: iconColor,
                         ),
@@ -359,26 +454,44 @@ class _SucursalesPageState extends State<SucursalesPage> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(top: 20, left: 20, right: 20),
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          Icon(Icons.place, size: 14, color: Theme.of(context).colorScheme.secondary,),
+                          Icon(
+                            Icons.place,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
                           Expanded(
                             child: Text(sucursal.direccion),
                           ),
-                          IconButton(onPressed: () {Clipboard.setData(ClipboardData(text: sucursal.direccion));}, icon: Icon(Icons.copy, size: 24, color: Theme.of(context).colorScheme.secondary,),)
+                          IconButton(
+                            onPressed: () {
+                              Clipboard.setData(
+                                  ClipboardData(text: sucursal.direccion));
+                            },
+                            icon: Icon(
+                              Icons.copy,
+                              size: 24,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          )
                         ],
                       ),
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(top: 20, left: 20, right: 20),
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          Icon(Icons.email, size: 14,color: Theme.of(context).colorScheme.secondary,),
+                          Icon(
+                            Icons.email,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
@@ -390,10 +503,14 @@ class _SucursalesPageState extends State<SucursalesPage> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(top: 20, left: 20, right: 20),
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          Icon(Icons.phone, size: 14, color: Theme.of(context).colorScheme.secondary,),
+                          Icon(
+                            Icons.phone,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
@@ -405,10 +522,11 @@ class _SucursalesPageState extends State<SucursalesPage> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(top: 20, left: 20, right: 20),
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          FaIcon(FontAwesomeIcons.whatsapp,
+                          FaIcon(
+                            FontAwesomeIcons.whatsapp,
                             size: 14,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
@@ -422,11 +540,15 @@ class _SucursalesPageState extends State<SucursalesPage> {
                       ),
                     ),
                     Padding(
-                      padding:
-                      const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+                      padding: const EdgeInsets.only(
+                          top: 20, left: 20, right: 20, bottom: 20),
                       child: Row(
                         children: [
-                          Icon(Icons.schedule, size: 14, color: Theme.of(context).colorScheme.secondary,),
+                          Icon(
+                            Icons.schedule,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
@@ -436,7 +558,9 @@ class _SucursalesPageState extends State<SucursalesPage> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20,)
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 );
               },
@@ -445,6 +569,5 @@ class _SucursalesPageState extends State<SucursalesPage> {
         });
     //NavbarNotifier.hideBottomNavBar = false;
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
-
   }
 }

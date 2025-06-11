@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/courier/courier_webview.dart';
+import 'package:icourier/courier/cuentas_usuario.dart';
+import 'package:icourier/courier/mensajes_usuario.dart';
 import 'package:icourier/services/model/login_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:event/event.dart' as event;
@@ -16,8 +18,9 @@ import '../services/courier_service.dart';
 import 'carnet_usuario.dart';
 
 class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CourierAppBar({Key? key, required this.hasWhatsApp}) : super(key: key);
+  const CourierAppBar({Key? key, required this.hasWhatsApp, required this.showProfile }) : super(key: key);
   final bool hasWhatsApp;
+  final bool showProfile;
   @override
   State<CourierAppBar> createState() => _CourierAppBarState();
 
@@ -27,7 +30,9 @@ class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CourierAppBarState extends State<CourierAppBar> {
   String title = "mi_courier".tr();
+  String subtitle = "";
   bool isBusy = false;
+  int unreadMessages = 0;
   late List<Widget> appBarActions = <Widget>[].toList();
   late UserProfile userProfile;
   bool showWhatsApp = false;
@@ -41,7 +46,9 @@ class _CourierAppBarState extends State<CourierAppBar> {
   }
 
   Future<void> _configureWithProfile() async {
+
     userProfile = await GetIt.I<CourierService>().getUserProfile();
+    subtitle = userProfile.nombre;
     final oldProfileUrl = profileUrl;
     profileUrl = await GetIt.I<CourierService>().empresaOptionValue("ProfileUrl");
     if(profileUrl.isEmpty) {
@@ -53,7 +60,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
         showWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
         showChat = !showWhatsApp && userProfile.chatUrl.isNotEmpty;
         appBarActions.clear();
-        GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(userProfile.cuenta.isNotEmpty, userProfile.cuenta));
+        GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(userProfile.cuenta.isNotEmpty, userProfile.cuenta, userProfile.nombre));
       }
 
     });
@@ -62,10 +69,19 @@ class _CourierAppBarState extends State<CourierAppBar> {
   @override
   Widget build(BuildContext context) {
     var loginChangedEvent = GetIt.I<Event<LoginChanged>>();
+    var unreadMessagesChanged = GetIt.I<Event<UnreadMessagesChanged>>();
+
+    unreadMessagesChanged.subscribe((args) {
+      setState(() {
+        unreadMessages = args?.unreadCount ?? 0;
+      });
+
+    });
+
     loginChangedEvent.subscribe((args) {
       setState(() {
         title = args!.loggedIn ? args.account : "inicio_session".tr();
-
+        subtitle = args.loggedIn ? args.name : "";
         if (args.loggedIn) {
           if (appBarActions.isEmpty) {
             appBarActions = [
@@ -102,26 +118,26 @@ class _CourierAppBarState extends State<CourierAppBar> {
                     launchUrl(Uri.parse(userProfile.chatUrl));
                   },
                 ),
-              if(profileUrl.isEmpty)
-                IconButton(
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).appBarTheme.foregroundColor,
-                  ),
-                  onPressed: () => {doLogout()},
-                ),
-              if(profileUrl.isNotEmpty)
-                AppPopupMenu<int>(
-                  menuItems: [
-                    PopupMenuItem(value: 1,child:  Text('editar_perfil'.tr()),),
-                    PopupMenuItem(value: 2,child:  Text('cerrar_session'.tr()),),
-                  ],
-                  icon: Icon(Icons.person, color: Theme.of(context).appBarTheme.foregroundColor,),
-                  onSelected: (x) =>
-                  {
-                    if(x==1) doEditProfile(context) else doLogout()
-                  },
-                ),
+              // if(profileUrl.isEmpty)
+              //   IconButton(
+              //     icon: Icon(
+              //       Icons.person,
+              //       color: Theme.of(context).appBarTheme.foregroundColor,
+              //     ),
+              //     onPressed: () => {doLogout()},
+              //   ),
+              // if(profileUrl.isNotEmpty)
+              //   AppPopupMenu<int>(
+              //     menuItems: [
+              //       PopupMenuItem(value: 1,child:  Text('editar_perfil'.tr()),),
+              //       PopupMenuItem(value: 2,child:  Text('cerrar_session'.tr()),),
+              //     ],
+              //     icon: Icon(Icons.person, color: Theme.of(context).appBarTheme.foregroundColor,),
+              //     onSelected: (x) =>
+              //     {
+              //       if(x==1) doEditProfile(context) else doLogout()
+              //     },
+              //   ),
 
             ].toList();
           }
@@ -132,8 +148,23 @@ class _CourierAppBarState extends State<CourierAppBar> {
     });
 
     return AppBar(
-      title: Text(title),
-      actions: appBarActions,
+      title: widget.showProfile ?  InkWell(
+        onTap: () => {showProfileOptions(context)},
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title),
+            Text(subtitle, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),)
+          ],
+        ),
+      ) : Text(title),
+      actions: [
+        ...appBarActions,
+        if(unreadMessages > 0)
+          Badge(alignment: Alignment.topLeft, label: Text(unreadMessages.toString()), child: IconButton(onPressed: () {showMessages(context);}, icon: Icon(Icons.notifications_none))),
+        if(unreadMessages <= 0)
+        IconButton(onPressed: () {showMessages(context);}, icon: const Icon(Icons.notifications_none)),
+      ],
       automaticallyImplyLeading: true,
     );
   }
@@ -148,64 +179,35 @@ class _CourierAppBarState extends State<CourierAppBar> {
     }
   }
 
-  Future doLogout() async {
-    var allAcounts = await  GetIt.I<CourierService>().getStoredAccounts();
-
-    List<Widget> getActions(BuildContext context)
-    {
-      List<Widget> actions = List.empty(growable: true);
-      if(allAcounts.length > 1) {
-        allAcounts = allAcounts.where((element) => element.userAccount != title).toList();
-        for (var element in allAcounts) {
-          actions.add(  OutlinedButton(
-            onPressed: () {Navigator.pop(context, element.userAccount);},
-            child: Text('cambiar_cuenta'.tr(args: [element.userAccount]),),
-            // style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).textTheme.bodyMedium!.color, textStyle: Theme.of(context).textTheme.bodyLarge),
-          ) );
-        }
-        actions.add( const Divider() );
-      }
-
-      actions.add( Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          FilledButton(
-            onPressed: () => {Navigator.pop(context, "cerrar")},
-            child: Text('si'.tr()),
-          ),
-          // IconButton(
-          //   onPressed: () => {Navigator.pop(context, "")},
-          //   icon: const Icon(Icons.close),
-          // ),
-          FilledButton(
-            onPressed: () => {Navigator.pop(context, "")},
-            child: Text('no'.tr()),
-          ),
-        ],
-      ));
-
-      return actions;
-    }
+  Future<void> showMessages(BuildContext context) async {
+    var messages = await GetIt.I<CourierService>().getMensajes();
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
     if (!context.mounted) return;
-
-    var dlgResult = await showDialog<String>(
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
-        builder: (BuildContext context) => AlertDialog(
-          actionsAlignment: MainAxisAlignment.spaceBetween,
-              title: Text('confirme'.tr(),
-                  style: Theme.of(context).textTheme.titleLarge),
-              content: Text('confirme_cerrar_session'.tr()),
-              actions: getActions(context),));
-    if (dlgResult != null) {
-      if (dlgResult == "cerrar") {
-        GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
-      } else {
-        var ok = await GetIt.I<CourierService>().switchUserAccount(dlgResult);
-        if(ok) {
-          GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(true, dlgResult));
-          GetIt.I<Event<CourierRefreshRequested>>().broadcast(CourierRefreshRequested());
-        }
-      }
-    }
+        builder: (builder) {
+          return MensajesUsuario();
+        });
+    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+  }
+
+  Future<void> showProfileOptions(BuildContext context) async {
+    var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    if (!context.mounted) return;
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        context: context,
+        builder: (builder) {
+          return CuentasUsuario(userProfile: userProfile);
+        });
+    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
   }
 
   Future<void> showMembershipBadge(BuildContext context) async {

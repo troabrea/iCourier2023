@@ -11,7 +11,8 @@ class UserPrealertaRequested extends EventArgs {
 class LoginChanged extends EventArgs {
   bool loggedIn;
   String account;
-  LoginChanged(this.loggedIn, this.account);
+  String name;
+  LoginChanged(this.loggedIn, this.account, this.name);
 }
 
 class LogoutRequested extends EventArgs {
@@ -46,4 +47,9 @@ class SucursalesDataRefreshRequested extends EventArgs {
 class ToogleBarEvent extends EventArgs {
   bool show;
   ToogleBarEvent(this.show);
+}
+
+class UnreadMessagesChanged extends EventArgs {
+  int unreadCount;
+  UnreadMessagesChanged(this.unreadCount);
 }
