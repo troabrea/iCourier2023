@@ -148,26 +148,21 @@ class _CourierAppBarState extends State<CourierAppBar> {
     });
 
     return AppBar(
-      title: widget.showProfile ?  InkWell(
-        onTap: () => {showProfileOptions(context)},
-        child: Container(
-          margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          decoration: BoxDecoration(
-            color: Theme.of(context).appBarTheme.backgroundColor,
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(
-              width: 0.5,
-              color: Theme.of(context).appBarTheme.foregroundColor!,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title),
-              Text(subtitle, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),)
-            ],
-          ),
+      title: widget.showProfile ?  OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          side: BorderSide(color: Theme.of(context).appBarTheme.foregroundColor!, width: 0.5),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0)
+        ),
+        onPressed: () => {showProfileOptions(context)},
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),),
+            Text(subtitle, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),)
+          ],
         ),
       ) : Text(title),
       actions: [
