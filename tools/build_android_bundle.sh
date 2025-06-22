@@ -12,7 +12,7 @@
 #flutter build apk -t lib/apps/domex/main_domex.dart --flavor domex --split-per-abi
 #flutter build apk -t lib/apps/pns/main_pns.dart --flavor picknsend --split-per-abi
 #flutter build apk -t lib/apps/jetpack/main_jetpack.dart --flavor jetpack --split-per-abi
-#flutter build appbundle -t lib/main_encargopaq.dart --flavor encargopaq
+flutter build appbundle -t lib/apps/encargopaq/main_encargopaq.dart --flavor encargopaq
 #flutter build appbundle -t lib/apps/almapac/main_almapaq.dart --flavor almapaq
 #flutter build apk -t lib/main_beexpress.dart --flavor beexpress --split-per-abi
 #flutter build appbundle -t lib/apps/swoop/main_swoop.dart --flavor swoop
@@ -24,5 +24,5 @@
 #flutter build appbundle -t lib/apps/tdexpress/main_tdexpress.dart --flavor tdexpress
 #flutter build appbundle -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
 #flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox
-flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
+#flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
 #flutter build appbundle -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot

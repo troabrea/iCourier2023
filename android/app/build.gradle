@@ -121,7 +121,7 @@ android {
         encargopaq {
             dimension "app"
             applicationId "com.barolit.encargopaq"
-            versionCode 5202322
+            versionCode 5202323
         }
         pintopaq {
             dimension "app"
@@ -219,8 +219,8 @@ android {
     buildTypes {
         release {
             //signingConfig signingConfigs.codemagic
-            signingConfig signingConfigs.release
-//            signingConfig signingConfigs.recent
+//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.recent
 //            signingConfig signingConfigs.legacy
         }
     }
