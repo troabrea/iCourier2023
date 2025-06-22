@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/services/model/mensaje.dart';
 import 'package:icourier/services/model/puntos_model.dart';
 import '../../helpers/dialogs.dart';
 import '../../services/courier_service.dart';
@@ -72,6 +73,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         //
 
         final banners = await _courierService.getBanners();
+        final mensajes = await _courierService.getMensajes();
         final recepciones = await _courierService.getRecepciones(true);
         final puntos = empresa.hasPointsModule ? await _courierService
             .getPuntos() : Puntos.empty();
@@ -103,6 +105,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             withErrors: result.isNotEmpty, errorMessage: result));
         emit(DashboardLoadedState(empresa: empresa,
             banners: banners,
+            mensajes: mensajes,
             recepciones: recepciones,
             recepcionesCount: recepcionesCount,
             disponiblesCount: disponiblesCount,
@@ -137,6 +140,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         emit(DashboardLoadingState());
         final empresa = await _courierService.getEmpresa(ignoreCache: event.forceRefresh);
         final banners = await _courierService.getBanners();
+        final mensajes = await _courierService.getMensajes(ignoreCache: event.forceRefresh);
         final recepciones = await _courierService.getRecepciones(event.forceRefresh);
         final puntos = empresa.hasPointsModule ? await _courierService.getPuntos() : Puntos.empty();
         final moreInfoText = await _courierService.empresaOptionValue("MoreInfoText");
@@ -159,6 +163,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             montoTotal: montoTotal,
             retenidosCount: retenidosCount,
             puntos: puntos,
+            mensajes : mensajes,
             moreInfoText: moreInfoText,
             moreInfoUrl: moreInfoUrl,
             reclamoUrl: reclamoUrl,

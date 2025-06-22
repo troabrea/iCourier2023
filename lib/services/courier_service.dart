@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -14,6 +13,7 @@ import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:icourier/services/model/estado_model.dart';
+import 'package:icourier/services/model/mensaje.dart';
 import 'package:icourier/services/model/solicitardomicilio_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -58,6 +58,9 @@ List<BannerImage> bannerFromJson(String str) => List<BannerImage>.from(
 
 String bannerToJson(List<BannerImage> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+List<Mensaje> mensajeFromJson(String str) =>
+    List<Mensaje>.from(json.decode(str).map((x) => Mensaje.fromJson(x)));
 
 List<Sucursal> sucursalFromJson(String str) =>
     List<Sucursal>.from(json.decode(str).map((x) => Sucursal.fromJson(x)));
@@ -177,6 +180,52 @@ class CourierService {
       return response.body;
     }, 60 * 20);
     return bannerFromJson(jsonData);
+  }
+  Future<List<Mensaje>> getMensajes({bool ignoreCache = false}) async {
+    if(ignoreCache) {
+      cache.destroy('mensajes');
+    }
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_MENSAJES");
+    var jsonData = await cache.remember('mensajes', () async {
+      const sucursal = '_';
+      final url = "https://icourierfunctions2023.azurewebsites.net/api/mensajes/$companyId/$sucursal?code=sgsbr3vJyIYTiYoOA3GlDz3ESL8eq6O3PGEbmaLddpg9AzFuivejSw==";
+
+      final response = await get(Uri.parse(url));
+
+      return response.body;
+    }, 60 * 20);
+
+    final mensajes = mensajeFromJson(jsonData);
+    final readMessagesRaw = (await cache.load("messages_leidos", "")).toString();
+    final readMessages =  readMessagesRaw.split(",").toList();
+    readMessages.forEach((readMessageId) {
+      final mensaje = mensajes.firstWhereOrNull((element) => element.registroId == readMessageId);
+      if(mensaje != null) {
+        mensaje.read = true;
+      }
+    });
+    final unReadMessages = mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
+    GetIt.I<event.Event<UnreadMessagesChanged>>().broadcast(UnreadMessagesChanged(unReadMessages.length));
+    return mensajes;
+  }
+
+  Future<void> setMessagesRead(List<String> mensajesToMark) async {
+    if(mensajesToMark.isEmpty) return;
+    //
+    final readMessagesRaw = (await cache.load("messages_leidos", "")).toString();
+    final readMessages =  readMessagesRaw.split(",").toList();
+    readMessages.addAll(mensajesToMark);
+    final newReadMessages = readMessages.toSet().toList();
+    await cache.write("messages_leidos", newReadMessages.join(","));
+    final mensajes = await getMensajes();
+    for (var readMessageId in newReadMessages) {
+      final mensaje = mensajes.firstWhereOrNull((element) => element.registroId == readMessageId);
+      if(mensaje != null) {
+        mensaje.read = true;
+      }
+    }
+    final unReadMessages = mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
+    GetIt.I<event.Event<UnreadMessagesChanged>>().broadcast(UnreadMessagesChanged(unReadMessages.length));
   }
 
   Future<List<Sucursal>> getSucursales(bool ignoreCache) async {
@@ -583,6 +632,14 @@ class CourierService {
   Future<List<UserAccount>> getStoredAccounts() async {
     var data = await cache.load('storedAccounts');
     var list = data == null ? <UserAccount>[].toList() : userAccountsFromJson(data);
+    return list;
+  }
+
+  Future<List<UserAccount>> removeAccountFromStore(UserAccount account) async {
+    var list = await getStoredAccounts();
+    list.removeWhere((element) => element.userAccount == account.userAccount);
+    final data = userAccountsToJson(list);
+    await cache.write('storedAccounts', data);
     return list;
   }
 

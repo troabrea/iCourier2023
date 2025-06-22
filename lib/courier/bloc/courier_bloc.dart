@@ -30,13 +30,14 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
         var empresa = (await courierService.getEmpresa());
         var sessionId = (await cache.load('sessionId','')).toString();
         var cuenta = (await cache.load('userAccount','')).toString();
+        var nombre = (await cache.load('userName','')).toString();
         var isLogged = sessionId.isNotEmpty && cuenta.isNotEmpty;
         if(isLogged) {
           emit(const CourierIsLoggedState());
         } else {
           emit(CourierIsNotLoggedState(false, empresa.registerUrl));
         }
-        loginChanged.broadcast(LoginChanged(isLogged, cuenta));
+        loginChanged.broadcast(LoginChanged(isLogged, cuenta,nombre));
     });
 
     on<TryLoginEvent>((event,emit) async {
@@ -44,7 +45,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
         var empresa = (await courierService.getEmpresa(ignoreCache: true));
         var loginResult = await courierService.getLoginResult(event.usuario, event.clave);
         if(loginResult.sessionId.isNotEmpty) {
-          loginChanged.broadcast(LoginChanged(true, event.usuario));
+          loginChanged.broadcast(LoginChanged(true, event.usuario, loginResult.nombre));
           emit(const CourierIsLoggedState());
         } else {
           emit(CourierIsNotLoggedState(true, empresa.registerUrl));
@@ -61,7 +62,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
         messaging.subscribeToTopic(pushSucursalTopic);
       }
       //
-      loginChanged.broadcast(LoginChanged(true, event.usuario));
+      loginChanged.broadcast(LoginChanged(true, event.usuario, event.nombre));
       emit(const CourierIsLoggedState());
     });
 
@@ -82,7 +83,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
       emit(CourierIsBusyState());
       var empresa = (await courierService.getEmpresa());
       await courierService.saveLoggedOutState();
-      loginChanged.broadcast(LoginChanged(false,""));
+      loginChanged.broadcast(LoginChanged(false,"",""));
       emit(CourierIsNotLoggedState(false, empresa.registerUrl));
     });
 

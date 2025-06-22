@@ -30,7 +30,6 @@ import 'crear_prealerta.dart';
 
 class CourierDashboard extends StatefulWidget {
   const CourierDashboard({super.key});
-
   @override
   State<CourierDashboard> createState() => _CourierDashboardState();
 }
@@ -580,14 +579,15 @@ class _CourierDashboardState extends State<CourierDashboard> {
 
 
   void doPayOnlineCPS() async {
+
     final map = await GetIt.I<CourierService>().getPaymentUrl();
     final actionUrl = map['ActionURL'] ?? "";
     final userId = map['UsuarioID'] ?? "";
     final userPwd = map['UsuarioPW'] ?? "";
     final urlId = map['UrlID'] ?? "";
     final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
-    await Navigator.push(
-      context,
+    if(!context.mounted) return;
+    Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "realizar_pago")),
     );
   }
@@ -707,6 +707,8 @@ Future<void> showTrackingSheet(BuildContext context) async {
     //     });
     return;
   }
+
+  if(!context.mounted) return;
 
   await showModalBottomSheet(
       isScrollControlled: true,

@@ -133,7 +133,7 @@ flutter:
 #    - images/clickpack/
 #    - images/qm/
 #    - images/domex/
-#    - images/bmcargo/
+    - images/bmcargo/
 #    - images/beexpress/
 #    - images/almapaq/
 #    - images/pintopaq/
