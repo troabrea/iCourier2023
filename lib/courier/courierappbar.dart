@@ -150,12 +150,24 @@ class _CourierAppBarState extends State<CourierAppBar> {
     return AppBar(
       title: widget.showProfile ?  InkWell(
         onTap: () => {showProfileOptions(context)},
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title),
-            Text(subtitle, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),)
-          ],
+        child: Container(
+          margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          decoration: BoxDecoration(
+            color: Theme.of(context).appBarTheme.backgroundColor,
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              width: 0.5,
+              color: Theme.of(context).appBarTheme.foregroundColor!,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title),
+              Text(subtitle, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),)
+            ],
+          ),
         ),
       ) : Text(title),
       actions: [
