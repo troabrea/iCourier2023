@@ -26,10 +26,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<OnlinePaymentRequestEvent>((event,emit) async {
+      if(!event.context.mounted) return;
       if(!await confirmDialog(event.context, "seguro_pagar_en_linea".tr(), "si".tr(), "no".tr())) {
         return;
       }
-      await _courierService.launchOnlinePayment();
+      final context = event.context;
+      if (!context.mounted) return;
+
+      await _courierService.launchOnlinePayment(event.context);
     });
 
     on<ReferirAmigoRequestEvent>((event,emit) async {

@@ -27,7 +27,7 @@ class FixocargoAppInfo implements AppInfo {
   String get centerIconImage => "images/fixocargo/icon.png";
 
   @override
-  double get centerIconSize => 35;
+  double get centerIconSize => 45;
 
   @override
   double get centerInactiveIconSize => 35;

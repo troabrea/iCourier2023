@@ -259,11 +259,13 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
       BuildContext context) async {
     var courierService = GetIt.I<CourierService>();
     var empresa = await courierService.getEmpresa();
-
+    if(!context.mounted) return;
     //NavbarNotifier.hideBottomNavBar = true;
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
     await showModalBottomSheet(
         isScrollControlled: true,
+        useSafeArea: true,
+        useRootNavigator: true,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
         builder: (builder) {

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/adicional/appbrowser.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../services/courier_service.dart';
 
@@ -51,25 +52,41 @@ class _CourierPageState extends State<CourierPage> {
   final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CourierAppBar(hasWhatsApp: hasWhatsApp),
-        body: BlocProvider(
-            create: (context) => courierBloc..add(CheckLoggedEvent()),
-            child: BlocBuilder<CourierBloc, CourierState>(
-                builder: (context, state) {
-              if (state is CourierIsBusyState) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is CourierIsNotLoggedState) {
-                return loginPage(context, state.showError, state.registerUrl);
-              }
-              if (state is CourierIsLoggedState) {
-                return const CourierDashboard();
-              }
-              return Container();
-            })));
+    return BlocProvider(
+        create: (context) => courierBloc..add(CheckLoggedEvent()),
+        child: BlocBuilder<CourierBloc, CourierState>(
+            builder: (context, state) {
+              return Scaffold(
+                  appBar: CourierAppBar(hasWhatsApp: hasWhatsApp,
+                    showProfile: (state is CourierIsLoggedState),),
+                  body: (state is CourierIsBusyState) ? const Center(
+                    child: CircularProgressIndicator(),
+                  ) : (state is CourierIsNotLoggedState) ? loginPage(
+                      context, state.showError, state.registerUrl) :
+                  (state is CourierIsLoggedState)
+                      ? const CourierDashboard()
+                      : Container()
+              );
+            }));
+    // return Scaffold(
+    //     appBar: CourierAppBar(hasWhatsApp: hasWhatsApp, showProfile: false,),
+    //     body: BlocProvider(
+    //         create: (context) => courierBloc..add(CheckLoggedEvent()),
+    //         child: BlocBuilder<CourierBloc, CourierState>(
+    //             builder: (context, state) {
+    //           if (state is CourierIsBusyState) {
+    //             return const Center(
+    //               child: CircularProgressIndicator(),
+    //             );
+    //           }
+    //           if (state is CourierIsNotLoggedState) {
+    //             return loginPage(context, state.showError, state.registerUrl);
+    //           }
+    //           if (state is CourierIsLoggedState) {
+    //             return const CourierDashboard();
+    //           }
+    //           return Container();
+    //         })));
   }
 
   FormBuilderTextField buildPasswordFormField(
@@ -293,9 +310,17 @@ class _CourierPageState extends State<CourierPage> {
                     ),
                     if(registerUrl.isNotEmpty)
                       const SizedBox(height: 20,),
-                    if(appInfo.metricsPrefixKey != "CARGOSPOT" && appInfo.metricsPrefixKey != "INBOX" && appInfo.metricsPrefixKey != "TUPAQ" && appInfo.metricsPrefixKey != "FLYPACK" && appInfo.metricsPrefixKey != "BOXPAQ" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "FIXOCARGO" && registerUrl.isNotEmpty)
-                      Center(child: TextButton(onPressed: () async { await launchUrlString(registerUrl, mode: LaunchMode.inAppWebView); }, child: Text.rich(TextSpan(text: "no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
+                    // if(appInfo.metricsPrefixKey != "CARGOSPOT" && appInfo.metricsPrefixKey != "INBOX" && appInfo.metricsPrefixKey != "TUPAQ" && appInfo.metricsPrefixKey != "FLYPACK" && appInfo.metricsPrefixKey != "BOXPAQ" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "FIXOCARGO" && registerUrl.isNotEmpty)
+                    if(registerUrl.isNotEmpty)
+                      Center(child: TextButton(onPressed: () async {
+                          // await launchUrlString(registerUrl, mode: LaunchMode.inAppBrowserView,
+                          // );
+                          await Navigator.of(context).push(MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>  AppBrowser(initialUrl: registerUrl, title: "Crear Cuenta"),
+                          ),);
+                        }, child: Text.rich(TextSpan(text: "no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
                         TextSpan(text:'conoce_mas_aqui'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
+
                     if(appInfo.additionalLocale.isNotEmpty)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -304,11 +329,12 @@ class _CourierPageState extends State<CourierPage> {
                           Icon(Icons.circle, color: Theme.of(context).dividerColor, size: 6,),
                           TextButton(onPressed: () { context.setLocale(const Locale('en')); }, child: context.locale.languageCode == 'en' ? Text('English', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),) : const Text('English'),),
                       ],),
-                    if(appInfo.metricsPrefixKey == "FIXOCARGO")
-                      Center(child: OutlinedButton(onPressed: () async {
-                        await launchUrlString("https://fixocargo.com/", mode: LaunchMode.externalApplication); },
-                          child: Text.rich(TextSpan(text: "aun_no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall,
-                          )))),
+
+                    // if(appInfo.metricsPrefixKey == "FIXOCARGO")
+                    //   Center(child: OutlinedButton(onPressed: () async {
+                    //     await launchUrlString("https://fixocargo.com/", mode: LaunchMode.externalApplication); },
+                    //       child: Text.rich(TextSpan(text: "aun_no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall,
+                    //       )))),
 
                     // if(registerUrl.isNotEmpty)
                     //   Center(child: Row(
@@ -461,7 +487,7 @@ class _CourierPageState extends State<CourierPage> {
         ));
       } else if (!loginResult.shouldAskToStore) {
         GetIt.I<CourierService>().clearCourierDataCache();
-        courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId, loginResult.sucursal));
+        courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId, loginResult.sucursal, loginResult.nombre));
       } else {
         // We have a session and is a new additional user account
 
@@ -490,7 +516,7 @@ class _CourierPageState extends State<CourierPage> {
         if (dlgResult != null && dlgResult) {
           await GetIt.I<CourierService>().addCurrentAccountToStore();
           GetIt.I<CourierService>().clearCourierDataCache();
-          courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId,loginResult.sucursal));
+          courierBloc.add(UserDidLoginEvent(userName, loginResult.sessionId,loginResult.sucursal, loginResult.nombre));
         }
       }
     }

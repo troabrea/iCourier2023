@@ -1,1 +1,1 @@
-flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-cargospot
+flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-gopack

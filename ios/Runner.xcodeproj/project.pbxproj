@@ -40,6 +40,8 @@
 		86E9A9452A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86E9A9432A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard */; };
 		86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86EA7CA1299FDA69003DCCCF /* LaunchScreenCps.storyboard */; };
 		86ECEA572CADD4750092D2E3 /* LaunchScreenEcopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86ECEA552CADD4750092D2E3 /* LaunchScreenEcopaq.storyboard */; };
+		86F47D4A2E0D7B8900C92D06 /* LaunchScreenTelo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F47D482E0D7B8900C92D06 /* LaunchScreenTelo.storyboard */; };
+		86F47D532E0D898800C92D06 /* LaunchScreenGopack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F47D512E0D898800C92D06 /* LaunchScreenGopack.storyboard */; };
 		86FC0FCC29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FC0FCA29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -82,6 +84,7 @@
 		2C74D8B1574C23D4059407B7 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		2ECA4A698EBD73B787957A90 /* Pods-Runner.debug-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-beexpress.xcconfig"; sourceTree = "<group>"; };
 		30A67DFB1F5FA03405F0FFDE /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		3105C98905D5CF574E7ADC3F /* Pods-Runner.debug-gopack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-gopack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-gopack.xcconfig"; sourceTree = "<group>"; };
 		31616EFD942332F2CC608314 /* Pods-Runner.release-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-skyhigh.xcconfig"; sourceTree = "<group>"; };
 		32204A3F4A21539803EE9FEA /* Pods-Runner.profile-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-tls.xcconfig"; sourceTree = "<group>"; };
 		322ECB203FF84461FED0ACAD /* Pods-Runner.debug-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-skyhigh.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +93,7 @@
 		35F437F0D64A9271695FA531 /* Pods-Runner.profile-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-encargopaq.xcconfig"; sourceTree = "<group>"; };
 		36E05AC631445E1CCF78C48A /* Pods-Runner.release-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-domex.xcconfig"; sourceTree = "<group>"; };
 		37CC6C2E590AC172AB875CC5 /* Pods-Runner.release-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cps.xcconfig"; sourceTree = "<group>"; };
+		3A079A6128B24DC79853BF73 /* Pods-Runner.debug-telo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-telo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-telo.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3DC7AC2A0B025F61CA7FEE70 /* Pods-Runner.release-beexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-beexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-beexpress.xcconfig"; sourceTree = "<group>"; };
 		3DFA78FC25EB71DF59CC1D12 /* Pods-Runner.profile-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-picknsend.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 		86E9A9442A6ADB3F00BBD3F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCainca.storyboard; sourceTree = "<group>"; };
 		86EA7CA2299FDA69003DCCCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCps.storyboard; sourceTree = "<group>"; };
 		86ECEA562CADD4750092D2E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenEcopaq.storyboard; sourceTree = "<group>"; };
+		86F47D492E0D7B8900C92D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTelo.storyboard; sourceTree = "<group>"; };
+		86F47D522E0D898800C92D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenGopack.storyboard; sourceTree = "<group>"; };
 		86FC0FCB29C7BA4F00F0D20D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBoxpaq.storyboard; sourceTree = "<group>"; };
 		8946ABA8E933B37F31813D6A /* Pods-Runner.debug-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-taino.xcconfig"; sourceTree = "<group>"; };
 		9275107C099F0A5C40DAA174 /* Pods-Runner.debug-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tls.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +174,7 @@
 		B24252B90E3533F870BEAF7B /* Pods-Runner.debug-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-fixocargo.xcconfig"; sourceTree = "<group>"; };
 		B55EF22307B1015A7CBC70B7 /* Pods-Runner.debug-mcccargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-mcccargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-mcccargo.xcconfig"; sourceTree = "<group>"; };
 		B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cainca.xcconfig"; sourceTree = "<group>"; };
+		C2B132506D38463568F817ED /* Pods-Runner.release-gopack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-gopack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-gopack.xcconfig"; sourceTree = "<group>"; };
 		C3EF271C09B229CA8241D0B1 /* Pods-Runner.release-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-blumbox.xcconfig"; sourceTree = "<group>"; };
 		C960C22B42F15D54CB0A066C /* Pods-Runner.debug-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-qm.xcconfig"; sourceTree = "<group>"; };
 		CE97419F7ACB76D6BD8992EA /* Pods-Runner.release-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-taino.xcconfig"; sourceTree = "<group>"; };
@@ -177,6 +184,7 @@
 		DE3509B15934E3B94F87B807 /* Pods-Runner.profile-inbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-inbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-inbox.xcconfig"; sourceTree = "<group>"; };
 		E50773BBCC8A474AFB2853D8 /* Pods-Runner.debug-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-flypack.xcconfig"; sourceTree = "<group>"; };
 		E7C088C564FAFB2D4547D63E /* Pods-Runner.debug-inbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-inbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-inbox.xcconfig"; sourceTree = "<group>"; };
+		E8928CF07CBD0C86D290BA9B /* Pods-Runner.release-telo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-telo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-telo.xcconfig"; sourceTree = "<group>"; };
 		E9DF823AFDE8F41A7048AFC8 /* Pods-Runner.release-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-picknsend.xcconfig"; sourceTree = "<group>"; };
 		E9E9933984BDDDFA659E5FA6 /* Pods-Runner.profile-ecopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-ecopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-ecopaq.xcconfig"; sourceTree = "<group>"; };
 		EA341B8D0D88B8B2DF1D6C9A /* Pods-Runner.profile-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-skyhigh.xcconfig"; sourceTree = "<group>"; };
@@ -185,10 +193,12 @@
 		F40B95984301B37FA1788DC9 /* Pods-Runner.profile-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-qm.xcconfig"; sourceTree = "<group>"; };
 		F6DC16D8109ECFF199213122 /* Pods-Runner.release-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-almapaq.xcconfig"; sourceTree = "<group>"; };
 		F867633C8191D3537931360E /* Pods-Runner.release-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-fixocargo.xcconfig"; sourceTree = "<group>"; };
+		F874966A14712A15CE57EC29 /* Pods-Runner.profile-gopack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-gopack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-gopack.xcconfig"; sourceTree = "<group>"; };
 		FB7768B91618AB5B32971655 /* Pods-Runner.debug-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cainca.xcconfig"; sourceTree = "<group>"; };
 		FC649561C3A2723B2FE11CCF /* Pods-Runner.profile-boxpaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-boxpaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-boxpaq.xcconfig"; sourceTree = "<group>"; };
 		FD5AA96F1AD3C0EBE196330F /* Pods-Runner.profile-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-fixocargo.xcconfig"; sourceTree = "<group>"; };
 		FDB02391CCA12A208F77A8EA /* Pods-Runner.release-mcccargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-mcccargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-mcccargo.xcconfig"; sourceTree = "<group>"; };
+		FE7176289EAEFFED9C4B8A8A /* Pods-Runner.profile-telo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-telo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-telo.xcconfig"; sourceTree = "<group>"; };
 		FF22C952DB6C87F90BCB8CBF /* Pods-Runner.debug-tdexpress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tdexpress.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tdexpress.xcconfig"; sourceTree = "<group>"; };
 		FF46A2033AD1CA3143EA9AD7 /* Pods-Runner.debug-encargopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-encargopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-encargopaq.xcconfig"; sourceTree = "<group>"; };
 		FF979A940E4F1C06BC58A52C /* Pods-Runner.debug-picknsend.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-picknsend.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-picknsend.xcconfig"; sourceTree = "<group>"; };
@@ -304,6 +314,12 @@
 				65832C067C15A754EC13DA66 /* Pods-Runner.debug-cargospot.xcconfig */,
 				087B4E338412777FF088B9E6 /* Pods-Runner.release-cargospot.xcconfig */,
 				A3B04CEEA3D4664EB6EAB4BE /* Pods-Runner.profile-cargospot.xcconfig */,
+				3A079A6128B24DC79853BF73 /* Pods-Runner.debug-telo.xcconfig */,
+				E8928CF07CBD0C86D290BA9B /* Pods-Runner.release-telo.xcconfig */,
+				FE7176289EAEFFED9C4B8A8A /* Pods-Runner.profile-telo.xcconfig */,
+				3105C98905D5CF574E7ADC3F /* Pods-Runner.debug-gopack.xcconfig */,
+				C2B132506D38463568F817ED /* Pods-Runner.release-gopack.xcconfig */,
+				F874966A14712A15CE57EC29 /* Pods-Runner.profile-gopack.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -342,6 +358,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				86F47D512E0D898800C92D06 /* LaunchScreenGopack.storyboard */,
+				86F47D482E0D7B8900C92D06 /* LaunchScreenTelo.storyboard */,
 				867774FC2D96D448003A2045 /* LaunchScreenCargospot.storyboard */,
 				865C69CB2CC983C000CA985F /* LaunchScreenInbox.storyboard */,
 				86ECEA552CADD4750092D2E3 /* LaunchScreenEcopaq.storyboard */,
@@ -454,6 +472,7 @@
 				86E9A9452A6ADB3F00BBD3F3 /* LaunchScreenCainca.storyboard in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				860CC7432A7C3382008F7B7B /* LaunchScreenTupaq.storyboard in Resources */,
+				86F47D4A2E0D7B8900C92D06 /* LaunchScreenTelo.storyboard in Resources */,
 				86CC403E28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard in Resources */,
 				86FC0FCC29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
@@ -468,6 +487,7 @@
 				869EC9602A4B152000333BC5 /* LaunchScreenTls.storyboard in Resources */,
 				86C7C8442BF3E2B90076413F /* LaunchScreenFlypack.storyboard in Resources */,
 				8608CC322C11FD0200B8537F /* LaunchScreenTdexpress.storyboard in Resources */,
+				86F47D532E0D898800C92D06 /* LaunchScreenGopack.storyboard in Resources */,
 				86D2032129F94DDE000ED92C /* LaunchScreenAlmapaq.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				86EA7CA3299FDA69003DCCCF /* LaunchScreenCps.storyboard in Resources */,
@@ -823,6 +843,22 @@
 				86ECEA562CADD4750092D2E3 /* Base */,
 			);
 			name = LaunchScreenEcopaq.storyboard;
+			sourceTree = "<group>";
+		};
+		86F47D482E0D7B8900C92D06 /* LaunchScreenTelo.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86F47D492E0D7B8900C92D06 /* Base */,
+			);
+			name = LaunchScreenTelo.storyboard;
+			sourceTree = "<group>";
+		};
+		86F47D512E0D898800C92D06 /* LaunchScreenGopack.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86F47D522E0D898800C92D06 /* Base */,
+			);
+			name = LaunchScreenGopack.storyboard;
 			sourceTree = "<group>";
 		};
 		86FC0FCA29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard */ = {
@@ -4555,7 +4591,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4646,7 +4682,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4734,7 +4770,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6729,7 +6765,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6820,7 +6856,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6908,7 +6944,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8280,6 +8316,550 @@
 			};
 			name = "Profile-ecopaq";
 		};
+		86F47D422E0D7B0500C92D06 /* Debug-telo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-telo";
+		};
+		86F47D432E0D7B0500C92D06 /* Debug-telo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Telo Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-telo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 35;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTelo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTelo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.telo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-telo";
+		};
+		86F47D442E0D7B1600C92D06 /* Release-telo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-telo";
+		};
+		86F47D452E0D7B1600C92D06 /* Release-telo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Telo Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-telo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 35;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTelo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTelo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.telo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-telo";
+		};
+		86F47D462E0D7B2700C92D06 /* Profile-telo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-telo";
+		};
+		86F47D472E0D7B2700C92D06 /* Profile-telo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Telo Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-telo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 35;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenTelo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenTelo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.9;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.telo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-telo";
+		};
+		86F47D4B2E0D889D00C92D06 /* Debug-gopack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-gopack";
+		};
+		86F47D4C2E0D889D00C92D06 /* Debug-gopack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Gopack Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-gopack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenGopack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenGopack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.gopack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-gopack";
+		};
+		86F47D4D2E0D88B000C92D06 /* Release-gopack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-gopack";
+		};
+		86F47D4E2E0D88B000C92D06 /* Release-gopack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Gopack Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-gopack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenGopack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenGopack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.gopack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-gopack";
+		};
+		86F47D4F2E0D88C200C92D06 /* Profile-gopack */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-gopack";
+		};
+		86F47D502E0D88C200C92D06 /* Profile-gopack */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Gopack Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-gopack";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 34;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenGopack.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenGopack;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.7.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.gopack;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-gopack";
+		};
 		86FC0FC429C7B9FA00F0D20D /* Debug-boxpaq */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -8752,6 +9332,7 @@
 				863F1D2C2B8CE8F400477140 /* Debug-qm */,
 				862A2AF02BD7F6C700001F62 /* Debug-clickpack */,
 				86C7C83C2BF3E2550076413F /* Debug-flypack */,
+				86F47D4B2E0D889D00C92D06 /* Debug-gopack */,
 				861AC9CD2C5A9A5A00698E74 /* Debug-mcccargo */,
 				86ECEA4F2CADD3FC0092D2E3 /* Debug-ecopaq */,
 				865C69C52CC9834A00CA985F /* Debug-inbox */,
@@ -8760,6 +9341,7 @@
 				86049F9D2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73B2A7C3311008F7B7B /* Debug-tupaq */,
 				8608CC2A2C11FAE100B8537F /* Debug-tdexpress */,
+				86F47D422E0D7B0500C92D06 /* Debug-telo */,
 				86A0EEB62AAB43A200924D08 /* Debug-swoop */,
 				869EC9582A4B14AD00333BC5 /* Debug-tls */,
 				862203E929C2635E009248F4 /* Debug-picknsend */,
@@ -8781,6 +9363,7 @@
 				863F1D2E2B8CE90000477140 /* Release-qm */,
 				862A2AF22BD7F6DC00001F62 /* Release-clickpack */,
 				86C7C83E2BF3E26C0076413F /* Release-flypack */,
+				86F47D4D2E0D88B000C92D06 /* Release-gopack */,
 				861AC9CF2C5A9A6C00698E74 /* Release-mcccargo */,
 				86ECEA512CADD40C0092D2E3 /* Release-ecopaq */,
 				865C69C72CC9836200CA985F /* Release-inbox */,
@@ -8789,6 +9372,7 @@
 				86049F9F2BE2D8750058E7C5 /* Release-skyhigh */,
 				860CC73D2A7C3323008F7B7B /* Release-tupaq */,
 				8608CC2C2C11FAF300B8537F /* Release-tdexpress */,
+				86F47D442E0D7B1600C92D06 /* Release-telo */,
 				86A0EEB82AAB43B100924D08 /* Release-swoop */,
 				869EC95A2A4B14C400333BC5 /* Release-tls */,
 				862203EB29C26369009248F4 /* Release-picknsend */,
@@ -8810,6 +9394,7 @@
 				863F1D302B8CE90A00477140 /* Profile-qm */,
 				862A2AF42BD7F6E800001F62 /* Profile-clickpack */,
 				86C7C8402BF3E2790076413F /* Profile-flypack */,
+				86F47D4F2E0D88C200C92D06 /* Profile-gopack */,
 				861AC9D12C5A9A7800698E74 /* Profile-mcccargo */,
 				86ECEA532CADD4170092D2E3 /* Profile-ecopaq */,
 				865C69C92CC9837400CA985F /* Profile-inbox */,
@@ -8818,6 +9403,7 @@
 				86049FA12BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC73F2A7C332E008F7B7B /* Profile-tupaq */,
 				8608CC2E2C11FB0700B8537F /* Profile-tdexpress */,
+				86F47D462E0D7B2700C92D06 /* Profile-telo */,
 				86A0EEBA2AAB43B900924D08 /* Profile-swoop */,
 				869EC95C2A4B14CD00333BC5 /* Profile-tls */,
 				862203ED29C26374009248F4 /* Profile-picknsend */,
@@ -8846,6 +9432,7 @@
 				863F1D2D2B8CE8F400477140 /* Debug-qm */,
 				862A2AF12BD7F6C700001F62 /* Debug-clickpack */,
 				86C7C83D2BF3E2550076413F /* Debug-flypack */,
+				86F47D4C2E0D889D00C92D06 /* Debug-gopack */,
 				861AC9CE2C5A9A5A00698E74 /* Debug-mcccargo */,
 				86ECEA502CADD3FC0092D2E3 /* Debug-ecopaq */,
 				865C69C62CC9834A00CA985F /* Debug-inbox */,
@@ -8854,6 +9441,7 @@
 				86049F9E2BE2D8630058E7C5 /* Debug-skyhigh */,
 				860CC73C2A7C3311008F7B7B /* Debug-tupaq */,
 				8608CC2B2C11FAE100B8537F /* Debug-tdexpress */,
+				86F47D432E0D7B0500C92D06 /* Debug-telo */,
 				86A0EEB72AAB43A200924D08 /* Debug-swoop */,
 				869EC9592A4B14AD00333BC5 /* Debug-tls */,
 				862203EA29C2635E009248F4 /* Debug-picknsend */,
@@ -8875,6 +9463,7 @@
 				863F1D2F2B8CE90000477140 /* Release-qm */,
 				862A2AF32BD7F6DC00001F62 /* Release-clickpack */,
 				86C7C83F2BF3E26C0076413F /* Release-flypack */,
+				86F47D4E2E0D88B000C92D06 /* Release-gopack */,
 				861AC9D02C5A9A6C00698E74 /* Release-mcccargo */,
 				86ECEA522CADD40C0092D2E3 /* Release-ecopaq */,
 				865C69C82CC9836200CA985F /* Release-inbox */,
@@ -8883,6 +9472,7 @@
 				86049FA02BE2D8760058E7C5 /* Release-skyhigh */,
 				860CC73E2A7C3323008F7B7B /* Release-tupaq */,
 				8608CC2D2C11FAF300B8537F /* Release-tdexpress */,
+				86F47D452E0D7B1600C92D06 /* Release-telo */,
 				86A0EEB92AAB43B100924D08 /* Release-swoop */,
 				869EC95B2A4B14C400333BC5 /* Release-tls */,
 				862203EC29C26369009248F4 /* Release-picknsend */,
@@ -8904,6 +9494,7 @@
 				863F1D312B8CE90A00477140 /* Profile-qm */,
 				862A2AF52BD7F6E800001F62 /* Profile-clickpack */,
 				86C7C8412BF3E2790076413F /* Profile-flypack */,
+				86F47D502E0D88C200C92D06 /* Profile-gopack */,
 				861AC9D22C5A9A7800698E74 /* Profile-mcccargo */,
 				86ECEA542CADD4170092D2E3 /* Profile-ecopaq */,
 				865C69CA2CC9837400CA985F /* Profile-inbox */,
@@ -8912,6 +9503,7 @@
 				86049FA22BE2D8820058E7C5 /* Profile-skyhigh */,
 				860CC7402A7C332E008F7B7B /* Profile-tupaq */,
 				8608CC2F2C11FB0700B8537F /* Profile-tdexpress */,
+				86F47D472E0D7B2700C92D06 /* Profile-telo */,
 				86A0EEBB2AAB43B900924D08 /* Profile-swoop */,
 				869EC95D2A4B14CD00333BC5 /* Profile-tls */,
 				862203EE29C26374009248F4 /* Profile-picknsend */,

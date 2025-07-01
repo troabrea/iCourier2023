@@ -712,6 +712,8 @@ Future<void> showTrackingSheet(BuildContext context) async {
 
   await showModalBottomSheet(
       isScrollControlled: true,
+      useSafeArea: true,
+      useRootNavigator: true,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       context: context,

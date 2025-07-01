@@ -6,6 +6,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/adicional/appbrowser.dart';
+import 'package:icourier/helpers/dialogs.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../apps/appinfo.dart';
@@ -45,6 +47,9 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
     var list = await GetIt.I<CourierService>().getStoredAccounts();
     userProfile = await GetIt.I<CourierService>().getUserProfile();
     profileUrl = await GetIt.I<CourierService>().empresaOptionValue("ProfileUrl");
+    if(profileUrl.isEmpty) {
+      profileUrl = await GetIt.I<CourierService>().empresaOptionValue("EditProfileUrl");
+    }
     accountList.clear();
     accountList.addAll(list);
     setState(() {});
@@ -87,23 +92,29 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
               children: [
                 if(profileUrl.isNotEmpty && userProfile.cuenta == accountList[idx].userAccount)
                   IconButton.filledTonal(onPressed: () {doEditProfile(context);}, icon: const Icon(Icons.edit), color: Theme.of(context).colorScheme.primary),
-                if(userProfile.cuenta != accountList[idx].userAccount)
-                  IconButton.filledTonal(onPressed: () {doForgetAccount( accountList[idx] );}, icon: const Icon(Icons.delete), color: Theme.of(context).colorScheme.error,),
+                IconButton.filledTonal(onPressed: () {doForgetAccount( accountList[idx] );}, icon: const Icon(Icons.delete), color: Theme.of(context).colorScheme.error,),
               ],
             ),
           ),
           itemCount: accountList.length,
         ),
       ),
-      SafeArea(child: OutlinedButton(onPressed: () {doLogout(context);}, child: Text("agregar_cuenta".tr())))
+      SafeArea(child: OutlinedButton(onPressed: () {doLogout(context);}, child: Text("${"agregar_cuenta".tr()} / ${"cerrar_session".tr()}", style: TextStyle(color: Theme.of(context).colorScheme.primary))))
     ]);
   }
   Future<void> doForgetAccount(UserAccount userAccount) async {
+    if(!await confirmDialog(context, "confirme_borrar_cuenta".tr(), "si".tr(), "no".tr())) {
+      return;
+    }
     final newList = await GetIt.I<CourierService>().removeAccountFromStore(userAccount);
     setState(() {
       accountList.clear();
       accountList.addAll(newList);
     });
+    if(newList.isEmpty) {
+      if(!context.mounted) return;
+      doLogout(context);
+    }
   }
   void doLogout(BuildContext context) {
     Navigator.of(context).pop();
@@ -140,7 +151,13 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
 
 
     final functionUrl= 'https://icourier.barolit.net/EditProfile/$encodedCompany/$encodedUser/$encodedPwd';
-    await launchUrl(Uri.parse( functionUrl ), mode: LaunchMode.externalApplication);
+
+    if (!context.mounted) return;
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (BuildContext context) =>  AppBrowser(initialUrl: functionUrl, title: "Edición de Perfil"),
+    ),);
+
+    // await launchUrl(Uri.parse( functionUrl ), mode: LaunchMode.externalApplication);
 
 
   }

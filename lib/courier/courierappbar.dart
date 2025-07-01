@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_popup_menu/app_popup_menu.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ import '../services/courier_service.dart';
 import 'carnet_usuario.dart';
 
 class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CourierAppBar({Key? key, required this.hasWhatsApp, required this.showProfile }) : super(key: key);
+  const CourierAppBar({super.key, required this.hasWhatsApp, required this.showProfile });
   final bool hasWhatsApp;
   final bool showProfile;
   @override
@@ -31,6 +32,7 @@ class CourierAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CourierAppBarState extends State<CourierAppBar> {
   String title = "mi_courier".tr();
   String subtitle = "";
+  String fotoPerfil = "";
   bool isBusy = false;
   int unreadMessages = 0;
   late List<Widget> appBarActions = <Widget>[].toList();
@@ -49,6 +51,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
     userProfile = await GetIt.I<CourierService>().getUserProfile();
     subtitle = userProfile.nombre;
+    fotoPerfil = userProfile.fotoPerfilUrl;
     final oldProfileUrl = profileUrl;
     profileUrl = await GetIt.I<CourierService>().empresaOptionValue("ProfileUrl");
     if(profileUrl.isEmpty) {
@@ -78,11 +81,21 @@ class _CourierAppBarState extends State<CourierAppBar> {
 
     });
 
+    void updateProfilePhoto() async {
+      userProfile = await GetIt.I<CourierService>().getUserProfile();
+      setState( () {
+        fotoPerfil = userProfile.fotoPerfilUrl;
+      });
+    }
+
     loginChangedEvent.subscribe((args) {
       setState(() {
         title = args!.loggedIn ? args.account : "inicio_session".tr();
         subtitle = args.loggedIn ? args.name : "";
+        fotoPerfil = "";
         if (args.loggedIn) {
+          // Foto
+          updateProfilePhoto();
           if (appBarActions.isEmpty) {
             appBarActions = [
               IconButton(
@@ -153,22 +166,43 @@ class _CourierAppBarState extends State<CourierAppBar> {
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          side: BorderSide(color: Theme.of(context).appBarTheme.foregroundColor!, width: 0.5),
+          side: BorderSide.none, // (color: Theme.of(context).appBarTheme.foregroundColor!, width: 0.5),
           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0)
         ),
         onPressed: () => {showProfileOptions(context)},
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),),
-            Text(subtitle, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).appBarTheme.foregroundColor),)
-          ],
+        child: FittedBox(
+          child: Row(
+            children: [
+              CachedNetworkImage(imageUrl: fotoPerfil,
+                width: 30,
+                height: 30,
+                imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.fill,
+                      ),
+                    )),
+                placeholder: (context, url) => const Icon(Icons.person),
+                errorWidget: (context, url, error) => const Icon(Icons.person),
+              ),
+              const SizedBox(width: 2,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor ?? Theme.of(context).colorScheme.onPrimary),),
+                  Text(subtitle, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor ?? Theme.of(context).colorScheme.onPrimary),)
+                ],
+              ),
+            ],
+          ),
         ),
       ) : Text(title),
       actions: [
         ...appBarActions,
         if(unreadMessages > 0)
-          Badge(alignment: Alignment.topLeft, label: Text(unreadMessages.toString()), child: IconButton(onPressed: () {showMessages(context);}, icon: Icon(Icons.notifications_none))),
+          Badge(alignment: Alignment.topLeft, label: Text(unreadMessages.toString()), child: IconButton(onPressed: () {showMessages(context);}, icon: const Icon(Icons.notifications_none))),
         if(unreadMessages <= 0)
         IconButton(onPressed: () {showMessages(context);}, icon: const Icon(Icons.notifications_none)),
       ],
@@ -193,6 +227,8 @@ class _CourierAppBarState extends State<CourierAppBar> {
     if (!context.mounted) return;
     await showModalBottomSheet(
         isScrollControlled: true,
+        useSafeArea: true,
+        useRootNavigator: true,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
@@ -208,6 +244,8 @@ class _CourierAppBarState extends State<CourierAppBar> {
     if (!context.mounted) return;
     await showModalBottomSheet(
         isScrollControlled: true,
+        useSafeArea: true,
+        useRootNavigator: true,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
@@ -223,6 +261,8 @@ class _CourierAppBarState extends State<CourierAppBar> {
     GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
     if (!context.mounted) return;
     await showModalBottomSheet(
+      useRootNavigator: true,
+        useSafeArea: true,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

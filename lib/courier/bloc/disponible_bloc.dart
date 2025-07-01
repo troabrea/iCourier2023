@@ -24,7 +24,11 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
       if(!await confirmDialog(event.context, "seguro_pagar_en_linea".tr(), "si".tr(), "no".tr())) {
         return;
       }
-      await _courierService.launchOnlinePayment();
+
+      final context = event.context;
+      if (!context.mounted) return;
+
+      await _courierService.launchOnlinePayment(event.context);
     });
 
     on<DisponibleRefreshEvent>((event,emit) async {
@@ -36,6 +40,9 @@ class DisponibleBloc extends Bloc<DisponibleEvent, DisponibleState> {
     on<DisponibleNotificarRetiroEvent>((event,emit) async {
       final empresa = await _courierService.getEmpresa();
       var puntoRetiro = "";
+
+      final context = event.context;
+      if (!context.mounted) return;
 
       if(empresa.dominio.toUpperCase() == "BMCARGO") {
         puntoRetiro = await optionsDialog(event.context, "donde_notificar_retiro".tr(), ["Counter","Drive-Thru","cancelar".tr()].toList());

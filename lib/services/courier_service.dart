@@ -6,12 +6,14 @@ import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
+import 'package:icourier/adicional/appbrowser.dart';
 import 'package:icourier/services/model/estado_model.dart';
 import 'package:icourier/services/model/mensaje.dart';
 import 'package:icourier/services/model/solicitardomicilio_model.dart';
@@ -195,7 +197,7 @@ class CourierService {
       return response.body;
     }, 60 * 20);
 
-    final mensajes = mensajeFromJson(jsonData);
+    final mensajes = mensajeFromJson(jsonData).where((element) => element.fecha.isAfter(DateTime.now().subtract(const Duration(days: 30)))).toList();
     final readMessagesRaw = (await cache.load("messages_leidos", "")).toString();
     final readMessages =  readMessagesRaw.split(",").toList();
     readMessages.forEach((readMessageId) {
@@ -752,7 +754,7 @@ class CourierService {
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
-  Future<void> launchOnlinePayment()  async {
+  Future<void> launchOnlinePayment(BuildContext context)  async {
 
     await _validateSession();
 
@@ -768,11 +770,19 @@ class CourierService {
       url = paymentUrl;
     }
 
-    url = url.replaceAll("http://", "https://");
+    // url = url.replaceAll("http://", "https://");
 
-    final uri = Uri.parse(url);
+    if (!context.mounted) return;
 
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (BuildContext context) =>  AppBrowser(initialUrl: url, title: "Pago en Línea"),
+    ),);
+
+    //url = "https://bmcargo-online.iplus.com.do/lg-es/tr/PagoSeleccionDocs.aspx";
+
+    // final uri = Uri.parse(url);
+    // await launchUrl(uri, mode: LaunchMode.externalApplication);
+
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {

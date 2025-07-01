@@ -96,7 +96,7 @@ android {
         bmcargo {
             dimension "app"
             applicationId "com.barolit.bmcargo"
-            versionCode 5202330
+            versionCode 5202501
         }
         jetpack {
             dimension "app"
@@ -144,6 +144,14 @@ android {
         cainca {
             dimension "app"
             applicationId "com.barolit.cainca"
+        }
+        gopack {
+            dimension "app"
+            applicationId "com.barolit.gopack"
+        }
+        telo {
+            dimension "app"
+            applicationId "com.barolit.telo"
         }
         priority {
             dimension "app"
@@ -207,7 +215,7 @@ android {
         fixocargo {
             dimension "app"
             applicationId "com.barolit.fixocargo"
-            versionCode 5202330
+            versionCode 5202501
         }
         picknsend {
             dimension "app"
@@ -220,8 +228,8 @@ android {
         release {
             //signingConfig signingConfigs.codemagic
 //            signingConfig signingConfigs.release
-            signingConfig signingConfigs.recent
-//            signingConfig signingConfigs.legacy
+//            signingConfig signingConfigs.recent
+            signingConfig signingConfigs.legacy
         }
     }
 }

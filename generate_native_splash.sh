@@ -24,4 +24,6 @@
 #flutter pub run flutter_native_splash:create --flavor mcccargo
 #flutter pub run flutter_native_splash:create --flavor ecopaq
 #flutter pub run flutter_native_splash:create --flavor inbox
-flutter pub run flutter_native_splash:create --flavor cargospot
+#flutter pub run flutter_native_splash:create --flavor cargospot
+#flutter pub run flutter_native_splash:create --flavor telo
+flutter pub run flutter_native_splash:create --flavor gopack

@@ -80,8 +80,9 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AutoSizeText(mensajes[idx].titulo, maxLines: 1,),
-                  AutoSizeText(DateFormat("dd-MMM-yyyy").format(mensajes[idx].fecha), style: Theme.of(context).textTheme.bodySmall),
+                  Expanded(child: AutoSizeText(mensajes[idx].titulo,maxLines: 2, style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 16),)),
+                  const SizedBox(width: 2,),
+                  AutoSizeText(DateFormat("dd-MMM-yyyy").format(mensajes[idx].fecha), maxLines: 2, style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),
               subtitle: Padding(
@@ -104,12 +105,12 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
     await GetIt.I<CourierService>().setMessagesRead( [mensaje.registroId].toList() );
   }
   Future markAllAsRead() async {
+    await GetIt.I<CourierService>().setMessagesRead( mensajes.map((e) => e.registroId).toList() );
     setState(() {
-      mensajes.forEach((element) {
-        element.read = true;
-      });
+      for (var mensaje in mensajes) {
+        mensaje.read = true;
+      }
     });
-    await GetIt.I<CourierService>().setMessagesRead( mensajes.where((element) => !element.read).map((e) => e.registroId).toList() );
   }
 
 }

@@ -347,6 +347,8 @@ class _SucursalesPageState extends State<SucursalesPage> {
 
     await showModalBottomSheet(
         isScrollControlled: true,
+        useRootNavigator: true,
+        useSafeArea: true,
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
