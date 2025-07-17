@@ -1040,7 +1040,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1054,7 +1054,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1131,7 +1131,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1145,7 +1145,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1219,7 +1219,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1233,7 +1233,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1584,7 +1584,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1598,7 +1598,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1675,7 +1675,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1689,7 +1689,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1763,7 +1763,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1777,7 +1777,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1856,7 +1856,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1870,7 +1870,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1947,7 +1947,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1961,7 +1961,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2035,7 +2035,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2049,7 +2049,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2142,7 +2142,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2233,7 +2233,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2321,7 +2321,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2672,7 +2672,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2686,7 +2686,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2763,7 +2763,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2777,7 +2777,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2851,7 +2851,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2865,7 +2865,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2944,7 +2944,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -2958,7 +2958,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3035,7 +3035,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3049,7 +3049,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3123,7 +3123,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3137,7 +3137,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3216,7 +3216,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3230,7 +3230,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3307,7 +3307,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3321,7 +3321,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3395,7 +3395,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3409,7 +3409,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3760,7 +3760,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3774,7 +3774,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3851,7 +3851,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3865,7 +3865,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3939,7 +3939,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3953,7 +3953,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4046,7 +4046,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4137,7 +4137,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4225,7 +4225,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4304,7 +4304,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4318,7 +4318,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4395,7 +4395,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4409,7 +4409,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4483,7 +4483,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4497,7 +4497,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4848,7 +4848,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4862,7 +4862,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4939,7 +4939,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4953,7 +4953,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5027,7 +5027,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5041,7 +5041,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5120,7 +5120,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5134,7 +5134,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5211,7 +5211,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5225,7 +5225,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5299,7 +5299,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5663,7 +5663,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5677,7 +5677,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5754,7 +5754,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5768,7 +5768,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5842,7 +5842,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5856,7 +5856,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.4;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5935,7 +5935,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5949,7 +5949,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6026,7 +6026,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6040,7 +6040,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6114,7 +6114,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6128,7 +6128,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6221,7 +6221,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6312,7 +6312,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6386,7 +6386,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6400,7 +6400,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.2;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6479,7 +6479,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6493,7 +6493,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6570,7 +6570,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6584,7 +6584,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6658,7 +6658,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6672,7 +6672,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7309,7 +7309,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7400,7 +7400,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7488,7 +7488,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.6.7;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7567,7 +7567,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7581,7 +7581,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7658,7 +7658,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7672,7 +7672,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7746,7 +7746,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7760,7 +7760,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7838,7 +7838,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7852,7 +7852,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7929,7 +7929,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7943,7 +7943,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8017,7 +8017,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8031,7 +8031,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8110,7 +8110,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8124,7 +8124,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.ecopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8201,7 +8201,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8215,7 +8215,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.ecopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8289,7 +8289,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8303,7 +8303,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.8;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.ecopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8940,7 +8940,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9031,7 +9031,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9119,7 +9119,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.7;
+				MARKETING_VERSION = 2025.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

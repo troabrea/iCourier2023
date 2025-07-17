@@ -29,10 +29,15 @@ class _AppBrowserState extends State<AppBrowser> {
             debugPrint(progress.toString());
             // Update loading bar.
           },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) async {
+          onPageStarted: (String url) {
+            debugPrint("STARTED");
           },
-          onWebResourceError: (WebResourceError error) {},
+          onPageFinished: (String url) async {
+            debugPrint("FINISHED");
+          },
+          onWebResourceError: (WebResourceError error) {
+            debugPrint(error.toString());
+          },
           onNavigationRequest: (NavigationRequest request) {
             // if (request.url.startsWith('https://www.youtube.com/')) {
             //   return NavigationDecision.prevent;

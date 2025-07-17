@@ -135,7 +135,7 @@ flutter:
 #    - images/clickpack/
 #    - images/qm/
 #    - images/domex/
-    - images/bmcargo/
+#    - images/bmcargo/
 #    - images/beexpress/
 #    - images/almapaq/
 #    - images/pintopaq/
@@ -149,7 +149,7 @@ flutter:
 #    - images/jetpack/
 #    - images/tls/
 #    - images/cainca/
-#    - images/tupaq/
+    - images/tupaq/
 #    - images/swoop/
 #    - images/priority/
 #    - images/tdexpress/
