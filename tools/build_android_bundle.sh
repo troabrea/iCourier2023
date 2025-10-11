@@ -1,7 +1,7 @@
 #flutter build appbundle -t lib/apps/priority/main_priority.dart --flavor priority
-flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
+#flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
 #flutter build appbundle -t lib/apps/cainca/main_cainca.dart --flavor cainca
-#flutter build appbundle -t lib/main_caribepack.dart --flavor caribepack
+#flutter build appbundle -t lib/apps/caribepack/main_caribepack.dart --flavor caribepack
 #flutter build appbundle -t lib/apps/cps/main_cps.dart --flavor cps
 #flutter build appbundle -t lib/apps/tls/main_tls.dart --flavor tls
 #flutter build apk -t lib/apps/fixocargo/main_fixocargo.dart --flavor fixocargo --split-per-abi
@@ -26,3 +26,5 @@ flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
 #flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox
 #flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
 #flutter build appbundle -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot
+flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
+#flutter build appbundle -t lib/apps/telo/main_telo.dart --flavor telo

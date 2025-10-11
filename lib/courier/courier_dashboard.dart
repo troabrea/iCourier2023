@@ -532,7 +532,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                               const EstadoDeCuenta()));
                                         },
                                         label:
-                                        const Text("ver_estado_cuenta")),
+                                        Text("ver_estado_cuenta".tr())),
                                   ),
                                 ],
                               )

@@ -130,8 +130,12 @@ class _PreguntasPageState extends State<PreguntasPage> {
                       itemBuilder: (_, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: ExpansionTile(
-                            iconColor: Theme.of(context).colorScheme.primary,
+                            iconColor: Theme.of(context).colorScheme.onPrimary,
+                            collapsedIconColor: Theme.of(context).colorScheme.primary,
                             collapsedTextColor: Theme.of(context).colorScheme.onPrimary,
+                            collapsedBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            backgroundColor: Theme.of(context).primaryColor,
+
                             collapsedShape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(6),
                                 side: BorderSide(color: Theme.of(context).dividerColor)),
@@ -155,11 +159,11 @@ class _PreguntasPageState extends State<PreguntasPage> {
                               overflow: TextOverflow.ellipsis,
                               minFontSize: 10,
                               maxFontSize: 18,
-                              maxLines: 2,
+                              maxLines: 3,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!.copyWith(fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.secondary
+                                  color: Theme.of(context).colorScheme.onPrimary
                               ),
                             )
                                 : AutoSizeText(
@@ -167,7 +171,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
                               overflow: TextOverflow.ellipsis,
                               minFontSize: 10,
                               maxFontSize: 18,
-                              maxLines: 2,
+                              maxLines: 3,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium,
@@ -177,10 +181,13 @@ class _PreguntasPageState extends State<PreguntasPage> {
                               ),
                               children: [
                         Container(
-                            padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              borderRadius: const BorderRadius.only( bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6) )
+                            ),
                             child: Column(
                               children: [
-                                const Divider(thickness: 2),
                                 Container(padding: const EdgeInsets.symmetric(horizontal: 10),
                                   child: Text(
                                     preguntas[index].resumen,

@@ -268,7 +268,7 @@ class _CourierPageState extends State<CourierPage> {
                           }
                         },
                         child: Text.rich(TextSpan(text: "lo_olvidaste".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
-                        TextSpan(text:'recordar_contraseña'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: appInfo.metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
+                        TextSpan(text:'recordar_contraseña'.tr(), style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: appInfo.metricsPrefixKey == "FIXOCARGO" ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
                     const SizedBox(height: 30),
                     if(isBusy)
                       Center(
@@ -319,7 +319,7 @@ class _CourierPageState extends State<CourierPage> {
                             builder: (BuildContext context) =>  AppBrowser(initialUrl: registerUrl, title: "Crear Cuenta"),
                           ),);
                         }, child: Text.rich(TextSpan(text: "no_eres_cliente".tr(), style: Theme.of(context).textTheme.bodySmall, children: [
-                        TextSpan(text:'conoce_mas_aqui'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
+                        TextSpan(text:'conoce_mas_aqui'.tr(), style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold))])))),
 
                     if(appInfo.additionalLocale.isNotEmpty)
                       Row(
@@ -478,6 +478,10 @@ class _CourierPageState extends State<CourierPage> {
       setState(() {
         isBusy = false;
       });
+
+      if(!context.mounted) {
+        return;
+      }
 
       if (loginResult.sessionId.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

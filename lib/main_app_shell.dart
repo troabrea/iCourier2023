@@ -357,16 +357,17 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   late TutorialCoachMark tutorialCoachMark;
 
   List<Widget> _buildScreens() {
+    final prefixKey = appInfo.metricsPrefixKey;
     return [
-      if(appInfo.metricsPrefixKey == "BMCARGO")
+      if(prefixKey == "BMCARGO")
         const ServiciosPage(),
-      if(appInfo.metricsPrefixKey != "BMCARGO")
+      if(prefixKey != "BMCARGO")
         const NoticiasPage(),
       const SucursalesPage(),
       const CourierPage(),
-      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP")
+      if(prefixKey != "CARIBEPACK" && prefixKey != "SWOOP" && prefixKey != "GOPACK")
         const CalculadoraPage(),
-      if(appInfo.metricsPrefixKey == "CARIBEPACK" || appInfo.metricsPrefixKey == "SWOOP")
+      if(prefixKey == "CARIBEPACK" || prefixKey == "SWOOP" || prefixKey == "GOPACK")
         const ServiciosPage(),
       const AdicionalInfoPage()
     ];
@@ -534,7 +535,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             title: null, //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP")
+      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "GOPACK")
         PersistentBottomNavBarItem(
           icon: Icon(
             Icons.calculate_outlined,
@@ -548,7 +549,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
             size: 25,
             color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
           )),
-      if(appInfo.metricsPrefixKey == "CARIBEPACK" || appInfo.metricsPrefixKey == "SWOOP")
+      if(appInfo.metricsPrefixKey == "CARIBEPACK" || appInfo.metricsPrefixKey == "SWOOP" || appInfo.metricsPrefixKey == "GOPACK")
         PersistentBottomNavBarItem(
             icon: Icon(
               Icons.room_service,

@@ -210,7 +210,7 @@ android {
         taino {
             dimension "app"
             applicationId "com.barolit.taino"
-            versionCode 520247
+            versionCode 5202501
         }
         fixocargo {
             dimension "app"

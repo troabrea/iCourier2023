@@ -18,7 +18,7 @@ class GopackAppInfo implements AppInfo {
   @override
   String get brandLogoImage => "images/gopack/brand_logo.png";
   @override
-  String get brandLogoImageDark => "images/gopack/brand_logo.png";
+  String get brandLogoImageDark => "images/gopack/brand_logo_dark.png";
   @override
   String get centerIconImage => "images/gopack/icon.png";
 
@@ -150,7 +150,7 @@ class GopackAppInfo implements AppInfo {
   @override
   ThemeData getDarkTheme() {
     const primaryColor = Color(0xffff3e13);
-    const secondaryColor = Color(0xffde9761);
+    const secondaryColor = Color(0xffffffff);
     // const primaryVariantColor = Color(0xff005580);
     const errorColor = Color(0xffb00020);
     getDarkAppBarTheme() {
@@ -224,9 +224,9 @@ class GopackAppInfo implements AppInfo {
       fontFamily: 'Myriad',
       usedColors: 3,
       //surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
-      blendLevel: 15,
+      blendLevel: 0,
       subThemesData: const FlexSubThemesData(
-        blendOnLevel: 15,
+        blendOnLevel: 0,
         navigationBarLabelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       ),
       keyColors: const FlexKeyColors(
@@ -242,7 +242,7 @@ class GopackAppInfo implements AppInfo {
         dividerColor: Colors.white30,
         primaryColorDark: Colors.white70,
         iconTheme: const IconThemeData(color: primaryColor),
-        elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)), backgroundColor: secondaryColor, foregroundColor: Colors.white ) ),
+        elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( padding: const EdgeInsets.all(6), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)), backgroundColor: primaryColor, foregroundColor: Colors.white ) ),
         textTheme:  getDarkTextTheme(),
         appBarTheme: getDarkAppBarTheme()
     );

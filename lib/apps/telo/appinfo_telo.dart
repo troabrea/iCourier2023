@@ -18,7 +18,7 @@ class TeloAppInfo implements AppInfo {
   @override
   String get brandLogoImage => "images/telo/brand_logo.png";
   @override
-  String get brandLogoImageDark => "images/telo/brand_logo.png";
+  String get brandLogoImageDark => "images/telo/brand_logo_dark.png";
   @override
   String get centerIconImage => "images/telo/icon.png";
 
