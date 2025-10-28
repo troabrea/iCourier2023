@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,6 +13,7 @@ import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:icourier/adicional/appbrowser.dart';
+import 'package:icourier/helpers/appcenter.dart';
 import 'package:icourier/services/model/estado_model.dart';
 import 'package:icourier/services/model/mensaje.dart';
 import 'package:icourier/services/model/solicitardomicilio_model.dart';
@@ -21,6 +21,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import '../../services/model/calculadora_model.dart';
 import '../../services/model/notificarretiro_model.dart';
 import '../../services/model/postalerta_model.dart';
@@ -681,6 +682,9 @@ class CourierService {
     } else {
       FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
+    Posthog().identify(userId: '${appInfo.metricsPrefixKey}_{userAccount}',userProperties:  {
+      "courier": appInfo.metricsPrefixKey
+    });
     await cache.write('sessionId', loginResult.sessionId);
     await cache.write('userAccount', userAccount);
     await cache.write('userPassword', userPassword);
@@ -691,6 +695,7 @@ class CourierService {
     //
   }
   Future<void> saveLoggedOutState() async {
+    Posthog().identify(userId: 'not_authenticated');
     var userAccount =  await cache.load('userAccount', "") as String;
     var sessionId =  await cache.load('sessionId', "") as String;
     if(appInfo.pushChannelTopic == "TLS" && sessionId.isNotEmpty) {

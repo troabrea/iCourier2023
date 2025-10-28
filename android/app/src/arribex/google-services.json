@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762385130317",
+    "project_id": "icourierapps-group3",
+    "storage_bucket": "icourierapps-group3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762385130317:android:6873afd4c6ee97a4d98d04",
+        "android_client_info": {
+          "package_name": "com.barolit.arribex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbHYrktsP-ndUKq3F9dc368XsbobqV_sQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

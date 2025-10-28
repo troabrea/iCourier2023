@@ -1,15 +1,4 @@
 PODS:
-  - app_center_bundle_sdk (0.0.2):
-    - AppCenter
-    - Flutter
-  - AppCenter (5.0.4):
-    - AppCenter/Analytics (= 5.0.4)
-    - AppCenter/Crashes (= 5.0.4)
-  - AppCenter/Analytics (5.0.4):
-    - AppCenter/Core
-  - AppCenter/Core (5.0.4)
-  - AppCenter/Crashes (5.0.4):
-    - AppCenter/Core
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
@@ -143,6 +132,11 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.3.0):
     - Flutter
+  - PostHog (3.31.0)
+  - posthog_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - PostHog (~> 3.22)
   - PromisesObjC (2.4.0)
   - quick_actions_ios (0.0.1):
     - Flutter
@@ -163,7 +157,6 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - app_center_bundle_sdk (from `.symlinks/plugins/app_center_bundle_sdk/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -180,6 +173,7 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - posthog_flutter (from `.symlinks/plugins/posthog_flutter/ios`)
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
@@ -188,7 +182,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AppCenter
     - DKImagePickerController
     - DKPhotoGallery
     - Firebase
@@ -200,14 +193,13 @@ SPEC REPOS:
     - GoogleMaps
     - GoogleUtilities
     - nanopb
+    - PostHog
     - PromisesObjC
     - ReachabilitySwift
     - SDWebImage
     - SwiftyGif
 
 EXTERNAL SOURCES:
-  app_center_bundle_sdk:
-    :path: ".symlinks/plugins/app_center_bundle_sdk/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   file_picker:
@@ -240,6 +232,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  posthog_flutter:
+    :path: ".symlinks/plugins/posthog_flutter/ios"
   quick_actions_ios:
     :path: ".symlinks/plugins/quick_actions_ios/ios"
   shared_preferences_foundation:
@@ -252,8 +246,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  app_center_bundle_sdk: 9d10e1c0e5ea4a048c8e184d4f38c6e490fa5313
-  AppCenter: 85c92db0759d2792a65eb61d6842d2e86611a49a
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
@@ -281,6 +273,8 @@ SPEC CHECKSUMS:
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   permission_handler_apple: 036b856153a2b1f61f21030ff725f3e6fece2b78
+  PostHog: fcb0bc4425a69a2b0ee0ff5782b298a23aedcc83
+  posthog_flutter: 6d1041c7da77eb2032c27b72df103439af64cb8c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   quick_actions_ios: d24571db7345d2e48d094db8d077a015a568002d
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
@@ -291,6 +285,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
   webview_flutter_wkwebview: 4f3e50f7273d31e5500066ed267e3ae4309c5ae4
 
-PODFILE CHECKSUM: 022bbd80b7ee4104a89d1ff8a7d816f409a2d046
+PODFILE CHECKSUM: cd040b2259bff6462dc309fa0046e4aea0b4d46c
 
 COCOAPODS: 1.13.0

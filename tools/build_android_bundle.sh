@@ -26,5 +26,6 @@
 #flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox
 #flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
 #flutter build appbundle -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot
-flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
+#flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
 #flutter build appbundle -t lib/apps/telo/main_telo.dart --flavor telo
+flutter build appbundle -t lib/apps/arribex/main_arribex.dart --flavor arribex

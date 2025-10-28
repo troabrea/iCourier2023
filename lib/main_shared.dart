@@ -1,4 +1,3 @@
-import 'package:app_center_bundle_sdk/app_center_bundle_sdk.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:icourier/helpers/appcenter.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'apps/appinfo.dart';
 import '../../services/app_events.dart';
 import '../../services/courier_service.dart';
@@ -58,12 +58,23 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   //
-  messaging.subscribeToTopic(pushDefaultTopic);
+  if(pushDefaultTopic.isNotEmpty) {
+    messaging.subscribeToTopic(pushDefaultTopic);
+  }
 }
 
 Future<void> mainShared(AppInfo _appInfo)  async {
   final AppInfo appInfo = _appInfo;
-  var widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final config =
+  PostHogConfig('phc_OFUDsVNTdf1yk608hX82AT4QvPvVAiVMZcVFE4ypBVq');
+  config.debug = true;
+  config.captureApplicationLifecycleEvents = false;
+  config.host = 'https://us.i.posthog.com';
+  config.flushAt = 1;
+  await Posthog().setup(config);
+
   await EasyLocalization.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -78,8 +89,8 @@ Future<void> mainShared(AppInfo _appInfo)  async {
 
   await Firebase.initializeApp();
   await setupFlutterNotifications(appInfo.pushChannelTopic);
-  // var token =  await FirebaseMessaging.instance.getAPNSToken();
-  // FirebaseMessaging.instance.requestPermission();
+  var token =  await FirebaseMessaging.instance.getAPNSToken();
+  FirebaseMessaging.instance.requestPermission();
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -152,7 +163,10 @@ class MyApp extends StatelessWidget {
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate
     ]);
-    return MaterialApp(
+    return PostHogWidget(
+        child:
+      MaterialApp(
+        navigatorObservers: [PosthogObserver()],
         debugShowCheckedModeBanner: false,
         localizationsDelegates:  delegates,
         supportedLocales: context.supportedLocales , //FormBuilderLocalizations.delegate.supportedLocales,
@@ -162,7 +176,8 @@ class MyApp extends StatelessWidget {
         darkTheme: appInfo.getDarkTheme(),
         themeMode: ThemeMode.system,
         home:const MainAppShell(),
-      );
+      )
+    );
   }
 }
 

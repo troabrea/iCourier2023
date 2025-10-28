@@ -183,6 +183,10 @@ android {
             dimension "app"
             applicationId "com.barolit.cargospot"
         }
+        arribex {
+            dimension "app"
+            applicationId "com.barolit.arribex"
+        }
         flypack {
             dimension "app"
             applicationId "com.barolit.flypack"

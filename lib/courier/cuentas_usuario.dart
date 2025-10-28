@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/adicional/appbrowser.dart';
 import 'package:icourier/helpers/dialogs.dart';
 import 'package:icourier/services/app_events.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../apps/appinfo.dart';
 import 'package:image_picker/image_picker.dart';

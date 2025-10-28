@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/main_shared.dart';
 import 'package:icourier/services/connectivity_service.dart';
 import 'package:icourier/servicios/servicios.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -34,8 +35,107 @@ bool isFlutterLocalNotificationsInitialized = false;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void showFlutterNotification(RemoteMessage message) {
+
+  setupFlutterNotifications('');
+
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+
+  if(message.data['link'] != null) {
+    final link = message.data['link'].toString();
+    final title = message.data['title'].toString();
+    final body = message.data['body'].toString();
+    if(link.isNotEmpty) {
+      const linkChannel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'Notificaciones y Alertas',
+        description: 'Notificaciones y alertas sobre sus paquetes e información importante.', // description
+        importance: Importance.high,
+      );
+      const whatsappCategoryId = 'whatsapp_action_category';
+
+
+      final notificationDetails = NotificationDetails(
+        android: AndroidNotificationDetails(
+          linkChannel.id,
+          linkChannel.name,
+          channelDescription: linkChannel.description,
+          importance: Importance.high,
+          priority: Priority.high,
+          icon: 'ic_push_icon',
+          // Add the action button
+          actions: <AndroidNotificationAction>[
+            const AndroidNotificationAction(
+              'open_whatsapp', // This ID must match the check in _onDidReceiveNotificationResponse
+              'Open WhatsApp',
+              showsUserInterface: true,
+            ),
+          ],
+        ),
+        iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+          categoryIdentifier: whatsappCategoryId,
+        ),
+      );
+
+      const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+      // --- iOS Initialization ---
+      // Define the action category for iOS
+      final DarwinNotificationCategory whatsappCategory =
+      DarwinNotificationCategory(
+        whatsappCategoryId, // The identifier for this category
+        actions: <DarwinNotificationAction>[
+          DarwinNotificationAction.plain(
+            'open_whatsapp', // This ID must match the check in _onDidReceiveNotificationResponse
+            'Open WhatsApp',
+            options: {
+              DarwinNotificationActionOption.foreground,
+            },
+          ),
+        ],
+        options: {
+          DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
+        },
+      );
+
+      // Note: requestAlertPermission, requestBadgePermission, requestSoundPermission
+      // are set to false because we'll request them via Firebase Messaging.
+      final DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+        // Register the action category
+        notificationCategories: [whatsappCategory],
+      );
+
+      // Initialize the plugin
+      final InitializationSettings initializationSettings =
+      InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+      );
+
+      flutterLocalNotificationsPlugin.initialize(
+        initializationSettings
+      );
+
+      // Show the notification. The payload is the phone number.
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        title,
+        body,
+        notificationDetails,
+        payload: link,
+      );
+      return;
+    }
+  }
+
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -524,7 +624,7 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
                 key: keyMainBottomNavigation,
                 padding: const EdgeInsets.all(5),
                 decoration:  BoxDecoration(
-                    color: appInfo.pushChannelTopic == "INBOX" || appInfo.pushChannelTopic == "SKYHIGH" ||appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
+                    color: appInfo.pushChannelTopic == "ARRIBEX" || appInfo.pushChannelTopic == "INBOX" || appInfo.pushChannelTopic == "SKYHIGH" ||appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
                     shape: BoxShape.circle
                 ),
                 //color: Colors.transparent,
@@ -752,4 +852,3 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   }
 
 }
-

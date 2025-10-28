@@ -26,4 +26,5 @@
 #flutter pub run flutter_native_splash:create --flavor inbox
 #flutter pub run flutter_native_splash:create --flavor cargospot
 #flutter pub run flutter_native_splash:create --flavor telo
-flutter pub run flutter_native_splash:create --flavor gopack
+#flutter pub run flutter_native_splash:create --flavor gopack
+flutter pub run flutter_native_splash:create --flavor arribex

@@ -33,15 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.5"
-  app_center_bundle_sdk:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "537d031583efce794c8acfbb18da2f89d0ae912e"
-      url: "https://github.com/troabrea/app_center_bundle_sdk.git"
-    source: git
-    version: "0.0.2"
   app_popup_menu:
     dependency: "direct main"
     description:
@@ -1182,6 +1173,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
+  posthog_flutter:
+    dependency: "direct main"
+    description:
+      name: posthog_flutter
+      sha256: "2a74b86306b3e1b27ad227aeeb5d63374afb03aa50e87af5062fec1341824b3b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.11.0"
   progress_stepper:
     dependency: "direct main"
     description:

@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/adicional/appbrowser.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../services/courier_service.dart';
 
@@ -39,6 +40,9 @@ class _CourierPageState extends State<CourierPage> {
   }
   Future<void> _configureWithProfile() async {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
+    Posthog().identify(userId: '${appInfo.metricsPrefixKey}_${userProfile.cuenta}',userProperties:  {
+      "courier": appInfo.metricsPrefixKey
+    });
     setState(() {
       hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
     });
