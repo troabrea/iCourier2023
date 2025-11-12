@@ -2,6 +2,7 @@
   "titulo": "iCourier",
   "noticias" : "News",
   "ver_mas" : "More...",
+  "Responder": "Respond...",
   "error_reintentar":"An error has occurred, tap to retry.",
   "error_favor_reintentar": "An error has occurred, please retry.",
   "buscar": "Search",

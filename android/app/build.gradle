@@ -106,7 +106,7 @@ android {
         almapaq {
             dimension "app"
             applicationId "com.barolit.almapaq"
-            versionCode 5202325
+            versionCode 5202501
         }
         beexpress {
             dimension "app"

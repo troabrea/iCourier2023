@@ -20,6 +20,8 @@ import 'main_app_shell.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  setupFlutterNotifications('');
   showFlutterNotification(message);
 }
 
@@ -44,6 +46,8 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
       .resolvePlatformSpecificImplementation<
       AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+  
+  initializeLocalNotifications('whatsapp_action_category');
 
   /// Update the iOS foreground notification presentation options to allow
   /// heads up notifications.

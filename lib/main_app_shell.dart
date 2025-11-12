@@ -16,6 +16,7 @@ import 'package:icourier/servicios/servicios.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'services/app_events.dart';
 import 'services/courier_service.dart';
 import 'sucursales/sucursales.dart';
@@ -35,25 +36,26 @@ bool isFlutterLocalNotificationsInitialized = false;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void showFlutterNotification(RemoteMessage message) {
-
-  setupFlutterNotifications('');
-
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
 
-  if(message.data['link'] != null) {
+  if (message.data['link'] != null) {
     final link = message.data['link'].toString();
     final title = message.data['title'].toString();
     final body = message.data['body'].toString();
-    if(link.isNotEmpty) {
+    if (link.isNotEmpty) {
+      const whatsappCategoryId = 'whatsapp_action_category';
+      initializeLocalNotifications(whatsappCategoryId);
+
+      // Configure Notification
       const linkChannel = AndroidNotificationChannel(
         'high_importance_channel', // id
         'Notificaciones y Alertas',
-        description: 'Notificaciones y alertas sobre sus paquetes e información importante.', // description
+        description:
+        'Notificaciones y alertas sobre sus paquetes e información importante.',
+        // description
         importance: Importance.high,
       );
-      const whatsappCategoryId = 'whatsapp_action_category';
-
 
       final notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails(
@@ -66,8 +68,9 @@ void showFlutterNotification(RemoteMessage message) {
           // Add the action button
           actions: <AndroidNotificationAction>[
             const AndroidNotificationAction(
-              'open_whatsapp', // This ID must match the check in _onDidReceiveNotificationResponse
-              'Open WhatsApp',
+              'open_whatsapp',
+              // This ID must match the check in _onDidReceiveNotificationResponse
+              'Responder',
               showsUserInterface: true,
             ),
           ],
@@ -78,50 +81,6 @@ void showFlutterNotification(RemoteMessage message) {
           presentSound: true,
           categoryIdentifier: whatsappCategoryId,
         ),
-      );
-
-      const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-
-      // --- iOS Initialization ---
-      // Define the action category for iOS
-      final DarwinNotificationCategory whatsappCategory =
-      DarwinNotificationCategory(
-        whatsappCategoryId, // The identifier for this category
-        actions: <DarwinNotificationAction>[
-          DarwinNotificationAction.plain(
-            'open_whatsapp', // This ID must match the check in _onDidReceiveNotificationResponse
-            'Open WhatsApp',
-            options: {
-              DarwinNotificationActionOption.foreground,
-            },
-          ),
-        ],
-        options: {
-          DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
-        },
-      );
-
-      // Note: requestAlertPermission, requestBadgePermission, requestSoundPermission
-      // are set to false because we'll request them via Firebase Messaging.
-      final DarwinInitializationSettings initializationSettingsIOS =
-      DarwinInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-        // Register the action category
-        notificationCategories: [whatsappCategory],
-      );
-
-      // Initialize the plugin
-      final InitializationSettings initializationSettings =
-      InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS,
-      );
-
-      flutterLocalNotificationsPlugin.initialize(
-        initializationSettings
       );
 
       // Show the notification. The payload is the phone number.
@@ -145,7 +104,7 @@ void showFlutterNotification(RemoteMessage message) {
         android: AndroidNotificationDetails(
           channel.id,
           channel.name,
-          channelDescription:  channel.description,
+          channelDescription: channel.description,
           icon: 'ic_push_icon',
         ),
       ),
@@ -153,14 +112,64 @@ void showFlutterNotification(RemoteMessage message) {
   }
 }
 
-class MainAppShell extends StatefulWidget  {
+void initializeLocalNotifications(final String whatsappCategoryId) {
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  // --- iOS Initialization ---
+
+
+  final DarwinNotificationCategory whatsappCategory =
+      DarwinNotificationCategory(
+    whatsappCategoryId, // The identifier for this category
+    actions: <DarwinNotificationAction>[
+      DarwinNotificationAction.plain(
+        'open_whatsapp',
+        // This ID must match the check in _onDidReceiveNotificationResponse
+        'Responder',
+        options: {
+          DarwinNotificationActionOption.foreground,
+        },
+      ),
+    ],
+    options: {
+      DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
+    },
+  );
+
+  // Note: requestAlertPermission, requestBadgePermission, requestSoundPermission
+  // are set to false because we'll request them via Firebase Messaging.
+  final DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(
+    requestAlertPermission: false,
+    requestBadgePermission: false,
+    requestSoundPermission: false,
+    // Register the action category
+    notificationCategories: [whatsappCategory],
+  );
+
+  // Initialize the plugin
+  final InitializationSettings initializationSettings =
+      InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onDidReceiveNotificationResponse: _handleNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse:
+          _handleNotificationResponse);
+}
+
+class MainAppShell extends StatefulWidget {
   const MainAppShell({super.key});
 
   @override
   State<MainAppShell> createState() => _MainAppShellState();
 }
 
-class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver {
+class _MainAppShellState extends State<MainAppShell>
+    with WidgetsBindingObserver {
   final _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final appInfo = GetIt.I<AppInfo>();
@@ -168,9 +177,9 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   DateTime? connectivityWasLostAt;
 
-
   // final _checker = AppVersionChecker();
   AppLifecycleState? _appLifecycleState;
+
   void checkVersion() async {
     return;
     // _checker.checkUpdate().then((value) async {
@@ -208,13 +217,12 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     //await _checker.checkVersion(context);
   }
 
-
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     String shortcut = 'no action set';
     createTutorial();
-    Future.delayed(Duration.zero,showTutorial);
+    Future.delayed(Duration.zero, showTutorial);
     super.initState();
 
     // Setup App ShortCuts
@@ -222,72 +230,63 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     quickActions.initialize((String shortcutType) {
       setState(() {
         shortcut = shortcutType;
-        if( shortcut == 'calcular_envio') {
+        if (shortcut == 'calcular_envio') {
           _controller.jumpToTab(3);
         }
-        if(shortcut == 'show_disponible') {
+        if (shortcut == 'show_disponible') {
           _controller.jumpToTab(2);
-          GetIt.I<CourierService>().getRecepciones(false)
-          .then((value) =>
-              Navigator.of(context, rootNavigator: false)
-              .push(MaterialPageRoute(
-              builder: (context) =>
-                  RecepcionesPage(
-                      isRetenio: false,
-                      titulo: "disponibles".tr(),
-                      recepciones: value
-                          .where((element) =>
-                      element.disponible ==
-                          true)
-                          .toList()))),);
+          GetIt.I<CourierService>().getRecepciones(false).then(
+                (value) => Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                        builder: (context) => RecepcionesPage(
+                            isRetenio: false,
+                            titulo: "disponibles".tr(),
+                            recepciones: value
+                                .where((element) => element.disponible == true)
+                                .toList()))),
+              );
         }
-        if(shortcut == 'crear_postalerta') {
+        if (shortcut == 'crear_postalerta') {
           _controller.jumpToTab(2);
-          GetIt.I<CourierService>().getRecepciones(false)
-              .then((value) =>
-              Navigator.of(context, rootNavigator: false)
-                  .push(MaterialPageRoute(
-                  builder: (context) =>
-                      RecepcionesPage(
-                          isRetenio: false,
-                          titulo: "sin_factura".tr(),
-                          recepciones: value
-                              .where((element) =>
-                          element.retenido ==
-                              true)
-                              .toList()))),);
+          GetIt.I<CourierService>().getRecepciones(false).then(
+                (value) => Navigator.of(context, rootNavigator: false).push(
+                    MaterialPageRoute(
+                        builder: (context) => RecepcionesPage(
+                            isRetenio: false,
+                            titulo: "sin_factura".tr(),
+                            recepciones: value
+                                .where((element) => element.retenido == true)
+                                .toList()))),
+              );
         }
-        if(shortcut == 'crear_prealerta') {
+        if (shortcut == 'crear_prealerta') {
           _controller.jumpToTab(2);
           Future.delayed(const Duration(milliseconds: 1000)).then((value) =>
-              GetIt.I<event.Event<UserPrealertaRequested>>().broadcast(UserPrealertaRequested())
-          );
+              GetIt.I<event.Event<UserPrealertaRequested>>()
+                  .broadcast(UserPrealertaRequested()));
         }
       });
     });
 
     quickActions.setShortcutItems(<ShortcutItem>[
-      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP")
+      if (appInfo.metricsPrefixKey != "CARIBEPACK" &&
+          appInfo.metricsPrefixKey != "SWOOP")
         ShortcutItem(
             type: 'calcular_envio',
             localizedTitle: 'calcular_envio'.tr(),
-          icon: 'ic_launcher'
-            ),
-       ShortcutItem(
-        type: 'crear_prealerta',
-        localizedTitle: 'crear_pre_alerta'.tr(),
-          icon: 'ic_launcher'
-      ),
+            icon: 'ic_launcher'),
       ShortcutItem(
-        type: 'show_disponible',
-        localizedTitle: 'ver_disponibles'.tr(),
-          icon: 'ic_launcher'
-      ),
+          type: 'crear_prealerta',
+          localizedTitle: 'crear_pre_alerta'.tr(),
+          icon: 'ic_launcher'),
       ShortcutItem(
-        type: 'crear_postalerta',
-        localizedTitle: 'crear_post_alerta'.tr(),
-          icon: 'ic_launcher'
-      ),
+          type: 'show_disponible',
+          localizedTitle: 'ver_disponibles'.tr(),
+          icon: 'ic_launcher'),
+      ShortcutItem(
+          type: 'crear_postalerta',
+          localizedTitle: 'crear_post_alerta'.tr(),
+          icon: 'ic_launcher'),
     ]).then((void _) {
       setState(() {
         if (shortcut == 'no action set') {
@@ -297,10 +296,12 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     });
 
     // Setup Tab Navigation
-    _controller = PersistentTabController(initialIndex: GetIt.I<AppInfo>().defaultTab);
+    _controller =
+        PersistentTabController(initialIndex: GetIt.I<AppInfo>().defaultTab);
 
     initConnectivity();
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
     // Push Notifications
     // Foreground State
@@ -345,17 +346,16 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     GetIt.I<Event<SessionExpired>>().subscribe((args) {
       _controller.index = 2;
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           behavior: SnackBarBehavior.floating,
           duration: const Duration(milliseconds: 5000),
           margin: const EdgeInsets.only(
               bottom: kBottomNavigationBarHeight, right: 2, left: 2),
-          content:
-          Text('password_invalido'.tr()),
+          content: Text('password_invalido'.tr()),
         ),
       );
     });
-    GetIt.I<Event<AutoNotificarRetiroRequested>>().subscribe((args)  {
+    GetIt.I<Event<AutoNotificarRetiroRequested>>().subscribe((args) {
       _controller.jumpToTab(2);
       GetIt.I<Event<NotificarRetiroRequested>>().broadcast();
       GetIt.I<CourierService>().shortCutToRun = ShortCutToRun.NOTIFICARRETIRO;
@@ -373,8 +373,9 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     setState(() {
       _appLifecycleState = state;
     });
-    if(state == AppLifecycleState.resumed) {
-      GetIt.I<CourierService>().getEmpresa(ignoreCache: false, forceFirstTime: true);
+    if (state == AppLifecycleState.resumed) {
+      GetIt.I<CourierService>()
+          .getEmpresa(ignoreCache: false, forceFirstTime: true);
     }
   }
 
@@ -385,54 +386,52 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     } on PlatformException catch (e) {
       debugPrint(e.toString());
     }
-    if(!mounted) {
+    if (!mounted) {
       return Future.value(null);
     }
     return _updateConnectionStatus(result);
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-      if (result == ConnectivityResult.none) {
-        connectivityWasLost = true;
-        connectivityWasLostAt = DateTime.now();
-        ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
-            backgroundColor: Theme.of(context).colorScheme.error,
-            content: Text(
-                "no_internet".tr(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.white)),
-            actions: [
-              IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-                  },)
-            ]
-        ));
-      } else {
-        if (connectivityWasLost) {
-          ScaffoldMessenger.of(context).clearMaterialBanners();
-          //
-          connectivityWasLost = false;
-          if(connectivityWasLostAt != null) {
-            var duration = DateTime.now().difference(connectivityWasLostAt!);
-            connectivityWasLostAt = null;
-            if(duration.inSeconds < 10) {
-              return;
-            }
+    if (result == ConnectivityResult.none) {
+      connectivityWasLost = true;
+      connectivityWasLostAt = DateTime.now();
+      ScaffoldMessenger.of(context).showMaterialBanner(MaterialBanner(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Text("no_internet".tr(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.white)),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              },
+            )
+          ]));
+    } else {
+      if (connectivityWasLost) {
+        ScaffoldMessenger.of(context).clearMaterialBanners();
+        //
+        connectivityWasLost = false;
+        if (connectivityWasLostAt != null) {
+          var duration = DateTime.now().difference(connectivityWasLostAt!);
+          connectivityWasLostAt = null;
+          if (duration.inSeconds < 10) {
+            return;
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height - 150,
-                      right: 20,
-                      left: 20),
-                  content: Text("internet_ok".tr())));
         }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height - 150,
+                right: 20,
+                left: 20),
+            content: Text("internet_ok".tr())));
       }
+    }
   }
 
   // TabBar Setup
@@ -459,15 +458,17 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   List<Widget> _buildScreens() {
     final prefixKey = appInfo.metricsPrefixKey;
     return [
-      if(prefixKey == "BMCARGO")
-        const ServiciosPage(),
-      if(prefixKey != "BMCARGO")
-        const NoticiasPage(),
+      if (prefixKey == "BMCARGO") const ServiciosPage(),
+      if (prefixKey != "BMCARGO") const NoticiasPage(),
       const SucursalesPage(),
       const CourierPage(),
-      if(prefixKey != "CARIBEPACK" && prefixKey != "SWOOP" && prefixKey != "GOPACK")
+      if (prefixKey != "CARIBEPACK" &&
+          prefixKey != "SWOOP" &&
+          prefixKey != "GOPACK")
         const CalculadoraPage(),
-      if(prefixKey == "CARIBEPACK" || prefixKey == "SWOOP" || prefixKey == "GOPACK")
+      if (prefixKey == "CARIBEPACK" ||
+          prefixKey == "SWOOP" ||
+          prefixKey == "GOPACK")
         const ServiciosPage(),
       const AdicionalInfoPage()
     ];
@@ -477,101 +478,104 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
     return [
       PersistentBottomNavBarItem(
           icon: Icon(
-            appInfo.metricsPrefixKey == "BMCARGO" ? Icons.airplane_ticket_outlined : Icons.feed_outlined,
+            appInfo.metricsPrefixKey == "BMCARGO"
+                ? Icons.airplane_ticket_outlined
+                : Icons.feed_outlined,
             key: keyNewsBottomNavigation,
-            color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
+            color: Theme.of(context).appBarTheme.foregroundColor,
+            size: 35,
           ),
           title: null, //'Noticias',
           activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
           inactiveIcon: Icon(
-            appInfo.metricsPrefixKey == "BMCARGO" ? Icons.airplane_ticket_outlined : Icons.feed_outlined,
+            appInfo.metricsPrefixKey == "BMCARGO"
+                ? Icons.airplane_ticket_outlined
+                : Icons.feed_outlined,
             key: keyNewsBottomNavigation,
-            color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
+            color:
+                Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
             size: 25,
           )),
       PersistentBottomNavBarItem(
           icon: Icon(
             Icons.place_outlined,
             key: keyLocationsBottomNavigation,
-            color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
+            color: Theme.of(context).appBarTheme.foregroundColor,
+            size: 35,
           ),
           activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
           title: null, //'Sucursales',
-          inactiveIcon: Icon(Icons.place_outlined,
+          inactiveIcon: Icon(
+            Icons.place_outlined,
             key: keyLocationsBottomNavigation,
             size: 25,
-            color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
+            color:
+                Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
           )),
-      if(appInfo.pushChannelTopic == "BLUMBOX" )
+      if (appInfo.pushChannelTopic == "BLUMBOX")
         PersistentBottomNavBarItem(
             icon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
-              decoration:  const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle
-              ),
-              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+              decoration: const BoxDecoration(
+                  color: Colors.white, shape: BoxShape.circle),
+              height: appInfo.centerIconSize,
+              width: appInfo.centerIconSize,
               //color: Colors.white,
               child: Image.asset(appInfo.centerIconImage),
             ),
             inactiveIcon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
-              decoration:   BoxDecoration(
-                  color: Colors.white.withOpacity(1),
-                  shape: BoxShape.circle
-              ),
-              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(1), shape: BoxShape.circle),
+              height: appInfo.centerInactiveIconSize,
+              width: appInfo.centerInactiveIconSize,
               //color: Colors.transparent,
               child: ClipOval(child: Image.asset(appInfo.centerIconImage)),
             ),
-            title: null, //'Inicio',
+            title: null,
+            //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if( appInfo.pushChannelTopic == "TAINO" )
+      if (appInfo.pushChannelTopic == "TAINO")
         PersistentBottomNavBarItem(
             icon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
-              decoration:  const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle
-              ),
-              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+              decoration: const BoxDecoration(
+                  color: Colors.white, shape: BoxShape.circle),
+              height: appInfo.centerIconSize,
+              width: appInfo.centerIconSize,
               //color: Colors.white,
               child: Image.asset(appInfo.centerIconImage),
             ),
             inactiveIcon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(5),
-              decoration:   BoxDecoration(
-                  color: Colors.white.withOpacity(1),
-                  shape: BoxShape.circle
-              ),
-              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(1), shape: BoxShape.circle),
+              height: appInfo.centerInactiveIconSize,
+              width: appInfo.centerInactiveIconSize,
               //color: Colors.transparent,
               child: Image.asset(appInfo.centerIconImage),
             ),
-            title: null, //'Inicio',
+            title: null,
+            //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic == "CPS"  )
+      if (appInfo.pushChannelTopic == "CPS")
         PersistentBottomNavBarItem(
-          contentPadding: 0.0,
-            icon:
-            Container(
-
+            contentPadding: 0.0,
+            icon: Container(
               key: keyMainBottomNavigation,
               padding: const EdgeInsets.all(0),
-              decoration:  BoxDecoration(
-                borderRadius: BorderRadius.circular(300),
-                color: Colors.transparent,
-                border: Border.all(
-                  color: Colors.white,
-                width: 1)
-              ),
-              height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(300),
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.white, width: 1)),
+              height: appInfo.centerIconSize,
+              width: appInfo.centerIconSize,
               // color: Colors.white,
               child: Image.asset(appInfo.centerIconImage),
             ),
@@ -583,38 +587,51 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
               //     shape: BoxShape.circle
               // ),
               color: Colors.transparent,
-              height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
+              height: appInfo.centerInactiveIconSize,
+              width: appInfo.centerInactiveIconSize,
               child: Image.asset(appInfo.centerIconImage),
             ),
-            title: null, //'Inicio',
+            title: null,
+            //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic == "PICKNSEND" )
+      if (appInfo.pushChannelTopic == "PICKNSEND")
         PersistentBottomNavBarItem(
             contentPadding: 0.0,
-            icon:Icon(
+            icon: Icon(
               Icons.inventory,
               key: keyMainBottomNavigation,
-              color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+              size: 35,
             ),
             inactiveIcon: Icon(
               Icons.inventory,
               key: keyMainBottomNavigation,
-              color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),size: 25,
+              color: Theme.of(context)
+                  .appBarTheme
+                  .foregroundColor!
+                  .withOpacity(0.7),
+              size: 25,
             ),
-            title: null, //'Inicio',
+            title: null,
+            //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.pushChannelTopic != "BLUMBOX" && appInfo.pushChannelTopic != "TAINO" && appInfo.pushChannelTopic != "CPS" && appInfo.pushChannelTopic != "PICKNSEND" )
+      if (appInfo.pushChannelTopic != "BLUMBOX" &&
+          appInfo.pushChannelTopic != "TAINO" &&
+          appInfo.pushChannelTopic != "CPS" &&
+          appInfo.pushChannelTopic != "PICKNSEND")
         PersistentBottomNavBarItem(
             icon: ClipOval(
               child: Container(
                 key: keyMainBottomNavigation,
                 decoration: BoxDecoration(
-                    color: appInfo.pushChannelTopic == "INBOX" ? Colors.transparent : Colors.white,
-                    shape: BoxShape.circle
-                ),
-                height: appInfo.centerIconSize, width: appInfo.centerIconSize,
+                    color: appInfo.pushChannelTopic == "INBOX"
+                        ? Colors.transparent
+                        : Colors.white,
+                    shape: BoxShape.circle),
+                height: appInfo.centerIconSize,
+                width: appInfo.centerIconSize,
                 //color: Colors.white,
                 child: Image.asset(appInfo.centerIconImage),
               ),
@@ -623,58 +640,84 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
               child: Container(
                 key: keyMainBottomNavigation,
                 padding: const EdgeInsets.all(5),
-                decoration:  BoxDecoration(
-                    color: appInfo.pushChannelTopic == "ARRIBEX" || appInfo.pushChannelTopic == "INBOX" || appInfo.pushChannelTopic == "SKYHIGH" ||appInfo.pushChannelTopic == "FIXOCARGO" || appInfo.pushChannelTopic == "PICKNSEND" || appInfo.pushChannelTopic == "JETPACK" || appInfo.pushChannelTopic == "TLS" || appInfo.pushChannelTopic == "TUPAQ" ? Colors.transparent : Colors.white.withOpacity(1),
-                    shape: BoxShape.circle
-                ),
+                decoration: BoxDecoration(
+                    color: appInfo.pushChannelTopic == "ARRIBEX" ||
+                            appInfo.pushChannelTopic == "INBOX" ||
+                            appInfo.pushChannelTopic == "SKYHIGH" ||
+                            appInfo.pushChannelTopic == "FIXOCARGO" ||
+                            appInfo.pushChannelTopic == "PICKNSEND" ||
+                            appInfo.pushChannelTopic == "JETPACK" ||
+                            appInfo.pushChannelTopic == "TLS" ||
+                            appInfo.pushChannelTopic == "TUPAQ"
+                        ? Colors.transparent
+                        : Colors.white.withOpacity(1),
+                    shape: BoxShape.circle),
                 //color: Colors.transparent,
                 child: Image.asset(appInfo.centerIconImage),
                 // height: appInfo.centerInactiveIconSize, width: appInfo.centerInactiveIconSize,
               ),
             ),
-            title: null, //'Inicio',
+            title: null,
+            //'Inicio',
             activeColorPrimary: Colors.transparent,
             inactiveColorPrimary: Colors.transparent),
-      if(appInfo.metricsPrefixKey != "CARIBEPACK" && appInfo.metricsPrefixKey != "SWOOP" && appInfo.metricsPrefixKey != "GOPACK")
+      if (appInfo.metricsPrefixKey != "CARIBEPACK" &&
+          appInfo.metricsPrefixKey != "SWOOP" &&
+          appInfo.metricsPrefixKey != "GOPACK")
         PersistentBottomNavBarItem(
-          icon: Icon(
-            Icons.calculate_outlined,
-            key: keyCalculatorBottomNavigation,
-            color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
-          ),
-          activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
-          title: null, //'Calculadora',
-          inactiveIcon: Icon(Icons.calculate_outlined,
-            key: keyCalculatorBottomNavigation,
-            size: 25,
-            color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
-          )),
-      if(appInfo.metricsPrefixKey == "CARIBEPACK" || appInfo.metricsPrefixKey == "SWOOP" || appInfo.metricsPrefixKey == "GOPACK")
+            icon: Icon(
+              Icons.calculate_outlined,
+              key: keyCalculatorBottomNavigation,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+              size: 35,
+            ),
+            activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
+            title: null, //'Calculadora',
+            inactiveIcon: Icon(
+              Icons.calculate_outlined,
+              key: keyCalculatorBottomNavigation,
+              size: 25,
+              color: Theme.of(context)
+                  .appBarTheme
+                  .foregroundColor!
+                  .withOpacity(0.7),
+            )),
+      if (appInfo.metricsPrefixKey == "CARIBEPACK" ||
+          appInfo.metricsPrefixKey == "SWOOP" ||
+          appInfo.metricsPrefixKey == "GOPACK")
         PersistentBottomNavBarItem(
             icon: Icon(
               Icons.room_service,
               key: keyServicesBottomNavigation,
-              color: Theme.of(context).appBarTheme.foregroundColor,size: 35,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+              size: 35,
             ),
             activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
             title: null, //'Calculadora',
-            inactiveIcon: Icon(Icons.room_service,
+            inactiveIcon: Icon(
+              Icons.room_service,
               key: keyServicesBottomNavigation,
               size: 25,
-              color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
+              color: Theme.of(context)
+                  .appBarTheme
+                  .foregroundColor!
+                  .withOpacity(0.7),
             )),
       PersistentBottomNavBarItem(
           icon: Icon(
             Icons.info_outline,
             key: keyOtherBottomNavigation,
-            color: Theme.of(context).appBarTheme.foregroundColor, size: 35,
+            color: Theme.of(context).appBarTheme.foregroundColor,
+            size: 35,
           ),
           activeColorPrimary: Theme.of(context).appBarTheme.foregroundColor!,
           title: null, //'Más',
-          inactiveIcon: Icon(Icons.info_outline,
+          inactiveIcon: Icon(
+            Icons.info_outline,
             key: keyOtherBottomNavigation,
             size: 25,
-            color: Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
+            color:
+                Theme.of(context).appBarTheme.foregroundColor!.withOpacity(0.7),
           )),
     ];
   }
@@ -688,13 +731,12 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   Future<bool> showSnackBar() async {
     ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(
+      SnackBar(
         behavior: SnackBarBehavior.floating,
         duration: const Duration(milliseconds: 600),
         margin: const EdgeInsets.only(
             bottom: kBottomNavigationBarHeight, right: 2, left: 2),
-        content:
-            Text('presione_boton_para_salir_del_app'.tr()),
+        content: Text('presione_boton_para_salir_del_app'.tr()),
       ),
     );
     return false;
@@ -707,9 +749,10 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
   DateTime oldTime = DateTime.now();
   DateTime newTime = DateTime.now();
   DateTime lastRefresh = DateTime.now().subtract(const Duration(days: 10));
+
   @override
   Widget build(BuildContext context) {
-    if(DateTime.now().difference(lastRefresh).inMinutes >= 10) {
+    if (DateTime.now().difference(lastRefresh).inMinutes >= 10) {
       lastRefresh = DateTime.now();
       GetIt.I<event.Event<CourierRefreshRequested>>().broadcast();
     }
@@ -745,40 +788,36 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
               animateTabTransition: true,
               curve: Curves.easeInCirc,
               duration: Duration(milliseconds: 100),
-            ),
-            onItemSelected: (idx)  {
-              if(idx==1) {
-                GetIt.I<event.Event<SucursalesDataRefreshRequested>>().broadcast();
-              }
-              if(idx==0) {
-                GetIt.I<event.Event<NoticiasDataRefreshRequested>>().broadcast();
-              }
-              if(idx==2) {
-                if(DateTime.now().difference(lastRefresh).inMinutes >= 10) {
-                  lastRefresh = DateTime.now();
-                  GetIt.I<event.Event<CourierRefreshRequested>>().broadcast();
-                }
-              }
-              cache.write('lastSelectedTab', idx.toString());
-            },
-            onWillPop: (context) async {
-              newTime = DateTime.now();
-              int difference = newTime.difference(oldTime).inMilliseconds;
-              oldTime = newTime;
-              if (difference < 1000) {
-                hideSnackBar();
-                return true;
-              } else {
-                return await showSnackBar();
-              }
+            ), onItemSelected: (idx) {
+      if (idx == 1) {
+        GetIt.I<event.Event<SucursalesDataRefreshRequested>>().broadcast();
+      }
+      if (idx == 0) {
+        GetIt.I<event.Event<NoticiasDataRefreshRequested>>().broadcast();
+      }
+      if (idx == 2) {
+        if (DateTime.now().difference(lastRefresh).inMinutes >= 10) {
+          lastRefresh = DateTime.now();
+          GetIt.I<event.Event<CourierRefreshRequested>>().broadcast();
         }
-      )
-    );
+      }
+      cache.write('lastSelectedTab', idx.toString());
+    }, onWillPop: (context) async {
+      newTime = DateTime.now();
+      int difference = newTime.difference(oldTime).inMilliseconds;
+      oldTime = newTime;
+      if (difference < 1000) {
+        hideSnackBar();
+        return true;
+      } else {
+        return await showSnackBar();
+      }
+    }));
   }
 
   void showTutorial() async {
-    String tutorialShown = await cache.load('tutorialShown',"");
-    if(tutorialShown.isEmpty) {
+    String tutorialShown = await cache.load('tutorialShown', "");
+    if (tutorialShown.isEmpty) {
       tutorialCoachMark.show(context: context);
     }
   }
@@ -791,20 +830,20 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
       paddingFocus: 10,
       opacityShadow: 0.8,
       onFinish: () async {
-        await cache.write('tutorialShown',"X");
+        await cache.write('tutorialShown', "X");
       },
       onClickOverlay: (target) {
         tutorialCoachMark.next();
       },
-      onSkip: ()  {
-        cache.write('tutorialShown',"X");
+      onSkip: () {
+        cache.write('tutorialShown', "X");
         return true;
       },
     );
   }
 
-  TargetFocus _createTarget(final String identity, final GlobalKey? key, final String tutorialText )
-  {
+  TargetFocus _createTarget(
+      final String identity, final GlobalKey? key, final String tutorialText) {
     return TargetFocus(
       identify: identity,
       keyTarget: key,
@@ -836,19 +875,47 @@ class _MainAppShellState extends State<MainAppShell> with WidgetsBindingObserver
 
   List<TargetFocus> _createTargets() {
     List<TargetFocus> targets = [];
-    targets.add(_createTarget("keyNewsBottomNavigation",keyNewsBottomNavigation,"tutor_noticias".tr()));
-    targets.add(_createTarget("keyLocationsBottomNavigation",keyLocationsBottomNavigation,"tutor_sucursales".tr()));
-    targets.add(_createTarget("keyMainBottomNavigation",keyMainBottomNavigation,"tutor_courier".tr()));
-    if(appInfo.metricsPrefixKey != "CARIBEPACK") {
-      targets.add(_createTarget("keyCalculatorBottomNavigation",keyCalculatorBottomNavigation,"tutor_calculadora".tr()));
+    targets.add(_createTarget("keyNewsBottomNavigation",
+        keyNewsBottomNavigation, "tutor_noticias".tr()));
+    targets.add(_createTarget("keyLocationsBottomNavigation",
+        keyLocationsBottomNavigation, "tutor_sucursales".tr()));
+    targets.add(_createTarget("keyMainBottomNavigation",
+        keyMainBottomNavigation, "tutor_courier".tr()));
+    if (appInfo.metricsPrefixKey != "CARIBEPACK") {
+      targets.add(_createTarget("keyCalculatorBottomNavigation",
+          keyCalculatorBottomNavigation, "tutor_calculadora".tr()));
     }
-    if(appInfo.metricsPrefixKey == "CARIBEPACK") {
-      targets.add(_createTarget("keyServicesBottomNavigation",keyServicesBottomNavigation,"tutor_servicios".tr()));
-      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"tutor_adicional_2".tr()));
+    if (appInfo.metricsPrefixKey == "CARIBEPACK") {
+      targets.add(_createTarget("keyServicesBottomNavigation",
+          keyServicesBottomNavigation, "tutor_servicios".tr()));
+      targets.add(_createTarget("keyOtherBottomNavigation",
+          keyOtherBottomNavigation, "tutor_adicional_2".tr()));
     } else {
-      targets.add(_createTarget("keyOtherBottomNavigation",keyOtherBottomNavigation,"tutor_adicional".tr()));
+      targets.add(_createTarget("keyOtherBottomNavigation",
+          keyOtherBottomNavigation, "tutor_adicional".tr()));
     }
     return targets;
   }
+}
 
+void _handleNotificationResponse(NotificationResponse details) {
+  if (details.actionId == 'open_whatsapp' && details.payload != null) {
+    debugPrint('WhatsApp action tapped. Launching...');
+    _launchWhatsApp(details.payload!); // Payload should be the phone number
+  } else {
+    debugPrint('Regular notification tap');
+  }
+}
+
+Future<void> _launchWhatsApp(String url) async {
+  final Uri whatsappUri = Uri.parse(url);
+  try {
+    if (await canLaunchUrl(whatsappUri)) {
+      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint('Could not launch $whatsappUri');
+    }
+  } catch (e) {
+    debugPrint('Error launching WhatsApp: $e');
+  }
 }
