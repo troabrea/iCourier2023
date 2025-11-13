@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:empty_widget/empty_widget.dart';
+import 'package:empty_widget_pro/empty_widget_pro.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_mask/easy_mask.dart';

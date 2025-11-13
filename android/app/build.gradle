@@ -27,6 +27,7 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    ndkVersion
     compileSdkVersion 34
     signingConfigs {
         legacy {

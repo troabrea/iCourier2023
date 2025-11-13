@@ -232,7 +232,7 @@ class _CourierPageState extends State<CourierPage> {
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall
-                            ?.copyWith(color: Theme.of(context).errorColor),
+                            ?.copyWith(color: Theme.of(context).colorScheme.error),
                       ),
                     const SizedBox(height: 5,),
                     Center(child: TextButton(onPressed: () async {
@@ -393,10 +393,10 @@ class _CourierPageState extends State<CourierPage> {
                             borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
                             borderRadius: BorderRadius.circular(30)),
                         focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                             borderRadius: BorderRadius.circular(30)),
                         errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                             borderRadius: BorderRadius.circular(30)),
                         enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
@@ -428,10 +428,10 @@ class _CourierPageState extends State<CourierPage> {
                           borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
                           borderRadius: BorderRadius.circular(30)),
                       focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).errorColor),
+                          borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                           borderRadius: BorderRadius.circular(30)),
                       errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).errorColor),
+                          borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
                           borderRadius: BorderRadius.circular(30)),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Theme.of(context).primaryColorDark),
@@ -456,7 +456,7 @@ class _CourierPageState extends State<CourierPage> {
                 child: Text('aceptar'.tr()),
                 onPressed: () {
                     if(userForReset.isEmpty || emailForReset.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Debe especificar su cuenta y correo electrónico registrado.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),), backgroundColor: Theme.of(context).errorColor, ));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Debe especificar su cuenta y correo electrónico registrado.', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),), backgroundColor: Theme.of(context).colorScheme.error, ));
                       return;
                     }
                     Navigator.pop(context);
@@ -489,7 +489,7 @@ class _CourierPageState extends State<CourierPage> {
 
       if (loginResult.sessionId.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).errorColor,
+          backgroundColor: Theme.of(context).colorScheme.error,
           content: Text(
               "credenciales_invalidas".tr()),
         ));

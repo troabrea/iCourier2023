@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_mask/easy_mask.dart';
-import 'package:empty_widget/empty_widget.dart';
+
+import 'package:empty_widget_pro/empty_widget_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

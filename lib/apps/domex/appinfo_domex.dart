@@ -229,7 +229,6 @@ class DomexAppInfo implements AppInfo {
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
     )
-    .copyWith(errorColor: Colors.red)
     //.copyWith(elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom( backgroundColor: primaryColor, foregroundColor: Colors.black ) ) )
     //.copyWith(dialogTheme: getDarkDialogTheme())
     .copyWith(textTheme:  getDarkTextTheme());

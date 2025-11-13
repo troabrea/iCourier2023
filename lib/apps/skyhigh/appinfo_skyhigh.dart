@@ -191,7 +191,6 @@ class SkyHighAppInfo implements AppInfo {
       useMaterial3: true,
     )
         .copyWith(
-        errorColor: errorColor,
         dividerColor: Colors.white30,
         primaryColorDark: Colors.white70,
         iconTheme: const IconThemeData(color: primaryColor),
