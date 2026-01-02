@@ -374,8 +374,27 @@ class _MainAppShellState extends State<MainAppShell>
       _appLifecycleState = state;
     });
     if (state == AppLifecycleState.resumed) {
-      GetIt.I<CourierService>()
+
+      final empresa = await GetIt.I<CourierService>()
           .getEmpresa(ignoreCache: false, forceFirstTime: true);
+
+      if(empresa.encuestaUrl.isNotEmpty && empresa.encuestaActiveUntil.isAfter(DateTime.now().add(const Duration(days:-1)))) {
+        String lastEncuestaUrl = (await cache.load('lastEncuestaUrl',"")).toString();
+        if(mounted && lastEncuestaUrl != empresa.encuestaUrl) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("encuesta_disponible".tr(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).colorScheme.onPrimary)),
+              duration: const Duration(seconds: 10),
+              action: SnackBarAction(label: "si".tr(), onPressed: () async {
+                await launchUrl(Uri.parse(empresa.encuestaUrl));
+                await cache.write("lastEncuestaUrl", empresa.encuestaUrl);
+              }),
+          ));
+        }
+
+      }
     }
   }
 

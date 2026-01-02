@@ -15,11 +15,13 @@
 		8608CC322C11FD0200B8537F /* LaunchScreenTdexpress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8608CC302C11FD0200B8537F /* LaunchScreenTdexpress.storyboard */; };
 		860CC7432A7C3382008F7B7B /* LaunchScreenTupaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860CC7412A7C3382008F7B7B /* LaunchScreenTupaq.storyboard */; };
 		860DDDEB29F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 860DDDE929F1894900F7A2E4 /* LaunchScreenPintopaq.storyboard */; };
+		861313C32ED8EB9E0026F9F0 /* LaunchScreenAtiempo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 861313C12ED8EB9D0026F9F0 /* LaunchScreenAtiempo.storyboard */; };
 		86131F5D2BE955D000515E60 /* LaunchScreenBlumbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */; };
 		861AC9D52C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 861AC9D32C5A9ADA00698E74 /* LaunchScreenMcccargo.storyboard */; };
 		862203F129C263C7009248F4 /* LaunchScreenPicknsend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862203EF29C263C7009248F4 /* LaunchScreenPicknsend.storyboard */; };
 		862A2AF82BD7F74700001F62 /* LaunchScreenClickpack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862A2AF62BD7F74700001F62 /* LaunchScreenClickpack.storyboard */; };
 		863F1D342B8CE94800477140 /* LaunchScreenQm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 863F1D322B8CE94800477140 /* LaunchScreenQm.storyboard */; };
+		8649B8F12EFC6925005741D9 /* LaunchScreenCargowise.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8649B8EF2EFC6925005741D9 /* LaunchScreenCargowise.storyboard */; };
 		865A9A462967221300498034 /* LaunchScreenTaino.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 865A9A442967221300498034 /* LaunchScreenTaino.storyboard */; };
 		865C69CD2CC983C000CA985F /* LaunchScreenInbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 865C69CB2CC983C000CA985F /* LaunchScreenInbox.storyboard */; };
 		866C932528F59726001F87C2 /* LaunchScreenCaribepack.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 866C932328F59726001F87C2 /* LaunchScreenCaribepack.storyboard */; };
@@ -110,6 +112,8 @@
 		569265A3B79E77A16B24D9BF /* Pods-Runner.profile-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-pintopaq.xcconfig"; sourceTree = "<group>"; };
 		575B94315B460C09E4A93106 /* Pods-Runner.debug-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-caribepack.xcconfig"; sourceTree = "<group>"; };
 		5CAB8818132B0A6F73E7117A /* Pods-Runner.profile-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-domex.xcconfig"; sourceTree = "<group>"; };
+		5D7B00787C7620A0689914D4 /* Pods-Runner.debug-cargowise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cargowise.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cargowise.xcconfig"; sourceTree = "<group>"; };
+		60BEF77240CF3E716EA526E2 /* Pods-Runner.release-atiempo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-atiempo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-atiempo.xcconfig"; sourceTree = "<group>"; };
 		64C967AD954750F8B1ED1DDF /* Pods-Runner.profile-bmcargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-bmcargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-bmcargo.xcconfig"; sourceTree = "<group>"; };
 		65832C067C15A754EC13DA66 /* Pods-Runner.debug-cargospot.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cargospot.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cargospot.xcconfig"; sourceTree = "<group>"; };
 		6B876571E7C474E5833EB87C /* Pods-Runner.profile-cps.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cps.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cps.xcconfig"; sourceTree = "<group>"; };
@@ -127,12 +131,14 @@
 		8608CC312C11FD0200B8537F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTdexpress.storyboard; sourceTree = "<group>"; };
 		860CC7422A7C3382008F7B7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTupaq.storyboard; sourceTree = "<group>"; };
 		860DDDEA29F1894900F7A2E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPintopaq.storyboard; sourceTree = "<group>"; };
+		861313C22ED8EB9D0026F9F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenAtiempo.storyboard; sourceTree = "<group>"; };
 		86131F5C2BE955D000515E60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBlumbox.storyboard; sourceTree = "<group>"; };
 		861AC9D42C5A9ADA00698E74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenMcccargo.storyboard; sourceTree = "<group>"; };
 		862203F029C263C7009248F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenPicknsend.storyboard; sourceTree = "<group>"; };
 		862A2AF72BD7F74700001F62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenClickpack.storyboard; sourceTree = "<group>"; };
 		86386640B0CACC9048497709 /* Pods-Runner.release-swoop.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-swoop.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-swoop.xcconfig"; sourceTree = "<group>"; };
 		863F1D332B8CE94800477140 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenQm.storyboard; sourceTree = "<group>"; };
+		8649B8F02EFC6925005741D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCargowise.storyboard; sourceTree = "<group>"; };
 		865A9A452967221300498034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenTaino.storyboard; sourceTree = "<group>"; };
 		865C69CC2CC983C000CA985F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenInbox.storyboard; sourceTree = "<group>"; };
 		866C932428F59726001F87C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCaribepack.storyboard; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 		86F47D522E0D898800C92D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenGopack.storyboard; sourceTree = "<group>"; };
 		86FC0FCB29C7BA4F00F0D20D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBoxpaq.storyboard; sourceTree = "<group>"; };
 		8946ABA8E933B37F31813D6A /* Pods-Runner.debug-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-taino.xcconfig"; sourceTree = "<group>"; };
+		8D8AA18DA8087346027ACE7C /* Pods-Runner.profile-atiempo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-atiempo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-atiempo.xcconfig"; sourceTree = "<group>"; };
 		9275107C099F0A5C40DAA174 /* Pods-Runner.debug-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tls.xcconfig"; sourceTree = "<group>"; };
 		92E506A1C334351F1AD9DCD7 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
@@ -173,6 +180,7 @@
 		A2E207FD3177145673E060BD /* Pods-Runner.debug-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-jetpack.xcconfig"; sourceTree = "<group>"; };
 		A3B04CEEA3D4664EB6EAB4BE /* Pods-Runner.profile-cargospot.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cargospot.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cargospot.xcconfig"; sourceTree = "<group>"; };
 		A3C6DC0B1565613BDA6A6796 /* Pods-Runner.debug-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-almapaq.xcconfig"; sourceTree = "<group>"; };
+		A874CBA4184BBA7DF5F1EEC9 /* Pods-Runner.release-cargowise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cargowise.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cargowise.xcconfig"; sourceTree = "<group>"; };
 		AC20601E474FAF34265F796A /* Pods-Runner.release-tls.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-tls.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-tls.xcconfig"; sourceTree = "<group>"; };
 		B17F09C7410D392A413323B9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		B24252B90E3533F870BEAF7B /* Pods-Runner.debug-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-fixocargo.xcconfig"; sourceTree = "<group>"; };
@@ -180,6 +188,7 @@
 		B9BA12503128EBF3283F06DC /* Pods-Runner.release-cainca.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cainca.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cainca.xcconfig"; sourceTree = "<group>"; };
 		C2B132506D38463568F817ED /* Pods-Runner.release-gopack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-gopack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-gopack.xcconfig"; sourceTree = "<group>"; };
 		C3EF271C09B229CA8241D0B1 /* Pods-Runner.release-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-blumbox.xcconfig"; sourceTree = "<group>"; };
+		C92878A4EB1DC48B34A9BE33 /* Pods-Runner.debug-atiempo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-atiempo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-atiempo.xcconfig"; sourceTree = "<group>"; };
 		C960C22B42F15D54CB0A066C /* Pods-Runner.debug-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-qm.xcconfig"; sourceTree = "<group>"; };
 		CE97419F7ACB76D6BD8992EA /* Pods-Runner.release-taino.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-taino.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-taino.xcconfig"; sourceTree = "<group>"; };
 		CF869CDEEB6E92030ADBCCBB /* Pods-Runner.debug-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tupaq.xcconfig"; sourceTree = "<group>"; };
@@ -195,6 +204,7 @@
 		EA341B8D0D88B8B2DF1D6C9A /* Pods-Runner.profile-skyhigh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-skyhigh.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-skyhigh.xcconfig"; sourceTree = "<group>"; };
 		ED4857A9625577A92F1BCD8C /* Pods-Runner.profile-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-flypack.xcconfig"; sourceTree = "<group>"; };
 		EFA49F2401ACB52E618A2D4C /* Pods-Runner.release-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-caribepack.xcconfig"; sourceTree = "<group>"; };
+		EFC425538CED3BED1B89842A /* Pods-Runner.profile-cargowise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-cargowise.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-cargowise.xcconfig"; sourceTree = "<group>"; };
 		F40B95984301B37FA1788DC9 /* Pods-Runner.profile-qm.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-qm.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-qm.xcconfig"; sourceTree = "<group>"; };
 		F6DC16D8109ECFF199213122 /* Pods-Runner.release-almapaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-almapaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-almapaq.xcconfig"; sourceTree = "<group>"; };
 		F867633C8191D3537931360E /* Pods-Runner.release-fixocargo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-fixocargo.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-fixocargo.xcconfig"; sourceTree = "<group>"; };
@@ -328,6 +338,12 @@
 				0F193AFDD0408894989C0A0B /* Pods-Runner.debug-arribex.xcconfig */,
 				1EB32B2A7AADA65837E3C4DC /* Pods-Runner.release-arribex.xcconfig */,
 				E65889ADC38E3006A2E8A39F /* Pods-Runner.profile-arribex.xcconfig */,
+				C92878A4EB1DC48B34A9BE33 /* Pods-Runner.debug-atiempo.xcconfig */,
+				60BEF77240CF3E716EA526E2 /* Pods-Runner.release-atiempo.xcconfig */,
+				8D8AA18DA8087346027ACE7C /* Pods-Runner.profile-atiempo.xcconfig */,
+				5D7B00787C7620A0689914D4 /* Pods-Runner.debug-cargowise.xcconfig */,
+				A874CBA4184BBA7DF5F1EEC9 /* Pods-Runner.release-cargowise.xcconfig */,
+				EFC425538CED3BED1B89842A /* Pods-Runner.profile-cargowise.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -366,6 +382,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				8649B8EF2EFC6925005741D9 /* LaunchScreenCargowise.storyboard */,
+				861313C12ED8EB9D0026F9F0 /* LaunchScreenAtiempo.storyboard */,
 				86CA25C62EA119A700AADB35 /* LaunchScreenArribex.storyboard */,
 				86F47D512E0D898800C92D06 /* LaunchScreenGopack.storyboard */,
 				86F47D482E0D7B8900C92D06 /* LaunchScreenTelo.storyboard */,
@@ -444,7 +462,7 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
@@ -483,8 +501,10 @@
 				860CC7432A7C3382008F7B7B /* LaunchScreenTupaq.storyboard in Resources */,
 				86F47D4A2E0D7B8900C92D06 /* LaunchScreenTelo.storyboard in Resources */,
 				86CC403E28D8B910003B50D6 /* LaunchScreenBmcargo.storyboard in Resources */,
+				861313C32ED8EB9E0026F9F0 /* LaunchScreenAtiempo.storyboard in Resources */,
 				86FC0FCC29C7BA4F00F0D20D /* LaunchScreenBoxpaq.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				8649B8F12EFC6925005741D9 /* LaunchScreenCargowise.storyboard in Resources */,
 				86ECEA572CADD4750092D2E3 /* LaunchScreenEcopaq.storyboard in Resources */,
 				86A0EEBE2AAB440B00924D08 /* LaunchScreenSwoop.storyboard in Resources */,
 				86C1EDE328C238CE00430FFB /* GoogleService-Info.plist in Resources */,
@@ -671,6 +691,14 @@
 			name = LaunchScreenPintopaq.storyboard;
 			sourceTree = "<group>";
 		};
+		861313C12ED8EB9D0026F9F0 /* LaunchScreenAtiempo.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				861313C22ED8EB9D0026F9F0 /* Base */,
+			);
+			name = LaunchScreenAtiempo.storyboard;
+			sourceTree = "<group>";
+		};
 		86131F5B2BE955D000515E60 /* LaunchScreenBlumbox.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -709,6 +737,14 @@
 				863F1D332B8CE94800477140 /* Base */,
 			);
 			name = LaunchScreenQm.storyboard;
+			sourceTree = "<group>";
+		};
+		8649B8EF2EFC6925005741D9 /* LaunchScreenCargowise.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8649B8F02EFC6925005741D9 /* Base */,
+			);
+			name = LaunchScreenCargowise.storyboard;
 			sourceTree = "<group>";
 		};
 		865A9A442967221300498034 /* LaunchScreenTaino.storyboard */ = {
@@ -2352,6 +2388,278 @@
 			};
 			name = "Profile-blumbox";
 		};
+		8616E5B32ED8C31D00F64DA7 /* Debug-atiempo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-atiempo";
+		};
+		8616E5B42ED8C31D00F64DA7 /* Debug-atiempo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Atiempo Pack";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-atiempo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenAtiempo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenAtiempo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.atiempo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-atiempo";
+		};
+		8616E5B52ED8C33500F64DA7 /* Release-atiempo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-atiempo";
+		};
+		8616E5B62ED8C33500F64DA7 /* Release-atiempo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Atiempo Pack";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-atiempo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenAtiempo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenAtiempo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.atiempo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-atiempo";
+		};
+		8616E5B72ED8C34700F64DA7 /* Profile-atiempo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-atiempo";
+		};
+		8616E5B82ED8C34700F64DA7 /* Profile-atiempo */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Atiempo Pack";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-atiempo";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenAtiempo.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenAtiempo;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.atiempo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-atiempo";
+		};
 		861AC9CD2C5A9A5A00698E74 /* Debug-mcccargo */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3440,6 +3748,278 @@
 			};
 			name = "Profile-qm";
 		};
+		8649B8E92EFC68A8005741D9 /* Debug-cargowise */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-cargowise";
+		};
+		8649B8EA2EFC68A8005741D9 /* Debug-cargowise */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cargowise Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargowise";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCargowise.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCargowise;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargowise;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Debug-cargowise";
+		};
+		8649B8EB2EFC68BD005741D9 /* Release-cargowise */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-cargowise";
+		};
+		8649B8EC2EFC68BD005741D9 /* Release-cargowise */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cargowise Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargowise";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCargowise.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCargowise;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargowise;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Release-cargowise";
+		};
+		8649B8ED2EFC68CE005741D9 /* Profile-cargowise */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-cargowise";
+		};
+		8649B8EE2EFC68CE005741D9 /* Profile-cargowise */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = "Cargowise Courier";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargowise";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CURRENT_PROJECT_VERSION = 26;
+				DEVELOPMENT_TEAM = 78D5P35NL6;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Runner/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenCargowise.storyboard;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenCargowise;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
+				MARKETING_VERSION = 2023.8.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargowise;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = "Profile-cargowise";
+		};
 		865A9A3E2967192400498034 /* Debug-taino */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3792,7 +4372,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3883,7 +4463,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3971,7 +4551,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4044,7 +4624,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Cagospot Courier";
+				APP_DISPLAY_NAME = "Cargospot Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargospot";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
@@ -4064,7 +4644,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4135,7 +4715,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Cagospot Courier";
+				APP_DISPLAY_NAME = "Cargospot Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargospot";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
@@ -4155,7 +4735,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4223,7 +4803,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Cagospot Courier";
+				APP_DISPLAY_NAME = "Cargospot Courier";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargospot";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
@@ -4243,7 +4823,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9614,6 +10194,8 @@
 				86D2032229F95E23000ED92C /* Debug-beexpress */,
 				86D2031929F94D87000ED92C /* Debug-almapaq */,
 				86CA25C02EA1185800AADB35 /* Debug-arribex */,
+				8616E5B32ED8C31D00F64DA7 /* Debug-atiempo */,
+				8649B8E92EFC68A8005741D9 /* Debug-cargowise */,
 				86A9CB9729F412B8004AA7E2 /* Debug-encargopaq */,
 				860DDDE329F188E100F7A2E4 /* Debug-pintopaq */,
 				86AA7E5C29D070EC00E17FE0 /* Debug-jetpack */,
@@ -9646,6 +10228,8 @@
 				86FC0FC629C7BA0600F0D20D /* Release-boxpaq */,
 				86D2031B29F94D9A000ED92C /* Release-almapaq */,
 				86CA25C22EA1187000AADB35 /* Release-arribex */,
+				8616E5B52ED8C33500F64DA7 /* Release-atiempo */,
+				8649B8EB2EFC68BD005741D9 /* Release-cargowise */,
 				86A9CB9929F412C9004AA7E2 /* Release-encargopaq */,
 				860DDDE529F188EE00F7A2E4 /* Release-pintopaq */,
 				86AA7E5E29D070F600E17FE0 /* Release-jetpack */,
@@ -9678,6 +10262,8 @@
 				86D2032629F95E3B000ED92C /* Profile-beexpress */,
 				86D2031D29F94DA4000ED92C /* Profile-almapaq */,
 				86CA25C42EA1188300AADB35 /* Profile-arribex */,
+				8616E5B72ED8C34700F64DA7 /* Profile-atiempo */,
+				8649B8ED2EFC68CE005741D9 /* Profile-cargowise */,
 				86A9CB9B29F412D5004AA7E2 /* Profile-encargopaq */,
 				860DDDE729F188FB00F7A2E4 /* Profile-pintopaq */,
 				86AA7E6029D0710000E17FE0 /* Profile-jetpack */,
@@ -9717,6 +10303,8 @@
 				86D2032329F95E23000ED92C /* Debug-beexpress */,
 				86D2031A29F94D87000ED92C /* Debug-almapaq */,
 				86CA25C12EA1185800AADB35 /* Debug-arribex */,
+				8616E5B42ED8C31D00F64DA7 /* Debug-atiempo */,
+				8649B8EA2EFC68A8005741D9 /* Debug-cargowise */,
 				86A9CB9829F412B8004AA7E2 /* Debug-encargopaq */,
 				860DDDE429F188E100F7A2E4 /* Debug-pintopaq */,
 				86AA7E5D29D070EC00E17FE0 /* Debug-jetpack */,
@@ -9749,6 +10337,8 @@
 				86FC0FC729C7BA0600F0D20D /* Release-boxpaq */,
 				86D2031C29F94D9A000ED92C /* Release-almapaq */,
 				86CA25C32EA1187000AADB35 /* Release-arribex */,
+				8616E5B62ED8C33500F64DA7 /* Release-atiempo */,
+				8649B8EC2EFC68BD005741D9 /* Release-cargowise */,
 				86A9CB9A29F412C9004AA7E2 /* Release-encargopaq */,
 				860DDDE629F188EE00F7A2E4 /* Release-pintopaq */,
 				86AA7E5F29D070F600E17FE0 /* Release-jetpack */,
@@ -9781,6 +10371,8 @@
 				86D2032729F95E3B000ED92C /* Profile-beexpress */,
 				86D2031E29F94DA4000ED92C /* Profile-almapaq */,
 				86CA25C52EA1188300AADB35 /* Profile-arribex */,
+				8616E5B82ED8C34700F64DA7 /* Profile-atiempo */,
+				8649B8EE2EFC68CE005741D9 /* Profile-cargowise */,
 				86A9CB9C29F412D5004AA7E2 /* Profile-encargopaq */,
 				860DDDE829F188FB00F7A2E4 /* Profile-pintopaq */,
 				86AA7E6129D0710000E17FE0 /* Profile-jetpack */,

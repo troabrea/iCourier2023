@@ -7,6 +7,7 @@ import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:event/event.dart' as event;
 import '../../services/app_events.dart';
 import '../../services/courier_service.dart';
+import '../../services/model/empresa.dart';
 
 part 'courier_event.dart';
 part 'courier_state.dart';
@@ -26,18 +27,19 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
     });
 
     on<CheckLoggedEvent>((event,emit) async {
-        emit(CourierIsBusyState());
-        var empresa = (await courierService.getEmpresa());
-        var sessionId = (await cache.load('sessionId','')).toString();
-        var cuenta = (await cache.load('userAccount','')).toString();
-        var nombre = (await cache.load('userName','')).toString();
-        var isLogged = sessionId.isNotEmpty && cuenta.isNotEmpty;
-        if(isLogged) {
-          emit(const CourierIsLoggedState());
-        } else {
-          emit(CourierIsNotLoggedState(false, empresa.registerUrl));
-        }
-        loginChanged.broadcast(LoginChanged(isLogged, cuenta,nombre));
+
+          emit(CourierIsBusyState());
+          var empresa = (await courierService.getEmpresa(retryEmtpy: true));
+          var sessionId = (await cache.load('sessionId','')).toString();
+          var cuenta = (await cache.load('userAccount','')).toString();
+          var nombre = (await cache.load('userName','')).toString();
+          var isLogged = sessionId.isNotEmpty && cuenta.isNotEmpty;
+          if(isLogged) {
+            emit(const CourierIsLoggedState());
+          } else {
+            emit(CourierIsNotLoggedState(false, empresa.registerUrl));
+          }
+          loginChanged.broadcast(LoginChanged(isLogged, cuenta,nombre));
     });
 
     on<TryLoginEvent>((event,emit) async {

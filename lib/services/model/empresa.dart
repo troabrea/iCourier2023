@@ -71,6 +71,20 @@ class Empresa {
   String pushHubName;
   String options;
 
+  DateTime get encuestaActiveUntil {
+    if(pushHubName.isEmpty) {
+      return DateTime(2000,1,1);
+    }
+    return DateTime.tryParse(pushHubName) ?? DateTime(2000,1,1);
+  }
+
+  String get encuestaUrl {
+    if(pushHubEndpoint.isEmpty || !pushHubEndpoint.contains('/encuesta/')) {
+      return '';
+    }
+    return pushHubEndpoint;
+  }
+
   factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
     registroId: json["registroID"],
     nombre: json["nombre"],
@@ -106,6 +120,43 @@ class Empresa {
     pushHubEndpoint: json["pushHubEndpoint"] ?? "",
     pushHubName: json["pushHubName"] ?? "",
     options: json["options"] ?? ""
+  );
+
+  factory Empresa.empty() => Empresa(
+      registroId: "",
+      nombre: "",
+      dominio: "",
+      mision: "",
+      vision: "",
+      correoServicio: "",
+      correoVentas: "",
+      paginaWeb: "",
+      telefonoOficina: "",
+      telefonoVentas: "",
+      twitter: "",
+      facebook: "",
+      instagram: "",
+      urlServidor: "",
+      webServiceUrl: "",
+      registerUrl: "",
+      tokenId: "",
+      calculadoraDesde: "",
+      calculadoraHasta: "",
+      calculadoraProducto: "",
+      hasPointsModule: false,
+      hasAutobuses: false,
+      hasPreguntas: false,
+      hasPaymentsModule: false,
+      hasNotifyModule: false,
+      hasDelivery: false,
+      minDistanceToNotify: 0,
+      erp: 0,
+      deleted: false,
+      clientId: "",
+      clientSecret: "",
+      pushHubEndpoint: "",
+      pushHubName: "",
+      options: ""
   );
 
   Map<String, dynamic> toJson() => {

@@ -1,10 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 import '../appinfo.dart';
 
 class EncargopaqAppInfo implements AppInfo {
-
+  @override
+  // TODO: implement appFirebaseOptions
+  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
   @override
   String defaultLocale = 'es';
   @override

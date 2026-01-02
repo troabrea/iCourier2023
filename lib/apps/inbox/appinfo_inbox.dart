@@ -1,12 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/inbox/firebase_options_inbox.dart';
 
 import '../appinfo.dart';
 
 class InboxAppInfo implements AppInfo {
-
+  @override
+  // TODO: implement appFirebaseOptions
+  FirebaseOptions get appFirebaseOptions => InboxDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override
@@ -144,7 +148,7 @@ class InboxAppInfo implements AppInfo {
           actionsIconTheme: const IconThemeData(color: Colors.white),
           titleTextStyle: GoogleFonts.montserrat( fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
           backgroundColor: primaryColor.darken(10),
-          foregroundColor: const Color(0xff8CC9F8)
+          foregroundColor: const Color(0xfff9f9f9)
       );
     }
 

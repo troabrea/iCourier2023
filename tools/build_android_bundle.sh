@@ -28,4 +28,5 @@
 #fvm flutter build appbundle -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot
 #fvm flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
 #fvm flutter build appbundle -t lib/apps/telo/main_telo.dart --flavor telo
-fvm flutter build appbundle -t lib/apps/arribex/main_arribex.dart --flavor arribex
+#fvm flutter build appbundle -t lib/apps/arribex/main_arribex.dart --flavor arribex
+fvm flutter build appbundle -t lib/apps/atiempo/main_atiempo.dart --flavor atiempo

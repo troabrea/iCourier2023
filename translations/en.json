@@ -154,5 +154,7 @@
   "seguro_pagar_en_linea": "Are you sure you want to play online now?",
   "donde_notificar_retiro": "Where will you pickup you packages?",
   "seguro_notificar_retiro":"Notify package(s) pickup now?",
-  "recibira_n_paquetes" : "You will receive {} package(s)"
+  "recibira_n_paquetes" : "You will receive {} package(s)",
+  "encuesta_disponible": "Survey available, do you wish to fill it now?",
+  "recargar" : "Retry"
 }

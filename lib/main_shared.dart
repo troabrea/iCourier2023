@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/cargospot/firebase_options_cargospot.dart';
 import 'package:icourier/helpers/appcenter.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 import 'apps/appinfo.dart';
@@ -90,8 +91,8 @@ Future<void> mainShared(AppInfo _appInfo)  async {
     }
   }
 
+  await Firebase.initializeApp(options: appInfo.appFirebaseOptions);
 
-  await Firebase.initializeApp();
   await setupFlutterNotifications(appInfo.pushChannelTopic);
   var token =  await FirebaseMessaging.instance.getAPNSToken();
   FirebaseMessaging.instance.requestPermission();

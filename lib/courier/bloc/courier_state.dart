@@ -10,6 +10,12 @@ class CourierIsBusyState extends CourierState{
   List<Object> get props => [];
 }
 
+class CourierIsErrorState extends CourierState{
+  @override
+  // AppCenter.track
+  List<Object> get props => [];
+}
+
 class CourierIsLoggedState extends CourierState{
   const CourierIsLoggedState();
   @override

@@ -7,7 +7,6 @@ import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
@@ -262,34 +261,58 @@ class CourierService {
     return preguntaFromJson(jsonData);
   }
 
-  Future<Empresa> getEmpresa({bool ignoreCache = false, bool forceFirstTime = false}) async {
-    if(ignoreCache) {
-      cache.destroy('empresa');
-    }
-    if(forceFirstTime) {
-      firstTime = true;
-    }
-    if(firstTime) {
-      firstTime = false;
-      await _refreshEmpresa();
-    }
+  Future<Empresa> getEmpresa({bool ignoreCache = false, bool forceFirstTime = false, bool retryEmtpy = false}) async {
 
-    var jsonData = await cache.remember('empresa', () async {
-      final response = await get(Uri.parse(
-          "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
-          //"https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
-      optionsMap = null;
-      return response.body;
-    });
-    var result = empresaFromJson(jsonData);
-    if(optionsMap == null) {
       try {
-        optionsMap = json.decode(result.options);
-      } catch (e) {
-        optionsMap = <String,dynamic>{};
+        if(ignoreCache) {
+          cache.destroy('empresa');
+        }
+
+        if(forceFirstTime) {
+          firstTime = true;
+        }
+
+        if(firstTime) {
+          firstTime = false;
+          await _refreshEmpresa();
+        }
+
+        var jsonData = await cache.remember('empresa', () async {
+          final response = await get(Uri.parse(
+            "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
+            //  "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVgpo"));
+          //"https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
+
+          if(response.statusCode < 200 || response.statusCode >= 300) {
+            throw Exception(response.reasonPhrase ?? "Error: ${response.statusCode}" );
+          }
+
+          optionsMap = null;
+          return response.body;
+        });
+
+
+        var result = empresaFromJson(jsonData);
+
+
+        if(optionsMap == null) {
+          try {
+            optionsMap = json.decode(result.options);
+          } catch (e) {
+            optionsMap = <String,dynamic>{};
+          }
+        }
+        return result;
+      } catch(ex) {
+        if(retryEmtpy) {
+          return Empresa.empty();
+        }
+        rethrow;
       }
-    }
-    return result;
+
+
+
+
   }
 
   Future<void> _refreshEmpresa() async {
@@ -521,20 +544,20 @@ class CourierService {
     });
 
     // Update Batch
-    try {
-      bool res = await FlutterAppBadger.isAppBadgeSupported();
-      if (res) {
-        var available = result.where((x) => x.disponible == true).length;
-        if( available > 0) {
-          FlutterAppBadger.updateBadgeCount(available);
-        } else {
-          FlutterAppBadger.removeBadge();
-        }
-      }
-    } catch (e) {
-      //
-      debugPrint('Failed to determine badge support');
-    }
+    // try {
+    //   bool res = await FlutterAppBadger.isAppBadgeSupported();
+    //   if (res) {
+    //     var available = result.where((x) => x.disponible == true).length;
+    //     if( available > 0) {
+    //       FlutterAppBadger.updateBadgeCount(available);
+    //     } else {
+    //       FlutterAppBadger.removeBadge();
+    //     }
+    //   }
+    // } catch (e) {
+    //   //
+    //   debugPrint('Failed to determine badge support');
+    // }
 
 
     //
@@ -713,15 +736,15 @@ class CourierService {
     await cache.write('userFotoPerfil', "");
   
     // Clear application badge
-    try {
-      bool res = await FlutterAppBadger.isAppBadgeSupported();
-      if (res) {
-        FlutterAppBadger.removeBadge();
-      }
-    } catch (e) {
-      //
-      debugPrint('Failed to determine badge support');
-    }
+    // try {
+    //   bool res = await FlutterAppBadger.isAppBadgeSupported();
+    //   if (res) {
+    //     FlutterAppBadger.removeBadge();
+    //   }
+    // } catch (e) {
+    //   //
+    //   debugPrint('Failed to determine badge support');
+    // }
   }
 
   Future<void> resetPassword(String cuenta, String email) async {

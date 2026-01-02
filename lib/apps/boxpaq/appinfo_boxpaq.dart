@@ -1,10 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 import '../appinfo.dart';
+import 'firebase_options_boxpaq.dart';
 
 class BoxpaqAppInfo implements AppInfo {
-
+  @override
+  // TODO: implement appFirebaseOptions
+  FirebaseOptions get appFirebaseOptions => BoxpaqDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

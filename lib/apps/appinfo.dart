@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppInfo
@@ -18,4 +19,5 @@ abstract class AppInfo
   String get currencyCode;
   ThemeData getLightTheme();
   ThemeData getDarkTheme();
+  FirebaseOptions get appFirebaseOptions;
  }

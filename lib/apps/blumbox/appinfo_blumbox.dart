@@ -1,12 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/blumbox/firebase_options_blumbox.dart';
 
 import '../appinfo.dart';
 
 class BlumBoxAppInfo implements AppInfo {
 
+  @override
+  // TODO: implement appFirebaseOptions
+  FirebaseOptions get appFirebaseOptions => BlumboxDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

@@ -57,7 +57,7 @@
   "iniciar_sesión": "Iniciar Sesión",
   "no_eres_cliente" : "¿Aún no eres cliente? - ",
   "aun_no_eres_cliente" : "¿Aún no eres cliente?",
-  "conoce_mas_aqui" : "Crealá aquí.",
+  "conoce_mas_aqui" : "Créala aquí.",
   "correo_electronico": "Correo electrónico",
   "correo_registrado": "Debe digitar el correo registrado en su cuenta.",
   "cancelar": "Cancelar",
@@ -155,6 +155,8 @@
   "tutor_adicional_2": "Conozca nuestras tarifas y solicite de nuestra asistencia.",
  "seguro_pagar_en_linea": "Seguro que desea realizar el pago en linea?",
   "donde_notificar_retiro": "Donde desea hacer el retiro?",
-  "seguro_notificar_retiro":"Seguro que desea notificar el retiro de sus paquetes disponibles?"
+  "seguro_notificar_retiro":"Seguro que desea notificar el retiro de sus paquetes disponibles?",
+  "encuesta_disponible": "Encuesta disponible, desea completarla ahora?",
+  "recargar" : "Reintentar"
 
 }
