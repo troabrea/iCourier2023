@@ -1,14 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/adicional/appbrowser.dart';
-import 'package:icourier/services/model/empresa.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import '../../services/courier_service.dart';
 
 import '../apps/appinfo.dart';
@@ -42,9 +40,14 @@ class _CourierPageState extends State<CourierPage> {
   }
   Future<void> _configureWithProfile() async {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
-    Posthog().identify(userId: '${appInfo.metricsPrefixKey}_${userProfile.cuenta}',userProperties:  {
-      "courier": appInfo.metricsPrefixKey
-    });
+    // Posthog().identify(userId: '${appInfo.metricsPrefixKey}_${userProfile.cuenta}',userProperties:  {
+    //   "courier": appInfo.metricsPrefixKey
+    // });
+    FirebaseAnalytics.instance.setUserId(id: '${appInfo.metricsPrefixKey}_${userProfile.cuenta}');
+    // FirebaseAnalytics.instance.logLogin(loginMethod: 'UserPassword', parameters: {
+    //   "userId" : '${appInfo.metricsPrefixKey}_${userProfile.cuenta}',
+    //   "courier" : appInfo.metricsPrefixKey
+    // });
     setState(() {
       hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
     });

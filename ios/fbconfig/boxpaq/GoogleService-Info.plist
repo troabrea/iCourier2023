@@ -17,7 +17,7 @@
 	<key>PROJECT_ID</key>
 	<string>icourier2023</string>
 	<key>STORAGE_BUCKET</key>
-	<string>icourier2023.appspot.com</string>
+	<string>icourier2023.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>

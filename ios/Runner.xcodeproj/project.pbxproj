@@ -1924,7 +1924,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2015,7 +2015,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2103,7 +2103,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3012,7 +3012,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3103,7 +3103,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3191,7 +3191,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3808,7 +3808,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Cargowise Courier";
+				APP_DISPLAY_NAME = cargowise;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargowise";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
@@ -3828,7 +3828,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargowise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3899,7 +3899,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Cargowise Courier";
+				APP_DISPLAY_NAME = cargowise;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargowise";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
@@ -3919,7 +3919,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargowise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3987,7 +3987,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = "Cargowise Courier";
+				APP_DISPLAY_NAME = cargowise;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-cargowise";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
@@ -4007,7 +4007,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.8.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargowise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4100,7 +4100,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.taino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4191,7 +4191,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.taino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4279,7 +4279,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.taino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4916,7 +4916,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5007,7 +5007,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5095,7 +5095,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5189,7 +5189,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5280,7 +5280,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5368,7 +5368,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5460,7 +5460,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5551,7 +5551,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5639,7 +5639,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5732,7 +5732,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5823,7 +5823,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5911,7 +5911,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.3;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6275,7 +6275,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6366,7 +6366,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6454,7 +6454,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6547,7 +6547,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6638,7 +6638,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6726,7 +6726,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7635,7 +7635,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7726,7 +7726,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7814,7 +7814,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7907,7 +7907,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7998,7 +7998,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8086,7 +8086,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8179,7 +8179,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8270,7 +8270,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8358,7 +8358,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8451,7 +8451,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8542,7 +8542,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8630,7 +8630,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8722,7 +8722,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8813,7 +8813,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8901,7 +8901,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9810,7 +9810,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9901,7 +9901,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9989,7 +9989,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.0;
+				MARKETING_VERSION = 2025.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

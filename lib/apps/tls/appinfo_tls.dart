@@ -2,13 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/tls/firebase_options_tls.dart';
 
 import '../appinfo.dart';
 
 class TlsAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => TlsDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override
@@ -35,7 +36,7 @@ class TlsAppInfo implements AppInfo {
   String get iphoneAnalyticsAppId => "d865fffd-b98e-418f-a13f-f380ca7a292a";
 
   @override
-  String get companyId => "a2695534-9b0d-424f-949c-bb9d5cb453ce";
+  String get companyId => "a2695534-9b0d-424f-949c-bb9d5cb453ce"; //"6b595d5d-98d2-4e5f-b9de-5ddb03774e95";// "a2695534-9b0d-424f-949c-bb9d5cb453ce";
 
   @override
   String get metricsPrefixKey => "TLS";

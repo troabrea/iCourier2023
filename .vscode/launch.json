@@ -1,0 +1,236 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Almapaq",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/almapac/main_almapaq.dart",
+      "args": ["--flavor", "almapaq"]
+    },
+    {
+      "name": "Arribex",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/arribex/main_arribex.dart",
+      "args": ["--flavor", "arribex"]
+    },
+    {
+      "name": "Atiempo",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/atiempo/main_atiempo.dart",
+      "args": ["--flavor", "atiempo"]
+    },
+    {
+      "name": "BMCargo",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/bmcargo/main_bmcargo.dart",
+      "args": ["--flavor", "bmcargo"]
+    },
+    {
+      "name": "Beexpress",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/beexpress/main_beexpress.dart",
+      "args": ["--flavor", "beexpress"]
+    },
+    {
+      "name": "Blumbox",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/blumbox/main_blumbox.dart",
+      "args": ["--flavor", "blumbox"]
+    },
+    {
+      "name": "Boxpaq",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/boxpaq/main_boxpaq.dart",
+      "args": ["--flavor", "boxpaq"]
+    },
+    {
+      "name": "Cainca",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/cainca/main_cainca.dart",
+      "args": ["--flavor", "cainca"]
+    },
+    {
+      "name": "Cargospot",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/cargospot/main_cargospot.dart",
+      "args": ["--flavor", "cargospot"]
+    },
+    {
+      "name": "Cargowise",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/cargowise/main_cargowise.dart",
+      "args": ["--flavor", "cargowise"]
+    },
+    {
+      "name": "Caribepack",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/caribepack/main_caribepack.dart",
+      "args": ["--flavor", "caribepack"]
+    },
+    {
+      "name": "Clickpack",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/clickpack/main_clickpack.dart",
+      "args": ["--flavor", "clickpack"]
+    },
+    {
+      "name": "Cps",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/cps/main_cps.dart",
+      "args": ["--flavor", "cps"]
+    },
+    {
+      "name": "Domex",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/domex/main_domex.dart",
+      "args": ["--flavor", "domex"]
+    },
+    {
+      "name": "Ecopaq",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/ecopaq/main_ecopaq.dart",
+      "args": ["--flavor", "ecopaq"]
+    },
+    {
+      "name": "Encargopaq",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/encargopaq/main_encargopaq.dart",
+      "args": ["--flavor", "encargopaq"]
+    },
+    {
+      "name": "Fixocargo",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/fixocargo/main_fixocargo.dart",
+      "args": ["--flavor", "fixocargo"]
+    },
+    {
+      "name": "Flypack",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/flypack/main_flypack.dart",
+      "args": ["--flavor", "flypack"]
+    },
+    {
+      "name": "Gopack",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/gopack/main_gopack.dart",
+      "args": ["--flavor", "gopack"]
+    },
+    {
+      "name": "Inbox",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/inbox/main_inbox.dart",
+      "args": ["--flavor", "inbox"]
+    },
+    {
+      "name": "Jetpack",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/jetpack/main_jetpack.dart",
+      "args": ["--flavor", "jetpack"]
+    },
+    {
+      "name": "Mcccargo",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/mcccargo/main_mcccargo.dart",
+      "args": ["--flavor", "mcccargo"]
+    },
+    {
+      "name": "Picknsend",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/pns/main_pns.dart",
+      "args": ["--flavor", "picknsend"]
+    },
+    {
+      "name": "Pintopaq",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/pintopaq/main_pintopaq.dart",
+      "args": ["--flavor", "pintopaq"]
+    },
+    {
+      "name": "Priority",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/priority/main_priority.dart",
+      "args": ["--flavor", "priority"]
+    },
+    {
+      "name": "Qm",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/qm/main_qm.dart",
+      "args": ["--flavor", "qm"]
+    },
+    {
+      "name": "Skyhigh",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/skyhigh/main_skyhigh.dart",
+      "args": ["--flavor", "skyhigh"]
+    },
+    {
+      "name": "Swoop",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/swoop/main_swoop.dart",
+      "args": ["--flavor", "swoop"]
+    },
+    {
+      "name": "Taino",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/taino/main_taino.dart",
+      "args": ["--flavor", "taino"]
+    },
+    {
+      "name": "Tdexpress",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/tdexpress/main_tdexpress.dart",
+      "args": ["--flavor", "tdexpress"]
+    },
+    {
+      "name": "Telo",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/telo/main_telo.dart",
+      "args": ["--flavor", "telo"]
+    },
+    {
+      "name": "Tls",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/tls/main_tls.dart",
+      "args": ["--flavor", "tls"]
+    },
+    {
+      "name": "Tupaq",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/apps/tupaq/main_tupaq.dart",
+      "args": ["--flavor", "tupaq"]
+    }
+  ]
+}

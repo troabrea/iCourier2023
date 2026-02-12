@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../appinfo.dart';
+import 'firebase_options_cainca.dart';
 
 class CaincaAppInfo implements AppInfo {
   @override
-  // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => CaincaDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options_arribex.dart';
+/// import 'firebase_options.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -54,7 +54,7 @@ class BoxpaqDefaultFirebaseOptions {
     appId: '1:352418709495:android:19578e93f32ed2d783b8f2',
     messagingSenderId: '352418709495',
     projectId: 'icourier2023',
-    storageBucket: 'icourier2023.appspot.com',
+    storageBucket: 'icourier2023.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -62,7 +62,7 @@ class BoxpaqDefaultFirebaseOptions {
     appId: '1:352418709495:ios:f750dec8107b653483b8f2',
     messagingSenderId: '352418709495',
     projectId: 'icourier2023',
-    storageBucket: 'icourier2023.appspot.com',
+    storageBucket: 'icourier2023.firebasestorage.app',
     iosBundleId: 'com.barolit.boxpaq',
   );
 }

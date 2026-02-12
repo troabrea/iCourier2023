@@ -2,13 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/cps/firebase_options_cps.dart';
 
 import '../appinfo.dart';
 
 class CpsAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => CpsDefaultFirebaseOptions.currentPlatform;
 
   @override
   String defaultLocale = 'es';

@@ -1,14 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:icourier/apps/almapac/firebase_options_almapaq.dart';
 
 import '../appinfo.dart';
 
 class AlmapaqAppInfo implements AppInfo {
 
   @override
-  // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => AlmapaqDefaultFirebaseOptions.currentPlatform;
 
   @override
   String defaultLocale = 'es';

@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "352418709495",
     "project_id": "icourier2023",
-    "storage_bucket": "icourier2023.appspot.com"
+    "storage_bucket": "icourier2023.firebasestorage.app"
   },
   "client": [
     {

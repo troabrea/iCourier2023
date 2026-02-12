@@ -1,5 +1,8 @@
 plugins {
     id("com.android.application")
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services")
+    // END: FlutterFire Configuration
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
@@ -85,42 +88,42 @@ android {
         create("domex") {
             dimension = "app"
             applicationId = "com.barolit.domex"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("bmcargo") {
             dimension = "app"
             applicationId = "com.barolit.bmcargo"
-            versionCode = 5202502
+            versionCode = 5202605
         }
         create("jetpack") {
             dimension = "app"
             applicationId = "com.barolit.jetpack"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("almapaq") {
             dimension = "app"
             applicationId = "com.barolit.almapaq"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("beexpress") {
             dimension = "app"
             applicationId = "com.barolit.beexpress"
-            versionCode = 5202510
+            versionCode = 5202601
         }
         create("boxpaq") {
             dimension = "app"
             applicationId = "com.barolit.boxpaq"
-            versionCode = 5202510
+            versionCode = 5202601
         }
         create("encargopaq") {
             dimension = "app"
             applicationId = "com.barolit.encargopaq"
-            versionCode = 5202502
+            versionCode = 5202601
         }
         create("pintopaq") {
             dimension = "app"
             applicationId = "com.barolit.pintopaq"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("caribepack") {
             dimension = "app"
@@ -129,7 +132,7 @@ android {
         create("tls") {
             dimension = "app"
             applicationId = "com.barolit.tls"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("cps") {
             dimension = "app"
@@ -214,30 +217,26 @@ android {
         create("taino") {
             dimension = "app"
             applicationId = "com.barolit.taino"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("fixocargo") {
             dimension = "app"
             applicationId = "com.barolit.fixocargo"
-            versionCode = 5202501
+            versionCode = 5202601
         }
         create("picknsend") {
             dimension = "app"
             applicationId = "com.barolit.picknsend"
-            versionCode = 5202501
+            versionCode = 5202601
         }
     }
 
     buildTypes {
         // getByName("release") is used to modify the standard 'release' build type
         getByName("release") {
-            // Assignment must use the '=' operator.
-            signingConfig = signingConfigs.getByName("release")
-
-            // Note: Kotlin comments are still //
-            // signingConfig = signingConfigs.getByName("codemagic")
-            // signingConfig = signingConfigs.getByName("recent")
-            // signingConfig = signingConfigs.getByName("legacy")
+//            signingConfig = signingConfigs.getByName("release")
+//             signingConfig = signingConfigs.getByName("recent")
+             signingConfig = signingConfigs.getByName("legacy")
         }
     }
 }

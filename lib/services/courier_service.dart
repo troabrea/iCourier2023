@@ -20,7 +20,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
 import '../../services/model/calculadora_model.dart';
 import '../../services/model/notificarretiro_model.dart';
 import '../../services/model/postalerta_model.dart';
@@ -70,35 +69,51 @@ List<Sucursal> sucursalFromJson(String str) =>
 String sucursalToJson(List<Sucursal> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-List<Pregunta> preguntaFromJson(String str) => List<Pregunta>.from(json.decode(str).map((x) => Pregunta.fromJson(x)));
+List<Pregunta> preguntaFromJson(String str) =>
+    List<Pregunta>.from(json.decode(str).map((x) => Pregunta.fromJson(x)));
 
-String preguntaToJson(List<Pregunta> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String preguntaToJson(List<Pregunta> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 Empresa empresaFromJson(String str) => Empresa.fromJson(json.decode(str));
 
 String empresaToJson(Pregunta data) => json.encode(data.toJson());
 
-List<CalculadoraResponse> calculadoraResponseFromJson(String str) => List<CalculadoraResponse>.from(json.decode(str).map((x) => CalculadoraResponse.fromJson(x)));
+List<CalculadoraResponse> calculadoraResponseFromJson(String str) =>
+    List<CalculadoraResponse>.from(
+        json.decode(str).map((x) => CalculadoraResponse.fromJson(x)));
 
-List<EstadoResponse> estadoResponseFromJson(String str) => List<EstadoResponse>.from(json.decode(str).map((x) => EstadoResponse.fromJson(x)));
+List<EstadoResponse> estadoResponseFromJson(String str) =>
+    List<EstadoResponse>.from(
+        json.decode(str).map((x) => EstadoResponse.fromJson(x)));
 
-String calculadoraResponseToJson(List<CalculadoraResponse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String calculadoraResponseToJson(List<CalculadoraResponse> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-String calculadoraRequestToJson(List<CalculadoraRequest> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String calculadoraRequestToJson(List<CalculadoraRequest> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-LoginResult loginResponseFromJson(String str) => LoginResult.fromJson(json.decode(str));
+LoginResult loginResponseFromJson(String str) =>
+    LoginResult.fromJson(json.decode(str));
 
-List<Recepcion> recepcionFromJson(String str) => List<Recepcion>.from(json.decode(str).map((x) => Recepcion.fromJson(x)));
+List<Recepcion> recepcionFromJson(String str) =>
+    List<Recepcion>.from(json.decode(str).map((x) => Recepcion.fromJson(x)));
 
-LoginResult userProfileFromJson(String str) => LoginResult.fromJson(json.decode(str));
+LoginResult userProfileFromJson(String str) =>
+    LoginResult.fromJson(json.decode(str));
 
-List<UserAccount> userAccountsFromJson(String str) => List<UserAccount>.from(json.decode(str).map((x) => UserAccount.fromJson(x)));
-String userAccountsToJson(List<UserAccount> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+List<UserAccount> userAccountsFromJson(String str) => List<UserAccount>.from(
+    json.decode(str).map((x) => UserAccount.fromJson(x)));
+String userAccountsToJson(List<UserAccount> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-List<Producto> productoFromJson(String str) => List<Producto>.from(json.decode(str).map((x) => Producto.fromJson(x)));
-String productoToJson(List<Producto> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+List<Producto> productoFromJson(String str) =>
+    List<Producto>.from(json.decode(str).map((x) => Producto.fromJson(x)));
+String productoToJson(List<Producto> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-List<PreAlertaDto> prealertasFromJson(String str) => List<PreAlertaDto>.from(json.decode(str).map((x) => PreAlertaDto.fromJson(x)));
+List<PreAlertaDto> prealertasFromJson(String str) => List<PreAlertaDto>.from(
+    json.decode(str).map((x) => PreAlertaDto.fromJson(x)));
 
 enum ShortCutToRun {
   NOTIFICARRETIRO,
@@ -110,7 +125,8 @@ enum ShortCutToRun {
 
 class CourierService {
   late String companyId;
-  late AppInfo appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
+  late AppInfo
+      appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
   bool firstTime = true;
   ShortCutToRun shortCutToRun = ShortCutToRun.NONE;
   Map? optionsMap;
@@ -120,7 +136,7 @@ class CourierService {
   }
 
   Future<List<Noticia>> getNoticias(bool ignoreCache) async {
-    if(ignoreCache) {
+    if (ignoreCache) {
       cache.destroy('noticias');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
@@ -128,7 +144,7 @@ class CourierService {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/noticias/$companyId?code=_n9tPF7n6ipJa1pdVwjE1HkwBM2GFFX9x1xtyonGr-3lAzFuWf1yGw=="
           //"https://icourierfunctions.azurewebsites.net/api/noticias/$companyId?code=X3szWXfFCm2QfbebJIDsWIYGVxmqCJtPvIRgLK4cqzdxVQanXaJoaw=="
-      ));
+          ));
 
       return response.body;
     }, 60 * 20);
@@ -136,14 +152,14 @@ class CourierService {
   }
 
   Future<List<Producto>> getProductos(bool ignoreCache) async {
-    if(ignoreCache) {
+    if (ignoreCache) {
       cache.destroy('productos');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PRODUCTOS");
     var jsonData = await cache.remember('productos', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/productos/$companyId?code=-PG1iVKL1Uz4hl-Hr7ngl4djLHEyEYfd_Eg2Ub9w1c7MAzFu0MFcGA=="));
-          //"https://icourierfunctions.azurewebsites.net/api/productos/$companyId?code=YgH3eocpwnKeq23us7yRp95a8xwWC4fTjXwmJNlwCzBZCsmInv0mnQ=="));
+      //"https://icourierfunctions.azurewebsites.net/api/productos/$companyId?code=YgH3eocpwnKeq23us7yRp95a8xwWC4fTjXwmJNlwCzBZCsmInv0mnQ=="));
       return response.body;
     }, 60 * 20);
     return productoFromJson(jsonData);
@@ -151,20 +167,21 @@ class CourierService {
 
   Future<List<Servicio>> getServicios(bool ignoreCache) async {
     ignoreCache = true;
-    if(ignoreCache) {
+    if (ignoreCache) {
       cache.destroy('servicios');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SERVICIOS");
     var jsonData = await cache.remember('servicios', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/servicios/$companyId?code=LzA3Hq-PvVbdiWbdLkzSJ3XG6zPiCTznrhpOtW-eb9MgAzFuw5g9Cg=="));
-          //"https://icourierfunctions.azurewebsites.net/api/servicios/$companyId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
+      //"https://icourierfunctions.azurewebsites.net/api/servicios/$companyId?code=g7YCaekeaJa8aTrOaovkPDOaMQ44pmmMcgkbs5QZJN8njhpxTQFJUw=="));
       return response.body;
     }, 60 * 20);
     return servicioFromJson(jsonData);
   }
 
-  Future<List<BannerImage>> getBanners({bool hideIfLogged = false, bool ignoreCache = false}) async {
+  Future<List<BannerImage>> getBanners(
+      {bool hideIfLogged = false, bool ignoreCache = false}) async {
     if (hideIfLogged) {
       var sessionId = (await cache.load('sessionId', ''))
           .toString(); //  prefs.getString('sessionId');
@@ -172,81 +189,96 @@ class CourierService {
         return <BannerImage>[].toList();
       }
     }
-    if(ignoreCache) {
+    if (ignoreCache) {
       cache.destroy('banners');
     }
     var jsonData = await cache.remember('banners', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/banners/$companyId?code=fpFuqeZ91UzYpzeIGnUrsnwmm1nR4bWFW-k0pdYHTgKOAzFu_7ZUkg=="));
-          //"https://icourierfunctions.azurewebsites.net/api/banners/$companyId?code=OMjjM8DkJSlKfsKAoLEiC8W0nh1rDIvYVfLcuWQGXB1XVyqXD04/dw=="));
+      //"https://icourierfunctions.azurewebsites.net/api/banners/$companyId?code=OMjjM8DkJSlKfsKAoLEiC8W0nh1rDIvYVfLcuWQGXB1XVyqXD04/dw=="));
       return response.body;
     }, 60 * 20);
     return bannerFromJson(jsonData);
   }
+
   Future<List<Mensaje>> getMensajes({bool ignoreCache = false}) async {
-    if(ignoreCache) {
+    if (ignoreCache) {
       cache.destroy('mensajes');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_MENSAJES");
     var jsonData = await cache.remember('mensajes', () async {
       const sucursal = '_';
-      final url = "https://icourierfunctions2023.azurewebsites.net/api/mensajes/$companyId/$sucursal?code=sgsbr3vJyIYTiYoOA3GlDz3ESL8eq6O3PGEbmaLddpg9AzFuivejSw==";
+      final url =
+          "https://icourierfunctions2023.azurewebsites.net/api/mensajes/$companyId/$sucursal?code=sgsbr3vJyIYTiYoOA3GlDz3ESL8eq6O3PGEbmaLddpg9AzFuivejSw==";
 
       final response = await get(Uri.parse(url));
 
       return response.body;
     }, 60 * 20);
 
-    final mensajes = mensajeFromJson(jsonData).where((element) => element.fecha.isAfter(DateTime.now().subtract(const Duration(days: 30)))).toList();
-    final readMessagesRaw = (await cache.load("messages_leidos", "")).toString();
-    final readMessages =  readMessagesRaw.split(",").toList();
+    final mensajes = mensajeFromJson(jsonData)
+        .where((element) => element.fecha
+            .isAfter(DateTime.now().subtract(const Duration(days: 30))))
+        .toList();
+    final readMessagesRaw =
+        (await cache.load("messages_leidos", "")).toString();
+    final readMessages = readMessagesRaw.split(",").toList();
     readMessages.forEach((readMessageId) {
-      final mensaje = mensajes.firstWhereOrNull((element) => element.registroId == readMessageId);
-      if(mensaje != null) {
+      final mensaje = mensajes
+          .firstWhereOrNull((element) => element.registroId == readMessageId);
+      if (mensaje != null) {
         mensaje.read = true;
       }
     });
-    final unReadMessages = mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
-    GetIt.I<event.Event<UnreadMessagesChanged>>().broadcast(UnreadMessagesChanged(unReadMessages.length));
+    final unReadMessages =
+        mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
+    GetIt.I<event.Event<UnreadMessagesChanged>>()
+        .broadcast(UnreadMessagesChanged(unReadMessages.length));
     return mensajes;
   }
 
   Future<void> setMessagesRead(List<String> mensajesToMark) async {
-    if(mensajesToMark.isEmpty) return;
+    if (mensajesToMark.isEmpty) return;
     //
-    final readMessagesRaw = (await cache.load("messages_leidos", "")).toString();
-    final readMessages =  readMessagesRaw.split(",").toList();
+    final readMessagesRaw =
+        (await cache.load("messages_leidos", "")).toString();
+    final readMessages = readMessagesRaw.split(",").toList();
     readMessages.addAll(mensajesToMark);
     final newReadMessages = readMessages.toSet().toList();
     await cache.write("messages_leidos", newReadMessages.join(","));
     final mensajes = await getMensajes();
     for (var readMessageId in newReadMessages) {
-      final mensaje = mensajes.firstWhereOrNull((element) => element.registroId == readMessageId);
-      if(mensaje != null) {
+      final mensaje = mensajes
+          .firstWhereOrNull((element) => element.registroId == readMessageId);
+      if (mensaje != null) {
         mensaje.read = true;
       }
     }
-    final unReadMessages = mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
-    GetIt.I<event.Event<UnreadMessagesChanged>>().broadcast(UnreadMessagesChanged(unReadMessages.length));
+    final unReadMessages =
+        mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
+    GetIt.I<event.Event<UnreadMessagesChanged>>()
+        .broadcast(UnreadMessagesChanged(unReadMessages.length));
   }
 
-  Future<List<Sucursal>> getSucursales(bool ignoreCache) async {
-    if(ignoreCache) {
+  Future<List<Sucursal>> getSucursales(bool ignoreCache, {bool trackEvent = true}) async {
+    if (ignoreCache) {
       cache.destroy('sucursales');
     }
-    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
+    if(trackEvent) {
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
+    }
     var jsonData = await cache.remember('sucursales', () async {
-      final url = "https://icourierfunctions2023.azurewebsites.net/api/sucursales/$companyId?code=fM2zwJ-r5lxSzqmDKNIPuhr_F9Bp20rVSKpnm0_uwIoJAzFue_-i3A==";
-      final response = await get(Uri.parse(url
-          ));
-          //"https://icourierfunctions.azurewebsites.net/api/sucursales/$companyId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
+      final url =
+          "https://icourierfunctions2023.azurewebsites.net/api/sucursales/$companyId?code=fM2zwJ-r5lxSzqmDKNIPuhr_F9Bp20rVSKpnm0_uwIoJAzFue_-i3A==";
+      final response = await get(Uri.parse(url));
+      //"https://icourierfunctions.azurewebsites.net/api/sucursales/$companyId?code=l9nBF9apVrNVHLBb4seWuVN1Do7HPlSIIaZhjMCq7IW3wNknz3gdJQ=="));
       return response.body;
     }, 60 * 20);
     return sucursalFromJson(jsonData);
   }
 
   Future<List<Pregunta>> getPreguntas(bool ignoreCache) async {
-    if(ignoreCache) {
+    if (ignoreCache) {
       cache.destroy('preguntas');
     }
 
@@ -255,64 +287,61 @@ class CourierService {
     var jsonData = await cache.remember('preguntas', () async {
       final response = await get(Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/preguntas/$companyId?code=uij0AAno9gRDvYnZkQlMPTeo9olKXhhcIkG-TFaWZ_O9AzFuX2X5NA=="));
-          //"https://icourierfunctions.azurewebsites.net/api/preguntas/$companyId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
+      //"https://icourierfunctions.azurewebsites.net/api/preguntas/$companyId?code=UCr6KrTYCBAf8DKJ/7oGNoRVauZtPByH/ocWH/yFA5gh0j0ZxwR6ow=="));
       return response.body;
     }, 60 * 20);
     return preguntaFromJson(jsonData);
   }
 
-  Future<Empresa> getEmpresa({bool ignoreCache = false, bool forceFirstTime = false, bool retryEmtpy = false}) async {
-
-      try {
-        if(ignoreCache) {
-          cache.destroy('empresa');
-        }
-
-        if(forceFirstTime) {
-          firstTime = true;
-        }
-
-        if(firstTime) {
-          firstTime = false;
-          await _refreshEmpresa();
-        }
-
-        var jsonData = await cache.remember('empresa', () async {
-          final response = await get(Uri.parse(
-            "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
-            //  "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVgpo"));
-          //"https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
-
-          if(response.statusCode < 200 || response.statusCode >= 300) {
-            throw Exception(response.reasonPhrase ?? "Error: ${response.statusCode}" );
-          }
-
-          optionsMap = null;
-          return response.body;
-        });
-
-
-        var result = empresaFromJson(jsonData);
-
-
-        if(optionsMap == null) {
-          try {
-            optionsMap = json.decode(result.options);
-          } catch (e) {
-            optionsMap = <String,dynamic>{};
-          }
-        }
-        return result;
-      } catch(ex) {
-        if(retryEmtpy) {
-          return Empresa.empty();
-        }
-        rethrow;
+  Future<Empresa> getEmpresa(
+      {bool ignoreCache = false,
+      bool forceFirstTime = false,
+      bool retryEmtpy = false}) async {
+    try {
+      if (ignoreCache) {
+        cache.destroy('empresa');
       }
 
+      if (forceFirstTime) {
+        firstTime = true;
+      }
 
+      if (firstTime) {
+        firstTime = false;
+        await _refreshEmpresa();
+      }
 
+      var jsonData = await cache.remember('empresa', () async {
+        final response = await get(Uri.parse(
+            "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
+        //  "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVgpo"));
+        //"https://icourierfunctions.azurewebsites.net/api/empresa/$companyId?code=LZ6v34a6bVN5NQKM/I/IWUd9WujwKzrlWKJogP9EKKhQvapa7F5R0A=="));
 
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          throw Exception(
+              response.reasonPhrase ?? "Error: ${response.statusCode}");
+        }
+
+        optionsMap = null;
+        return response.body;
+      });
+
+      var result = empresaFromJson(jsonData);
+
+      if (optionsMap == null) {
+        try {
+          optionsMap = json.decode(result.options);
+        } catch (e) {
+          optionsMap = <String, dynamic>{};
+        }
+      }
+      return result;
+    } catch (ex) {
+      if (retryEmtpy) {
+        return Empresa.empty();
+      }
+      rethrow;
+    }
   }
 
   Future<void> _refreshEmpresa() async {
@@ -328,12 +357,16 @@ class CourierService {
   }
 
   Future<bool> empresaHasOption(String optionKey) async {
-    if(optionsMap == null || optionsMap!.isEmpty) return false;
+    if (optionsMap == null || optionsMap!.isEmpty) return false;
     return optionsMap!.containsKey(optionKey);
   }
 
   Future<String> empresaOptionValue(String optionKey) async {
-    if(optionsMap == null || optionsMap!.isEmpty || !optionsMap!.containsKey(optionKey)) return "";
+    if (optionsMap == null ||
+        optionsMap!.isEmpty ||
+        !optionsMap!.containsKey(optionKey)) {
+      return "";
+    }
     return optionsMap![optionKey].toString();
   }
 
@@ -342,27 +375,27 @@ class CourierService {
         "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
     var jsonData = response.body;
     var empresa = empresaFromJson(jsonData);
-
   }
 
   Future<void> _validateSession() async {
-    final sessionId = (await cache.load('sessionId','')).toString();
-    final userId = (await cache.load('userAccount','')).toString();
-    final password = (await cache.load('userPassword','')).toString();
-    final sucursal = (await cache.load('userSucursal','')).toString();
-    var loginResult = await getLoginResult(userId, password, checkForNew: false);
-    if(loginResult.sessionId.isEmpty || loginResult.sucursal != sucursal) {
+    final sessionId = (await cache.load('sessionId', '')).toString();
+    final userId = (await cache.load('userAccount', '')).toString();
+    final password = (await cache.load('userPassword', '')).toString();
+    final sucursal = (await cache.load('userSucursal', '')).toString();
+    var loginResult =
+        await getLoginResult(userId, password, checkForNew: false);
+    if (loginResult.sessionId.isEmpty || loginResult.sucursal != sucursal) {
       GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
       GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
     } else {
       await cache.write('sessionId', sessionId);
-      FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userId");
+      FirebaseMessaging.instance
+          .subscribeToTopic("${appInfo.pushChannelTopic}_${userId.replaceAll("@", "").replaceAll(".", "").replaceAll(" ", "")}");
     }
   }
 
   Future<Puntos> getPuntos() async {
-    var sessionId = (await cache.load('sessionId', ''))
-        .toString();
+    var sessionId = (await cache.load('sessionId', '')).toString();
 
     await _validateSession();
 
@@ -372,9 +405,9 @@ class CourierService {
     final jsonReq = jsonEncode(req);
     final response = await post(uri, body: jsonReq);
 
-    if(response.statusCode >= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       var puntos = Puntos.fromJson(json.decode(response.body));
-      if(await empresaHasOption("PointsRedemUrl")) {
+      if (await empresaHasOption("PointsRedemUrl")) {
         puntos.urlCanjeo = await empresaOptionValue("PointsRedemUrl");
       }
       return puntos;
@@ -384,8 +417,7 @@ class CourierService {
   }
 
   Future<List<EstadoResponse>> getEstadoCuenta() async {
-    var sessionId = (await cache.load('sessionId', ''))
-        .toString();
+    var sessionId = (await cache.load('sessionId', '')).toString();
 
     await _validateSession();
 
@@ -395,24 +427,22 @@ class CourierService {
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
 
-    if(response.statusCode >= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       final result = estadoResponseFromJson(response.body);
       return result.sorted((a, b) => b.diasVencidos.compareTo(a.diasVencidos));
     } else {
       return <EstadoResponse>[].toList();
     }
-
   }
 
-  Future<List<CalculadoraResponse>> getCalculadoraResult(double libras,
-      double valor, {String producto = ""}) async {
-
-    final sessionId = (await cache.load('sessionId', ''))
-        .toString();
+  Future<List<CalculadoraResponse>> getCalculadoraResult(
+      double libras, double valor,
+      {String producto = ""}) async {
+    final sessionId = (await cache.load('sessionId', '')).toString();
 
     var sucursalDestino = "";
 
-    if(sessionId.isNotEmpty) {
+    if (sessionId.isNotEmpty) {
       await _validateSession();
       final profile = await getUserProfile();
       sucursalDestino = profile.sucursal;
@@ -422,8 +452,9 @@ class CourierService {
 
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/calculadora?code=OXZ2S1poI-Un4oe8Eqe8GW-Jo0K77tHzYpJ1mC2mo-ZeAzFuXmN2IQ==");
-        //"https://icourierfunctions.azurewebsites.net/api/calculadora?code=UpOzDP0FHR4nhMaeqns1SzhmQuhFrzpZSlP1VVIui9HzAToeJ8ky5g==");
-    final req = CalculadoraRequest(empresaId: companyId,
+    //"https://icourierfunctions.azurewebsites.net/api/calculadora?code=UpOzDP0FHR4nhMaeqns1SzhmQuhFrzpZSlP1VVIui9HzAToeJ8ky5g==");
+    final req = CalculadoraRequest(
+        empresaId: companyId,
         sessionId: sessionId,
         producto: producto,
         hasta: sucursalDestino,
@@ -431,7 +462,7 @@ class CourierService {
         valorFob: valor);
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
-    if(response.statusCode >= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       final result = calculadoraResponseFromJson(response.body);
       return result;
     } else {
@@ -439,38 +470,45 @@ class CourierService {
     }
   }
 
-  Future<LoginResult> getLoginResult(String usuario, String clave, {bool checkForNew = true}) async
-  {
+  Future<LoginResult> getLoginResult(String usuario, String clave,
+      {bool checkForNew = true}) async {
     final req = LoginRequest(
         empresaId: companyId, userAccount: usuario, password: clave);
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/session?code=sLPGA2x_ZUOHZjnBBse61KVSLZSsI81kZAiS_yLK0e32AzFuyWaLyg==");
-        //"https://icourierfunctions.azurewebsites.net/api/session?code=ZlU5duHfxMjRUctLShLI0cvvJWdvKnT79YBfGF8UgjPThX4Et6RKJA==");
+    //"https://icourierfunctions.azurewebsites.net/api/session?code=ZlU5duHfxMjRUctLShLI0cvvJWdvKnT79YBfGF8UgjPThX4Et6RKJA==");
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
     //var bodyStr = response.body;
-    final result = (response.statusCode >= 200 && response.statusCode < 300) ? loginResponseFromJson(response.body) : LoginResult(sessionId: "", nombre: "", email: "", telefono: "", sucursal: "", fotoPerfilUrl: "");
-    if(result.sessionId.isNotEmpty && checkForNew) {
+    final result = (response.statusCode >= 200 && response.statusCode < 300)
+        ? loginResponseFromJson(response.body)
+        : LoginResult(
+            sessionId: "",
+            nombre: "",
+            email: "",
+            telefono: "",
+            sucursal: "",
+            fotoPerfilUrl: "");
+    if (result.sessionId.isNotEmpty && checkForNew) {
       await saveLoggedInState(result, usuario, clave);
       var storedAccounts = await getStoredAccounts();
-      if(storedAccounts.isEmpty) {
+      if (storedAccounts.isEmpty) {
         await addCurrentAccountToStore();
       } else {
-        result.shouldAskToStore = (!storedAccounts.any((element) => element.userAccount == usuario));
+        result.shouldAskToStore =
+            (!storedAccounts.any((element) => element.userAccount == usuario));
       }
     }
     return result;
   }
 
-  void clearCourierDataCache()
-  {
+  void clearCourierDataCache() {
     cache.destroy('recepciones');
   }
 
   Future<List<PreAlertaDto>> getPrealertas() async {
-    var sessionId = (await cache.load('sessionId', ''))
-        .toString();
-    if(sessionId.isEmpty) {
+    var sessionId = (await cache.load('sessionId', '')).toString();
+    if (sessionId.isEmpty) {
       return <PreAlertaDto>[].toList();
     }
 
@@ -507,7 +545,7 @@ class CourierService {
     if (forceRefresh) {
       final _connectivity = Connectivity();
       final _result = await _connectivity.checkConnectivity();
-      if(_result != ConnectivityResult.none ) {
+      if (_result != ConnectivityResult.none) {
         cache.destroy('recepciones');
         cache.destroy('empresa');
         cache.destroy('sucursales');
@@ -525,13 +563,13 @@ class CourierService {
 
       await _validateSession();
 
-      if(!await Permission.notification.isGranted) {
+      if (!await Permission.notification.isGranted) {
         await Permission.notification.request();
       }
 
       final uri = Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/recepciones?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==");
-          //"https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
+      //"https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
       final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
@@ -559,13 +597,12 @@ class CourierService {
     //   debugPrint('Failed to determine badge support');
     // }
 
-
     //
     return result;
   }
 
-  Future<List<Recepcion>> getHistoriaRecepciones(DateTime desde,
-      DateTime hasta) async {
+  Future<List<Recepcion>> getHistoriaRecepciones(
+      DateTime desde, DateTime hasta) async {
     var sessionId = (await cache.load('sessionId', ''))
         .toString(); //  prefs.getString('sessionId');
     if (sessionId == "") {
@@ -579,8 +616,9 @@ class CourierService {
 
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/historia?code=UFtMpySwLvK3tmPtw8Tj_Nr2gCJwb7v5FAs6todAO7IYAzFu4me6mQ==");
-        //"https://icourierfunctions.azurewebsites.net/api/historia?code=gerWGYCG2sXQyxgxx6QHTRFtWey7Ab/oJtEPHCQQ76qVwg3BMJvI4Q==");
-    final req = ConsultaHistoricaRequest(empresaId: companyId,
+    //"https://icourierfunctions.azurewebsites.net/api/historia?code=gerWGYCG2sXQyxgxx6QHTRFtWey7Ab/oJtEPHCQQ76qVwg3BMJvI4Q==");
+    final req = ConsultaHistoricaRequest(
+        empresaId: companyId,
         sessionId: sessionId,
         desde: dateFormat.format(desde),
         hasta: dateFormat.format(hasta));
@@ -608,39 +646,47 @@ class CourierService {
     var chatUrl = empresa.correoServicio;
     var buzones = <InfoBuzon>[].toList();
 
-    final sucursales = await getSucursales(false);
-    if(cuenta != "" && sucursal != "") {
-      final userSucursal = (sucursales).firstWhereOrNull((element) => element.codigo == sucursal);
-      if(userSucursal != null) {
+    final sucursales = await getSucursales(false, trackEvent: false);
+    if (cuenta != "" && sucursal != "") {
+      final userSucursal = (sucursales)
+          .firstWhereOrNull((element) => element.codigo == sucursal);
+      if (userSucursal != null) {
         nombreSucrusal = userSucursal.nombre;
         telefonoSucrusal = userSucursal.telefonoVentas;
         emailSucursal = userSucursal.email;
-        if(userSucursal.telefonoOficina.isNotEmpty) {
+        if (userSucursal.telefonoOficina.isNotEmpty) {
           whatsappSucrusal = userSucursal.telefonoOficina;
         }
       }
     }
-    final sucursalesBuzon = sucursales.where((element) => element.imagenId != "" && element.imagenId != "0").toList();
-    if(sucursalesBuzon.isNotEmpty) {
-      sucursalesBuzon.sort((a, b) => a.buzonSortOrder.compareTo(b.buzonSortOrder));
-      buzones = sucursalesBuzon.map((element) => InfoBuzon(direccion: element.direccion, nombre: element.nombre)).toList();
+    final sucursalesBuzon = sucursales
+        .where((element) => element.imagenId != "" && element.imagenId != "0")
+        .toList();
+    if (sucursalesBuzon.isNotEmpty) {
+      sucursalesBuzon
+          .sort((a, b) => a.buzonSortOrder.compareTo(b.buzonSortOrder));
+      buzones = sucursalesBuzon
+          .map((element) =>
+              InfoBuzon(direccion: element.direccion, nombre: element.nombre))
+          .toList();
     } else {
-      final buzonSucursal = sucursales.firstWhereOrNull((element) => element.codigo == empresa.calculadoraDesde);
-      if(buzonSucursal != null) {
+      final buzonSucursal = sucursales.firstWhereOrNull(
+          (element) => element.codigo == empresa.calculadoraDesde);
+      if (buzonSucursal != null) {
         direccionBuzon = "$nombre ($cuenta)\n${buzonSucursal.direccion}";
       }
     }
 
-
-    if(chatUrl.isNotEmpty && chatUrl.contains("@")) {
+    if (chatUrl.isNotEmpty && chatUrl.contains("@")) {
       chatUrl = "";
     }
 
-    if(whatsappSucrusal.isNotEmpty) {
+    if (whatsappSucrusal.isNotEmpty) {
       chatUrl = "";
     }
 
-    return UserProfile(cuenta: cuenta,
+    return UserProfile(
+        cuenta: cuenta,
         nombre: nombre,
         email: email,
         sucursal: sucursal,
@@ -649,15 +695,15 @@ class CourierService {
         buzones: buzones,
         emailSucursal: emailSucursal,
         nombreSucursal: nombreSucrusal,
-      telefonoSucursal: telefonoSucrusal,
-      whatsappSucursal: whatsappSucrusal,
-      chatUrl: chatUrl
-    );
+        telefonoSucursal: telefonoSucrusal,
+        whatsappSucursal: whatsappSucrusal,
+        chatUrl: chatUrl);
   }
 
   Future<List<UserAccount>> getStoredAccounts() async {
     var data = await cache.load('storedAccounts');
-    var list = data == null ? <UserAccount>[].toList() : userAccountsFromJson(data);
+    var list =
+        data == null ? <UserAccount>[].toList() : userAccountsFromJson(data);
     return list;
   }
 
@@ -670,44 +716,56 @@ class CourierService {
   }
 
   Future<List<UserAccount>> addCurrentAccountToStore() async {
-      var list = await getStoredAccounts();
-      final sessionId = await cache.load('sessionId', "");
-      final userAccount = await cache.load('userAccount', "");
-      final password = await cache.load('userPassword', "");
-      final userName = await cache.load('userName', "");
-      var storedAccount = list.firstWhereOrNull((x) => x.userAccount == userAccount);
-      if(storedAccount == null) {
-        list.add(UserAccount(sessionId: sessionId, nombre: userName, userAccount: userAccount, password: password));
-      } else {
-        storedAccount.password = password;
-        storedAccount.nombre = userName;
-        storedAccount.sessionId = sessionId;
-      }
-      final data = userAccountsToJson(list);
-      await cache.write('storedAccounts', data);
-      return list;
+    var list = await getStoredAccounts();
+    final sessionId = await cache.load('sessionId', "");
+    final userAccount = await cache.load('userAccount', "");
+    final password = await cache.load('userPassword', "");
+    final userName = await cache.load('userName', "");
+    var storedAccount =
+        list.firstWhereOrNull((x) => x.userAccount == userAccount);
+    if (storedAccount == null) {
+      list.add(UserAccount(
+          sessionId: sessionId,
+          nombre: userName,
+          userAccount: userAccount,
+          password: password));
+    } else {
+      storedAccount.password = password;
+      storedAccount.nombre = userName;
+      storedAccount.sessionId = sessionId;
+    }
+    final data = userAccountsToJson(list);
+    await cache.write('storedAccounts', data);
+    return list;
   }
 
   Future<bool> switchUserAccount(String newAccount) async {
     var list = await getStoredAccounts();
-    var storedAccount = list.firstWhereOrNull((x) => x.userAccount == newAccount);
-    if(storedAccount == null) return false;
-    var loginResult = await getLoginResult(storedAccount.userAccount, storedAccount.password, checkForNew: false);
-    if(loginResult.sessionId.isEmpty) return false;
+    var storedAccount =
+        list.firstWhereOrNull((x) => x.userAccount == newAccount);
+    if (storedAccount == null) return false;
+    var loginResult = await getLoginResult(
+        storedAccount.userAccount, storedAccount.password,
+        checkForNew: false);
+    if (loginResult.sessionId.isEmpty) return false;
     await saveLoggedOutState();
-    await saveLoggedInState(loginResult, storedAccount.userAccount, storedAccount.password);
+    await saveLoggedInState(
+        loginResult, storedAccount.userAccount, storedAccount.password);
     return true;
   }
 
-  Future<void> saveLoggedInState(LoginResult loginResult, String userAccount, String userPassword) async {
-    if(appInfo.pushChannelTopic == "TLS") {
-      FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_${loginResult.sessionId}");
+  Future<void> saveLoggedInState(
+      LoginResult loginResult, String userAccount, String userPassword) async {
+    if (appInfo.pushChannelTopic == "TLS") {
+      FirebaseMessaging.instance.subscribeToTopic(
+          "${appInfo.pushChannelTopic}_${loginResult.sessionId}");
     } else {
-      FirebaseMessaging.instance.subscribeToTopic("${appInfo.pushChannelTopic}_$userAccount");
+      FirebaseMessaging.instance
+          .subscribeToTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
-    Posthog().identify(userId: '${appInfo.metricsPrefixKey}_{userAccount}',userProperties:  {
-      "courier": appInfo.metricsPrefixKey
-    });
+    // Posthog().identify(
+    //     userId: '${appInfo.metricsPrefixKey}_{userAccount}',
+    //     userProperties: {"courier": appInfo.metricsPrefixKey});
     await cache.write('sessionId', loginResult.sessionId);
     await cache.write('userAccount', userAccount);
     await cache.write('userPassword', userPassword);
@@ -717,15 +775,18 @@ class CourierService {
     await cache.write('userFotoPerfil', loginResult.fotoPerfilUrl);
     //
   }
+
   Future<void> saveLoggedOutState() async {
-    Posthog().identify(userId: 'not_authenticated');
-    var userAccount =  await cache.load('userAccount', "") as String;
-    var sessionId =  await cache.load('sessionId', "") as String;
-    if(appInfo.pushChannelTopic == "TLS" && sessionId.isNotEmpty) {
-      FirebaseMessaging.instance.unsubscribeFromTopic("${appInfo.pushChannelTopic}_$sessionId");
+    // Posthog().identify(userId: 'not_authenticated');
+    var userAccount = await cache.load('userAccount', "") as String;
+    var sessionId = await cache.load('sessionId', "") as String;
+    if (appInfo.pushChannelTopic == "TLS" && sessionId.isNotEmpty) {
+      FirebaseMessaging.instance
+          .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$sessionId");
     }
-    if(appInfo.pushChannelTopic != "TLS" && userAccount.isNotEmpty) {
-      FirebaseMessaging.instance.unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
+    if (appInfo.pushChannelTopic != "TLS" && userAccount.isNotEmpty) {
+      FirebaseMessaging.instance
+          .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
 
     await cache.write('sessionId', "");
@@ -734,7 +795,7 @@ class CourierService {
     await cache.write('userEmail', "");
     await cache.write('userSucursal', "");
     await cache.write('userFotoPerfil', "");
-  
+
     // Clear application badge
     // try {
     //   bool res = await FlutterAppBadger.isAppBadgeSupported();
@@ -749,13 +810,26 @@ class CourierService {
 
   Future<void> resetPassword(String cuenta, String email) async {
     final empresa = await getEmpresa();
-    final req = PasswordResetModel(empresaId: empresa.registroId, account: cuenta, email: email);
+    if(empresa.dominio.toLowerCase() == "mardom") {
+      final tlsUr = Uri.parse("https://tls.com.do/en/wp-json/v2/forgotpwd/$email");
+      final tlsHeaders = {
+        "X-Api-key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      };
+
+      final tlsResponse = await get(tlsUr, headers: tlsHeaders);
+      if (tlsResponse.statusCode < 200 || tlsResponse.statusCode >= 300) {
+        throw Exception(tlsResponse.reasonPhrase);
+      }
+      return;
+    }
+    final req = PasswordResetModel(
+        empresaId: empresa.registroId, account: cuenta, email: email);
     final uri = Uri.parse(
         "https://icourierfunctions2023.azurewebsites.net/api/rememberpassword?code=jwj3RkB8ebqFF3DUQa3V1pyVvOvGv_Ue_nOPNZwkkI7BAzFuK3uAHg==");
-        //"https://icourierfunctions.azurewebsites.net/api/rememberpassword?code=XjJELASMoVOdOPW2BMG8og7C0g/o1jaSfnc4SRWZYSCejiKXhX1BEQ==");
+    //"https://icourierfunctions.azurewebsites.net/api/rememberpassword?code=XjJELASMoVOdOPW2BMG8og7C0g/o1jaSfnc4SRWZYSCejiKXhX1BEQ==");
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
-    if(response.statusCode < 200 || response.statusCode >= 300) {
+    if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception(response.reasonPhrase);
     }
   }
@@ -771,19 +845,16 @@ class CourierService {
     url = Uri.encodeFull(url);
 
     var paymentUrl = await empresaOptionValue("PaymentsUrl");
-    if(paymentUrl.isNotEmpty) {
+    if (paymentUrl.isNotEmpty) {
       url = paymentUrl;
     }
-
-
 
     final uri = Uri.parse(url);
 
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
-  Future<void> launchOnlinePayment(BuildContext context)  async {
-
+  Future<void> launchOnlinePayment(BuildContext context) async {
     await _validateSession();
 
     final empresa = await getEmpresa();
@@ -794,23 +865,30 @@ class CourierService {
     url = Uri.encodeFull(url);
 
     var paymentUrl = await empresaOptionValue("PaymentsUrl");
-    if(paymentUrl.isNotEmpty) {
+    if (paymentUrl.isNotEmpty) {
       url = paymentUrl;
     }
+
+    final paymentBrowserMode = await empresaOptionValue("UseExternalBrowser");
+    final useExternalBrowser = (paymentBrowserMode == "1" || paymentBrowserMode.toLowerCase() == "true");
 
     // url = url.replaceAll("http://", "https://");
 
     if (!context.mounted) return;
 
-    await Navigator.of(context).push(MaterialPageRoute<void>(
-      builder: (BuildContext context) =>  AppBrowser(initialUrl: url, title: "Pago en Línea"),
-    ),);
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_PAGAR_ENLINEA");
 
-    //url = "https://bmcargo-online.iplus.com.do/lg-es/tr/PagoSeleccionDocs.aspx";
-
-    // final uri = Uri.parse(url);
-    // await launchUrl(uri, mode: LaunchMode.externalApplication);
-
+    if(useExternalBrowser) {
+      final uri = Uri.parse(url);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
+              AppBrowser(initialUrl: url, title: "Pago en Línea"),
+        ),
+      );
+    }
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -822,15 +900,20 @@ class CourierService {
     return 12742 * asin(sqrt(a));
   }
 
-  Future<String> notificaRetiro({String puntoRetiro = ""})  async {
+  Future<String> notificaRetiro({String puntoRetiro = ""}) async {
     final empresa = await getEmpresa();
-    if(!empresa.hasNotifyModule) {return 'Funcionalidad no disponible.';}
+    if (!empresa.hasNotifyModule) {
+      return 'Funcionalidad no disponible.';
+    }
 
-    final codSucrusal = (await cache.load('userSucursal','')).toString();
-    if(codSucrusal.isEmpty) {return 'Funcionalidad no disponible.';}
+    final codSucrusal = (await cache.load('userSucursal', '')).toString();
+    if (codSucrusal.isEmpty) {
+      return 'Funcionalidad no disponible.';
+    }
 
-    var sucursal = (await getSucursales(false)).firstWhereOrNull((x) => x.codigo == codSucrusal);
-    if(sucursal == null) return 'Funcionalidad no disponible';
+    var sucursal = (await getSucursales(false, trackEvent: false))
+        .firstWhereOrNull((x) => x.codigo == codSucrusal);
+    if (sucursal == null) return 'Funcionalidad no disponible';
 
     var sessionId = (await cache.load('sessionId', ''))
         .toString(); //  prefs.getString('sessionId');
@@ -843,22 +926,26 @@ class CourierService {
       return 'Funcionalidad no disponible';
     }
 
-    var paquetes = (await getRecepciones(false)).where( (e) => e.disponible).map((e) => e.recepcionID).toList();
-    if(paquetes.isEmpty) {
+    var paquetes = (await getRecepciones(false))
+        .where((e) => e.disponible)
+        .map((e) => e.recepcionID)
+        .toList();
+    if (paquetes.isEmpty) {
       return 'Funcionalidad no disponible';
     }
 
-    if(puntoRetiro.isNotEmpty) {
+    if (puntoRetiro.isNotEmpty) {
       cuenta = puntoRetiro;
     }
 
-    if(empresa.minDistanceToNotify > 0) {
+    if (empresa.minDistanceToNotify > 0) {
       var status = await Permission.locationWhenInUse.status;
 
       if (!status.isGranted) {
-        if(status.isPermanentlyDenied) {
+        if (status.isPermanentlyDenied) {
           return 'Esta funcionalidad requiere permiso de GPS, favor intentar nuevamente, luego de activarlo en la configuración de su dispositivo.';
-        };
+        }
+        ;
         await Permission.locationWhenInUse.request();
         return 'Favor intentar nuevamente, luego de activar el permiso de GPS.';
       }
@@ -868,33 +955,35 @@ class CourierService {
         var locationData = await location.getLocation();
         var userLatitude = locationData.latitude ?? 0.00;
         var userLongitude = locationData.longitude ?? 0.00;
-        var distance = calculateDistance(
-            userLatitude,
-            userLongitude,
-            sucursal.latitud,
-            sucursal.longitud) * 1000 ;
+        var distance = calculateDistance(userLatitude, userLongitude,
+                sucursal.latitud, sucursal.longitud) *
+            1000;
 
         if (distance > empresa.minDistanceToNotify) {
-          return 'Debe estar a menos de ${empresa
-              .minDistanceToNotify / 1000} km. de su sucursal de retiro para poder ejecutar esta operación.';
+          return 'Debe estar a menos de ${empresa.minDistanceToNotify / 1000} km. de su sucursal de retiro para poder ejecutar esta operación.';
         }
       }
     }
 
     await _validateSession();
-
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_NOTIFICAR_RETIRO");
     //final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/notificarretiro?code=8WQvaSc2WvgWwsdZms/GYsWgI2V3FxAt4SrtQv4N6xa1NbPXTpybsg==");
-    final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/notificarretiro?code=wDhDdAsMvYhvy9WvDhZfn9dMK0s-hOMGgEbiuhDYl3tcAzFuEGrkmA==");
-    var req = NotificarRetiroModel(empresa.registroId, sessionId, cuenta, paquetes);
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/notificarretiro?code=wDhDdAsMvYhvy9WvDhZfn9dMK0s-hOMGgEbiuhDYl3tcAzFuEGrkmA==");
+    var req =
+        NotificarRetiroModel(empresa.registroId, sessionId, cuenta, paquetes);
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
-    return (response.statusCode >= 200 && response.statusCode <= 299) ? "" : response.reasonPhrase!;
-
+    return (response.statusCode >= 200 && response.statusCode <= 299)
+        ? ""
+        : response.reasonPhrase!;
   }
 
-  Future<String> solicitaDomicilio(List<String> paquetes)  async {
+  Future<String> solicitaDomicilio(List<String> paquetes) async {
     final empresa = await getEmpresa();
-    if(!empresa.hasDelivery) {return 'Funcionalidad no disponible.';}
+    if (!empresa.hasDelivery) {
+      return 'Funcionalidad no disponible.';
+    }
 
     var sessionId = (await cache.load('sessionId', ''))
         .toString(); //  prefs.getString('sessionId');
@@ -909,13 +998,17 @@ class CourierService {
 
     await _validateSession();
 
+    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SOLICITAR_DOMICILIO");
+
     //final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/notificarretiro?code=8WQvaSc2WvgWwsdZms/GYsWgI2V3FxAt4SrtQv4N6xa1NbPXTpybsg==");
-    final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/solicitardomicilio?code=wIMWih5RrwiTtkIdDmmOwlLKiABtc2ETEqtar04wnIsaAzFuGmU9Mg==");
+    final uri = Uri.parse(
+        "https://icourierfunctions2023.azurewebsites.net/api/solicitardomicilio?code=wIMWih5RrwiTtkIdDmmOwlLKiABtc2ETEqtar04wnIsaAzFuGmU9Mg==");
     var req = SolicitarDomicilioModel(empresa.registroId, sessionId, paquetes);
     final json = jsonEncode(req);
     final response = await post(uri, body: json);
-    return (response.statusCode >= 200 && response.statusCode <= 299) ? "" : response.reasonPhrase!;
-
+    return (response.statusCode >= 200 && response.statusCode <= 299)
+        ? ""
+        : response.reasonPhrase!;
   }
 
   Future<String> sendPreAlerta(PreAlertaModel preAlerta, XFile file) async {
@@ -932,11 +1025,11 @@ class CourierService {
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
-      String fileName = const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
+      String fileName =
+          const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
 
       // var fileName = Uuid().v1().toString() + ".jpg";
       var azPath = "/icourier/$fileName";
-
 
       Uint8List bytes = await file.readAsBytes();
       await storage.putBlob(azPath, bodyBytes: bytes);
@@ -945,9 +1038,10 @@ class CourierService {
 
       final uri = Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/prealerta?code=FFkkK6qTy-H5z3YAQ6c7lyEPl8IDIXVIz9YLaZjOGD57AzFuGJRY-A==");
-          //"https://icourierfunctions.azurewebsites.net/api/prealerta?code=cxsYglMU8mj4ECTBek9NpgudSAuMh8aaZsG/oSYdmknJ/IhyNWGlwA==");
+      //"https://icourierfunctions.azurewebsites.net/api/prealerta?code=cxsYglMU8mj4ECTBek9NpgudSAuMh8aaZsG/oSYdmknJ/IhyNWGlwA==");
 
-      var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
+      var imageUrl =
+          "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
       var req = PreAlertaModel(
           companyId,
@@ -961,9 +1055,12 @@ class CourierService {
           imageUrl);
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
-      final strResponse = (response.statusCode >= 200 && response.statusCode < 299) ? response.body : "Error enviando pre-alerta.";
+      final strResponse =
+          (response.statusCode >= 200 && response.statusCode < 299)
+              ? response.body
+              : "Error enviando pre-alerta.";
       //
-      return  strResponse;
+      return strResponse;
     } catch (ex) {
       return "Error inesperado enviando pre-alerta.";
     }
@@ -971,14 +1068,12 @@ class CourierService {
 
   Future<bool> updateProfilePhoto(XFile file) async {
     try {
-      var sessionId = (await cache.load('sessionId', ''))
-        .toString();
+      var sessionId = (await cache.load('sessionId', '')).toString();
       if (sessionId == "") {
         return false;
       }
 
-      var cuenta = (await cache.load('userAccount', ''))
-          .toString();
+      var cuenta = (await cache.load('userAccount', '')).toString();
       if (cuenta == "") {
         return false;
       }
@@ -986,27 +1081,31 @@ class CourierService {
       AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_UPDATE_PHOTO");
 
       var storage = AzureStorage.parse(
-      'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
+          'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
-      String fileName = const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
+      String fileName =
+          const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
 
       //var fileName = Uuid().v1().toString() + ".jpg";
 
       var azPath = "/icourier/$fileName";
       Uint8List bytes = await file.readAsBytes();
       await storage.putBlob(azPath, bodyBytes: bytes);
-      final uri = Uri.parse("https://icourierfunctions2023.azurewebsites.net/api/updateprofilephoto?code=56vau-MkXBEyef6NKfRwRBq1ins7ANsdab9bdQGPeRKXAzFu_RE8Cg==");
+      final uri = Uri.parse(
+          "https://icourierfunctions2023.azurewebsites.net/api/updateprofilephoto?code=56vau-MkXBEyef6NKfRwRBq1ins7ANsdab9bdQGPeRKXAzFu_RE8Cg==");
       //Uri.parse("https://icourierfunctions.azurewebsites.net/api/updateprofilephoto?code=hQ8Sz4aQv6grvBj0P4z/MppLEDnRYNohAWqxdORRuDYTGzpGAwknxQ==");
 
-      var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
+      var imageUrl =
+          "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
-      var req = UserProfileModel( cuenta: cuenta, empresaId: companyId, photoUrl: imageUrl);
+      var req = UserProfileModel(
+          cuenta: cuenta, empresaId: companyId, photoUrl: imageUrl);
 
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
       //
       var okResult = (response.statusCode >= 200 && response.statusCode < 299);
-      if(okResult) {
+      if (okResult) {
         await cache.write('userFotoPerfil', imageUrl);
       }
       return okResult;
@@ -1015,9 +1114,9 @@ class CourierService {
     }
   }
 
-  Future<Map<String,String>> getProfileUrl() async {
-    final userId = (await cache.load('userAccount','')).toString();
-    final password = (await cache.load('userPassword','')).toString();
+  Future<Map<String, String>> getProfileUrl() async {
+    final userId = (await cache.load('userAccount', '')).toString();
+    final password = (await cache.load('userPassword', '')).toString();
 
     var map = Map<String, String>();
     map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
@@ -1027,9 +1126,10 @@ class CourierService {
 
     return map;
   }
-  Future<Map<String,String>> getPaymentUrl() async {
-    final userId = (await cache.load('userAccount','')).toString();
-    final password = (await cache.load('userPassword','')).toString();
+
+  Future<Map<String, String>> getPaymentUrl() async {
+    final userId = (await cache.load('userAccount', '')).toString();
+    final password = (await cache.load('userPassword', '')).toString();
 
     var map = Map<String, String>();
     map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
@@ -1039,6 +1139,7 @@ class CourierService {
 
     return map;
   }
+
   Future<String> sendPostAlerta(PostAlertaModel postAlerta, XFile file) async {
     try {
       var sessionId = (await cache.load('sessionId', ''))
@@ -1049,11 +1150,11 @@ class CourierService {
       await _validateSession();
       AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SEND_POSTALERTA");
 
-
       var storage = AzureStorage.parse(
           'DefaultEndpointsProtocol=https;AccountName=barolitblobstorage;AccountKey=SQgzWYWHLYFscpvX2cuf9NI4ZPMPtfjEWVW3WEQ8qnKZh7ColquKRM5r0sj7EZXBAbv7D6HK9c7+kzziLEoI0w==;EndpointSuffix=core.windows.net');
 
-      String fileName = const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
+      String fileName =
+          const Uuid().v1().toString() + File(file.path).uri.pathSegments.last;
 
       //var fileName = Uuid().v1().toString() + ".jpg";
 
@@ -1064,19 +1165,17 @@ class CourierService {
       final uri = Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/postalerta?code=oqzfxlOlLyjRiMbv_J2WmFT1sEkxG62ZmvWPJUipGCqLAzFuO-NHzg==");
 
-      var imageUrl = "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
+      var imageUrl =
+          "https://barolitblobstorage.blob.core.windows.net/icourier/$fileName";
 
-      var req = PostAlertaModel(
-          companyId,
-          sessionId,
-          postAlerta.recepcionId,
-          postAlerta.fob,
-          imageUrl
-          );
+      var req = PostAlertaModel(companyId, sessionId, postAlerta.recepcionId,
+          postAlerta.fob, imageUrl);
 
       final json = jsonEncode(req);
       final response = await post(uri, body: json);
-      final result = (response.statusCode >= 200 && response.statusCode < 299) ? response.body : "Error enviado post-alerta.";
+      final result = (response.statusCode >= 200 && response.statusCode < 299)
+          ? response.body
+          : "Error enviado post-alerta.";
       //
       return result;
     } catch (ex) {

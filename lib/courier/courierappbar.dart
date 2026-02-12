@@ -11,7 +11,6 @@ import 'package:icourier/courier/courier_webview.dart';
 import 'package:icourier/courier/cuentas_usuario.dart';
 import 'package:icourier/courier/mensajes_usuario.dart';
 import 'package:icourier/services/model/login_model.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:event/event.dart' as event;
 import '../apps/appinfo.dart';

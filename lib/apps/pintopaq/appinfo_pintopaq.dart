@@ -1,13 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:icourier/apps/pintopaq/firebase_options_pintopaq.dart';
 
 import '../appinfo.dart';
 
 class PintopaqAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => PintoPaqDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

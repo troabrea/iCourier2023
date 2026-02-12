@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2025.1.8+2025318
+version: 2025.1.8+2025319
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -64,13 +64,13 @@ dependencies:
   package_info_plus: ^9.0.0
   firebase_core: ^4.1.0
   firebase_messaging: ^16.0.1
+  firebase_analytics: ^12.0.1
   flutter_local_notifications: ^19.5.0
   image_picker:
   quick_actions: ^1.1.0
   quick_actions_android: ^1.0.25
   barcode_widget:
   app_popup_menu: ^1.0.0
-  posthog_flutter: ^4.11.0
   im_stepper:
   another_stepper:
   file_picker: ^10.3.6
@@ -119,39 +119,39 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - translations/
-#    - images/gopack/
-#    - images/telo/
-#    - images/atiempo/
-#    - images/cargospot/
-    - images/cargowise/
-#    - images/inbox/
-#    - images/mcccargo/
-#    - images/ecopaq/
-#    - images/flypack/
-#    - images/blumbox/
-#    - images/arribex/
-#    - images/skyhigh/
-#    - images/clickpack/
-#    - images/qm/
-#    - images/domex/
-#    - images/bmcargo/
-#    - images/beexpress/
 #    - images/almapaq/
-#    - images/pintopaq/
+#    - images/arribex/
+#    - images/atiempo/
+#    - images/beexpress/
+#    - images/blumbox/
+#    - images/bmcargo/
 #    - images/boxpaq/
-#    - images/encargopaq/
-#    - images/caribepack/
-#    - images/cps/
-#    - images/taino/
-#    - images/fixocargo/
-#    - images/picknsend/
-#    - images/jetpack/
-#    - images/tls/
 #    - images/cainca/
-#    - images/tupaq/
-#    - images/swoop/
+#    - images/cargospot/
+#    - images/cargowise/
+#    - images/caribepack/
+#    - images/clickpack/
+#    - images/cps/
+#    - images/domex/
+#    - images/ecopaq/
+#    - images/encargopaq/
+#    - images/fixocargo/
+#    - images/flypack/
+#    - images/gopack/
+#    - images/inbox/
+#    - images/jetpack/
+#    - images/mcccargo/
+#    - images/picknsend/
+#    - images/pintopaq/
 #    - images/priority/
+#    - images/qm/
+#    - images/skyhigh/
+#    - images/swoop/
+    - images/taino/
 #    - images/tdexpress/
+#    - images/telo/
+#    - images/tls/
+#    - images/tupaq/
     - images/noticias.svg
     - images/sucursales.svg
     - images/calculadora.svg

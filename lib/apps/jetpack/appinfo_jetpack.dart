@@ -1,13 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:icourier/apps/jetpack/firebase_options_jetpack.dart';
 
 import '../appinfo.dart';
 
 class JetpackAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => JetPackDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

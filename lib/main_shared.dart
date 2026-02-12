@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
-import 'package:icourier/apps/cargospot/firebase_options_cargospot.dart';
 import 'package:icourier/helpers/appcenter.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
 import 'apps/appinfo.dart';
 import '../../services/app_events.dart';
 import '../../services/courier_service.dart';
@@ -72,13 +70,13 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   final AppInfo appInfo = _appInfo;
   WidgetsFlutterBinding.ensureInitialized();
 
-  final config =
-  PostHogConfig('phc_OFUDsVNTdf1yk608hX82AT4QvPvVAiVMZcVFE4ypBVq');
-  config.debug = true;
-  config.captureApplicationLifecycleEvents = false;
-  config.host = 'https://us.i.posthog.com';
-  config.flushAt = 1;
-  await Posthog().setup(config);
+  // final config =
+  // PostHogConfig('phc_OFUDsVNTdf1yk608hX82AT4QvPvVAiVMZcVFE4ypBVq');
+  // config.debug = true;
+  // config.captureApplicationLifecycleEvents = false;
+  // config.host = 'https://us.i.posthog.com';
+  // config.flushAt = 1;
+  // await Posthog().setup(config);
 
   await EasyLocalization.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -92,6 +90,7 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   }
 
   await Firebase.initializeApp(options: appInfo.appFirebaseOptions);
+
 
   await setupFlutterNotifications(appInfo.pushChannelTopic);
   var token =  await FirebaseMessaging.instance.getAPNSToken();
@@ -168,10 +167,8 @@ class MyApp extends StatelessWidget {
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate
     ]);
-    return PostHogWidget(
-        child:
+    return
       MaterialApp(
-        navigatorObservers: [PosthogObserver()],
         debugShowCheckedModeBanner: false,
         localizationsDelegates:  delegates,
         supportedLocales: context.supportedLocales , //FormBuilderLocalizations.delegate.supportedLocales,
@@ -181,8 +178,7 @@ class MyApp extends StatelessWidget {
         darkTheme: appInfo.getDarkTheme(),
         themeMode: ThemeMode.system,
         home:const MainAppShell(),
-      )
-    );
+      );
   }
 }
 

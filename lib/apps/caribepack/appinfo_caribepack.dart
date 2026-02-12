@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../appinfo.dart';
+import 'firebase_options_caribepack.dart';
 
 class CaribepackAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => CaribepackDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override
