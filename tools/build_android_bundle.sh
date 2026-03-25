@@ -6,7 +6,7 @@
 #fvm flutter build apk -t lib/apps/jetpack/main_jetpack.dart --flavor jetpack --split-per-abi
 #fvm flutter build apk -t lib/apps/pintopaq/main_pintopaq.dart --flavor pintopaq --split-per-abi
 #fvm flutter build apk -t lib/apps/pns/main_pns.dart --flavor picknsend --split-per-abi
-fvm flutter build apk -t lib/apps/taino/main_taino.dart --flavor taino --split-per-abi
+#fvm flutter build apk -t lib/apps/taino/main_taino.dart --flavor taino --split-per-abi
 #fvm flutter build appbundle -t lib/apps/almapac/main_almapaq.dart --flavor almapaq
 #fvm flutter build appbundle -t lib/apps/arribex/main_arribex.dart --flavor arribex
 #fvm flutter build appbundle -t lib/apps/atiempo/main_atiempo.dart --flavor atiempo
@@ -19,7 +19,7 @@ fvm flutter build apk -t lib/apps/taino/main_taino.dart --flavor taino --split-p
 #fvm flutter build appbundle -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
 #fvm flutter build appbundle -t lib/apps/cps/main_cps.dart --flavor cps
 #fvm flutter build appbundle -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
-#fvm flutter build appbundle -t lib/apps/encargopaq/main_encargopaq.dart --flavor encargopaq
+fvm flutter build appbundle -t lib/apps/encargopaq/main_encargopaq.dart --flavor encargopaq
 #fvm flutter build appbundle -t lib/apps/flypack/main_flypack.dart --flavor flypack
 #fvm flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
 #fvm flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox

@@ -3,13 +3,14 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/ecopaq/firebase_options_ecopaq.dart';
 
 import '../appinfo.dart';
 
 class EcopaqAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => EcoPaqDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

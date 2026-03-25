@@ -101,6 +101,7 @@ Future<void> mainShared(AppInfo _appInfo)  async {
   //final fcmToken = await FirebaseMessaging.instance.getToken();
   GetIt.I.registerSingleton<AppInfo>(appInfo);
   GetIt.I.registerSingleton<CourierService>(CourierService());
+  GetIt.I<CourierService>().clearDataCache();
   GetIt.I.registerSingleton<event.Event<UnreadMessagesChanged>>(event.Event<UnreadMessagesChanged>());
   GetIt.I.registerSingleton<event.Event<UserPrealertaRequested>>(event.Event<UserPrealertaRequested>());
   GetIt.I.registerSingleton<event.Event<LoginChanged>>(event.Event<LoginChanged>());

@@ -5,6 +5,7 @@
   "Responder": "Respond...",
   "error_reintentar":"An error has occurred, tap to retry.",
   "error_favor_reintentar": "An error has occurred, please retry.",
+  "url_amazon_invalido": "Invalid Amazon URL, please retry.",
   "buscar": "Search",
   "sucursales" : "Locations",
   "calculando_distancia": "Calculating distance...",

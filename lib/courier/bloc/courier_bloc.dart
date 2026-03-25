@@ -56,7 +56,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
 
     on<UserDidLoginEvent>((event,emit) async {
       final appInfo = GetIt.I<AppInfo>();
-      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? "${appInfo.pushChannelTopic}_${event.sessionId}" : "${appInfo.pushChannelTopic}_${event.usuario}";
+      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS_OLD") ? "${appInfo.pushChannelTopic}_${event.sessionId}" : "${appInfo.pushChannelTopic}_${event.usuario}";
       final pushSucursalTopic = "${appInfo.pushChannelTopic}_${event.sucursal}";
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       messaging.subscribeToTopic(pushUserTopic);
@@ -74,7 +74,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
       final sucursal = (await cache.load('userSucursal','')).toString();
       final sessionId = (await cache.load('sessionId','')).toString();
       final appInfo = GetIt.I<AppInfo>();
-      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS") ? "${appInfo.pushChannelTopic}_$sessionId" : "${appInfo.pushChannelTopic}_$cuenta";
+      final pushUserTopic = (appInfo.metricsPrefixKey == "TLS_OLD") ? "${appInfo.pushChannelTopic}_$sessionId" : "${appInfo.pushChannelTopic}_$cuenta";
       final pushSucursalTopic = "${appInfo.pushChannelTopic}_$sucursal";
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       messaging.unsubscribeFromTopic(pushUserTopic);

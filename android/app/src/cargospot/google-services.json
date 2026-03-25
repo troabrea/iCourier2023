@@ -20,15 +20,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -47,15 +39,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -74,15 +58,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -101,15 +77,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -128,15 +96,26 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329482419226:android:7e848991bf7b09a39e25a3",
+        "android_client_info": {
+          "package_name": "com.barolit.gopack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO97z6fCWC3F34vvZk0tsdGxlGzdDBWfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -155,15 +134,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -182,15 +153,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -209,15 +172,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -236,15 +191,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -263,42 +210,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:329482419226:android:5ba9e107b739b6f79e25a3",
-        "android_client_info": {
-          "package_name": "com.barolit.swoop"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBO97z6fCWC3F34vvZk0tsdGxlGzdDBWfY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -317,15 +229,26 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329482419226:android:551a45d424124c4f9e25a3",
+        "android_client_info": {
+          "package_name": "com.barolit.telo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO97z6fCWC3F34vvZk0tsdGxlGzdDBWfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -344,15 +267,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.barolit.tupaq"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

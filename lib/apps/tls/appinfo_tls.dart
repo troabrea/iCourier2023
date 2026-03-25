@@ -36,7 +36,7 @@ class TlsAppInfo implements AppInfo {
   String get iphoneAnalyticsAppId => "d865fffd-b98e-418f-a13f-f380ca7a292a";
 
   @override
-  String get companyId => "a2695534-9b0d-424f-949c-bb9d5cb453ce"; //"6b595d5d-98d2-4e5f-b9de-5ddb03774e95";// "a2695534-9b0d-424f-949c-bb9d5cb453ce";
+  String get companyId => "6b595d5d-98d2-4e5f-b9de-5ddb03774e95";// "a2695534-9b0d-424f-949c-bb9d5cb453ce";
 
   @override
   String get metricsPrefixKey => "TLS";

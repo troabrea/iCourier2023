@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -30,6 +32,7 @@ import 'crear_prealerta.dart';
 
 class CourierDashboard extends StatefulWidget {
   const CourierDashboard({super.key});
+
   @override
   State<CourierDashboard> createState() => _CourierDashboardState();
 }
@@ -46,7 +49,6 @@ class _CourierDashboardState extends State<CourierDashboard> {
     GetIt.I<event.Event<CourierRefreshRequested>>().subscribe((args) {
       getDashboardBloc().add(const LoadApiEvent(true));
     });
-
   }
 
   DashboardBloc getDashboardBloc() {
@@ -61,7 +63,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
     super.initState();
     controller = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(GetIt.I<CourierService>().shortCutToRun == ShortCutToRun.NOTIFICARRETIRO) {
+      if (GetIt.I<CourierService>().shortCutToRun ==
+          ShortCutToRun.NOTIFICARRETIRO) {
         GetIt.I<CourierService>().shortCutToRun = ShortCutToRun.NONE;
         GetIt.I<event.Event<NotificarRetiroRequested>>().broadcast();
       }
@@ -89,9 +92,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
           listener: (context, state) {
             if (state is DashboardFinishedState) {
               if (!state.withErrors) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content:
-                        Text('retiro_notificado'.tr())));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('retiro_notificado'.tr())));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(state.errorMessage),
@@ -119,7 +121,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
                           padding: const EdgeInsets.all(20),
                           child: Column(
                             children: [
-                              if (appInfo.metricsPrefixKey != "TLS" && state.disponiblesCount > 0)
+                              if (appInfo.metricsPrefixKey != "TLS" &&
+                                  state.disponiblesCount > 0)
                                 InkWell(
                                     onTap: () {
                                       Navigator.of(context,
@@ -154,21 +157,44 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                           value: 'retirar',
                                                           child: ListTile(
                                                             title: Text(
-                                                                'notificar_retiro'.tr(),
-                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                                              'notificar_retiro'
+                                                                  .tr(),
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onBackground),
                                                             ),
-                                                            leading: const Icon(Icons
-                                                                .meeting_room_outlined),
+                                                            leading: const Icon(
+                                                                Icons
+                                                                    .meeting_room_outlined),
                                                           )),
                                                     if (state.empresa
-                                                        .hasPaymentsModule && state.montoTotal > 0)
+                                                            .hasPaymentsModule &&
+                                                        state.montoTotal > 0)
                                                       PopupMenuItem(
                                                           value: 'pagar',
                                                           child: ListTile(
-                                                            title: Text('pagar'.tr(args: [formatCurrency
-                                                                .format(state
-                                                                .montoTotal)]),
-                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                                            title: Text(
+                                                              'pagar'.tr(
+                                                                  args: [
+                                                                    formatCurrency
+                                                                        .format(
+                                                                            state.montoTotal)
+                                                                  ]),
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onBackground),
                                                             ),
                                                             leading: const Icon(
                                                                 Icons
@@ -183,11 +209,21 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                           value: 'domicilio',
                                                           child: ListTile(
                                                             title: Text(
-                                                                'solicitar_domicilio'.tr(),
-                                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                                              'solicitar_domicilio'
+                                                                  .tr(),
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .onBackground),
                                                             ),
-                                                            leading: const Icon(Icons
-                                                                .delivery_dining_outlined),
+                                                            leading: const Icon(
+                                                                Icons
+                                                                    .delivery_dining_outlined),
                                                           ))
                                                   ];
                                                 },
@@ -215,7 +251,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                                 .toList()));
                                                   }
                                                   if (value == 'pagar') {
-                                                    if(state.empresa.dominio.toUpperCase() == "CPS") {
+                                                    if (state.empresa.dominio
+                                                            .toUpperCase() ==
+                                                        "CPS") {
                                                       doPayOnlineCPS();
                                                       return;
                                                     }
@@ -258,13 +296,15 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                           title: "recepciones".tr(),
                                           count: state.recepcionesCount)),
                                 ),
-                              if(appInfo.metricsPrefixKey == "TLS")
+                              if (appInfo.metricsPrefixKey == "TLS_OLD")
                                 InkWell(
                                   onTap: () {
                                     Navigator.of(context, rootNavigator: false)
                                         .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            FacturadosPage(empresa: state.empresa,)));
+                                            builder: (context) =>
+                                                FacturadosPage(
+                                                  empresa: state.empresa,
+                                                )));
                                   },
                                   child: SummaryBox(
                                       icon: const Icon(
@@ -301,64 +341,102 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 ),
                               if (state.recepcionesCount == 0)
                                 SizedBox(
-                                  height: appInfo.metricsPrefixKey == "DOMEX" ? 120 : 180,
+                                  height: appInfo.metricsPrefixKey == "DOMEX"
+                                      ? 120
+                                      : 180,
                                   width: 180,
                                   child: EmptyWidget(
                                     hideBackgroundAnimation: true,
                                     title: "no_paquetes".tr(),
-                                    titleTextStyle: Theme.of(context).textTheme.titleLarge,
-                                    subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
+                                    titleTextStyle:
+                                        Theme.of(context).textTheme.titleLarge,
+                                    subtitleTextStyle:
+                                        Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ),
-                              if (state.disponiblesCount == 0 || state.empresa.hasPointsModule)
+                              if (state.disponiblesCount == 0 ||
+                                  state.empresa.hasPointsModule)
                                 const SizedBox(
                                   height: 10,
                                 ),
-                              if(state.empresa.hasPointsModule)
+                              if (state.empresa.hasPointsModule)
                                 InkWell(
-                                  onTap: () { launchUrl(Uri.parse(state.puntos.urlCanjeo)); } ,
+                                  onTap: () {
+                                    launchUrl(
+                                        Uri.parse(state.puntos.urlCanjeo));
+                                  },
                                   child: PointsSummaryBox(
                                       icon: const Icon(
                                         Icons.monetization_on_outlined,
                                         size: 25,
                                       ),
-                                      title: state.empresa.dominio.toUpperCase() == "DOMEX" ? "domi_puntos_disponibles".tr() : "puntos_disponibles".tr(),
+                                      title:
+                                          state.empresa.dominio.toUpperCase() ==
+                                                  "DOMEX"
+                                              ? "domi_puntos_disponibles".tr()
+                                              : "puntos_disponibles".tr(),
                                       count: state.puntos.balance.toInt()),
                                 ),
-                              if(state.empresa.hasPointsModule)
-                                const SizedBox(height: 10,),
-                              if(state.moreInfoText.isNotEmpty)
+                              if (state.empresa.hasPointsModule)
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              if (state.moreInfoText.isNotEmpty)
                                 const Padding(
                                   padding: EdgeInsets.only(bottom: 5.0),
                                   child: Divider(thickness: 2),
                                 ),
-                              if(state.moreInfoText.isNotEmpty || state.referirUrl.isNotEmpty)
+                              if (state.moreInfoText.isNotEmpty ||
+                                  state.referirUrl.isNotEmpty)
                                 Row(
-
                                   children: [
-                                    if(state.moreInfoUrl.isNotEmpty)
+                                    if (state.moreInfoUrl.isNotEmpty)
                                       Expanded(
                                         child: FilledButton(
                                             onPressed: () async {
-                                               await launchUrl(Uri.parse(state.moreInfoUrl));
+                                              await launchUrl(
+                                                  Uri.parse(state.moreInfoUrl));
                                             },
                                             child: Column(
                                               children: [
-                                                Text(state.moreInfoText, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.w600),),
-                                                Text('suscribete'.tr(), style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary, decoration: TextDecoration.underline),),
+                                                Text(
+                                                  state.moreInfoText,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                ),
+                                                Text(
+                                                  'suscribete'.tr(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall!
+                                                      .copyWith(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline),
+                                                ),
                                               ],
                                             )),
-                                    ),
+                                      ),
                                     const SizedBox(width: 20),
-                                    if(state.referirUrl.isNotEmpty)
+                                    if (state.referirUrl.isNotEmpty)
                                       Expanded(
                                         child: FilledButton.icon(
                                             onPressed: () async {
-                                              BlocProvider.of<
-                                                  DashboardBloc>(
-                                                  context)
-                                                  .add(
-                                                  ReferirAmigoRequestEvent(
+                                              BlocProvider.of<DashboardBloc>(
+                                                      context)
+                                                  .add(ReferirAmigoRequestEvent(
                                                       context));
                                               // await launchUrl(Uri.parse(state.referirUrl));
                                             },
@@ -367,10 +445,12 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                       ),
                                   ],
                                 ),
-                              if(state.moreInfoText.isNotEmpty)
+                              if (state.moreInfoText.isNotEmpty)
                                 const Padding(
                                   padding: EdgeInsets.only(top: 5.0),
-                                  child: Divider(thickness: 2,),
+                                  child: Divider(
+                                    thickness: 2,
+                                  ),
                                 ),
                               if (state.empresa.hasDelivery &&
                                   state.disponiblesCount > 0)
@@ -397,52 +477,52 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                 const SizedBox(
                                   height: 15,
                                 ),
-                              if(state.empresa.dominio.toUpperCase() != "CARIBEPACK")
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: FilledButton.icon(
-                                        icon: const Icon(
-                                          IconData(0xe817,
-                                              fontFamily: 'iCourier'),
-                                          size: 35,
-                                        ),
-                                        onPressed: () {
-                                          showPreAlertaSheet(context);
-                                        },
-                                        label:
-                                          Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                              child: Text("crear_prealerta".tr()),
-                                            )),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: FilledButton.icon(
-                                        icon: const Icon(
-                                          IconData(0xe804,
-                                              fontFamily: 'iCourier'),
-                                          size: 35,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context,
-                                                  rootNavigator: false)
-                                              .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const PrealertasRealizadas()));
-                                        },
-                                        label: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical:4.0),
-                                          child: Text(
-                                              "ver_prealertas".tr()),
-                                        )),
-                                  ),
-                                ],
-                              ),
+                              if (state.empresa.dominio.toUpperCase() !=
+                                  "CARIBEPACK")
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: FilledButton.icon(
+                                          icon: const Icon(
+                                            IconData(0xe817,
+                                                fontFamily: 'iCourier'),
+                                            size: 35,
+                                          ),
+                                          onPressed: () {
+                                            showPreAlertaSheet(context);
+                                          },
+                                          label: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            child: Text("crear_prealerta".tr()),
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: FilledButton.icon(
+                                          icon: const Icon(
+                                            IconData(0xe804,
+                                                fontFamily: 'iCourier'),
+                                            size: 35,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: false)
+                                                .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const PrealertasRealizadas()));
+                                          },
+                                          label: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            child: Text("ver_prealertas".tr()),
+                                          )),
+                                    ),
+                                  ],
+                                ),
                               const SizedBox(height: 15),
-
                               Row(
                                 children: [
                                   Expanded(
@@ -455,11 +535,12 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                           onPressed: () {
                                             showTrackingSheet(context);
                                           },
-                                          label:
-                                               Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                                child: Text("rastrear_paquete".tr()),
-                                              ))),
+                                          label: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            child:
+                                                Text("rastrear_paquete".tr()),
+                                          ))),
                                   const SizedBox(
                                     width: 20,
                                   ),
@@ -477,68 +558,120 @@ class _CourierDashboardState extends State<CourierDashboard> {
                                                   builder: (context) =>
                                                       const ConsultaHistoricaPage()));
                                         },
-                                        label:
-                                             Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                              child: Text("consulta_historica".tr()),
-                                            )),
+                                        label: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0),
+                                          child:
+                                              Text("consulta_historica".tr()),
+                                        )),
                                   ),
                                 ],
                               ),
-                              if(state.reclamoUrl.isNotEmpty)
+                              if (state.reclamoUrl.isNotEmpty)
                                 const Padding(
                                   padding: EdgeInsets.only(top: 5.0),
-                                  child: Divider(thickness: 2,),
+                                  child: Divider(
+                                    thickness: 2,
+                                  ),
                                 ),
-                              if(state.reclamoUrl.isNotEmpty)
+                              if (state.reclamoUrl.isNotEmpty)
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: IconButton( padding: EdgeInsets.zero, icon: Image.asset("images/domex/reclamo.png"), onPressed: () async { await launchUrl(Uri.parse(state.reclamoUrl)); },)
-                                  // child: FilledButton.icon(
-                                  //     icon: const Icon(
-                                  //       IconData(0xe816,
-                                  //           fontFamily: 'iCourier'),
-                                  //       size: 35,
-                                  //     ),
-                                  //     onPressed: () async {
-                                  //       await launchUrl(Uri.parse(state.reclamoUrl));
-                                  //     },
-                                  //     label: Text('solicitar_reclamo'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.normal),)),
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      icon: Image.asset(
+                                          "images/domex/reclamo.png"),
+                                      onPressed: () async {
+                                        await launchUrl(
+                                            Uri.parse(state.reclamoUrl));
+                                      },
+                                    )
+                                    // child: FilledButton.icon(
+                                    //     icon: const Icon(
+                                    //       IconData(0xe816,
+                                    //           fontFamily: 'iCourier'),
+                                    //       size: 35,
+                                    //     ),
+                                    //     onPressed: () async {
+                                    //       await launchUrl(Uri.parse(state.reclamoUrl));
+                                    //     },
+                                    //     label: Text('solicitar_reclamo'.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.normal),)),
+                                    ),
+                              if (state.empresa.dominio.toUpperCase() ==
+                                  "CARIBEPACK")
+                                const SizedBox(
+                                  height: 25,
                                 ),
-                              if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
-                                const SizedBox(height: 25,),
-                              if(state.empresa.dominio.toUpperCase() == "CARIBEPACK")
+                              if (state.empresa.dominio.toUpperCase() ==
+                                  "CARIBEPACK")
                                 FilledButton.icon(
-                                  onPressed: () { launchUrl(Uri.parse("https://caribetours.com.do/caribe-pack/tarifa-de-envios/")); } ,
+                                  onPressed: () {
+                                    launchUrl(Uri.parse(
+                                        "https://caribetours.com.do/caribe-pack/tarifa-de-envios/"));
+                                  },
                                   icon: const Icon(Icons.price_check),
                                   label: Text("nuestras_tarifas".tr()),
                                 ),
-                              if(state.empresa.dominio.toUpperCase() == "TAINO")
-                                const SizedBox(height: 25,),
-                              if(state.empresa.dominio.toUpperCase() == "TAINO")
+                              if (state.empresa.dominio.toUpperCase() ==
+                                  "TAINO")
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                              if (state.empresa.dominio.toUpperCase() ==
+                                  "TAINO")
                                 Row(
-                                children: [
-                                  Expanded(
-                                    child: FilledButton.icon(
-                                        icon: const Icon(
-                                          Icons.balance,
-                                          size: 25,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context,
-                                              rootNavigator: false)
-                                              .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                              const EstadoDeCuenta()));
-                                        },
-                                        label:
-                                        Text("ver_estado_cuenta".tr())),
-                                  ),
-                                ],
-                              )
+                                  children: [
+                                    Expanded(
+                                      child: FilledButton.icon(
+                                          icon: const Icon(
+                                            Icons.balance,
+                                            size: 25,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: false)
+                                                .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const EstadoDeCuenta()));
+                                          },
+                                          label:
+                                              Text("ver_estado_cuenta".tr())),
+                                    ),
+                                  ],
+                                )
                             ],
                           ),
                         ),
+                        if (appInfo.metricsPrefixKey == "ENCARGOPAQ")
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: OutlinedButton(
+                              style: Theme.of(context).outlinedButtonTheme.style!.copyWith(
+                                  backgroundColor: WidgetStateProperty.all(
+                                      Colors.amber)),
+                              onPressed: () async {
+                                const String playStoreUrl =
+                                    'market://details?id=com.barolit.fixocargo';
+                                const String appStoreUrl =
+                                    'https://apps.apple.com/app/id/id1457958884';
+
+                                final Uri appUri = Uri.parse(Platform.isAndroid
+                                    ? playStoreUrl
+                                    : appStoreUrl);
+                                await launchUrl(
+                                  appUri,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              },
+                              child: Center(
+                                  child: Text(
+                                'No ves tus paquetes aéreos?, descarga la app de FIXO CARGO y dale seguimiento a tus paquetes',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.black),
+                              )),
+                            ),
+                          ),
                       ],
                     ),
                   );
@@ -551,12 +684,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
   }
 
   Future<void> showPreAlertaSheet(BuildContext context) async {
-
-    Navigator.of(context,
-        rootNavigator: false)
-        .push( MaterialPageRoute( fullscreenDialog: true,
-        builder: (context) =>
-        const CrearPreAlertaPage()));
+    Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => const CrearPreAlertaPage()));
 
     //NavbarNotifier.hideBottomNavBar = true;
 
@@ -576,85 +706,97 @@ class _CourierDashboardState extends State<CourierDashboard> {
     // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
   }
 
-
-
   void doPayOnlineCPS() async {
-
     final map = await GetIt.I<CourierService>().getPaymentUrl();
     final actionUrl = map['ActionURL'] ?? "";
     final userId = map['UsuarioID'] ?? "";
     final userPwd = map['UsuarioPW'] ?? "";
     final urlId = map['UrlID'] ?? "";
-    final html = '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
-    if(!context.mounted) return;
+    final html =
+        '<html><head></head><body onload="document.ipluspostpage.submit()"><form name="ipluspostpage" method="POST" action="$actionUrl" accept-charset="utf-8"><input name="UsuarioID" type="hidden" value="$userId"><input name="UsuarioPW" type="hidden" value="$userPwd"><input name="UrlID" type="hidden" value="$urlId"></form></body></html>';
+    if (!context.mounted) return;
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => CourierWebViewPage(htmlText: html, titulo: "realizar_pago")),
+      MaterialPageRoute(
+          builder: (context) =>
+              CourierWebViewPage(htmlText: html, titulo: "realizar_pago")),
     );
   }
 }
 
 Widget buildSlideShow(BuildContext context, List<BannerImage> banners) {
-  return banners.isEmpty ? const SizedBox(height: 0,) : ImageSlideshow(
-    height: 145,
-    indicatorRadius: 0,
-    autoPlayInterval: 5000,
-    isLoop: true,
-    children: banners
-        .map(
-          (e) => CachedNetworkImage(
-            imageUrl: e.url,
-            imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.fill,
-              ),
-            )),
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Center(
-                    child: CircularProgressIndicator(
-                        value: downloadProgress.progress)),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
+  return banners.isEmpty
+      ? const SizedBox(
+          height: 0,
         )
-        .toList(),
-  );
+      : ImageSlideshow(
+          height: 145,
+          indicatorRadius: 0,
+          autoPlayInterval: 5000,
+          isLoop: true,
+          children: banners
+              .map(
+                (e) => CachedNetworkImage(
+                  imageUrl: e.url,
+                  imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.fill,
+                    ),
+                  )),
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress)),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              )
+              .toList(),
+        );
 }
 
 Future<void> showTrackingSheet(BuildContext context) async {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
   var trackingNumber = await cache.load('lasttrackednumber', '');
 
-  Future<void> doShowTracking(String carrier) async {
-    if (_formKey.currentState!.validate()) {
+  Future<void> doShowTracking() async {
+    if (formKey.currentState!.validate()) {
       trackingNumber =
-          _formKey.currentState!.fields['tracking']!.value.toString();
-      final Map<String, String> trackUrls = {
-        "amazon": trackingNumber,
-        "ups":
-            "http://m.ups.com/mobile/track?trackingNumber=$trackingNumber&t=t",
-        "fedex":
-            "https://www.fedex.com/apps/fedextrack/?action=track&$trackingNumber={0}",
-        "dhl":
-            "https://mydhl.express.dhl/do/es/mobile.html#/tracking-results/$trackingNumber",
-        "usps":
-            "https://tools.usps.com/go/TrackConfirmAction.action?tRef=fullpage&tLc=1&text28777=&tLabels=$trackingNumber",
-      };
-      Navigator.of(context).pop();
+          formKey.currentState!.fields['tracking']!.value.toString();
+      // final Map<String, String> trackUrls = {
+      //   "amazon": trackingNumber,
+      //   "ups":
+      //       "https://m.ups.com/mobile/track?trackingNumber=$trackingNumber&t=t",
+      //   "fedex":
+      //       "https://www.fedex.com/apps/fedextrack/?action=track&$trackingNumber={0}",
+      //   "dhl":
+      //       "https://mydhl.express.dhl/do/es/mobile.html#/tracking-results/$trackingNumber",
+      //   "usps":
+      //       "https://tools.usps.com/go/TrackConfirmAction.action?tRef=fullpage&tLc=1&text28777=&tLabels=$trackingNumber",
+      // };
 
-      final _urlStr = trackUrls[carrier];
+      //Navigator.of(context).pop();
+      final courierService = GetIt.I<CourierService>();
+      var empresa = (await courierService.getEmpresa(retryEmtpy: true));
+      String originalUrl = empresa.registerUrl;
+      Uri uri = Uri.parse(originalUrl);
+      List<String> segments = List.from(uri.pathSegments);
+      if (segments.isNotEmpty) {
+        segments.removeLast();
+      }
+      // 3. Add your new page to the segments
+      segments.add("Estatus.aspx");
 
-      if (_urlStr != null) {
-        final _url = Uri.tryParse(_urlStr);
-        if (_url != null) {
-          if (await launchUrl(_url)) {
-            await cache.write('lasttrackednumber', trackingNumber);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    "error_favor_reintentar".tr())));
-          }
-        }
+      Uri url = uri.replace(
+        pathSegments: segments,
+        queryParameters: {'id': trackingNumber}, // This adds ?id=
+      );
+
+      if (await launchUrl(url)) {
+        await cache.write('lasttrackednumber', trackingNumber);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("error_favor_reintentar".tr())));
       }
     }
   }
@@ -664,7 +806,8 @@ Future<void> showTrackingSheet(BuildContext context) async {
   final appInfo = GetIt.I<AppInfo>();
 
   if (appInfo.metricsPrefixKey == "CARIBEPACK") {
-    await launchUrl(Uri.parse("https://caribepack-erp.iplus.app/fe/lg-es/ut/Estatus.aspx"));
+    await launchUrl(
+        Uri.parse("https://caribepack-erp.iplus.app/fe/lg-es/ut/Estatus.aspx"));
     // await showModalBottomSheet(
     //     isScrollControlled: true,
     //     shape: const RoundedRectangleBorder(
@@ -708,7 +851,7 @@ Future<void> showTrackingSheet(BuildContext context) async {
     return;
   }
 
-  if(!context.mounted) return;
+  if (!context.mounted) return;
 
   await showModalBottomSheet(
       isScrollControlled: true,
@@ -750,89 +893,89 @@ Future<void> showTrackingSheet(BuildContext context) async {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: InkWell(
-                      onTap: () {
-                        doShowTracking('amazon');
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child:
-                            const Image(image: AssetImage('images/amazon.png')),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: InkWell(
-                      onTap: () {
-                        doShowTracking('dhl');
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: const Image(image: AssetImage('images/dhl.png')),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: InkWell(
-                      onTap: () {
-                        doShowTracking('fedex');
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child:
-                            const Image(image: AssetImage('images/fedex.png')),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: InkWell(
-                      onTap: () {
-                        doShowTracking('ups');
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: const Image(image: AssetImage('images/ups.png')),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: InkWell(
-                      onTap: () {
-                        doShowTracking('usps');
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child:
-                            const Image(image: AssetImage('images/usps.png')),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     SizedBox(
+              //       width: 40,
+              //       height: 40,
+              //       child: InkWell(
+              //         onTap: () {
+              //           doShowTracking('amazon');
+              //         },
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(20.0),
+              //           child:
+              //               const Image(image: AssetImage('images/amazon.png')),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 40,
+              //       height: 40,
+              //       child: InkWell(
+              //         onTap: () {
+              //           doShowTracking('dhl');
+              //         },
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(20.0),
+              //           child: const Image(image: AssetImage('images/dhl.png')),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 40,
+              //       height: 40,
+              //       child: InkWell(
+              //         onTap: () {
+              //           doShowTracking('fedex');
+              //         },
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(20.0),
+              //           child:
+              //               const Image(image: AssetImage('images/fedex.png')),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 40,
+              //       height: 40,
+              //       child: InkWell(
+              //         onTap: () {
+              //           doShowTracking('ups');
+              //         },
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(20.0),
+              //           child: const Image(image: AssetImage('images/ups.png')),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 40,
+              //       height: 40,
+              //       child: InkWell(
+              //         onTap: () {
+              //           doShowTracking('usps');
+              //         },
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(20.0),
+              //           child:
+              //               const Image(image: AssetImage('images/usps.png')),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 30,
+              // ),
               SizedBox(
                 height: 90,
                 child: Container(
                     padding: const EdgeInsets.all(5),
                     child: FormBuilder(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      key: _formKey,
+                      key: formKey,
                       child: FormBuilderTextField(
                         name: 'tracking',
                         contextMenuBuilder: (context, editableTextState) {
@@ -841,21 +984,45 @@ Future<void> showTrackingSheet(BuildContext context) async {
                           );
                         },
                         initialValue: trackingNumber,
-                        decoration:  InputDecoration(
-                          prefixIcon: const Icon(Icons.confirmation_number_outlined),
+                        decoration: InputDecoration(
+                          prefixIcon:
+                              const Icon(Icons.confirmation_number_outlined),
                           label: Text('numero_rastreo'.tr()),
-                          helperText:
-                              'numero_o_amazon_url'.tr(),
+                          // helperText:
+                          //     'numero_o_amazon_url'.tr(),
                         ),
-                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color),
                         validator: FormBuilderValidators.required(
                             errorText: 'requerido'.tr()),
                       ),
                     )),
               ),
-              const SizedBox(
-                height: 250,
-              ),
+              Center(
+                  child: FilledButton.icon(
+                      icon: const Icon(
+                        IconData(0xe811, fontFamily: 'iCourier'),
+                        size: 35,
+                      ),
+                      onPressed: () {
+                        doShowTracking();
+                      },
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8.0),
+                        child: Text("rastrear_paquete".tr()),
+                      ))),
+              Flexible(
+                  child: Center(
+                      child: Icon(
+                Icons.search,
+                size: 200,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.2),
+              ))),
             ],
           ),
         );
@@ -931,9 +1098,9 @@ class PointsSummaryBox extends StatelessWidget {
           Expanded(
               child: Center(
                   child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ))),
+            title,
+            style: Theme.of(context).textTheme.titleMedium,
+          ))),
           if (count > 0)
             Transform.scale(
               scale: 0.8,
@@ -943,8 +1110,14 @@ class PointsSummaryBox extends StatelessWidget {
                       .backgroundColor!
                       .withOpacity(0.9),
                   foregroundColor:
-                  Theme.of(context).appBarTheme.foregroundColor!,
-                  child: Text(count.toString(), style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),)),
+                      Theme.of(context).appBarTheme.foregroundColor!,
+                  child: Text(
+                    count.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )),
             )
         ],
       ),

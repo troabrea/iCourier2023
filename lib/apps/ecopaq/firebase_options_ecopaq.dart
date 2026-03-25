@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-class CargoSpotDefaultFirebaseOptions {
+class EcoPaqDefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -51,7 +51,7 @@ class CargoSpotDefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBO97z6fCWC3F34vvZk0tsdGxlGzdDBWfY',
-    appId: '1:329482419226:android:d3bb87161e6d59759e25a3',
+    appId: '1:329482419226:android:2ab8ad7d8662eb1b9e25a3',
     messagingSenderId: '329482419226',
     projectId: 'icourierapps-group2',
     storageBucket: 'icourierapps-group2.firebasestorage.app',
@@ -59,10 +59,10 @@ class CargoSpotDefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCJfRB_51Rjsv0PJ6Zm0S-fL9et2Hgc49I',
-    appId: '1:329482419226:ios:bbea2364af2dab9d9e25a3',
+    appId: '1:329482419226:ios:35afcdb53bdc37909e25a3',
     messagingSenderId: '329482419226',
     projectId: 'icourierapps-group2',
     storageBucket: 'icourierapps-group2.firebasestorage.app',
-    iosBundleId: 'com.barolit.cargospot',
+    iosBundleId: 'com.barolit.ecopaq',
   );
 }

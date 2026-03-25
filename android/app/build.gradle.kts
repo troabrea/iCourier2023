@@ -118,7 +118,7 @@ android {
         create("encargopaq") {
             dimension = "app"
             applicationId = "com.barolit.encargopaq"
-            versionCode = 5202601
+            versionCode = 5202603
         }
         create("pintopaq") {
             dimension = "app"
@@ -132,7 +132,7 @@ android {
         create("tls") {
             dimension = "app"
             applicationId = "com.barolit.tls"
-            versionCode = 5202601
+            versionCode = 5202602
         }
         create("cps") {
             dimension = "app"
@@ -235,8 +235,8 @@ android {
         // getByName("release") is used to modify the standard 'release' build type
         getByName("release") {
 //            signingConfig = signingConfigs.getByName("release")
-//             signingConfig = signingConfigs.getByName("recent")
-             signingConfig = signingConfigs.getByName("legacy")
+             signingConfig = signingConfigs.getByName("recent")
+//             signingConfig = signingConfigs.getByName("legacy")
         }
     }
 }

@@ -179,7 +179,7 @@ class _CourierPageState extends State<CourierPage> {
   }
 
   Widget loginPage(BuildContext context, bool showError, String registerUrl) {
-    if(appInfo.metricsPrefixKey == "TLS") {
+    if(appInfo.metricsPrefixKey == "TLS_OLD") {
       registerUrl = "";
     }
     return SafeArea(

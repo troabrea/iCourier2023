@@ -79,7 +79,7 @@ class PaqueteTile extends StatelessWidget {
                     Text(formatCurrency.format(recepcion.montoTotal()), style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),)
                 ],
               ),
-              if(appInfo.metricsPrefixKey == "TLS")
+              if(appInfo.metricsPrefixKey == "TLS_OLD")
                 Row(
                   children: [
                     Expanded(child: AutoSizeText(recepcion.estatus,  maxLines: 2,)),
@@ -87,7 +87,7 @@ class PaqueteTile extends StatelessWidget {
                     AutoSizeText(formatDate.format(recepcion.fechaRecibido()),  maxLines: 1, style: Theme.of(context).textTheme.bodySmall,)
                   ],
                 ),
-              if(appInfo.metricsPrefixKey != "TLS")
+              if(appInfo.metricsPrefixKey != "TLS_OLD")
               Row(
                 children: [
                   Expanded(child: AutoSizeText(recepcion.enviadoPor,  maxLines: 2,)),

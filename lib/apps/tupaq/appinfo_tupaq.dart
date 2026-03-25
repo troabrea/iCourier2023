@@ -3,13 +3,14 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/tupaq/firebase_options_tupaq.dart';
 
 import '../appinfo.dart';
 
 class TupaqAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => TuPaqDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

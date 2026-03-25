@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.329482419226-h8ddi7oi3jaql5qqd04a6r6t21ao0h2r</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCJfRB_51Rjsv0PJ6Zm0S-fL9et2Hgc49I</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +13,7 @@
 	<key>PROJECT_ID</key>
 	<string>icourierapps-group2</string>
 	<key>STORAGE_BUCKET</key>
-	<string>icourierapps-group2.appspot.com</string>
+	<string>icourierapps-group2.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>

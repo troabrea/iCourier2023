@@ -756,7 +756,7 @@ class CourierService {
 
   Future<void> saveLoggedInState(
       LoginResult loginResult, String userAccount, String userPassword) async {
-    if (appInfo.pushChannelTopic == "TLS") {
+    if (appInfo.pushChannelTopic == "TLS_OLD") {
       FirebaseMessaging.instance.subscribeToTopic(
           "${appInfo.pushChannelTopic}_${loginResult.sessionId}");
     } else {
@@ -780,11 +780,11 @@ class CourierService {
     // Posthog().identify(userId: 'not_authenticated');
     var userAccount = await cache.load('userAccount', "") as String;
     var sessionId = await cache.load('sessionId', "") as String;
-    if (appInfo.pushChannelTopic == "TLS" && sessionId.isNotEmpty) {
+    if (appInfo.pushChannelTopic == "TLS_OLD" && sessionId.isNotEmpty) {
       FirebaseMessaging.instance
           .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$sessionId");
     }
-    if (appInfo.pushChannelTopic != "TLS" && userAccount.isNotEmpty) {
+    if (appInfo.pushChannelTopic != "TLS_OLD" && userAccount.isNotEmpty) {
       FirebaseMessaging.instance
           .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
@@ -1184,6 +1184,10 @@ class CourierService {
   }
 
   clearDataCache() {
-    cache.clear();
+    cache.destroy('banners');
+    cache.destroy('noticias');
+    cache.destroy('preguntas');
+    cache.destroy('servicios');
+    cache.destroy('sucursales');
   }
 }
