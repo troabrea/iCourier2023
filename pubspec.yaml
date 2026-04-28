@@ -125,7 +125,7 @@ flutter:
 #    - images/beexpress/
 #    - images/blumbox/
 #    - images/bmcargo/
-    - images/boxpaq/
+#    - images/boxpaq/
 #    - images/cainca/
 #    - images/cargospot/
 #    - images/cargowise/
@@ -143,7 +143,7 @@ flutter:
 #    - images/mcccargo/
 #    - images/picknsend/
 #    - images/pintopaq/
-#    - images/priority/
+    - images/priority/
 #    - images/qm/
 #    - images/skyhigh/
 #    - images/swoop/

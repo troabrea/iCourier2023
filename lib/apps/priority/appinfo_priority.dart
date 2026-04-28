@@ -3,6 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/priority/firebase_options.dart';
 
 import '../appinfo.dart';
 
@@ -10,7 +11,7 @@ class PriorityAppInfo implements AppInfo {
 
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => PriorityDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

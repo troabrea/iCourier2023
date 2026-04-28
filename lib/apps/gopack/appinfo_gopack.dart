@@ -1,13 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:icourier/apps/gopack/firebase_options_gopack.dart';
 
 import '../appinfo.dart';
 
 class GopackAppInfo implements AppInfo {
   @override
   // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions => GoPackDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

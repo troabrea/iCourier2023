@@ -3,14 +3,14 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icourier/apps/mcccargo/firebase_options_mcccargo.dart';
 
 import '../appinfo.dart';
 
 class MccCargoAppInfo implements AppInfo {
 
   @override
-  // TODO: implement appFirebaseOptions
-  FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
+  FirebaseOptions get appFirebaseOptions =>  MccCargoDefaultFirebaseOptions.currentPlatform;
   @override
   String defaultLocale = 'es';
   @override

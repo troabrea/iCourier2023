@@ -121,7 +121,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
                           padding: const EdgeInsets.all(20),
                           child: Column(
                             children: [
-                              if (appInfo.metricsPrefixKey != "TLS" &&
+                              if (appInfo.metricsPrefixKey != "TLS_OLD" &&
                                   state.disponiblesCount > 0)
                                 InkWell(
                                     onTap: () {

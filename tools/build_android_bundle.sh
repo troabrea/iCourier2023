@@ -19,12 +19,12 @@
 #fvm flutter build appbundle -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
 #fvm flutter build appbundle -t lib/apps/cps/main_cps.dart --flavor cps
 #fvm flutter build appbundle -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
-fvm flutter build appbundle -t lib/apps/encargopaq/main_encargopaq.dart --flavor encargopaq
+#fvm flutter build appbundle -t lib/apps/encargopaq/main_encargopaq.dart --flavor encargopaq
 #fvm flutter build appbundle -t lib/apps/flypack/main_flypack.dart --flavor flypack
 #fvm flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
 #fvm flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox
 #fvm flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
-#fvm flutter build appbundle -t lib/apps/priority/main_priority.dart --flavor priority
+fvm flutter build appbundle -t lib/apps/priority/main_priority.dart --flavor priority
 #fvm flutter build appbundle -t lib/apps/qm/main_qm.dart --flavor qm
 #fvm flutter build appbundle -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
 #fvm flutter build appbundle -t lib/apps/swoop/main_swoop.dart --flavor swoop

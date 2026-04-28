@@ -113,9 +113,9 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
                                         strValor = strValor.replaceAll(',', '');
                                         var valor = double.parse(strValor);
                                         var fecha = formatDate.format(_formKey.currentState!.fields['fecha']!.value as DateTime);
-                                        var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
+                                        var xFile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
                                         var preAlerta = PreAlertaModel("", "", transportista, tracking, valor, contenido, proveedor, fecha, "");
-                                        prePostAlertaBloc.add(SendPreAlertaEvent(xfile,preAlerta));
+                                        prePostAlertaBloc.add(SendPreAlertaEvent(xFile,preAlerta));
                                       }
                                     }),
                                 ],
