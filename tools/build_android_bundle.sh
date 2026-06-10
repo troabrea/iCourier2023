@@ -24,11 +24,13 @@
 #fvm flutter build appbundle -t lib/apps/gopack/main_gopack.dart --flavor gopack
 #fvm flutter build appbundle -t lib/apps/inbox/main_inbox.dart --flavor inbox
 #fvm flutter build appbundle -t lib/apps/mcccargo/main_mcccargo.dart --flavor mcccargo
-fvm flutter build appbundle -t lib/apps/priority/main_priority.dart --flavor priority
+#fvm flutter build appbundle -t lib/apps/priority/main_priority.dart --flavor priority
 #fvm flutter build appbundle -t lib/apps/qm/main_qm.dart --flavor qm
 #fvm flutter build appbundle -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
 #fvm flutter build appbundle -t lib/apps/swoop/main_swoop.dart --flavor swoop
 #fvm flutter build appbundle -t lib/apps/tdexpress/main_tdexpress.dart --flavor tdexpress
 #fvm flutter build appbundle -t lib/apps/telo/main_telo.dart --flavor telo
 #fvm flutter build appbundle -t lib/apps/tls/main_tls.dart --flavor tls
-#fvm flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
+fvm flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
+
+#fvm flutter build appbundle -t lib/apps/acc/main_acc.dart --flavor acc

@@ -1,13 +1,3 @@
-# -- Firebase Group 2
-#fvm flutter build ipa -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot
-#fvm flutter build ipa -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
-#fvm flutter build ipa -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox
-#fvm flutter build ipa -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
-#fvm flutter build ipa -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
-#fvm flutter build ipa -t lib/apps/flypack/main_flypack.dart --flavor flypack
-#fvm flutter build ipa -t lib/apps/gopack/main_gopack.dart --flavor gopack
-#fvm flutter build ipa -t lib/apps/inbox/main_inbox.dart --flavor inbox
-fvm flutter build ipa -t lib/apps/priority/main_priority.dart --flavor priority
 
 # -- Firebase Group 1
 #fvm flutter build ipa -t lib/apps/bmcargo/main_bmcargo.dart --flavor bmcargo
@@ -26,6 +16,20 @@ fvm flutter build ipa -t lib/apps/priority/main_priority.dart --flavor priority
 #fvm flutter build ipa -t lib/apps/taino/main_taino.dart --flavor taino
 #fvm flutter build ipa -t lib/apps/tls/main_tls.dart --flavor tls
 
+# -- Firebase Group 2
+#fvm flutter build ipa -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot
+#fvm flutter build ipa -t lib/apps/clickpack/main_clickpack.dart --flavor clickpack
+#fvm flutter build ipa -t lib/apps/blumbox/main_blumbox.dart --flavor blumbox
+#fvm flutter build ipa -t lib/apps/skyhigh/main_skyhigh.dart --flavor skyhigh
+#fvm flutter build ipa -t lib/apps/ecopaq/main_ecopaq.dart --flavor ecopaq
+#fvm flutter build ipa -t lib/apps/flypack/main_flypack.dart --flavor flypack
+#fvm flutter build ipa -t lib/apps/gopack/main_gopack.dart --flavor gopack
+#fvm flutter build ipa -t lib/apps/priority/main_priority.dart --flavor priority
 #fvm flutter build ipa -t lib/apps/inbox/main_inbox.dart --flavor inbox
+#fvm flutter build ipa -t lib/apps/qm/main_qm.dart --flavor qm
+fvm flutter build ipa -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
+
+# -- Firebase Group 3
 #fvm flutter build ipa -t lib/apps/atiempo/main_atiempo.dart --flavor atiempo
 #fvm flutter build ipa -t lib/apps/cargowise/main_cargowise.dart --flavor cargowise
+#fvm flutter build ipa -t lib/apps/acc/main_acc.dart --flavor acc

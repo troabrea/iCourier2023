@@ -143,7 +143,8 @@ flutter:
 #    - images/mcccargo/
 #    - images/picknsend/
 #    - images/pintopaq/
-    - images/priority/
+#    - images/priority/
+#    - images/acc/
 #    - images/qm/
 #    - images/skyhigh/
 #    - images/swoop/
@@ -151,7 +152,7 @@ flutter:
 #    - images/tdexpress/
 #    - images/telo/
 #    - images/tls/
-#    - images/tupaq/
+    - images/tupaq/
     - images/noticias.svg
     - images/sucursales.svg
     - images/calculadora.svg

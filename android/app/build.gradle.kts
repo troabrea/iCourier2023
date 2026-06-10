@@ -182,6 +182,10 @@ android {
             dimension = "app"
             applicationId = "com.barolit.arribex"
         }
+        create("acc") {
+            dimension = "app"
+            applicationId = "com.barolit.acc"
+        }
         create("atiempo") {
             dimension = "app"
             applicationId = "com.barolit.atiempo"

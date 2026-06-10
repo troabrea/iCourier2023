@@ -29,4 +29,5 @@
 #flutter pub run flutter_native_splash:create --flavor gopack
 #flutter pub run flutter_native_splash:create --flavor arribex
 #flutter pub run flutter_native_splash:create --flavor atiempo
-flutter pub run flutter_native_splash:create --flavor cargowise
+#flutter pub run flutter_native_splash:create --flavor cargowise
+flutter pub run flutter_native_splash:create --flavor acc

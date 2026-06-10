@@ -1,1 +1,1 @@
-fvm flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-cargowise
+fvm flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-acc
