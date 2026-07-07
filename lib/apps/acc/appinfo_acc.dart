@@ -154,6 +154,9 @@ class AccAppInfo implements AppInfo {
 
   @override
   ThemeData getDarkTheme() {
+
+    return getLightTheme();
+
     const primaryColor = Color(0xffd7403d);
     const secondaryColor = Color(0xff45a0d6);
     // const primaryVariantColor = Color(0xff005580);

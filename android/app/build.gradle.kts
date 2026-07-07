@@ -190,6 +190,10 @@ android {
             dimension = "app"
             applicationId = "com.barolit.atiempo"
         }
+        create("brodpaq") {
+            dimension = "app"
+            applicationId = "com.barolit.brodpaq"
+        }
         create("cargowise") {
             dimension = "app"
             applicationId = "com.barolit.cargowise"

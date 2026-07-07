@@ -52,8 +52,8 @@ class InboxAppInfo implements AppInfo {
 
   @override
   ThemeData getLightTheme() {
-    const primaryColor = Color(0xff28C3F3);
-    const secondaryColor = Color(0xff28C3F3);
+    const primaryColor = Color(0xff495359);
+    const secondaryColor = Color(0xff495359);
     const primaryVariantColor = Color(0xff62737D);
     const errorColor = Color(0xffb00020);
 
@@ -139,8 +139,8 @@ class InboxAppInfo implements AppInfo {
 
   @override
   ThemeData getDarkTheme() {
-    const primaryColor = Color(0xff28C3F3);
-    const secondaryColor = Color(0xff28C3F3);
+    const primaryColor = Color(0xff495359);
+    const secondaryColor = Color(0xff495359);
     const primaryVariantColor = Color(0xfff9f9f9);
     const errorColor = Color(0xffb00020);
     getDarkAppBarTheme() {

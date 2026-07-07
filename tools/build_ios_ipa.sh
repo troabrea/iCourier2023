@@ -27,9 +27,10 @@
 #fvm flutter build ipa -t lib/apps/priority/main_priority.dart --flavor priority
 #fvm flutter build ipa -t lib/apps/inbox/main_inbox.dart --flavor inbox
 #fvm flutter build ipa -t lib/apps/qm/main_qm.dart --flavor qm
-fvm flutter build ipa -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
+#fvm flutter build ipa -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
 
 # -- Firebase Group 3
 #fvm flutter build ipa -t lib/apps/atiempo/main_atiempo.dart --flavor atiempo
 #fvm flutter build ipa -t lib/apps/cargowise/main_cargowise.dart --flavor cargowise
 #fvm flutter build ipa -t lib/apps/acc/main_acc.dart --flavor acc
+fvm flutter build ipa -t lib/apps/brodpaq/main_brodpaq.dart --flavor brodpaq
