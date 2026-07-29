@@ -30,8 +30,8 @@
 #fvm flutter build appbundle -t lib/apps/swoop/main_swoop.dart --flavor swoop
 #fvm flutter build appbundle -t lib/apps/tdexpress/main_tdexpress.dart --flavor tdexpress
 #fvm flutter build appbundle -t lib/apps/telo/main_telo.dart --flavor telo
-#fvm flutter build appbundle -t lib/apps/tls/main_tls.dart --flavor tls
+fvm flutter build appbundle -t lib/apps/tls/main_tls.dart --flavor tls
 #fvm flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
 
 #fvm flutter build appbundle -t lib/apps/acc/main_acc.dart --flavor acc
-fvm flutter build appbundle -t lib/apps/brodpaq/main_brodpaq.dart --flavor brodpaq
+#fvm flutter build appbundle -t lib/apps/brodpaq/main_brodpaq.dart --flavor brodpaq

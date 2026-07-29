@@ -132,7 +132,7 @@ android {
         create("tls") {
             dimension = "app"
             applicationId = "com.barolit.tls"
-            versionCode = 5202603
+            versionCode = 5202604
         }
         create("cps") {
             dimension = "app"
@@ -242,8 +242,8 @@ android {
     buildTypes {
         // getByName("release") is used to modify the standard 'release' build type
         getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
-//            signingConfig = signingConfigs.getByName("recent")
+//            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("recent")
 //             signingConfig = signingConfigs.getByName("legacy")
         }
     }

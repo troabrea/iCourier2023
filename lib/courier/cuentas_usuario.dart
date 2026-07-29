@@ -57,49 +57,49 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      Container(
-          decoration: ShapeDecoration(
-              color: Theme.of(context).appBarTheme.backgroundColor,
-              shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20)))),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: AutoSizeText("sus_cuentas".tr(),
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Theme.of(context)
-                                .appBarTheme
-                                .foregroundColor))),
-              ),
-            ],
-          )),
-      SizedBox(
-        height: accountList.isNotEmpty ? min(accountList.length * 100, 500) : 200,
-        child: ListView.separated(
-          separatorBuilder: (ctx,idx) => const Divider(),
-          itemBuilder: (ctx, idx) => ListTile(
-            onTap: () { switchToAccount(accountList[idx]); },
-            title: Text(accountList[idx].userAccount),
-            subtitle: Text(accountList[idx].nombre),
-            leading: userProfile.cuenta == accountList[idx].userAccount ? const Icon(Icons.check_circle) : const Icon(Icons.circle_outlined),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
+        Container(
+            decoration: ShapeDecoration(
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)))),
+            child: Column(
               children: [
-                if(profileUrl.isNotEmpty && userProfile.cuenta == accountList[idx].userAccount)
-                  IconButton.filledTonal(onPressed: () {doEditProfile(context);}, icon: const Icon(Icons.edit), color: Theme.of(context).colorScheme.primary),
-                IconButton.filledTonal(onPressed: () {doForgetAccount( accountList[idx] );}, icon: const Icon(Icons.delete), color: Theme.of(context).colorScheme.error,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: AutoSizeText("sus_cuentas".tr(),
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(context)
+                                  .appBarTheme
+                                  .foregroundColor))),
+                ),
               ],
+            )),
+        SizedBox(
+          height: accountList.isNotEmpty ? min(accountList.length * 100, 400) : 200,
+          child: ListView.separated(
+            separatorBuilder: (ctx,idx) => const Divider(),
+            itemBuilder: (ctx, idx) => ListTile(
+              onTap: () { switchToAccount(accountList[idx]); },
+              title: Text(accountList[idx].userAccount),
+              subtitle: Text(accountList[idx].nombre),
+              leading: userProfile.cuenta == accountList[idx].userAccount ? const Icon(Icons.check_circle) : const Icon(Icons.circle_outlined),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if(profileUrl.isNotEmpty && userProfile.cuenta == accountList[idx].userAccount)
+                    IconButton.filledTonal(onPressed: () {doEditProfile(context);}, icon: const Icon(Icons.edit), color: Theme.of(context).colorScheme.primary),
+                  IconButton.filledTonal(onPressed: () {doForgetAccount( accountList[idx] );}, icon: const Icon(Icons.delete), color: Theme.of(context).colorScheme.error,),
+                ],
+              ),
             ),
+            itemCount: accountList.length,
           ),
-          itemCount: accountList.length,
         ),
-      ),
-      SafeArea(child: OutlinedButton(onPressed: () {doLogout(context);}, child: Text("${"agregar_cuenta".tr()} / ${"cerrar_session".tr()}", style: TextStyle(color: Theme.of(context).colorScheme.primary))))
-    ]);
+        SafeArea(child: OutlinedButton(onPressed: () {doLogout(context);}, child: Text("${"agregar_cuenta".tr()} / ${"cerrar_session".tr()}", style: TextStyle(color: Theme.of(context).colorScheme.primary))))
+      ]);
   }
   Future<void> doForgetAccount(UserAccount userAccount) async {
     if(!await confirmDialog(context, "confirme_borrar_cuenta".tr(), "si".tr(), "no".tr())) {

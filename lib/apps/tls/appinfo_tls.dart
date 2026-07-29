@@ -27,7 +27,7 @@ class TlsAppInfo implements AppInfo {
   String get brandLogoImageDark => "images/tls/brand_logo.png";
 
   @override
-  String get centerIconImage => "images/tls/ic_launcher_foreground.png";
+  String get centerIconImage => "images/tls/icon.png";
 
   @override
   String get androidAnalyticsAppId => "1e5c3d46-2323-4906-aa0b-6377fa84701d";

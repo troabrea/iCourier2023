@@ -645,7 +645,7 @@ class _MainAppShellState extends State<MainAppShell>
               child: Container(
                 key: keyMainBottomNavigation,
                 decoration: BoxDecoration(
-                    color: appInfo.pushChannelTopic == "INBOX"
+                    color: appInfo.pushChannelTopic == "INBOX" || appInfo.pushChannelTopic == "BRODPAQ"
                         ? Colors.transparent
                         : Colors.white,
                     shape: BoxShape.circle),
@@ -667,9 +667,9 @@ class _MainAppShellState extends State<MainAppShell>
                             appInfo.pushChannelTopic == "PICKNSEND" ||
                             appInfo.pushChannelTopic == "JETPACK" ||
                             appInfo.pushChannelTopic == "TLS" ||
-                            appInfo.pushChannelTopic == "TUPAQ"
+                            appInfo.pushChannelTopic == "TUPAQ" || appInfo.pushChannelTopic == "BRODPAQ"
                         ? Colors.transparent
-                        : Colors.white.withOpacity(1),
+                        : Colors.white,
                     shape: BoxShape.circle),
                 //color: Colors.transparent,
                 child: Image.asset(appInfo.centerIconImage),

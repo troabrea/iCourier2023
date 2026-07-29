@@ -148,6 +148,8 @@ class _CourierPageState extends State<CourierPage> {
         );
       },
       keyboardType: TextInputType.text,
+      autocorrect: false,
+      textCapitalization: TextCapitalization.characters,
       textAlign: TextAlign.center,
       style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
       initialValue: initialValue,
@@ -479,6 +481,18 @@ class _CourierPageState extends State<CourierPage> {
       });
 
       userName = _formKey.currentState!.fields['user']!.value.toString().toUpperCase();
+
+      if (userName.contains('-')) {
+        var parts = userName.split('-');
+        if (parts.length == 2) {
+          var prefix = parts[0];
+          var suffix = parts[1];
+          if (RegExp(r'^\d+$').hasMatch(suffix)) {
+            userName = '$prefix-${suffix.padLeft(6, '0')}';
+          }
+        }
+      }
+
       password = _formKey.currentState!.fields['password']!.value.toString();
 
       var loginResult =

@@ -49,53 +49,53 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      Container(
-          decoration: ShapeDecoration(
-              color: Theme.of(context).appBarTheme.backgroundColor,
-              shape: const RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20)))),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: AutoSizeText("sus_mensajes".tr(),
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Theme.of(context)
-                                .appBarTheme
-                                .foregroundColor))),
-              ),
-            ],
-          )),
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: ListView.separated(
-          separatorBuilder: (ctx,idx) => const SizedBox(height: 8,),
-          itemBuilder: (ctx, idx) => Card(
-            surfaceTintColor: mensajes[idx].read ? null : Colors.red,
-            child: ListTile(
-              onTap: () { markAsRead(mensajes[idx]); },
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(child: AutoSizeText(mensajes[idx].titulo,maxLines: 2, style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 16),)),
-                  const SizedBox(width: 2,),
-                  AutoSizeText(DateFormat("dd-MMM-yyyy").format(mensajes[idx].fecha), maxLines: 2, style: Theme.of(context).textTheme.bodySmall),
-                ],
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(mensajes[idx].contenido, textAlign: TextAlign.justify),
+        Container(
+            decoration: ShapeDecoration(
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                shape: const RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(20)))),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: AutoSizeText("sus_mensajes".tr(),
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(context)
+                                  .appBarTheme
+                                  .foregroundColor))),
+                ),
+              ],
+            )),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: ListView.separated(
+            separatorBuilder: (ctx,idx) => const SizedBox(height: 8,),
+            itemBuilder: (ctx, idx) => Card(
+              surfaceTintColor: mensajes[idx].read ? null : Colors.red,
+              child: ListTile(
+                onTap: () { markAsRead(mensajes[idx]); },
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(child: AutoSizeText(mensajes[idx].titulo,maxLines: 2, style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 16),)),
+                    const SizedBox(width: 2,),
+                    AutoSizeText(DateFormat("dd-MMM-yyyy").format(mensajes[idx].fecha), maxLines: 2, style: Theme.of(context).textTheme.bodySmall),
+                  ],
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(mensajes[idx].contenido, textAlign: TextAlign.justify),
+                ),
               ),
             ),
+            itemCount: mensajes.length,
           ),
-          itemCount: mensajes.length,
         ),
-      ),
-      SafeArea(child: OutlinedButton(onPressed: () { markAllAsRead(); }, child: Text("todo_leido".tr())))
-    ]);
+        SafeArea(child: OutlinedButton(onPressed: () { markAllAsRead(); }, child: Text("todo_leido".tr())))
+      ]);
   }
 
   Future markAsRead(Mensaje mensaje) async {

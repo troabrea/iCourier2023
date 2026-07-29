@@ -14,7 +14,7 @@
 #fvm flutter build ipa -t lib/apps/pns/main_pns.dart --flavor picknsend
 #fvm flutter build ipa -t lib/apps/pintopaq/main_pintopaq.dart --flavor pintopaq
 #fvm flutter build ipa -t lib/apps/taino/main_taino.dart --flavor taino
-#fvm flutter build ipa -t lib/apps/tls/main_tls.dart --flavor tls
+fvm flutter build ipa -t lib/apps/tls/main_tls.dart --flavor tls
 
 # -- Firebase Group 2
 #fvm flutter build ipa -t lib/apps/cargospot/main_cargospot.dart --flavor cargospot
@@ -33,4 +33,4 @@
 #fvm flutter build ipa -t lib/apps/atiempo/main_atiempo.dart --flavor atiempo
 #fvm flutter build ipa -t lib/apps/cargowise/main_cargowise.dart --flavor cargowise
 #fvm flutter build ipa -t lib/apps/acc/main_acc.dart --flavor acc
-fvm flutter build ipa -t lib/apps/brodpaq/main_brodpaq.dart --flavor brodpaq
+#fvm flutter build ipa -t lib/apps/brodpaq/main_brodpaq.dart --flavor brodpaq

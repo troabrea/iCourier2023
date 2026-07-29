@@ -1,1 +1,1 @@
-fvm flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-brodpaq
+fvm flutter pub run flutter_launcher_icons:main -f flutter_launcher_icons-tls

@@ -40,6 +40,7 @@ class _CourierAppBarState extends State<CourierAppBar> {
   bool showWhatsApp = false;
   bool showChat = false;
   String profileUrl ="";
+  bool _isShowingModal = false;
 
   @override
   void initState() {
@@ -161,50 +162,51 @@ class _CourierAppBarState extends State<CourierAppBar> {
     });
 
     return AppBar(
-      title: widget.showProfile ?  OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
-          backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          side: BorderSide.none, // (color: Theme.of(context).appBarTheme.foregroundColor!, width: 0.5),
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8.0)
-        ),
-        onPressed: () => {showProfileOptions(context)},
-        child: FittedBox(
-          child: Row(
-            children: [
-              CachedNetworkImage(imageUrl: fotoPerfil,
-                width: 30,
-                height: 30,
-                imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.fill,
-                      ),
-                    )),
-                placeholder: (context, url) => const Icon(Icons.person),
-                errorWidget: (context, url, error) => const Icon(Icons.person),
-              ),
-              const SizedBox(width: 2,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor ?? Theme.of(context).colorScheme.onPrimary),),
-                  Text(subtitle, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor ?? Theme.of(context).colorScheme.onPrimary),)
-                ],
-              ),
-            ],
-          ),
-        ),
-      ) : Text(title),
+      title: widget.showProfile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+                      color: Theme.of(context).appBarTheme.foregroundColor ??
+                          Theme.of(context).colorScheme.onPrimary),
+                ),
+                Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).appBarTheme.foregroundColor ??
+                          Theme.of(context).colorScheme.onPrimary),
+                )
+              ],
+            )
+          : Text(title),
       actions: [
         ...appBarActions,
-        if(unreadMessages > 0)
-          Badge(alignment: Alignment.topLeft, label: Text(unreadMessages.toString()), child: IconButton(onPressed: () {showMessages(context);}, icon: const Icon(Icons.notifications_none))),
-        if(unreadMessages <= 0)
-        IconButton(onPressed: () {showMessages(context);}, icon: const Icon(Icons.notifications_none)),
+        if (unreadMessages > 0)
+          Badge(
+              alignment: Alignment.topLeft,
+              label: Text(unreadMessages.toString()),
+              child: IconButton(
+                  onPressed: () {
+                    showMessages(context);
+                  },
+                  icon: const Icon(Icons.notifications_none))),
+        if (unreadMessages <= 0)
+          IconButton(
+              onPressed: () {
+                showMessages(context);
+              },
+              icon: const Icon(Icons.notifications_none)),
+        if (widget.showProfile)
+          IconButton(
+            icon: Icon(
+              Icons.person_outline,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+            ),
+            onPressed: () => showProfileOptions(context),
+          ),
       ],
       automaticallyImplyLeading: true,
     );
@@ -223,54 +225,44 @@ class _CourierAppBarState extends State<CourierAppBar> {
   Future<void> showMessages(BuildContext context) async {
     var messages = await GetIt.I<CourierService>().getMensajes();
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
     if (!context.mounted) return;
-    await showModalBottomSheet(
+    GetIt.I<Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    showModalBottomSheet(
         isScrollControlled: true,
-        useSafeArea: true,
-        useRootNavigator: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
         builder: (builder) {
           return MensajesUsuario();
-        });
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+        }).then((value) {
+      GetIt.I<Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+    });
   }
 
   Future<void> showProfileOptions(BuildContext context) async {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
     if (!context.mounted) return;
-    await showModalBottomSheet(
+    GetIt.I<Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    showModalBottomSheet(
         isScrollControlled: true,
-        useSafeArea: true,
-        useRootNavigator: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
         builder: (builder) {
           return CuentasUsuario(userProfile: userProfile);
-        });
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+        }).then((value) {
+      GetIt.I<Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+    });
   }
 
   Future<void> showMembershipBadge(BuildContext context) async {
     var userProfile = await GetIt.I<CourierService>().getUserProfile();
-    //NavbarNotifier.hideBottomNavBar = true;
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
     if (!context.mounted) return;
-    await showModalBottomSheet(
-      useRootNavigator: true,
-        useSafeArea: true,
+    GetIt.I<Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
+    showModalBottomSheet(
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         context: context,
         builder: (builder) {
           return CarnetUsuario(userProfile: userProfile);
-        });
-    GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+        }).then((value) {
+      GetIt.I<Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+    });
   }
 
   doEditProfile(BuildContext context) async {
