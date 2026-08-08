@@ -1,5 +1,5 @@
 #fvm flutter build apk -t lib/apps/beexpress/main_beexpress.dart --flavor beexpress --split-per-abi
-#fvm flutter build apk -t lib/apps/bmcargo/main_bmcargo.dart --flavor bmcargo --split-per-abi
+fvm flutter build apk -t lib/apps/bmcargo/main_bmcargo.dart --flavor bmcargo --split-per-abi
 #fvm flutter build apk -t lib/apps/boxpaq/main_boxpaq.dart --flavor boxpaq --split-per-abi
 #fvm flutter build apk -t lib/apps/domex/main_domex.dart --flavor domex --split-per-abi
 #fvm flutter build apk -t lib/apps/fixocargo/main_fixocargo.dart --flavor fixocargo --split-per-abi
@@ -30,7 +30,7 @@
 #fvm flutter build appbundle -t lib/apps/swoop/main_swoop.dart --flavor swoop
 #fvm flutter build appbundle -t lib/apps/tdexpress/main_tdexpress.dart --flavor tdexpress
 #fvm flutter build appbundle -t lib/apps/telo/main_telo.dart --flavor telo
-fvm flutter build appbundle -t lib/apps/tls/main_tls.dart --flavor tls
+#fvm flutter build appbundle -t lib/apps/tls/main_tls.dart --flavor tls
 #fvm flutter build appbundle -t lib/apps/tupaq/main_tupaq.dart --flavor tupaq
 
 #fvm flutter build appbundle -t lib/apps/acc/main_acc.dart --flavor acc

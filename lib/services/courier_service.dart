@@ -566,7 +566,6 @@ class CourierService {
       if (!await Permission.notification.isGranted) {
         await Permission.notification.request();
       }
-
       final uri = Uri.parse(
           "https://icourierfunctions2023.azurewebsites.net/api/recepciones?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==");
       //"https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");

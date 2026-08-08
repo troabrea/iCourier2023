@@ -124,7 +124,7 @@ flutter:
 #    - images/atiempo/
 #    - images/beexpress/
 #    - images/blumbox/
-#    - images/bmcargo/
+    - images/bmcargo/
 #    - images/boxpaq/
 #    - images/cainca/
 #    - images/cargospot/
@@ -152,7 +152,7 @@ flutter:
 #    - images/taino/
 #    - images/tdexpress/
 #    - images/telo/
-    - images/tls/
+#    - images/tls/
 #    - images/tupaq/
     - images/noticias.svg
     - images/sucursales.svg
