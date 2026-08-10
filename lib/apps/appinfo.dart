@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 
-abstract class AppInfo
-{
+abstract class AppInfo {
+  /// Stable slug used to load the local WhiteLabel configuration.
+  String get brandSlug => metricsPrefixKey.toLowerCase();
   String get companyId;
   String get iphoneAnalyticsAppId;
   String get androidAnalyticsAppId;
@@ -13,11 +13,12 @@ abstract class AppInfo
   String get brandLogoImageDark;
   double get centerIconSize;
   double get centerInactiveIconSize;
-  int defaultTab = 2;
-  String defaultLocale = 'es';
-  String additionalLocale = '';
+  int get defaultTab;
+  set defaultTab(int value);
+  String get defaultLocale;
+  set defaultLocale(String value);
+  String get additionalLocale;
+  set additionalLocale(String value);
   String get currencyCode;
-  ThemeData getLightTheme();
-  ThemeData getDarkTheme();
   FirebaseOptions get appFirebaseOptions;
- }
+}

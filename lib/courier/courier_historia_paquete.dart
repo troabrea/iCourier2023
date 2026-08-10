@@ -1,106 +1,72 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:another_stepper/another_stepper.dart';
-import 'package:another_stepper/dto/stepper_data.dart';
-import 'package:get_it/get_it.dart';
-import 'package:icourier/apps/appinfo.dart';
-import 'package:intl/intl.dart';
-import '../../courier/paquete_tile.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:im_stepper/stepper.dart';
-
+import '../design_system/core_components.dart';
+import '../domain/package_stage.dart';
+import '../navigation/app_routes.dart';
 import '../services/model/recepcion.dart';
 
-class HistoricoPaquetePage extends StatefulWidget {
+class HistoricoPaquetePage extends StatelessWidget {
+  const HistoricoPaquetePage({super.key, required this.recepcion});
+
   final Recepcion recepcion;
-  const HistoricoPaquetePage({Key? key, required this.recepcion}) : super(key: key);
-
-  @override
-  State<HistoricoPaquetePage> createState() => _HistoricoPaquetePageState();
-}
-
-class _HistoricoPaquetePageState extends State<HistoricoPaquetePage> {
-  late List<Historia> historia;
-  late List<StepperData> stepperData;
-  final appInfo = GetIt.I<AppInfo>();
-  bool isLoaded = false;
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      historia = widget.recepcion.paquetes.first.historia;
-      historia.sort((a,b) => b.dateTime().compareTo(a.dateTime()));
-
-      isLoaded= true;
-    });
-  }
-
-  List<StepperData> getStepperData(BuildContext context) {
-    return historia.map((e) => StepperData(
-        iconWidget: Container(
-          padding: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-              color: appInfo.metricsPrefixKey == "CAINCA" ? const Color.fromRGBO(25, 135, 220, 1.0) : Colors.green,
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-          child: const Icon(Icons.check, color: Colors.white, size: 12,),
-        ),
-        title: StepperText(e.nombreEstatus.isEmpty ? e.ciudad : e.nombreEstatus, textStyle: Theme.of(context).textTheme.titleMedium),
-        subtitle: StepperText(DateFormat("dd-MMM-yyyy").add_jms().format(e.dateTime())))).toList();
-  }
-
-  // final List<String> iconosProgreso = <String>['images/recibidomiami.svg','images/embarcado.svg','images/recibido.svg','images/disponible.svg'].toList();
-  final List<IconData> iconsProgreso = <IconData>[Icons.warehouse, Icons.airplanemode_active_outlined, Icons.store, Icons.check_circle ].toList();
-  final List<String> labelsProgreso = <String>['origen'.tr(),'en_ruta'.tr(),'destino'.tr(),'disponible'.tr()].toList();
 
   @override
   Widget build(BuildContext context) {
+    final status = PackageStatusMapper.map(
+      status: recepcion.estatus,
+      isAvailable: recepcion.disponible,
+      progress: recepcion.progreso,
+    );
+    final events = recepcion.paquetes
+        .expand((package) => package.historia)
+        .toList(growable: false);
     return Scaffold(
-        appBar: AppBar(title: Text("historia_del_paquete".tr()),
-          leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
+      appBar: ScreenHeader(title: 'historia_del_paquete'.tr()),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            PackageCard(package: recepcion),
+            const SizedBox(height: 16),
+            MacroStepper(stage: status.stage),
+            const SizedBox(height: 20),
+            Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text('proveedor'.tr()),
+                    trailing: Text(recepcion.suplidor),
+                  ),
+                  ListTile(
+                    title: Text('libras'.tr()),
+                    trailing: Text(recepcion.totalPeso),
+                  ),
+                  ListTile(
+                    title: Text('total'.tr()),
+                    trailing: Text(recepcion.totalNeto),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => context.push(
+                AppRoutes.invoice(recepcion.recepcionID),
+              ),
+              icon: const Icon(Icons.receipt_long_outlined),
+              label: Text(
+                recepcion.fotoFacturaUrl.isEmpty
+                    ? 'crear_post_alerta'.tr()
+                    : 'facturas_pendientes'.tr(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            EventTimeline(events: events, stage: status.stage),
+          ],
         ),
-        body:SafeArea(
-            child: !isLoaded ? const CircularProgressIndicator() :  Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
-                child: Column(
-                  children: [
-                    Hero(transitionOnUserGestures: true, tag: widget.recepcion, child: PaqueteTile(recepcion: widget.recepcion)),
-                    const SizedBox(height: 10,),
-                    IconStepper( lineLength: 20, icons: [
-                      Icon(iconsProgreso[0], color: widget.recepcion.progresoActual() == 1 ? Colors.white : Colors.black,),
-                      Icon(iconsProgreso[1], color: widget.recepcion.progresoActual() == 2 ? Colors.white : Colors.black,),
-                      Icon(iconsProgreso[2], color: widget.recepcion.progresoActual() == 3 ? Colors.white : Colors.black,),
-                      Icon(iconsProgreso[3], color: widget.recepcion.progresoActual() == 4 ? Colors.white : Colors.black,),
-                    ], activeStepBorderColor: appInfo.metricsPrefixKey == "CAINCA" ? const Color.fromRGBO(25, 135, 220, 1.0) : Colors.green,
-                      activeStepColor: appInfo.metricsPrefixKey == "CAINCA" ? const Color.fromRGBO(25, 135, 220, 1.0) : Colors.green,
-                      lineColor: Theme.of(context).dividerColor, enableNextPreviousButtons: false, enableStepTapping: false, activeStep: widget.recepcion.progresoActual()-1,),
-                    const SizedBox(height: 10,),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: AnotherStepper(
-                        iconWidth: 30,
-                        //   titleTextStyle: Theme.of(context).textTheme.titleMedium!,
-                        // subtitleTextStyle: Theme.of(context).textTheme.bodySmall!,
-                        stepperList: getStepperData(context),
-                        stepperDirection: Axis.vertical,
-                        iconHeight: 30,
-                        verticalGap: 15,
-                        // horizontalStepperHeight: 70,
-                        //   dotWidget: Container(
-                        //     padding: const EdgeInsets.all(2),
-                        //     decoration: const BoxDecoration(
-                        //         color: Colors.green,
-                        //         borderRadius: BorderRadius.all(Radius.circular(30))),
-                        //     child: const Icon(Icons.check, color: Colors.white, size: 12,),
-                        //   ),
-                        // gap: 25,
-                        activeBarColor: Colors.green,
-                        inActiveBarColor: Colors.grey,
-                        activeIndex: 0,
-                        barThickness: 3,
-    ),
-                      ),
-                    ),
-                  ],
-                ))));
+      ),
+    );
   }
 }

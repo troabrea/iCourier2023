@@ -43,7 +43,6 @@ class SucursalesDataRefreshRequested extends EventArgs {
   SucursalesDataRefreshRequested();
 }
 
-
 class ToogleBarEvent extends EventArgs {
   bool show;
   ToogleBarEvent(this.show);

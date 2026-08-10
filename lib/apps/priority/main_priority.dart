@@ -2,8 +2,7 @@ import 'appinfo_priority.dart';
 
 import '../../../main_shared.dart';
 
-void main()
-{
+void main() {
   var appInfo = PriorityAppInfo();
   mainShared(appInfo);
 }

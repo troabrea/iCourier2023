@@ -7,7 +7,7 @@ abstract class HistoriaEvent extends Equatable {
 class LoadApiEvent extends HistoriaEvent {
   final DateTime desde;
   final DateTime hasta;
-  const LoadApiEvent(this.desde,this.hasta);
+  const LoadApiEvent(this.desde, this.hasta);
   @override
   // AppCenter.track
   List<Object?> get props => [desde, hasta];

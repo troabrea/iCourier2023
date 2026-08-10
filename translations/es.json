@@ -64,6 +64,7 @@
   "cancelar": "Cancelar",
   "aceptar" : "Aceptar",
   "confirme" : "Confirme",
+  "seleccione": "Seleccione",
   "guardar" : "Guardar",
   "si": "Si,",
   "no": "No",
@@ -110,8 +111,12 @@
   "sin_factura_seleccionada": "Debe seleccionar una factura para poder ejecutar esta opción.",
   "historia_del_paquete": "Historial de Paquete",
   "origen" : "Origen",
+  "recibido" : "Recibido",
   "en_ruta" : "En ruta",
   "destino" : "Destino",
+  "en_destino" : "En destino",
+  "retenido" : "Retenido",
+  "entregado" : "Entregado",
   "mi_courier" : "Mi Courier",
   "inicio_session" : "Inicio de Sesión",
   "editar_perfil": "Editar mi perfil",
@@ -158,6 +163,7 @@
   "donde_notificar_retiro": "Donde desea hacer el retiro?",
   "seguro_notificar_retiro":"Seguro que desea notificar el retiro de sus paquetes disponibles?",
   "encuesta_disponible": "Encuesta disponible, desea completarla ahora?",
-  "recargar" : "Reintentar"
+  "recargar" : "Reintentar",
+  "pago_en_linea": "Pago en Línea"
 
 }

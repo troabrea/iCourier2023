@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
     // END: FlutterFire Configuration
     id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -16,45 +17,13 @@ android {
     // In android/app/build.gradle.kts
 
     signingConfigs {
-        // 1. Custom 'legacy' config
-        create("legacy") {
-            storeFile = file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/android.keystore")
-            storePassword = "Msaxapta0201"
-            keyAlias = "android"
-            keyPassword = "Msaxapta0201"
-        }
-
-        // 2. Custom 'recent' config
-        create("recent") {
-            storeFile = file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/AndroidKey.keystore")
-            storePassword = "Msaxapta0201"
-            keyAlias = "androidkey"
-            keyPassword = "Msaxapta0201"
-        }
-
-        // 3. Define the 'release' config using create()
         create("release") {
-            storeFile = file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/upload-keystore.jks")
-            storePassword = "Msaxapta0201"
-            keyAlias = "upload"
-            keyPassword = "Msaxapta0201"
-        }
-
-        // 4. Custom 'codemagic' config
-        create("codemagic") {
-            val isCI = System.getenv()["CI"].toBoolean()
-
-            if (isCI) {
-                storeFile = file(System.getenv()["CM_KEYSTORE_PATH"])
-                storePassword = System.getenv()["CM_KEYSTORE_PASSWORD"]
-                keyAlias = System.getenv()["CM_KEY_ALIAS"]
-                keyPassword = System.getenv()["CM_KEY_PASSWORD"]
-            } else {
-                storeFile = file("/Users/temis/Projects/Flutter/iCourierApps_PlaySignKey/android.keystore")
-                storePassword = "Msaxapta0201"
-                keyAlias = "android"
-                keyPassword = "Msaxapta0201"
+            System.getenv("ANDROID_KEYSTORE_PATH")?.let {
+                storeFile = file(it)
             }
+            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
         }
     }
 
@@ -77,6 +46,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["urlScheme"] = "icourier"
+    }
+
+    buildFeatures {
+        compose = true
     }
 
     // This line should be placed just inside the 'android' block,
@@ -239,12 +213,16 @@ android {
         }
     }
 
+    productFlavors.configureEach {
+        manifestPlaceholders["urlScheme"] = name
+    }
+
     buildTypes {
         // getByName("release") is used to modify the standard 'release' build type
         getByName("release") {
-//            signingConfig = signingConfigs.getByName("release")
-            signingConfig = signingConfigs.getByName("recent")
-//             signingConfig = signingConfigs.getByName("legacy")
+            if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 }
@@ -252,6 +230,8 @@ android {
 dependencies {
     // ACTION 2: Add the Desugar Library
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    implementation("androidx.glance:glance-appwidget:1.1.1")
+    testImplementation("junit:junit:4.13.2")
 
     // You might also see:
     // implementation(project(":flutter"))

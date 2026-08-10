@@ -72,55 +72,54 @@ class Empresa {
   String options;
 
   DateTime get encuestaActiveUntil {
-    if(pushHubName.isEmpty) {
-      return DateTime(2000,1,1);
+    if (pushHubName.isEmpty) {
+      return DateTime(2000, 1, 1);
     }
-    return DateTime.tryParse(pushHubName) ?? DateTime(2000,1,1);
+    return DateTime.tryParse(pushHubName) ?? DateTime(2000, 1, 1);
   }
 
   String get encuestaUrl {
-    if(pushHubEndpoint.isEmpty || !pushHubEndpoint.contains('/encuesta/')) {
+    if (pushHubEndpoint.isEmpty || !pushHubEndpoint.contains('/encuesta/')) {
       return '';
     }
     return pushHubEndpoint;
   }
 
   factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
-    registroId: json["registroID"],
-    nombre: json["nombre"],
-    dominio: json["dominio"],
-    mision: json["mision"] ?? "",
-    vision: json["vision"] ?? "",
-    correoServicio: json["correoServicio"] ?? "",
-    correoVentas: json["correoVentas"] ?? "",
-    paginaWeb: json["paginaWeb"] ?? "",
-    telefonoOficina: json["telefonoOficina"] ?? "",
-    telefonoVentas: json["telefonoVentas"] ?? "",
-    twitter: json["twitter"] ?? "",
-    facebook: json["facebook"]?? "",
-    instagram: json["instagram"]?? "",
-    urlServidor: json["urlServidor"],
-    webServiceUrl: json["webServiceURL"],
-    registerUrl: json["registerURL"],
-    tokenId: json["tokenID"],
-    calculadoraDesde: json["calculadoraDesde"] ?? "",
-    calculadoraHasta: json["calculadoraHasta"] ?? "",
-    calculadoraProducto: json["calculadoraProducto"] ?? "",
-    hasPointsModule: json["hasPointsModule"],
-    hasAutobuses: json["hasAutobuses"],
-    hasPreguntas: json["hasPreguntas"],
-    hasPaymentsModule: json["hasPaymentsModule"],
-    hasNotifyModule: json["hasNotifyModule"],
-    hasDelivery: json["hasDelivery"],
-    minDistanceToNotify: json["minDistanceToNotify"],
-    erp: json["erp"],
-    deleted: json["deleted"],
-    clientId: json["clientId"] ?? "",
-    clientSecret: json["clientSecret"] ?? "",
-    pushHubEndpoint: json["pushHubEndpoint"] ?? "",
-    pushHubName: json["pushHubName"] ?? "",
-    options: json["options"] ?? ""
-  );
+      registroId: json["registroID"],
+      nombre: json["nombre"],
+      dominio: json["dominio"],
+      mision: json["mision"] ?? "",
+      vision: json["vision"] ?? "",
+      correoServicio: json["correoServicio"] ?? "",
+      correoVentas: json["correoVentas"] ?? "",
+      paginaWeb: json["paginaWeb"] ?? "",
+      telefonoOficina: json["telefonoOficina"] ?? "",
+      telefonoVentas: json["telefonoVentas"] ?? "",
+      twitter: json["twitter"] ?? "",
+      facebook: json["facebook"] ?? "",
+      instagram: json["instagram"] ?? "",
+      urlServidor: json["urlServidor"],
+      webServiceUrl: json["webServiceURL"],
+      registerUrl: json["registerURL"],
+      tokenId: json["tokenID"],
+      calculadoraDesde: json["calculadoraDesde"] ?? "",
+      calculadoraHasta: json["calculadoraHasta"] ?? "",
+      calculadoraProducto: json["calculadoraProducto"] ?? "",
+      hasPointsModule: json["hasPointsModule"],
+      hasAutobuses: json["hasAutobuses"],
+      hasPreguntas: json["hasPreguntas"],
+      hasPaymentsModule: json["hasPaymentsModule"],
+      hasNotifyModule: json["hasNotifyModule"],
+      hasDelivery: json["hasDelivery"],
+      minDistanceToNotify: json["minDistanceToNotify"],
+      erp: json["erp"],
+      deleted: json["deleted"],
+      clientId: json["clientId"] ?? "",
+      clientSecret: json["clientSecret"] ?? "",
+      pushHubEndpoint: json["pushHubEndpoint"] ?? "",
+      pushHubName: json["pushHubName"] ?? "",
+      options: json["options"] ?? "");
 
   factory Empresa.empty() => Empresa(
       registroId: "",
@@ -156,43 +155,42 @@ class Empresa {
       clientSecret: "",
       pushHubEndpoint: "",
       pushHubName: "",
-      options: ""
-  );
+      options: "");
 
   Map<String, dynamic> toJson() => {
-    "registroID": registroId,
-    "nombre": nombre,
-    "dominio": dominio,
-    "mision": mision,
-    "vision": vision,
-    "correoServicio": correoServicio,
-    "correoVentas": correoVentas,
-    "paginaWeb": paginaWeb,
-    "telefonoOficina": telefonoOficina,
-    "telefonoVentas": telefonoVentas,
-    "twitter": twitter,
-    "facebook": facebook,
-    "instagram": instagram,
-    "urlServidor": urlServidor,
-    "webServiceURL": webServiceUrl,
-    "registerURL": registerUrl,
-    "tokenID": tokenId,
-    "calculadoraDesde": calculadoraDesde,
-    "calculadoraHasta": calculadoraHasta,
-    "calculadoraProducto": calculadoraProducto,
-    "hasPointsModule": hasPointsModule,
-    "hasAutobuses": hasAutobuses,
-    "hasPreguntas": hasPreguntas,
-    "hasPaymentsModule": hasPaymentsModule,
-    "hasNotifyModule": hasNotifyModule,
-    "hasDelivery": hasDelivery,
-    "minDistanceToNotify": minDistanceToNotify,
-    "erp": erp,
-    "deleted": deleted,
-    "clientId": clientId,
-    "clientSecret": clientSecret,
-    "pushHubEndpoint": pushHubEndpoint,
-    "pushHubName": pushHubName,
-    "options" : options
-  };
+        "registroID": registroId,
+        "nombre": nombre,
+        "dominio": dominio,
+        "mision": mision,
+        "vision": vision,
+        "correoServicio": correoServicio,
+        "correoVentas": correoVentas,
+        "paginaWeb": paginaWeb,
+        "telefonoOficina": telefonoOficina,
+        "telefonoVentas": telefonoVentas,
+        "twitter": twitter,
+        "facebook": facebook,
+        "instagram": instagram,
+        "urlServidor": urlServidor,
+        "webServiceURL": webServiceUrl,
+        "registerURL": registerUrl,
+        "tokenID": tokenId,
+        "calculadoraDesde": calculadoraDesde,
+        "calculadoraHasta": calculadoraHasta,
+        "calculadoraProducto": calculadoraProducto,
+        "hasPointsModule": hasPointsModule,
+        "hasAutobuses": hasAutobuses,
+        "hasPreguntas": hasPreguntas,
+        "hasPaymentsModule": hasPaymentsModule,
+        "hasNotifyModule": hasNotifyModule,
+        "hasDelivery": hasDelivery,
+        "minDistanceToNotify": minDistanceToNotify,
+        "erp": erp,
+        "deleted": deleted,
+        "clientId": clientId,
+        "clientSecret": clientSecret,
+        "pushHubEndpoint": pushHubEndpoint,
+        "pushHubName": pushHubName,
+        "options": options
+      };
 }

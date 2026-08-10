@@ -6,20 +6,22 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event/event.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
-import 'package:icourier/adicional/appbrowser.dart';
 import 'package:icourier/helpers/appcenter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:icourier/navigation/app_routes.dart';
 import 'package:icourier/services/model/estado_model.dart';
 import 'package:icourier/services/model/mensaje.dart';
+import '../theme/brand_config.dart';
 import 'package:icourier/services/model/solicitardomicilio_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/model/calculadora_model.dart';
 import '../../services/model/notificarretiro_model.dart';
 import '../../services/model/postalerta_model.dart';
@@ -116,11 +118,11 @@ List<PreAlertaDto> prealertasFromJson(String str) => List<PreAlertaDto>.from(
     json.decode(str).map((x) => PreAlertaDto.fromJson(x)));
 
 enum ShortCutToRun {
-  NOTIFICARRETIRO,
-  SOLICITARDOMICILIO,
-  PREALERTA,
-  POSTALERTA,
-  NONE
+  notificarRetiro,
+  solicitarDomicilio,
+  prealerta,
+  postalerta,
+  none,
 }
 
 class CourierService {
@@ -128,16 +130,41 @@ class CourierService {
   late AppInfo
       appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
   bool firstTime = true;
-  ShortCutToRun shortCutToRun = ShortCutToRun.NONE;
+  ShortCutToRun shortCutToRun = ShortCutToRun.none;
   Map? optionsMap;
   CourierService() {
     appInfo = GetIt.I<AppInfo>();
     companyId = appInfo.companyId;
   }
 
+  Future<void> _destroyCache(String key) async {
+    final preferences = await SharedPreferences.getInstance();
+    final encodedMetadata = preferences.getString(key);
+    Map<String, dynamic>? metadata;
+    if (encodedMetadata != null) {
+      try {
+        final decoded = jsonDecode(encodedMetadata);
+        if (decoded is Map<String, dynamic>) {
+          metadata = decoded;
+        }
+      } on FormatException {
+        // A malformed legacy entry is removed below with the cache key.
+      }
+    }
+
+    await preferences.remove(key);
+    for (final metadataKey in ['content', 'type']) {
+      final storedKey = metadata?[metadataKey];
+      if (storedKey is String && storedKey.isNotEmpty) {
+        await preferences.remove(storedKey);
+      }
+    }
+    await preferences.remove('${key}ExpiredAt');
+  }
+
   Future<List<Noticia>> getNoticias(bool ignoreCache) async {
     if (ignoreCache) {
-      cache.destroy('noticias');
+      await _destroyCache('noticias');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_NOTICIAS");
     var jsonData = await cache.remember('noticias', () async {
@@ -153,7 +180,7 @@ class CourierService {
 
   Future<List<Producto>> getProductos(bool ignoreCache) async {
     if (ignoreCache) {
-      cache.destroy('productos');
+      await _destroyCache('productos');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PRODUCTOS");
     var jsonData = await cache.remember('productos', () async {
@@ -168,7 +195,7 @@ class CourierService {
   Future<List<Servicio>> getServicios(bool ignoreCache) async {
     ignoreCache = true;
     if (ignoreCache) {
-      cache.destroy('servicios');
+      await _destroyCache('servicios');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SERVICIOS");
     var jsonData = await cache.remember('servicios', () async {
@@ -190,7 +217,7 @@ class CourierService {
       }
     }
     if (ignoreCache) {
-      cache.destroy('banners');
+      await _destroyCache('banners');
     }
     var jsonData = await cache.remember('banners', () async {
       final response = await get(Uri.parse(
@@ -203,7 +230,7 @@ class CourierService {
 
   Future<List<Mensaje>> getMensajes({bool ignoreCache = false}) async {
     if (ignoreCache) {
-      cache.destroy('mensajes');
+      await _destroyCache('mensajes');
     }
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_MENSAJES");
     var jsonData = await cache.remember('mensajes', () async {
@@ -223,13 +250,13 @@ class CourierService {
     final readMessagesRaw =
         (await cache.load("messages_leidos", "")).toString();
     final readMessages = readMessagesRaw.split(",").toList();
-    readMessages.forEach((readMessageId) {
+    for (final readMessageId in readMessages) {
       final mensaje = mensajes
           .firstWhereOrNull((element) => element.registroId == readMessageId);
       if (mensaje != null) {
         mensaje.read = true;
       }
-    });
+    }
     final unReadMessages =
         mensajes.where((e) => !e.read).map((e) => e.registroId).toList();
     GetIt.I<event.Event<UnreadMessagesChanged>>()
@@ -260,11 +287,12 @@ class CourierService {
         .broadcast(UnreadMessagesChanged(unReadMessages.length));
   }
 
-  Future<List<Sucursal>> getSucursales(bool ignoreCache, {bool trackEvent = true}) async {
+  Future<List<Sucursal>> getSucursales(bool ignoreCache,
+      {bool trackEvent = true}) async {
     if (ignoreCache) {
-      cache.destroy('sucursales');
+      await _destroyCache('sucursales');
     }
-    if(trackEvent) {
+    if (trackEvent) {
       AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_SUCURSALES");
     }
     var jsonData = await cache.remember('sucursales', () async {
@@ -279,7 +307,7 @@ class CourierService {
 
   Future<List<Pregunta>> getPreguntas(bool ignoreCache) async {
     if (ignoreCache) {
-      cache.destroy('preguntas');
+      await _destroyCache('preguntas');
     }
 
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_PREGUNTAS");
@@ -299,7 +327,7 @@ class CourierService {
       bool retryEmtpy = false}) async {
     try {
       if (ignoreCache) {
-        cache.destroy('empresa');
+        await _destroyCache('empresa');
       }
 
       if (forceFirstTime) {
@@ -351,8 +379,8 @@ class CourierService {
       optionsMap = null;
       var json = response.body;
       await cache.write('empresa', json);
-    } on Exception catch (e) {
-      // TODO
+    } on Exception {
+      return;
     }
   }
 
@@ -370,13 +398,6 @@ class CourierService {
     return optionsMap![optionKey].toString();
   }
 
-  Future<void> _validateEmpresa() async {
-    final response = await get(Uri.parse(
-        "https://icourierfunctions2023.azurewebsites.net/api/empresa/$companyId?code=tmBga3gqhedXc6s-nogXXN-pT9c_0MI5ENsa96Hceu5fAzFuwupkVg=="));
-    var jsonData = response.body;
-    var empresa = empresaFromJson(jsonData);
-  }
-
   Future<void> _validateSession() async {
     final sessionId = (await cache.load('sessionId', '')).toString();
     final userId = (await cache.load('userAccount', '')).toString();
@@ -389,8 +410,8 @@ class CourierService {
       GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
     } else {
       await cache.write('sessionId', sessionId);
-      FirebaseMessaging.instance
-          .subscribeToTopic("${appInfo.pushChannelTopic}_${userId.replaceAll("@", "").replaceAll(".", "").replaceAll(" ", "")}");
+      FirebaseMessaging.instance.subscribeToTopic(
+          "${appInfo.pushChannelTopic}_${userId.replaceAll("@", "").replaceAll(".", "").replaceAll(" ", "")}");
     }
   }
 
@@ -502,8 +523,8 @@ class CourierService {
     return result;
   }
 
-  void clearCourierDataCache() {
-    cache.destroy('recepciones');
+  Future<void> clearCourierDataCache() async {
+    await _destroyCache('recepciones');
   }
 
   Future<List<PreAlertaDto>> getPrealertas() async {
@@ -543,12 +564,12 @@ class CourierService {
 
   Future<List<Recepcion>> getRecepciones(bool forceRefresh) async {
     if (forceRefresh) {
-      final _connectivity = Connectivity();
-      final _result = await _connectivity.checkConnectivity();
-      if (_result != ConnectivityResult.none) {
-        cache.destroy('recepciones');
-        cache.destroy('empresa');
-        cache.destroy('sucursales');
+      final connectivity = Connectivity();
+      final result = await connectivity.checkConnectivity();
+      if (result != ConnectivityResult.none) {
+        await _destroyCache('recepciones');
+        await _destroyCache('empresa');
+        await _destroyCache('sucursales');
         await getEmpresa();
         GetIt.I<event.Event<EmpresaRefreshFinished>>().broadcast();
       }
@@ -755,7 +776,7 @@ class CourierService {
 
   Future<void> saveLoggedInState(
       LoginResult loginResult, String userAccount, String userPassword) async {
-    if (appInfo.pushChannelTopic == "TLS_OLD") {
+    if (GetIt.I<BrandConfig>().capabilities.pushTopicUsesSessionId) {
       FirebaseMessaging.instance.subscribeToTopic(
           "${appInfo.pushChannelTopic}_${loginResult.sessionId}");
     } else {
@@ -779,11 +800,13 @@ class CourierService {
     // Posthog().identify(userId: 'not_authenticated');
     var userAccount = await cache.load('userAccount', "") as String;
     var sessionId = await cache.load('sessionId', "") as String;
-    if (appInfo.pushChannelTopic == "TLS_OLD" && sessionId.isNotEmpty) {
+    final pushTopicUsesSessionId =
+        GetIt.I<BrandConfig>().capabilities.pushTopicUsesSessionId;
+    if (pushTopicUsesSessionId && sessionId.isNotEmpty) {
       FirebaseMessaging.instance
           .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$sessionId");
     }
-    if (appInfo.pushChannelTopic != "TLS_OLD" && userAccount.isNotEmpty) {
+    if (!pushTopicUsesSessionId && userAccount.isNotEmpty) {
       FirebaseMessaging.instance
           .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
@@ -809,15 +832,18 @@ class CourierService {
 
   Future<void> resetPassword(String cuenta, String email) async {
     final empresa = await getEmpresa();
-    if(empresa.dominio.toLowerCase() == "mardom") {
-      final tlsUr = Uri.parse("https://tls.com.do/en/wp-json/v2/forgotpwd/$email");
-      final tlsHeaders = {
-        "X-Api-key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-      };
-
-      final tlsResponse = await get(tlsUr, headers: tlsHeaders);
-      if (tlsResponse.statusCode < 200 || tlsResponse.statusCode >= 300) {
-        throw Exception(tlsResponse.reasonPhrase);
+    final resetConfig = GetIt.I<BrandConfig>().passwordReset;
+    if (resetConfig.enabled) {
+      final endpoint = resetConfig.urlTemplate.replaceFirst(
+        '{email}',
+        Uri.encodeComponent(email),
+      );
+      final response = await get(
+        Uri.parse(endpoint),
+        headers: resetConfig.headers,
+      );
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw Exception(response.reasonPhrase);
       }
       return;
     }
@@ -869,7 +895,8 @@ class CourierService {
     }
 
     final paymentBrowserMode = await empresaOptionValue("UseExternalBrowser");
-    final useExternalBrowser = (paymentBrowserMode == "1" || paymentBrowserMode.toLowerCase() == "true");
+    final useExternalBrowser = (paymentBrowserMode == "1" ||
+        paymentBrowserMode.toLowerCase() == "true");
 
     // url = url.replaceAll("http://", "https://");
 
@@ -877,16 +904,11 @@ class CourierService {
 
     AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_PAGAR_ENLINEA");
 
-    if(useExternalBrowser) {
+    if (useExternalBrowser) {
       final uri = Uri.parse(url);
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      await Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) =>
-              AppBrowser(initialUrl: url, title: "Pago en Línea"),
-        ),
-      );
+      await context.push<void>(AppRoutes.onlinePayment, extra: url);
     }
   }
 
@@ -944,7 +966,6 @@ class CourierService {
         if (status.isPermanentlyDenied) {
           return 'Esta funcionalidad requiere permiso de GPS, favor intentar nuevamente, luego de activarlo en la configuración de su dispositivo.';
         }
-        ;
         await Permission.locationWhenInUse.request();
         return 'Favor intentar nuevamente, luego de activar el permiso de GPS.';
       }
@@ -997,7 +1018,8 @@ class CourierService {
 
     await _validateSession();
 
-    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_SOLICITAR_DOMICILIO");
+    AppCenter.trackEventAsync(
+        "${appInfo.metricsPrefixKey}_SOLICITAR_DOMICILIO");
 
     //final uri = Uri.parse("https://icourierfunctions.azurewebsites.net/api/notificarretiro?code=8WQvaSc2WvgWwsdZms/GYsWgI2V3FxAt4SrtQv4N6xa1NbPXTpybsg==");
     final uri = Uri.parse(
@@ -1117,7 +1139,7 @@ class CourierService {
     final userId = (await cache.load('userAccount', '')).toString();
     final password = (await cache.load('userPassword', '')).toString();
 
-    var map = Map<String, String>();
+    var map = <String, String>{};
     map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
     map['UsuarioID'] = userId;
     map['UsuarioPW'] = password;
@@ -1130,7 +1152,7 @@ class CourierService {
     final userId = (await cache.load('userAccount', '')).toString();
     final password = (await cache.load('userPassword', '')).toString();
 
-    var map = Map<String, String>();
+    var map = <String, String>{};
     map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
     map['UsuarioID'] = userId;
     map['UsuarioPW'] = password;
@@ -1182,11 +1204,13 @@ class CourierService {
     }
   }
 
-  clearDataCache() {
-    cache.destroy('banners');
-    cache.destroy('noticias');
-    cache.destroy('preguntas');
-    cache.destroy('servicios');
-    cache.destroy('sucursales');
+  Future<void> clearDataCache() async {
+    await Future.wait([
+      _destroyCache('banners'),
+      _destroyCache('noticias'),
+      _destroyCache('preguntas'),
+      _destroyCache('servicios'),
+      _destroyCache('sucursales'),
+    ]);
   }
 }

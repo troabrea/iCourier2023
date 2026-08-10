@@ -16,20 +16,20 @@ class Producto {
   bool deleted;
 
   factory Producto.fromJson(Map<String, dynamic> json) => Producto(
-    registroId: json["registroID"],
-    empresa: json["empresa"],
-    titulo: json["titulo"],
-    codigo: json["codigo"],
-    orden: json["orden"],
-    deleted: json["deleted"],
-  );
+        registroId: json["registroID"],
+        empresa: json["empresa"],
+        titulo: json["titulo"],
+        codigo: json["codigo"],
+        orden: json["orden"],
+        deleted: json["deleted"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "registroID": registroId,
-    "empresa": empresa,
-    "titulo": titulo,
-    "codigo": codigo,
-    "orden": orden,
-    "deleted": deleted,
-  };
+        "registroID": registroId,
+        "empresa": empresa,
+        "titulo": titulo,
+        "codigo": codigo,
+        "orden": orden,
+        "deleted": deleted,
+      };
 }

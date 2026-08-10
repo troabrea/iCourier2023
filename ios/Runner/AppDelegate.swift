@@ -2,6 +2,7 @@ import UIKit
 import Flutter
 import GoogleMaps
 import AppIntents
+import WidgetKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -11,6 +12,52 @@ import AppIntents
   ) -> Bool {
     GMSServices.provideAPIKey("AIzaSyCTBvcej7pKYNYILF__pe4qmoo_NAzTIwk")
     GeneratedPluginRegistrant.register(with: self)
+    if let controller = window?.rootViewController as? FlutterViewController {
+      let widgetChannel = FlutterMethodChannel(
+        name: "icourier/widget_state",
+        binaryMessenger: controller.binaryMessenger
+      )
+      widgetChannel.setMethodCallHandler { call, result in
+        guard let arguments = call.arguments as? [String: Any],
+              let appGroup = arguments["appGroup"] as? String,
+              let key = arguments["key"] as? String,
+              let defaults = UserDefaults(suiteName: appGroup) else {
+          result(FlutterError(
+            code: "INVALID_WIDGET_STATE",
+            message: "Widget App Group arguments are invalid.",
+            details: nil
+          ))
+          return
+        }
+
+        switch call.method {
+        case "write":
+          guard let payload = arguments["payload"] as? String else {
+            result(FlutterError(
+              code: "INVALID_WIDGET_PAYLOAD",
+              message: "The widget payload is missing.",
+              details: nil
+            ))
+            return
+          }
+          defaults.set(payload, forKey: key)
+          defaults.synchronize()
+          if #available(iOS 14.0, *) {
+            WidgetCenter.shared.reloadAllTimelines()
+          }
+          result(nil)
+        case "clear":
+          defaults.removeObject(forKey: key)
+          defaults.synchronize()
+          if #available(iOS 14.0, *) {
+            WidgetCenter.shared.reloadAllTimelines()
+          }
+          result(nil)
+        default:
+          result(FlutterMethodNotImplemented)
+        }
+      }
+    }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
     

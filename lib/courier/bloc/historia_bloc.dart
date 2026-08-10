@@ -10,12 +10,16 @@ part 'historia_state.dart';
 class HistoriaBloc extends Bloc<HistoriaEvent, HistoriaState> {
   final _courierService = GetIt.I<CourierService>();
 
-  HistoriaBloc(HistoriaState initialState) : super(initialState) {
-    on<LoadApiEvent>((event,emit) async {
+  HistoriaBloc(super.initialState) {
+    on<LoadApiEvent>((event, emit) async {
       emit(HistoriaLoadingState());
-      final recepciones = await _courierService.getHistoriaRecepciones(event.desde,event.hasta);
-      emit(recepciones.isNotEmpty ? HistoriaLoadedState(
-          recepciones: recepciones,) : HistoriaIdleState() );
+      final recepciones = await _courierService.getHistoriaRecepciones(
+          event.desde, event.hasta);
+      emit(recepciones.isNotEmpty
+          ? HistoriaLoadedState(
+              recepciones: recepciones,
+            )
+          : HistoriaIdleState());
     });
   }
 }

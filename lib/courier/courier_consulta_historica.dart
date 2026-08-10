@@ -1,206 +1,137 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:empty_widget_pro/empty_widget_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:get_it/get_it.dart';
-import 'package:icourier/apps/appinfo.dart';
-import 'package:intl/intl.dart';
-import '../../courier/bloc/historia_bloc.dart';
-import '../../courier/courier_historia_paquete.dart';
-import '../../courier/paquete_tile.dart';
+import 'package:go_router/go_router.dart';
+
+import '../design_system/brand_states.dart';
+import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
+import 'bloc/historia_bloc.dart';
 
 class ConsultaHistoricaPage extends StatefulWidget {
-  const ConsultaHistoricaPage({Key? key}) : super(key: key);
+  const ConsultaHistoricaPage({super.key});
 
   @override
   State<ConsultaHistoricaPage> createState() => _ConsultaHistoricaPageState();
 }
 
 class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
-  late ScrollController controller;
-  final _formKey = GlobalKey<FormBuilderState>();
-  final historiaBloc = HistoriaBloc(HistoriaIdleState());
-  final appInfo = GetIt.I<AppInfo>();
+  late final HistoriaBloc _bloc;
+  DateTime _from = DateTime.now().subtract(const Duration(days: 30));
+  DateTime _to = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    _bloc = HistoriaBloc(HistoriaIdleState());
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _bloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("consulta_historica".tr()),
-          leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
-        ),
-        body: BlocProvider(
-          create: (context) => historiaBloc,
-          child: BlocBuilder<HistoriaBloc, HistoriaState>(
-            builder: (context, state) {
-              return SafeArea(
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 65),
-                  child: FormBuilder(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: _formKey,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                      child: Column(
-                        children: [
-                          buildEntryForm(context),
-                          if (state is HistoriaLoadingState)
-                            const Expanded(
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                )),
-                          if(state is HistoriaIdleState)
-                            Expanded(child: SizedBox( width: 250,height: 20, child: Center(child: EmptyWidget(
-                                hideBackgroundAnimation: true,
-                                title: "no_resultados".tr(),
-                                subTitle: "especifique_fechas_toque_buscar".tr(),
-                              titleTextStyle: Theme.of(context).textTheme.titleLarge,
-                              subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
-                            ),))),
-                          if (state is HistoriaLoadedState)
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: ListView.builder(itemBuilder: (_, index) {
-                                    return InkWell(onTap: () {
-                                      if(appInfo.metricsPrefixKey != "TLS") {
-                                        Navigator.of(context,
-                                            rootNavigator: false)
-                                            .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                HistoricoPaquetePage(recepcion: state.recepciones[index])));
-                                      }
-                                    }
-                                        , child: PaqueteTile(recepcion: state.recepciones[index]));
-                                }, itemCount: state.recepciones.length,),
-                              ),
-                            )
-                        ],
-                      ),
+      appBar: ScreenHeader(title: 'consulta_historica'.tr()),
+      body: BlocProvider.value(
+        value: _bloc,
+        child: BlocBuilder<HistoriaBloc, HistoriaState>(
+          builder: (context, state) => ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: _DateButton(
+                      label: 'desde'.tr(),
+                      date: _from,
+                      onTap: () => _pickDate(isFrom: true),
                     ),
                   ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _DateButton(
+                      label: 'hasta'.tr(),
+                      date: _to,
+                      onTap: () => _pickDate(isFrom: false),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              FilledButton.icon(
+                onPressed: state is HistoriaLoadingState
+                    ? null
+                    : () => _bloc.add(LoadApiEvent(_from, _to)),
+                icon: const Icon(Icons.search),
+                label: Text('buscar'.tr()),
+              ),
+              const SizedBox(height: 20),
+              if (state is HistoriaLoadingState)
+                const BrandSkeleton()
+              else if (state is HistoriaLoadedState)
+                for (final package in state.recepciones) ...[
+                  PackageCard(
+                    package: package,
+                    onTap: () => context.push(
+                      AppRoutes.package(package.recepcionID),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ]
+              else
+                const BrandEmptyState(
+                  messageKey: 'especifique_fechas_toque_buscar',
                 ),
-              );
-            },
+            ],
           ),
-        ));
-  }
-
-  Widget buildEntryForm(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
-              child: buildDesdeFormField(context)),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
-              child: buildHastaFormField(context)),
-          IconButton(
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                if (_formKey.currentState!.saveAndValidate()) {
-                  var desdeStr = _formKey.currentState?.fields['desde']?.value
-                      .toString() ??
-                      "";
-                  desdeStr = desdeStr.replaceAll(',', '');
-
-                  var hastaStr = _formKey.currentState?.fields['hasta']?.value
-                      .toString() ??
-                      "";
-                  hastaStr = hastaStr.replaceAll(',', '');
-
-                  var desde = DateTime.parse(desdeStr);
-                  var hasta = DateTime.parse(hastaStr);
-                  historiaBloc.add(LoadApiEvent(desde, hasta));
-                }
-              },
-              icon: const Icon(Icons.search, size: 30,))
-        ],
+        ),
       ),
     );
   }
 
-  FormBuilderDateTimePicker buildDesdeFormField(BuildContext context) {
-    return FormBuilderDateTimePicker (
-      name: 'desde',
-      initialEntryMode: DatePickerEntryMode.calendar,
-      format: DateFormat("dd-MMM-yyyy"),
-      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-      inputType: InputType.date,
-      textAlign: TextAlign.center,
-      initialValue: DateTime.now(),
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'requerido'.tr()),
-      ]),
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(2),
-        floatingLabelAlignment: FloatingLabelAlignment.center,
-        labelText: 'desde'.tr(),
-        floatingLabelStyle:
-        TextStyle(color: Theme.of(context).dividerColor),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(15)),
-        focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-            borderRadius: BorderRadius.circular(15)),
-        errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-            borderRadius: BorderRadius.circular(15)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(15)),
-      ),
+  Future<void> _pickDate({required bool isFrom}) async {
+    final selected = await showDatePicker(
+      context: context,
+      initialDate: isFrom ? _from : _to,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
     );
+    if (selected == null) {
+      return;
+    }
+    setState(() {
+      if (isFrom) {
+        _from = selected;
+        if (_to.isBefore(_from)) _to = _from;
+      } else {
+        _to = selected;
+        if (_from.isAfter(_to)) _from = _to;
+      }
+    });
   }
+}
 
-  FormBuilderDateTimePicker buildHastaFormField(BuildContext context) {
-    return FormBuilderDateTimePicker (
-      name: 'hasta',
-      initialEntryMode: DatePickerEntryMode.calendar,
-      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-      format: DateFormat("dd-MMM-yyyy"),
-      inputType: InputType.date,
-      textAlign: TextAlign.center,
-      initialValue: DateTime.now(),
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'requerido'.tr()),
-      ]),
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(2),
-        floatingLabelAlignment: FloatingLabelAlignment.center,
-        labelText: 'hasta'.tr(),
-        floatingLabelStyle:
-        TextStyle(color: Theme.of(context).dividerColor),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).dividerColor),
-              borderRadius: BorderRadius.circular(15)),
-          focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-              borderRadius: BorderRadius.circular(15)),
-          errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-              borderRadius: BorderRadius.circular(15)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).dividerColor),
-              borderRadius: BorderRadius.circular(15)),
-          ),
+class _DateButton extends StatelessWidget {
+  const _DateButton({
+    required this.label,
+    required this.date,
+    required this.onTap,
+  });
+
+  final String label;
+  final DateTime date;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onTap,
+      icon: const Icon(Icons.calendar_today_outlined),
+      label: Text('$label\n${DateFormat.yMd().format(date)}'),
     );
   }
 }

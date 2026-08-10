@@ -1,192 +1,124 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:grouped_list/sliver_grouped_list.dart';
-import 'package:icourier/courier/bloc/dashboard_bloc.dart';
-import 'package:icourier/courier/bloc/dashboard_bloc.dart';
-import 'package:icourier/services/model/login_model.dart';
-import '../apps/appinfo.dart';
-import '../services/courier_service.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../courier/paquete_tile.dart';
+import 'package:go_router/go_router.dart';
+
+import '../design_system/brand_states.dart';
+import '../design_system/core_components.dart';
+import '../domain/package_stage.dart';
+import '../navigation/app_routes.dart';
 import '../services/app_events.dart';
+import '../services/courier_service.dart';
 import '../services/model/recepcion.dart';
-import 'courier_historia_paquete.dart';
-import 'crear_postalerta.dart';
-import 'package:event/event.dart' as event;
 
 class RecepcionesPage extends StatefulWidget {
-  List<Recepcion> recepciones;
-  late String titulo;
-  final bool isRetenio;
+  const RecepcionesPage({
+    super.key,
+    required this.recepciones,
+    this.titulo = '',
+    this.initialStage,
+  });
 
-  RecepcionesPage(
-      {Key? key,
-      required this.recepciones,
-      this.titulo = "",
-      this.isRetenio = false})
-      : super(key: key) {
-    if(titulo.isEmpty) {
-      titulo = "recepciones".tr();
-    }
-  }
+  final List<Recepcion> recepciones;
+  final String titulo;
+  final PackageStage? initialStage;
 
   @override
   State<RecepcionesPage> createState() => _RecepcionesPageState();
 }
 
 class _RecepcionesPageState extends State<RecepcionesPage> {
-  late UserProfile userProfile;
-  bool hasWhatsApp = false;
-  bool isRefreshing = false;
+  late List<Recepcion> _receptions;
+  late PackageStage? _stage;
+  bool _refreshing = false;
+
   @override
   void initState() {
     super.initState();
-    _configureWithProfile();
-  }
-
-  Future<void> _configureWithProfile() async {
-    userProfile = await GetIt.I<CourierService>().getUserProfile();
-    setState(() {
-      hasWhatsApp = userProfile.whatsappSucursal.isNotEmpty;
-    });
-  }
-
-  Future<void> chatWithSucursal() async {
-    var whatsApp = userProfile
-        .whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
-    if (whatsApp.isNotEmpty) {
-      var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
-      if (!await launchUrl(_url)) {
-        throw 'Could not launch $_url';
-      }
-    }
+    _receptions = [...widget.recepciones];
+    _stage = widget.initialStage;
   }
 
   @override
   Widget build(BuildContext context) {
+    final visible = _receptions.where((reception) {
+      if (_stage == null) return true;
+      return PackageStatusMapper.map(
+            status: reception.estatus,
+            isAvailable: reception.disponible,
+            progress: reception.progreso,
+          ).stage ==
+          _stage;
+    }).toList(growable: false);
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.titulo),
-          leading:
-              BackButton(color: Theme.of(context).appBarTheme.foregroundColor),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.refresh,
-                color: Theme.of(context).appBarTheme.foregroundColor,
-              ),
-              onPressed: () async {
-                GetIt.I<Event<CourierRefreshRequested>>()
-                    .broadcast(CourierRefreshRequested());
-                try
-                {
-                  setState(() {
-                    isRefreshing = true;
-                  });
-
-                  widget.recepciones = await GetIt.I<CourierService>().getRecepciones(true);
-
-                } finally {
-                  setState(() {
-                    isRefreshing = false;
-                  });
-                }
-
-
-
-              },
-            ),
-            if(hasWhatsApp)
-            IconButton(
-              icon: FaIcon(FontAwesomeIcons.whatsapp,
-                color: Theme.of(context).appBarTheme.foregroundColor,
-              ),
-              onPressed: () {
-                chatWithSucursal();
-              },
-            ),
-          ],
+      appBar: ScreenHeader(
+        title: widget.titulo.isEmpty ? 'recepciones'.tr() : widget.titulo,
+        trailing: IconButton(
+          onPressed: _refreshing ? null : _refresh,
+          icon: const Icon(Icons.refresh),
         ),
-        body: SafeArea(
-            child: Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
-                child: isRefreshing ? const Center(child: CircularProgressIndicator()) : CustomScrollView(slivers: [
-                  SliverGroupedListView<Recepcion, String>(
-                    elements: widget.recepciones,
-                    groupBy: (element) => element.estatus,
-                    groupSeparatorBuilder: (String value) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        value,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontWeight: FontWeight.bold),
+      ),
+      body: _refreshing
+          ? const BrandSkeleton()
+          : ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ChoiceChip(
+                        label: Text('todo_leido'.tr()),
+                        selected: _stage == null,
+                        onSelected: (_) => setState(() => _stage = null),
+                      ),
+                      for (final stage in PackageStage.values) ...[
+                        const SizedBox(width: 8),
+                        ChoiceChip(
+                          label: Text(_label(stage).tr()),
+                          selected: _stage == stage,
+                          onSelected: (_) => setState(() => _stage = stage),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                if (visible.isEmpty)
+                  const BrandEmptyState(messageKey: 'no_paquetes')
+                else
+                  for (final reception in visible) ...[
+                    PackageCard(
+                      package: reception,
+                      onTap: () => context.push(
+                        AppRoutes.package(reception.recepcionID),
                       ),
                     ),
-                    itemBuilder: (context, Recepcion recepcion) => InkWell(
-                        onTap: () {
-                          if (widget.isRetenio) {
-                            showPostAlertaSheet(context, recepcion);
-                          } else {
-                            Navigator.of(context, rootNavigator: false).push(
-                                MaterialPageRoute(
-                                    builder: (context) => HistoricoPaquetePage(
-                                        recepcion: recepcion)));
-                          }
-                        },
-                        child: Hero(
-                            transitionOnUserGestures: true,
-                            tag: recepcion,
-                            child: PaqueteTile(recepcion: recepcion))),
-                  ),
-                ])
-            )
-        )
+                    const SizedBox(height: 12),
+                  ],
+              ],
+            ),
     );
-    // child: ListView.builder(
-    //     itemBuilder: (_, index) =>
-    //         InkWell(onTap: () {
-    //           var recepcion = recepciones[index];
-    //           if(this.isRetenio) {
-    //             showPostAlertaSheet(context, recepcion);
-    //           } else {
-    //             Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-    //                 builder: (context) =>
-    //                     HistoricoPaquetePage(recepcion: recepcion)));
-    //           }
-    //         }, child: Hero(transitionOnUserGestures: true, tag: recepciones[index], child: PaqueteTile(recepcion: recepciones[index]))),
-    //
-    //     itemCount: this.recepciones.length))));
   }
 
-  Future<void> showPostAlertaSheet(
-      BuildContext context, Recepcion recepcion) async {
-
-    Navigator.of(context,
-        rootNavigator: false)
-        .push(MaterialPageRoute(fullscreenDialog: true,
-        builder: (context) =>
-         CrearPostAlertaPage(recepcion: recepcion)));
-
-    //NavbarNotifier.hideBottomNavBar = true;
-    // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(false));
-    // await showModalBottomSheet(
-    //   context: context,
-    //   isScrollControlled: true,
-    //   shape: const RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-    //   isDismissible: true,
-    //   builder: (context) {
-    //     return CrearPostAlertaPage(recepcion: recepcion);
-    //   },
-    // );
-    //
-    // //NavbarNotifier.hideBottomNavBar = false;
-    // GetIt.I<event.Event<ToogleBarEvent>>().broadcast(ToogleBarEvent(true));
+  Future<void> _refresh() async {
+    setState(() => _refreshing = true);
+    GetIt.I<Event<CourierRefreshRequested>>()
+        .broadcast(CourierRefreshRequested());
+    final receptions = await GetIt.I<CourierService>().getRecepciones(true);
+    if (!mounted) return;
+    setState(() {
+      _receptions = receptions;
+      _refreshing = false;
+    });
   }
+
+  String _label(PackageStage stage) => switch (stage) {
+        PackageStage.origen => 'recibido',
+        PackageStage.ruta => 'en_ruta',
+        PackageStage.destino => 'en_destino',
+        PackageStage.disponible => 'disponibles',
+        PackageStage.entregado => 'entregado',
+      };
 }

@@ -13,18 +13,24 @@ class PrePostAlertaBloc extends Bloc<PrePostAlertaEvent, PrePostAlertaState> {
   // final ConnectivityService _connectivityService;
 
   PrePostAlertaBloc(this._courierService) : super(PrePostAlertaIdleState()) {
-    on<SendPreAlertaEvent>((event,emit) async {
+    on<SendPreAlertaEvent>((event, emit) async {
       emit(PrePostAlertaUpLoadingState());
-      final resultStr = await _courierService.sendPreAlerta(event.preAlerta, event.file);
+      final resultStr =
+          await _courierService.sendPreAlerta(event.preAlerta, event.file);
       final result = resultStr.isEmpty || resultStr.toUpperCase() == "OK";
-      emit(result ? PrePostAlertaDoneState() : PrePostAlertaErrorState(errorMessage: resultStr));
+      emit(result
+          ? PrePostAlertaDoneState()
+          : PrePostAlertaErrorState(errorMessage: resultStr));
     });
 
-    on<SendPostAlertaEvent>((event,emit) async {
+    on<SendPostAlertaEvent>((event, emit) async {
       emit(PrePostAlertaUpLoadingState());
-      var resultStr = await _courierService.sendPostAlerta(event.postAlerta, event.file);
+      var resultStr =
+          await _courierService.sendPostAlerta(event.postAlerta, event.file);
       final result = resultStr.isEmpty || resultStr.toUpperCase() == "OK";
-      emit(result ? PrePostAlertaDoneState() : PrePostAlertaErrorState(errorMessage: resultStr));
+      emit(result
+          ? PrePostAlertaDoneState()
+          : PrePostAlertaErrorState(errorMessage: resultStr));
     });
   }
 }

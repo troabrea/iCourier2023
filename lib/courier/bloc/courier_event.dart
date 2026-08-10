@@ -25,7 +25,9 @@ class UserDidLoginEvent extends CourierEvent {
   final String sessionId;
   final String nombre;
   final bool forceRefresh;
-  const UserDidLoginEvent(this.usuario,  this.sessionId, this.sucursal,this.nombre, {this.forceRefresh = false});
+  const UserDidLoginEvent(
+      this.usuario, this.sessionId, this.sucursal, this.nombre,
+      {this.forceRefresh = false});
   @override
   // AppCenter.track
   List<Object?> get props => [usuario];
@@ -36,4 +38,3 @@ class LogoutEvent extends CourierEvent {
   // AppCenter.track
   List<Object?> get props => [];
 }
-

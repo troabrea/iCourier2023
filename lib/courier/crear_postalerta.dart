@@ -1,396 +1,172 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:empty_widget_pro/empty_widget_pro.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../services/courier_service.dart';
-import 'package:intl/intl.dart';
-import '../../services/model/recepcion.dart';
-
+import '../design_system/brand_states.dart';
+import '../design_system/core_components.dart';
+import '../services/courier_service.dart';
 import '../services/model/postalerta_model.dart';
+import '../services/model/recepcion.dart';
 import 'bloc/prepostalerta_bloc.dart';
 
 class CrearPostAlertaPage extends StatefulWidget {
+  const CrearPostAlertaPage({super.key, required this.recepcion});
+
   final Recepcion recepcion;
-  const CrearPostAlertaPage({Key? key, required this.recepcion }) : super(key: key);
 
   @override
   State<CrearPostAlertaPage> createState() => _CrearPostAlertaPageState();
-
 }
 
 class _CrearPostAlertaPageState extends State<CrearPostAlertaPage> {
-
-  //final Recepcion recepcion;
-  _CrearPostAlertaPageState();
-
-  final courierService = GetIt.I<CourierService>();
-  final prePostAlertaBloc = PrePostAlertaBloc(GetIt.I<CourierService>());
-  late ScrollController controller;
-  final ImagePicker _picker = ImagePicker();
-  File? selectedFile;
-  XFile? selectedImage;
+  final _formKey = GlobalKey<FormState>();
+  final _value = TextEditingController(text: '0.00');
+  final _picker = ImagePicker();
+  late final PrePostAlertaBloc _bloc;
+  XFile? _document;
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    _bloc = PrePostAlertaBloc(GetIt.I<CourierService>());
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _value.dispose();
+    _bloc.close();
     super.dispose();
   }
 
-  final _formKey = GlobalKey<FormBuilderState>();
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 700,
-      child: BlocProvider(
-            create: (context) => prePostAlertaBloc,
-            child: BlocBuilder<PrePostAlertaBloc,PrePostAlertaState>(
-              builder: (context,state) {
-              return Scaffold(
-                appBar: AppBar(
-                  automaticallyImplyLeading: false,
-                  title: Text('crear_post_alerta'.tr()),
-                  actions: [
-                    IconButton(onPressed: () => {Navigator.of(context).pop()}, icon: const Icon(Icons.close))
-                  ],
-                ),
-                body: GestureDetector(
-                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                  onVerticalDragEnd: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                  child: SafeArea(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 65),
-                        child: Column(
-                          children: [
-                            FormBuilder(
-                              autovalidateMode: AutovalidateMode.disabled,
-                              key: _formKey,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                                child: Column(
-                                  children: [
-                                    if(state is PrePostAlertaUpLoadingState)
-                                      Container(padding: const EdgeInsets.only(top:200), child: const Center(child: CircularProgressIndicator(),))
-                                    else if (state is PrePostAlertaDoneState)
-                                      InkWell(onTap:() { Navigator.of(context).pop(); }, child: Container(padding: const EdgeInsets.only(top: 200), child: const Center(child: Icon(Icons.done_outline_sharp, size: 100,),)))
-                                    else if (state is PrePostAlertaErrorState)
-                                      InkWell(onTap:() { Navigator.of(context).pop(); },child: Container(padding: const EdgeInsets.only(top: 200), child: Center(child: Icon(Icons.done_outline_sharp, size: 100, color: Theme.of(context).colorScheme.error),)))
-                                    else
-                                      buildEntryForm(context, () async {
-                                        if(_formKey.currentState?.saveAndValidate() ?? false) {
-                                          var strValor = _formKey.currentState!.fields['valor']!.value.toString();
-                                          strValor = strValor.replaceAll(',', '');
-                                          var valor = double.parse(strValor);
-                                          var xfile = selectedImage != null ? selectedImage! : XFile(selectedFile!.path) ;
-                                          var postAlerta = PostAlertaModel("","",widget.recepcion.recepcionID,valor,"" );
-                                          prePostAlertaBloc.add(SendPostAlertaEvent(xfile,postAlerta));
-                                        }
-                                      }),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+    return Scaffold(
+      appBar: ScreenHeader(title: 'crear_post_alerta'.tr()),
+      body: BlocProvider.value(
+        value: _bloc,
+        child: BlocBuilder<PrePostAlertaBloc, PrePostAlertaState>(
+          builder: (context, state) {
+            if (state is PrePostAlertaUpLoadingState) {
+              return const BrandSkeleton(rows: 4);
+            }
+            if (state is PrePostAlertaDoneState) {
+              return Center(
+                child: IconButton(
+                  tooltip: 'aceptar'.tr(),
+                  onPressed: () => Navigator.maybePop(context),
+                  icon: const Icon(Icons.check_circle_outline, size: 64),
                 ),
               );
             }
-          )
-    ),
-    );
-  }
-
-  Widget buildEntryForm(BuildContext context, void Function() onSend) {
-    return SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildTrackingField(context),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  child: buildFechaFormField(context)),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.55,
-                  child: buildValorFormField(context)),
-              ]
-          ),
-          const SizedBox(height: 20),
-          buildProveedorField(context),
-          const SizedBox(height: 20),
-          buildContenidoField(context),
-          const SizedBox(height: 20,),
-          Row(children: [
-            SizedBox( width: MediaQuery.of(context).size.width * .5,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * .5,
-                      child: FilledButton.icon(onPressed: () async {
-                        selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-                        if(selectedImage != null) selectedFile = null;
-                        setState(() {});
-                      }, style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: Text('cargar_imagen'.tr()),  icon: const Icon(Icons.image,)),
+            return Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  Card(
+                    child: ListTile(
+                      title: Text(widget.recepcion.numeroRastreo),
+                      subtitle: Text(widget.recepcion.contenido),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * .5,
-                      child: FilledButton.icon(onPressed: () async {
-                        selectedImage = await _picker.pickImage(source: ImageSource.camera);
-                        if(selectedImage != null) selectedFile = null;
-                        setState(() {});
-                      },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12),)), alignment: Alignment.center) , label: Text('tomar_foto'.tr(), ),  icon: const Icon(Icons.camera)),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _value,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * .5,
-                      child: FilledButton.icon(onPressed: () async {
-                        FilePickerResult? result = await FilePicker.platform.pickFiles(
-                          type: FileType.custom,
-                          allowedExtensions: ['jpg', 'pdf', 'png','doc'],
-                        );
-                        if (result != null) {
-                          selectedFile = result.paths.map((path) => File(path!)).first;
-                          selectedImage = null;
-                          setState(() {});
-                        }
-                      },style: FilledButton.styleFrom( elevation: 0, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), alignment: Alignment.center) , label: Text('cargar_archivo'.tr(), ),  icon: const Icon(Icons.file_open,)),
+                    decoration: InputDecoration(labelText: 'valor_fob'.tr()),
+                    validator: (value) {
+                      final amount = double.tryParse(value ?? '');
+                      return amount == null || amount <= 0
+                          ? 'mayor_de_cero'.tr()
+                          : null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Card(
+                    child: ListTile(
+                      title: Text(
+                        _document?.name ?? 'seleccione_foto_archivo'.tr(),
+                      ),
+                      subtitle: Wrap(
+                        spacing: 8,
+                        children: [
+                          TextButton.icon(
+                            onPressed: () => _pickImage(ImageSource.gallery),
+                            icon: const Icon(Icons.image_outlined),
+                            label: Text('cargar_imagen'.tr()),
+                          ),
+                          TextButton.icon(
+                            onPressed: () => _pickImage(ImageSource.camera),
+                            icon: const Icon(Icons.camera_alt_outlined),
+                            label: Text('tomar_foto'.tr()),
+                          ),
+                          TextButton.icon(
+                            onPressed: _pickFile,
+                            icon: const Icon(Icons.file_open_outlined),
+                            label: Text('cargar_archivo'.tr()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (state is PrePostAlertaErrorState) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      state.errorMessage,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
                   ],
-                )
-            ),
-            const Spacer(),
-            if( selectedImage != null)
-              SizedBox( height: 130, width: MediaQuery.of(context).size.width * .4,
-                  child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(30)), child: Image.file(File(selectedImage!.path), fit: BoxFit.fill,)) ),
-            if(selectedFile != null)
-              SizedBox( height: 130, width: MediaQuery.of(context).size.width * .4,
-                child: Center(child: Text(selectedFile!.uri.pathSegments.last)),),
-            if(selectedFile == null && selectedImage == null)
-              SizedBox( height: 130,width: MediaQuery.of(context).size.width * .4,
-                child: EmptyWidget(
-                  hideBackgroundAnimation: true,
-                  subtitleTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
-                  title: " - ",
-                  subTitle: "seleccione_foto_archivo".tr(),
-                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                ),
+                  const SizedBox(height: 20),
+                  FilledButton.icon(
+                    onPressed: _document == null ? null : _submit,
+                    icon: const Icon(Icons.send_outlined),
+                    label: Text('enviar_post_alerta'.tr()),
+                  ),
+                ],
               ),
-          ],),
-          const SizedBox(height: 15,),
-          const Divider(),
-          FilledButton.icon(onPressed: (selectedImage == null && selectedFile == null) ? null : onSend,  label: Container(padding: const EdgeInsets.symmetric(horizontal: 5), child: Text('enviar_post_alerta'.tr())), icon: Container( padding: const EdgeInsets.only(left: 5), child: const Icon(Icons.send))),
-        ],
-      ),
-    );
-  }
-
-  FormBuilderDateTimePicker buildFechaFormField(BuildContext context) {
-    return FormBuilderDateTimePicker (
-      name: 'fecha',
-      initialEntryMode: DatePickerEntryMode.calendar,
-      format: DateFormat("dd-MMM-yyyy"),
-      enabled: false,
-      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-      inputType: InputType.date,
-      textAlign: TextAlign.center,
-      initialValue: widget.recepcion.fechaRecibido(),
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'requerido'.tr()),
-      ]),
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(2),
-        floatingLabelAlignment: FloatingLabelAlignment.center,
-        labelText: 'fecha'.tr(),
-        floatingLabelStyle:
-        TextStyle(color: Theme.of(context).dividerColor),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(10)),
-        focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-            borderRadius: BorderRadius.circular(10)),
-        errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-            borderRadius: BorderRadius.circular(10)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(10)),
-      ),
-    );
-  }
-
-  FormBuilderTextField buildValorFormField(BuildContext context) {
-    return FormBuilderTextField(
-      name: 'valor',
-      keyboardType: TextInputType.number,
-      textAlign: TextAlign.center,
-      initialValue: '0.00',
-      style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-      inputFormatters: [
-        TextInputMask(
-            mask: '9+,999.99',
-            placeholder: '0',
-            maxPlaceHolders: 2,
-            reverse: true)
-      ],
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: "requerido".tr()),
-        FormBuilderValidators.min(0.01, errorText: "mayor_de_cero".tr()),
-      ]),
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(2),
-          labelText: 'valor_fob'.tr(),
-          floatingLabelAlignment: FloatingLabelAlignment.center,
-          floatingLabelStyle:
-          TextStyle(color: Theme.of(context).dividerColor),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).dividerColor),
-              borderRadius: BorderRadius.circular(10)),
-          focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-              borderRadius: BorderRadius.circular(10)),
-          errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).dividerColor),
-              borderRadius: BorderRadius.circular(10)),
-          prefixIcon: const Icon(Icons.attach_money_outlined),
-          prefixIconColor: Theme.of(context).colorScheme.secondary),
-    );
-  }
-
-  SizedBox buildContenidoField(BuildContext context) {
-    return SizedBox(
-        height: 60,
-        child: FormBuilderTextField(
-          name: 'contenido',
-          contextMenuBuilder: (context, editableTextState) {
-            return AdaptiveTextSelectionToolbar.editableText(
-              editableTextState: editableTextState,
             );
           },
-          initialValue: widget.recepcion.contenido,
-          enabled: false,
-          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-          validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required(errorText: 'requerido'.tr())]),
-          valueTransformer: (val) => val?.toString(),
-          decoration: InputDecoration(
-            labelText: 'contenido'.tr(),
-            hintText: 'contenido'.tr(),
-            floatingLabelAlignment: FloatingLabelAlignment.center,
-            floatingLabelStyle:
-            TextStyle(color: Theme.of(context).dividerColor),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
-                borderRadius: BorderRadius.circular(15)),
-            focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-                borderRadius: BorderRadius.circular(15)),
-            errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-                borderRadius: BorderRadius.circular(15)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
-                borderRadius: BorderRadius.circular(15)),
-          ),
-        )
+        ),
+      ),
     );
   }
 
-  SizedBox buildProveedorField(BuildContext context) {
-    return SizedBox(
-        height: 60,
-        child: FormBuilderTextField(
-          name: 'proveedor',
-          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-          initialValue: widget.recepcion.suplidor,
-          enabled: false,
-          validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required(errorText: 'requerido'.tr())]),
-          valueTransformer: (val) => val?.toString(),
-          decoration: InputDecoration(
-            labelText: 'proveedor'.tr(),
-            hintText: 'proveedor'.tr(),
-            floatingLabelAlignment: FloatingLabelAlignment.center,
-            floatingLabelStyle:
-            TextStyle(color: Theme.of(context).dividerColor),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
-                borderRadius: BorderRadius.circular(15)),
-            focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-                borderRadius: BorderRadius.circular(15)),
-            errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-                borderRadius: BorderRadius.circular(15)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).dividerColor),
-                borderRadius: BorderRadius.circular(15)),
-          ),
-        )
+  Future<void> _pickImage(ImageSource source) async {
+    final selected = await _picker.pickImage(source: source);
+    if (selected != null) setState(() => _document = selected);
+  }
+
+  Future<void> _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: const ['jpg', 'jpeg', 'pdf', 'png', 'doc', 'docx'],
+    );
+    final path = result?.files.single.path;
+    if (path != null) setState(() => _document = XFile(path));
+  }
+
+  void _submit() {
+    if (!(_formKey.currentState?.validate() ?? false) || _document == null) {
+      return;
+    }
+    _bloc.add(
+      SendPostAlertaEvent(
+        _document!,
+        PostAlertaModel(
+          '',
+          '',
+          widget.recepcion.recepcionID,
+          double.parse(_value.text),
+          '',
+        ),
+      ),
     );
   }
-
-  SizedBox buildTrackingField(BuildContext context) {
-    return SizedBox(
-            height: 60,
-            child: FormBuilderTextField(
-              name: 'tracking',
-              contextMenuBuilder: (context, editableTextState) {
-                return AdaptiveTextSelectionToolbar.editableText(
-                  editableTextState: editableTextState,
-                );
-              },
-              maxLines: 2,
-              style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-              initialValue: widget.recepcion.enviadoPor,
-              enabled: false,
-              validator: FormBuilderValidators.compose(
-                  [FormBuilderValidators.required(errorText: 'requerido'.tr())]),
-              valueTransformer: (val) => val?.toString(),
-              decoration: InputDecoration(
-                labelText: 'Tracking',
-                hintText: 'Tracking',
-                floatingLabelAlignment: FloatingLabelAlignment.center,
-                floatingLabelStyle:
-                TextStyle( color: Theme.of(context).dividerColor),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).dividerColor),
-                    borderRadius: BorderRadius.circular(15)),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-                    borderRadius: BorderRadius.circular(15)),
-                errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
-                    borderRadius: BorderRadius.circular(15)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).dividerColor),
-                    borderRadius: BorderRadius.circular(15)),
-              ),
-            )
-        );
-  }
-
-
 }

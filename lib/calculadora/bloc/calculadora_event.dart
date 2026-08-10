@@ -23,6 +23,3 @@ class NoInternetEvent extends CalculadoraEvent {
   // AppCenter.track
   List<Object?> get props => [];
 }
-
-
-

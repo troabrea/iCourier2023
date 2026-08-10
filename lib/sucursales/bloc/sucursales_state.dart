@@ -22,4 +22,3 @@ class SucursalesLoadedState extends SucursalesState {
   @override
   List<Object?> get props => [sucursales, markers];
 }
-

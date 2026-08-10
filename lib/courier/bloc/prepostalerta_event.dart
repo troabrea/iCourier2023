@@ -21,5 +21,3 @@ class SendPostAlertaEvent extends PrePostAlertaEvent {
   // AppCenter.track
   List<Object?> get props => [file];
 }
-
-

@@ -1,40 +1,32 @@
 import 'package:intl/intl.dart';
+import 'package:icourier/domain/package_stage.dart';
 
-class ConsultaHistoricaRequest
-{
-  ConsultaHistoricaRequest({
-    required this.empresaId,
-    required this.sessionId,
-    required this.desde,
-    required this.hasta
-  });
+class ConsultaHistoricaRequest {
+  ConsultaHistoricaRequest(
+      {required this.empresaId,
+      required this.sessionId,
+      required this.desde,
+      required this.hasta});
   String empresaId;
   String sessionId;
   String desde;
   String hasta;
 
   Map<String, dynamic> toJson() => {
-    "empresaId": empresaId,
-    "sessionId" : sessionId,
-    "desde" : desde,
-    "hasta" : hasta
-  };
+        "empresaId": empresaId,
+        "sessionId": sessionId,
+        "desde": desde,
+        "hasta": hasta
+      };
 }
 
-
-class RecepcionRequest
-{
-  RecepcionRequest({
-    required this.empresaId,
-    required this.sessionId
-  });
+class RecepcionRequest {
+  RecepcionRequest({required this.empresaId, required this.sessionId});
   String empresaId;
   String sessionId;
 
-  Map<String, dynamic> toJson() => {
-    "empresaId": empresaId,
-    "sessionId" : sessionId
-  };
+  Map<String, dynamic> toJson() =>
+      {"empresaId": empresaId, "sessionId": sessionId};
 }
 
 class Recepcion {
@@ -61,60 +53,40 @@ class Recepcion {
   bool selected = false;
 
   int progresoActual() {
-    if(estatus.toUpperCase() == "ENTREGADO AL CLIENTE" || estatus.toUpperCase() == "DELIVERED") {
-      return 4;
-    }
-    if(estatus.toUpperCase() == "ENTREGADO" || estatus.toUpperCase() == "BILLED COUNTER") {
-      return 4;
-    }
-    if(disponible && progreso == 4) {
-      return 5;
-    }
-    if(disponible) {
-      return 4;
-    } else if(estatus.toUpperCase().contains("EMBARCADO") || estatus.toUpperCase().contains("EMPACADO") ||
-        estatus.toUpperCase().contains("EMBARCADO") || estatus.toUpperCase().contains("EMPACADO") ||
-        estatus.toUpperCase().contains("SHIPMENT SENT")
-    ) {
-      return 2;
-    } else if(estatus.toUpperCase().contains("TRANSFERIDO") || estatus.toUpperCase().contains("EMPACADO")
-         || estatus.toUpperCase().contains("TRANSFERIDO") || estatus.toUpperCase().contains("EMPACADO")
-         || estatus.toUpperCase().contains("ADUANA") || estatus.toUpperCase().contains("TRANSITO")
-         || estatus.toUpperCase().contains("DISTRIBUCION") || estatus.toUpperCase().contains("DISTRIBUCIÓN")
-         || estatus.toUpperCase().contains("RECIBIDO AILA") || estatus.toUpperCase().contains("ALMACEN")
-         || estatus.toUpperCase().contains("CUSTOM") || estatus.toUpperCase().contains("(DISTRIBUTION CENTER)")
-        || estatus.toUpperCase().contains("PACKED") || estatus.toUpperCase().contains("OUTGOING TRANSFER")
-    ) {
-      return 3;
-    }
-    return 1;
+    return PackageStatusMapper.map(
+      status: estatus,
+      isAvailable: disponible,
+      progress: progreso,
+    ).step;
   }
 
   double montoTotal() => double.tryParse(totalNeto.replaceAll(',', '')) ?? 0.00;
 
-  DateTime fechaRecibido() => DateTime.tryParse(fecha.replaceAll(".", "-").replaceAll("/", "-")) ?? DateTime(2000,1,1);
+  DateTime fechaRecibido() =>
+      DateTime.tryParse(fecha.replaceAll(".", "-").replaceAll("/", "-")) ??
+      DateTime(2000, 1, 1);
 
   Recepcion(
-      { required this.recepcionID,
-        required this.fecha,
-        required this.producto,
-        required this.suplidor,
-        required this.cantidadPaquetes,
-        required this.contenido,
-        required this.enviadoPor,
-        required this.totalPeso,
-        required this.totalVolumen,
-        required this.totalNeto,
-        required this.estatus,
-        required this.retenido,
-        required this.disponible,
-        required this.paquetes,
-        required this.fotoPaqueteSmallUrl,
-        required this.fotoPaqueteUrl,
-        required this.fotoFacturaUrl,
-        required this.fechaHora,
-        required this.progreso,
-        required this.numeroRastreo});
+      {required this.recepcionID,
+      required this.fecha,
+      required this.producto,
+      required this.suplidor,
+      required this.cantidadPaquetes,
+      required this.contenido,
+      required this.enviadoPor,
+      required this.totalPeso,
+      required this.totalVolumen,
+      required this.totalNeto,
+      required this.estatus,
+      required this.retenido,
+      required this.disponible,
+      required this.paquetes,
+      required this.fotoPaqueteSmallUrl,
+      required this.fotoPaqueteUrl,
+      required this.fotoFacturaUrl,
+      required this.fechaHora,
+      required this.progreso,
+      required this.numeroRastreo});
 
   Recepcion.fromJson(Map<String, dynamic> json) {
     recepcionID = json['recepcionID'] ?? "";
@@ -122,12 +94,12 @@ class Recepcion {
     producto = json['producto'] ?? "";
     suplidor = json['suplidor'] ?? "";
     cantidadPaquetes = json['cantidadPaquetes'] ?? 0;
-    contenido = json['contenido']  ?? "";
-    enviadoPor = json['enviadoPor']  ?? "";
+    contenido = json['contenido'] ?? "";
+    enviadoPor = json['enviadoPor'] ?? "";
     totalPeso = json['totalPeso'] ?? "";
-    totalVolumen = json['totalVolumen']  ?? "" ;
-    totalNeto = json['totalNeto']  ?? "";
-    estatus = json['estatus']  ?? "";
+    totalVolumen = json['totalVolumen'] ?? "";
+    totalNeto = json['totalNeto'] ?? "";
+    estatus = json['estatus'] ?? "";
     retenido = json['retenido'] ?? false;
     disponible = json['disponible'] ?? false;
     if (json['paquetes'] != null) {
@@ -136,12 +108,12 @@ class Recepcion {
         paquetes.add(Paquetes.fromJson(v));
       });
     }
-    fotoPaqueteSmallUrl = json['fotoPaqueteSmallUrl']  ?? "";
-    fotoPaqueteUrl = json['fotoPaqueteUrl']  ?? "";
-    fotoFacturaUrl = json['fotoFacturaUrl']  ?? "";
-    fechaHora = json['fechaHora']  ?? "";
-    progreso = json['progreso']  ?? 0;
-    numeroRastreo = json['numeroRastreo']  ?? "";
+    fotoPaqueteSmallUrl = json['fotoPaqueteSmallUrl'] ?? "";
+    fotoPaqueteUrl = json['fotoPaqueteUrl'] ?? "";
+    fotoFacturaUrl = json['fotoFacturaUrl'] ?? "";
+    fechaHora = json['fechaHora'] ?? "";
+    progreso = json['progreso'] ?? 0;
+    numeroRastreo = json['numeroRastreo'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -184,15 +156,15 @@ class Paquetes {
   late List<Historia> historia;
 
   Paquetes(
-      { required this.paqueteID,
-        required this.recepcionID,
-        required this.suplidor,
-        required this.libras,
-        required this.mercancia,
-        required this.rastreo,
-        required this.status,
-        required this.urlTracking,
-        required this.historia});
+      {required this.paqueteID,
+      required this.recepcionID,
+      required this.suplidor,
+      required this.libras,
+      required this.mercancia,
+      required this.rastreo,
+      required this.status,
+      required this.urlTracking,
+      required this.historia});
 
   Paquetes.fromJson(Map<String, dynamic> json) {
     paqueteID = json['paqueteID'] ?? "";
@@ -235,19 +207,20 @@ class Historia {
   late String ciudad;
   late String fechaHora;
 
-  String soloFecha() => fecha.split("|").first.trimLeft().trimRight().replaceAll(".", "-");
+  String soloFecha() =>
+      fecha.split("|").first.trimLeft().trimRight().replaceAll(".", "-");
   String soloHora() => fecha.split("|").last.trimLeft().trimRight();
 
-
-  DateTime dateTime()
-  {
-    var horaPart = soloHora().replaceAll(" AM","").replaceAll(" PM", "");
-    if(horaPart.length == 5) {
-      horaPart = horaPart + ":00";
+  DateTime dateTime() {
+    var horaPart = soloHora().replaceAll(" AM", "").replaceAll(" PM", "");
+    if (horaPart.length == 5) {
+      horaPart = '$horaPart:00';
     }
     // 2022-12-16T18:59:51.58
-    var theDateTime = fechaHora.contains("T") ? DateFormat("yyyy-MM-ddTHH:mm:ss").parse(fechaHora) : DateFormat("yyyy-MM-dd HH:mm:ss").parse( soloFecha() + " " + horaPart );
-    if(!fechaHora.contains("T")) {
+    var theDateTime = fechaHora.contains("T")
+        ? DateFormat("yyyy-MM-ddTHH:mm:ss").parse(fechaHora)
+        : DateFormat("yyyy-MM-dd HH:mm:ss").parse('${soloFecha()} $horaPart');
+    if (!fechaHora.contains("T")) {
       if (soloHora().contains("PM") && theDateTime.hour != 12) {
         theDateTime = theDateTime.add(const Duration(hours: 12));
       }
@@ -258,17 +231,16 @@ class Historia {
     return theDateTime;
   }
 
-
   Historia(
-      { required this.paqueteID,
-        required this.nombreEstatus,
-        required this.fecha,
-        required this.ciudad,
-        required this.fechaHora});
+      {required this.paqueteID,
+      required this.nombreEstatus,
+      required this.fecha,
+      required this.ciudad,
+      required this.fechaHora});
 
   Historia.fromJson(Map<String, dynamic> json) {
     paqueteID = json['paqueteID'] ?? "";
-    nombreEstatus = json['nombreEstatus']  ?? "";
+    nombreEstatus = json['nombreEstatus'] ?? "";
     fecha = json['fecha'] ?? "";
     ciudad = json['ciudad'] ?? "";
     fechaHora = json['fechaHora'] ?? "";

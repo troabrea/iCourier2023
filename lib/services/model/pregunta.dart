@@ -20,22 +20,22 @@ class Pregunta {
   bool isExpanded = false;
 
   factory Pregunta.fromJson(Map<String, dynamic> json) => Pregunta(
-    registroId: json["registroID"],
-    empresa: json["empresa"],
-    titulo: json["titulo"],
-    resumen: json["resumen"],
-    url: json["url"] ?? "",
-    orden: json["orden"],
-    deleted: json["deleted"],
-  );
+        registroId: json["registroID"],
+        empresa: json["empresa"],
+        titulo: json["titulo"],
+        resumen: json["resumen"],
+        url: json["url"] ?? "",
+        orden: json["orden"],
+        deleted: json["deleted"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "registroID": registroId,
-    "empresa": empresa,
-    "titulo": titulo,
-    "resumen": resumen,
-    "url": url,
-    "orden": orden,
-    "deleted": deleted,
-  };
+        "registroID": registroId,
+        "empresa": empresa,
+        "titulo": titulo,
+        "resumen": resumen,
+        "url": url,
+        "orden": orden,
+        "deleted": deleted,
+      };
 }

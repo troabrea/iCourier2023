@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:icourier/design_system/brand_states.dart';
+import 'package:icourier/design_system/core_components.dart';
+import 'package:icourier/domain/package_stage.dart';
+import 'package:icourier/services/model/recepcion.dart';
+import 'package:icourier/theme/brand_config.dart';
+
+import '../helpers/brand_test_app.dart';
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(initializeTestTranslations);
+
+  testWidgets('muestra carga, vacío y error recuperable', (tester) async {
+    final config = loadTestBrand('bmcargo');
+
+    await tester.pumpWidget(
+      brandTestApp(config: config, child: const BrandSkeleton(rows: 3)),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(Semantics), findsWidgets);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: const BrandEmptyState(messageKey: 'no_resultados'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.inventory_2_outlined), findsOneWidget);
+
+    var retried = false;
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: BrandErrorState(onRetry: () => retried = true),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.refresh));
+    expect(retried, isTrue);
+  });
+
+  testWidgets('retenido deshabilita selección y usa estado de advertencia',
+      (tester) async {
+    final config = loadTestBrand('bmcargo');
+    final package = _package(retained: true);
+    var toggled = false;
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const StatusBadge(
+              stage: PackageStage.disponible,
+              retained: true,
+            ),
+            SelectableRow(
+              package: package,
+              checked: false,
+              onToggle: (_) => toggled = true,
+            ),
+          ],
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(Icons.lock_outline), findsOneWidget);
+    await tester.tap(find.byType(CheckboxListTile), warnIfMissed: false);
+    expect(toggled, isFalse);
+  });
+
+  testWidgets('capacidades ocultan puntos y pago', (tester) async {
+    final config = loadTestBrand('fixocargo');
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BrandHeader(
+              greeting: 'Bienvenido',
+              account: 'FX-100',
+              points: 900,
+              capabilities: BrandCapabilities(points: false),
+            ),
+            SelectionSummaryBar(
+              count: 1,
+              total: 100,
+              currency: 'RD\$',
+              paymentsEnabled: false,
+              onPay: _noop,
+            ),
+          ],
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('900'), findsNothing);
+    expect(find.byType(FilledButton), findsNothing);
+  });
+
+  testWidgets('componentes soportan escalado de texto al 200%', (tester) async {
+    final config = loadTestBrand('fixocargo');
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        textScaler: const TextScaler.linear(2),
+        child: const BrandEmptyState(messageKey: 'no_resultados'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+  });
+}
+
+void _noop() {}
+
+Recepcion _package({required bool retained}) => Recepcion(
+      recepcionID: 'RD-1',
+      fecha: '2026-08-10',
+      producto: 'Aéreo',
+      suplidor: 'Amazon',
+      cantidadPaquetes: 1,
+      contenido: 'Artículos personales',
+      enviadoPor: 'Amazon',
+      totalPeso: '2.5',
+      totalVolumen: '0',
+      totalNeto: '100',
+      estatus: 'Disponible',
+      retenido: retained,
+      disponible: true,
+      paquetes: const [],
+      fotoPaqueteSmallUrl: '',
+      fotoPaqueteUrl: '',
+      fotoFacturaUrl: '',
+      fechaHora: '2026-08-10T10:00:00',
+      progreso: 3,
+      numeroRastreo: '1Z999',
+    );

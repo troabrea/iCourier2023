@@ -1,89 +1,49 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../design_system/core_components.dart';
 import '../services/model/noticia.dart';
-import 'noticiasappbar.dart';
 
 class NoticiaDetallePage extends StatelessWidget {
-  final Noticia? noticia;
-  // ignore: use_key_in_widget_constructors
-  const NoticiaDetallePage({this.noticia});
-  Future<void> _launchUrl() async {
-    Uri _url = Uri.parse(noticia!.url);
+  const NoticiaDetallePage({super.key, required this.noticia});
 
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
-    }
-  }
+  final Noticia noticia;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: NoticiasAppBar(showBackButton: true,),
-        body: Container( margin: const EdgeInsets.only(bottom: 65),
-          child: Stack(children: [
-            Container(
-                padding: const EdgeInsets.only(left: 10.0),
-                decoration: const BoxDecoration(
-                  // image: DecorationImage(
-                  //   image: AssetImage("images/fondo.png"),
-                  //   fit: BoxFit.cover,
-                  // ),
-                )),
-            Column(children: <Widget>[
-              const Divider(
-                height: 10,
-                color: Colors.transparent,
+      appBar: ScreenHeader(title: noticia.titulo),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text(
+              DateFormat.yMMMMd().format(noticia.fecha),
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+            const SizedBox(height: 12),
+            Text(noticia.resumen,
+                style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 16),
+            SelectableText(
+              noticia.contenido.replaceAll(RegExp(r'<[^>]*>'), ' '),
+            ),
+            if (noticia.url.isNotEmpty)
+              TextButton.icon(
+                onPressed: () {
+                  final uri = Uri.tryParse(noticia.url);
+                  if (uri != null &&
+                      (uri.scheme == 'https' || uri.scheme == 'http')) {
+                    launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                icon: const Icon(Icons.open_in_new),
+                label: Text(noticia.url),
               ),
-              Hero( transitionOnUserGestures: true, tag: noticia!.registroId + '_' + noticia!.titulo,
-                child: Text(
-                  noticia!.titulo,
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const Divider(
-                height: 10,
-                color: Colors.transparent,
-              ),
-              Hero(transitionOnUserGestures: true, tag: noticia!.registroId + '_' + noticia!.fecha.toString(),
-                child: Text(DateFormat("dd-MMM-yyyy").format(noticia!.fecha),
-                    style: Theme.of(context).textTheme.titleMedium),
-              ),
-              Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: const EdgeInsets.all(20),
-                      child: SingleChildScrollView(
-                        child: Text(
-                          noticia!.contenido.isEmpty ? noticia!.resumen : noticia!.contenido,
-                          textAlign: TextAlign.justify,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ))),
-              const Divider(
-                height: 10,
-                color: Colors.transparent,
-              ),
-              if (noticia!.url.isNotEmpty)
-                TextButton(
-                    onPressed: () => {_launchUrl()}, child: Text( 'ver_mas'.tr()
-                    )),
-              if (noticia!.url.isNotEmpty)
-                const Divider(
-                  height: 40,
-                  color: Colors.transparent,
-                ),
-            ]),
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -17,17 +17,15 @@ class EstadoResponse {
     }
     var result = fecha.replaceAll("12:00:00 AM", "");
     var parts = result.split("/");
-    if(parts.length == 3) {
-      result = parts[1] + '-' + parts[0] + '-' + parts[2];
+    if (parts.length == 3) {
+      result = '${parts[1]}-${parts[0]}-${parts[2]}';
     }
     return result;
   }
 
-
   factory EstadoResponse.fromJson(Map<String, dynamic> json) => EstadoResponse(
-    documento: json["documento"],
-    fecha: json["fecha"],
-    balance: json["balance"],
-    diasVencidos: json["diasVencidos"]
-  );
+      documento: json["documento"],
+      fecha: json["fecha"],
+      balance: json["balance"],
+      diasVencidos: json["diasVencidos"]);
 }

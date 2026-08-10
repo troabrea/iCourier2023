@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
@@ -13,12 +12,12 @@ class PrealertasBloc extends Bloc<PrealertasEvent, PrealertasState> {
     on<LoadPreAlertasEvent>((event, emit) async {
       try {
         final preAlertas = await GetIt.I<CourierService>().getPrealertas();
-        if(preAlertas.isEmpty) {
+        if (preAlertas.isEmpty) {
           emit(PrealertasEmptyState());
         } else {
           emit(PrealertasLoadedState(prealertas: preAlertas));
         }
-      } catch(e ) {
+      } catch (e) {
         emit(PrealertasErrorState());
       }
     });

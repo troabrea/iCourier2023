@@ -15,12 +15,11 @@ class ServiciosBloc extends Bloc<ServiciosEvent, ServiciosState> {
   // final ConnectivityService _connectivityService;
 
   ServiciosBloc(this._courierService) : super(ServiciosLoadingState()) {
-
     on<LoadApiEvent>((event, emit) async {
       try {
         emit(ServiciosLoadingState());
         final empresa = await _courierService.getEmpresa();
-        final banners = empresa.dominio.toUpperCase() == "BMCARGO" ? await _courierService.getBanners() : <BannerImage>[].toList();
+        final banners = await _courierService.getBanners();
         final userProfile = await _courierService.getUserProfile();
         final servicios = await _courierService.getServicios(event.ignoreCache);
 

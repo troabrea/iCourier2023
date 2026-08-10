@@ -1,165 +1,128 @@
-import 'dart:convert';
-import 'dart:math';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:icourier/adicional/appbrowser.dart';
-import 'package:icourier/helpers/dialogs.dart';
-import 'package:icourier/services/app_events.dart';
-import '../apps/appinfo.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:go_router/go_router.dart';
 
-
+import '../design_system/brand_states.dart';
+import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 
 class CuentasUsuario extends StatefulWidget {
-  final UserProfile userProfile;
-  final appInfo = GetIt.I<AppInfo>();
+  const CuentasUsuario({super.key, required this.userProfile});
 
-  CuentasUsuario({super.key, required this.userProfile});
+  final UserProfile userProfile;
 
   @override
   State<CuentasUsuario> createState() => _CuentasUsuarioState();
 }
 
 class _CuentasUsuarioState extends State<CuentasUsuario> {
-  late UserProfile userProfile;
-  final ImagePicker _picker = ImagePicker();
-  bool isBusy = false;
-  String profileUrl = "";
-  final accountList = <UserAccount>[].toList();
-
-  //NavbarNotifier.hideBottomNavBar = true;
-  _CuentasUsuarioState();
+  late Future<List<UserAccount>> _accounts;
 
   @override
   void initState() {
-    loadData();
     super.initState();
-  }
-
-  Future<void> loadData() async {
-    var list = await GetIt.I<CourierService>().getStoredAccounts();
-    userProfile = await GetIt.I<CourierService>().getUserProfile();
-    profileUrl = await GetIt.I<CourierService>().empresaOptionValue("ProfileUrl");
-    if(profileUrl.isEmpty) {
-      profileUrl = await GetIt.I<CourierService>().empresaOptionValue("EditProfileUrl");
-    }
-    accountList.clear();
-    accountList.addAll(list);
-    setState(() {});
+    _accounts = GetIt.I<CourierService>().getStoredAccounts();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-            decoration: ShapeDecoration(
-                color: Theme.of(context).appBarTheme.backgroundColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)))),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: AutoSizeText("sus_cuentas".tr(),
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Theme.of(context)
-                                  .appBarTheme
-                                  .foregroundColor))),
+    return FutureBuilder<List<UserAccount>>(
+      future: _accounts,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return BrandErrorState(onRetry: _reload);
+        }
+        if (!snapshot.hasData) {
+          return const BrandSkeleton();
+        }
+        final accounts = snapshot.requireData;
+        return ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            if (accounts.isEmpty)
+              const BrandEmptyState(messageKey: 'sus_cuentas')
+            else
+              for (final account in accounts)
+                Card(
+                  child: ListTile(
+                    onTap: () => _switchAccount(account),
+                    leading: Icon(
+                      account.userAccount == widget.userProfile.cuenta
+                          ? Icons.radio_button_checked
+                          : Icons.radio_button_off,
+                    ),
+                    title: Text(account.nombre),
+                    subtitle: Text(account.userAccount),
+                    trailing: IconButton(
+                      tooltip: 'confirme_borrar_cuenta'.tr(),
+                      onPressed: () => _confirmDelete(account),
+                      icon: const Icon(Icons.delete_outline),
+                    ),
+                  ),
                 ),
-              ],
-            )),
-        SizedBox(
-          height: accountList.isNotEmpty ? min(accountList.length * 100, 400) : 200,
-          child: ListView.separated(
-            separatorBuilder: (ctx,idx) => const Divider(),
-            itemBuilder: (ctx, idx) => ListTile(
-              onTap: () { switchToAccount(accountList[idx]); },
-              title: Text(accountList[idx].userAccount),
-              subtitle: Text(accountList[idx].nombre),
-              leading: userProfile.cuenta == accountList[idx].userAccount ? const Icon(Icons.check_circle) : const Icon(Icons.circle_outlined),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if(profileUrl.isNotEmpty && userProfile.cuenta == accountList[idx].userAccount)
-                    IconButton.filledTonal(onPressed: () {doEditProfile(context);}, icon: const Icon(Icons.edit), color: Theme.of(context).colorScheme.primary),
-                  IconButton.filledTonal(onPressed: () {doForgetAccount( accountList[idx] );}, icon: const Icon(Icons.delete), color: Theme.of(context).colorScheme.error,),
-                ],
-              ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () {
+                GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
+              },
+              icon: const Icon(Icons.add),
+              label: Text('agregar_cuenta'.tr()),
             ),
-            itemCount: accountList.length,
-          ),
-        ),
-        SafeArea(child: OutlinedButton(onPressed: () {doLogout(context);}, child: Text("${"agregar_cuenta".tr()} / ${"cerrar_session".tr()}", style: TextStyle(color: Theme.of(context).colorScheme.primary))))
-      ]);
+          ],
+        );
+      },
+    );
   }
-  Future<void> doForgetAccount(UserAccount userAccount) async {
-    if(!await confirmDialog(context, "confirme_borrar_cuenta".tr(), "si".tr(), "no".tr())) {
+
+  void _reload() {
+    setState(() {
+      _accounts = GetIt.I<CourierService>().getStoredAccounts();
+    });
+  }
+
+  Future<void> _switchAccount(UserAccount account) async {
+    if (account.userAccount == widget.userProfile.cuenta) {
       return;
     }
-    final newList = await GetIt.I<CourierService>().removeAccountFromStore(userAccount);
-    setState(() {
-      accountList.clear();
-      accountList.addAll(newList);
-    });
-    if(newList.isEmpty) {
-      if(!context.mounted) return;
-      doLogout(context);
+    final success =
+        await GetIt.I<CourierService>().switchUserAccount(account.userAccount);
+    if (!success) {
+      return;
     }
-  }
-  void doLogout(BuildContext context) {
-    Navigator.of(context).pop();
-    GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
-  }
-  Future<void> switchToAccount(UserAccount userAccount) async {
-    Navigator.of(context).pop();
-    var ok = await GetIt.I<CourierService>().switchUserAccount(userAccount.userAccount);
-    if(ok) {
-      GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(true, userAccount.userAccount, userAccount.nombre));
-      GetIt.I<Event<CourierRefreshRequested>>().broadcast(CourierRefreshRequested());
+    GetIt.I<Event<LoginChanged>>().broadcast(
+      LoginChanged(true, account.userAccount, account.nombre),
+    );
+    if (mounted) {
+      context.pop();
     }
   }
 
-  doEditProfile(BuildContext context) async {
-
-    Navigator.of(context).pop();
-
-    if (!context.mounted) return;
-
-    final appInfo = GetIt.I<AppInfo>();
-    final map = await GetIt.I<CourierService>().getProfileUrl();
-    final userId = map['UsuarioID'] ?? "";
-    final userPwd = map['UsuarioPW'] ?? "";
-
-    final String encodedCompany =
-    base64Encode(const Utf8Encoder().convert(appInfo.companyId));
-
-    final String encodedUser =
-    base64Encode(const Utf8Encoder().convert(userId));
-
-    final String encodedPwd =
-    base64Encode(const Utf8Encoder().convert(userPwd));
-
-
-    final functionUrl= 'https://icourier.barolit.net/EditProfile/$encodedCompany/$encodedUser/$encodedPwd';
-
-    if (!context.mounted) return;
-    await Navigator.of(context).push(MaterialPageRoute<void>(
-      builder: (BuildContext context) =>  AppBrowser(initialUrl: functionUrl, title: "Edición de Perfil"),
-    ),);
-
-    // await launchUrl(Uri.parse( functionUrl ), mode: LaunchMode.externalApplication);
-
-
+  Future<void> _confirmDelete(UserAccount account) async {
+    final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('confirme'.tr()),
+            content: Text('confirme_borrar_cuenta'.tr()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('no'.tr()),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('si'.tr()),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+    if (!confirmed) {
+      return;
+    }
+    await GetIt.I<CourierService>().removeAccountFromStore(account);
+    _reload();
   }
 }
-
-

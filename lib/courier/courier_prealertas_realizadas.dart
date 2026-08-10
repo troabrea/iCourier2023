@@ -1,160 +1,93 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:empty_widget_pro/empty_widget_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc/prealertas_bloc.dart';
-import '../services/model/prealerta_model.dart';
-import 'package:intl/intl.dart';
+import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../design_system/brand_states.dart';
+import '../design_system/core_components.dart';
+import '../theme/brand_config.dart';
+import 'bloc/prealertas_bloc.dart';
+
 class PrealertasRealizadas extends StatefulWidget {
-  const PrealertasRealizadas({Key? key}) : super(key: key);
+  const PrealertasRealizadas({super.key});
 
   @override
   State<PrealertasRealizadas> createState() => _PrealertasRealizadasState();
 }
 
 class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
-  late ScrollController controller;
-  final prealertasBloc = PrealertasBloc();
-  final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
+  late final PrealertasBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    _bloc = PrealertasBloc()..add(LoadPreAlertasEvent());
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _bloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("prealertas".tr()),
-          leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
-        ),
-        body: BlocProvider(
-            create: (context) => prealertasBloc..add(LoadPreAlertasEvent()),
-            child: BlocBuilder<PrealertasBloc, PrealertasState>(
-                builder: (context, state) {
-              if (state is PrealertasLoadingState) {
-                return const SafeArea(
-                    child: Center(
-                  child: CircularProgressIndicator(),
-                ));
-              }
-              if (state is PrealertasErrorState) {
-                return SafeArea(
-                    child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      BlocProvider.of<PrealertasBloc>(context)
-                          .add(LoadPreAlertasEvent());
-                    },
-                    child: Center(
-                        child: Text(
-                      "error_favor_reintentar".tr(),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    )),
+      appBar: ScreenHeader(title: 'prealertas'.tr()),
+      body: BlocProvider.value(
+        value: _bloc,
+        child: BlocBuilder<PrealertasBloc, PrealertasState>(
+          builder: (context, state) {
+            if (state is PrealertasLoadingState) {
+              return const BrandSkeleton();
+            }
+            if (state is PrealertasErrorState) {
+              return BrandErrorState(
+                onRetry: () => _bloc.add(LoadPreAlertasEvent()),
+              );
+            }
+            if (state is! PrealertasLoadedState || state.prealertas.isEmpty) {
+              return const BrandEmptyState(
+                messageKey: 'no_prealertas_recientes',
+              );
+            }
+            final currency = GetIt.I<BrandConfig>().currency;
+            return ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: state.prealertas.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              itemBuilder: (context, index) {
+                final alert = state.prealertas[index];
+                return Card(
+                  child: ListTile(
+                    title: Text(alert.tracking),
+                    subtitle: Text(
+                      [alert.enviaNombre, alert.contenido, alert.fechaEntrega]
+                          .where((value) => value.isNotEmpty)
+                          .join('\n'),
+                    ),
+                    trailing: Text('$currency ${alert.fob.toStringAsFixed(2)}'),
+                    onTap: alert.facturaUrl.isEmpty
+                        ? null
+                        : () {
+                            final uri = Uri.tryParse(alert.facturaUrl);
+                            if (uri != null &&
+                                (uri.scheme == 'https' ||
+                                    uri.scheme == 'http')) {
+                              launchUrl(
+                                uri,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            }
+                          },
                   ),
-                ));
-              }
-              if (state is PrealertasEmptyState) {
-                return SafeArea(
-                    child: Center(
-                      child: InkWell(
-                        onTap: () {
-                          BlocProvider.of<PrealertasBloc>(context)
-                              .add(LoadPreAlertasEvent());
-                        },
-                        child: Center(
-                            child: EmptyWidget(
-                              hideBackgroundAnimation: true,
-                              title: "no_resultados".tr(),
-                              subTitle: "no_prealertas_recientes".tr(),
-                              titleTextStyle: Theme.of(context).textTheme.titleLarge,
-                              subtitleTextStyle: Theme.of(context).textTheme.titleMedium,
-                            )),
-                      ),
-                    ));
-              }
-              if (state is PrealertasLoadedState) {
-                return SafeArea(
-                    child: Container(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 65),
-                  child: _buildListView(context, state.prealertas),
-                ));
-              }
-              return Container();
-            })));
-  }
-
-  Widget _buildListView(BuildContext context, List<PreAlertaDto> prealertas) {
-    return ListView.builder(
-        itemBuilder: (_, index) => Card(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-              side: BorderSide(color: Theme.of(context).primaryColorDark)
-          ),
-          child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: InkWell(
-                onTap: () async {
-                  if(prealertas[index].facturaUrl.isNotEmpty)  {
-                    try {
-                      await launchUrl(Uri.parse(prealertas[index].facturaUrl));
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Ha ocurrido un error mostrando el documento adjunto.")));
-                    }
-                  }
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(prealertas[index].tracking,),
-                        ),
-                        if(prealertas[index].facturaUrl.isNotEmpty)
-                          Icon(Icons.preview, size: 20, color: Theme.of(context).primaryColor, ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: AutoSizeText(prealertas[index].contenido, maxLines: 1,style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),)),
-                        AutoSizeText.rich(
-                            TextSpan(
-                                text: prealertas[index].fechaEntrega
-                            )
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: AutoSizeText(prealertas[index].enviaNombre,  maxLines: 1,)),
-                        Text(formatCurrency.format(prealertas[index].fob), style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: AutoSizeText(prealertas[index].agregadoEn,  maxLines: 1,)),
-                        const SizedBox(width: 3,),
-                        AutoSizeText(prealertas[index].agregadoPor,  maxLines: 1, style: Theme.of(context).textTheme.bodySmall,)
-                      ],
-                    ),
-                  ],
-                ),
-              )),
+                );
+              },
+            );
+          },
         ),
-        controller: controller,
-        itemCount: prealertas.length);
+      ),
+    );
   }
 }

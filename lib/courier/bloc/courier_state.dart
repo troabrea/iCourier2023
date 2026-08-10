@@ -4,26 +4,26 @@ abstract class CourierState extends Equatable {
   const CourierState();
 }
 
-class CourierIsBusyState extends CourierState{
+class CourierIsBusyState extends CourierState {
   @override
   // AppCenter.track
   List<Object> get props => [];
 }
 
-class CourierIsErrorState extends CourierState{
+class CourierIsErrorState extends CourierState {
   @override
   // AppCenter.track
   List<Object> get props => [];
 }
 
-class CourierIsLoggedState extends CourierState{
+class CourierIsLoggedState extends CourierState {
   const CourierIsLoggedState();
   @override
   // AppCenter.track
   List<Object> get props => [];
 }
 
-class CourierIsNotLoggedState extends CourierState{
+class CourierIsNotLoggedState extends CourierState {
   final bool showError;
   final String registerUrl;
   const CourierIsNotLoggedState(this.showError, this.registerUrl);

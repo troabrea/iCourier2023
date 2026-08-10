@@ -16,13 +16,13 @@ class CalculadoraRequest {
   double valorFob;
 
   Map<String, dynamic> toJson() => {
-    "empresaId": empresaId,
-    "sessionId" : sessionId,
-    "producto": producto,
-    "hasta" : hasta,
-    "libras": libras,
-    "valorFob": valorFob
-  };
+        "empresaId": empresaId,
+        "sessionId": sessionId,
+        "producto": producto,
+        "hasta": hasta,
+        "libras": libras,
+        "valorFob": valorFob
+      };
 }
 
 class CalculadoraResponse {
@@ -68,47 +68,48 @@ class CalculadoraResponse {
   String monedaId;
   String comentario;
 
-  factory CalculadoraResponse.fromJson(Map<String, dynamic> json) => CalculadoraResponse(
-    companiaId: json["companiaID"] ?? '',
-    oficinaId: json["oficinaID"] ?? '',
-    transaccionId: json["transaccionID"] ?? '',
-    transaccionDetalleId: json["transaccionDetalleID"] ?? '',
-    productoId: json["productoID"] ?? '',
-    productoNombre: json["productoNombre"] ?? '',
-    almacenId: json["almacenID"] ?? '',
-    cantidad: json["cantidad"].toDouble(),
-    unidadId: json["unidadID"] ?? '',
-    piezas: json["piezas"].toDouble(),
-    precio: json["precio"].toDouble(),
-    bruto: json["bruto"].toDouble(),
-    pctDesc: json["pctDesc"].toDouble(),
-    descuento: json["descuento"].toDouble(),
-    pctImp: json["pctImp"].toDouble(),
-    impuesto: json["impuesto"].toDouble(),
-    neto: json["neto"].toDouble(),
-    monedaId: json["monedaID"] ?? '',
-    comentario: json["comentario"] ?? '',
-  );
+  factory CalculadoraResponse.fromJson(Map<String, dynamic> json) =>
+      CalculadoraResponse(
+        companiaId: json["companiaID"] ?? '',
+        oficinaId: json["oficinaID"] ?? '',
+        transaccionId: json["transaccionID"] ?? '',
+        transaccionDetalleId: json["transaccionDetalleID"] ?? '',
+        productoId: json["productoID"] ?? '',
+        productoNombre: json["productoNombre"] ?? '',
+        almacenId: json["almacenID"] ?? '',
+        cantidad: json["cantidad"].toDouble(),
+        unidadId: json["unidadID"] ?? '',
+        piezas: json["piezas"].toDouble(),
+        precio: json["precio"].toDouble(),
+        bruto: json["bruto"].toDouble(),
+        pctDesc: json["pctDesc"].toDouble(),
+        descuento: json["descuento"].toDouble(),
+        pctImp: json["pctImp"].toDouble(),
+        impuesto: json["impuesto"].toDouble(),
+        neto: json["neto"].toDouble(),
+        monedaId: json["monedaID"] ?? '',
+        comentario: json["comentario"] ?? '',
+      );
 
   Map<String, dynamic> toJson() => {
-    "companiaID": companiaId,
-    "oficinaID": oficinaId,
-    "transaccionID": transaccionId,
-    "transaccionDetalleID": transaccionDetalleId,
-    "productoID": productoId,
-    "productoNombre": productoNombre,
-    "almacenID": almacenId,
-    "cantidad": cantidad,
-    "unidadID": unidadId,
-    "piezas": piezas,
-    "precio": precio,
-    "bruto": bruto,
-    "pctDesc": pctDesc,
-    "descuento": descuento,
-    "pctImp": pctImp,
-    "impuesto": impuesto,
-    "neto": neto,
-    "monedaID": monedaId,
-    "comentario": comentario,
-  };
+        "companiaID": companiaId,
+        "oficinaID": oficinaId,
+        "transaccionID": transaccionId,
+        "transaccionDetalleID": transaccionDetalleId,
+        "productoID": productoId,
+        "productoNombre": productoNombre,
+        "almacenID": almacenId,
+        "cantidad": cantidad,
+        "unidadID": unidadId,
+        "piezas": piezas,
+        "precio": precio,
+        "bruto": bruto,
+        "pctDesc": pctDesc,
+        "descuento": descuento,
+        "pctImp": pctImp,
+        "impuesto": impuesto,
+        "neto": neto,
+        "monedaID": monedaId,
+        "comentario": comentario,
+      };
 }

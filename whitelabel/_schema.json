@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://icourier.app/schemas/whitelabel-v1.json",
+  "title": "iCourier WhiteLabel v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "slug",
+    "name",
+    "bundleId",
+    "urlScheme",
+    "appGroup",
+    "fonts",
+    "radius",
+    "assets",
+    "palettes",
+    "capabilities",
+    "navigation"
+  ],
+  "properties": {
+    "schema": { "const": 1 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "tagline": { "type": "string", "default": "" },
+    "bundleId": { "type": "string", "minLength": 1 },
+    "androidApplicationId": { "type": "string", "minLength": 1 },
+    "urlScheme": { "type": "string", "pattern": "^[a-z][a-z0-9+.-]*$" },
+    "appGroup": { "type": "string", "pattern": "^group\\." },
+    "locale": { "type": "string", "default": "es-DO" },
+    "currency": { "type": "string", "default": "RD$" },
+    "weightUnit": { "type": "string", "default": "lb" },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "head": { "type": "string", "default": "Myriad" },
+        "body": { "type": "string", "default": "Myriad" }
+      },
+      "additionalProperties": true
+    },
+    "radius": {
+      "type": "object",
+      "properties": {
+        "sm": { "type": "number", "minimum": 0, "default": 8 },
+        "md": { "type": "number", "minimum": 0, "default": 16 },
+        "lg": { "type": "number", "minimum": 0, "default": 24 }
+      },
+      "additionalProperties": true
+    },
+    "assets": {
+      "type": "object",
+      "properties": {
+        "logoWide": { "type": "string" },
+        "logoMark": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "calculator": {
+      "type": "object",
+      "properties": {
+        "minimumWeight": { "type": "number", "exclusiveMinimum": 0, "default": 0.01 },
+        "initialWeight": { "type": "number", "exclusiveMinimum": 0, "default": 1 },
+        "showContactEmail": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": true
+    },
+    "passwordReset": {
+      "type": "object",
+      "properties": {
+        "urlTemplate": { "type": "string", "default": "" },
+        "headerName": { "type": "string", "default": "" },
+        "headerValue": { "type": "string", "default": "" }
+      },
+      "additionalProperties": true
+    },
+    "palettes": {
+      "type": "object",
+      "properties": {
+        "light": { "$ref": "#/$defs/palette" },
+        "dark": { "$ref": "#/$defs/palette" }
+      },
+      "additionalProperties": true
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "delivery": { "type": "boolean", "default": false },
+        "payments": { "type": "boolean", "default": false },
+        "points": { "type": "boolean", "default": false },
+        "prealerts": { "type": "boolean", "default": true },
+        "widgets": { "type": "boolean", "default": false },
+        "notifications": { "type": "boolean", "default": true },
+        "pushTopicUsesSessionId": { "type": "boolean", "default": false },
+        "loyaltyLabel": { "type": "string", "default": "Puntos disponibles" },
+        "pickupModes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": { "type": "string", "minLength": 1 },
+              "value": { "type": "string", "minLength": 1 }
+            }
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": true
+    },
+    "navigation": {
+      "type": "object",
+      "required": ["tabs"],
+      "properties": {
+        "tabs": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "prefixItems": [
+            { "$ref": "#/$defs/tab" },
+            { "$ref": "#/$defs/tab" },
+            { "const": "home" },
+            { "$ref": "#/$defs/tab" },
+            { "$ref": "#/$defs/tab" }
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "tab": {
+      "enum": ["news", "branches", "home", "calculator", "more", "services"]
+    },
+    "palette": {
+      "type": "object",
+      "properties": {
+        "bg": { "$ref": "#/$defs/color" },
+        "surface": { "$ref": "#/$defs/color" },
+        "surfaceAlt": { "$ref": "#/$defs/color" },
+        "primary": { "$ref": "#/$defs/color" },
+        "onPrimary": { "$ref": "#/$defs/color" },
+        "secondary": { "$ref": "#/$defs/color" },
+        "onSecondary": { "$ref": "#/$defs/color" },
+        "text": { "$ref": "#/$defs/color" },
+        "textMuted": { "$ref": "#/$defs/color" },
+        "border": { "$ref": "#/$defs/color" },
+        "success": { "$ref": "#/$defs/color" },
+        "warning": { "$ref": "#/$defs/color" },
+        "danger": { "$ref": "#/$defs/color" }
+      },
+      "additionalProperties": true
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+    }
+  },
+  "additionalProperties": true
+}

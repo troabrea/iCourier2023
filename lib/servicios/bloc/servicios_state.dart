@@ -19,7 +19,8 @@ class ServiciosLoadedState extends ServiciosState {
   final List<BannerImage> banners;
   final Empresa empresa;
   final UserProfile userProfile;
-  const ServiciosLoadedState(this.servicios, this.empresa, this.userProfile, this.banners);
+  const ServiciosLoadedState(
+      this.servicios, this.empresa, this.userProfile, this.banners);
   @override
   List<Object?> get props => [servicios, empresa, userProfile, banners];
 }

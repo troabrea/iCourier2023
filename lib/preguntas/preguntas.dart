@@ -1,218 +1,86 @@
-import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:icourier/apps/appinfo.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../design_system/brand_states.dart';
+import '../design_system/content_components.dart';
+import '../design_system/core_components.dart';
 import '../services/courier_service.dart';
-import '../services/model/pregunta.dart';
 import 'bloc/preguntas_bloc.dart';
 
-class PreguntasAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const PreguntasAppBar({Key? key}) : super(key: key);
-
-  @override
-  State<PreguntasAppBar> createState() => _PreguntasAppBarState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _PreguntasAppBarState extends State<PreguntasAppBar> {
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text("preguntas".tr()),
-    );
-  }
-}
-
 class PreguntasPage extends StatefulWidget {
-  const PreguntasPage({Key? key}) : super(key: key);
+  const PreguntasPage({super.key});
 
   @override
   State<PreguntasPage> createState() => _PreguntasPageState();
 }
 
 class _PreguntasPageState extends State<PreguntasPage> {
-  late ScrollController controller;
-  final appInfo = GetIt.I<AppInfo>();
-  List<Pregunta> preguntas = <Pregunta>[].toList();
-  String searchText = "";
+  late final PreguntasBloc _bloc;
+  String _query = '';
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    _bloc = PreguntasBloc(GetIt.I<CourierService>())..add(const LoadApiEvent());
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _bloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWithSearchSwitch(
-        fieldHintText: 'Buscar'.tr(),
-        keepAppBarColors: appInfo.metricsPrefixKey != "CAINCA",
-        onChanged: (text) {
-          setState(() {
-            searchText = text;
-          });
-        },
-        // onSubmitted: (text) {
-        //   searchText.value = text;
-        // },
-        appBarBuilder: (context) {
-          return AppBar(
-            title: Text("preguntas".tr()),
-            automaticallyImplyLeading: false,
-            leading: BackButton( color: Theme.of(context).appBarTheme.foregroundColor),
-            actions: [
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.whatsapp,
-                  color: Theme.of(context).appBarTheme.foregroundColor,
-                ),
-                onPressed: ()  {
-                  chatWithSucursal();
-                },
-              ),
-              IconButton(onPressed: AppBarWithSearchSwitch.of(context)?.startSearch, icon: Icon(Icons.search, color: Theme.of(context).appBarTheme.foregroundColor,)),
-            ],
-          );
-        },
-      ),
-      body: BlocProvider(
-        create: (context) => PreguntasBloc(
-          GetIt.I<CourierService>(),
-        )..add(const LoadApiEvent()),
+      appBar: ScreenHeader(title: 'preguntas'.tr()),
+      body: BlocProvider.value(
+        value: _bloc,
         child: BlocBuilder<PreguntasBloc, PreguntasState>(
           builder: (context, state) {
             if (state is PreguntasLoadingState) {
-              return const SafeArea(child: Center(
-                child: CircularProgressIndicator(),
-              ));
+              return const BrandSkeleton();
             }
-            if(state is PreguntasErrorState) {
-              return SafeArea(child: Center(
-                child: InkWell(onTap: () {
-                  BlocProvider.of<PreguntasBloc>(context).add(const LoadApiEvent(ignoreCache: true));
-                }, child: Center(child: Text("Ha ocurrido un error haga clic para reintentar.", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,)),),
-              ));
+            if (state is PreguntasErrorState) {
+              return BrandErrorState(
+                onRetry: () => _bloc.add(const LoadApiEvent(ignoreCache: true)),
+              );
             }
-            if (state is PreguntasLoadedState) {
-              preguntas = state.preguntas;
-              if(searchText.isNotEmpty) {
-                preguntas = preguntas.where((element) => element.titulo.toLowerCase().contains(searchText.toLowerCase()) || element.resumen.toLowerCase().contains(searchText.toLowerCase())).toList();
-              }
-              return SafeArea(
-                child: Container(
-                    padding: const EdgeInsets.fromLTRB(10,10,10,65),
-                    child: _buildListView(context),
-              ));
+            if (state is! PreguntasLoadedState) {
+              return const BrandEmptyState(messageKey: 'no_resultados');
             }
-            return Container();
+            final questions = state.preguntas.where((question) {
+              final query = _query.toLowerCase();
+              return query.isEmpty ||
+                  question.titulo.toLowerCase().contains(query) ||
+                  question.resumen.toLowerCase().contains(query);
+            }).toList(growable: false);
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                SearchBar(
+                  hintText: 'buscar'.tr(),
+                  leading: const Icon(Icons.search),
+                  onChanged: (value) => setState(() => _query = value),
+                ),
+                const SizedBox(height: 16),
+                if (questions.isEmpty)
+                  const BrandEmptyState(messageKey: 'no_resultados')
+                else
+                  for (final question in questions) ...[
+                    FaqAccordion(
+                      question: question.titulo,
+                      answer: question.resumen,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+              ],
+            );
           },
         ),
       ),
     );
-  }
-
-  Widget _buildListView(BuildContext context) {
-    return ListView.builder(
-                      itemBuilder: (_, index) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ExpansionTile(
-                            iconColor: Theme.of(context).colorScheme.onPrimary,
-                            collapsedIconColor: Theme.of(context).colorScheme.primary,
-                            collapsedTextColor: Theme.of(context).colorScheme.onPrimary,
-                            collapsedBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                            backgroundColor: Theme.of(context).primaryColor,
-
-                            collapsedShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                side: BorderSide(color: Theme.of(context).dividerColor)),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                side: BorderSide(color: Theme.of(context).dividerColor)),
-                              onExpansionChanged: ( (isExpanded)  => {
-                        setState( ()  => preguntas[index].isExpanded = isExpanded
-                        )
-                              }),
-                              expandedAlignment: Alignment.centerLeft,
-                              expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-                              title: Row(
-                        children: [
-                          // CircleAvatar(child: Text(state.preguntas[index].orden.toStringAsFixed(0)),),
-                          // SizedBox(width: 20,),
-                          Expanded(
-                            child: preguntas[index].isExpanded ?
-                            AutoSizeText(
-                              preguntas[index].titulo,
-                              overflow: TextOverflow.ellipsis,
-                              minFontSize: 10,
-                              maxFontSize: 18,
-                              maxLines: 3,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!.copyWith(fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onPrimary
-                              ),
-                            )
-                                : AutoSizeText(
-                              preguntas[index].titulo,
-                              overflow: TextOverflow.ellipsis,
-                              minFontSize: 10,
-                              maxFontSize: 18,
-                              maxLines: 3,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium,
-                            )
-                          ),
-                        ],
-                              ),
-                              children: [
-                        Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              borderRadius: const BorderRadius.only( bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6) )
-                            ),
-                            child: Column(
-                              children: [
-                                Container(padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    preguntas[index].resumen,
-                                    textAlign: TextAlign.justify,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium,
-                                  ),
-                                ),
-                              ],
-                            )),
-                              ]),
-                      ),
-                      controller: controller,
-                      itemCount: preguntas.length);
-  }
-
-  Future<void> chatWithSucursal() async {
-    var userProfile = await GetIt.I<CourierService>().getUserProfile();
-    var whatsApp = userProfile.whatsappSucursal; // (await GetIt.I<CourierService>().getEmpresa()).telefonoVentas;
-    if (whatsApp.isNotEmpty) {
-      var _url = Uri.parse("whatsapp://send?phone=$whatsApp");
-      if (!await launchUrl(_url)) {
-        throw 'Could not launch $_url';
-      }
-    }
   }
 }

@@ -17,8 +17,7 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
   final CourierService _courierService;
 
   NoticiasBloc(this._courierService) : super(NoticiasLoadingState()) {
-
-    GetIt.I<event.Event<LoginChanged>>().subscribe((args)  {
+    GetIt.I<event.Event<LoginChanged>>().subscribe((args) {
       add(const LoadApiEvent());
     });
 
@@ -28,13 +27,13 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
         final userProfile = await _courierService.getUserProfile();
         final empresa = await _courierService.getEmpresa();
         final noticias = await _courierService.getNoticias(event.ignoreCache);
-        final banners = await _courierService.getBanners(hideIfLogged: false, ignoreCache: event.ignoreCache);
-        emit(NoticiasLoadedState(noticias, banners, empresa,userProfile));
+        final banners = await _courierService.getBanners(
+            hideIfLogged: false, ignoreCache: event.ignoreCache);
+        emit(NoticiasLoadedState(noticias, banners, empresa, userProfile));
       } on Exception catch (e) {
         debugPrint(e.toString());
         emit(NoticiasErrorState());
       }
     });
-
   }
 }

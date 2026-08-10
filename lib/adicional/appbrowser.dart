@@ -18,11 +18,9 @@ class _AppBrowserState extends State<AppBrowser> {
   void initState() {
     _webController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-
             setState(() {
               _progress = progress;
             });
@@ -45,7 +43,8 @@ class _AppBrowserState extends State<AppBrowser> {
             return NavigationDecision.navigate;
           },
         ),
-      )..loadRequest( Uri.parse(widget.initialUrl) );
+      )
+      ..loadRequest(Uri.parse(widget.initialUrl));
     super.initState();
   }
 
@@ -57,14 +56,12 @@ class _AppBrowserState extends State<AppBrowser> {
         ),
         body: SafeArea(
             child: Column(
-              children: [
-                if(_progress < 100)
-                  const LinearProgressIndicator(),
-                Expanded(
-                  child: WebViewWidget(
-                      controller: _webController),
-                ),
-              ],
-            )));
+          children: [
+            if (_progress < 100) const LinearProgressIndicator(),
+            Expanded(
+              child: WebViewWidget(controller: _webController),
+            ),
+          ],
+        )));
   }
 }
