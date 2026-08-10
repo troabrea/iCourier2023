@@ -153,35 +153,37 @@ class _DashboardContent extends StatelessWidget {
           future: profile,
           builder: (context, snapshot) {
             final userProfile = snapshot.data;
-            return CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: BrandHeader(
-                    greeting: _firstName(userProfile),
-                    accountName: userProfile?.nombre ?? '',
-                    account: userProfile?.cuenta ?? '',
-                    capabilities: capabilities,
-                    unread: unread,
-                    onAccounts: userProfile == null
-                        ? null
-                        : () => showBrandSheet<void>(
-                              context,
-                              scrollable: true,
-                              child: CuentasUsuario(userProfile: userProfile),
-                            ),
-                    onCarnet: () => context.push(AppRoutes.idCard),
-                    onMessages: () => context.push(AppRoutes.messages),
-                    onRefresh: onRefresh,
-                  ),
+            // A single scroll list, not slivers: the hero card is pulled up
+            // onto the header and a sliver boundary would clip it.
+            return ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                BrandHeader(
+                  greeting: _firstName(userProfile),
+                  accountName: userProfile?.nombre ?? '',
+                  account: userProfile?.cuenta ?? '',
+                  capabilities: capabilities,
+                  unread: unread,
+                  onAccounts: userProfile == null
+                      ? null
+                      : () => showBrandSheet<void>(
+                            context,
+                            scrollable: true,
+                            child: CuentasUsuario(userProfile: userProfile),
+                          ),
+                  onCarnet: () => context.push(AppRoutes.idCard),
+                  onMessages: () => context.push(AppRoutes.messages),
+                  onRefresh: onRefresh,
                 ),
-                SliverPadding(
+                Padding(
                   padding: const EdgeInsets.fromLTRB(
                     BrandSpace.lg,
                     0,
                     BrandSpace.lg,
                     BrandTabBar.height,
                   ),
-                  sliver: SliverList.list(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       AvailabilityHeroCard(
                         count: state.disponiblesCount,
@@ -202,8 +204,8 @@ class _DashboardContent extends StatelessWidget {
                             if (showTip) ...[
                               TipBubble(
                                 title: 'tip_widget_titulo'.tr(),
-                                message: 'tip_widget_cuerpo'
-                                    .tr(args: [config.name]),
+                                message:
+                                    'tip_widget_cuerpo'.tr(args: [config.name]),
                                 onDismiss: onDismissTip,
                               ),
                               const SizedBox(height: 14),
@@ -216,25 +218,33 @@ class _DashboardContent extends StatelessWidget {
                             QuickActionGrid(
                               actions: [
                                 QuickAction(
-                                  label: 'crear_prealerta'.tr(),
+                                  label: 'crear_prealerta'
+                                      .tr()
+                                      .replaceAll('\n', ' '),
                                   icon: BrandIcons.prealert,
                                   enabled: capabilities.prealerts,
                                   onTap: () =>
                                       context.push(AppRoutes.newPrealert),
                                 ),
                                 QuickAction(
-                                  label: 'ver_prealertas'.tr(),
+                                  label: 'ver_prealertas'
+                                      .tr()
+                                      .replaceAll('\n', ' '),
                                   icon: BrandIcons.receptions,
                                   enabled: capabilities.prealerts,
                                   onTap: () => context.push(AppRoutes.prealert),
                                 ),
                                 QuickAction(
-                                  label: 'rastrear_paquete'.tr(),
+                                  label: 'rastrear_paquete'
+                                      .tr()
+                                      .replaceAll('\n', ' '),
                                   icon: BrandIcons.track,
                                   onTap: () => context.push(AppRoutes.tracking),
                                 ),
                                 QuickAction(
-                                  label: 'consulta_historica'.tr(),
+                                  label: 'consulta_historica'
+                                      .tr()
+                                      .replaceAll('\n', ' '),
                                   icon: BrandIcons.history,
                                   onTap: () => context.push(AppRoutes.history),
                                 ),

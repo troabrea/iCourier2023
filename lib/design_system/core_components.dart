@@ -359,7 +359,6 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
     this.onBack,
     this.trailing,
     this.titleSize = 20,
-    this.bottom,
   });
 
   /// Root headers of a tab use the larger 24pt title.
@@ -367,7 +366,6 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     this.trailing,
-    this.bottom,
   })  : onBack = null,
         titleSize = 24;
 
@@ -375,10 +373,17 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
   final Widget? trailing;
   final double titleSize;
-  final Widget? bottom;
 
+  /// Height of the band below the status bar.
+  ///
+  /// A back button or a trailing action forces the 44pt minimum touch target;
+  /// a plain tab title only needs its own line box.
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(
+        BrandSpace.sm +
+            (onBack != null || trailing != null ? 44 : titleSize * 1.5) +
+            BrandSpace.md,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -431,7 +436,6 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
             ),
-            if (bottom != null) bottom!,
           ],
         ),
       ),
@@ -452,9 +456,14 @@ class BrandTabBar extends StatelessWidget {
   final List<TabModule> modules;
   final int index;
   final ValueChanged<int> onTap;
+
+  /// Kept for callers that still pass a brand mark; the raised button uses the
+  /// package glyph so its silhouette survives being tinted onto the gradient.
   final String logoMark;
 
-  static const double height = 96;
+  /// Bottom inset a scrolling screen must reserve so its last row clears the
+  /// floating dock, including the home indicator area.
+  static const double height = 118;
 
   @override
   Widget build(BuildContext context) {
@@ -577,19 +586,11 @@ class _HomeButton extends StatelessWidget {
             border: Border.all(color: tokens.bg, width: 5),
             boxShadow: BrandElevation.homeButton(tokens.primary),
           ),
-          child: logoMark.isEmpty
-              ? BrandGlyph(
-                  BrandIcons.receptions,
-                  color: tokens.onPrimary,
-                  size: 25,
-                )
-              : Image.asset(
-                  logoMark,
-                  width: 25,
-                  height: 25,
-                  color: tokens.onPrimary,
-                  colorBlendMode: BlendMode.srcIn,
-                ),
+          child: BrandGlyph(
+            BrandIcons.receptions,
+            color: tokens.onPrimary,
+            size: 25,
+          ),
         ),
       ),
     );
