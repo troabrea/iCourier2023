@@ -3,15 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../design_system/home_components.dart';
+import '../design_system/overlay_components.dart';
+import '../domain/package_stage.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
+import '../services/model/recepcion.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 import 'bloc/dashboard_bloc.dart';
+
+/// Key persisting the one-time onboarding hint across launches.
+const _onboardingTipKey = 'home_widget_tip_dismissed';
 
 class CourierDashboard extends StatefulWidget {
   const CourierDashboard({super.key});
@@ -23,6 +33,7 @@ class CourierDashboard extends StatefulWidget {
 class _CourierDashboardState extends State<CourierDashboard> {
   late final DashboardBloc _bloc;
   late final Future<UserProfile> _profile;
+  bool _showTip = false;
 
   @override
   void initState() {
@@ -31,6 +42,23 @@ class _CourierDashboardState extends State<CourierDashboard> {
     _profile = service.getUserProfile();
     _bloc = DashboardBloc(DashboardLoadingState())
       ..add(const LoadApiEvent(false));
+    _restoreTip();
+  }
+
+  Future<void> _restoreTip() async {
+    final preferences = await SharedPreferences.getInstance();
+    if (!mounted) {
+      return;
+    }
+    setState(
+      () => _showTip = !(preferences.getBool(_onboardingTipKey) ?? false),
+    );
+  }
+
+  Future<void> _dismissTip() async {
+    setState(() => _showTip = false);
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(_onboardingTipKey, true);
   }
 
   @override
@@ -41,6 +69,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     return BlocProvider.value(
       value: _bloc,
       child: BlocConsumer<DashboardBloc, DashboardState>(
@@ -53,10 +82,14 @@ class _CourierDashboardState extends State<CourierDashboard> {
         },
         builder: (context, state) {
           if (state is DashboardLoadingState) {
-            return const Scaffold(body: BrandSkeleton(rows: 8));
+            return Scaffold(
+              backgroundColor: tokens.bg,
+              body: const BrandSkeleton(rows: 8),
+            );
           }
           if (state is! DashboardLoadedState) {
             return Scaffold(
+              backgroundColor: tokens.bg,
               body: BrandErrorState(
                 onRetry: () => _bloc.add(const LoadApiEvent(true)),
               ),
@@ -65,8 +98,11 @@ class _CourierDashboardState extends State<CourierDashboard> {
           return _DashboardContent(
             state: state,
             profile: _profile,
+            showTip: _showTip,
+            onDismissTip: _dismissTip,
             onRefresh: () async => _bloc.add(const LoadApiEvent(true)),
             onPay: () => _bloc.add(OnlinePaymentRequestEvent(context)),
+            onPickup: () => _bloc.add(NotificarRetiroEvent(context)),
             onDelivery: () {
               final available = state.recepciones
                   .where((package) => package.disponible && !package.retenido)
@@ -84,146 +120,190 @@ class _DashboardContent extends StatelessWidget {
   const _DashboardContent({
     required this.state,
     required this.profile,
+    required this.showTip,
+    required this.onDismissTip,
     required this.onRefresh,
     required this.onPay,
+    required this.onPickup,
     required this.onDelivery,
   });
 
   final DashboardLoadedState state;
   final Future<UserProfile> profile;
+  final bool showTip;
+  final VoidCallback onDismissTip;
   final Future<void> Function() onRefresh;
   final VoidCallback onPay;
+  final VoidCallback onPickup;
   final VoidCallback onDelivery;
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     final config = GetIt.I<BrandConfig>();
     final capabilities = config.capabilities.resolve(state.empresa);
-    final recent = state.recepciones.take(3).toList(growable: false);
     final unread = state.mensajes.where((message) => !message.read).length;
+
     return Scaffold(
+      backgroundColor: tokens.bg,
       body: RefreshIndicator(
         onRefresh: onRefresh,
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: FutureBuilder<UserProfile>(
-                future: profile,
-                builder: (context, snapshot) => BrandHeader(
-                  greeting: snapshot.data?.nombre.isNotEmpty ?? false
-                      ? snapshot.data!.nombre
-                      : 'bienvenido'.tr(),
-                  account: snapshot.data?.cuenta ?? '',
-                  capabilities: capabilities,
-                  points: capabilities.points ? state.puntos.balance : null,
-                  unread: unread,
-                  onMessages: () => context.push(AppRoutes.messages),
+        child: FutureBuilder<UserProfile>(
+          future: profile,
+          builder: (context, snapshot) {
+            final userProfile = snapshot.data;
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: BrandHeader(
+                    greeting: _firstName(userProfile),
+                    accountName: userProfile?.nombre ?? '',
+                    account: userProfile?.cuenta ?? '',
+                    capabilities: capabilities,
+                    unread: unread,
+                    onAccounts: () => context.push(AppRoutes.accounts),
+                    onCarnet: () => context.push(AppRoutes.idCard),
+                    onMessages: () => context.push(AppRoutes.messages),
+                    onRefresh: onRefresh,
+                  ),
                 ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 20, 16, 96),
-              sliver: SliverList.list(
-                children: [
-                  if (state.banners.isNotEmpty) ...[
-                    BannerCarousel(banners: state.banners, config: config),
-                    const SizedBox(height: 20),
-                  ],
-                  QuickActionGrid(
-                    actions: [
-                      QuickAction(
-                        label: 'recepciones'.tr(),
-                        icon: Icons.inventory_2_outlined,
-                        onTap: () => context.push(AppRoutes.receptions),
-                      ),
-                      QuickAction(
-                        label: 'disponibles'.tr(),
-                        icon: Icons.check_circle_outline,
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    BrandSpace.lg,
+                    0,
+                    BrandSpace.lg,
+                    BrandTabBar.height,
+                  ),
+                  sliver: SliverList.list(
+                    children: [
+                      AvailabilityHeroCard(
+                        count: state.disponiblesCount,
+                        total: state.montoTotal.toStringAsFixed(2),
+                        currency: r'$',
+                        branch: userProfile?.nombreSucursal ?? '',
                         onTap: () => context.push(AppRoutes.available),
+                        onPickup: onPickup,
+                        onDelivery: capabilities.delivery ? onDelivery : null,
                       ),
-                      QuickAction(
-                        label: 'rastrear_paquete'.tr(),
-                        icon: Icons.location_searching,
-                        onTap: () => context.push(AppRoutes.tracking),
-                      ),
-                      QuickAction(
-                        label: 'crear_pre_alerta'.tr(),
-                        icon: Icons.add_alert_outlined,
-                        enabled: capabilities.prealerts,
-                        onTap: () => context.push(AppRoutes.prealert),
+                      // The hero card is pulled 30 up onto the header, so the
+                      // flow below reclaims that space.
+                      Transform.translate(
+                        offset: const Offset(0, -30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (showTip) ...[
+                              TipBubble(
+                                title: 'tip_widget_titulo'.tr(),
+                                message: 'tip_widget_cuerpo'
+                                    .tr(args: [config.name]),
+                                onDismiss: onDismissTip,
+                              ),
+                              const SizedBox(height: 14),
+                            ],
+                            ReceptionsGroupCard(
+                              total: state.recepcionesCount,
+                              children: _groups(context, state.recepciones),
+                            ),
+                            BrandSectionLabel('acciones_rapidas'.tr()),
+                            QuickActionGrid(
+                              actions: [
+                                QuickAction(
+                                  label: 'crear_prealerta'.tr(),
+                                  icon: BrandIcons.prealert,
+                                  enabled: capabilities.prealerts,
+                                  onTap: () => context.push(AppRoutes.prealert),
+                                ),
+                                QuickAction(
+                                  label: 'ver_prealertas'.tr(),
+                                  icon: BrandIcons.receptions,
+                                  enabled: capabilities.prealerts,
+                                  onTap: () => context.push(
+                                    AppRoutes.completedPrealerts,
+                                  ),
+                                ),
+                                QuickAction(
+                                  label: 'rastrear_paquete'.tr(),
+                                  icon: BrandIcons.track,
+                                  onTap: () => context.push(AppRoutes.tracking),
+                                ),
+                                QuickAction(
+                                  label: 'consulta_historica'.tr(),
+                                  icon: BrandIcons.history,
+                                  onTap: () => context.push(AppRoutes.history),
+                                ),
+                              ],
+                            ),
+                            if (state.banners.isNotEmpty) ...[
+                              const SizedBox(height: BrandSpace.md),
+                              ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(tokens.radiusMd),
+                                child: BannerCarousel(
+                                  banners: state.banners,
+                                  config: config,
+                                  height: 180,
+                                ),
+                              ),
+                            ],
+                            if (capabilities.points) ...[
+                              const SizedBox(height: BrandSpace.md),
+                              PointsCard(
+                                label: config.loyaltyLabel,
+                                balance: '${state.puntos.balance}',
+                                onRedeem: capabilities.payments ? onPay : null,
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Card(
-                    child: Column(
-                      children: [
-                        GroupRow(
-                          label: 'recepciones'.tr(),
-                          count: state.recepcionesCount,
-                          onTap: () => context.push(AppRoutes.receptions),
-                        ),
-                        GroupRow(
-                          label: 'disponibles'.tr(),
-                          count: state.disponiblesCount,
-                          onTap: () => context.push(AppRoutes.available),
-                        ),
-                        GroupRow(
-                          label: 'retenido'.tr(),
-                          count: state.retenidosCount,
-                          onTap: () => context.push(
-                            '${AppRoutes.receptions}?retenido=true',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (capabilities.payments || capabilities.delivery) ...[
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: [
-                        if (capabilities.payments)
-                          FilledButton.icon(
-                            onPressed: onPay,
-                            icon: const Icon(Icons.payment_outlined),
-                            label: Text('pagar_ahora'.tr()),
-                          ),
-                        if (capabilities.delivery)
-                          OutlinedButton.icon(
-                            onPressed:
-                                state.disponiblesCount == 0 ? null : onDelivery,
-                            icon: const Icon(Icons.local_shipping_outlined),
-                            label: Text('solicitar_domicilio'.tr()),
-                          ),
-                      ],
-                    ),
-                  ],
-                  const SizedBox(height: 24),
-                  Text(
-                    'recepciones'.tr(),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 12),
-                  if (recent.isEmpty)
-                    const BrandEmptyState(messageKey: 'no_paquetes')
-                  else
-                    for (final package in recent) ...[
-                      PackageCard(
-                        package: package,
-                        onTap: () => context.push(
-                          AppRoutes.package(package.recepcionID),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
+
+  /// Receptions grouped by macro state; empty groups are not rendered.
+  List<Widget> _groups(BuildContext context, List<Recepcion> receptions) {
+    final counts = <PackageStage, int>{};
+    for (final package in receptions) {
+      final stage = PackageStatusMapper.map(
+        status: package.estatus,
+        isAvailable: package.disponible,
+        progress: package.progreso,
+      ).stage;
+      counts[stage] = (counts[stage] ?? 0) + 1;
+    }
+    return [
+      for (final stage in PackageStage.values)
+        GroupRow(
+          label: _stageLabel(stage).tr(),
+          count: counts[stage] ?? 0,
+          onTap: () => context.push(
+            '${AppRoutes.receptions}?estado=${stage.name}',
+          ),
+        ),
+    ];
+  }
+
+  String _firstName(UserProfile? profile) {
+    final name = profile?.nombre.trim() ?? '';
+    if (name.isEmpty) {
+      return 'bienvenido'.tr();
+    }
+    return name.split(RegExp(r'[\s,]+')).first;
+  }
 }
+
+String _stageLabel(PackageStage stage) => switch (stage) {
+      PackageStage.origen => 'recibido',
+      PackageStage.ruta => 'en_ruta',
+      PackageStage.destino => 'en_destino',
+      PackageStage.disponible => 'disponibles',
+      PackageStage.entregado => 'entregado',
+    };

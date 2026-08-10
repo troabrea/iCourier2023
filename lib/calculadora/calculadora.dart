@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/calculator_components.dart';
 import '../design_system/core_components.dart';
 import '../services/courier_service.dart';
 import '../services/model/producto.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 import 'bloc/calculadora_bloc.dart';
 
 class CalculadoraPage extends StatefulWidget {
@@ -47,8 +49,10 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     return Scaffold(
-      appBar: ScreenHeader(title: 'calculadora'.tr()),
+      backgroundColor: tokens.bg,
+      appBar: ScreenHeader.tab(title: 'calculadora'.tr()),
       body: BlocProvider.value(
         value: _bloc,
         child: BlocBuilder<CalculadoraBloc, CalculadoraState>(
@@ -61,10 +65,52 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
               return const BrandSkeleton();
             }
             return SafeArea(
+              top: false,
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 96),
+                padding: const EdgeInsets.fromLTRB(
+                  BrandSpace.lg,
+                  18,
+                  BrandSpace.lg,
+                  BrandTabBar.height,
+                ),
                 children: [
+                  // Weight and FOB sit side by side with fixed units and no
+                  // native steppers, as the reference specifies.
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: BigNumberField(
+                          label: 'peso'.tr(),
+                          unit: _config.weightUnit,
+                          controller: _weightController,
+                          hint: '0.0',
+                          onChanged: (_) => _clearValidation(),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: BigNumberField(
+                          label: 'valor_fob'.tr(),
+                          unit: _config.currency,
+                          unitLeading: true,
+                          controller: _valueController,
+                          onChanged: (_) => _clearValidation(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: BrandSpace.md),
                   if (_products.length > 1) ...[
+                    Text(
+                      'producto'.tr(),
+                      style: tokens.body(
+                        12,
+                        weight: FontWeight.w600,
+                        color: tokens.textMuted,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
                     ProductSelector<Producto>(
                       options: _products,
                       value: _selectedProduct ?? _products.first,
@@ -73,90 +119,39 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                         setState(() => _selectedProduct = product);
                       },
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: BrandSpace.md),
                   ],
-                  BigNumberField(
-                    label: 'libras'.tr(),
-                    unit: _config.weightUnit,
-                    controller: _weightController,
-                    onChanged: (_) => _clearValidation(),
-                  ),
-                  const SizedBox(height: 20),
-                  BigNumberField(
-                    label: 'valor_fob'.tr(),
-                    unit: _config.currency,
-                    controller: _valueController,
-                    onChanged: (_) => _clearValidation(),
-                  ),
                   if (_validationMessage != null) ...[
-                    const SizedBox(height: 8),
                     Text(
                       _validationMessage!,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
+                      style: tokens.body(
+                        12,
+                        weight: FontWeight.w600,
+                        color: tokens.danger,
                       ),
                     ),
+                    const SizedBox(height: BrandSpace.xs),
                   ],
-                  const SizedBox(height: 20),
-                  FilledButton.icon(
+                  BrandPrimaryButton(
+                    label: 'calcular_envio'.tr(),
                     onPressed:
                         state is CalculadoraLoadingState ? null : _calculate,
-                    icon: const Icon(Icons.calculate_outlined),
-                    label: Text('calcular_envio'.tr()),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 14),
                   if (state is CalculadoraLoadingState)
-                    const BrandSkeleton(rows: 4)
-                  else if (state is CalculadoraLoadedState) ...[
-                    if (state.resultados.isEmpty)
-                      const BrandEmptyState(messageKey: 'no_resultados')
-                    else ...[
-                      ConceptTable(
-                        currency: _config.currency,
-                        concepts: state.resultados
-                            .map(
-                              (result) => CalcConceptView(
-                                label: result.productoNombre,
-                                amount: result.neto,
-                              ),
-                            )
-                            .toList(growable: false),
+                    const BrandSkeleton(rows: 3)
+                  else if (state is CalculadoraLoadedState)
+                    _Result(state: state, config: _config)
+                  else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: BrandSpace.lg,
                       ),
-                      const SizedBox(height: 16),
-                      TotalsPanel(
-                        subtotal: state.subtotal,
-                        tax: state.impuestos,
-                        total: state.total,
-                        currency: _config.currency,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'valores_en_moneda_sujeto_a_cambios'
-                            .tr(args: [_config.currency]),
+                      child: Text(
+                        'especifique_valores_toque_calcular'.tr(),
                         textAlign: TextAlign.center,
+                        style: tokens.body(12, color: tokens.textMuted),
                       ),
-                      if (state.valorFob >= 200)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text(
-                            'aviso_pago_aduanal'.tr(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      if (state.email.isNotEmpty)
-                        TextButton(
-                          onPressed: () => launchUrl(
-                            Uri(scheme: 'mailto', path: state.email),
-                          ),
-                          child: Text(
-                            '${'aclaracion_estimado'.tr()} ${state.email}',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                    ],
-                  ] else
-                    const BrandEmptyState(
-                      messageKey: 'especifique_valores_toque_calcular',
                     ),
                 ],
               ),
@@ -186,5 +181,78 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
     if (_validationMessage != null) {
       setState(() => _validationMessage = null);
     }
+  }
+}
+
+/// Totals first, then the breakdown: the customer should not scroll to reach
+/// the number they came for.
+class _Result extends StatelessWidget {
+  const _Result({required this.state, required this.config});
+
+  final CalculadoraLoadedState state;
+  final BrandConfig config;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    if (state.resultados.isEmpty) {
+      return const BrandEmptyState(
+        messageKey: 'no_resultados',
+        glyph: BrandIcons.calculator,
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TotalsPanel(
+          subtotal: state.subtotal,
+          tax: state.impuestos,
+          total: state.total,
+          currency: config.currency,
+        ),
+        const SizedBox(height: BrandSpace.sm),
+        ConceptTable(
+          currency: config.currency,
+          weightUnit: config.weightUnit,
+          concepts: state.resultados
+              .map(
+                (result) => CalcConceptView(
+                  label: result.productoNombre,
+                  amount: result.neto,
+                  quantity: result.cantidad.toStringAsFixed(2),
+                  unitPrice: result.precio.toStringAsFixed(2),
+                ),
+              )
+              .toList(growable: false),
+        ),
+        Text(
+          'valores_en_moneda_sujeto_a_cambios'.tr(args: [config.currency]),
+          textAlign: TextAlign.center,
+          style: tokens.body(10, color: tokens.textMuted),
+        ),
+        if (state.valorFob >= 200)
+          Padding(
+            padding: const EdgeInsets.only(top: BrandSpace.xs),
+            child: Text(
+              'aviso_pago_aduanal'.tr(),
+              style: tokens.body(10, color: tokens.textMuted),
+            ),
+          ),
+        if (state.email.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: BrandSpace.xs),
+            child: GestureDetector(
+              onTap: () => launchUrl(
+                Uri(scheme: 'mailto', path: state.email),
+              ),
+              child: Text(
+                '${'aclaracion_estimado'.tr()}${state.email}',
+                textAlign: TextAlign.center,
+                style: tokens.body(10, color: tokens.primary),
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }

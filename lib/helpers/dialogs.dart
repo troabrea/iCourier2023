@@ -1,155 +1,170 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:icourier/services/model/recepcion.dart';
 
-Future<bool> confirmDialog(BuildContext context, String message,
-    String okButtonText, String cancelButtonText) async {
-  var dlgResult = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              title: Text('confirme'.tr(),
-                  style: Theme.of(context).textTheme.titleLarge),
-              content: Text(message),
-              actions: [
-                ElevatedButton(
-                  onPressed: () => {Navigator.pop(context, true)},
-                  child: Text(okButtonText),
-                ),
-                ElevatedButton(
-                  onPressed: () => {Navigator.pop(context, false)},
-                  child: Text(cancelButtonText),
-                ),
-              ]));
+import '../design_system/brand_foundations.dart';
+import '../design_system/overlay_components.dart';
+import '../theme/brand_tokens.dart';
 
-  return dlgResult ?? false;
-}
+/// Confirmation prompt used by the dashboard flows.
+///
+/// The signatures here are kept as they were so the blocs that call them stay
+/// untouched; only the presentation moved onto the brand dialog and sheets.
+Future<bool> confirmDialog(
+  BuildContext context,
+  String message,
+  String okButtonText,
+  String cancelButtonText,
+) =>
+    ConfirmDialog.show(
+      context,
+      title: 'confirme'.tr(),
+      message: message,
+      confirmLabel: okButtonText,
+    );
 
+/// Single-choice prompt, used to pick where a package will be collected.
+///
+/// Returns the chosen label, or `Cancelar` when dismissed.
 Future<String> optionsDialog(
-    BuildContext context, String message, List<String> optionsText) async {
-  var dlgResult = await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-            actionsAlignment: MainAxisAlignment.spaceBetween,
-            title: Text('seleccione'.tr(),
-                style: Theme.of(context).textTheme.titleLarge),
-            content: Text(message),
-            actions: optionsText
-                .map((e) => ElevatedButton(
-                    onPressed: () => {Navigator.pop(context, e)},
-                    child: Text(e)))
-                .toList(),
-          ));
+  BuildContext context,
+  String message,
+  List<String> optionsText,
+) async {
+  // The trailing entry is the caller's cancel label; dismissing the sheet has
+  // the same effect, so it is not drawn as an option.
+  final cancelLabel = optionsText.isEmpty ? 'cancelar'.tr() : optionsText.last;
+  final options = optionsText.length > 1
+      ? optionsText.sublist(0, optionsText.length - 1)
+      : const <String>[];
 
-  return dlgResult ?? "Cancelar";
+  final result = await showBrandSheet<String>(
+    context,
+    child: _OptionsSheet(message: message, options: options),
+  );
+  return result ?? cancelLabel;
 }
 
-Future<List<String>> domicilioDialog(
-    BuildContext context,
-    String message,
-    String okButtonText,
-    String cancelButtonText,
-    List<Recepcion> disponibles) async {
-  var toSend = <Recepcion, String>{};
-  toSend.addEntries(disponibles.map((e) => MapEntry(e, "Y")));
+class _OptionsSheet extends StatefulWidget {
+  const _OptionsSheet({required this.message, required this.options});
 
-  var dlgResult = await showDialog<List<String>>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              title:
-                  Text(message, style: Theme.of(context).textTheme.titleLarge),
-              content: SizedBox(
-                height: 300,
-                width: 500,
-                child:
-                    DisponiblePicker(toSend: toSend, disponibles: disponibles),
-              ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(
-                    context,
-                    domicilioConfirm(toSend, disponibles),
-                  ),
-                  child: Text(okButtonText),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      {Navigator.pop(context, <String>[].toList())},
-                  child: Text(cancelButtonText),
-                ),
-              ]));
+  final String message;
+  final List<String> options;
 
-  return dlgResult ?? <String>[].toList();
-}
-
-List<String> domicilioConfirm(
-  Map<Recepcion, String> toSend,
-  List<Recepcion> disponibles,
-) {
-  final paquetes = <String>[];
-  for (final element in disponibles) {
-    if (toSend[element] == "Y") {
-      paquetes.add(element.recepcionID);
-    }
-  }
-  return paquetes;
-}
-
-class DisponiblePicker extends StatefulWidget {
-  const DisponiblePicker(
-      {super.key, required this.toSend, required this.disponibles});
-
-  final Map<Recepcion, String> toSend;
-  final List<Recepcion> disponibles;
   @override
-  State<DisponiblePicker> createState() => _DisponiblePickerState();
+  State<_OptionsSheet> createState() => _OptionsSheetState();
 }
 
-class _DisponiblePickerState extends State<DisponiblePicker> {
-  final formatCurrency = NumberFormat.simpleCurrency(locale: "en-US");
+class _OptionsSheetState extends State<_OptionsSheet> {
+  int _selected = 0;
+
+  @override
+  Widget build(BuildContext context) => BrandSheet(
+        title: 'notificar_retiro'.tr(),
+        subtitle: widget.message,
+        children: [
+          Row(
+            children: [
+              for (var index = 0; index < widget.options.length; index++) ...[
+                if (index > 0) const SizedBox(width: 10),
+                Expanded(
+                  child: BrandOutlineButton(
+                    label: widget.options[index],
+                    selected: index == _selected,
+                    verticalPadding: 12,
+                    onPressed: () => setState(() => _selected = index),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: BrandSpace.md),
+          BrandPrimaryButton(
+            label: 'confirmar'.tr(),
+            onPressed: widget.options.isEmpty
+                ? null
+                : () => Navigator.of(context).pop(widget.options[_selected]),
+          ),
+        ],
+      );
+}
+
+/// Home delivery confirmation.
+///
+/// The previous picker rendered disabled checkboxes, so every available package
+/// was always submitted; the design reference confirms the whole set instead of
+/// offering a selection, which is what this now does explicitly.
+Future<List<String>> domicilioDialog(
+  BuildContext context,
+  String message,
+  String okButtonText,
+  String cancelButtonText,
+  List<Recepcion> disponibles,
+) async {
+  final result = await showBrandSheet<bool>(
+    context,
+    scrollable: true,
+    child: _DeliveryConfirmSheet(
+      message: message,
+      confirmLabel: okButtonText,
+      disponibles: disponibles,
+    ),
+  );
+  return (result ?? false)
+      ? disponibles.map((package) => package.recepcionID).toList(growable: false)
+      : const <String>[];
+}
+
+class _DeliveryConfirmSheet extends StatelessWidget {
+  const _DeliveryConfirmSheet({
+    required this.message,
+    required this.confirmLabel,
+    required this.disponibles,
+  });
+
+  final String message;
+  final String confirmLabel;
+  final List<Recepcion> disponibles;
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: widget.disponibles.length,
-        itemBuilder: (_, int index) => CheckboxListTile(
-            enabled: false,
-            value: widget.toSend[widget.disponibles[index]] == "Y",
-            contentPadding: EdgeInsets.zero,
-            title: AutoSizeText(
-              widget.disponibles[index].contenido,
-              maxLines: 1,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            subtitle: Row(
+    final tokens = context.brand;
+    return BrandSheet(
+      title: 'solicitar_domicilio'.tr(),
+      subtitle: message,
+      maxHeightFactor: 0.78,
+      children: [
+        for (final package in disponibles)
+          Padding(
+            padding: const EdgeInsets.only(bottom: BrandSpace.xs),
+            child: Row(
               children: [
                 Expanded(
-                    child: AutoSizeText(
-                  widget.disponibles[index].recepcionID,
-                  maxLines: 1,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )),
-                const SizedBox(
-                  width: 5,
+                  child: Text(
+                    package.contenido.isEmpty
+                        ? package.suplidor
+                        : package.contenido,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: tokens.body(13, weight: FontWeight.w500),
+                  ),
                 ),
-                AutoSizeText(
-                  formatCurrency.format(widget.disponibles[index].montoTotal()),
-                  maxLines: 1,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.right,
-                )
+                const SizedBox(width: BrandSpace.xs),
+                Text(
+                  package.totalNeto,
+                  style: tokens.body(13, weight: FontWeight.w700),
+                ),
               ],
             ),
-            controlAffinity: ListTileControlAffinity.leading,
-            onChanged: (bool? value) {
-              setState(() {
-                widget.toSend[widget.disponibles[index]] =
-                    value != null && value ? "Y" : "";
-              });
-            }));
+          ),
+        const SizedBox(height: BrandSpace.xs),
+        BrandPrimaryButton(
+          label: confirmLabel,
+          onPressed: disponibles.isEmpty
+              ? null
+              : () => Navigator.of(context).pop(true),
+        ),
+      ],
+    );
   }
 }

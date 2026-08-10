@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
+import '../design_system/overlay_components.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 import 'bloc/courier_bloc.dart';
 import 'courier_dashboard.dart';
 
@@ -41,113 +44,114 @@ class _CourierPageState extends State<CourierPage> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     return BlocProvider.value(
       value: _bloc,
       child: BlocBuilder<CourierBloc, CourierState>(
         builder: (context, state) {
           if (state is CourierIsBusyState) {
-            return const Scaffold(body: BrandSkeleton(rows: 6));
+            return Scaffold(
+              backgroundColor: tokens.bg,
+              body: const BrandSkeleton(rows: 6),
+            );
           }
           if (state is CourierIsLoggedState) {
             return const CourierDashboard();
           }
           final loggedOut = state is CourierIsNotLoggedState ? state : null;
           return Scaffold(
+            backgroundColor: tokens.bg,
             body: SafeArea(
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 480),
                   child: ListView(
-                    padding: const EdgeInsets.fromLTRB(28, 36, 28, 36),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 28,
+                      vertical: BrandSpace.xxl,
+                    ),
                     children: [
-                      SizedBox(
-                        height: 120,
-                        child: Image.asset(
-                          _config.assets.logoWide,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      _BrandMark(config: _config),
                       const SizedBox(height: 28),
-                      Text(
-                        'bienvenido'.tr(),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      const SizedBox(height: 8),
+                      Text('bienvenido'.tr(), style: tokens.head(18)),
+                      const SizedBox(height: BrandSpace.xxs),
                       Text(
                         'indique_credenciales'.tr(),
-                        textAlign: TextAlign.center,
+                        style: tokens.body(13, color: tokens.textMuted),
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: BrandSpace.md),
                       Form(
                         key: _formKey,
                         child: Column(
                           children: [
-                            TextFormField(
+                            _LoginField(
                               controller: _accountController,
-                              textCapitalization: TextCapitalization.characters,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                labelText: 'codigo_de_cliente'.tr(),
-                                prefixIcon: const Icon(Icons.person_outline),
-                              ),
-                              validator: (value) =>
-                                  value?.trim().isEmpty ?? true
-                                      ? 'requerido'.tr()
-                                      : null,
+                              hint: 'codigo_de_cliente'.tr(),
+                              capitalize: true,
                             ),
-                            const SizedBox(height: 16),
-                            TextFormField(
+                            const SizedBox(height: 10),
+                            _LoginField(
                               controller: _passwordController,
-                              obscureText: _obscurePassword,
-                              decoration: InputDecoration(
-                                labelText: 'contraseña'.tr(),
-                                prefixIcon: const Icon(Icons.key_outlined),
-                                suffixIcon: IconButton(
-                                  onPressed: () => setState(
-                                    () => _obscurePassword = !_obscurePassword,
-                                  ),
-                                  icon: Icon(
-                                    _obscurePassword
-                                        ? Icons.visibility_outlined
-                                        : Icons.visibility_off_outlined,
-                                  ),
+                              hint: 'contraseña'.tr(),
+                              obscure: _obscurePassword,
+                              onSubmitted: (_) => _login(),
+                              suffix: IconButton(
+                                onPressed: () => setState(
+                                  () => _obscurePassword = !_obscurePassword,
+                                ),
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  size: 18,
+                                  color: tokens.textMuted,
                                 ),
                               ),
-                              validator: (value) => value?.isEmpty ?? true
-                                  ? 'requerido'.tr()
-                                  : null,
-                              onFieldSubmitted: (_) => _login(),
                             ),
                           ],
                         ),
                       ),
                       if (loggedOut?.showError ?? false) ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: BrandSpace.xs),
                         Text(
                           'credenciales_invalidas'.tr(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
+                          style: tokens.body(
+                            12,
+                            weight: FontWeight.w600,
+                            color: tokens.danger,
                           ),
                         ),
                       ],
-                      const SizedBox(height: 20),
-                      FilledButton(
+                      const SizedBox(height: BrandSpace.xs),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () => _showPasswordHelp(context),
+                          child: Text(
+                            'lo_olvidaste'.tr(),
+                            style: tokens.body(
+                              12,
+                              weight: FontWeight.w600,
+                              color: tokens.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: BrandSpace.md),
+                      BrandPrimaryButton(
+                        label: 'iniciar_sesión'.tr(),
+                        fontSize: 15,
+                        verticalPadding: 14,
                         onPressed: _login,
-                        child: Text('iniciar_sesión'.tr()),
                       ),
-                      TextButton(
-                        onPressed: () => _showPasswordHelp(context),
-                        child: Text('lo_olvidaste'.tr()),
-                      ),
-                      if (loggedOut?.registerUrl.isNotEmpty ?? false)
-                        OutlinedButton(
-                          onPressed: () => _openRegistration(
+                      if (loggedOut?.registerUrl.isNotEmpty ?? false) ...[
+                        const SizedBox(height: 14),
+                        _RegisterPrompt(
+                          onTap: () => _openRegistration(
                             loggedOut!.registerUrl,
                           ),
-                          child: Text('registrate_aqui'.tr()),
                         ),
+                      ],
                     ],
                   ),
                 ),
@@ -179,17 +183,155 @@ class _CourierPageState extends State<CourierPage> {
   }
 
   Future<void> _showPasswordHelp(BuildContext context) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('recordar_contraseña'.tr()),
-        content: Text('recordar_la_contraseña'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('aceptar'.tr()),
+    await showBrandSheet<void>(
+      context,
+      child: BrandSheet(
+        title: 'recordar_contraseña'.tr(),
+        subtitle: 'recordar_la_contraseña'.tr(),
+        children: [
+          BrandPrimaryButton(
+            label: 'aceptar'.tr(),
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Brand logo, name and tagline stacked above the credentials form.
+class _BrandMark extends StatelessWidget {
+  const _BrandMark({required this.config});
+
+  final BrandConfig config;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Column(
+      children: [
+        if (config.assets.logoWide.isEmpty)
+          Container(
+            width: 64,
+            height: 64,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: tokens.primary,
+              borderRadius: BorderRadius.circular(tokens.radiusLg),
+            ),
+            child: Text(
+              config.name.characters.first.toUpperCase(),
+              style: tokens.head(26, color: tokens.onAccent(tokens.primary)),
+            ),
+          )
+        else
+          SizedBox(
+            height: 96,
+            child: Image.asset(config.assets.logoWide, fit: BoxFit.contain),
+          ),
+        const SizedBox(height: BrandSpace.xs),
+        Text(config.name, style: tokens.head(22)),
+        if (config.tagline.isNotEmpty) ...[
+          const SizedBox(height: BrandSpace.xxs),
+          Text(
+            config.tagline,
+            textAlign: TextAlign.center,
+            style: tokens.body(12, color: tokens.textMuted),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _LoginField extends StatelessWidget {
+  const _LoginField({
+    required this.controller,
+    required this.hint,
+    this.obscure = false,
+    this.capitalize = false,
+    this.suffix,
+    this.onSubmitted,
+  });
+
+  final TextEditingController controller;
+  final String hint;
+  final bool obscure;
+  final bool capitalize;
+  final Widget? suffix;
+  final ValueChanged<String>? onSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return TextFormField(
+      controller: controller,
+      obscureText: obscure,
+      autocorrect: !capitalize,
+      textCapitalization:
+          capitalize ? TextCapitalization.characters : TextCapitalization.none,
+      style: tokens.body(14, weight: FontWeight.w500),
+      onFieldSubmitted: onSubmitted,
+      validator: (value) =>
+          (value?.trim().isEmpty ?? true) ? 'requerido'.tr() : null,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: tokens.body(
+          14,
+          weight: FontWeight.w500,
+          color: tokens.textMuted,
+        ),
+        suffixIcon: suffix,
+        filled: true,
+        fillColor: tokens.surface,
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 13,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radiusSm),
+          borderSide: BorderSide(color: tokens.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radiusSm),
+          borderSide: BorderSide(color: tokens.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radiusSm),
+          borderSide: BorderSide(color: tokens.primary, width: 2),
+        ),
+      ),
+    );
+  }
+}
+
+class _RegisterPrompt extends StatelessWidget {
+  const _RegisterPrompt({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return GestureDetector(
+      onTap: onTap,
+      child: Text.rich(
+        TextSpan(
+          text: 'no_eres_cliente'.tr(),
+          style: tokens.body(13, color: tokens.textMuted),
+          children: [
+            TextSpan(
+              text: 'conoce_mas_aqui'.tr(),
+              style: tokens.body(
+                13,
+                weight: FontWeight.w700,
+                color: tokens.primary,
+              ),
+            ),
+          ],
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }

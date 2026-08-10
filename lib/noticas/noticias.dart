@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 import 'bloc/noticias_bloc.dart';
 
 class NoticiasPage extends StatefulWidget {
@@ -36,8 +38,10 @@ class _NoticiasPageState extends State<NoticiasPage> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     return Scaffold(
-      appBar: ScreenHeader(title: 'noticias'.tr()),
+      backgroundColor: tokens.bg,
+      appBar: ScreenHeader.tab(title: 'noticias'.tr()),
       body: BlocProvider.value(
         value: _bloc,
         child: BlocBuilder<NoticiasBloc, NoticiasState>(
@@ -53,34 +57,48 @@ class _NoticiasPageState extends State<NoticiasPage> {
               );
             }
             if (state is! NoticiasLoadedState) {
-              return const BrandEmptyState(messageKey: 'no_resultados');
+              return const BrandEmptyState(
+                messageKey: 'no_resultados',
+                glyph: BrandIcons.news,
+              );
             }
             return RefreshIndicator(
               onRefresh: () async =>
                   _bloc.add(const LoadApiEvent(ignoreCache: true)),
               child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+                padding: const EdgeInsets.only(bottom: BrandTabBar.height),
                 children: [
-                  if (state.banners.isNotEmpty) ...[
+                  if (state.banners.isNotEmpty)
                     BannerCarousel(
                       banners: state.banners,
                       config: GetIt.I<BrandConfig>(),
                     ),
-                    const SizedBox(height: 20),
-                  ],
-                  if (state.noticias.isEmpty)
-                    const BrandEmptyState(messageKey: 'no_resultados')
-                  else
-                    for (final news in state.noticias) ...[
-                      NewsCard(
-                        news: news,
-                        onTap: () => context.push(
-                          AppRoutes.newsDetail(news.registroId),
-                          extra: news,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      BrandSpace.lg,
+                      BrandSpace.md,
+                      BrandSpace.lg,
+                      0,
+                    ),
+                    child: state.noticias.isEmpty
+                        ? const BrandEmptyState(
+                            messageKey: 'no_resultados',
+                            glyph: BrandIcons.news,
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              for (final news in state.noticias)
+                                NewsCard(
+                                  news: news,
+                                  onTap: () => context.push(
+                                    AppRoutes.newsDetail(news.registroId),
+                                    extra: news,
+                                  ),
+                                ),
+                            ],
+                          ),
+                  ),
                 ],
               ),
             );

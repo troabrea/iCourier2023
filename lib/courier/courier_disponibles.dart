@@ -1,13 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../design_system/overlay_components.dart';
+import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../services/model/empresa.dart';
 import '../services/model/recepcion.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 
 class DisponiblesPage extends StatefulWidget {
   const DisponiblesPage({
@@ -38,6 +43,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     final config = GetIt.I<BrandConfig>();
     final capabilities = config.capabilities.resolve(widget.empresa);
     final selectedPackages = _packages
@@ -47,88 +53,64 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
       0,
       (sum, package) => sum + package.montoTotal(),
     );
+
     return Scaffold(
+      backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'disponibles'.tr(),
+        onBack: context.canPop() ? context.pop : null,
         trailing: IconButton(
           onPressed: _busy ? null : _refresh,
-          icon: const Icon(Icons.refresh),
+          icon: Icon(Icons.refresh, color: tokens.onPrimary),
         ),
       ),
-      body: _busy
-          ? const BrandSkeleton()
-          : _packages.isEmpty
-              ? const BrandEmptyState(messageKey: 'no_paquetes')
-              : ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 180),
-                  children: [
-                    Card(
-                      child: ListTile(
-                        title: Text(
-                          '${_packages.length} · ${'cantidad'.tr()}',
-                        ),
-                        trailing: Text(
-                          '${config.currency} ${_packages.fold<double>(0, (sum, package) => sum + package.montoTotal()).toStringAsFixed(2)}',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    for (final package in _packages)
-                      SelectableRow(
-                        package: package,
-                        checked: _selected.contains(package.recepcionID),
-                        onToggle: (checked) => setState(() {
-                          if (checked) {
-                            _selected.add(package.recepcionID);
-                          } else {
-                            _selected.remove(package.recepcionID);
-                          }
-                        }),
-                      ),
-                  ],
-                ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
+      body: Column(
         children: [
-          if (capabilities.delivery && selectedPackages.isNotEmpty)
-            SafeArea(
-              top: false,
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: _busy ? null : _requestDelivery,
-                    icon: const Icon(Icons.local_shipping_outlined),
-                    label: Text('solicitar_domicilio'.tr()),
-                  ),
-                ),
-              ),
-            ),
-          if (widget.empresa.hasNotifyModule)
-            SafeArea(
-              top: false,
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: TextButton.icon(
-                    onPressed: _busy ? null : _notifyPickup,
-                    icon: const Icon(Icons.meeting_room_outlined),
-                    label: Text('notificar_retiro'.tr()),
-                  ),
-                ),
-              ),
-            ),
           SelectionSummaryBar(
             count: selectedPackages.length,
             total: selectedTotal,
-            currency: config.currency,
-            paymentsEnabled: capabilities.payments,
-            onPay: () => GetIt.I<CourierService>().launchOnlinePayment(context),
+            currency: r'$',
+            capabilities: capabilities,
+            onPickup: widget.empresa.hasNotifyModule ? _notifyPickup : null,
+            onPay: _payOnline,
+            onDelivery: _requestDelivery,
+          ),
+          Expanded(
+            child: _busy
+                ? const BrandSkeleton()
+                : _packages.isEmpty
+                    ? const BrandEmptyState(
+                        messageKey: 'no_paquetes',
+                        glyph: BrandIcons.available,
+                      )
+                    : ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(
+                          BrandSpace.lg,
+                          BrandSpace.md,
+                          BrandSpace.lg,
+                          BrandTabBar.height,
+                        ),
+                        itemCount: _packages.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final package = _packages[index];
+                          return SelectableRow(
+                            package: package,
+                            checked: _selected.contains(package.recepcionID),
+                            onOpen: () => context.push(
+                              AppRoutes.package(package.recepcionID),
+                            ),
+                            onToggle: (checked) => setState(() {
+                              if (checked) {
+                                _selected.add(package.recepcionID);
+                              } else {
+                                _selected.remove(package.recepcionID);
+                              }
+                            }),
+                          );
+                        },
+                      ),
           ),
         ],
       ),
@@ -148,7 +130,33 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
     });
   }
 
+  Future<void> _payOnline() async {
+    final total = _selected.isEmpty
+        ? widget.montoTotal
+        : _packages
+            .where((package) => _selected.contains(package.recepcionID))
+            .fold<double>(0, (sum, package) => sum + package.montoTotal());
+    await showBrandSheet<void>(
+      context,
+      child: PaymentSheet(
+        amount: '\$${total.toStringAsFixed(2)}',
+        brandName: GetIt.I<BrandConfig>().name,
+        onConfirm: () => GetIt.I<CourierService>().launchOnlinePayment(context),
+      ),
+    );
+  }
+
   Future<void> _requestDelivery() async {
+    await showBrandSheet<void>(
+      context,
+      child: DeliverySheet(
+        count: _selected.length,
+        onConfirm: _submitDelivery,
+      ),
+    );
+  }
+
+  Future<void> _submitDelivery() async {
     setState(() => _busy = true);
     final result = await GetIt.I<CourierService>().solicitaDomicilio(
       _selected.toList(growable: false),
@@ -159,34 +167,25 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
   }
 
   Future<void> _notifyPickup() async {
-    final confirmed = await _confirm('seguro_notificar_retiro'.tr());
-    if (!confirmed) return;
+    await showBrandSheet<void>(
+      context,
+      child: PickupSheet(
+        modes: GetIt.I<BrandConfig>().capabilities.pickupModes,
+        count: _selected.isEmpty ? _packages.length : _selected.length,
+        onConfirm: _submitPickup,
+      ),
+    );
+  }
+
+  Future<void> _submitPickup(BrandPickupMode? mode) async {
     setState(() => _busy = true);
-    final result = await GetIt.I<CourierService>().notificaRetiro();
+    final result = await GetIt.I<CourierService>().notificaRetiro(
+      puntoRetiro: mode?.value ?? '',
+    );
     if (!mounted) return;
     _showResult(result, successKey: 'retiro_notificado');
     await _refresh();
   }
-
-  Future<bool> _confirm(String message) async =>
-      await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('confirme'.tr()),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text('no'.tr()),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text('si'.tr()),
-            ),
-          ],
-        ),
-      ) ??
-      false;
 
   void _showResult(String result, {required String successKey}) {
     ScaffoldMessenger.of(context).showSnackBar(
