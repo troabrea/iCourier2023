@@ -15,6 +15,7 @@ import '../courier/courier_disponibles.dart';
 import '../courier/courier_estado_cuenta.dart';
 import '../courier/courier_facturados.dart';
 import '../courier/courier_historia_paquete.dart';
+import '../courier/factura_viewer.dart';
 import '../courier/courier_prealertas_realizadas.dart';
 import '../courier/courier_recepciones.dart';
 import '../courier/crear_prealerta.dart';
@@ -244,12 +245,12 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.prealert,
         name: 'prealert',
-        builder: (context, state) => const CrearPreAlertaPage(),
+        builder: (context, state) => const PrealertasRealizadas(),
         routes: [
           GoRoute(
-            path: 'realizadas',
-            name: 'completed-prealerts',
-            builder: (context, state) => const PrealertasRealizadas(),
+            path: 'nueva',
+            name: 'new-prealert',
+            builder: (context, state) => const CrearPreAlertaPage(),
           ),
         ],
       ),
@@ -334,11 +335,9 @@ class _PackageRoute extends StatelessWidget {
         if (reception.fotoFacturaUrl.isEmpty) {
           return CrearPostAlertaPage(recepcion: reception);
         }
-        return Scaffold(
-          appBar: AppBar(title: Text('facturas_pendientes'.tr())),
-          body: InteractiveViewer(
-            child: Center(child: Image.network(reception.fotoFacturaUrl)),
-          ),
+        return FacturaViewerPage(
+          url: reception.fotoFacturaUrl,
+          title: 'facturas_pendientes'.tr(),
         );
       },
     );

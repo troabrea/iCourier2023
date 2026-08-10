@@ -126,8 +126,7 @@ abstract final class BrandTheme {
     FontWeight weight,
     Color color,
   ) =>
-      TextStyle(
-        fontFamily: family,
+      resolveBrandFont(family).copyWith(
         fontSize: size,
         fontWeight: weight,
         color: color,

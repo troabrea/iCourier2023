@@ -11,7 +11,10 @@ import '../helpers/brand_test_app.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUpAll(initializeTestTranslations);
+  setUpAll(() async {
+    initializeTestTranslations();
+    await loadBrandFonts();
+  });
 
   testWidgets('muestra carga, vacío y error recuperable', (tester) async {
     final config = loadTestBrand('bmcargo');
@@ -29,7 +32,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.inventory_2_outlined), findsOneWidget);
+    expect(find.text('No hay resultados'), findsOneWidget);
 
     var retried = false;
     await tester.pumpWidget(
@@ -39,7 +42,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.byIcon(Icons.refresh));
+    await tester.tap(find.text('Reintentar'));
     expect(retried, isTrue);
   });
 
@@ -70,8 +73,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.lock_outline), findsOneWidget);
-    await tester.tap(find.byType(CheckboxListTile), warnIfMissed: false);
+    // La fila retenida se atenúa y no acepta selección.
+    expect(find.byType(Opacity), findsWidgets);
+    await tester.tap(find.byType(SelectableRow), warnIfMissed: false);
     expect(toggled, isFalse);
   });
 
@@ -94,7 +98,7 @@ void main() {
               count: 1,
               total: 100,
               currency: 'RD\$',
-              paymentsEnabled: false,
+              capabilities: BrandCapabilities(payments: false),
               onPay: _noop,
             ),
           ],

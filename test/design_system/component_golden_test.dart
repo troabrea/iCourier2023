@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:icourier/design_system/brand_foundations.dart';
+import 'package:icourier/design_system/brand_states.dart';
 import 'package:icourier/design_system/calculator_components.dart';
 import 'package:icourier/design_system/content_components.dart';
 import 'package:icourier/design_system/core_components.dart';
+import 'package:icourier/design_system/home_components.dart';
 import 'package:icourier/design_system/overlay_components.dart';
 import 'package:icourier/domain/package_stage.dart';
 import 'package:icourier/services/model/mensaje.dart';
@@ -16,7 +19,10 @@ import '../helpers/brand_test_app.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUpAll(initializeTestTranslations);
+  setUpAll(() async {
+    initializeTestTranslations();
+    await loadBrandFonts();
+  });
 
   for (final brand in ['bmcargo', 'fixocargo']) {
     for (final brightness in Brightness.values) {
@@ -130,10 +136,26 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
       'quick_action_grid',
       () => const QuickActionGrid(
         actions: [
-          QuickAction(label: 'Pre-alerta', icon: Icons.add_alert, onTap: _noop),
-          QuickAction(label: 'Rastreo', icon: Icons.search, onTap: _noop),
-          QuickAction(label: 'Pago', icon: Icons.payment, onTap: _noop),
-          QuickAction(label: 'Carnet', icon: Icons.badge, onTap: _noop),
+          QuickAction(
+            label: 'Crear Pre-Alerta',
+            icon: BrandIcons.prealert,
+            onTap: _noop,
+          ),
+          QuickAction(
+            label: 'Rastrear Paquete',
+            icon: BrandIcons.track,
+            onTap: _noop,
+          ),
+          QuickAction(
+            label: 'Ver Pre-Alertas',
+            icon: BrandIcons.receptions,
+            onTap: _noop,
+          ),
+          QuickAction(
+            label: 'Consulta Histórica',
+            icon: BrandIcons.history,
+            onTap: _noop,
+          ),
         ],
       ),
     ),
@@ -184,6 +206,15 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
     const MapEntry('confirm_dialog', _confirmDialog),
     const MapEntry('tip_bubble', _tipBubble),
     const MapEntry('carnet_qr', _carnetQr),
+    const MapEntry('stage_rail', _stageRail),
+    const MapEntry('status_badge_soft', _statusBadgeSoft),
+    const MapEntry('brand_notice', _brandNotice),
+    const MapEntry('empty_state', _emptyState),
+    const MapEntry('error_state', _errorState),
+    const MapEntry('skeleton', _skeleton),
+    const MapEntry('availability_hero', _availabilityHero),
+    const MapEntry('points_card', _pointsCard),
+    const MapEntry('filter_chip', _filterChip),
   ];
 }
 
@@ -200,8 +231,10 @@ Widget _selectionSummaryBar() => const SelectionSummaryBar(
       count: 2,
       total: 318.75,
       currency: 'RD\$',
-      paymentsEnabled: true,
+      capabilities: BrandCapabilities(payments: true, delivery: true),
+      onPickup: _noop,
       onPay: _noop,
+      onDelivery: _noop,
     );
 
 Widget _totalsPanel() => const TotalsPanel(
@@ -214,8 +247,18 @@ Widget _totalsPanel() => const TotalsPanel(
 Widget _conceptTable() => const ConceptTable(
       currency: 'RD\$',
       concepts: [
-        CalcConceptView(label: 'Flete', amount: 250),
-        CalcConceptView(label: 'Impuestos', amount: 68.75),
+        CalcConceptView(
+          label: 'Flete Estándar',
+          amount: 250,
+          quantity: '2.50',
+          unitPrice: '3.50',
+        ),
+        CalcConceptView(
+          label: 'Servicios DGA',
+          amount: 68.75,
+          quantity: '2.50',
+          unitPrice: '0.50',
+        ),
       ],
     );
 
@@ -236,10 +279,53 @@ Widget _confirmDialog() => const ConfirmDialog(
     );
 
 Widget _tipBubble() => const TipBubble(
-      message: 'Toca un paquete para ver todos sus eventos.',
+      title: 'Nuevo: sigue tus paquetes desde tu pantalla de inicio',
+      message: 'Agrega el widget y activa las actividades en vivo.',
+      onDismiss: _noop,
     );
 
 Widget _carnetQr() => const CarnetQR(accountCode: 'BM-002332');
+
+Widget _stageRail() => const StageRail(stage: PackageStage.destino);
+
+Widget _statusBadgeSoft() => const StatusBadge.soft(
+      stage: PackageStage.disponible,
+      retained: true,
+    );
+
+Widget _brandNotice() => const BrandNotice(
+      title: 'Retenido — Falta factura',
+      message: 'Adjunta el valor y la factura para liberar este paquete.',
+      glyph: BrandIcons.missingInvoice,
+      actionLabel: 'Adjuntar factura',
+      onAction: _noop,
+    );
+
+Widget _emptyState() => const BrandEmptyState(messageKey: 'no_paquetes');
+
+Widget _errorState() => const BrandErrorState(onRetry: _noop);
+
+Widget _skeleton() => const SizedBox(height: 220, child: BrandSkeleton(rows: 2));
+
+Widget _availabilityHero() => const AvailabilityHeroCard(
+      count: 2,
+      total: '337.99',
+      currency: r'$',
+      branch: 'Sucursal Miami Principal',
+      onPickup: _noop,
+      onDelivery: _noop,
+    );
+
+Widget _pointsCard() => const PointsCard(
+      label: 'Puntos Disponibles',
+      balance: '1,240',
+      onRedeem: _noop,
+    );
+
+Widget _filterChip() => const BrandFilterChip(
+      label: 'Disponibles',
+      onClear: _noop,
+    );
 
 void _noop() {}
 

@@ -92,7 +92,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               ),
               _MoreRow(
                 label: 'ver_prealertas'.tr().replaceAll('\n', ' '),
-                route: AppRoutes.completedPrealerts,
+                route: AppRoutes.prealert,
                 visible: capabilities.prealerts,
               ),
               _MoreRow(

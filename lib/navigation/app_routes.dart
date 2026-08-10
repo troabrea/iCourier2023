@@ -13,13 +13,13 @@ abstract final class AppRoutes {
   static const idCard = '/carnet';
   static const messages = '/mensajes';
   static const prealert = '/prealerta';
+  static const newPrealert = '/prealerta/nueva';
   static const services = '/servicios';
   static const accounts = '/mas/cuentas';
   static const history = '/mas/historico';
   static const invoices = '/mas/facturados';
   static const accountStatement = '/mas/estado-cuenta';
-  static const faq = '/mas/preguntas';
-  static const completedPrealerts = '/prealerta/realizadas';
+  static const faq = '/faq';
   static const onlinePayment = '/mas/pago-en-linea';
   static const packagePattern = '/paquete/:id';
   static const componentGallery = '/galeria-componentes';
@@ -50,6 +50,8 @@ final class AppDeepLinkParser {
     AppRoutes.idCard,
     AppRoutes.messages,
     AppRoutes.prealert,
+    AppRoutes.newPrealert,
+    AppRoutes.faq,
     AppRoutes.services,
   };
 

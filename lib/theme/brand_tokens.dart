@@ -1,4 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+/// Families shipped as assets in `pubspec.yaml`.
+const _bundledFamilies = {
+  'Myriad',
+  'Flipahaus',
+  'MadeTommy',
+  'AmpleSoft',
+  'Continumm',
+  'Bossa',
+  'ComicSans',
+  'iCourier',
+};
+
+/// Resolves a configured family name to a usable base text style.
+///
+/// Bundled families are used directly. Anything else is looked up in Google
+/// Fonts, which is how brands such as bmcargo get Rubik without shipping the
+/// file. When runtime fetching is disabled — golden runs, or a build that
+/// bundles its own copies — the family name is passed through so the platform
+/// resolves it, instead of the loader throwing mid-paint.
+TextStyle resolveBrandFont(String family) {
+  if (_bundledFamilies.contains(family) ||
+      !GoogleFonts.config.allowRuntimeFetching) {
+    return TextStyle(fontFamily: family);
+  }
+  try {
+    return GoogleFonts.getFont(family);
+  } on Exception {
+    return TextStyle(fontFamily: family);
+  }
+}
 
 /// Semantic brand values consumed by every redesigned widget.
 @immutable
@@ -181,8 +213,7 @@ extension BrandTypography on BrandTokens {
     double? height,
     double? letterSpacing,
   }) =>
-      TextStyle(
-        fontFamily: headFont,
+      resolveBrandFont(headFont).copyWith(
         fontSize: size,
         fontWeight: weight,
         color: color ?? text,
@@ -197,8 +228,7 @@ extension BrandTypography on BrandTokens {
     double? height,
     double? letterSpacing,
   }) =>
-      TextStyle(
-        fontFamily: bodyFont,
+      resolveBrandFont(bodyFont).copyWith(
         fontSize: size,
         fontWeight: weight,
         color: color ?? text,

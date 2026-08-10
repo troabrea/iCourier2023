@@ -3,12 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icourier/theme/brand_config.dart';
 import 'package:icourier/theme/brand_config_validator.dart';
 import 'package:icourier/theme/brand_theme.dart';
 import 'package:icourier/theme/brand_tokens.dart';
 
 void main() {
+  // Building a theme resolves the brand family; keep that offline and
+  // deterministic here as well.
+  setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
+
   group('BrandConfig', () {
     test('aplica defaults compatibles a campos futuros ausentes', () {
       final config = BrandConfig.fromJson(const {});

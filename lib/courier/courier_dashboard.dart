@@ -219,15 +219,14 @@ class _DashboardContent extends StatelessWidget {
                                   label: 'crear_prealerta'.tr(),
                                   icon: BrandIcons.prealert,
                                   enabled: capabilities.prealerts,
-                                  onTap: () => context.push(AppRoutes.prealert),
+                                  onTap: () =>
+                                      context.push(AppRoutes.newPrealert),
                                 ),
                                 QuickAction(
                                   label: 'ver_prealertas'.tr(),
                                   icon: BrandIcons.receptions,
                                   enabled: capabilities.prealerts,
-                                  onTap: () => context.push(
-                                    AppRoutes.completedPrealerts,
-                                  ),
+                                  onTap: () => context.push(AppRoutes.prealert),
                                 ),
                                 QuickAction(
                                   label: 'rastrear_paquete'.tr(),
