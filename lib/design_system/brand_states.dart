@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/brand_tokens.dart';
+import 'brand_foundations.dart';
 
+/// Placeholder blocks shown while a screen loads. Never a full-screen spinner.
 class BrandSkeleton extends StatelessWidget {
   const BrandSkeleton({super.key, this.rows = 4});
 
@@ -12,9 +14,9 @@ class BrandSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.brand;
     return ListView.separated(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(BrandSpace.lg),
       itemCount: rows,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) => Semantics(
         label: 'trabajando'.tr(),
         child: Container(
@@ -29,31 +31,91 @@ class BrandSkeleton extends StatelessWidget {
   }
 }
 
+/// Empty result for any list, optionally offering the action that fills it.
 class BrandEmptyState extends StatelessWidget {
   const BrandEmptyState({
     super.key,
     required this.messageKey,
-    this.icon = Icons.inventory_2_outlined,
+    this.glyph = BrandIcons.receptions,
+    this.actionLabel,
+    this.onAction,
   });
 
   final String messageKey;
-  final IconData icon;
+  final String glyph;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(
+          horizontal: BrandSpace.lg,
+          vertical: 48,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 44, color: tokens.textMuted),
-            const SizedBox(height: 12),
-            Text(
-              messageKey.tr(),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
+            BrandGlyph(glyph, color: tokens.border, size: 74),
+            const SizedBox(height: BrandSpace.sm),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 230),
+              child: Text(
+                messageKey.tr(),
+                textAlign: TextAlign.center,
+                style: tokens.body(13, color: tokens.textMuted, height: 1.45),
+              ),
+            ),
+            if (actionLabel != null && onAction != null) ...[
+              const SizedBox(height: BrandSpace.md),
+              BrandOutlineButton(
+                label: actionLabel!,
+                expand: false,
+                pill: true,
+                onPressed: onAction,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Recoverable failure with a single retry action.
+class BrandErrorState extends StatelessWidget {
+  const BrandErrorState({super.key, required this.onRetry, this.messageKey});
+
+  final VoidCallback onRetry;
+  final String? messageKey;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(BrandSpace.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.cloud_off_outlined, size: 44, color: tokens.danger),
+            const SizedBox(height: BrandSpace.sm),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 260),
+              child: Text(
+                (messageKey ?? 'error_reintentar').tr(),
+                textAlign: TextAlign.center,
+                style: tokens.body(13, color: tokens.textMuted, height: 1.45),
+              ),
+            ),
+            const SizedBox(height: BrandSpace.md),
+            BrandOutlineButton(
+              label: 'recargar'.tr(),
+              expand: false,
+              pill: true,
+              onPressed: onRetry,
             ),
           ],
         ),
@@ -62,32 +124,64 @@ class BrandEmptyState extends StatelessWidget {
   }
 }
 
-class BrandErrorState extends StatelessWidget {
-  const BrandErrorState({super.key, required this.onRetry});
+/// Inline notice explaining why a package is blocked, with its remedy.
+class BrandNotice extends StatelessWidget {
+  const BrandNotice({
+    super.key,
+    required this.title,
+    required this.message,
+    required this.glyph,
+    this.actionLabel,
+    this.onAction,
+  });
 
-  final VoidCallback onRetry;
+  final String title;
+  final String message;
+  final String glyph;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return Center(
-      child: Card(
-        margin: const EdgeInsets.all(24),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(tokens.radiusMd),
-          onTap: onRetry,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+    return BrandCard(
+      color: tokens.surfaceAlt,
+      borderColor: tokens.warning,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1),
+            child: BrandGlyph(glyph, color: tokens.warning, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.refresh, color: tokens.danger),
-                const SizedBox(width: 12),
-                Flexible(child: Text('error_reintentar'.tr())),
+                Text(title, style: tokens.body(13, weight: FontWeight.w700)),
+                const SizedBox(height: 2),
+                Text(
+                  message,
+                  style: tokens.body(12, color: tokens.textMuted, height: 1.4),
+                ),
+                if (actionLabel != null && onAction != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: BrandSpace.xs),
+                    child: BrandPrimaryButton(
+                      label: actionLabel!,
+                      expand: false,
+                      fontSize: 12,
+                      verticalPadding: 8,
+                      background: tokens.warning,
+                      onPressed: onAction,
+                    ),
+                  ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

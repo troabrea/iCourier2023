@@ -55,8 +55,44 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
   /// Sheet backdrop derived from the active text color.
   Color get sheetBackdrop => text.withValues(alpha: 0.12);
 
+  /// Scrim behind modal sheets and dialogs.
+  ///
+  /// The prototype dims the whole frame so the panel reads as modal; the flat
+  /// [sheetBackdrop] veil is reserved for non-modal overlays.
+  Color get modalScrim => const Color(0xff000000).withValues(alpha: 0.4);
+
+  /// Top stop of the gradient laid over banner artwork.
+  Color get scrimTop => const Color(0xff000000).withValues(alpha: 0.05);
+
+  /// Bottom stop of the same gradient, dark enough to carry a title.
+  Color get scrimBottom => const Color(0xff000000).withValues(alpha: 0.55);
+
+  /// Foreground over a scrim. Fixed across brands so captions stay legible
+  /// whatever artwork the brand ships.
+  Color get onScrim => const Color(0xffffffff);
+
   /// Returns the standard timeline glow for [accent].
   Color timelineGlow(Color accent) => accent.withValues(alpha: 0.16);
+
+  /// Wash used behind icons and soft status badges tinted with [accent].
+  Color accentWash(Color accent, [double opacity = 0.12]) =>
+      accent.withValues(alpha: opacity);
+
+  /// Translucent layer painted over [primary] inside the brand header.
+  Color headerOverlay(double opacity) => onPrimary.withValues(alpha: opacity);
+
+  /// Picks whichever of [text] or [surface] reads best over [background].
+  Color onAccent(Color background) {
+    final overText = _contrast(background, text);
+    final overSurface = _contrast(background, surface);
+    return overText >= overSurface ? text : surface;
+  }
+
+  static double _contrast(Color first, Color second) {
+    final a = first.computeLuminance() + 0.05;
+    final b = second.computeLuminance() + 0.05;
+    return a > b ? a / b : b / a;
+  }
 
   @override
   BrandTokens copyWith({
@@ -131,4 +167,50 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
 /// Provides concise access to the active semantic tokens.
 extension BrandBuildContext on BuildContext {
   BrandTokens get brand => Theme.of(this).extension<BrandTokens>()!;
+}
+
+/// Builds text styles from the brand font families.
+///
+/// Screens express the sizes and weights of the design reference through these
+/// helpers so no widget ever names a font family.
+extension BrandTypography on BrandTokens {
+  TextStyle head(
+    double size, {
+    FontWeight weight = FontWeight.w700,
+    Color? color,
+    double? height,
+    double? letterSpacing,
+  }) =>
+      TextStyle(
+        fontFamily: headFont,
+        fontSize: size,
+        fontWeight: weight,
+        color: color ?? text,
+        height: height,
+        letterSpacing: letterSpacing,
+      );
+
+  TextStyle body(
+    double size, {
+    FontWeight weight = FontWeight.w400,
+    Color? color,
+    double? height,
+    double? letterSpacing,
+  }) =>
+      TextStyle(
+        fontFamily: bodyFont,
+        fontSize: size,
+        fontWeight: weight,
+        color: color ?? text,
+        height: height,
+        letterSpacing: letterSpacing,
+      );
+
+  /// Uppercase eyebrow used for section labels and table headers.
+  TextStyle eyebrow(double size, {Color? color}) => body(
+        size,
+        weight: FontWeight.w600,
+        color: color ?? textMuted,
+        letterSpacing: size * 0.08,
+      );
 }

@@ -214,6 +214,25 @@ flutter:
     - images/correo.svg
     - images/facebook.svg
     - images/instagram.svg
+    # Glifos de marca del rediseño: se pintan como máscara teñida con un token,
+    # nunca como imagen de color fijo.
+    - images/recepciones.svg
+    - images/endestino.svg
+    - images/sinfactura.svg
+    - images/prealerta.svg
+    - images/rastrearpaquete.svg
+    - images/consultahistorica.svg
+    - images/informacion.svg
+    - images/whatsapp.svg
+    - images/subirfactura.svg
+    - images/refrescar.svg
+    - images/usuario.svg
+    - images/telefono.svg
+    - images/horario.svg
+    - images/mapmarker.svg
+    - images/transferenciasalida.svg
+    - images/empacado.svg
+    - images/twitter.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
