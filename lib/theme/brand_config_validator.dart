@@ -5,6 +5,31 @@ import 'brand_config.dart';
 /// Runtime defaults remain in [BrandConfig]; this validator protects the 35
 /// production documents from missing identity, navigation, or palette fields.
 abstract final class BrandConfigValidator {
+  /// Colours every document must declare; the rest are derived from `primary`.
+  static const _requiredColors = [
+    'primary',
+    'onPrimary',
+    'secondary',
+    'onSecondary',
+  ];
+
+  /// Colours a brand may override once the derived family is not enough.
+  static const _optionalColors = [
+    'bg',
+    'surface',
+    'surfaceAlt',
+    'text',
+    'textMuted',
+    'border',
+    'success',
+    'warning',
+    'danger',
+  ];
+
+  static const _allColors = {..._requiredColors, ..._optionalColors};
+
+  static final _hex = RegExp(r'^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$');
+
   static void validate(
     Map<String, dynamic> json, {
     String? expectedSlug,
@@ -52,11 +77,30 @@ abstract final class BrandConfigValidator {
     final palettes = _map(json, 'palettes');
     for (final brightness in ['light', 'dark']) {
       final palette = _map(palettes, brightness);
-      for (final key in ['primary', 'onPrimary', 'secondary', 'onSecondary']) {
+      for (final key in _requiredColors) {
         final color = _string(palette, key);
-        if (!RegExp(r'^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$').hasMatch(color)) {
+        if (!_hex.hasMatch(color)) {
           throw FormatException('palettes.$brightness.$key is not hex');
         }
+      }
+      // Optional colours still have to be hex when present: a malformed value
+      // would otherwise fall back silently to a default and ship unnoticed.
+      for (final key in _optionalColors) {
+        final color = palette[key];
+        if (color == null) {
+          continue;
+        }
+        if (color is! String || !_hex.hasMatch(color)) {
+          throw FormatException('palettes.$brightness.$key is not hex');
+        }
+      }
+      final unknown = palette.keys
+          .where((key) => !_allColors.contains(key))
+          .toList(growable: false);
+      if (unknown.isNotEmpty) {
+        throw FormatException(
+          'palettes.$brightness has unknown colours: ${unknown.join(', ')}',
+        );
       }
     }
 

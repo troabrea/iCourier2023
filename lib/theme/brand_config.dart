@@ -27,6 +27,7 @@ final class BrandPalette {
   factory BrandPalette.fromJson(
     Map<String, dynamic> json, {
     required BrandPalette defaults,
+    Color? hueSource,
   }) {
     Color read(String key, Color fallback) {
       final value = json[key];
@@ -36,10 +37,16 @@ final class BrandPalette {
     final primary = read('primary', defaults.primary);
     final secondary = read('secondary', defaults.secondary);
 
+    // Neutrals carry a trace of the brand hue: the warm/cool cast of the
+    // background is part of the design language, so a brand that declares only
+    // its primary still gets a coherent surface family instead of the same
+    // grey as every other brand. Any neutral present in the document wins.
+    final neutrals = BrandNeutrals.from(hueSource ?? primary, defaults);
+
     return BrandPalette(
-      bg: read('bg', defaults.bg),
-      surface: read('surface', defaults.surface),
-      surfaceAlt: read('surfaceAlt', defaults.surfaceAlt),
+      bg: read('bg', neutrals.bg),
+      surface: read('surface', neutrals.surface),
+      surfaceAlt: read('surfaceAlt', neutrals.surfaceAlt),
       primary: primary,
       onPrimary: _accessibleForeground(
         primary,
@@ -50,9 +57,9 @@ final class BrandPalette {
         secondary,
         read('onSecondary', defaults.onSecondary),
       ),
-      text: read('text', defaults.text),
-      textMuted: read('textMuted', defaults.textMuted),
-      border: read('border', defaults.border),
+      text: read('text', neutrals.text),
+      textMuted: read('textMuted', neutrals.textMuted),
+      border: read('border', neutrals.border),
       success: read('success', defaults.success),
       warning: read('warning', defaults.warning),
       danger: read('danger', defaults.danger),
@@ -104,6 +111,75 @@ final class BrandPalette {
   final Color success;
   final Color warning;
   final Color danger;
+}
+
+/// Neutral surfaces tinted with the hue of a brand primary.
+///
+/// The two reference identities differ most in the cast of their neutrals — one
+/// warm, one cool — and that cast is what makes a brand feel like itself. Rather
+/// than requiring all 35 documents to spell out eight more colours, the family
+/// is derived from the primary hue at fixed saturation and lightness targets,
+/// which reproduces the reference values closely. A document that declares a
+/// neutral explicitly always overrides the derived one.
+@immutable
+final class BrandNeutrals {
+  const BrandNeutrals({
+    required this.bg,
+    required this.surface,
+    required this.surfaceAlt,
+    required this.text,
+    required this.textMuted,
+    required this.border,
+  });
+
+  /// Derives the family from [hueSource]; [defaults] decides the brightness and
+  /// supplies the fallback when the source carries no usable hue.
+  ///
+  /// Both brightnesses take the hue of the *light* primary: a brand whose dark
+  /// primary shifts to another part of the wheel — Verra goes from teal to
+  /// lime — still keeps the neutral cast that identifies it.
+  factory BrandNeutrals.from(Color hueSource, BrandPalette defaults) {
+    final hsl = HSLColor.fromColor(hueSource);
+    if (hsl.saturation < 0.08) {
+      return BrandNeutrals(
+        bg: defaults.bg,
+        surface: defaults.surface,
+        surfaceAlt: defaults.surfaceAlt,
+        text: defaults.text,
+        textMuted: defaults.textMuted,
+        border: defaults.border,
+      );
+    }
+    final hue = hsl.hue;
+    final isDark = defaults.bg.computeLuminance() < 0.5;
+    Color tone(double saturation, double lightness) =>
+        HSLColor.fromAHSL(1, hue, saturation, lightness).toColor();
+
+    return isDark
+        ? BrandNeutrals(
+            bg: tone(0.25, 0.094),
+            surface: tone(0.25, 0.131),
+            surfaceAlt: tone(0.25, 0.167),
+            text: tone(0.39, 0.918),
+            textMuted: tone(0.16, 0.65),
+            border: tone(0.25, 0.231),
+          )
+        : BrandNeutrals(
+            bg: tone(0.35, 0.955),
+            surface: defaults.surface,
+            surfaceAlt: tone(0.30, 0.915),
+            text: tone(0.25, 0.13),
+            textMuted: tone(0.11, 0.46),
+            border: tone(0.28, 0.865),
+          );
+  }
+
+  final Color bg;
+  final Color surface;
+  final Color surfaceAlt;
+  final Color text;
+  final Color textMuted;
+  final Color border;
 }
 
 /// Corner radii supplied by a WhiteLabel configuration.
@@ -332,6 +408,10 @@ final class BrandConfig {
 
     final palettes = map('palettes');
     final fonts = map('fonts');
+    final light = BrandPalette.fromJson(
+      (palettes['light'] as Map<String, dynamic>?) ?? const {},
+      defaults: BrandPalette.lightDefaults,
+    );
     return BrandConfig(
       schema: (json['schema'] as num?)?.toInt() ?? 1,
       slug: json['slug'] as String? ?? 'icourier',
@@ -349,13 +429,11 @@ final class BrandConfig {
       headFont: fonts['head'] as String? ?? 'Myriad',
       bodyFont: fonts['body'] as String? ?? 'Myriad',
       radii: BrandRadii.fromJson(map('radius')),
-      light: BrandPalette.fromJson(
-        (palettes['light'] as Map<String, dynamic>?) ?? const {},
-        defaults: BrandPalette.lightDefaults,
-      ),
+      light: light,
       dark: BrandPalette.fromJson(
         (palettes['dark'] as Map<String, dynamic>?) ?? const {},
         defaults: BrandPalette.darkDefaults,
+        hueSource: light.primary,
       ),
       assets: BrandAssets.fromJson(map('assets')),
       calculator: BrandCalculatorConfig.fromJson(map('calculator')),
