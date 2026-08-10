@@ -49,6 +49,11 @@ abstract final class BrandShape {
 }
 
 /// Brand glyphs, referenced by the same asset names the repository already uses.
+///
+/// Only single-tone artwork belongs here. `correo.svg`, `informacion.svg` and
+/// `preguntas.svg` draw their detail as a white knockout over a solid shape, so
+/// tinting them collapses the whole glyph into a filled blob; single-tone
+/// equivalents are used in their place.
 abstract final class BrandIcons {
   static const String receptions = 'images/recepciones.svg';
   static const String available = 'images/disponible.svg';
@@ -62,21 +67,17 @@ abstract final class BrandIcons {
   static const String history = 'images/consultahistorica.svg';
   static const String news = 'images/noticias.svg';
   static const String branches = 'images/sucursales.svg';
-  static const String information = 'images/informacion.svg';
+  static const String information = 'images/transferenciasalida.svg';
   static const String whatsapp = 'images/whatsapp.svg';
   static const String services = 'images/servicios.svg';
-  static const String questions = 'images/preguntas.svg';
+  static const String questions = 'images/consultahistorica.svg';
   static const String uploadInvoice = 'images/subirfactura.svg';
   static const String refresh = 'images/refrescar.svg';
   static const String user = 'images/usuario.svg';
   static const String phone = 'images/telefono.svg';
-  static const String email = 'images/correo.svg';
+  static const String email = 'images/arroba.svg';
   static const String schedule = 'images/horario.svg';
   static const String mapMarker = 'images/mapmarker.svg';
-  static const String website = 'images/pagweb.svg';
-  static const String facebook = 'images/facebook.svg';
-  static const String instagram = 'images/instagram.svg';
-  static const String twitter = 'images/twitter.svg';
 }
 
 /// Renders a brand glyph as a tinted mask.

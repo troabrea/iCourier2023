@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
@@ -8,8 +9,11 @@ import '../services/model/empresa.dart';
 import '../services/model/login_model.dart';
 import '../theme/brand_tokens.dart';
 
-/// Row of brand contact channels, rendered with the repository glyphs tinted
-/// by a token rather than a fixed-colour icon font.
+/// Row of brand contact channels.
+///
+/// These use icon-font marks rather than the repository SVGs: the social
+/// artwork is drawn as a white knockout over a solid shape, so tinting it with
+/// a token would flatten each one into a filled circle.
 class SocialMediaLinks extends StatelessWidget {
   const SocialMediaLinks({
     super.key,
@@ -25,22 +29,22 @@ class SocialMediaLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    final links = <({String glyph, String label, VoidCallback onTap})>[
+    final links = <({IconData icon, String label, VoidCallback onTap})>[
       if (empresa.paginaWeb.isNotEmpty)
         (
-          glyph: BrandIcons.website,
+          icon: FontAwesomeIcons.globe,
           label: empresa.paginaWeb,
           onTap: () => _open(Uri.tryParse(empresa.paginaWeb)),
         ),
       if (empresa.correoVentas.isNotEmpty || userProfile.email.isNotEmpty)
         (
-          glyph: BrandIcons.email,
+          icon: FontAwesomeIcons.envelope,
           label: 'email',
           onTap: _sendEmail,
         ),
       if (empresa.instagram.isNotEmpty)
         (
-          glyph: BrandIcons.instagram,
+          icon: FontAwesomeIcons.instagram,
           label: 'Instagram',
           onTap: () => _open(
             Uri.https('www.instagram.com', '/${empresa.instagram}'),
@@ -48,13 +52,13 @@ class SocialMediaLinks extends StatelessWidget {
         ),
       if (empresa.facebook.isNotEmpty)
         (
-          glyph: BrandIcons.facebook,
+          icon: FontAwesomeIcons.facebook,
           label: 'Facebook',
           onTap: () => _openFacebook(empresa.facebook),
         ),
       if (empresa.twitter.isNotEmpty)
         (
-          glyph: BrandIcons.twitter,
+          icon: FontAwesomeIcons.xTwitter,
           label: 'X',
           onTap: () => _open(Uri.https('x.com', '/${empresa.twitter}')),
         ),
@@ -75,8 +79,8 @@ class SocialMediaLinks extends StatelessWidget {
               radius: 28,
               child: Padding(
                 padding: const EdgeInsets.all(BrandSpace.sm),
-                child: BrandGlyph(
-                  link.glyph,
+                child: FaIcon(
+                  link.icon,
                   color: tokens.primary,
                   size: iconSize,
                 ),
