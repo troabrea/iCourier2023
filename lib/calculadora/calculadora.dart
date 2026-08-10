@@ -92,7 +92,9 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                       Expanded(
                         child: BigNumberField(
                           label: 'valor_fob'.tr(),
-                          unit: _config.currency,
+                          // FOB is declared in US dollars regardless of the
+                          // currency the brand quotes in.
+                          unit: r'US$',
                           unitLeading: true,
                           controller: _valueController,
                           onChanged: (_) => _clearValidation(),
