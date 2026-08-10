@@ -1,14 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../design_system/brand_states.dart';
+import '../design_system/overlay_components.dart';
 import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 
+/// Linked accounts, presented with the same switcher the brand header opens.
+///
+/// It renders as a sheet body, so the route and the header entry point share
+/// one implementation instead of drifting apart.
 class CuentasUsuario extends StatefulWidget {
   const CuentasUsuario({super.key, required this.userProfile});
 
@@ -36,42 +40,15 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
           return BrandErrorState(onRetry: _reload);
         }
         if (!snapshot.hasData) {
-          return const BrandSkeleton();
+          return const BrandSkeleton(rows: 3);
         }
-        final accounts = snapshot.requireData;
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            if (accounts.isEmpty)
-              const BrandEmptyState(messageKey: 'sus_cuentas')
-            else
-              for (final account in accounts)
-                Card(
-                  child: ListTile(
-                    onTap: () => _switchAccount(account),
-                    leading: Icon(
-                      account.userAccount == widget.userProfile.cuenta
-                          ? Icons.radio_button_checked
-                          : Icons.radio_button_off,
-                    ),
-                    title: Text(account.nombre),
-                    subtitle: Text(account.userAccount),
-                    trailing: IconButton(
-                      tooltip: 'confirme_borrar_cuenta'.tr(),
-                      onPressed: () => _confirmDelete(account),
-                      icon: const Icon(Icons.delete_outline),
-                    ),
-                  ),
-                ),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              onPressed: () {
-                GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
-              },
-              icon: const Icon(Icons.add),
-              label: Text('agregar_cuenta'.tr()),
-            ),
-          ],
+        return AccountSwitcher(
+          accounts: snapshot.requireData,
+          activeAccount: widget.userProfile.cuenta,
+          onSelect: _switchAccount,
+          onDelete: _delete,
+          onAdd: _addAccount,
+          onLogout: _logout,
         );
       },
     );
@@ -100,29 +77,17 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
     }
   }
 
-  Future<void> _confirmDelete(UserAccount account) async {
-    final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('confirme'.tr()),
-            content: Text('confirme_borrar_cuenta'.tr()),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('no'.tr()),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text('si'.tr()),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-    if (!confirmed) {
-      return;
-    }
+  Future<void> _delete(UserAccount account) async {
     await GetIt.I<CourierService>().removeAccountFromStore(account);
     _reload();
+  }
+
+  /// Adding an account means signing in with it, so the session is released.
+  void _addAccount() {
+    GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
+  }
+
+  void _logout() {
+    GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
   }
 }

@@ -175,7 +175,10 @@ abstract final class AppRouter {
       GoRoute(
         path: AppRoutes.tracking,
         name: 'tracking',
-        builder: (context, state) => const PackageTrackingPage(),
+        // `<scheme>://rastreo?q=` preloads and runs the search.
+        builder: (context, state) => PackageTrackingPage(
+          initialQuery: state.uri.queryParameters['q'] ?? '',
+        ),
       ),
       GoRoute(
         path: AppRoutes.accounts,

@@ -2,13 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../services/courier_service.dart';
-import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 import 'bloc/servicios_bloc.dart';
 
 class ServiciosPage extends StatefulWidget {
@@ -20,8 +22,16 @@ class ServiciosPage extends StatefulWidget {
 
 class _ServiciosPageState extends State<ServiciosPage> {
   late final ServiciosBloc _bloc;
-  final _searchController = TextEditingController();
-  String _query = '';
+
+  /// Glyphs cycle through the service icon set so each card reads distinctly
+  /// without the backend having to supply one.
+  static const _glyphs = [
+    BrandIcons.receptions,
+    BrandIcons.shipped,
+    BrandIcons.atDestination,
+    BrandIcons.missingInvoice,
+    BrandIcons.track,
+  ];
 
   @override
   void initState() {
@@ -31,15 +41,19 @@ class _ServiciosPageState extends State<ServiciosPage> {
 
   @override
   void dispose() {
-    _searchController.dispose();
     _bloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     return Scaffold(
-      appBar: ScreenHeader(title: 'servicios'.tr()),
+      backgroundColor: tokens.bg,
+      appBar: ScreenHeader(
+        title: 'nuestros_servicios'.tr(),
+        onBack: context.canPop() ? context.pop : null,
+      ),
       body: BlocProvider.value(
         value: _bloc,
         child: BlocBuilder<ServiciosBloc, ServiciosState>(
@@ -53,51 +67,43 @@ class _ServiciosPageState extends State<ServiciosPage> {
               );
             }
             if (state is! ServiciosLoadedState) {
-              return const BrandEmptyState(messageKey: 'no_resultados');
+              return const BrandEmptyState(
+                messageKey: 'no_resultados',
+                glyph: BrandIcons.services,
+              );
             }
-            final services = state.servicios.where((service) {
-              final query = _query.toLowerCase();
-              return query.isEmpty ||
-                  service.titulo.toLowerCase().contains(query) ||
-                  service.resumen.toLowerCase().contains(query);
-            }).toList(growable: false);
+            if (state.servicios.isEmpty) {
+              return const BrandEmptyState(
+                messageKey: 'no_resultados',
+                glyph: BrandIcons.services,
+              );
+            }
             return RefreshIndicator(
               onRefresh: () async =>
                   _bloc.add(const LoadApiEvent(ignoreCache: true)),
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                children: [
-                  if (state.banners.isNotEmpty) ...[
-                    BannerCarousel(
-                      banners: state.banners,
-                      config: GetIt.I<BrandConfig>(),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                  SearchBar(
-                    controller: _searchController,
-                    hintText: 'buscar'.tr(),
-                    leading: const Icon(Icons.search),
-                    onChanged: (value) => setState(() => _query = value),
-                  ),
-                  const SizedBox(height: 16),
-                  if (services.isEmpty)
-                    const BrandEmptyState(messageKey: 'no_resultados')
-                  else
-                    for (final service in services) ...[
-                      ServiceCard(
-                        title: service.titulo,
-                        description: service.resumen,
-                        onTap: _serviceUrl(service.url) == null
-                            ? null
-                            : () => launchUrl(
-                                  _serviceUrl(service.url)!,
-                                  mode: LaunchMode.externalApplication,
-                                ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                ],
+              child: ListView.builder(
+                padding: const EdgeInsets.fromLTRB(
+                  BrandSpace.lg,
+                  BrandSpace.md,
+                  BrandSpace.lg,
+                  BrandTabBar.height,
+                ),
+                itemCount: state.servicios.length,
+                itemBuilder: (context, index) {
+                  final service = state.servicios[index];
+                  final url = _serviceUrl(service.url);
+                  return ServiceCard(
+                    title: service.titulo,
+                    description: service.resumen,
+                    glyph: _glyphs[index % _glyphs.length],
+                    onTap: url == null
+                        ? null
+                        : () => launchUrl(
+                              url,
+                              mode: LaunchMode.externalApplication,
+                            ),
+                  );
+                },
               ),
             );
           },

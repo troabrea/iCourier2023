@@ -5,14 +5,20 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../design_system/overlay_components.dart';
+import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
 import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/model/empresa.dart';
 import '../services/model/login_model.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
+
+typedef _MoreData = ({UserProfile profile, Empresa company, String version});
 
 class AdicionalInfoPage extends StatefulWidget {
   const AdicionalInfoPage({super.key});
@@ -22,7 +28,7 @@ class AdicionalInfoPage extends StatefulWidget {
 }
 
 class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
-  late Future<({UserProfile profile, Empresa company, String version})> _data;
+  late Future<_MoreData> _data;
 
   @override
   void initState() {
@@ -32,10 +38,11 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     return Scaffold(
-      appBar: ScreenHeader(title: 'informacion_adicional'.tr()),
-      body: FutureBuilder<
-          ({UserProfile profile, Empresa company, String version})>(
+      backgroundColor: tokens.bg,
+      appBar: ScreenHeader.tab(title: 'informacion_adicional'.tr()),
+      body: FutureBuilder<_MoreData>(
         future: _data,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -49,88 +56,80 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
           final data = snapshot.requireData;
           final config = GetIt.I<BrandConfig>();
           final capabilities = config.capabilities.resolve(data.company);
+          final hasAbout = data.company.mision.isNotEmpty ||
+              data.company.vision.isNotEmpty;
+
           return ListView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+            padding: const EdgeInsets.fromLTRB(
+              BrandSpace.lg,
+              BrandSpace.md,
+              BrandSpace.lg,
+              BrandTabBar.height,
+            ),
             children: [
-              Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Text(
-                      data.profile.nombre.isEmpty
-                          ? config.name.characters.first
-                          : data.profile.nombre.characters.first,
-                    ),
-                  ),
-                  title: Text(data.profile.nombre),
-                  subtitle: Text(
-                    [data.profile.cuenta, data.profile.nombreSucursal]
-                        .where((value) => value.isNotEmpty)
-                        .join(' · '),
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () => context.push(AppRoutes.idCard),
-                ),
-              ),
-              const SizedBox(height: 12),
-              _RouteTile(
-                icon: Icons.switch_account_outlined,
+              _ProfileRow(profile: data.profile, config: config),
+              const SizedBox(height: 10),
+              _MoreRow(
                 label: 'sus_cuentas'.tr(),
                 route: AppRoutes.accounts,
               ),
-              _RouteTile(
-                icon: Icons.message_outlined,
+              _MoreRow(
                 label: 'sus_mensajes'.tr(),
                 route: AppRoutes.messages,
               ),
-              _RouteTile(
-                icon: Icons.history,
-                label: 'consulta_historica'.tr(),
+              _MoreRow(
+                label: 'consulta_historica'.tr().replaceAll('\n', ' '),
                 route: AppRoutes.history,
               ),
-              _RouteTile(
-                icon: Icons.receipt_long_outlined,
+              _MoreRow(
                 label: 'facturas_pendientes'.tr(),
                 route: AppRoutes.invoices,
               ),
-              _RouteTile(
-                icon: Icons.account_balance_wallet_outlined,
+              _MoreRow(
                 label: 'estado_de_cuenta'.tr(),
                 route: AppRoutes.accountStatement,
                 visible: capabilities.payments,
               ),
-              _RouteTile(
-                icon: Icons.notifications_active_outlined,
-                label: 'ver_prealertas'.tr(),
+              _MoreRow(
+                label: 'ver_prealertas'.tr().replaceAll('\n', ' '),
                 route: AppRoutes.completedPrealerts,
                 visible: capabilities.prealerts,
               ),
-              _RouteTile(
-                icon: Icons.miscellaneous_services_outlined,
-                label: 'servicios'.tr(),
+              _MoreRow(
+                label: 'nuestros_servicios'.tr(),
                 route: AppRoutes.services,
               ),
-              _RouteTile(
-                icon: Icons.feed_outlined,
+              _MoreRow(
                 label: 'noticias'.tr(),
                 route: AppRoutes.news,
               ),
-              _RouteTile(
-                icon: Icons.help_outline,
-                label: 'preguntas'.tr(),
+              _MoreRow(
+                label: 'preguntas_frecuentes'.tr(),
                 route: AppRoutes.faq,
                 visible: data.company.hasPreguntas,
               ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
+              if (hasAbout)
+                _MoreRow(
+                  label: 'sobre_nosotros'.tr(),
+                  onTap: () => _showAbout(data.company),
+                ),
+              const SizedBox(height: BrandSpace.md),
+              BrandOutlineButton(
+                label: 'cerrar_session'.tr(),
+                pill: true,
+                foreground: tokens.danger,
                 onPressed: () => _confirmLogout(context),
-                icon: const Icon(Icons.logout),
-                label: Text('cerrar_session'.tr()),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
+              SocialMediaLinks(
+                empresa: data.company,
+                userProfile: data.profile,
+              ),
+              const SizedBox(height: BrandSpace.sm),
               Text(
                 'version_info'.tr(args: [data.version]),
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelSmall,
+                style: tokens.body(12, color: tokens.textMuted),
               ),
             ],
           );
@@ -139,8 +138,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     );
   }
 
-  Future<({UserProfile profile, Empresa company, String version})>
-      _load() async {
+  Future<_MoreData> _load() async {
     final service = GetIt.I<CourierService>();
     final results = await Future.wait([
       service.getUserProfile(),
@@ -154,56 +152,156 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     );
   }
 
+  Future<void> _showAbout(Empresa company) async {
+    await showBrandSheet<void>(
+      context,
+      scrollable: true,
+      child: _AboutSheet(company: company),
+    );
+  }
+
   Future<void> _confirmLogout(BuildContext context) async {
-    final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('confirme'.tr()),
-            content: Text('confirme_cerrar_session'.tr()),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('cancelar'.tr()),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text('cerrar_session'.tr()),
-              ),
-            ],
-          ),
-        ) ??
-        false;
+    final confirmed = await ConfirmDialog.show(
+      context,
+      title: 'confirme'.tr(),
+      message: 'confirme_cerrar_session'.tr(),
+      confirmLabel: 'cerrar_session'.tr(),
+      destructive: true,
+    );
     if (confirmed) {
       GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
     }
   }
 }
 
-class _RouteTile extends StatelessWidget {
-  const _RouteTile({
-    required this.icon,
+/// Account identity, opening the membership card.
+class _ProfileRow extends StatelessWidget {
+  const _ProfileRow({required this.profile, required this.config});
+
+  final UserProfile profile;
+  final BrandConfig config;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final name = profile.nombre.isEmpty ? config.name : profile.nombre;
+    return BrandCard(
+      onTap: () => context.push(AppRoutes.idCard),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: tokens.accentWash(tokens.primary),
+              shape: BoxShape.circle,
+            ),
+            child: Text(
+              name.characters.first.toUpperCase(),
+              style: tokens.head(16, color: tokens.primary),
+            ),
+          ),
+          const SizedBox(width: BrandSpace.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: tokens.body(14, weight: FontWeight.w700),
+                ),
+                Text(
+                  [profile.cuenta, profile.nombreSucursal]
+                      .where((value) => value.isNotEmpty)
+                      .join(' · '),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: tokens.body(11, color: tokens.textMuted),
+                ),
+              ],
+            ),
+          ),
+          const BrandChevron(),
+        ],
+      ),
+    );
+  }
+}
+
+/// One navigation row of the more screen.
+class _MoreRow extends StatelessWidget {
+  const _MoreRow({
     required this.label,
-    required this.route,
+    this.route,
+    this.onTap,
     this.visible = true,
   });
 
-  final IconData icon;
   final String label;
-  final String route;
+  final String? route;
+  final VoidCallback? onTap;
   final bool visible;
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.brand;
     if (!visible) {
       return const SizedBox.shrink();
     }
-    return Card(
-      child: ListTile(
-        leading: Icon(icon),
-        title: Text(label),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () => context.push(route),
+    return BrandCard(
+      onTap: onTap ?? (route == null ? null : () => context.push(route!)),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: tokens.body(14, weight: FontWeight.w600),
+            ),
+          ),
+          const BrandChevron(),
+        ],
       ),
+    );
+  }
+}
+
+/// Mission and vision, as published by the backend.
+class _AboutSheet extends StatelessWidget {
+  const _AboutSheet({required this.company});
+
+  final Empresa company;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return BrandSheet(
+      title: 'sobre_nosotros'.tr(),
+      maxHeightFactor: 0.8,
+      children: [
+        if (company.mision.isNotEmpty) ...[
+          Text('mision'.tr(), style: tokens.head(15)),
+          const SizedBox(height: 6),
+          Text(
+            company.mision,
+            style: tokens.body(13, color: tokens.textMuted, height: 1.5),
+          ),
+          const SizedBox(height: BrandSpace.md),
+        ],
+        if (company.vision.isNotEmpty) ...[
+          Text('vision'.tr(), style: tokens.head(15)),
+          const SizedBox(height: 6),
+          Text(
+            company.vision,
+            style: tokens.body(13, color: tokens.textMuted, height: 1.5),
+          ),
+        ],
+      ],
     );
   }
 }

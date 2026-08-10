@@ -73,6 +73,10 @@ abstract final class BrandIcons {
   static const String email = 'images/correo.svg';
   static const String schedule = 'images/horario.svg';
   static const String mapMarker = 'images/mapmarker.svg';
+  static const String website = 'images/pagweb.svg';
+  static const String facebook = 'images/facebook.svg';
+  static const String instagram = 'images/instagram.svg';
+  static const String twitter = 'images/twitter.svg';
 }
 
 /// Renders a brand glyph as a tinted mask.

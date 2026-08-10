@@ -19,6 +19,7 @@ import '../services/model/recepcion.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'bloc/dashboard_bloc.dart';
+import 'cuentas_usuario.dart';
 
 /// Key persisting the one-time onboarding hint across launches.
 const _onboardingTipKey = 'home_widget_tip_dismissed';
@@ -161,7 +162,13 @@ class _DashboardContent extends StatelessWidget {
                     account: userProfile?.cuenta ?? '',
                     capabilities: capabilities,
                     unread: unread,
-                    onAccounts: () => context.push(AppRoutes.accounts),
+                    onAccounts: userProfile == null
+                        ? null
+                        : () => showBrandSheet<void>(
+                              context,
+                              scrollable: true,
+                              child: CuentasUsuario(userProfile: userProfile),
+                            ),
                     onCarnet: () => context.push(AppRoutes.idCard),
                     onMessages: () => context.push(AppRoutes.messages),
                     onRefresh: onRefresh,
