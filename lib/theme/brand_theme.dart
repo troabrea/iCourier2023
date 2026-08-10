@@ -110,12 +110,52 @@ abstract final class BrandTheme {
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: palette.surface,
-        modalBarrierColor: tokens.sheetBackdrop,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(config.radii.lg),
-          ),
+        modalBarrierColor: tokens.modalScrim,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
+      ),
+      // Toasts sit on `surfaceAlt` with the brand corner, never the Material
+      // default dark pill.
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: palette.surfaceAlt,
+        contentTextStyle: _text(
+          config.bodyFont,
+          13,
+          FontWeight.w500,
+          palette.text,
+        ),
+        actionTextColor: palette.primary,
+        behavior: SnackBarBehavior.floating,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(config.radii.md),
+          side: BorderSide(color: palette.border),
+        ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: palette.surface,
+        barrierColor: tokens.modalScrim,
+        elevation: 0,
+        titleTextStyle:
+            _text(config.headFont, 17, FontWeight.w700, palette.text),
+        contentTextStyle:
+            _text(config.bodyFont, 13, FontWeight.w400, palette.textMuted),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(config.radii.lg),
+        ),
+      ),
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: palette.surface,
+        headerBackgroundColor: palette.primary,
+        headerForegroundColor: palette.onPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(config.radii.lg),
+        ),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: palette.primary,
+        linearTrackColor: palette.surfaceAlt,
       ),
     );
   }

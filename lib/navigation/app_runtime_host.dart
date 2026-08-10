@@ -9,6 +9,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../design_system/brand_foundations.dart';
+import '../design_system/overlay_components.dart';
 import '../services/app_events.dart';
 import '../services/notification_service.dart';
 import '../theme/brand_config.dart';
@@ -129,11 +131,17 @@ class _AppRuntimeHostState extends State<AppRuntimeHost> {
     if (notification?.title == null || notification?.body == null) {
       return;
     }
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(notification!.title!),
-        content: Text(notification.body!),
+    showBrandSheet<void>(
+      context,
+      child: BrandSheet(
+        title: notification!.title!,
+        subtitle: notification.body!,
+        children: [
+          BrandPrimaryButton(
+            label: 'aceptar'.tr(),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
       ),
     );
   }
@@ -142,20 +150,25 @@ class _AppRuntimeHostState extends State<AppRuntimeHost> {
     if (!mounted) {
       return;
     }
+    final tokens = context.brand;
     final messenger = ScaffoldMessenger.of(context);
     if (result == ConnectivityResult.none) {
       _connectionWasLost = true;
       messenger.showMaterialBanner(
         MaterialBanner(
-          backgroundColor: context.brand.danger,
-          content: Text(
-            'no_internet'.tr(),
-            style: TextStyle(color: context.brand.onPrimary),
+          backgroundColor: tokens.danger,
+          contentTextStyle: tokens.body(
+            13,
+            color: tokens.onAccent(tokens.danger),
           ),
+          content: Text('no_internet'.tr()),
           actions: [
             IconButton(
               onPressed: messenger.hideCurrentMaterialBanner,
-              icon: Icon(Icons.close, color: context.brand.onPrimary),
+              icon: Icon(
+                Icons.close,
+                color: tokens.onAccent(tokens.danger),
+              ),
             ),
           ],
         ),
