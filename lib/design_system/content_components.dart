@@ -13,6 +13,19 @@ import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
 
+/// Shape used until the real artwork has been measured.
+///
+/// Banner dimensions vary per upload, so the carousel adopts the proportion of
+/// the first image it loads instead of imposing one. These pieces carry their
+/// own headline right up to the edge, and forcing them into a mismatched box
+/// either ate the first characters or left thick bars.
+const double bannerArtworkRatio = 1200 / 560;
+
+/// Range a measured banner is allowed to take, so one malformed upload cannot
+/// turn the strip into a sliver or a wall.
+const double _minBannerRatio = 1.5;
+const double _maxBannerRatio = 4;
+
 /// Full-bleed banner pager that advances on its own, endlessly.
 ///
 /// The caption always sits on a bottom gradient so it stays legible over any
@@ -22,7 +35,7 @@ class BannerCarousel extends StatefulWidget {
     super.key,
     required this.banners,
     required this.config,
-    this.aspectRatio = 16 / 9,
+    this.aspectRatio = bannerArtworkRatio,
     this.onTap,
     this.autoScroll = true,
     this.interval = const Duration(seconds: 5),
@@ -32,7 +45,8 @@ class BannerCarousel extends StatefulWidget {
   final BrandConfig config;
 
   /// Shape of the strip. The carousel sizes itself from the width it is given
-  /// instead of a fixed height, so it holds on any screen.
+  /// instead of a fixed height, so it holds on any screen. Defaults to
+  /// [bannerArtworkRatio]; pass 16/9 once the CMS ships art in that shape.
   final double aspectRatio;
   final ValueChanged<BannerImage>? onTap;
 
@@ -54,11 +68,48 @@ class _BannerCarouselState extends State<BannerCarousel> {
   Timer? _timer;
   int _page = 0;
 
+  /// Proportion of the artwork itself, once it has been decoded.
+  double? _measured;
+  ImageStream? _stream;
+  ImageStreamListener? _listener;
+
   @override
   void initState() {
     super.initState();
     _controller = PageController(initialPage: _origin);
     _restartTimer();
+    _measureArtwork();
+  }
+
+  /// Reads the natural proportion of the first banner so the strip matches it.
+  void _measureArtwork() {
+    final url = widget.banners.isEmpty ? '' : widget.banners.first.url;
+    if (url.isEmpty) {
+      return;
+    }
+    _detachStream();
+    final listener = ImageStreamListener((info, _) {
+      final ratio = info.image.width / info.image.height;
+      if (!mounted || ratio.isNaN || ratio <= 0) {
+        return;
+      }
+      setState(() {
+        _measured = ratio.clamp(_minBannerRatio, _maxBannerRatio);
+      });
+    }, onError: (_, __) {});
+    _listener = listener;
+    _stream = CachedNetworkImageProvider(url)
+        .resolve(ImageConfiguration.empty)
+      ..addListener(listener);
+  }
+
+  void _detachStream() {
+    final listener = _listener;
+    if (listener != null) {
+      _stream?.removeListener(listener);
+    }
+    _stream = null;
+    _listener = null;
   }
 
   @override
@@ -68,6 +119,11 @@ class _BannerCarouselState extends State<BannerCarousel> {
         oldWidget.interval != widget.interval ||
         oldWidget.banners.length != widget.banners.length) {
       _restartTimer();
+    }
+    final first = widget.banners.isEmpty ? '' : widget.banners.first.url;
+    final was = oldWidget.banners.isEmpty ? '' : oldWidget.banners.first.url;
+    if (first != was) {
+      _measureArtwork();
     }
   }
 
@@ -101,6 +157,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
   @override
   void dispose() {
     _timer?.cancel();
+    _detachStream();
     _controller.dispose();
     super.dispose();
   }
@@ -112,7 +169,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
       return const SizedBox.shrink();
     }
     return AspectRatio(
-      aspectRatio: widget.aspectRatio,
+      aspectRatio: _measured ?? widget.aspectRatio,
       child: Stack(
         children: [
           NotificationListener<ScrollNotification>(
@@ -235,11 +292,20 @@ class _BannerArtwork extends StatelessWidget {
     if (url.isEmpty) {
       return placeholder();
     }
-    return CachedNetworkImage(
-      imageUrl: url,
-      fit: BoxFit.cover,
-      placeholder: (context, _) => ColoredBox(color: tokens.surfaceAlt),
-      errorWidget: (context, _, __) => placeholder(),
+    // Fitted, never cropped: whatever the upload measures, the whole piece is
+    // visible. The brand gradient fills any letterbox so the strip still reads
+    // as one block.
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        placeholder(),
+        CachedNetworkImage(
+          imageUrl: url,
+          fit: BoxFit.contain,
+          placeholder: (context, _) => ColoredBox(color: tokens.surfaceAlt),
+          errorWidget: (context, _, __) => placeholder(),
+        ),
+      ],
     );
   }
 }
