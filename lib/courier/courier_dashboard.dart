@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
@@ -21,9 +20,6 @@ import '../theme/brand_tokens.dart';
 import 'bloc/dashboard_bloc.dart';
 import 'cuentas_usuario.dart';
 
-/// Key persisting the one-time onboarding hint across launches.
-const _onboardingTipKey = 'home_widget_tip_dismissed';
-
 class CourierDashboard extends StatefulWidget {
   const CourierDashboard({super.key});
 
@@ -34,7 +30,6 @@ class CourierDashboard extends StatefulWidget {
 class _CourierDashboardState extends State<CourierDashboard> {
   late final DashboardBloc _bloc;
   late final Future<UserProfile> _profile;
-  bool _showTip = false;
 
   @override
   void initState() {
@@ -43,24 +38,9 @@ class _CourierDashboardState extends State<CourierDashboard> {
     _profile = service.getUserProfile();
     _bloc = DashboardBloc(DashboardLoadingState())
       ..add(const LoadApiEvent(false));
-    _restoreTip();
   }
 
-  Future<void> _restoreTip() async {
-    final preferences = await SharedPreferences.getInstance();
-    if (!mounted) {
-      return;
-    }
-    setState(
-      () => _showTip = !(preferences.getBool(_onboardingTipKey) ?? false),
-    );
-  }
 
-  Future<void> _dismissTip() async {
-    setState(() => _showTip = false);
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setBool(_onboardingTipKey, true);
-  }
 
   @override
   void dispose() {
@@ -99,8 +79,6 @@ class _CourierDashboardState extends State<CourierDashboard> {
           return _DashboardContent(
             state: state,
             profile: _profile,
-            showTip: _showTip,
-            onDismissTip: _dismissTip,
             onRefresh: () async => _bloc.add(const LoadApiEvent(true)),
             onPay: () => _bloc.add(OnlinePaymentRequestEvent(context)),
             onPickup: () => _bloc.add(NotificarRetiroEvent(context)),
@@ -121,8 +99,6 @@ class _DashboardContent extends StatelessWidget {
   const _DashboardContent({
     required this.state,
     required this.profile,
-    required this.showTip,
-    required this.onDismissTip,
     required this.onRefresh,
     required this.onPay,
     required this.onPickup,
@@ -131,8 +107,6 @@ class _DashboardContent extends StatelessWidget {
 
   final DashboardLoadedState state;
   final Future<UserProfile> profile;
-  final bool showTip;
-  final VoidCallback onDismissTip;
   final Future<void> Function() onRefresh;
   final VoidCallback onPay;
   final VoidCallback onPickup;
@@ -201,15 +175,9 @@ class _DashboardContent extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if (showTip) ...[
-                              TipBubble(
-                                title: 'tip_widget_titulo'.tr(),
-                                message:
-                                    'tip_widget_cuerpo'.tr(args: [config.name]),
-                                onDismiss: onDismissTip,
-                              ),
-                              const SizedBox(height: 14),
-                            ],
+                            // La tarjeta héroe termina justo encima; sin este
+                            // aire las dos superficies se leen como una sola.
+                            const SizedBox(height: 14),
                             ReceptionsGroupCard(
                               total: state.recepcionesCount,
                               children: _groups(context, state.recepciones),

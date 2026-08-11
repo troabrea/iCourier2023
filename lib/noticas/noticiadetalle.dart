@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
+import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../navigation/app_routes.dart';
 import '../services/model/noticia.dart';
@@ -47,7 +48,13 @@ class NoticiaDetallePage extends StatelessWidget {
             BrandTabBar.height,
           ),
           children: [
-            Text(noticia.titulo, style: tokens.head(20)),
+            Hero(
+              tag: newsHeroTag(noticia.registroId),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(noticia.titulo, style: tokens.head(20)),
+              ),
+            ),
             const SizedBox(height: BrandSpace.xxs),
             Text(
               DateFormat('dd-MMM-yyyy').format(noticia.fecha),

@@ -124,33 +124,10 @@ class _BannerCarouselState extends State<BannerCarousel> {
                 return GestureDetector(
                   onTap:
                       widget.onTap == null ? null : () => widget.onTap!(banner),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _BannerArtwork(url: banner.url, config: widget.config),
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              tokens.scrimTop,
-                              tokens.scrimBottom,
-                            ],
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(BrandSpace.lg),
-                          child: Text(
-                            banner.descripcion,
-                            style: tokens.head(22, color: tokens.onScrim),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: _BannerArtwork(
+                    url: banner.url,
+                    caption: banner.descripcion,
+                    config: widget.config,
                   ),
                 );
               },
@@ -161,22 +138,37 @@ class _BannerCarouselState extends State<BannerCarousel> {
               bottom: BrandSpace.sm,
               left: 0,
               right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var index = 0; index < widget.banners.length; index++)
-                    Container(
-                      width: index == _page ? 18 : 6,
-                      height: 6,
-                      margin: const EdgeInsets.symmetric(horizontal: 3),
-                      decoration: BoxDecoration(
-                        color: tokens.onScrim.withValues(
-                          alpha: index == _page ? 0.95 : 0.45,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: BrandSpace.xs,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: tokens.scrimBottom,
+                    borderRadius: BorderRadius.circular(BrandShape.pill),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (var index = 0;
+                          index < widget.banners.length;
+                          index++)
+                        Container(
+                          width: index == _page ? 18 : 6,
+                          height: 6,
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          decoration: BoxDecoration(
+                            color: tokens.onScrim.withValues(
+                              alpha: index == _page ? 0.95 : 0.45,
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(BrandShape.pill),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(BrandShape.pill),
-                      ),
-                    ),
-                ],
+                    ],
+                  ),
+                ),
               ),
             ),
         ],
@@ -186,9 +178,17 @@ class _BannerCarouselState extends State<BannerCarousel> {
 }
 
 class _BannerArtwork extends StatelessWidget {
-  const _BannerArtwork({required this.url, required this.config});
+  const _BannerArtwork({
+    required this.url,
+    required this.caption,
+    required this.config,
+  });
 
   final String url;
+
+  /// Only drawn on the placeholder: when the brand artwork loads it already
+  /// carries its own message, so overlaying the description would duplicate it.
+  final String caption;
   final BrandConfig config;
 
   @override
@@ -202,17 +202,31 @@ class _BannerArtwork extends StatelessWidget {
               colors: [tokens.primary, tokens.headerGradientEnd],
             ),
           ),
-          child: config.assets.logoWide.isEmpty
-              ? const SizedBox.expand()
-              : Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(BrandSpace.xxl),
-                    child: Image.asset(
-                      config.assets.logoWide,
-                      fit: BoxFit.contain,
+          child: Padding(
+            padding: const EdgeInsets.all(BrandSpace.lg),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (config.assets.logoWide.isNotEmpty)
+                  Expanded(
+                    child: Center(
+                      child: Image.asset(
+                        config.assets.logoWide,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
-                ),
+                if (caption.trim().isNotEmpty)
+                  Text(
+                    caption,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: tokens.head(22, color: tokens.onScrim),
+                  ),
+              ],
+            ),
+          ),
         );
 
     if (url.isEmpty) {
@@ -562,6 +576,10 @@ class _FaqAccordionState extends State<FaqAccordion> {
   }
 }
 
+/// Tag shared by a news title on the list and on its detail, so the headline
+/// flies between the two instead of cutting.
+String newsHeroTag(String registroId) => 'news-title-$registroId';
+
 /// News summary card; the title carries the brand primary.
 class NewsCard extends StatelessWidget {
   const NewsCard({super.key, required this.news, this.onTap});
@@ -579,12 +597,18 @@ class NewsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            news.titulo,
-            style: tokens.body(
-              14,
-              weight: FontWeight.w700,
-              color: tokens.primary,
+          Hero(
+            tag: newsHeroTag(news.registroId),
+            child: Material(
+              type: MaterialType.transparency,
+              child: Text(
+                news.titulo,
+                style: tokens.body(
+                  14,
+                  weight: FontWeight.w700,
+                  color: tokens.primary,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 3),

@@ -550,27 +550,29 @@ class _SearchField extends StatelessWidget {
   }
 }
 
-/// Floating navigation dock with a raised home button at its centre.
+/// Floating navigation dock.
+///
+/// The design reference raises the home button above the bar; here it sits
+/// inside the container instead, so the dock reads as one solid piece and
+/// nothing overlaps the content scrolling underneath.
 class BrandTabBar extends StatelessWidget {
   const BrandTabBar({
     super.key,
     required this.modules,
     required this.index,
     required this.onTap,
-    required this.logoMark,
   });
 
   final List<TabModule> modules;
   final int index;
   final ValueChanged<int> onTap;
 
-  /// Kept for callers that still pass a brand mark; the raised button uses the
-  /// package glyph so its silhouette survives being tinted onto the gradient.
-  final String logoMark;
+  /// Height of the row that holds every destination.
+  static const double _rowHeight = 52;
 
   /// Bottom inset a scrolling screen must reserve so its last row clears the
   /// floating dock, including the home indicator area.
-  static const double height = 118;
+  static const double height = 108;
 
   @override
   Widget build(BuildContext context) {
@@ -580,44 +582,39 @@ class BrandTabBar extends StatelessWidget {
       top: false,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(BrandSpace.sm, 0, BrandSpace.sm, 22),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topCenter,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: tokens.surface,
-                border: Border.all(color: tokens.border),
-                borderRadius: BorderRadius.circular(BrandShape.tabDock),
-                boxShadow: BrandElevation.dock,
-              ),
-              padding: const EdgeInsets.fromLTRB(BrandSpace.xs, BrandSpace.sm,
-                  BrandSpace.xs, 10),
-              child: Row(
-                children: [
-                  for (var slot = 0; slot < modules.length; slot++)
-                    Expanded(
-                      child: slot == homeIndex
-                          ? const SizedBox(height: 41)
-                          : _TabButton(
-                              module: modules[slot],
+        child: Container(
+          decoration: BoxDecoration(
+            color: tokens.surface,
+            border: Border.all(color: tokens.border),
+            borderRadius: BorderRadius.circular(BrandShape.tabDock),
+            boxShadow: BrandElevation.dock,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: BrandSpace.xs,
+            vertical: 6,
+          ),
+          child: SizedBox(
+            height: _rowHeight,
+            child: Row(
+              children: [
+                for (var slot = 0; slot < modules.length; slot++)
+                  Expanded(
+                    child: slot == homeIndex
+                        ? Center(
+                            child: _HomeButton(
                               selected: slot == index,
                               onTap: () => onTap(slot),
                             ),
-                    ),
-                ],
-              ),
+                          )
+                        : _TabButton(
+                            module: modules[slot],
+                            selected: slot == index,
+                            onTap: () => onTap(slot),
+                          ),
+                  ),
+              ],
             ),
-            if (homeIndex >= 0)
-              Positioned(
-                top: -26,
-                child: _HomeButton(
-                  selected: index == homeIndex,
-                  logoMark: logoMark,
-                  onTap: () => onTap(homeIndex),
-                ),
-              ),
-          ],
+          ),
         ),
       ),
     );
@@ -647,7 +644,7 @@ class _TabButton extends StatelessWidget {
         onTap: onTap,
         radius: 32,
         child: SizedBox(
-          height: 41,
+          height: BrandTabBar._rowHeight,
           child: Center(
             child: module == TabModule.more
                 ? BrandMoreGlyph(color: color)
@@ -660,14 +657,9 @@ class _TabButton extends StatelessWidget {
 }
 
 class _HomeButton extends StatelessWidget {
-  const _HomeButton({
-    required this.selected,
-    required this.logoMark,
-    required this.onTap,
-  });
+  const _HomeButton({required this.selected, required this.onTap});
 
   final bool selected;
-  final String logoMark;
   final VoidCallback onTap;
 
   @override
@@ -680,8 +672,8 @@ class _HomeButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: 62,
-          height: 62,
+          width: 52,
+          height: 52,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -690,7 +682,8 @@ class _HomeButton extends StatelessWidget {
               end: const Alignment(0.6, 1),
               colors: [tokens.primary, tokens.headerGradientEnd],
             ),
-            border: Border.all(color: tokens.bg, width: 5),
+            // Contained in the bar now, so it no longer needs the ring that
+            // punched it out of the dock; a soft glow is enough to lift it.
             boxShadow: BrandElevation.homeButton(tokens.primary),
           ),
           child: BrandGlyph(
