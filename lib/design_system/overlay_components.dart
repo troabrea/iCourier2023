@@ -1,6 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../services/model/login_model.dart';
 import '../services/model/sucursal.dart';
@@ -20,6 +21,12 @@ Future<T?> showBrandSheet<T>(
     backgroundColor: tokens.surface,
     barrierColor: tokens.modalScrim,
     isScrollControlled: scrollable,
+    // A scroll-controlled sheet may grow to the full screen, and without this
+    // it would run under the status bar and the notch.
+    useSafeArea: scrollable,
+    // Presented above the shell, so the floating tab bar does not sit on top
+    // of the sheet's own content and actions.
+    useRootNavigator: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(BrandShape.sheet),
@@ -47,32 +54,72 @@ class BrandSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    Widget content = Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const BrandSheetGrabber(),
-        Text(title, style: tokens.head(17)),
-        if (subtitle != null) ...[
-          const SizedBox(height: 6),
-          Text(
-            subtitle!,
-            style: tokens.body(13, color: tokens.textMuted),
+    // Header stays out of the scroll area: on a tall sheet the grabber would
+    // otherwise scroll away, leaving no visible way back.
+    final header = <Widget>[
+      const BrandSheetGrabber(),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: tokens.head(17)),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    subtitle!,
+                    style: tokens.body(13, color: tokens.textMuted),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          Semantics(
+            button: true,
+            label: 'cerrar'.tr(),
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).maybePop(),
+              behavior: HitTestBehavior.opaque,
+              child: SizedBox(
+                width: 44,
+                height: 44,
+                child: Icon(Icons.close, size: 20, color: tokens.textMuted),
+              ),
+            ),
           ),
         ],
-        const SizedBox(height: BrandSpace.md),
-        ...children,
-      ],
+      ),
+      const SizedBox(height: BrandSpace.md),
+    ];
+
+    final body = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: children,
     );
 
-    if (maxHeightFactor != null) {
-      content = ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.sizeOf(context).height * maxHeightFactor!,
-        ),
-        child: SingleChildScrollView(child: content),
-      );
-    }
+    final Widget content = maxHeightFactor == null
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [...header, body],
+          )
+        : ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * maxHeightFactor!,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ...header,
+                Flexible(child: SingleChildScrollView(child: body)),
+              ],
+            ),
+          );
 
     return SafeArea(
       top: false,
@@ -513,7 +560,6 @@ class AccountSwitcher extends StatefulWidget {
     required this.onSelect,
     required this.onDelete,
     required this.onAdd,
-    this.onLogout,
   });
 
   final List<UserAccount> accounts;
@@ -521,7 +567,6 @@ class AccountSwitcher extends StatefulWidget {
   final ValueChanged<UserAccount> onSelect;
   final ValueChanged<UserAccount> onDelete;
   final VoidCallback onAdd;
-  final VoidCallback? onLogout;
 
   @override
   State<AccountSwitcher> createState() => _AccountSwitcherState();
@@ -551,6 +596,8 @@ class _AccountSwitcherState extends State<AccountSwitcher> {
               setState(() => _pendingDelete = null);
             },
           ),
+        // One action, because it is one flow: both signing in with another
+        // account and signing out release the current session.
         Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: DottedBorderBox(
@@ -562,20 +609,10 @@ class _AccountSwitcherState extends State<AccountSwitcher> {
                 padding: const EdgeInsets.symmetric(vertical: BrandSpace.sm),
                 textStyle: tokens.body(13, weight: FontWeight.w700),
               ),
-              child: Text('agregar_cuenta'.tr()),
+              child: Text('cambiar_cuenta_o_cerrar_session'.tr()),
             ),
           ),
         ),
-        if (widget.onLogout != null)
-          TextButton(
-            onPressed: widget.onLogout,
-            style: TextButton.styleFrom(
-              foregroundColor: tokens.danger,
-              minimumSize: const Size(44, 44),
-              textStyle: tokens.body(13, weight: FontWeight.w700),
-            ),
-            child: Text('cerrar_session'.tr()),
-          ),
       ],
     );
   }
@@ -659,36 +696,38 @@ class _AccountRow extends StatelessWidget {
                   background: tokens.primary,
                   foreground: tokens.onAccent(tokens.primary),
                   fontSize: 10,
-                )
-              else
-                IconButton(
-                  onPressed: onAskDelete,
-                  visualDensity: VisualDensity.compact,
-                  icon: Icon(
-                    Icons.delete_outline,
-                    size: 18,
-                    color: tokens.danger,
-                  ),
-                  tooltip: 'confirme_borrar_cuenta'.tr(),
                 ),
+              // Offered on the active account too: forgetting the one you are
+              // signed in with is how you sign out of it for good.
+              IconButton(
+                onPressed: onAskDelete,
+                visualDensity: VisualDensity.compact,
+                icon: Icon(
+                  Icons.delete_outline,
+                  size: 18,
+                  color: tokens.danger,
+                ),
+                tooltip: 'confirme_borrar_cuenta'.tr(),
+              ),
             ],
           ),
           if (confirming) ...[
             const SizedBox(height: 10),
             Divider(height: 1, color: tokens.border),
             const SizedBox(height: 10),
+            Text(
+              'confirme_borrar_cuenta'.tr(),
+              style: tokens.body(
+                12,
+                weight: FontWeight.w600,
+                color: tokens.danger,
+              ),
+            ),
+            const SizedBox(height: 10),
+            // The two answers sit at opposite ends: side by side, a finger
+            // aiming for "no" lands on the destructive one.
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    'confirme_borrar_cuenta'.tr(),
-                    style: tokens.body(
-                      12,
-                      weight: FontWeight.w600,
-                      color: tokens.danger,
-                    ),
-                  ),
-                ),
                 BrandOutlineButton(
                   label: 'no'.tr(),
                   expand: false,
@@ -696,19 +735,121 @@ class _AccountRow extends StatelessWidget {
                   verticalPadding: 6,
                   onPressed: onCancelDelete,
                 ),
-                const SizedBox(width: BrandSpace.xs),
-                BrandPrimaryButton(
-                  label: 'si_eliminar'.tr(),
-                  expand: false,
-                  fontSize: 11,
-                  verticalPadding: 6,
-                  background: tokens.danger,
-                  onPressed: onConfirmDelete,
-                ),
+                const Spacer(),
+                _HoldToConfirm(onConfirm: onConfirmDelete),
               ],
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// Destructive confirmation that only fires once the finger has been held
+/// down, so a slip while reaching for "no" cannot forget an account.
+///
+/// The hold guards fingers, not intent: assistive technology activates it as a
+/// plain button, since a screen reader already takes two deliberate steps to
+/// reach and trigger a control.
+class _HoldToConfirm extends StatefulWidget {
+  const _HoldToConfirm({required this.onConfirm});
+
+  final VoidCallback onConfirm;
+
+  @override
+  State<_HoldToConfirm> createState() => _HoldToConfirmState();
+}
+
+class _HoldToConfirmState extends State<_HoldToConfirm>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _progress = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 900),
+    reverseDuration: const Duration(milliseconds: 160),
+  )..addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        HapticFeedback.heavyImpact();
+        widget.onConfirm();
+      }
+    });
+
+  /// Confirming removes the row this button lives in, so the finger comes up
+  /// after the controller is already gone.
+  bool _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    _progress.dispose();
+    super.dispose();
+  }
+
+  void _release() {
+    if (_disposed) {
+      return;
+    }
+    _progress.reverse();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final radius = BorderRadius.circular(tokens.radiusSm);
+    final foreground = tokens.onAccent(tokens.danger);
+    return Semantics(
+      button: true,
+      label: 'si_eliminar'.tr(),
+      onTap: widget.onConfirm,
+      excludeSemantics: true,
+      child: Listener(
+        onPointerDown: (_) => _progress.forward(),
+        onPointerUp: (_) => _release(),
+        onPointerCancel: (_) => _release(),
+        child: ClipRRect(
+          borderRadius: radius,
+          child: ColoredBox(
+            color: tokens.danger,
+            child: Stack(
+              children: [
+                // Fills left to right while held, so the wait reads as
+                // progress rather than an unresponsive button.
+                Positioned.fill(
+                  child: AnimatedBuilder(
+                    animation: _progress,
+                    builder: (context, child) => FractionallySizedBox(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: _progress.value,
+                      child: ColoredBox(
+                        color: foreground.withValues(alpha: 0.3),
+                      ),
+                    ),
+                  ),
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 44),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    child: Center(
+                      widthFactor: 1,
+                      child: Text(
+                        'sostener_para_eliminar'.tr(),
+                        style: tokens.body(
+                          11,
+                          weight: FontWeight.w700,
+                          color: foreground,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

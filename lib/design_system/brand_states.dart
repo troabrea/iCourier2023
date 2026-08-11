@@ -15,6 +15,9 @@ class BrandSkeleton extends StatelessWidget {
     final tokens = context.brand;
     return ListView.separated(
       padding: const EdgeInsets.all(BrandSpace.lg),
+      // Sized to its content so it can also sit inside another scroll view.
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: rows,
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) => Semantics(

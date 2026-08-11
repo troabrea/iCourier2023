@@ -422,7 +422,6 @@ class _ComponentGalleryState extends State<ComponentGallery> {
                       onSelect: (_) {},
                       onDelete: (_) {},
                       onAdd: () {},
-                      onLogout: () {},
                     ),
                   ),
                 ),

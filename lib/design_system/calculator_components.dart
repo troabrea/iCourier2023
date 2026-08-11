@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
 
-/// Three-way product selector drawn as adjacent outlined buttons.
+/// Product selector drawn as a dropdown.
 ///
-/// Deliberately not a Material segmented control: the reference uses equal
-/// buttons whose selected state is a primary outline over `surfaceAlt`.
+/// The product name carries the meaning, so the control shows the current
+/// choice inline instead of spending a row on a separate field label.
 class ProductSelector<T> extends StatelessWidget {
   const ProductSelector({
     super.key,
@@ -24,22 +24,42 @@ class ProductSelector<T> extends StatelessWidget {
   final ValueChanged<T> onChange;
 
   @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          for (var index = 0; index < options.length; index++) ...[
-            if (index > 0) const SizedBox(width: BrandSpace.xs),
-            Expanded(
-              child: BrandOutlineButton(
-                label: labelFor(options[index]),
-                selected: options[index] == value,
-                fontSize: 11,
-                verticalPadding: 10,
-                onPressed: () => onChange(options[index]),
-              ),
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(tokens.radiusSm),
+      borderSide: BorderSide(color: tokens.border),
+    );
+    return DropdownButtonFormField<T>(
+      initialValue: value,
+      isExpanded: true,
+      style: tokens.body(12, weight: FontWeight.w700, color: tokens.text),
+      dropdownColor: tokens.surface,
+      borderRadius: BorderRadius.circular(tokens.radiusSm),
+      icon: Icon(Icons.expand_more, color: tokens.textMuted),
+      items: options
+          .map(
+            (option) => DropdownMenuItem<T>(
+              value: option,
+              child: Text(labelFor(option), overflow: TextOverflow.ellipsis),
             ),
-          ],
-        ],
-      );
+          )
+          .toList(growable: false),
+      onChanged: (selected) => onChange(selected ?? value),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: tokens.surface,
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
+        border: border,
+        enabledBorder: border,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(tokens.radiusSm),
+          borderSide: BorderSide(color: tokens.primary, width: 2),
+        ),
+      ),
+    );
+  }
 }
 
 /// Large numeric entry with a fixed unit and no native steppers.
@@ -150,32 +170,36 @@ class TotalsPanel extends StatelessWidget {
   final String currency;
 
   @override
-  Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: _TotalTile(
-              label: 'subtotal'.tr(),
-              value: '$currency${_money(subtotal)}',
+  Widget build(BuildContext context) => IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: _TotalTile(
+                label: 'subtotal'.tr(),
+                value: '$currency${_money(subtotal)}',
+              ),
             ),
-          ),
-          const SizedBox(width: BrandSpace.xs),
-          Expanded(
-            child: _TotalTile(
-              label: 'impuestos'.tr(),
-              value: '$currency${_money(tax)}',
+            const SizedBox(width: BrandSpace.xs),
+            Expanded(
+              child: _TotalTile(
+                label: 'impuestos'.tr(),
+                value: '$currency${_money(tax)}',
+              ),
             ),
-          ),
-          const SizedBox(width: BrandSpace.xs),
-          Expanded(
-            flex: 12,
-            child: _TotalTile(
-              label: 'total'.tr(),
-              value: '$currency${_money(total)}',
-              emphasized: true,
+            const SizedBox(width: BrandSpace.xs),
+            Expanded(
+              // The total is the number they came for, so it gets twice the
+              // width — but the other two still need room for their labels.
+              flex: 2,
+              child: _TotalTile(
+                label: 'total'.tr(),
+                value: '$currency${_money(total)}',
+                emphasized: true,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
 }
 
@@ -281,7 +305,7 @@ class ConceptTable extends StatelessWidget {
             children: [
               _HeadCell('concepto'.tr()),
               _HeadCell(weightUnit),
-              _HeadCell('unitario'.tr()),
+              _HeadCell('unitario'.tr(), alignEnd: true),
               _HeadCell('total'.tr(), alignEnd: true),
             ],
           ),
@@ -297,7 +321,11 @@ class ConceptTable extends StatelessWidget {
                   muted: true,
                 ),
                 _BodyCell(concept.quantity, weight: FontWeight.w600),
-                _BodyCell(concept.unitPrice, weight: FontWeight.w600),
+                _BodyCell(
+                  concept.unitPrice,
+                  weight: FontWeight.w600,
+                  alignEnd: true,
+                ),
                 _BodyCell(
                   '$currency${_money(concept.amount)}',
                   weight: FontWeight.w700,

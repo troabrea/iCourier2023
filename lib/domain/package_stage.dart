@@ -25,6 +25,9 @@ typedef UnknownPackageStatusReporter = void Function(
 
 /// Única fuente de verdad para convertir eventos operativos en macroestados.
 abstract final class PackageStatusMapper {
+  /// Matched whole, never as a substring: the operation also reports handovers
+  /// such as "Entregado Línea Aérea", which happen at origin and would be read
+  /// as the end of the journey by a bare `contains('ENTREGADO')`.
   static const _deliveredTerms = <String>{
     'ENTREGADO AL CLIENTE',
     'ENTREGADO',
@@ -72,7 +75,7 @@ abstract final class PackageStatusMapper {
   }) {
     final normalized = _normalize(status);
 
-    if (_matchesAny(normalized, _deliveredTerms)) {
+    if (_deliveredTerms.contains(normalized)) {
       return _known(PackageStage.entregado, status);
     }
     if (isAvailable || normalized.contains('DISPONIBLE')) {

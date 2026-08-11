@@ -402,17 +402,18 @@ class ScreenHeader extends StatefulWidget implements PreferredSizeWidget {
 
   /// Height of the band below the status bar.
   ///
-  /// Any action forces a row as tall as a Material icon button (48, above the
-  /// 44pt minimum target); a plain tab title only needs its own line box.
-  static const double _actionRowHeight = 48;
+  /// The action row is pinned to the 44pt minimum target rather than letting a
+  /// Material icon button stretch it to its default 48 — the extra 4 read as
+  /// slack under the title, which is centred in the same row.
+  static const double _actionRowHeight = 44;
 
   @override
   Size get preferredSize => Size.fromHeight(
-        BrandSpace.sm +
+        BrandSpace.xs +
             (onBack != null || trailing != null || onSearchChanged != null
                 ? _actionRowHeight
                 : titleSize * 1.5) +
-            BrandSpace.md,
+            BrandSpace.xxs,
       );
 
   @override
@@ -448,6 +449,9 @@ class _ScreenHeaderState extends State<ScreenHeader> {
     final tokens = context.brand;
     final onBack = widget.onBack;
     final trailing = widget.trailing;
+    final rowHeight = widget.preferredSize.height -
+        BrandSpace.xs -
+        BrandSpace.xxs;
     return Material(
       color: tokens.primary,
       child: SafeArea(
@@ -458,13 +462,17 @@ class _ScreenHeaderState extends State<ScreenHeader> {
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 BrandSpace.lg,
-                BrandSpace.sm,
+                BrandSpace.xs,
                 BrandSpace.lg,
-                BrandSpace.md,
+                BrandSpace.xxs,
               ),
-              child: Row(
-                children: [
-                  if (onBack != null) ...[
+              // Pinned so a Material icon button cannot stretch the row past
+              // what preferredSize reserved.
+              child: SizedBox(
+                height: rowHeight,
+                child: Row(
+                  children: [
+                    if (onBack != null) ...[
                     Semantics(
                       button: true,
                       label: 'atras'.tr(),
@@ -502,17 +510,18 @@ class _ScreenHeaderState extends State<ScreenHeader> {
                             ),
                           ),
                   ),
-                  if (widget.onSearchChanged != null)
-                    IconButton(
-                      onPressed: _searching ? _closeSearch : _openSearch,
-                      icon: Icon(
-                        _searching ? Icons.close : Icons.search,
-                        color: tokens.onPrimary,
+                    if (widget.onSearchChanged != null)
+                      IconButton(
+                        onPressed: _searching ? _closeSearch : _openSearch,
+                        icon: Icon(
+                          _searching ? Icons.close : Icons.search,
+                          color: tokens.onPrimary,
+                        ),
+                        tooltip: 'buscar'.tr(),
                       ),
-                      tooltip: 'buscar'.tr(),
-                    ),
-                  if (trailing != null && !_searching) trailing,
-                ],
+                    if (trailing != null && !_searching) trailing,
+                  ],
+                ),
               ),
             ),
           ],
@@ -592,6 +601,11 @@ class BrandTabBar extends StatelessWidget {
   /// Height of the row that holds every destination.
   static const double _rowHeight = 52;
 
+  /// Gap between the dock and the home indicator. Small on purpose: the safe
+  /// area already keeps the dock clear of the indicator, so anything more just
+  /// reads as dead space under the bar.
+  static const double _bottomGap = 10;
+
   /// Bottom inset a scrolling screen must reserve so its last row clears the
   /// floating dock, including the home indicator area.
   static const double height = 108;
@@ -603,7 +617,12 @@ class BrandTabBar extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(BrandSpace.sm, 0, BrandSpace.sm, 22),
+        padding: const EdgeInsets.fromLTRB(
+          BrandSpace.sm,
+          0,
+          BrandSpace.sm,
+          _bottomGap,
+        ),
         child: Container(
           decoration: BoxDecoration(
             color: tokens.surface,

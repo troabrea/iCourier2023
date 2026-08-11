@@ -10,6 +10,16 @@ void main() {
       expect(_map('Delivered').stage, PackageStage.entregado);
     });
 
+    test('sólo la entrega al cliente cierra el recorrido', () {
+      // "Entregado Línea Aérea" es un traspaso en el almacén de origen. Con una
+      // coincidencia por subcadena caía como entregado y el paquete
+      // desaparecía del inicio.
+      expect(_map('Entregado Linea Aerea').stage, PackageStage.origen);
+      expect(_map('Entregado al cliente').stage, PackageStage.entregado);
+      expect(_map('Entregado').stage, PackageStage.entregado);
+      expect(_map('Billed counter').stage, PackageStage.entregado);
+    });
+
     test('disponible prevalece sobre un estado operativo no entregado', () {
       final result = PackageStatusMapper.map(
         status: 'En almacén',

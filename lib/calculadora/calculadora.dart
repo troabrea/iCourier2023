@@ -106,26 +106,35 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                     ],
                   ),
                   const SizedBox(height: BrandSpace.md),
-                  if (_products.length > 1) ...[
-                    Text(
-                      'producto'.tr(),
-                      style: tokens.body(
-                        12,
-                        weight: FontWeight.w600,
-                        color: tokens.textMuted,
+                  // Product and action share a row: the choice sits next to the
+                  // button that acts on it, and the button keeps the right edge
+                  // whether or not there is a product to pick.
+                  Row(
+                    children: [
+                      if (_products.length > 1)
+                        Expanded(
+                          child: ProductSelector<Producto>(
+                            options: _products,
+                            value: _selectedProduct ?? _products.first,
+                            labelFor: (product) => product.titulo,
+                            onChange: (product) {
+                              setState(() => _selectedProduct = product);
+                            },
+                          ),
+                        )
+                      else
+                        const Spacer(),
+                      const SizedBox(width: BrandSpace.xs),
+                      BrandPrimaryButton(
+                        label: 'calcular_envio'.tr(),
+                        expand: false,
+                        onPressed: state is CalculadoraLoadingState
+                            ? null
+                            : _calculate,
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    ProductSelector<Producto>(
-                      options: _products,
-                      value: _selectedProduct ?? _products.first,
-                      labelFor: (product) => product.titulo,
-                      onChange: (product) {
-                        setState(() => _selectedProduct = product);
-                      },
-                    ),
-                    const SizedBox(height: BrandSpace.md),
-                  ],
+                    ],
+                  ),
+                  const SizedBox(height: BrandSpace.md),
                   if (_validationMessage != null) ...[
                     Text(
                       _validationMessage!,
@@ -137,12 +146,6 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                     ),
                     const SizedBox(height: BrandSpace.xs),
                   ],
-                  BrandPrimaryButton(
-                    label: 'calcular_envio'.tr(),
-                    onPressed:
-                        state is CalculadoraLoadingState ? null : _calculate,
-                  ),
-                  const SizedBox(height: 14),
                   if (state is CalculadoraLoadingState)
                     const BrandSkeleton(rows: 3)
                   else if (state is CalculadoraLoadedState)

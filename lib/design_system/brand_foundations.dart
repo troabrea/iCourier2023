@@ -334,7 +334,12 @@ class BrandPrimaryButton extends StatelessWidget {
         backgroundColor: fill,
         foregroundColor: foreground ?? tokens.onAccent(fill),
         minimumSize: const Size(44, 44),
-        padding: EdgeInsets.symmetric(vertical: verticalPadding),
+        // Horizontal padding is invisible when the button expands, but it is
+        // what keeps the label off the edges when it wraps its content.
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: verticalPadding,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             pill ? BrandShape.pill : tokens.radiusSm,

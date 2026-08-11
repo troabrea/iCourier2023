@@ -128,6 +128,7 @@ class _DashboardContent extends StatelessWidget {
           future: profile,
           builder: (context, snapshot) {
             final userProfile = snapshot.data;
+            final pending = _pending();
             // A single scroll list, not slivers: the hero card is pulled up
             // onto the header and a sliver boundary would clip it.
             return ListView(
@@ -162,7 +163,7 @@ class _DashboardContent extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _statusCard(context, capabilities, userProfile),
+                      _statusCard(context, capabilities, userProfile, pending),
                       // The hero card is pulled 30 up onto the header, so the
                       // flow below reclaims that space.
                       Transform.translate(
@@ -174,8 +175,8 @@ class _DashboardContent extends StatelessWidget {
                             // aire las dos superficies se leen como una sola.
                             const SizedBox(height: 14),
                             ReceptionsGroupCard(
-                              total: state.recepcionesCount,
-                              children: _groups(context, state.recepciones),
+                              total: pending.length,
+                              children: _groups(context, pending),
                             ),
                             BrandSectionLabel('acciones_rapidas'.tr()),
                             QuickActionGrid(
@@ -246,6 +247,35 @@ class _DashboardContent extends StatelessWidget {
     );
   }
 
+  /// Receptions the customer still has something to wait for, each with its
+  /// macro stage.
+  ///
+  /// Delivered ones are dropped: nothing about them is pending, and counting
+  /// them made the hero card say "no packages" while the group card underneath
+  /// still reported one. Home now reads a single list; delivered receptions
+  /// stay reachable from the history screen.
+  List<({Recepcion package, PackageStage stage})> _pending() {
+    final pending = <({Recepcion package, PackageStage stage})>[];
+    for (final package in state.recepciones) {
+      var stage = PackageStatusMapper.map(
+        status: package.estatus,
+        isAvailable: package.disponible,
+        progress: package.progreso,
+      ).stage;
+      if (stage == PackageStage.entregado) {
+        continue;
+      }
+      // The operational status text can read "disponible" before the flag that
+      // pickup and delivery act on catches up. The flag is the one that decides
+      // whether the customer can actually collect, so it wins.
+      if (stage == PackageStage.disponible && !package.disponible) {
+        stage = PackageStage.destino;
+      }
+      pending.add((package: package, stage: stage));
+    }
+    return pending;
+  }
+
   /// Chooses what the home card should lead with.
   ///
   /// Something ready to collect always wins; otherwise the card reports what
@@ -254,6 +284,7 @@ class _DashboardContent extends StatelessWidget {
     BuildContext context,
     BrandCapabilities capabilities,
     UserProfile? profile,
+    List<({Recepcion package, PackageStage stage})> pending,
   ) {
     if (state.disponiblesCount > 0) {
       return HomeStatusCard(
@@ -268,19 +299,7 @@ class _DashboardContent extends StatelessWidget {
       );
     }
 
-    final inTransit = <({Recepcion package, PackageStage stage})>[];
-    for (final package in state.recepciones) {
-      final stage = PackageStatusMapper.map(
-        status: package.estatus,
-        isAvailable: package.disponible,
-        progress: package.progreso,
-      ).stage;
-      if (stage != PackageStage.entregado && stage != PackageStage.disponible) {
-        inTransit.add((package: package, stage: stage));
-      }
-    }
-
-    if (inTransit.isEmpty) {
+    if (pending.isEmpty) {
       return HomeStatusCard(
         status: HomeStatus.empty,
         onShowAddress: () => context.push(AppRoutes.idCard),
@@ -288,7 +307,8 @@ class _DashboardContent extends StatelessWidget {
     }
 
     // The nearest one is simply the furthest along its four macro steps.
-    inTransit.sort((a, b) => b.stage.index.compareTo(a.stage.index));
+    final inTransit = [...pending]
+      ..sort((a, b) => b.stage.index.compareTo(a.stage.index));
     final next = inTransit.first;
     return HomeStatusCard(
       status: HomeStatus.onTheWay,
@@ -303,15 +323,13 @@ class _DashboardContent extends StatelessWidget {
   }
 
   /// Receptions grouped by macro state; empty groups are not rendered.
-  List<Widget> _groups(BuildContext context, List<Recepcion> receptions) {
+  List<Widget> _groups(
+    BuildContext context,
+    List<({Recepcion package, PackageStage stage})> pending,
+  ) {
     final counts = <PackageStage, int>{};
-    for (final package in receptions) {
-      final stage = PackageStatusMapper.map(
-        status: package.estatus,
-        isAvailable: package.disponible,
-        progress: package.progreso,
-      ).stage;
-      counts[stage] = (counts[stage] ?? 0) + 1;
+    for (final entry in pending) {
+      counts[entry.stage] = (counts[entry.stage] ?? 0) + 1;
     }
     return [
       for (final stage in PackageStage.values)

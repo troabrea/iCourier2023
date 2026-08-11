@@ -47,8 +47,7 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
           activeAccount: widget.userProfile.cuenta,
           onSelect: _switchAccount,
           onDelete: _delete,
-          onAdd: _addAccount,
-          onLogout: _logout,
+          onAdd: _logout,
         );
       },
     );
@@ -78,16 +77,22 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
   }
 
   Future<void> _delete(UserAccount account) async {
-    await GetIt.I<CourierService>().removeAccountFromStore(account);
+    final remaining =
+        await GetIt.I<CourierService>().removeAccountFromStore(account);
+    // Nothing left to switch to, so there is no session to keep either.
+    if (remaining.isEmpty) {
+      _logout();
+      return;
+    }
     _reload();
   }
 
-  /// Adding an account means signing in with it, so the session is released.
-  void _addAccount() {
-    GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
-  }
-
+  /// Signing in with another account and signing out are the same move: both
+  /// release the current session and land on the login screen.
   void _logout() {
+    if (mounted) {
+      context.pop();
+    }
     GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
   }
 }
