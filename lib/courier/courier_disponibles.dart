@@ -100,6 +100,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                             checked: _selected.contains(package.recepcionID),
                             onOpen: () => context.push(
                               AppRoutes.package(package.recepcionID),
+                              extra: package,
                             ),
                             onToggle: (checked) => setState(() {
                               if (checked) {

@@ -96,7 +96,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
   }
 }
 
-class _DashboardContent extends StatelessWidget {
+class _DashboardContent extends StatefulWidget {
   const _DashboardContent({
     required this.state,
     required this.profile,
@@ -114,7 +114,47 @@ class _DashboardContent extends StatelessWidget {
   final VoidCallback onDelivery;
 
   @override
+  State<_DashboardContent> createState() => _DashboardContentState();
+}
+
+class _DashboardContentState extends State<_DashboardContent> {
+  /// Measures the expanded panel so the hand-off point follows whatever height
+  /// the brand's capabilities give it, instead of a guessed constant.
+  final _panelKey = GlobalKey();
+
+  /// How far the compact bar has taken over, 0 to 1. A notifier rather than
+  /// state: only the bar listens, so scrolling never rebuilds the list.
+  final _collapse = ValueNotifier<double>(0);
+
+  @override
+  void dispose() {
+    _collapse.dispose();
+    super.dispose();
+  }
+
+  bool _onScroll(ScrollNotification notification) {
+    if (notification.depth > 0) {
+      return false;
+    }
+    final box = _panelKey.currentContext?.findRenderObject() as RenderBox?;
+    final panelHeight = box?.size.height ?? 0;
+    if (panelHeight <= 0) {
+      return false;
+    }
+    // The bar appears just as the panel finishes leaving, so the two never
+    // show the same identity at once.
+    final barHeight =
+        MediaQuery.paddingOf(context).top + ScreenHeader.tabBandHeight;
+    final handoff = panelHeight - barHeight;
+    const fade = 48.0;
+    _collapse.value =
+        ((notification.metrics.pixels - (handoff - fade)) / fade).clamp(0.0, 1.0);
+    return false;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = widget.state;
     final tokens = context.brand;
     final config = GetIt.I<BrandConfig>();
     final capabilities = config.capabilities.resolve(state.empresa);
@@ -123,18 +163,29 @@ class _DashboardContent extends StatelessWidget {
     return Scaffold(
       backgroundColor: tokens.bg,
       body: RefreshIndicator(
-        onRefresh: onRefresh,
+        onRefresh: widget.onRefresh,
         child: FutureBuilder<UserProfile>(
-          future: profile,
+          future: widget.profile,
           builder: (context, snapshot) {
             final userProfile = snapshot.data;
             final pending = _pending();
+            final actions = BrandHeaderActions(
+              unread: unread,
+              onContact: _contact(userProfile)?.open,
+              contactIcon:
+                  _contact(userProfile)?.icon ?? Icons.chat_bubble_outline,
+              onCarnet: () => context.push(AppRoutes.idCard),
+              onMessages: () => context.push(AppRoutes.messages),
+            );
             // A single scroll list, not slivers: the hero card is pulled up
-            // onto the header and a sliver boundary would clip it.
-            return ListView(
+            // onto the header and a sliver boundary would clip it. The bar the
+            // panel collapses into therefore rides above the list rather than
+            // being pinned by the viewport.
+            final list = ListView(
               padding: EdgeInsets.zero,
               children: [
                 BrandHeader(
+                  key: _panelKey,
                   greeting: _firstName(userProfile),
                   accountName: userProfile?.nombre ?? '',
                   account: userProfile?.cuenta ?? '',
@@ -230,7 +281,8 @@ class _DashboardContent extends StatelessWidget {
                               PointsCard(
                                 label: config.loyaltyLabel,
                                 balance: '${state.puntos.balance}',
-                                onRedeem: capabilities.payments ? onPay : null,
+                                onRedeem:
+                                    capabilities.payments ? widget.onPay : null,
                               ),
                             ],
                           ],
@@ -240,6 +292,39 @@ class _DashboardContent extends StatelessWidget {
                   ),
                 ),
               ],
+            );
+
+            return NotificationListener<ScrollNotification>(
+              onNotification: _onScroll,
+              child: Stack(
+                children: [
+                  list,
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: ValueListenableBuilder<double>(
+                      valueListenable: _collapse,
+                      builder: (context, progress, child) => IgnorePointer(
+                        ignoring: progress < 1,
+                        child: Opacity(
+                          opacity: progress,
+                          // Slides the last few points into place so the bar
+                          // arrives rather than blinking on.
+                          child: Transform.translate(
+                            offset: Offset(0, (progress - 1) * 8),
+                            child: child,
+                          ),
+                        ),
+                      ),
+                      child: ScreenHeader.tab(
+                        title: _firstName(userProfile),
+                        trailing: actions,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -256,7 +341,7 @@ class _DashboardContent extends StatelessWidget {
   /// stay reachable from the history screen.
   List<({Recepcion package, PackageStage stage})> _pending() {
     final pending = <({Recepcion package, PackageStage stage})>[];
-    for (final package in state.recepciones) {
+    for (final package in widget.state.recepciones) {
       var stage = PackageStatusMapper.map(
         status: package.estatus,
         isAvailable: package.disponible,
@@ -286,16 +371,16 @@ class _DashboardContent extends StatelessWidget {
     UserProfile? profile,
     List<({Recepcion package, PackageStage stage})> pending,
   ) {
-    if (state.disponiblesCount > 0) {
+    if (widget.state.disponiblesCount > 0) {
       return HomeStatusCard(
         status: HomeStatus.ready,
-        count: state.disponiblesCount,
-        total: state.montoTotal.toStringAsFixed(2),
+        count: widget.state.disponiblesCount,
+        total: widget.state.montoTotal.toStringAsFixed(2),
         currency: r'$',
         branch: profile?.nombreSucursal ?? '',
         onTap: () => context.push(AppRoutes.available),
-        onPickup: onPickup,
-        onDelivery: capabilities.delivery ? onDelivery : null,
+        onPickup: widget.onPickup,
+        onDelivery: capabilities.delivery ? widget.onDelivery : null,
       );
     }
 

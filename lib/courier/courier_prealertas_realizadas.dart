@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
@@ -10,9 +9,16 @@ import '../design_system/core_components.dart';
 import '../navigation/app_routes.dart';
 import '../design_system/overlay_components.dart';
 import '../services/model/prealerta_model.dart';
-import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'bloc/prealertas_bloc.dart';
+
+/// FOB is declared in US dollars whatever currency the brand quotes in, the
+/// same way the calculator labels it.
+///
+/// Empty when there is none to declare: automatic pre-alerts are raised by the
+/// operation without a value, and a column of `US$0.00` would say nothing.
+String _fob(PreAlertaDto alert) =>
+    alert.fob <= 0 ? '' : 'US\$${alert.fob.toStringAsFixed(2)}';
 
 class PrealertasRealizadas extends StatefulWidget {
   const PrealertasRealizadas({super.key});
@@ -104,13 +110,28 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
                         ],
                       ),
                       const SizedBox(height: 3),
-                      Text(
-                        [alert.tracking, alert.contenido]
-                            .where((value) => value.isNotEmpty)
-                            .join(' · '),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: tokens.body(12, color: tokens.textMuted),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              [alert.tracking, alert.contenido]
+                                  .where((value) => value.isNotEmpty)
+                                  .join(' · '),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: tokens.body(12, color: tokens.textMuted),
+                            ),
+                          ),
+                          if (_fob(alert).isNotEmpty) ...[
+                            const SizedBox(width: BrandSpace.xs),
+                            Text(
+                              _fob(alert),
+                              style: tokens.body(13, weight: FontWeight.w700),
+                            ),
+                          ],
+                        ],
                       ),
                     ],
                   ),
@@ -141,7 +162,6 @@ class _PrealertaSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    final currency = GetIt.I<BrandConfig>().currency;
     return BrandSheet(
       title: alert.enviaNombre.isEmpty ? alert.tracking : alert.enviaNombre,
       subtitle: alert.fechaEntrega,
@@ -150,16 +170,13 @@ class _PrealertaSheet extends StatelessWidget {
         _Field(label: 'transportista'.tr(), value: alert.enviaNombre),
         _Field(label: 'numero_rastreo'.tr(), value: alert.tracking),
         _Field(label: 'contenido'.tr(), value: alert.contenido),
-        _Field(
-          label: 'valor_fob'.tr(),
-          value: '$currency${alert.fob.toStringAsFixed(2)}',
-        ),
+        _Field(label: 'valor_fob'.tr(), value: _fob(alert)),
         if (alert.comentario.isNotEmpty)
           _Field(label: 'otro'.tr(), value: alert.comentario),
         if (alert.facturaUrl.isNotEmpty) ...[
           const SizedBox(height: BrandSpace.xs),
           BrandOutlineButton(
-            label: 'facturas_pendientes'.tr(),
+            label: 'ver_factura'.tr(),
             foreground: tokens.primary,
             onPressed: () {
               final uri = Uri.tryParse(alert.facturaUrl);

@@ -238,6 +238,7 @@ class _Found extends StatelessWidget {
                       stage: status.stage,
                       retained: package.retenido,
                       available: package.disponible,
+                      label: package.estatus,
                     ),
                   ],
                 ),
@@ -282,6 +283,7 @@ class _Found extends StatelessWidget {
             verticalPadding: 12,
             onPressed: () => context.push(
               AppRoutes.package(package.recepcionID),
+              extra: package,
             ),
           ),
         ],

@@ -120,6 +120,7 @@ void main() {
     // Sin gesto: VoiceOver invoca la acción, no arrastra el dedo por la
     // pantalla, así que el guard del hold no puede ser el único camino.
     final node = tester.getSemantics(find.bySemanticsLabel('Sí, eliminar'));
+    // ignore: deprecated_member_use
     tester.binding.pipelineOwner.semanticsOwner!.performAction(
       node.id,
       SemanticsAction.tap,

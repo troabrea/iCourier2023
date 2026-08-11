@@ -33,6 +33,10 @@ abstract final class PackageStatusMapper {
     'ENTREGADO',
     'DELIVERED',
     'BILLED COUNTER',
+    // Same handover as 'BILLED COUNTER', which the operation reports in
+    // Spanish. Without it the history list shows collected packages sitting at
+    // step one, because that endpoint sends no progress to fall back on.
+    'FACTURADO COUNTER',
   };
 
   static const _routeTerms = <String>{

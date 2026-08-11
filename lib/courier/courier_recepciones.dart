@@ -101,6 +101,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
                           package: visible[index],
                           onTap: () => context.push(
                             AppRoutes.package(visible[index].recepcionID),
+                            extra: visible[index],
                           ),
                         ),
                       ),

@@ -164,46 +164,80 @@ class BrandHeader extends StatelessWidget {
         ],
       );
 
-  Widget _actions(BrandTokens tokens) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (onRefresh != null)
-            _HeaderButton(
-              icon: Icons.refresh,
-              onTap: onRefresh,
-              tokens: tokens,
-              semanticLabel: 'refrescar'.tr(),
-            ),
-          if (onContact != null) ...[
-            const SizedBox(width: 6),
-            _HeaderButton(
-              icon: contactIcon,
-              onTap: onContact,
-              tokens: tokens,
-              semanticLabel: 'escribenos'.tr(),
-            ),
-          ],
-          if (onCarnet != null) ...[
-            const SizedBox(width: 6),
-            _HeaderButton(
-              icon: Icons.badge_outlined,
-              onTap: onCarnet,
-              tokens: tokens,
-              semanticLabel: 'carnet_membresia'.tr(),
-            ),
-          ],
-          if (onMessages != null) ...[
-            const SizedBox(width: 6),
-            _HeaderButton(
-              icon: Icons.notifications_none,
-              onTap: onMessages,
-              tokens: tokens,
-              badge: unread,
-              semanticLabel: 'sus_mensajes'.tr(),
-            ),
-          ],
-        ],
+  Widget _actions(BrandTokens tokens) => BrandHeaderActions(
+        unread: unread,
+        onMessages: onMessages,
+        onCarnet: onCarnet,
+        onRefresh: onRefresh,
+        onContact: onContact,
+        contactIcon: contactIcon,
       );
+}
+
+/// The header's action cluster, shared by the expanded home panel and the
+/// compact bar it collapses into, so the same taps survive the transition.
+class BrandHeaderActions extends StatelessWidget {
+  const BrandHeaderActions({
+    super.key,
+    this.unread = 0,
+    this.onMessages,
+    this.onCarnet,
+    this.onRefresh,
+    this.onContact,
+    this.contactIcon = Icons.chat_bubble_outline,
+  });
+
+  final int unread;
+  final VoidCallback? onMessages;
+  final VoidCallback? onCarnet;
+  final VoidCallback? onRefresh;
+  final VoidCallback? onContact;
+  final IconData contactIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (onRefresh != null)
+          _HeaderButton(
+            icon: Icons.refresh,
+            onTap: onRefresh,
+            tokens: tokens,
+            semanticLabel: 'refrescar'.tr(),
+          ),
+        if (onContact != null) ...[
+          const SizedBox(width: 6),
+          _HeaderButton(
+            icon: contactIcon,
+            onTap: onContact,
+            tokens: tokens,
+            semanticLabel: 'escribenos'.tr(),
+          ),
+        ],
+        if (onCarnet != null) ...[
+          const SizedBox(width: 6),
+          _HeaderButton(
+            icon: Icons.badge_outlined,
+            onTap: onCarnet,
+            tokens: tokens,
+            semanticLabel: 'carnet_membresia'.tr(),
+          ),
+        ],
+        if (onMessages != null) ...[
+          const SizedBox(width: 6),
+          _HeaderButton(
+            icon: Icons.notifications_none,
+            onTap: onMessages,
+            tokens: tokens,
+            badge: unread,
+            semanticLabel: 'sus_mensajes'.tr(),
+          ),
+        ],
+      ],
+    );
+  }
 }
 
 class _Disc extends StatelessWidget {
@@ -406,6 +440,11 @@ class ScreenHeader extends StatefulWidget implements PreferredSizeWidget {
   /// Material icon button stretch it to its default 48 — the extra 4 read as
   /// slack under the title, which is centred in the same row.
   static const double _actionRowHeight = 44;
+
+  /// Band height of a tab header carrying actions, below the status bar. Lets
+  /// a screen line something else up with the bar without building one.
+  static const double tabBandHeight =
+      BrandSpace.xs + _actionRowHeight + BrandSpace.xxs;
 
   @override
   Size get preferredSize => Size.fromHeight(
@@ -832,6 +871,7 @@ class StatusBadge extends StatelessWidget {
     required this.stage,
     this.retained = false,
     this.available = false,
+    this.label,
   }) : _soft = false;
 
   /// Tinted variant used inside list cards.
@@ -840,11 +880,17 @@ class StatusBadge extends StatelessWidget {
     required this.stage,
     this.retained = false,
     this.available = false,
+    this.label,
   }) : _soft = true;
 
   final PackageStage stage;
   final bool retained;
   final bool available;
+
+  /// The operation's own wording for the state, shown verbatim when there is
+  /// one. The macro stage still picks the colour, but it never gets to
+  /// contradict the backend: it knows four steps, the operation has dozens.
+  final String? label;
   final bool _soft;
 
   bool get _isAvailable => available || stage == PackageStage.disponible;
@@ -873,10 +919,14 @@ class StatusBadge extends StatelessWidget {
     final fill = _fill(tokens);
     final neutral = fill == tokens.surfaceAlt;
 
+    final text = (label?.trim().isNotEmpty ?? false)
+        ? label!.trim()
+        : labelKey.tr();
+
     if (_soft) {
       final accent = neutral ? tokens.textMuted : fill;
       return BrandPill(
-        label: labelKey.tr(),
+        label: text,
         background: tokens.accentWash(accent, 0.14),
         foreground: accent,
         uppercase: true,
@@ -885,7 +935,7 @@ class StatusBadge extends StatelessWidget {
       );
     }
     return BrandPill(
-      label: labelKey.tr(),
+      label: text,
       background: fill,
       foreground: neutral ? tokens.text : tokens.onAccent(fill),
       fontSize: 11,
@@ -1051,6 +1101,7 @@ class PackageCard extends StatelessWidget {
                 stage: status.stage,
                 retained: package.retenido,
                 available: package.disponible,
+                label: package.estatus,
               ),
             ],
           ),

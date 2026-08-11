@@ -138,6 +138,7 @@ abstract final class AppRouter {
         name: 'package',
         builder: (context, state) => _PackageRoute(
           id: state.pathParameters['id']!,
+          package: state.extra as Recepcion?,
           showInvoice: false,
         ),
         routes: [
@@ -146,6 +147,7 @@ abstract final class AppRouter {
             name: 'package-invoice',
             builder: (context, state) => _PackageRoute(
               id: state.pathParameters['id']!,
+              package: state.extra as Recepcion?,
               showInvoice: true,
             ),
           ),
@@ -340,13 +342,26 @@ abstract final class AppRouter {
 }
 
 class _PackageRoute extends StatelessWidget {
-  const _PackageRoute({required this.id, required this.showInvoice});
+  const _PackageRoute({
+    required this.id,
+    required this.showInvoice,
+    this.package,
+  });
 
   final String id;
   final bool showInvoice;
 
+  /// The reception the caller already had in hand. A history result lives
+  /// outside the current reception list, so looking it up by id would find
+  /// nothing; screens that hold the object hand it over instead.
+  final Recepcion? package;
+
   @override
   Widget build(BuildContext context) {
+    final handed = package;
+    if (handed != null) {
+      return _page(context, handed);
+    }
     return _AsyncRoute<Recepcion?>(
       title: 'historia_del_paquete'.tr(),
       load: () async {
@@ -359,29 +374,31 @@ class _PackageRoute extends StatelessWidget {
               orElse: () => null,
             );
       },
-      builder: (context, reception) {
-        if (reception == null) {
-          return Scaffold(
-            backgroundColor: context.brand.bg,
-            appBar: ScreenHeader(
-              title: 'historia_del_paquete'.tr(),
-              titleSize: 18,
-              onBack: context.popOrHome,
-            ),
-            body: const BrandEmptyState(messageKey: 'no_paquetes'),
-          );
-        }
-        if (!showInvoice) {
-          return HistoricoPaquetePage(recepcion: reception);
-        }
-        if (reception.fotoFacturaUrl.isEmpty) {
-          return CrearPostAlertaPage(recepcion: reception);
-        }
-        return FacturaViewerPage(
-          url: reception.fotoFacturaUrl,
-          title: 'facturas_pendientes'.tr(),
-        );
-      },
+      builder: (context, reception) => _page(context, reception),
+    );
+  }
+
+  Widget _page(BuildContext context, Recepcion? reception) {
+    if (reception == null) {
+      return Scaffold(
+        backgroundColor: context.brand.bg,
+        appBar: ScreenHeader(
+          title: 'historia_del_paquete'.tr(),
+          titleSize: 18,
+          onBack: context.popOrHome,
+        ),
+        body: const BrandEmptyState(messageKey: 'no_paquetes'),
+      );
+    }
+    if (!showInvoice) {
+      return HistoricoPaquetePage(recepcion: reception);
+    }
+    if (reception.fotoFacturaUrl.isEmpty) {
+      return CrearPostAlertaPage(recepcion: reception);
+    }
+    return FacturaViewerPage(
+      url: reception.fotoFacturaUrl,
+      title: 'facturas_pendientes'.tr(),
     );
   }
 }
@@ -421,10 +438,12 @@ class _AsyncRouteState<T> extends State<_AsyncRoute<T>> {
             ),
           );
         }
-        if (!snapshot.hasData) {
+        // Not `hasData`: a load that legitimately resolves to null would leave
+        // the screen loading forever instead of reaching its empty state.
+        if (snapshot.connectionState != ConnectionState.done) {
           return _shell(context, const BrandSkeleton());
         }
-        return widget.builder(context, snapshot.requireData);
+        return widget.builder(context, snapshot.data as T);
       },
     );
   }

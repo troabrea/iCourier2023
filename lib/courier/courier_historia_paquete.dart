@@ -126,6 +126,7 @@ class _SummaryCard extends StatelessWidget {
                 stage: stage,
                 retained: package.retenido,
                 available: package.disponible,
+                label: package.estatus,
               ),
             ],
           ),

@@ -99,6 +99,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
                         package: package,
                         onTap: () => context.push(
                           AppRoutes.package(package.recepcionID),
+                          extra: package,
                         ),
                       ),
                     )

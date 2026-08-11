@@ -18,6 +18,8 @@ void main() {
       expect(_map('Entregado al cliente').stage, PackageStage.entregado);
       expect(_map('Entregado').stage, PackageStage.entregado);
       expect(_map('Billed counter').stage, PackageStage.entregado);
+      // La operación reporta este traspaso en español en el histórico.
+      expect(_map('Facturado Counter').stage, PackageStage.entregado);
     });
 
     test('disponible prevalece sobre un estado operativo no entregado', () {

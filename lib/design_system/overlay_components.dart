@@ -728,6 +728,8 @@ class _AccountRow extends StatelessWidget {
             // aiming for "no" lands on the destructive one.
             Row(
               children: [
+                _HoldToConfirm(onConfirm: onConfirmDelete),
+                const Spacer(),
                 BrandOutlineButton(
                   label: 'no'.tr(),
                   expand: false,
@@ -735,8 +737,6 @@ class _AccountRow extends StatelessWidget {
                   verticalPadding: 6,
                   onPressed: onCancelDelete,
                 ),
-                const Spacer(),
-                _HoldToConfirm(onConfirm: onConfirmDelete),
               ],
             ),
           ],
