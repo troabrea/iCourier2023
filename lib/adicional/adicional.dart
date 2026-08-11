@@ -7,6 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../helpers/contact_action.dart';
 import '../design_system/overlay_components.dart';
 import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
@@ -39,7 +40,9 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     final tokens = context.brand;
     return Scaffold(
       backgroundColor: tokens.bg,
-      appBar: ScreenHeader.tab(title: 'informacion_adicional'.tr()),
+      appBar: ScreenHeader.tab(title: 'informacion_adicional'.tr(),
+        trailing: const BrandContactAction(),
+      ),
       body: FutureBuilder<_MoreData>(
         future: _data,
         builder: (context, snapshot) {

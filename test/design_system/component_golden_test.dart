@@ -211,7 +211,9 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
     const MapEntry('empty_state', _emptyState),
     const MapEntry('error_state', _errorState),
     const MapEntry('skeleton', _skeleton),
-    const MapEntry('availability_hero', _availabilityHero),
+    const MapEntry('home_card_ready', _homeCardReady),
+    const MapEntry('home_card_on_the_way', _homeCardOnTheWay),
+    const MapEntry('home_card_empty', _homeCardEmpty),
     const MapEntry('points_card', _pointsCard),
     const MapEntry('filter_chip', _filterChip),
   ];
@@ -306,13 +308,26 @@ Widget _errorState() => const BrandErrorState(onRetry: _noop);
 
 Widget _skeleton() => const SizedBox(height: 220, child: BrandSkeleton(rows: 2));
 
-Widget _availabilityHero() => const AvailabilityHeroCard(
+Widget _homeCardReady() => const HomeStatusCard(
+      status: HomeStatus.ready,
       count: 2,
       total: '337.99',
       currency: r'$',
       branch: 'Sucursal Miami Principal',
       onPickup: _noop,
       onDelivery: _noop,
+    );
+
+Widget _homeCardOnTheWay() => const HomeStatusCard(
+      status: HomeStatus.onTheWay,
+      count: 3,
+      nextContent: 'Cargador inalámbrico',
+      nextStage: PackageStage.destino,
+    );
+
+Widget _homeCardEmpty() => const HomeStatusCard(
+      status: HomeStatus.empty,
+      onShowAddress: _noop,
     );
 
 Widget _pointsCard() => const PointsCard(

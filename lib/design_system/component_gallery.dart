@@ -98,7 +98,8 @@ class _ComponentGalleryState extends State<ComponentGallery> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: BrandSpace.lg),
-            child: AvailabilityHeroCard(
+            child: HomeStatusCard(
+              status: HomeStatus.ready,
               count: 2,
               total: '337.99',
               currency: r'$',
@@ -106,6 +107,22 @@ class _ComponentGalleryState extends State<ComponentGallery> {
               onTap: () {},
               onPickup: () {},
               onDelivery: () {},
+            ),
+          ),
+          _section('Estados de la tarjeta de inicio'),
+          _pad(
+            HomeStatusCard(
+              status: HomeStatus.onTheWay,
+              count: 3,
+              nextContent: 'Cargador inalámbrico',
+              nextStage: PackageStage.destino,
+              onTap: () {},
+            ),
+          ),
+          _pad(
+            HomeStatusCard(
+              status: HomeStatus.empty,
+              onShowAddress: () {},
             ),
           ),
           _section('Tip · grupo · accesos'),

@@ -8,6 +8,7 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../helpers/contact_action.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../theme/brand_config.dart';
@@ -48,10 +49,13 @@ class _NoticiasPageState extends State<NoticiasPage> {
     return Scaffold(
       backgroundColor: tokens.bg,
       appBar: widget.isTabRoot
-          ? ScreenHeader.tab(title: 'noticias'.tr())
+          ? ScreenHeader.tab(title: 'noticias'.tr(),
+        trailing: const BrandContactAction(),
+      )
           : ScreenHeader(
               title: 'noticias'.tr(),
               onBack: context.popOrHome,
+              trailing: const BrandContactAction(),
             ),
       body: BlocProvider.value(
         value: _bloc,

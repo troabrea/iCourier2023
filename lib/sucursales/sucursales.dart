@@ -12,6 +12,7 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../helpers/contact_action.dart';
 import '../design_system/overlay_components.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
@@ -87,6 +88,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
       appBar: ScreenHeader.tab(
         title: 'sucursales'.tr(),
         onSearchChanged: (value) => setState(() => _query = value),
+        trailing: const BrandContactAction(),
       ),
       body: BlocProvider.value(
         value: _bloc,

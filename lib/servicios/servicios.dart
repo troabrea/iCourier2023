@@ -8,6 +8,7 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../helpers/contact_action.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../services/model/servicio.dart';
@@ -57,10 +58,14 @@ class _ServiciosPageState extends State<ServiciosPage> {
     return Scaffold(
       backgroundColor: tokens.bg,
       appBar: widget.isTabRoot
-          ? ScreenHeader.tab(title: 'nuestros_servicios'.tr())
+          ? ScreenHeader.tab(
+              title: 'nuestros_servicios'.tr(),
+              trailing: const BrandContactAction(),
+            )
           : ScreenHeader(
               title: 'nuestros_servicios'.tr(),
               onBack: context.popOrHome,
+              trailing: const BrandContactAction(),
             ),
       body: BlocProvider.value(
         value: _bloc,

@@ -10,6 +10,7 @@ import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/home_components.dart';
 import '../design_system/overlay_components.dart';
+import '../helpers/contact_action.dart';
 import '../domain/package_stage.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -145,6 +146,9 @@ class _DashboardContent extends StatelessWidget {
                             scrollable: true,
                             child: CuentasUsuario(userProfile: userProfile),
                           ),
+                  onContact: _contact(userProfile)?.open,
+                  contactIcon: _contact(userProfile)?.icon ??
+                      Icons.chat_bubble_outline,
                   onCarnet: () => context.push(AppRoutes.idCard),
                   onMessages: () => context.push(AppRoutes.messages),
                   onRefresh: onRefresh,
@@ -159,15 +163,7 @@ class _DashboardContent extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      AvailabilityHeroCard(
-                        count: state.disponiblesCount,
-                        total: state.montoTotal.toStringAsFixed(2),
-                        currency: r'$',
-                        branch: userProfile?.nombreSucursal ?? '',
-                        onTap: () => context.push(AppRoutes.available),
-                        onPickup: onPickup,
-                        onDelivery: capabilities.delivery ? onDelivery : null,
-                      ),
+                      _statusCard(context, capabilities, userProfile),
                       // The hero card is pulled 30 up onto the header, so the
                       // flow below reclaims that space.
                       Transform.translate(
@@ -252,6 +248,62 @@ class _DashboardContent extends StatelessWidget {
     );
   }
 
+  /// Chooses what the home card should lead with.
+  ///
+  /// Something ready to collect always wins; otherwise the card reports what
+  /// is closest to arriving, and with nothing at all it invites a first order.
+  Widget _statusCard(
+    BuildContext context,
+    BrandCapabilities capabilities,
+    UserProfile? profile,
+  ) {
+    if (state.disponiblesCount > 0) {
+      return HomeStatusCard(
+        status: HomeStatus.ready,
+        count: state.disponiblesCount,
+        total: state.montoTotal.toStringAsFixed(2),
+        currency: r'$',
+        branch: profile?.nombreSucursal ?? '',
+        onTap: () => context.push(AppRoutes.available),
+        onPickup: onPickup,
+        onDelivery: capabilities.delivery ? onDelivery : null,
+      );
+    }
+
+    final inTransit = <({Recepcion package, PackageStage stage})>[];
+    for (final package in state.recepciones) {
+      final stage = PackageStatusMapper.map(
+        status: package.estatus,
+        isAvailable: package.disponible,
+        progress: package.progreso,
+      ).stage;
+      if (stage != PackageStage.entregado && stage != PackageStage.disponible) {
+        inTransit.add((package: package, stage: stage));
+      }
+    }
+
+    if (inTransit.isEmpty) {
+      return HomeStatusCard(
+        status: HomeStatus.empty,
+        onShowAddress: () => context.push(AppRoutes.idCard),
+      );
+    }
+
+    // The nearest one is simply the furthest along its four macro steps.
+    inTransit.sort((a, b) => b.stage.index.compareTo(a.stage.index));
+    final next = inTransit.first;
+    return HomeStatusCard(
+      status: HomeStatus.onTheWay,
+      count: inTransit.length,
+      nextContent: next.package.contenido.isEmpty
+          ? next.package.suplidor
+          : next.package.contenido,
+      nextStage: next.stage,
+      nextRetained: next.package.retenido,
+      onTap: () => context.push(AppRoutes.receptions),
+    );
+  }
+
   /// Receptions grouped by macro state; empty groups are not rendered.
   List<Widget> _groups(BuildContext context, List<Recepcion> receptions) {
     final counts = <PackageStage, int>{};
@@ -274,6 +326,12 @@ class _DashboardContent extends StatelessWidget {
         ),
     ];
   }
+
+  /// Same resolution the tab headers use, so both open the same channel.
+  ({IconData icon, Future<void> Function() open})? _contact(
+    UserProfile? profile,
+  ) =>
+      resolveContactChannel(profile);
 
   String _firstName(UserProfile? profile) {
     final name = profile?.nombre.trim() ?? '';

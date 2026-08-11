@@ -33,6 +33,8 @@ class BrandHeader extends StatelessWidget {
     this.onAccounts,
     this.onCarnet,
     this.onRefresh,
+    this.onContact,
+    this.contactIcon = Icons.chat_bubble_outline,
   });
 
   /// First name of the signed-in customer.
@@ -48,6 +50,12 @@ class BrandHeader extends StatelessWidget {
   final VoidCallback? onAccounts;
   final VoidCallback? onCarnet;
   final VoidCallback? onRefresh;
+
+  /// Opens the branch WhatsApp or the brand chat, when either is configured.
+  final VoidCallback? onContact;
+
+  /// Mark of the resolved channel, so the button shows what it will open.
+  final IconData contactIcon;
 
   String get _initial {
     final source = (accountName?.trim().isNotEmpty ?? false)
@@ -166,6 +174,15 @@ class BrandHeader extends StatelessWidget {
               tokens: tokens,
               semanticLabel: 'refrescar'.tr(),
             ),
+          if (onContact != null) ...[
+            const SizedBox(width: 6),
+            _HeaderButton(
+              icon: contactIcon,
+              onTap: onContact,
+              tokens: tokens,
+              semanticLabel: 'escribenos'.tr(),
+            ),
+          ],
           if (onCarnet != null) ...[
             const SizedBox(width: 6),
             _HeaderButton(
