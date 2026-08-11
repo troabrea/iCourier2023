@@ -1,3 +1,6 @@
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+
 /// Canonical route locations shared by navigation, notifications and widgets.
 abstract final class AppRoutes {
   static const login = '/login';
@@ -29,6 +32,21 @@ abstract final class AppRoutes {
   static String newsDetail(String id) => '/noticias/${Uri.encodeComponent(id)}';
 
   static String invoice(String id) => '${package(id)}/factura';
+}
+
+/// Back navigation that always has somewhere to go.
+///
+/// A screen reached by a deep link has nothing beneath it on the stack, so a
+/// back action gated on `canPop` would render no button at all and strand the
+/// user. Falling back to the home tab keeps every screen leavable.
+extension AppBackNavigation on BuildContext {
+  VoidCallback get popOrHome => () {
+        if (canPop()) {
+          pop();
+          return;
+        }
+        go(AppRoutes.home);
+      };
 }
 
 /// Strict parser for links allowed to enter the application.

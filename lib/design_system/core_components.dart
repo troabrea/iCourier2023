@@ -352,13 +352,15 @@ class _HeaderButton extends StatelessWidget {
 ///
 /// Renders as a solid `primary` band rather than a Material app bar so the
 /// title typography and the status-bar inset match the design reference.
-class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
+class ScreenHeader extends StatefulWidget implements PreferredSizeWidget {
   const ScreenHeader({
     super.key,
     required this.title,
     this.onBack,
     this.trailing,
     this.titleSize = 20,
+    this.onSearchChanged,
+    this.searchHint,
   });
 
   /// Root headers of a tab use the larger 24pt title.
@@ -366,6 +368,8 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     this.trailing,
+    this.onSearchChanged,
+    this.searchHint,
   })  : onBack = null,
         titleSize = 24;
 
@@ -374,20 +378,59 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
   final Widget? trailing;
   final double titleSize;
 
+  /// Supplying this adds a search action that replaces the title with an
+  /// inline field, so filtering never costs the customer a row of screen.
+  final ValueChanged<String>? onSearchChanged;
+  final String? searchHint;
+
   /// Height of the band below the status bar.
   ///
-  /// A back button or a trailing action forces the 44pt minimum touch target;
-  /// a plain tab title only needs its own line box.
+  /// Any action forces a row as tall as a Material icon button (48, above the
+  /// 44pt minimum target); a plain tab title only needs its own line box.
+  static const double _actionRowHeight = 48;
+
   @override
   Size get preferredSize => Size.fromHeight(
         BrandSpace.sm +
-            (onBack != null || trailing != null ? 44 : titleSize * 1.5) +
+            (onBack != null || trailing != null || onSearchChanged != null
+                ? _actionRowHeight
+                : titleSize * 1.5) +
             BrandSpace.md,
       );
 
   @override
+  State<ScreenHeader> createState() => _ScreenHeaderState();
+}
+
+class _ScreenHeaderState extends State<ScreenHeader> {
+  final _searchController = TextEditingController();
+  final _searchFocus = FocusNode();
+  bool _searching = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
+  void _openSearch() {
+    setState(() => _searching = true);
+    _searchFocus.requestFocus();
+  }
+
+  void _closeSearch() {
+    _searchController.clear();
+    widget.onSearchChanged?.call('');
+    _searchFocus.unfocus();
+    setState(() => _searching = false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final onBack = widget.onBack;
+    final trailing = widget.trailing;
     return Material(
       color: tokens.primary,
       child: SafeArea(
@@ -425,19 +468,83 @@ class ScreenHeader extends StatelessWidget implements PreferredSizeWidget {
                     const SizedBox(width: BrandSpace.xxs),
                   ],
                   Expanded(
-                    child: Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: tokens.head(titleSize, color: tokens.onPrimary),
-                    ),
+                    child: _searching
+                        ? _SearchField(
+                            controller: _searchController,
+                            focusNode: _searchFocus,
+                            hint: widget.searchHint ?? 'buscar'.tr(),
+                            onChanged: widget.onSearchChanged!,
+                          )
+                        : Text(
+                            widget.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: tokens.head(
+                              widget.titleSize,
+                              color: tokens.onPrimary,
+                            ),
+                          ),
                   ),
-                  if (trailing != null) trailing!,
+                  if (widget.onSearchChanged != null)
+                    IconButton(
+                      onPressed: _searching ? _closeSearch : _openSearch,
+                      icon: Icon(
+                        _searching ? Icons.close : Icons.search,
+                        color: tokens.onPrimary,
+                      ),
+                      tooltip: 'buscar'.tr(),
+                    ),
+                  if (trailing != null && !_searching) trailing,
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Inline search field that takes over the header title.
+class _SearchField extends StatelessWidget {
+  const _SearchField({
+    required this.controller,
+    required this.focusNode,
+    required this.hint,
+    required this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final String hint;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      onChanged: onChanged,
+      textInputAction: TextInputAction.search,
+      cursorColor: tokens.onPrimary,
+      style: tokens.body(
+        16,
+        weight: FontWeight.w600,
+        color: tokens.onPrimary,
+      ),
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: tokens.body(
+          16,
+          color: tokens.onPrimary.withValues(alpha: 0.6),
+        ),
+        filled: false,
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
       ),
     );
   }

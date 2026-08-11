@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../services/model/noticia.dart';
 import '../theme/brand_tokens.dart';
 
@@ -28,7 +28,7 @@ class NoticiaDetallePage extends StatelessWidget {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'noticias'.tr(),
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
         trailing: noticia.url.isEmpty
             ? null
             : IconButton(

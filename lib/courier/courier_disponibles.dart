@@ -58,7 +58,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'disponibles'.tr(),
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
         trailing: IconButton(
           onPressed: _busy ? null : _refresh,
           icon: Icon(Icons.refresh, color: tokens.onPrimary),

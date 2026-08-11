@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
 
-/// Full-bleed banner pager.
+/// Full-bleed banner pager that advances on its own, endlessly.
 ///
 /// The caption always sits on a bottom gradient so it stays legible over any
 /// artwork, and a brand placeholder takes over when an image fails to load.
@@ -22,6 +24,8 @@ class BannerCarousel extends StatefulWidget {
     required this.config,
     this.height = 230,
     this.onTap,
+    this.autoScroll = true,
+    this.interval = const Duration(seconds: 5),
   });
 
   final List<BannerImage> banners;
@@ -29,16 +33,71 @@ class BannerCarousel extends StatefulWidget {
   final double height;
   final ValueChanged<BannerImage>? onTap;
 
+  /// Advances to the next banner on a timer, wrapping past the last one.
+  final bool autoScroll;
+  final Duration interval;
+
   @override
   State<BannerCarousel> createState() => _BannerCarouselState();
 }
 
 class _BannerCarouselState extends State<BannerCarousel> {
-  final _controller = PageController();
+  /// The pager runs over a virtually unbounded range and maps back onto the
+  /// banner list, so advancing past the last one continues into the first
+  /// without a visible jump backwards.
+  static const _origin = 10000;
+
+  late final PageController _controller;
+  Timer? _timer;
   int _page = 0;
 
   @override
+  void initState() {
+    super.initState();
+    _controller = PageController(initialPage: _origin);
+    _restartTimer();
+  }
+
+  @override
+  void didUpdateWidget(BannerCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.autoScroll != widget.autoScroll ||
+        oldWidget.interval != widget.interval ||
+        oldWidget.banners.length != widget.banners.length) {
+      _restartTimer();
+    }
+  }
+
+  void _restartTimer() {
+    _timer?.cancel();
+    if (!widget.autoScroll || widget.banners.length < 2) {
+      return;
+    }
+    _timer = Timer.periodic(widget.interval, (_) {
+      if (!mounted || !_controller.hasClients) {
+        return;
+      }
+      _controller.nextPage(
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  /// Holds the timer while the customer is dragging, then resumes it.
+  bool _onUserScroll(ScrollNotification notification) {
+    if (notification is ScrollStartNotification &&
+        notification.dragDetails != null) {
+      _timer?.cancel();
+    } else if (notification is ScrollEndNotification) {
+      _restartTimer();
+    }
+    return false;
+  }
+
+  @override
   void dispose() {
+    _timer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -53,46 +112,49 @@ class _BannerCarouselState extends State<BannerCarousel> {
       height: widget.height,
       child: Stack(
         children: [
-          PageView.builder(
-            controller: _controller,
-            itemCount: widget.banners.length,
-            onPageChanged: (page) => setState(() => _page = page),
-            itemBuilder: (context, index) {
-              final banner = widget.banners[index];
-              return GestureDetector(
-                onTap: widget.onTap == null
-                    ? null
-                    : () => widget.onTap!(banner),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    _BannerArtwork(url: banner.url, config: widget.config),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            tokens.scrimTop,
-                            tokens.scrimBottom,
-                          ],
+          NotificationListener<ScrollNotification>(
+            onNotification: _onUserScroll,
+            child: PageView.builder(
+              controller: _controller,
+              onPageChanged: (page) => setState(
+                () => _page = page % widget.banners.length,
+              ),
+              itemBuilder: (context, index) {
+                final banner = widget.banners[index % widget.banners.length];
+                return GestureDetector(
+                  onTap:
+                      widget.onTap == null ? null : () => widget.onTap!(banner),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _BannerArtwork(url: banner.url, config: widget.config),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              tokens.scrimTop,
+                              tokens.scrimBottom,
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(BrandSpace.lg),
-                        child: Text(
-                          banner.descripcion,
-                          style: tokens.head(22, color: tokens.onScrim),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(BrandSpace.lg),
+                          child: Text(
+                            banner.descripcion,
+                            style: tokens.head(22, color: tokens.onScrim),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
           if (widget.banners.length > 1)
             Positioned(
@@ -276,40 +338,95 @@ class _BranchLine extends StatelessWidget {
   }
 }
 
-/// Map pinned to the top 40% of the branches screen.
-class BranchMap extends StatelessWidget {
-  const BranchMap({super.key, required this.branches, this.onSelect});
+/// Map pinned to the top of the branches screen.
+///
+/// [focused] drives the camera: selecting a branch in the list flies the map to
+/// it instead of leaving the customer to find the pin themselves.
+class BranchMap extends StatefulWidget {
+  const BranchMap({
+    super.key,
+    required this.branches,
+    this.onSelect,
+    this.focused,
+  });
 
   final List<Sucursal> branches;
   final ValueChanged<Sucursal>? onSelect;
+  final Sucursal? focused;
 
-  static const double heightFactor = 0.4;
+  static const double heightFactor = 0.3;
+
+  /// Zoom used when the whole network is in view, and when one branch is.
+  static const double overviewZoom = 11;
+  static const double focusedZoom = 15.5;
+
+  @override
+  State<BranchMap> createState() => _BranchMapState();
+}
+
+class _BranchMapState extends State<BranchMap> {
+  GoogleMapController? _controller;
+
+  @override
+  void didUpdateWidget(BranchMap oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final focused = widget.focused;
+    if (focused != null && focused.registroId != oldWidget.focused?.registroId) {
+      _focus(focused);
+    }
+  }
+
+  void _focus(Sucursal branch) {
+    _controller?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(branch.latitud, branch.longitud),
+          zoom: BranchMap.focusedZoom,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    final height = MediaQuery.sizeOf(context).height * heightFactor;
-    if (branches.isEmpty) {
+    final height = MediaQuery.sizeOf(context).height * BranchMap.heightFactor;
+    if (widget.branches.isEmpty) {
       return SizedBox(
         height: height,
         child: ColoredBox(color: tokens.surfaceAlt),
       );
     }
-    final first = branches.first;
+    final first = widget.focused ?? widget.branches.first;
     return SizedBox(
       height: height,
       child: GoogleMap(
         initialCameraPosition: CameraPosition(
           target: LatLng(first.latitud, first.longitud),
-          zoom: 11,
+          zoom: widget.focused == null
+              ? BranchMap.overviewZoom
+              : BranchMap.focusedZoom,
         ),
-        markers: branches
+        onMapCreated: (controller) {
+          _controller = controller;
+          final focused = widget.focused;
+          if (focused != null) {
+            _focus(focused);
+          }
+        },
+        markers: widget.branches
             .map(
               (branch) => Marker(
                 markerId: MarkerId(branch.registroId),
                 position: LatLng(branch.latitud, branch.longitud),
                 infoWindow: InfoWindow(title: branch.nombre),
-                onTap: () => onSelect?.call(branch),
+                onTap: () => widget.onSelect?.call(branch),
               ),
             )
             .toSet(),
@@ -476,7 +593,12 @@ class NewsCard extends StatelessWidget {
             style: tokens.body(11, color: tokens.textMuted),
           ),
           const SizedBox(height: 6),
-          Text(news.resumen, style: tokens.body(13, height: 1.45)),
+          Text(
+            news.resumen,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: tokens.body(13, height: 1.45),
+          ),
         ],
       ),
     );

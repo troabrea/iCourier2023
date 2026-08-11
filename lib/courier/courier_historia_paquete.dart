@@ -35,7 +35,7 @@ class HistoricoPaquetePage extends StatelessWidget {
       appBar: ScreenHeader(
         title: 'historia_del_paquete'.tr(),
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: SafeArea(
         top: false,

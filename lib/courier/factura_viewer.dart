@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../theme/brand_tokens.dart';
 
 /// Full-screen document viewer for an attached invoice.
@@ -32,7 +32,7 @@ class FacturaViewerPage extends StatelessWidget {
       appBar: ScreenHeader(
         title: title,
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

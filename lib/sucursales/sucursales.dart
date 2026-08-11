@@ -28,10 +28,10 @@ class SucursalesPage extends StatefulWidget {
 
 class _SucursalesPageState extends State<SucursalesPage> {
   late final SucursalesBloc _bloc;
-  final _searchController = TextEditingController();
   String _query = '';
   UserProfile? _profile;
   ({double latitude, double longitude})? _here;
+  Sucursal? _focused;
 
   @override
   void initState() {
@@ -75,7 +75,6 @@ class _SucursalesPageState extends State<SucursalesPage> {
 
   @override
   void dispose() {
-    _searchController.dispose();
     _bloc.close();
     super.dispose();
   }
@@ -85,7 +84,10 @@ class _SucursalesPageState extends State<SucursalesPage> {
     final tokens = context.brand;
     return Scaffold(
       backgroundColor: tokens.bg,
-      appBar: ScreenHeader.tab(title: 'sucursales'.tr()),
+      appBar: ScreenHeader.tab(
+        title: 'sucursales'.tr(),
+        onSearchChanged: (value) => setState(() => _query = value),
+      ),
       body: BlocProvider.value(
         value: _bloc,
         child: BlocBuilder<SucursalesBloc, SucursalesState>(
@@ -119,7 +121,8 @@ class _SucursalesPageState extends State<SucursalesPage> {
               children: [
                 BranchMap(
                   branches: branches,
-                  onSelect: (branch) => _openBranch(branch),
+                  focused: _focused,
+                  onSelect: _selectBranch,
                 ),
                 Expanded(
                   child: RefreshIndicator(
@@ -133,15 +136,6 @@ class _SucursalesPageState extends State<SucursalesPage> {
                         BrandTabBar.height,
                       ),
                       children: [
-                        _SearchField(
-                          controller: _searchController,
-                          onChanged: (value) => setState(() => _query = value),
-                          onClear: () {
-                            _searchController.clear();
-                            setState(() => _query = '');
-                          },
-                        ),
-                        const SizedBox(height: BrandSpace.sm),
                         if (branches.isEmpty)
                           const BrandEmptyState(messageKey: 'no_resultados')
                         else
@@ -149,7 +143,7 @@ class _SucursalesPageState extends State<SucursalesPage> {
                             BranchCard(
                               branch: branch,
                               distance: _distanceTo(branch),
-                              onTap: () => _openBranch(branch),
+                              onTap: () => _selectBranch(branch),
                             ),
                       ],
                     ),
@@ -175,6 +169,12 @@ class _SucursalesPageState extends State<SucursalesPage> {
       branch.longitud,
     );
     return '${km.toStringAsFixed(1)} km';
+  }
+
+  /// Centres the map on the branch, then opens its detail.
+  Future<void> _selectBranch(Sucursal branch) async {
+    setState(() => _focused = branch);
+    await _openBranch(branch);
   }
 
   Future<void> _openBranch(Sucursal branch) async {
@@ -231,50 +231,3 @@ double _haversineKm(double lat1, double lon1, double lat2, double lon2) {
   return 12742 * asin(sqrt(a));
 }
 
-class _SearchField extends StatelessWidget {
-  const _SearchField({
-    required this.controller,
-    required this.onChanged,
-    required this.onClear,
-  });
-
-  final TextEditingController controller;
-  final ValueChanged<String> onChanged;
-  final VoidCallback onClear;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = context.brand;
-    return BrandCard(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-      child: Row(
-        children: [
-          BrandGlyph(BrandIcons.branches, color: tokens.textMuted, size: 18),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              onChanged: onChanged,
-              style: tokens.body(14, weight: FontWeight.w500),
-              decoration: InputDecoration(
-                hintText: 'buscar'.tr(),
-                hintStyle: tokens.body(14, color: tokens.textMuted),
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-            ),
-          ),
-          if (controller.text.isNotEmpty)
-            IconButton(
-              onPressed: onClear,
-              visualDensity: VisualDensity.compact,
-              icon: Icon(Icons.close, size: 16, color: tokens.textMuted),
-            ),
-        ],
-      ),
-    );
-  }
-}

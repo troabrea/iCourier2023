@@ -60,7 +60,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: widget.titulo.isEmpty ? 'recepciones'.tr() : widget.titulo,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
         trailing: IconButton(
           onPressed: _refreshing ? null : _refresh,
           icon: Icon(Icons.refresh, color: tokens.onPrimary),

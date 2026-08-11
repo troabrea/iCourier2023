@@ -37,6 +37,7 @@ import '../services/model/recepcion.dart';
 import '../servicios/servicios.dart';
 import '../sucursales/sucursales.dart';
 import '../theme/brand_config.dart';
+import '../theme/brand_tokens.dart';
 import '../tracking/package_tracking_page.dart';
 import 'app_routes.dart';
 import 'brand_navigation_shell.dart';
@@ -108,6 +109,7 @@ abstract final class AppRouter {
         path: AppRoutes.receptions,
         name: 'receptions',
         builder: (context, state) => _AsyncRoute<List<Recepcion>>(
+          title: 'recepciones'.tr(),
           load: () async {
             final receptions =
                 await GetIt.I<CourierService>().getRecepciones(false);
@@ -152,6 +154,7 @@ abstract final class AppRouter {
         name: 'available',
         builder: (context, state) =>
             _AsyncRoute<({Empresa empresa, List<Recepcion> packages})>(
+          title: 'disponibles'.tr(),
           load: () async {
             final service = GetIt.I<CourierService>();
             final results = await Future.wait([
@@ -186,8 +189,13 @@ abstract final class AppRouter {
         name: 'accounts',
         builder: (context, state) => _AsyncRoute<UserProfile>(
           load: GetIt.I<CourierService>().getUserProfile,
+          title: 'sus_cuentas'.tr(),
           builder: (context, profile) => Scaffold(
-            appBar: ScreenHeader(title: 'sus_cuentas'.tr()),
+            backgroundColor: context.brand.bg,
+            appBar: ScreenHeader(
+              title: 'sus_cuentas'.tr(),
+              onBack: context.popOrHome,
+            ),
             body: CuentasUsuario(userProfile: profile),
           ),
         ),
@@ -201,6 +209,7 @@ abstract final class AppRouter {
         path: AppRoutes.invoices,
         name: 'invoices',
         builder: (context, state) => _AsyncRoute<Empresa>(
+          title: 'facturas_pendientes'.tr(),
           load: GetIt.I<CourierService>().getEmpresa,
           builder: (context, company) => FacturadosPage(empresa: company),
         ),
@@ -233,8 +242,16 @@ abstract final class AppRouter {
         name: 'id-card',
         builder: (context, state) => _AsyncRoute<UserProfile>(
           load: GetIt.I<CourierService>().getUserProfile,
-          builder: (context, profile) =>
-              Scaffold(body: CarnetUsuario(userProfile: profile)),
+          title: 'carnet_membresia'.tr(),
+          builder: (context, profile) => Scaffold(
+            backgroundColor: context.brand.bg,
+            appBar: ScreenHeader(
+              title: 'carnet_membresia'.tr(),
+              titleSize: 18,
+              onBack: context.popOrHome,
+            ),
+            body: CarnetUsuario(userProfile: profile),
+          ),
         ),
       ),
       GoRoute(
@@ -256,11 +273,20 @@ abstract final class AppRouter {
       ),
     ];
 
+    final linkParser = AppDeepLinkParser(urlScheme: config.urlScheme);
+
     return GoRouter(
       initialLocation: session.isLoggedIn ? AppRoutes.home : AppRoutes.login,
       routes: routes,
       refreshListenable: session,
       redirect: (context, state) {
+        // The platform hands external links over verbatim, scheme and all, so
+        // `<scheme>://paquete/:id` has to be translated into an internal
+        // location before it can match a route. Anything the allowlist rejects
+        // goes home rather than to a router error page.
+        if (state.uri.hasScheme) {
+          return linkParser.parse(state.uri.toString()) ?? AppRoutes.home;
+        }
         final location = state.uri.toString();
         if (!session.isLoggedIn && AppDeepLinkParser.isProtected(location)) {
           pending.save(location);
@@ -313,6 +339,7 @@ class _PackageRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AsyncRoute<Recepcion?>(
+      title: 'historia_del_paquete'.tr(),
       load: () async {
         final receptions =
             await GetIt.I<CourierService>().getRecepciones(false);
@@ -323,10 +350,16 @@ class _PackageRoute extends StatelessWidget {
               orElse: () => null,
             );
       },
-      builder: (_, reception) {
+      builder: (context, reception) {
         if (reception == null) {
-          return const Scaffold(
-            body: BrandEmptyState(messageKey: 'no_paquetes'),
+          return Scaffold(
+            backgroundColor: context.brand.bg,
+            appBar: ScreenHeader(
+              title: 'historia_del_paquete'.tr(),
+              titleSize: 18,
+              onBack: context.popOrHome,
+            ),
+            body: const BrandEmptyState(messageKey: 'no_paquetes'),
           );
         }
         if (!showInvoice) {
@@ -345,10 +378,13 @@ class _PackageRoute extends StatelessWidget {
 }
 
 class _AsyncRoute<T> extends StatefulWidget {
-  const _AsyncRoute({required this.load, required this.builder});
+  const _AsyncRoute({required this.load, required this.builder, this.title});
 
   final Future<T> Function() load;
   final Widget Function(BuildContext context, T data) builder;
+
+  /// Header shown while loading or on failure, so those states are leavable.
+  final String? title;
 
   @override
   State<_AsyncRoute<T>> createState() => _AsyncRouteState<T>();
@@ -369,17 +405,30 @@ class _AsyncRouteState<T> extends State<_AsyncRoute<T>> {
       future: _future,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Scaffold(
-            body: BrandErrorState(
+          return _shell(
+            context,
+            BrandErrorState(
               onRetry: () => setState(() => _future = widget.load()),
             ),
           );
         }
         if (!snapshot.hasData) {
-          return const Scaffold(body: BrandSkeleton());
+          return _shell(context, const BrandSkeleton());
         }
         return widget.builder(context, snapshot.requireData);
       },
     );
   }
+
+  Widget _shell(BuildContext context, Widget body) => Scaffold(
+        backgroundColor: context.brand.bg,
+        appBar: widget.title == null
+            ? null
+            : ScreenHeader(
+                title: widget.title!,
+                titleSize: 18,
+                onBack: context.popOrHome,
+              ),
+        body: body,
+      );
 }

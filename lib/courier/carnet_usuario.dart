@@ -121,11 +121,7 @@ class _CarnetUsuarioState extends State<CarnetUsuario> {
               pill: true,
               fontSize: 12,
               verticalPadding: 9,
-              icon: BrandGlyph(
-                BrandIcons.receptions,
-                color: tokens.text,
-                size: 14,
-              ),
+              icon: Icon(Icons.copy_outlined, size: 14, color: tokens.text),
               onPressed: () => _copy(address.direccion),
             ),
           ),

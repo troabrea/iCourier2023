@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +10,6 @@ import '../design_system/core_components.dart';
 import '../design_system/overlay_components.dart';
 import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
-import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/model/empresa.dart';
 import '../services/model/login_model.dart';
@@ -55,7 +53,6 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
           }
           final data = snapshot.requireData;
           final config = GetIt.I<BrandConfig>();
-          final capabilities = config.capabilities.resolve(data.company);
           final hasAbout = data.company.mision.isNotEmpty ||
               data.company.vision.isNotEmpty;
 
@@ -69,32 +66,6 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
             children: [
               _ProfileRow(profile: data.profile, config: config),
               const SizedBox(height: 10),
-              _MoreRow(
-                label: 'sus_cuentas'.tr(),
-                route: AppRoutes.accounts,
-              ),
-              _MoreRow(
-                label: 'sus_mensajes'.tr(),
-                route: AppRoutes.messages,
-              ),
-              _MoreRow(
-                label: 'consulta_historica'.tr().replaceAll('\n', ' '),
-                route: AppRoutes.history,
-              ),
-              _MoreRow(
-                label: 'facturas_pendientes'.tr(),
-                route: AppRoutes.invoices,
-              ),
-              _MoreRow(
-                label: 'estado_de_cuenta'.tr(),
-                route: AppRoutes.accountStatement,
-                visible: capabilities.payments,
-              ),
-              _MoreRow(
-                label: 'ver_prealertas'.tr().replaceAll('\n', ' '),
-                route: AppRoutes.prealert,
-                visible: capabilities.prealerts,
-              ),
               _MoreRow(
                 label: 'nuestros_servicios'.tr(),
                 route: AppRoutes.services,
@@ -113,13 +84,6 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                   label: 'sobre_nosotros'.tr(),
                   onTap: () => _showAbout(data.company),
                 ),
-              const SizedBox(height: BrandSpace.md),
-              BrandOutlineButton(
-                label: 'cerrar_session'.tr(),
-                pill: true,
-                foreground: tokens.danger,
-                onPressed: () => _confirmLogout(context),
-              ),
               const SizedBox(height: 18),
               SocialMediaLinks(
                 empresa: data.company,
@@ -160,18 +124,6 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     );
   }
 
-  Future<void> _confirmLogout(BuildContext context) async {
-    final confirmed = await ConfirmDialog.show(
-      context,
-      title: 'confirme'.tr(),
-      message: 'confirme_cerrar_session'.tr(),
-      confirmLabel: 'cerrar_session'.tr(),
-      destructive: true,
-    );
-    if (confirmed) {
-      GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
-    }
-  }
 }
 
 /// Account identity, opening the membership card.

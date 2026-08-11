@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../theme/brand_tokens.dart';
 import 'bloc/preguntas_bloc.dart';
@@ -41,7 +41,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'preguntas'.tr(),
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: BlocProvider.value(
         value: _bloc,

@@ -43,7 +43,7 @@ class _FacturadosPageState extends State<FacturadosPage> {
       appBar: ScreenHeader(
         title: 'facturas_pendientes'.tr(),
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: FutureBuilder<List<Recepcion>>(
         future: _invoices,

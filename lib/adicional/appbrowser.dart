@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../theme/brand_tokens.dart';
 
 /// In-app browser used for the payment gateway and brand web content.
@@ -46,7 +46,7 @@ class _AppBrowserState extends State<AppBrowser> {
       appBar: ScreenHeader(
         title: widget.title,
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: SafeArea(
         top: false,

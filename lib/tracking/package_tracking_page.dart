@@ -50,7 +50,7 @@ class _PackageTrackingPageState extends State<PackageTrackingPage> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'rastreo_paquete'.tr(),
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: SafeArea(
         top: false,

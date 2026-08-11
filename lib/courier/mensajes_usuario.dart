@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../design_system/overlay_components.dart';
 import '../services/courier_service.dart';
 import '../services/model/mensaje.dart';
@@ -35,7 +35,7 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'sus_mensajes'.tr(),
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: FutureBuilder<List<Mensaje>>(
         future: _messages,

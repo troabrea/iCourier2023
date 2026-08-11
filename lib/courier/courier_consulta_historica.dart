@@ -43,7 +43,7 @@ class _ConsultaHistoricaPageState extends State<ConsultaHistoricaPage> {
       appBar: ScreenHeader(
         title: 'consulta_historica'.tr().replaceAll('\n', ' '),
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: BlocProvider.value(
         value: _bloc,

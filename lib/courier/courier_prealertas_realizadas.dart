@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../design_system/overlay_components.dart';
 import '../services/model/prealerta_model.dart';
 import '../theme/brand_config.dart';
@@ -44,7 +44,7 @@ class _PrealertasRealizadasState extends State<PrealertasRealizadas> {
       appBar: ScreenHeader(
         title: 'ver_prealertas'.tr().replaceAll('\n', ' '),
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: BlocProvider.value(
         value: _bloc,

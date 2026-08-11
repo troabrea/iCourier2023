@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../services/model/estado_model.dart';
 import '../theme/brand_config.dart';
@@ -35,7 +35,7 @@ class _EstadoDeCuentaState extends State<EstadoDeCuenta> {
       appBar: ScreenHeader(
         title: 'estado_de_cuenta'.tr(),
         titleSize: 18,
-        onBack: context.canPop() ? context.pop : null,
+        onBack: context.popOrHome,
       ),
       body: FutureBuilder<List<EstadoResponse>>(
         future: _statement,
