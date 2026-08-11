@@ -578,11 +578,16 @@ class BrandTabBar extends StatelessWidget {
     required this.modules,
     required this.index,
     required this.onTap,
+    required this.logoMark,
   });
 
   final List<TabModule> modules;
   final int index;
   final ValueChanged<int> onTap;
+
+  /// Brand mark shown at the centre, as the original tab bar did. Falls back
+  /// to the package glyph when a brand ships no icon.
+  final String logoMark;
 
   /// Height of the row that holds every destination.
   static const double _rowHeight = 52;
@@ -620,6 +625,7 @@ class BrandTabBar extends StatelessWidget {
                         ? Center(
                             child: _HomeButton(
                               selected: slot == index,
+                              logoMark: logoMark,
                               onTap: () => onTap(slot),
                             ),
                           )
@@ -674,9 +680,14 @@ class _TabButton extends StatelessWidget {
 }
 
 class _HomeButton extends StatelessWidget {
-  const _HomeButton({required this.selected, required this.onTap});
+  const _HomeButton({
+    required this.selected,
+    required this.logoMark,
+    required this.onTap,
+  });
 
   final bool selected;
+  final String logoMark;
   final VoidCallback onTap;
 
   @override
@@ -692,22 +703,32 @@ class _HomeButton extends StatelessWidget {
           width: 52,
           height: 52,
           alignment: Alignment.center,
+          padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: const Alignment(-0.6, -1),
-              end: const Alignment(0.6, 1),
-              colors: [tokens.primary, tokens.headerGradientEnd],
+            // The mark keeps its own colours, so it sits on the light backdrop
+            // it was drawn for; selection is carried by the ring instead.
+            color: logoMark.isEmpty ? null : tokens.logoBackdrop,
+            gradient: logoMark.isEmpty
+                ? LinearGradient(
+                    begin: const Alignment(-0.6, -1),
+                    end: const Alignment(0.6, 1),
+                    colors: [tokens.primary, tokens.headerGradientEnd],
+                  )
+                : null,
+            border: Border.all(
+              color: selected ? tokens.primary : tokens.border,
+              width: selected ? 2 : 1,
             ),
-            // Contained in the bar now, so it no longer needs the ring that
-            // punched it out of the dock; a soft glow is enough to lift it.
             boxShadow: BrandElevation.homeButton(tokens.primary),
           ),
-          child: BrandGlyph(
-            BrandIcons.receptions,
-            color: tokens.onPrimary,
-            size: 25,
-          ),
+          child: logoMark.isEmpty
+              ? BrandGlyph(
+                  BrandIcons.receptions,
+                  color: tokens.onPrimary,
+                  size: 25,
+                )
+              : ClipOval(child: Image.asset(logoMark, fit: BoxFit.contain)),
         ),
       ),
     );

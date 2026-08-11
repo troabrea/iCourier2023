@@ -151,7 +151,6 @@ class _DashboardContent extends StatelessWidget {
                       Icons.chat_bubble_outline,
                   onCarnet: () => context.push(AppRoutes.idCard),
                   onMessages: () => context.push(AppRoutes.messages),
-                  onRefresh: onRefresh,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(

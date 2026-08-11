@@ -80,6 +80,7 @@ class _ComponentGalleryState extends State<ComponentGallery> {
         modules: widget.config.navigation.tabs,
         index: _tab,
         onTap: (index) => setState(() => _tab = index),
+        logoMark: widget.config.assets.logoMark,
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, BrandTabBar.height),

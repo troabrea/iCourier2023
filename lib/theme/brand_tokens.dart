@@ -103,6 +103,12 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
   /// whatever artwork the brand ships.
   Color get onScrim => const Color(0xffffffff);
 
+  /// Backdrop a brand mark is placed on.
+  ///
+  /// Logos are authored for a light background, so this stays white in both
+  /// themes rather than following `surface` and swallowing the artwork.
+  Color get logoBackdrop => const Color(0xffffffff);
+
   /// Returns the standard timeline glow for [accent].
   Color timelineGlow(Color accent) => accent.withValues(alpha: 0.16);
 

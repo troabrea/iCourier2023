@@ -21,6 +21,7 @@ class BrandNavigationShell extends StatelessWidget {
       bottomNavigationBar: BrandTabBar(
         modules: config.navigation.tabs,
         index: navigationShell.currentIndex,
+        logoMark: config.assets.logoMark,
         onTap: (index) {
           navigationShell.goBranch(
             index,

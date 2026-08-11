@@ -129,6 +129,7 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
         modules: BrandNavigationConfig.standard().tabs,
         index: 2,
         onTap: (_) {},
+        logoMark: 'images/bmcargo/icon.png',
       ),
     ),
     MapEntry(
