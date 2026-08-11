@@ -84,7 +84,7 @@ abstract final class AppRouter {
                     path: _path(module),
                     name: 'tab-${module.name}',
                     pageBuilder: (context, state) => NoTransitionPage(
-                      child: _screen(module),
+                      child: _screen(module, isTabRoot: true),
                     ),
                   ),
                 ],
@@ -92,6 +92,8 @@ abstract final class AppRouter {
             )
             .toList(growable: false),
       ),
+      // A module the brand did not put in a tab is still reachable, but as a
+      // stacked screen: it gets a back button and drops the tab-root chrome.
       ...TabModule.values.where((module) => !tabModules.contains(module)).map(
             (module) => GoRoute(
               path: _path(module),
@@ -313,13 +315,20 @@ abstract final class AppRouter {
         TabModule.services => AppRoutes.services,
       };
 
-  static Widget _screen(TabModule module) => switch (module) {
-        TabModule.news => const NoticiasPage(),
+  /// Builds a module's screen.
+  ///
+  /// [isTabRoot] tells the screen which of its two lives it is living: a
+  /// permanent tab, which owns the brand banners and needs no back button, or
+  /// a stacked destination reached from "más", which is the other way round.
+  /// Which modules land where is whitelabel configuration, never a brand check.
+  static Widget _screen(TabModule module, {bool isTabRoot = false}) =>
+      switch (module) {
+        TabModule.news => NoticiasPage(isTabRoot: isTabRoot),
         TabModule.branches => const SucursalesPage(),
         TabModule.home => const CourierPage(),
         TabModule.calculator => const CalculadoraPage(),
         TabModule.more => const AdicionalInfoPage(),
-        TabModule.services => const ServiciosPage(),
+        TabModule.services => ServiciosPage(isTabRoot: isTabRoot),
       };
 
   static PackageStage? _stageFromName(String? name) {

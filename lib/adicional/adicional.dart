@@ -53,6 +53,10 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
           }
           final data = snapshot.requireData;
           final config = GetIt.I<BrandConfig>();
+          // A module that already owns a permanent tab must not be listed
+          // again here: the row would duplicate the destination and, since a
+          // tab lives in the shell, pushing it would fight the navigator.
+          final tabs = config.navigation.tabs.toSet();
           final hasAbout = data.company.mision.isNotEmpty ||
               data.company.vision.isNotEmpty;
 
@@ -69,10 +73,12 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               _MoreRow(
                 label: 'nuestros_servicios'.tr(),
                 route: AppRoutes.services,
+                visible: !tabs.contains(TabModule.services),
               ),
               _MoreRow(
                 label: 'noticias'.tr(),
                 route: AppRoutes.news,
+                visible: !tabs.contains(TabModule.news),
               ),
               _MoreRow(
                 label: 'preguntas_frecuentes'.tr(),

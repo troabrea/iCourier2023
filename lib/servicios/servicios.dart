@@ -10,11 +10,17 @@ import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
+import '../services/model/servicio.dart';
+import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'bloc/servicios_bloc.dart';
 
 class ServiciosPage extends StatefulWidget {
-  const ServiciosPage({super.key});
+  const ServiciosPage({super.key, this.isTabRoot = false});
+
+  /// See [NoticiasPage.isTabRoot]: a tab root owns the banners and has no back
+  /// button; the same screen reached from "más" is stacked.
+  final bool isTabRoot;
 
   @override
   State<ServiciosPage> createState() => _ServiciosPageState();
@@ -50,10 +56,12 @@ class _ServiciosPageState extends State<ServiciosPage> {
     final tokens = context.brand;
     return Scaffold(
       backgroundColor: tokens.bg,
-      appBar: ScreenHeader(
-        title: 'nuestros_servicios'.tr(),
-        onBack: context.popOrHome,
-      ),
+      appBar: widget.isTabRoot
+          ? ScreenHeader.tab(title: 'nuestros_servicios'.tr())
+          : ScreenHeader(
+              title: 'nuestros_servicios'.tr(),
+              onBack: context.popOrHome,
+            ),
       body: BlocProvider.value(
         value: _bloc,
         child: BlocBuilder<ServiciosBloc, ServiciosState>(
@@ -78,37 +86,56 @@ class _ServiciosPageState extends State<ServiciosPage> {
                 glyph: BrandIcons.services,
               );
             }
+            final showBanners = widget.isTabRoot && state.banners.isNotEmpty;
             return RefreshIndicator(
               onRefresh: () async =>
                   _bloc.add(const LoadApiEvent(ignoreCache: true)),
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(
-                  BrandSpace.lg,
-                  BrandSpace.md,
-                  BrandSpace.lg,
-                  BrandTabBar.height,
+              child: ListView(
+                padding: EdgeInsets.only(
+                  bottom: BrandTabBar.height,
+                  top: showBanners ? 0 : BrandSpace.md,
                 ),
-                itemCount: state.servicios.length,
-                itemBuilder: (context, index) {
-                  final service = state.servicios[index];
-                  final url = _serviceUrl(service.url);
-                  return ServiceCard(
-                    title: service.titulo,
-                    description: service.resumen,
-                    glyph: _glyphs[index % _glyphs.length],
-                    onTap: url == null
-                        ? null
-                        : () => launchUrl(
-                              url,
-                              mode: LaunchMode.externalApplication,
-                            ),
-                  );
-                },
+                children: [
+                  if (showBanners)
+                    BannerCarousel(
+                      banners: state.banners,
+                      config: GetIt.I<BrandConfig>(),
+                    ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      BrandSpace.lg,
+                      showBanners ? BrandSpace.md : 0,
+                      BrandSpace.lg,
+                      0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (var index = 0;
+                            index < state.servicios.length;
+                            index++)
+                          _serviceCard(state.servicios[index], index),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             );
           },
         ),
       ),
+    );
+  }
+
+  Widget _serviceCard(Servicio service, int index) {
+    final url = _serviceUrl(service.url);
+    return ServiceCard(
+      title: service.titulo,
+      description: service.resumen,
+      glyph: _glyphs[index % _glyphs.length],
+      onTap: url == null
+          ? null
+          : () => launchUrl(url, mode: LaunchMode.externalApplication),
     );
   }
 

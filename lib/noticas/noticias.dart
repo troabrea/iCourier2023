@@ -15,7 +15,13 @@ import '../theme/brand_tokens.dart';
 import 'bloc/noticias_bloc.dart';
 
 class NoticiasPage extends StatefulWidget {
-  const NoticiasPage({super.key});
+  const NoticiasPage({super.key, this.isTabRoot = false});
+
+  /// True when the brand gave this module a permanent tab. A tab root carries
+  /// the banners and has nothing to go back to; reached from "más" it is a
+  /// stacked screen, so it shows a back button and leaves the banners to
+  /// whichever module does own a tab.
+  final bool isTabRoot;
 
   @override
   State<NoticiasPage> createState() => _NoticiasPageState();
@@ -41,7 +47,12 @@ class _NoticiasPageState extends State<NoticiasPage> {
     final tokens = context.brand;
     return Scaffold(
       backgroundColor: tokens.bg,
-      appBar: ScreenHeader.tab(title: 'noticias'.tr()),
+      appBar: widget.isTabRoot
+          ? ScreenHeader.tab(title: 'noticias'.tr())
+          : ScreenHeader(
+              title: 'noticias'.tr(),
+              onBack: context.popOrHome,
+            ),
       body: BlocProvider.value(
         value: _bloc,
         child: BlocBuilder<NoticiasBloc, NoticiasState>(
@@ -68,15 +79,15 @@ class _NoticiasPageState extends State<NoticiasPage> {
               child: ListView(
                 padding: const EdgeInsets.only(bottom: BrandTabBar.height),
                 children: [
-                  if (state.banners.isNotEmpty)
+                  if (widget.isTabRoot && state.banners.isNotEmpty)
                     BannerCarousel(
                       banners: state.banners,
                       config: GetIt.I<BrandConfig>(),
                     ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
+                    padding: EdgeInsets.fromLTRB(
                       BrandSpace.lg,
-                      BrandSpace.md,
+                      widget.isTabRoot ? BrandSpace.md : BrandSpace.lg,
                       BrandSpace.lg,
                       0,
                     ),
