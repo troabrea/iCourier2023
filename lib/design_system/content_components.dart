@@ -22,7 +22,7 @@ class BannerCarousel extends StatefulWidget {
     super.key,
     required this.banners,
     required this.config,
-    this.height = 230,
+    this.aspectRatio = 16 / 9,
     this.onTap,
     this.autoScroll = true,
     this.interval = const Duration(seconds: 5),
@@ -30,7 +30,10 @@ class BannerCarousel extends StatefulWidget {
 
   final List<BannerImage> banners;
   final BrandConfig config;
-  final double height;
+
+  /// Shape of the strip. The carousel sizes itself from the width it is given
+  /// instead of a fixed height, so it holds on any screen.
+  final double aspectRatio;
   final ValueChanged<BannerImage>? onTap;
 
   /// Advances to the next banner on a timer, wrapping past the last one.
@@ -108,8 +111,8 @@ class _BannerCarouselState extends State<BannerCarousel> {
     if (widget.banners.isEmpty) {
       return const SizedBox.shrink();
     }
-    return SizedBox(
-      height: widget.height,
+    return AspectRatio(
+      aspectRatio: widget.aspectRatio,
       child: Stack(
         children: [
           NotificationListener<ScrollNotification>(

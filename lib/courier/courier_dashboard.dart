@@ -221,7 +221,6 @@ class _DashboardContent extends StatelessWidget {
                                 child: BannerCarousel(
                                   banners: state.banners,
                                   config: config,
-                                  height: 180,
                                 ),
                               ),
                             ],
