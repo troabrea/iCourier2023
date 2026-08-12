@@ -201,6 +201,9 @@ class _DashboardContentState extends State<_DashboardContent> {
         builder: (context, snapshot) {
           final userProfile = snapshot.data;
           final pending = _pending();
+          final banner = state.banners.isEmpty
+              ? null
+              : BannerCarousel(banners: state.banners, config: config);
           final actions = BrandHeaderActions(
             unread: unread,
             onContact: _contact(userProfile)?.open,
@@ -247,7 +250,13 @@ class _DashboardContentState extends State<_DashboardContent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _statusCard(context, capabilities, userProfile, pending),
+                    _statusCard(
+                      context,
+                      capabilities,
+                      userProfile,
+                      pending,
+                      banner,
+                    ),
                     // The hero card is pulled 30 up onto the header, so the
                     // flow below reclaims that space.
                     Transform.translate(
@@ -258,20 +267,6 @@ class _DashboardContentState extends State<_DashboardContent> {
                           // La tarjeta héroe termina justo encima; sin este
                           // aire las dos superficies se leen como una sola.
                           const SizedBox(height: 14),
-                          // El banner va antes que las acciones: es lo que
-                          // debe alcanzar la primera pantalla, y el orden lo
-                          // garantiza sin medir nada.
-                          if (state.banners.isNotEmpty) ...[
-                            ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(tokens.radiusMd),
-                              child: BannerCarousel(
-                                banners: state.banners,
-                                config: config,
-                              ),
-                            ),
-                            const SizedBox(height: BrandSpace.md),
-                          ],
                           BrandSectionLabel('acciones_rapidas'.tr()),
                           AdaptiveQuickActions(
                             room: _roomForActions(
@@ -414,10 +409,11 @@ class _DashboardContentState extends State<_DashboardContent> {
         HomeStatusCard.heightFor(
           stageCount: stages.length,
           withActions: stages.contains(PackageStage.disponible),
+          bannerHeight:
+              hasBanner ? expectedBannerHeight(context, width) : 0,
         ) +
-        (hasBanner ? expectedBannerHeight(context, width) : 0) +
         BrandTabBar.height +
-        // Section label plus the air around the banner.
+        // Section label and the air around it.
         44;
     return MediaQuery.sizeOf(context).height - reserved;
   }
@@ -431,9 +427,11 @@ class _DashboardContentState extends State<_DashboardContent> {
     BrandCapabilities capabilities,
     UserProfile? profile,
     List<({Recepcion package, PackageStage stage})> pending,
+    Widget? banner,
   ) {
     if (pending.isEmpty) {
       return HomeStatusCard(
+        banner: banner,
         onShowAddress: () => context.push(AppRoutes.idCard),
         onRefresh: widget.onRefresh,
         refreshing: widget.refreshing,
@@ -446,16 +444,26 @@ class _DashboardContentState extends State<_DashboardContent> {
     }
 
     return HomeStatusCard(
+      banner: banner,
       total: pending.length,
       onRefresh: widget.onRefresh,
       refreshing: widget.refreshing,
       groups: [
-        for (final stage in PackageStage.values)
+        for (final stage in _stageOrder)
           if ((byStage[stage] ?? const <Recepcion>[]).isNotEmpty)
             _group(context, capabilities, stage, byStage[stage]!),
       ],
     );
   }
+
+  /// What the customer can collect leads; the rest follow the journey.
+  static const _stageOrder = <PackageStage>[
+    PackageStage.disponible,
+    PackageStage.origen,
+    PackageStage.ruta,
+    PackageStage.destino,
+    PackageStage.entregado,
+  ];
 
   HomeStageGroup _group(
     BuildContext context,
@@ -466,6 +474,7 @@ class _DashboardContentState extends State<_DashboardContent> {
     // Only what the customer can collect carries actions; everything else is
     // still travelling and there is nothing to do about it yet.
     final ready = stage == PackageStage.disponible;
+    final held = packages.where((package) => package.retenido).toList();
     return HomeStageGroup(
       stage: stage,
       count: packages.length,
@@ -475,6 +484,16 @@ class _DashboardContentState extends State<_DashboardContent> {
             ? AppRoutes.available
             : '${AppRoutes.receptions}?estado=${stage.name}',
       ),
+      retained: held.isEmpty
+          ? null
+          : HomeRetainedGroup(
+              count: held.length,
+              contents: _contents(held),
+              onOpen: () => context.push(
+                '${AppRoutes.receptions}'
+                '?retenido=true&estado=${stage.name}',
+              ),
+            ),
       onPickup: ready ? widget.onPickup : null,
       onDelivery: ready && capabilities.delivery ? widget.onDelivery : null,
       onPay: ready && capabilities.payments ? widget.onPay : null,

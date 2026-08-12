@@ -124,6 +124,7 @@ abstract final class AppRouter {
           },
           builder: (context, receptions) => RecepcionesPage(
             recepciones: receptions,
+            retained: state.uri.queryParameters['retenido'] == 'true',
             titulo: state.uri.queryParameters['retenido'] == 'true'
                 ? 'sin_factura'.tr()
                 : 'recepciones'.tr(),

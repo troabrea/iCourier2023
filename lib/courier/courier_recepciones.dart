@@ -21,11 +21,16 @@ class RecepcionesPage extends StatefulWidget {
     required this.recepciones,
     this.titulo = '',
     this.initialStage,
+    this.retained = false,
   });
 
   final List<Recepcion> recepciones;
   final String titulo;
   final PackageStage? initialStage;
+
+  /// Held packages: opening one goes straight to its post-alert, the way the
+  /// operation expects the invoice to arrive, instead of to its history.
+  final bool retained;
 
   @override
   State<RecepcionesPage> createState() => _RecepcionesPageState();
@@ -100,7 +105,11 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
                         itemBuilder: (context, index) => PackageCard(
                           package: visible[index],
                           onTap: () => context.push(
-                            AppRoutes.package(visible[index].recepcionID),
+                            widget.retained
+                                ? AppRoutes.invoice(visible[index].recepcionID)
+                                : AppRoutes.package(
+                                    visible[index].recepcionID,
+                                  ),
                             extra: visible[index],
                           ),
                         ),

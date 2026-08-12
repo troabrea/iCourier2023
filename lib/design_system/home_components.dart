@@ -13,6 +13,7 @@ class HomeStageGroup {
     required this.count,
     required this.contents,
     required this.onOpen,
+    this.retained,
     this.onPickup,
     this.onDelivery,
     this.onPay,
@@ -27,10 +28,30 @@ class HomeStageGroup {
   /// Opens the reception list already filtered by this state.
   final VoidCallback onOpen;
 
+  /// The packages inside this state that the operation is holding, when there
+  /// are any. Shown as a child of the state rather than a state of its own:
+  /// being held is a condition on top of where the package is, not a place.
+  final HomeRetainedGroup? retained;
+
   /// Only a state the customer can act on carries these.
   final VoidCallback? onPickup;
   final VoidCallback? onDelivery;
   final VoidCallback? onPay;
+}
+
+/// Packages held inside a state, waiting on the customer for an invoice.
+class HomeRetainedGroup {
+  const HomeRetainedGroup({
+    required this.count,
+    required this.contents,
+    required this.onOpen,
+  });
+
+  final int count;
+  final String contents;
+
+  /// Opens the held packages, where each one leads to its post-alert.
+  final VoidCallback onOpen;
 }
 
 /// The card that overlaps the brand header.
@@ -46,6 +67,7 @@ class HomeStatusCard extends StatelessWidget {
     this.onShowAddress,
     this.onRefresh,
     this.refreshing = false,
+    this.banner,
   });
 
   /// Packages the customer still has something to wait for.
@@ -62,6 +84,13 @@ class HomeStatusCard extends StatelessWidget {
   /// still tells the customer the tap registered.
   final bool refreshing;
 
+  /// Rides at the top of the card, full width and flush to the edge.
+  ///
+  /// The brand needs this seen, and inside the card it cannot be pushed off the
+  /// fold by anything below: it travels with the one surface that is always
+  /// first on the screen, packages or not.
+  final Widget? banner;
+
   /// Height this card will take, so the page can budget what surrounds it.
   ///
   /// Assumes the two-line digest on every state: erring tall only folds the
@@ -69,6 +98,7 @@ class HomeStatusCard extends StatelessWidget {
   static double heightFor({
     required int stageCount,
     required bool withActions,
+    double bannerHeight = 0,
   }) {
     const padding = 18 * 2;
     const headline = 52 + BrandSpace.md;
@@ -76,7 +106,8 @@ class HomeStatusCard extends StatelessWidget {
     // Three pills do not fit one line on a phone, so they wrap. Budgeting for
     // a single row would under-reserve and push the banner off the fold.
     const actionsRow = 44 * 2 + BrandSpace.xs + 12;
-    return padding +
+    return bannerHeight +
+        padding +
         headline +
         stageCount * tile +
         (withActions ? actionsRow : 0.0) -
@@ -95,27 +126,39 @@ class HomeStatusCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(tokens.radiusLg),
           boxShadow: BrandElevation.hero,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: total == 0
-              ? _Empty(
-                  onShowAddress: onShowAddress,
-                  onRefresh: onRefresh,
-                  refreshing: refreshing,
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _Headline(
-                      count: total,
-                      glyph: BrandIcons.receptions,
-                      onRefresh: onRefresh,
-                      refreshing: refreshing,
-                    ),
-                    const SizedBox(height: BrandSpace.md),
-                    for (final group in groups) _StageTile(group: group),
-                  ],
-                ),
+        // Clipped by the card so the banner can sit flush against the top edge
+        // and still take its rounded corners.
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(tokens.radiusLg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (banner != null) banner!,
+              Padding(
+                padding: const EdgeInsets.all(18),
+                child: total == 0
+                    ? _Empty(
+                        onShowAddress: onShowAddress,
+                        onRefresh: onRefresh,
+                        refreshing: refreshing,
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _Headline(
+                            count: total,
+                            glyph: BrandIcons.receptions,
+                            onRefresh: onRefresh,
+                            refreshing: refreshing,
+                          ),
+                          const SizedBox(height: BrandSpace.md),
+                          for (final group in groups)
+                            _StageTile(group: group),
+                        ],
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -176,6 +219,86 @@ class _Headline extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// Held packages, hung under the state they belong to.
+///
+/// Indented and smaller than its parent so it reads as a condition of that
+/// state rather than another step of the journey, and in the warning colour
+/// because it is the one row waiting on the customer.
+class _RetainedSubTile extends StatelessWidget {
+  const _RetainedSubTile({required this.group});
+
+  final HomeRetainedGroup group;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Semantics(
+      button: true,
+      child: InkWell(
+        onTap: group.onOpen,
+        child: Padding(
+          // Cleared past the parent mark so the indent is unmistakable.
+          padding: const EdgeInsets.only(
+            left: 38 + BrandSpace.sm,
+            bottom: 12,
+          ),
+          child: Row(
+            children: [
+              BrandGlyphTile(
+                asset: BrandIcons.missingInvoice,
+                accent: tokens.warning,
+                size: 30,
+                glyphSize: 16,
+              ),
+              const SizedBox(width: BrandSpace.xs),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'retenido'.tr(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: tokens.body(
+                        13,
+                        weight: FontWeight.w700,
+                        color: tokens.warning,
+                      ),
+                    ),
+                    if (group.contents.trim().isNotEmpty) ...[
+                      const SizedBox(height: 1),
+                      Text(
+                        group.contents,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tokens.body(11, color: tokens.textMuted),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: BrandSpace.xs),
+              BrandPill(
+                label: '${group.count}',
+                background: tokens.accentWash(tokens.warning, 0.16),
+                foreground: tokens.warning,
+                fontSize: 11,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 9,
+                  vertical: 2,
+                ),
+              ),
+              const SizedBox(width: BrandSpace.xxs),
+              BrandChevron(size: 14, color: tokens.warning),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -317,6 +440,7 @@ class _StageTile extends StatelessWidget {
             ),
           ),
         ),
+        if (group.retained != null) _RetainedSubTile(group: group.retained!),
         if (_actionable) ...[
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
