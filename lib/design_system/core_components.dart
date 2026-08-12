@@ -27,6 +27,7 @@ class BrandHeader extends StatelessWidget {
     required this.account,
     required this.capabilities,
     this.accountName,
+    this.photoUrl = '',
     this.points,
     this.unread = 0,
     this.onMessages,
@@ -44,6 +45,9 @@ class BrandHeader extends StatelessWidget {
   final String account;
   final BrandCapabilities capabilities;
   final String? accountName;
+
+  /// Portrait the customer uploaded from their membership card.
+  final String photoUrl;
   final num? points;
   final int unread;
   final VoidCallback? onMessages;
@@ -121,6 +125,7 @@ class BrandHeader extends StatelessWidget {
         children: [
           _Avatar(
             initial: _initial,
+            photoUrl: photoUrl,
             onTap: onAccounts,
             tokens: tokens,
           ),
@@ -255,34 +260,53 @@ class _Disc extends StatelessWidget {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({required this.initial, required this.tokens, this.onTap});
+  const _Avatar({
+    required this.initial,
+    required this.tokens,
+    this.photoUrl = '',
+    this.onTap,
+  });
 
   final String initial;
   final BrandTokens tokens;
+
+  /// The same portrait the membership card shows, when the customer set one.
+  final String photoUrl;
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-        button: onTap != null,
-        label: 'sus_cuentas'.tr(),
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: 42,
-            height: 42,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: tokens.headerOverlay(0.22),
-              shape: BoxShape.circle,
-              border: Border.all(color: tokens.headerOverlay(0.45), width: 1.5),
-            ),
-            child: Text(
-              initial,
-              style: tokens.head(15, color: tokens.onPrimary),
-            ),
+  Widget build(BuildContext context) {
+    final hasPhoto = photoUrl.trim().isNotEmpty;
+    return Semantics(
+      button: onTap != null,
+      label: 'sus_cuentas'.tr(),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 42,
+          height: 42,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: tokens.headerOverlay(0.22),
+            shape: BoxShape.circle,
+            border: Border.all(color: tokens.headerOverlay(0.45), width: 1.5),
+            image: hasPhoto
+                ? DecorationImage(
+                    image: NetworkImage(photoUrl),
+                    fit: BoxFit.cover,
+                  )
+                : null,
           ),
+          child: hasPhoto
+              ? null
+              : Text(
+                  initial,
+                  style: tokens.head(15, color: tokens.onPrimary),
+                ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class _AccountChip extends StatelessWidget {
@@ -808,6 +832,66 @@ class QuickAction {
   final String icon;
   final VoidCallback onTap;
   final bool enabled;
+}
+
+/// Quick actions as a plain list: mark, label and a disclosure.
+///
+/// A list beats the old two-column grid here because these are destinations,
+/// not tiles worth equal visual weight, and it scans in one column with the
+/// rest of the screen.
+class QuickActionList extends StatelessWidget {
+  const QuickActionList({super.key, required this.actions});
+
+  final List<QuickAction> actions;
+
+  /// Height one row takes, margin included.
+  static const double rowHeight = 38 + 7 * 2 + BrandSpace.xs;
+
+  /// Room this list needs for [count] rows, so a layout can decide whether to
+  /// show them or fold them behind a single button.
+  static double heightFor(int count) => count * rowHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final visible = actions.where((action) => action.enabled).toList();
+    if (visible.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final action in visible)
+          BrandCard(
+            onTap: action.onTap,
+            margin: const EdgeInsets.only(bottom: BrandSpace.xs),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 7,
+            ),
+            child: Semantics(
+              button: true,
+              child: Row(
+                children: [
+                  BrandGlyphTile(asset: action.icon),
+                  const SizedBox(width: BrandSpace.sm),
+                  Expanded(
+                    child: Text(
+                      action.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: tokens.body(14, weight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(width: BrandSpace.xs),
+                  const BrandChevron(),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 /// Two-column grid of quick actions, filtered by capability.

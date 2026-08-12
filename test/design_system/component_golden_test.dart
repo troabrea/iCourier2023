@@ -309,27 +309,37 @@ Widget _errorState() => const BrandErrorState(onRetry: _noop);
 
 Widget _skeleton() => const SizedBox(height: 220, child: BrandSkeleton(rows: 2));
 
+// Cubre el envoltura de las tres acciones, que es lo que más alto ocupa. Sin
+// resumen: el marco del golden mide 320 y las dos cosas juntas no caben. El
+// resumen queda cubierto por el fixture de abajo.
 Widget _homeCardReady() => const HomeStatusCard(
-      status: HomeStatus.ready,
-      count: 2,
-      total: '337.99',
-      currency: r'$',
-      branch: 'Sucursal Miami Principal',
-      onPickup: _noop,
-      onDelivery: _noop,
+      total: 2,
+      groups: [
+        HomeStageGroup(
+          stage: PackageStage.disponible,
+          count: 2,
+          contents: '',
+          onOpen: _noop,
+          onPickup: _noop,
+          onDelivery: _noop,
+          onPay: _noop,
+        ),
+      ],
     );
 
 Widget _homeCardOnTheWay() => const HomeStatusCard(
-      status: HomeStatus.onTheWay,
-      count: 3,
-      nextContent: 'Cargador inalámbrico',
-      nextStage: PackageStage.destino,
+      total: 3,
+      groups: [
+        HomeStageGroup(
+          stage: PackageStage.origen,
+          count: 3,
+          contents: 'Cargador inalámbrico',
+          onOpen: _noop,
+        ),
+      ],
     );
 
-Widget _homeCardEmpty() => const HomeStatusCard(
-      status: HomeStatus.empty,
-      onShowAddress: _noop,
-    );
+Widget _homeCardEmpty() => const HomeStatusCard(onShowAddress: _noop);
 
 Widget _pointsCard() => const PointsCard(
       label: 'Puntos Disponibles',

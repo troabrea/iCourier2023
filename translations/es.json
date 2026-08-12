@@ -116,6 +116,10 @@
   "pagar_ahora": "Pagar",
   "pago_en_linea": "Pago en Línea",
   "paquetes": "paquetes",
+  "paquetes_contados": {
+    "one": "paquete",
+    "other": "paquetes"
+  },
   "paquetes_en_camino": "Paquetes en camino",
   "pasarela_pago_segura": "Serás redirigido a la pasarela de pago segura de {}.",
   "password_invalido": "Su contraseña ha cambiado, debe entrar nuevamente.",

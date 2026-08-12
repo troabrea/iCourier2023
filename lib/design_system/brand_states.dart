@@ -13,20 +13,26 @@ class BrandSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return ListView.separated(
-      padding: const EdgeInsets.all(BrandSpace.lg),
-      // Sized to its content so it can also sit inside another scroll view.
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: rows,
-      separatorBuilder: (context, index) => const SizedBox(height: 10),
-      itemBuilder: (context, index) => Semantics(
-        label: 'trabajando'.tr(),
-        child: Container(
-          height: index.isEven ? 92 : 64,
-          decoration: BoxDecoration(
-            color: tokens.surfaceAlt,
-            borderRadius: BorderRadius.circular(tokens.radiusMd),
+    return SafeArea(
+      // A screen that shows this as its whole body has no app bar to keep the
+      // placeholders clear of the status bar. Under one, this costs nothing:
+      // the Scaffold has already taken the inset off the body.
+      bottom: false,
+      child: ListView.separated(
+        padding: const EdgeInsets.all(BrandSpace.lg),
+        // Sized to its content so it can also sit inside another scroll view.
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: rows,
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
+        itemBuilder: (context, index) => Semantics(
+          label: 'trabajando'.tr(),
+          child: Container(
+            height: index.isEven ? 92 : 64,
+            decoration: BoxDecoration(
+              color: tokens.surfaceAlt,
+              borderRadius: BorderRadius.circular(tokens.radiusMd),
+            ),
           ),
         ),
       ),

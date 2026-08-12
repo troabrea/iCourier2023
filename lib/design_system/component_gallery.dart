@@ -100,32 +100,41 @@ class _ComponentGalleryState extends State<ComponentGallery> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: BrandSpace.lg),
             child: HomeStatusCard(
-              status: HomeStatus.ready,
-              count: 2,
-              total: '337.99',
-              currency: r'$',
-              branch: 'Sucursal Miami Principal',
-              onTap: () {},
-              onPickup: () {},
-              onDelivery: () {},
+              total: 5,
+              groups: [
+                HomeStageGroup(
+                  stage: PackageStage.disponible,
+                  count: 2,
+                  contents: 'Cargador inalámbrico · Libro',
+                  onOpen: () {},
+                  onPickup: () {},
+                  onDelivery: () {},
+                  onPay: () {},
+                ),
+                HomeStageGroup(
+                  stage: PackageStage.destino,
+                  count: 3,
+                  contents: 'Zapatos · Repuesto de licuadora · Vitaminas',
+                  onOpen: () {},
+                ),
+              ],
             ),
           ),
           _section('Estados de la tarjeta de inicio'),
           _pad(
             HomeStatusCard(
-              status: HomeStatus.onTheWay,
-              count: 3,
-              nextContent: 'Cargador inalámbrico',
-              nextStage: PackageStage.destino,
-              onTap: () {},
+              total: 3,
+              groups: [
+                HomeStageGroup(
+                  stage: PackageStage.origen,
+                  count: 3,
+                  contents: 'Cargador inalámbrico',
+                  onOpen: () {},
+                ),
+              ],
             ),
           ),
-          _pad(
-            HomeStatusCard(
-              status: HomeStatus.empty,
-              onShowAddress: () {},
-            ),
-          ),
+          _pad(HomeStatusCard(onShowAddress: () {})),
           _section('Tip · grupo · accesos'),
           _pad(
             TipBubble(

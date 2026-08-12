@@ -4,58 +4,85 @@ import 'package:flutter/material.dart';
 import '../domain/package_stage.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
-import 'core_components.dart';
 
-/// What the home card should lead with.
-enum HomeStatus {
-  /// Packages are waiting at the branch: the customer can act now.
-  ready,
+/// One macro state on the home card: how many packages sit in it, a glance at
+/// what they are, and the actions that state allows.
+class HomeStageGroup {
+  const HomeStageGroup({
+    required this.stage,
+    required this.count,
+    required this.contents,
+    required this.onOpen,
+    this.onPickup,
+    this.onDelivery,
+    this.onPay,
+  });
 
-  /// Nothing to collect yet, but something is on its way.
-  onTheWay,
+  final PackageStage stage;
+  final int count;
 
-  /// No packages at all — the moment to invite a first order.
-  empty,
+  /// What is inside, gathered from the packages themselves.
+  final String contents;
+
+  /// Opens the reception list already filtered by this state.
+  final VoidCallback onOpen;
+
+  /// Only a state the customer can act on carries these.
+  final VoidCallback? onPickup;
+  final VoidCallback? onDelivery;
+  final VoidCallback? onPay;
 }
 
 /// The card that overlaps the brand header.
 ///
-/// It leads with whatever matters most right now, so the same slot answers
-/// three different questions instead of showing a zero.
+/// It leads with the count, then breaks it down by state so the customer sees
+/// where every package stands without leaving home. With nothing to report it
+/// invites a first order instead of showing a zero.
 class HomeStatusCard extends StatelessWidget {
   const HomeStatusCard({
     super.key,
-    required this.status,
-    this.count = 0,
-    this.total = '',
-    this.currency = '',
-    this.branch = '',
-    this.nextContent = '',
-    this.nextStage,
-    this.nextRetained = false,
-    this.onTap,
-    this.onPickup,
-    this.onDelivery,
+    this.total = 0,
+    this.groups = const [],
     this.onShowAddress,
+    this.onRefresh,
+    this.refreshing = false,
   });
 
-  final HomeStatus status;
-
-  /// Packages in the state the card is reporting.
-  final int count;
-  final String total;
-  final String currency;
-  final String branch;
-
-  /// The package closest to arriving, described for [HomeStatus.onTheWay].
-  final String nextContent;
-  final PackageStage? nextStage;
-  final bool nextRetained;
-
-  final VoidCallback? onTap;
-  final VoidCallback? onPickup;
-  final VoidCallback? onDelivery;
+  /// Packages the customer still has something to wait for.
+  final int total;
+  final List<HomeStageGroup> groups;
   final VoidCallback? onShowAddress;
+
+  /// Reloads the dashboard. Offered here as a button because the pull gesture
+  /// is invisible and, once the redesign fits the home on one screen, easy to
+  /// miss entirely.
+  final VoidCallback? onRefresh;
+
+  /// Swaps the control for a spinner, so a reload that lands on identical data
+  /// still tells the customer the tap registered.
+  final bool refreshing;
+
+  /// Height this card will take, so the page can budget what surrounds it.
+  ///
+  /// Assumes the two-line digest on every state: erring tall only folds the
+  /// quick actions away, while erring short would push the banner off screen.
+  static double heightFor({
+    required int stageCount,
+    required bool withActions,
+  }) {
+    const padding = 18 * 2;
+    const headline = 52 + BrandSpace.md;
+    const tile = 1 + 12 * 2 + 40;
+    // Three pills do not fit one line on a phone, so they wrap. Budgeting for
+    // a single row would under-reserve and push the banner off the fold.
+    const actionsRow = 44 * 2 + BrandSpace.xs + 12;
+    return padding +
+        headline +
+        stageCount * tile +
+        (withActions ? actionsRow : 0.0) -
+        // The card is pulled up onto the header skirt.
+        30;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,121 +95,75 @@ class HomeStatusCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(tokens.radiusLg),
           boxShadow: BrandElevation.hero,
         ),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(tokens.radiusLg),
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: switch (status) {
-                HomeStatus.ready => _Ready(
-                    count: count,
-                    total: total,
-                    currency: currency,
-                    branch: branch,
-                    onPickup: onPickup,
-                    onDelivery: onDelivery,
-                  ),
-                HomeStatus.onTheWay => _OnTheWay(
-                    count: count,
-                    content: nextContent,
-                    stage: nextStage ?? PackageStage.origen,
-                    retained: nextRetained,
-                  ),
-                HomeStatus.empty => _Empty(onShowAddress: onShowAddress),
-              },
-            ),
-          ),
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: total == 0
+              ? _Empty(
+                  onShowAddress: onShowAddress,
+                  onRefresh: onRefresh,
+                  refreshing: refreshing,
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _Headline(
+                      count: total,
+                      glyph: BrandIcons.receptions,
+                      onRefresh: onRefresh,
+                      refreshing: refreshing,
+                    ),
+                    const SizedBox(height: BrandSpace.md),
+                    for (final group in groups) _StageTile(group: group),
+                  ],
+                ),
         ),
       ),
     );
   }
 }
 
-/// Eyebrow with a status dot, shared by the two populated states.
-class _Eyebrow extends StatelessWidget {
-  const _Eyebrow({required this.label, required this.color});
-
-  final String label;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = context.brand;
-    return Row(
-      children: [
-        Container(
-          width: 8,
-          height: 8,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        ),
-        const SizedBox(width: BrandSpace.xs),
-        Expanded(
-          child: Text(
-            label.toUpperCase(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: tokens.eyebrow(11),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-/// Big count plus a supporting line, shared by the two populated states.
+/// Big count plus the package mark.
 class _Headline extends StatelessWidget {
-  const _Headline({required this.count, required this.subtitle, this.glyph});
+  const _Headline({
+    required this.count,
+    this.glyph,
+    this.onRefresh,
+    this.refreshing = false,
+  });
 
   final int count;
-  final String subtitle;
   final String? glyph;
+  final VoidCallback? onRefresh;
+  final bool refreshing;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text.rich(
+          child: Text.rich(
+            TextSpan(
+              text: '$count',
+              style: tokens.head(34, height: 1),
+              children: [
                 TextSpan(
-                  text: '$count',
-                  style: tokens.head(34, height: 1),
-                  children: [
-                    TextSpan(
-                      text: ' ${'paquetes'.tr()}',
-                      style: tokens.body(
-                        15,
-                        weight: FontWeight.w600,
-                        color: tokens.textMuted,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (subtitle.trim().isNotEmpty) ...[
-                const SizedBox(height: 6),
-                Text(
-                  subtitle,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  text: ' ${'paquetes_contados'.plural(count)}',
                   style: tokens.body(
-                    13,
-                    weight: FontWeight.w500,
+                    15,
+                    weight: FontWeight.w600,
                     color: tokens.textMuted,
                   ),
                 ),
               ],
-            ],
+            ),
           ),
         ),
+        if (onRefresh != null)
+          _RefreshAction(onTap: onRefresh!, busy: refreshing),
         if (glyph != null) ...[
-          const SizedBox(width: BrandSpace.sm),
+          const SizedBox(width: BrandSpace.xxs),
           Container(
             width: 52,
             height: 52,
@@ -199,127 +180,179 @@ class _Headline extends StatelessWidget {
   }
 }
 
-class _Ready extends StatelessWidget {
-  const _Ready({
-    required this.count,
-    required this.total,
-    required this.currency,
-    required this.branch,
-    this.onPickup,
-    this.onDelivery,
-  });
+/// Reload control that lives inside the card.
+class _RefreshAction extends StatelessWidget {
+  const _RefreshAction({required this.onTap, this.busy = false});
 
-  final int count;
-  final String total;
-  final String currency;
-  final String branch;
-  final VoidCallback? onPickup;
-  final VoidCallback? onDelivery;
+  final VoidCallback onTap;
+  final bool busy;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _Eyebrow(label: 'listos_para_ti'.tr(), color: tokens.success),
-        const SizedBox(height: 10),
-        _Headline(
-          count: count,
-          subtitle: [
-            '$currency$total',
-            if (branch.trim().isNotEmpty) branch,
-          ].join(' · '),
-          glyph: BrandIcons.available,
-        ),
-        if (onPickup != null || onDelivery != null) ...[
-          const SizedBox(height: BrandSpace.md),
-          Row(
-            children: [
-              if (onPickup != null)
-                Expanded(
-                  child: BrandPrimaryButton(
-                    label: 'notificar_retiro'.tr(),
-                    pill: true,
-                    fontSize: 13,
-                    verticalPadding: 11,
-                    onPressed: count == 0 ? null : onPickup,
-                  ),
-                ),
-              if (onPickup != null && onDelivery != null)
-                const SizedBox(width: BrandSpace.xs),
-              if (onDelivery != null)
-                Expanded(
-                  child: BrandOutlineButton(
-                    label: 'domicilio'.tr(),
-                    pill: true,
-                    onPressed: count == 0 ? null : onDelivery,
-                  ),
-                ),
-            ],
+    return Semantics(
+      button: true,
+      label: 'refrescar'.tr(),
+      child: GestureDetector(
+        onTap: busy ? null : onTap,
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          width: 44,
+          height: 44,
+          child: Center(
+            child: busy
+                ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.2,
+                      color: tokens.primary,
+                    ),
+                  )
+                // In the brand colour: muted grey on a white card reads as a
+                // control that is switched off.
+                : Icon(Icons.refresh, size: 24, color: tokens.primary),
           ),
-        ],
-      ],
+        ),
+      ),
     );
   }
 }
 
-/// Nothing to collect yet, so the card shows how far the nearest package got.
-class _OnTheWay extends StatelessWidget {
-  const _OnTheWay({
-    required this.count,
-    required this.content,
-    required this.stage,
-    required this.retained,
-  });
+/// One state of the journey, with what it holds and what can be done about it.
+class _StageTile extends StatelessWidget {
+  const _StageTile({required this.group});
 
-  final int count;
-  final String content;
-  final PackageStage stage;
-  final bool retained;
+  final HomeStageGroup group;
+
+  static const _glyphs = <PackageStage, String>{
+    PackageStage.origen: BrandIcons.received,
+    PackageStage.ruta: BrandIcons.shipped,
+    PackageStage.destino: BrandIcons.atDestination,
+    PackageStage.disponible: BrandIcons.available,
+    PackageStage.entregado: BrandIcons.receptions,
+  };
+
+  static const _labels = <PackageStage, String>{
+    PackageStage.origen: 'recibido',
+    PackageStage.ruta: 'en_ruta',
+    PackageStage.destino: 'en_destino',
+    PackageStage.disponible: 'disponibles',
+    PackageStage.entregado: 'entregado',
+  };
+
+  bool get _actionable =>
+      group.onPickup != null || group.onDelivery != null || group.onPay != null;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    // The state the customer can act on leads in the brand colour; the rest
+    // read as progress, not as prompts.
+    final accent =
+        group.stage == PackageStage.disponible ? tokens.primary : tokens.text;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _Eyebrow(label: 'paquetes_en_camino'.tr(), color: tokens.primary),
-        const SizedBox(height: 10),
-        _Headline(
-          count: count,
-          subtitle: content.trim().isEmpty
-              ? ''
-              : '${'proximo_a_llegar'.tr()} · $content',
-          glyph: BrandIcons.shipped,
-        ),
-        const SizedBox(height: BrandSpace.md),
+        // Leads the tile rather than closing it, so the last state does not
+        // leave a rule hanging against the edge of the card.
         Divider(height: 1, color: tokens.border),
-        const SizedBox(height: BrandSpace.md),
-        // The journey of the nearest package, in the same four macro steps the
-        // detail screen uses, so the progress reads the same everywhere.
-        MacroStepper(stage: stage),
-        if (retained) ...[
-          const SizedBox(height: BrandSpace.sm),
-          Row(
-            children: [
-              BrandGlyph(
-                BrandIcons.missingInvoice,
-                color: tokens.warning,
-                size: 13,
-              ),
-              const SizedBox(width: 6),
-              Flexible(
-                child: Text(
-                  'retenido_falta_factura'.tr(),
-                  style: tokens.body(
-                    11,
-                    weight: FontWeight.w700,
-                    color: tokens.warning,
+        Semantics(
+          button: true,
+          child: InkWell(
+            onTap: group.onOpen,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Row(
+                children: [
+                  BrandGlyphTile(
+                    asset: _glyphs[group.stage] ?? BrandIcons.receptions,
+                    accent: accent == tokens.text ? tokens.textMuted : accent,
                   ),
-                ),
+                  const SizedBox(width: BrandSpace.sm),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          (_labels[group.stage] ?? '').tr(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: tokens.body(
+                            14,
+                            weight: FontWeight.w700,
+                            color: accent,
+                          ),
+                        ),
+                        if (group.contents.trim().isNotEmpty) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            group.contents,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: tokens.body(12, color: tokens.textMuted),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: BrandSpace.xs),
+                  // The count rides beside the disclosure so the eye picks up
+                  // every quantity in one vertical sweep.
+                  BrandPill(
+                    label: '${group.count}',
+                    background: tokens.accentWash(accent, 0.14),
+                    foreground: accent,
+                    fontSize: 12,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 3,
+                    ),
+                  ),
+                  const SizedBox(width: BrandSpace.xxs),
+                  const BrandChevron(),
+                ],
               ),
-            ],
+            ),
+          ),
+        ),
+        if (_actionable) ...[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Wrap(
+              spacing: BrandSpace.xs,
+              runSpacing: BrandSpace.xs,
+              children: [
+                if (group.onPickup != null)
+                  BrandPrimaryButton(
+                    label: 'notificar_retiro'.tr(),
+                    expand: false,
+                    pill: true,
+                    fontSize: 12,
+                    verticalPadding: 9,
+                    onPressed: group.onPickup,
+                  ),
+                if (group.onPay != null)
+                  BrandOutlineButton(
+                    label: 'pago_en_linea'.tr(),
+                    expand: false,
+                    pill: true,
+                    fontSize: 12,
+                    verticalPadding: 9,
+                    onPressed: group.onPay,
+                  ),
+                if (group.onDelivery != null)
+                  BrandOutlineButton(
+                    label: 'domicilio'.tr(),
+                    expand: false,
+                    pill: true,
+                    fontSize: 12,
+                    verticalPadding: 9,
+                    onPressed: group.onDelivery,
+                  ),
+              ],
+            ),
           ),
         ],
       ],
@@ -327,11 +360,13 @@ class _OnTheWay extends StatelessWidget {
   }
 }
 
-/// No packages at all: the address is what the customer needs to get one.
+/// Nothing pending: the moment to invite a first order instead of a zero.
 class _Empty extends StatelessWidget {
-  const _Empty({this.onShowAddress});
+  const _Empty({this.onShowAddress, this.onRefresh, this.refreshing = false});
 
   final VoidCallback? onShowAddress;
+  final VoidCallback? onRefresh;
+  final bool refreshing;
 
   @override
   Widget build(BuildContext context) {
@@ -360,22 +395,17 @@ class _Empty extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'sin_paquetes_titulo'.tr(),
-                    style: tokens.head(18),
-                  ),
+                  Text('sin_paquetes_titulo'.tr(), style: tokens.head(18)),
                   const SizedBox(height: 4),
                   Text(
                     'sin_paquetes_cuerpo'.tr(),
-                    style: tokens.body(
-                      13,
-                      color: tokens.textMuted,
-                      height: 1.4,
-                    ),
+                    style: tokens.body(13, color: tokens.textMuted, height: 1.4),
                   ),
                 ],
               ),
             ),
+            if (onRefresh != null)
+              _RefreshAction(onTap: onRefresh!, busy: refreshing),
           ],
         ),
         if (onShowAddress != null) ...[

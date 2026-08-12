@@ -111,7 +111,12 @@
   "otro": "Other",
   "pagar": "Pay {}",
   "pagar_ahora": "Pay",
+  "pago_en_linea": "Online Payment",
   "paquetes": "packages",
+  "paquetes_contados": {
+    "one": "package",
+    "other": "packages"
+  },
   "paquetes_en_camino": "Packages on the way",
   "pasarela_pago_segura": "You will be redirected to the secure {} payment gateway.",
   "password_invalido": "You password has changed. Login required.",

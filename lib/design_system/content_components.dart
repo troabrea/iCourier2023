@@ -26,6 +26,28 @@ const double bannerArtworkRatio = 1200 / 560;
 const double _minBannerRatio = 1.5;
 const double _maxBannerRatio = 4;
 
+/// Tallest a banner may get, as a share of the screen.
+///
+/// The strip has to share the first screen with the packages card and the tab
+/// bar, so a square upload cannot be allowed to claim the whole fold.
+const double _bannerViewportShare = 0.30;
+
+/// Ceiling a banner may reach on this screen.
+double maxBannerHeight(BuildContext context) =>
+    MediaQuery.sizeOf(context).height * _bannerViewportShare;
+
+/// Height the strip is expected to take at [width], for budgeting the space
+/// around it before the carousel has laid itself out.
+///
+/// Uses the shape the CMS actually ships rather than the ceiling: reserving the
+/// worst case would fold away the quick actions on screens that had room for
+/// them all along.
+double expectedBannerHeight(BuildContext context, double width) {
+  final natural = width / bannerArtworkRatio;
+  final ceiling = maxBannerHeight(context);
+  return natural < ceiling ? natural : ceiling;
+}
+
 /// Full-bleed banner pager that advances on its own, endlessly.
 ///
 /// The caption always sits on a bottom gradient so it stays legible over any
@@ -98,8 +120,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
       });
     }, onError: (_, __) {});
     _listener = listener;
-    _stream = CachedNetworkImageProvider(url)
-        .resolve(ImageConfiguration.empty)
+    _stream = CachedNetworkImageProvider(url).resolve(ImageConfiguration.empty)
       ..addListener(listener);
   }
 
@@ -168,70 +189,77 @@ class _BannerCarouselState extends State<BannerCarousel> {
     if (widget.banners.isEmpty) {
       return const SizedBox.shrink();
     }
-    return AspectRatio(
-      aspectRatio: _measured ?? widget.aspectRatio,
-      child: Stack(
-        children: [
-          NotificationListener<ScrollNotification>(
-            onNotification: _onUserScroll,
-            child: PageView.builder(
-              controller: _controller,
-              onPageChanged: (page) => setState(
-                () => _page = page % widget.banners.length,
+    return ConstrainedBox(
+      // The banner has to stay on screen next to the packages card and the tab
+      // bar, so the artwork cannot be the one deciding how tall it gets. Taller
+      // art is cropped from the centre rather than pushing the page around.
+      constraints: BoxConstraints(maxHeight: maxBannerHeight(context)),
+      child: AspectRatio(
+        aspectRatio: _measured ?? widget.aspectRatio,
+        child: Stack(
+          children: [
+            NotificationListener<ScrollNotification>(
+              onNotification: _onUserScroll,
+              child: PageView.builder(
+                controller: _controller,
+                onPageChanged: (page) => setState(
+                  () => _page = page % widget.banners.length,
+                ),
+                itemBuilder: (context, index) {
+                  final banner = widget.banners[index % widget.banners.length];
+                  return GestureDetector(
+                    onTap: widget.onTap == null
+                        ? null
+                        : () => widget.onTap!(banner),
+                    child: _BannerArtwork(
+                      url: banner.url,
+                      caption: banner.descripcion,
+                      config: widget.config,
+                    ),
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                final banner = widget.banners[index % widget.banners.length];
-                return GestureDetector(
-                  onTap:
-                      widget.onTap == null ? null : () => widget.onTap!(banner),
-                  child: _BannerArtwork(
-                    url: banner.url,
-                    caption: banner.descripcion,
-                    config: widget.config,
-                  ),
-                );
-              },
             ),
-          ),
-          if (widget.banners.length > 1)
-            Positioned(
-              bottom: BrandSpace.sm,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: BrandSpace.xs,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: tokens.scrimBottom,
-                    borderRadius: BorderRadius.circular(BrandShape.pill),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      for (var index = 0;
-                          index < widget.banners.length;
-                          index++)
-                        Container(
-                          width: index == _page ? 18 : 6,
-                          height: 6,
-                          margin: const EdgeInsets.symmetric(horizontal: 3),
-                          decoration: BoxDecoration(
-                            color: tokens.onScrim.withValues(
-                              alpha: index == _page ? 0.95 : 0.45,
+            if (widget.banners.length > 1)
+              Positioned(
+                bottom: BrandSpace.sm,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: BrandSpace.xs,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: tokens.scrimBottom,
+                      borderRadius: BorderRadius.circular(BrandShape.pill),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (var index = 0;
+                            index < widget.banners.length;
+                            index++)
+                          Container(
+                            width: index == _page ? 18 : 6,
+                            height: 6,
+                            margin: const EdgeInsets.symmetric(horizontal: 3),
+                            decoration: BoxDecoration(
+                              color: tokens.onScrim.withValues(
+                                alpha: index == _page ? 0.95 : 0.45,
+                              ),
+                              borderRadius:
+                                  BorderRadius.circular(BrandShape.pill),
                             ),
-                            borderRadius:
-                                BorderRadius.circular(BrandShape.pill),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -454,7 +482,8 @@ class _BranchMapState extends State<BranchMap> {
   void didUpdateWidget(BranchMap oldWidget) {
     super.didUpdateWidget(oldWidget);
     final focused = widget.focused;
-    if (focused != null && focused.registroId != oldWidget.focused?.registroId) {
+    if (focused != null &&
+        focused.registroId != oldWidget.focused?.registroId) {
       _focus(focused);
     }
   }

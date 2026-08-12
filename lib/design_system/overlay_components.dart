@@ -8,6 +8,7 @@ import '../services/model/sucursal.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
+import 'core_components.dart';
 
 /// Presents [child] as a modal sheet with the brand scrim and corner radius.
 Future<T?> showBrandSheet<T>(
@@ -956,4 +957,74 @@ class CarnetQR extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Quick actions that step aside when the screen is busy.
+///
+/// The packages card, the banner and the tab bar own the first screen; these
+/// are secondary by definition, so when what is left will not hold the rows
+/// they fold into one button that opens them in a sheet. The rows themselves
+/// never shrink or reflow — they are either there or behind the button.
+class AdaptiveQuickActions extends StatelessWidget {
+  const AdaptiveQuickActions({
+    super.key,
+    required this.actions,
+    required this.room,
+  });
+
+  final List<QuickAction> actions;
+
+  /// Vertical space left on the first screen once everything that must stay
+  /// visible has taken its share.
+  final double room;
+
+  @override
+  Widget build(BuildContext context) {
+    final visible = actions.where((action) => action.enabled).toList();
+    if (visible.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    if (room >= QuickActionList.heightFor(visible.length)) {
+      return QuickActionList(actions: visible);
+    }
+    return BrandOutlineButton(
+      label: 'acciones_rapidas'.tr(),
+      icon: const Icon(Icons.grid_view_rounded, size: 18),
+      // Scroll-controlled on purpose: this only folds on short screens, which
+      // are exactly the ones where the list would not fit the sheet either.
+      onPressed: () => showBrandSheet<void>(
+        context,
+        scrollable: true,
+        child: _QuickActionSheet(actions: visible),
+      ),
+    );
+  }
+}
+
+class _QuickActionSheet extends StatelessWidget {
+  const _QuickActionSheet({required this.actions});
+
+  final List<QuickAction> actions;
+
+  @override
+  Widget build(BuildContext context) => BrandSheet(
+        title: 'acciones_rapidas'.tr(),
+        maxHeightFactor: 0.7,
+        children: [
+          QuickActionList(
+            actions: [
+              for (final action in actions)
+                QuickAction(
+                  label: action.label,
+                  icon: action.icon,
+                  enabled: action.enabled,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    action.onTap();
+                  },
+                ),
+            ],
+          ),
+        ],
+      );
 }
