@@ -3,11 +3,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../domain/branch_hours.dart';
 import '../services/model/login_model.dart';
 import '../services/model/sucursal.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
+import 'content_components.dart';
 import 'core_components.dart';
 
 /// Presents [child] as a modal sheet with the brand scrim and corner radius.
@@ -284,9 +286,17 @@ class BranchSheet extends StatelessWidget {
     this.onWhatsApp,
     this.onEmail,
     this.onDirections,
+    this.distanceKm,
+    this.at,
   });
 
   final Sucursal branch;
+
+  /// Distance from the customer, when location is available.
+  final double? distanceKm;
+
+  /// Moment the opening state is read against; see [BranchRow.at].
+  final DateTime? at;
 
   /// Number reported by the profile; the branch record does not carry one.
   final String whatsapp;
@@ -298,6 +308,8 @@ class BranchSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final status =
+        BranchHours.parse(branch.horario)?.statusAt(at ?? DateTime.now());
     return SafeArea(
       top: false,
       child: ConstrainedBox(
@@ -322,9 +334,35 @@ class BranchSheet extends StatelessWidget {
                     BrandSpace.lg,
                     BrandSpace.md,
                   ),
-                  child: Text(
-                    branch.nombre,
-                    style: tokens.head(18, color: tokens.onPrimary),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        branch.nombre,
+                        style: tokens.head(18, color: tokens.onPrimary),
+                      ),
+                      if (distanceKm != null) ...[
+                        const SizedBox(height: BrandSpace.xxs),
+                        Row(
+                          children: [
+                            BrandGlyph(
+                              BrandIcons.mapMarker,
+                              color: tokens.onPrimary,
+                              size: 12,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              formatBranchDistance(context, distanceKm!),
+                              style: tokens.body(
+                                13,
+                                weight: FontWeight.w600,
+                                color: tokens.onPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
                   ),
                 ),
               ),
@@ -372,6 +410,12 @@ class BranchSheet extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Today's answer leads; the week it comes from is still
+                    // printed in full further down.
+                    if (status != null) ...[
+                      _BranchStatusBadge(status: status),
+                      const SizedBox(height: BrandSpace.md),
+                    ],
                     _BranchDetail(
                       glyph: BrandIcons.mapMarker,
                       value: branch.direccion,
@@ -425,16 +469,16 @@ class _BranchAction extends StatelessWidget {
         child: InkResponse(
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: BrandSpace.xs),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                BrandGlyph(glyph, color: tokens.primary, size: 20),
-                const SizedBox(height: 5),
+                BrandGlyph(glyph, color: tokens.primary, size: 27),
+                const SizedBox(height: 7),
                 Text(
                   label,
                   style: tokens.body(
-                    10,
+                    11,
                     weight: FontWeight.w600,
                     color: tokens.textMuted,
                   ),
@@ -443,6 +487,41 @@ class _BranchAction extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Where the branch stands right now, in the colour of that state.
+class _BranchStatusBadge extends StatelessWidget {
+  const _BranchStatusBadge({required this.status});
+
+  final BranchStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final accent = branchStatusColor(tokens, status.state);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+      decoration: BoxDecoration(
+        color: tokens.accentWash(accent),
+        borderRadius: BorderRadius.circular(BrandShape.pill),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 7,
+            height: 7,
+            decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: BrandSpace.xs),
+          Text(
+            branchStatusLabel(context, status),
+            style: tokens.body(12, weight: FontWeight.w700, color: accent),
+          ),
+        ],
       ),
     );
   }

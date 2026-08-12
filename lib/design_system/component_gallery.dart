@@ -350,7 +350,15 @@ class _ComponentGalleryState extends State<ComponentGallery> {
             ],
           ),
           const SizedBox(height: 10),
-          _pad(BranchCard(branch: branch, onTap: () {}, distance: '2.4 km')),
+          _pad(
+            BranchRow(
+              branch: branch,
+              onTap: () {},
+              distanceKm: 1.2,
+              nearest: true,
+            ),
+          ),
+          _pad(BranchRow(branch: branch, onTap: () {}, distanceKm: 2.4)),
           _pad(
             const ServiceCard(
               title: 'Casillero en Miami',

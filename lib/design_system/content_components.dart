@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../domain/branch_hours.dart';
 import '../services/model/banner.dart';
 import '../services/model/mensaje.dart';
 import '../services/model/noticia.dart';
@@ -338,65 +339,314 @@ class _BannerArtwork extends StatelessWidget {
   }
 }
 
+/// Distance to a branch, in the units that keep the number readable.
+///
+/// Under a kilometre the figure is worth more in metres: "0,4 km" reads as an
+/// abstraction where "400 m" reads as a walk.
+String formatBranchDistance(BuildContext context, double kilometres) {
+  final locale = Localizations.localeOf(context).toLanguageTag();
+  if (kilometres < 1) {
+    return '${NumberFormat('#,##0', locale).format(kilometres * 1000)} m';
+  }
+  return '${NumberFormat('#,##0.0', locale).format(kilometres)} km';
+}
+
+/// Sentence describing where a branch stands against the clock.
+String branchStatusLabel(BuildContext context, BranchStatus status) {
+  switch (status.state) {
+    case BranchOpenState.open:
+      return 'abierto_cierra_a_las'.tr(args: [_clock(context, status.closesAt!)]);
+    case BranchOpenState.closingSoon:
+      return 'cierra_en_minutos'.tr(args: ['${status.minutesToClose}']);
+    case BranchOpenState.closed:
+      final opensAt = status.opensAt;
+      if (opensAt == null) {
+        return 'cerrado_ahora'.tr();
+      }
+      final clock = _clock(context, opensAt);
+      return switch (status.opensInDays) {
+        0 => 'cerrado_abre_a_las'.tr(args: [clock]),
+        1 => 'cerrado_abre_manana'.tr(args: [clock]),
+        _ => 'cerrado_abre_el_dia'.tr(
+            args: ['dia_${status.opensOnWeekday}'.tr(), clock],
+          ),
+      };
+  }
+}
+
+/// Colour that carries the branch state, from the brand's own status ramp.
+Color branchStatusColor(BrandTokens tokens, BranchOpenState state) =>
+    switch (state) {
+      BranchOpenState.open => tokens.success,
+      BranchOpenState.closingSoon => tokens.warning,
+      BranchOpenState.closed => tokens.textMuted,
+    };
+
+/// Renders a minute of the day the way the customer's own device would.
+String _clock(BuildContext context, int minutes) {
+  return MaterialLocalizations.of(context).formatTimeOfDay(
+    TimeOfDay(hour: minutes ~/ 60 % 24, minute: minutes % 60),
+    alwaysUse24HourFormat: MediaQuery.alwaysUse24HourFormatOf(context),
+  );
+}
+
 /// Branch summary row: address, opening hours and phone, each with a glyph.
-class BranchCard extends StatelessWidget {
-  const BranchCard({
-    super.key,
-    required this.branch,
-    this.onTap,
-    this.distance,
-  });
+///
+/// The distance is the reason this screen exists, so it is the one thing set as
+/// a badge rather than as another line of prose, and the branch that turns out
+/// to be closest keeps the badge filled.
+/// The branches, as one continuous list rather than a stack of cards.
+///
+/// A card per branch made every row announce itself as a separate object, which
+/// is nine identical announcements on a screen whose job is comparison. One
+/// surface with hairlines lets the eye run down the column and read the
+/// distances against each other.
+class BranchList extends StatelessWidget {
+  const BranchList({super.key, required this.children});
 
-  final Sucursal branch;
-  final VoidCallback? onTap;
-
-  /// Optional distance from the customer, when location is available.
-  final String? distance;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return BrandCard(
-      onTap: onTap,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  branch.nombre,
-                  style: tokens.body(
-                    14,
-                    weight: FontWeight.w700,
-                    color: tokens.primary,
+    final radius = BorderRadius.circular(tokens.radiusMd);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        border: Border.all(color: tokens.border),
+        borderRadius: radius,
+      ),
+      child: ClipRRect(
+        borderRadius: radius,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var index = 0; index < children.length; index++) ...[
+              if (index > 0)
+                Divider(height: 1, thickness: 1, color: tokens.border),
+              children[index],
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// One branch inside [BranchList]: address, opening state and phone.
+///
+/// The row carries two separate intents. Tapping the body is the cheap one — it
+/// moves the map and nothing else — while the trailing control is the one that
+/// opens the sheet. Splitting them is what lets a tap on the body mean "show me
+/// where this is" without also burying the map under a panel.
+class BranchRow extends StatelessWidget {
+  const BranchRow({
+    super.key,
+    required this.branch,
+    this.onTap,
+    this.onMore,
+    this.distanceKm,
+    this.nearest = false,
+    this.focused = false,
+    this.at,
+  });
+
+  final Sucursal branch;
+
+  /// Moves the map to this branch, or back out when it is already there.
+  final VoidCallback? onTap;
+
+  /// Opens the branch detail.
+  final VoidCallback? onMore;
+
+  /// Distance from the customer, when location is available.
+  final double? distanceKm;
+
+  /// Whether this is the closest branch the customer has.
+  final bool nearest;
+
+  /// Whether the map is currently held on this branch.
+  final bool focused;
+
+  /// Moment the opening state is read against. Injectable so a test can pin the
+  /// clock instead of rendering whatever the day happens to be.
+  final DateTime? at;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final distance = distanceKm;
+    final status =
+        BranchHours.parse(branch.horario)?.statusAt(at ?? DateTime.now());
+    // The crown outranks the focus tint: being closest is a property of the
+    // branch, while being framed on the map is a property of the moment.
+    final background = nearest
+        ? Color.alphaBlend(tokens.accentWash(tokens.primary), tokens.surface)
+        : focused
+            ? tokens.surfaceAlt
+            : null;
+    return Semantics(
+      container: true,
+      label: nearest
+          ? '${branch.nombre}. ${'sucursal_mas_cercana'.tr()}'
+          : branch.nombre,
+      // Read after the branch name, so the gesture announces what it does.
+      // Tapping a row used to open a detail, which needed no explaining; now it
+      // moves a map the reader may not be able to see.
+      onTapHint: 'ver_en_mapa'.tr(),
+      child: Material(
+        color: background ?? tokens.surface,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            // Asymmetric on purpose: the trailing control is pinned to the 44pt
+            // touch minimum, and that height already supplies the breathing
+            // room above the name that a symmetric inset would then double.
+            padding: const EdgeInsets.fromLTRB(15, 3, 6, 13),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        branch.nombre,
+                        style: tokens.body(
+                          14,
+                          weight: FontWeight.w700,
+                          color: tokens.primary,
+                        ),
+                      ),
+                    ),
+                    if (distance != null) ...[
+                      const SizedBox(width: BrandSpace.xs),
+                      _DistancePill(
+                        label: formatBranchDistance(context, distance),
+                        filled: nearest,
+                      ),
+                    ],
+                    _MoreButton(onTap: onMore),
+                  ],
+                ),
+                if (nearest) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    // Plain text, not the brand accent: this sits on a wash of
+                    // that same accent, and the crown is already carried by the
+                    // tinted row and the filled badge.
+                    'sucursal_mas_cercana'.tr(),
+                    style: tokens.body(11, weight: FontWeight.w700),
+                  ),
+                ],
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.only(right: 9),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _BranchLine(
+                        glyph: BrandIcons.mapMarker,
+                        value: branch.direccion,
+                      ),
+                      if (status != null)
+                        _BranchLine(
+                          glyph: BrandIcons.schedule,
+                          value: branchStatusLabel(context, status),
+                          weight: FontWeight.w600,
+                          accent: branchStatusColor(tokens, status.state),
+                        )
+                      else
+                        _BranchLine(
+                          glyph: BrandIcons.schedule,
+                          value: branch.horario,
+                          muted: true,
+                        ),
+                      _BranchLine(
+                        glyph: BrandIcons.phone,
+                        value: branch.telefonoOficina,
+                        muted: true,
+                        weight: FontWeight.w500,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              if (distance != null) ...[
-                const SizedBox(width: BrandSpace.xs),
-                Text(
-                  distance!,
-                  style: tokens.body(11, color: tokens.textMuted),
-                ),
               ],
-              const SizedBox(width: BrandSpace.xs),
-              const BrandChevron(),
-            ],
+            ),
           ),
-          const SizedBox(height: 9),
-          _BranchLine(glyph: BrandIcons.mapMarker, value: branch.direccion),
-          _BranchLine(
-            glyph: BrandIcons.schedule,
-            value: branch.horario,
-            muted: true,
+        ),
+      ),
+    );
+  }
+}
+
+/// Trailing control that opens the branch detail.
+///
+/// Drawn as the system's own stacked dots rather than a chevron: a chevron
+/// promises this row leads somewhere, and now it does not — tapping the row
+/// moves the map. Dots promise actions, which is what the sheet holds.
+class _MoreButton extends StatelessWidget {
+  const _MoreButton({this.onTap});
+
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Semantics(
+      button: true,
+      label: 'ver_detalle'.tr(),
+      child: InkResponse(
+        onTap: onTap,
+        radius: 22,
+        child: SizedBox(
+          width: 44,
+          height: 44,
+          child: Center(
+            child: BrandMoreGlyph(color: tokens.textMuted, size: 17),
           ),
-          _BranchLine(
-            glyph: BrandIcons.phone,
-            value: branch.telefonoOficina,
-            muted: true,
-            weight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+}
+
+/// Distance badge, filled when it marks the closest branch.
+class _DistancePill extends StatelessWidget {
+  const _DistancePill({required this.label, required this.filled});
+
+  final String label;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    // Filled, `onPrimary` already carries the label: the config resolves it to
+    // a legible foreground over the brand's own primary. Over the wash there is
+    // no such guarantee, and the accent cannot carry its own tint — a pale
+    // primary like cainca's #C2DEFF drops to 1.3:1 against it — so the label
+    // falls back to plain text and the accent stays on the glyph.
+    final foreground = filled ? tokens.onPrimary : tokens.text;
+    final background =
+        filled ? tokens.primary : tokens.accentWash(tokens.primary);
+    return Container(
+      padding: const EdgeInsets.fromLTRB(7, 3, 9, 3),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(BrandShape.pill),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          BrandGlyph(
+            BrandIcons.mapMarker,
+            color: filled ? foreground : tokens.primary,
+            size: 11,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: tokens.body(11, weight: FontWeight.w700, color: foreground),
           ),
         ],
       ),
@@ -410,12 +660,24 @@ class _BranchLine extends StatelessWidget {
     required this.value,
     this.muted = false,
     this.weight = FontWeight.w400,
+    this.accent,
   });
 
   final String glyph;
   final String value;
   final bool muted;
   final FontWeight weight;
+
+  /// Tints the glyph and the value together, for a line that carries a state.
+  final Color? accent;
+
+  /// Caps the row's height so the list stays comparable.
+  ///
+  /// Real records run long — one branch stores two counters with different
+  /// hours across three lines — and letting a single row grow to twice its
+  /// neighbours breaks the column the grouped list exists to create. The sheet
+  /// behind the row's own control still prints the value whole.
+  static const int _maxLines = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -430,16 +692,22 @@ class _BranchLine extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 2),
-            child: BrandGlyph(glyph, color: tokens.textMuted, size: 14),
+            child: BrandGlyph(
+              glyph,
+              color: accent ?? tokens.textMuted,
+              size: 14,
+            ),
           ),
           const SizedBox(width: 9),
           Expanded(
             child: Text(
               value,
+              maxLines: _maxLines,
+              overflow: TextOverflow.ellipsis,
               style: tokens.body(
                 12,
                 weight: weight,
-                color: muted ? tokens.textMuted : tokens.text,
+                color: accent ?? (muted ? tokens.textMuted : tokens.text),
               ),
             ),
           ),
@@ -459,11 +727,24 @@ class BranchMap extends StatefulWidget {
     required this.branches,
     this.onSelect,
     this.focused,
+    this.here,
+    this.showMyLocation = true,
   });
 
   final List<Sucursal> branches;
   final ValueChanged<Sucursal>? onSelect;
   final Sucursal? focused;
+
+  /// Customer position, when it is known. Drives the control that brings the
+  /// camera back to it after a branch has pulled it away.
+  final ({double latitude, double longitude})? here;
+
+  /// Whether the map may draw its own position layer.
+  ///
+  /// Deliberately not tied to [here]: the blue dot is the platform's, and it is
+  /// useful from the moment the permission exists, well before this screen has
+  /// resolved a fix precise enough to measure distances with.
+  final bool showMyLocation;
 
   static const double heightFactor = 0.3;
 
@@ -482,8 +763,12 @@ class _BranchMapState extends State<BranchMap> {
   void didUpdateWidget(BranchMap oldWidget) {
     super.didUpdateWidget(oldWidget);
     final focused = widget.focused;
-    if (focused != null &&
-        focused.registroId != oldWidget.focused?.registroId) {
+    if (focused?.registroId == oldWidget.focused?.registroId) {
+      return;
+    }
+    if (focused == null) {
+      _pullBack();
+    } else {
       _focus(focused);
     }
   }
@@ -494,6 +779,37 @@ class _BranchMapState extends State<BranchMap> {
         CameraPosition(
           target: LatLng(branch.latitud, branch.longitud),
           zoom: BranchMap.focusedZoom,
+        ),
+      ),
+    );
+  }
+
+  /// Returns to the framing the screen opened with, so a second tap on the
+  /// branch already held undoes the first rather than doing nothing.
+  void _pullBack() {
+    if (widget.branches.isEmpty) {
+      return;
+    }
+    _controller?.animateCamera(
+      CameraUpdate.newCameraPosition(_overview(widget.branches.first)),
+    );
+  }
+
+  static CameraPosition _overview(Sucursal branch) => CameraPosition(
+        target: LatLng(branch.latitud, branch.longitud),
+        zoom: BranchMap.overviewZoom,
+      );
+
+  void _recenter() {
+    final here = widget.here;
+    if (here == null) {
+      return;
+    }
+    _controller?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(here.latitude, here.longitude),
+          zoom: BranchMap.overviewZoom + 1,
         ),
       ),
     );
@@ -512,39 +828,96 @@ class _BranchMapState extends State<BranchMap> {
     if (widget.branches.isEmpty) {
       return SizedBox(
         height: height,
-        child: ColoredBox(color: tokens.surfaceAlt),
+        child: ColoredBox(
+          color: tokens.surfaceAlt,
+          child: Center(
+            child: BrandGlyph(
+              BrandIcons.branches,
+              color: tokens.border,
+              size: 52,
+            ),
+          ),
+        ),
       );
     }
     final first = widget.focused ?? widget.branches.first;
+    // Google's palette only exposes markers by hue, which is enough to take the
+    // whole network out of its default red and into the brand's own colour.
+    final hue = HSVColor.fromColor(tokens.primary).hue;
     return SizedBox(
       height: height,
-      child: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(first.latitud, first.longitud),
-          zoom: widget.focused == null
-              ? BranchMap.overviewZoom
-              : BranchMap.focusedZoom,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: GoogleMap(
+              initialCameraPosition: widget.focused == null
+                  ? _overview(first)
+                  : CameraPosition(
+                      target: LatLng(first.latitud, first.longitud),
+                      zoom: BranchMap.focusedZoom,
+                    ),
+              onMapCreated: (controller) {
+                _controller = controller;
+                final focused = widget.focused;
+                if (focused != null) {
+                  _focus(focused);
+                }
+              },
+              markers: widget.branches
+                  .map(
+                    (branch) => Marker(
+                      markerId: MarkerId(branch.registroId),
+                      position: LatLng(branch.latitud, branch.longitud),
+                      icon: BitmapDescriptor.defaultMarkerWithHue(hue),
+                      zIndexInt:
+                          branch.registroId == widget.focused?.registroId ? 2 : 1,
+                      infoWindow: InfoWindow(title: branch.nombre),
+                      onTap: () => widget.onSelect?.call(branch),
+                    ),
+                  )
+                  .toSet(),
+              myLocationEnabled: widget.showMyLocation,
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+            ),
+          ),
+          if (widget.here != null)
+            Positioned(
+              right: BrandSpace.sm,
+              bottom: BrandSpace.sm,
+              child: _MapControl(onTap: _recenter),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Disc control floating over the map.
+class _MapControl extends StatelessWidget {
+  const _MapControl({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Semantics(
+      button: true,
+      label: 'mi_ubicacion'.tr(),
+      child: Material(
+        color: tokens.surface,
+        shape: const CircleBorder(),
+        elevation: 2,
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const CircleBorder(),
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: Icon(Icons.my_location, size: 19, color: tokens.primary),
+          ),
         ),
-        onMapCreated: (controller) {
-          _controller = controller;
-          final focused = widget.focused;
-          if (focused != null) {
-            _focus(focused);
-          }
-        },
-        markers: widget.branches
-            .map(
-              (branch) => Marker(
-                markerId: MarkerId(branch.registroId),
-                position: LatLng(branch.latitud, branch.longitud),
-                infoWindow: InfoWindow(title: branch.nombre),
-                onTap: () => widget.onSelect?.call(branch),
-              ),
-            )
-            .toSet(),
-        myLocationEnabled: true,
-        myLocationButtonEnabled: false,
-        zoomControlsEnabled: false,
       ),
     );
   }

@@ -39,7 +39,7 @@ void main() {
                 child: Material(
                   child: SizedBox(
                     width: 390,
-                    height: 320,
+                    height: _frameHeights[fixture.key] ?? 320,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Align(child: fixture.value()),
@@ -60,6 +60,12 @@ void main() {
     }
   }
 }
+
+/// Fixtures that do not fit the shared frame, with the height they need.
+///
+/// Shrinking the content to fit would be testing a component nobody ships; the
+/// frame is the arbitrary part, so the frame gives way.
+const Map<String, double> _frameHeights = {'branch_list': 420};
 
 List<MapEntry<String, Widget Function()>> _fixtures() {
   final package = _package();
@@ -86,6 +92,26 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
     latitud: 18.4861,
     longitud: -69.9312,
     orden: 1,
+    deleted: false,
+  );
+  final neighbour = Sucursal(
+    registroId: '2',
+    empresa: 'demo',
+    nombre: 'Oficina Piantini',
+    codigo: 'PIA',
+    direccion: 'Av. Abraham Lincoln 1009',
+    ciudad: 'Santo Domingo',
+    pais: 'República Dominicana',
+    // A schedule the parser refuses, so the pair also shows both halves of the
+    // hours treatment side by side.
+    horario: 'Horario variable',
+    telefonoOficina: '809-000-0001',
+    telefonoVentas: '',
+    email: '',
+    imagenId: '',
+    latitud: 18.4700,
+    longitud: -69.9400,
+    orden: 2,
     deleted: false,
   );
   final news = Noticia(
@@ -198,7 +224,49 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
     ),
     const MapEntry('totals_panel', _totalsPanel),
     const MapEntry('concept_table', _conceptTable),
-    MapEntry('branch_card', () => BranchCard(branch: branch)),
+    // The clock is pinned so the opening state is a fixture, not the day the
+    // suite happens to run: a Wednesday mid-morning, and a Saturday afternoon
+    // after the branch has shut for the weekend.
+    MapEntry(
+      'branch_row',
+      () => BranchList(
+        children: [
+          BranchRow(branch: branch, at: DateTime(2026, 8, 12, 10, 30)),
+        ],
+      ),
+    ),
+    MapEntry(
+      'branch_row_closed',
+      () => BranchList(
+        children: [
+          BranchRow(
+            branch: branch,
+            distanceKm: 12.4,
+            at: DateTime(2026, 8, 15, 15, 0),
+          ),
+        ],
+      ),
+    ),
+    // The grouped list is the shape the screen actually ships: the crowned row
+    // has to hold its own against a neighbour, not against white space.
+    MapEntry(
+      'branch_list',
+      () => BranchList(
+        children: [
+          BranchRow(
+            branch: branch,
+            distanceKm: 0.86,
+            nearest: true,
+            at: DateTime(2026, 8, 12, 10, 30),
+          ),
+          BranchRow(
+            branch: neighbour,
+            distanceKm: 1.3,
+            at: DateTime(2026, 8, 12, 10, 30),
+          ),
+        ],
+      ),
+    ),
     const MapEntry('service_card', _serviceCard),
     const MapEntry('faq_accordion', _faqAccordion),
     MapEntry('news_card', () => NewsCard(news: news)),
