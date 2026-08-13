@@ -50,7 +50,8 @@ class ProductSelector<T> extends StatelessWidget {
         filled: true,
         fillColor: tokens.surface,
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
         border: border,
         enabledBorder: border,
         focusedBorder: OutlineInputBorder(
@@ -94,7 +95,7 @@ class BigNumberField extends StatelessWidget {
       controller: controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+        FilteringTextInputFormatter.allow(RegExp(r'^\d*[\.,]?\d{0,2}')),
       ],
       style: tokens.head(22),
       onChanged: onChanged,

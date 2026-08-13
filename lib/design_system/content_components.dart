@@ -932,6 +932,7 @@ class ServiceCard extends StatelessWidget {
     this.glyph = BrandIcons.services,
     this.imageUrl,
     this.onTap,
+    this.opensExternally = false,
   });
 
   final String title;
@@ -940,33 +941,56 @@ class ServiceCard extends StatelessWidget {
   final String? imageUrl;
   final VoidCallback? onTap;
 
+  /// Whether tapping the card leaves the app for an external destination.
+  final bool opensExternally;
+
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return BrandCard(
-      onTap: onTap,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BrandGlyphTile(asset: glyph, glyphSize: 20),
-          const SizedBox(width: BrandSpace.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: tokens.body(14, weight: FontWeight.w700)),
-                if (description.trim().isNotEmpty) ...[
-                  const SizedBox(height: 3),
-                  Text(
-                    description,
-                    style: tokens.body(12, color: tokens.textMuted),
-                  ),
+    return Semantics(
+      hint: onTap != null && opensExternally
+          ? 'abre_enlace_externo'.tr()
+          : null,
+      child: BrandCard(
+        onTap: onTap,
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BrandGlyphTile(asset: glyph, glyphSize: 20),
+            const SizedBox(width: BrandSpace.sm),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: tokens.body(14, weight: FontWeight.w700)),
+                  if (description.trim().isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    Text(
+                      description,
+                      style: tokens.body(12, color: tokens.textMuted),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-        ],
+            if (onTap != null) ...[
+              const SizedBox(width: BrandSpace.xs),
+              Padding(
+                padding: const EdgeInsets.only(top: BrandSpace.xs),
+                child: ExcludeSemantics(
+                  child: opensExternally
+                      ? Icon(
+                          Icons.open_in_new_rounded,
+                          size: 19,
+                          color: tokens.primary,
+                        )
+                      : const BrandChevron(),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -993,23 +1017,37 @@ class _FaqAccordionState extends State<FaqAccordion> {
   late bool _open = widget.initiallyExpanded;
 
   @override
+  void didUpdateWidget(FaqAccordion oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initiallyExpanded != widget.initiallyExpanded) {
+      _open = widget.initiallyExpanded;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
+    final duration =
+        reduceMotion ? Duration.zero : const Duration(milliseconds: 220);
     return BrandCard(
       margin: const EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.zero,
+      borderColor: _open ? tokens.primary : tokens.border,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Semantics(
             button: true,
             expanded: _open,
+            hint: (_open ? 'ocultar_respuesta' : 'mostrar_respuesta').tr(),
             child: InkWell(
               onTap: () => setState(() => _open = !_open),
+              borderRadius: BorderRadius.circular(tokens.radiusMd),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 15,
-                  vertical: 13,
+                  vertical: 14,
                 ),
                 child: Row(
                   children: [
@@ -1020,12 +1058,23 @@ class _FaqAccordionState extends State<FaqAccordion> {
                       ),
                     ),
                     const SizedBox(width: BrandSpace.xs),
-                    Text(
-                      _open ? '–' : '+',
-                      style: tokens.body(
-                        16,
-                        weight: FontWeight.w700,
-                        color: tokens.primary,
+                    AnimatedRotation(
+                      turns: _open ? 0.5 : 0,
+                      duration: duration,
+                      curve: Curves.easeOutCubic,
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: tokens.accentWash(tokens.primary),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 22,
+                          color: tokens.primary,
+                        ),
                       ),
                     ),
                   ],
@@ -1033,14 +1082,26 @@ class _FaqAccordionState extends State<FaqAccordion> {
               ),
             ),
           ),
-          if (_open)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 14),
-              child: Text(
-                widget.answer,
-                style: tokens.body(13, color: tokens.textMuted, height: 1.5),
-              ),
+          ClipRect(
+            child: AnimatedSize(
+              alignment: Alignment.topCenter,
+              duration: duration,
+              curve: Curves.easeOutCubic,
+              child: _open
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 59, 16),
+                      child: Text(
+                        widget.answer,
+                        style: tokens.body(
+                          13,
+                          color: tokens.textMuted,
+                          height: 1.5,
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ),
+          ),
         ],
       ),
     );
@@ -1050,6 +1111,14 @@ class _FaqAccordionState extends State<FaqAccordion> {
 /// Tag shared by a news title on the list and on its detail, so the headline
 /// flies between the two instead of cutting.
 String newsHeroTag(String registroId) => 'news-title-$registroId';
+
+String formatNewsDate(BuildContext context, Noticia news) {
+  if (!news.hasPublishedDate) {
+    return '';
+  }
+  final locale = Localizations.localeOf(context).toLanguageTag();
+  return DateFormat.yMMMd(locale).format(news.fecha);
+}
 
 /// News summary card; the title carries the brand primary.
 class NewsCard extends StatelessWidget {
@@ -1061,38 +1130,101 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final title = news.titulo.isEmpty ? 'noticias'.tr() : news.titulo;
+    final preview = news.previewText;
+    final date = formatNewsDate(context, news);
     return BrandCard(
       onTap: onTap,
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Hero(
-            tag: newsHeroTag(news.registroId),
-            child: Material(
-              type: MaterialType.transparency,
-              child: Text(
-                news.titulo,
-                style: tokens.body(
-                  14,
-                  weight: FontWeight.w700,
-                  color: tokens.primary,
+          _NewsDateStamp(news: news),
+          const SizedBox(width: BrandSpace.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Hero(
+                  tag: newsHeroTag(news.heroIdentity),
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: tokens.body(
+                        14,
+                        weight: FontWeight.w700,
+                        color: tokens.primary,
+                        height: 1.25,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                if (date.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    date,
+                    style: tokens.body(11, color: tokens.textMuted),
+                  ),
+                ],
+                if (preview.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    preview,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: tokens.body(13, height: 1.4),
+                  ),
+                ],
+              ],
             ),
           ),
-          const SizedBox(height: 3),
+          if (onTap != null) ...[
+            const SizedBox(width: BrandSpace.xs),
+            const BrandChevron(),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _NewsDateStamp extends StatelessWidget {
+  const _NewsDateStamp({required this.news});
+
+  final Noticia news;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    if (!news.hasPublishedDate) {
+      return const BrandGlyphTile(
+        asset: BrandIcons.news,
+        size: 50,
+        glyphSize: 24,
+      );
+    }
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    return Container(
+      width: 50,
+      constraints: const BoxConstraints(minHeight: 58),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
+      decoration: BoxDecoration(
+        color: tokens.accentWash(tokens.primary),
+        borderRadius: BorderRadius.circular(BrandShape.glyphTile),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('${news.fecha.day}',
+              style: tokens.head(20, color: tokens.primary)),
           Text(
-            DateFormat('dd-MMM-yyyy').format(news.fecha),
-            style: tokens.body(11, color: tokens.textMuted),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            news.resumen,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: tokens.body(13, height: 1.45),
+            DateFormat.MMM(locale).format(news.fecha).toUpperCase(),
+            maxLines: 1,
+            style: tokens.eyebrow(9, color: tokens.primary),
           ),
         ],
       ),

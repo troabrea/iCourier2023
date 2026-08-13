@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../design_system/motion_components.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../theme/brand_tokens.dart';
@@ -21,6 +24,7 @@ class PreguntasPage extends StatefulWidget {
 
 class _PreguntasPageState extends State<PreguntasPage> {
   late final PreguntasBloc _bloc;
+  String _query = '';
 
   @override
   void initState() {
@@ -40,8 +44,10 @@ class _PreguntasPageState extends State<PreguntasPage> {
     return Scaffold(
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
-        title: 'preguntas'.tr(),
+        title: 'preguntas_frecuentes'.tr(),
         onBack: context.popOrHome,
+        onSearchChanged: (value) => setState(() => _query = value.trim()),
+        searchHint: 'buscar_preguntas'.tr(),
       ),
       body: BlocProvider.value(
         value: _bloc,
@@ -51,32 +57,115 @@ class _PreguntasPageState extends State<PreguntasPage> {
               return const BrandSkeleton();
             }
             if (state is PreguntasErrorState) {
-              return BrandErrorState(
-                onRetry: () => _bloc.add(const LoadApiEvent(ignoreCache: true)),
-              );
+              return BrandErrorState(onRetry: _refresh);
             }
-            if (state is! PreguntasLoadedState || state.preguntas.isEmpty) {
-              return const BrandEmptyState(
-                messageKey: 'no_resultados',
-                glyph: BrandIcons.questions,
-              );
+            if (state is! PreguntasLoadedState) {
+              return const SizedBox.shrink();
             }
-            return ListView.builder(
-              padding: const EdgeInsets.fromLTRB(
-                BrandSpace.lg,
-                BrandSpace.md,
-                BrandSpace.lg,
-                BrandTabBar.height,
-              ),
-              itemCount: state.preguntas.length,
-              itemBuilder: (context, index) => FaqAccordion(
-                question: state.preguntas[index].titulo,
-                answer: state.preguntas[index].resumen,
-                initiallyExpanded: index == 0,
+            final normalizedQuery = _query.toLowerCase();
+            final questions = state.preguntas.where((question) {
+              if (normalizedQuery.isEmpty) {
+                return true;
+              }
+              return question.titulo.toLowerCase().contains(normalizedQuery) ||
+                  question.resumen.toLowerCase().contains(normalizedQuery);
+            }).toList();
+            return RefreshIndicator(
+              onRefresh: _refresh,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.fromLTRB(
+                  BrandSpace.lg,
+                  BrandSpace.md,
+                  BrandSpace.lg,
+                  BrandTabBar.height,
+                ),
+                children: [
+                  BrandManifestReveal(
+                    child: _QuestionsGuide(count: questions.length),
+                  ),
+                  const SizedBox(height: BrandSpace.md),
+                  if (questions.isEmpty)
+                    BrandManifestReveal(
+                      delay: brandManifestDelay(1),
+                      child: BrandEmptyState(
+                        messageKey: normalizedQuery.isEmpty
+                            ? 'no_resultados'
+                            : 'sin_preguntas_coincidentes',
+                        glyph: BrandIcons.questions,
+                        actionLabel:
+                            normalizedQuery.isEmpty ? 'actualizar'.tr() : null,
+                        onAction: normalizedQuery.isEmpty ? _refresh : null,
+                      ),
+                    )
+                  else
+                    for (var index = 0; index < questions.length; index++)
+                      BrandManifestReveal(
+                        key: ValueKey(questions[index].registroId),
+                        delay: brandManifestDelay(
+                          index,
+                          startMilliseconds: 80,
+                        ),
+                        child: FaqAccordion(
+                          question: questions[index].titulo,
+                          answer: questions[index].resumen,
+                          initiallyExpanded: index == 0 && _query.isEmpty,
+                        ),
+                      ),
+                ],
               ),
             );
           },
         ),
+      ),
+    );
+  }
+
+  Future<void> _refresh() async {
+    final completed = Completer<void>();
+    _bloc.add(LoadApiEvent(ignoreCache: true, completed: completed));
+    await completed.future;
+  }
+}
+
+class _QuestionsGuide extends StatelessWidget {
+  const _QuestionsGuide({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Semantics(
+      container: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const BrandGlyphTile(
+            asset: BrandIcons.questions,
+            size: 44,
+            glyphSize: 23,
+          ),
+          const SizedBox(width: BrandSpace.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'preguntas_guia'.tr(),
+                  style: tokens.body(13, weight: FontWeight.w600, height: 1.35),
+                ),
+                const SizedBox(height: BrandSpace.xxs),
+                Text(
+                  'preguntas_disponibles'.plural(count, args: ['$count']),
+                  style: tokens.body(12, color: tokens.textMuted),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

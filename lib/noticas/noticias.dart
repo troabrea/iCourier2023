@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +10,7 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../design_system/motion_components.dart';
 import '../helpers/contact_action.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -49,9 +52,10 @@ class _NoticiasPageState extends State<NoticiasPage> {
     return Scaffold(
       backgroundColor: tokens.bg,
       appBar: widget.isTabRoot
-          ? ScreenHeader.tab(title: 'noticias'.tr(),
-        trailing: const BrandContactAction(),
-      )
+          ? ScreenHeader.tab(
+              title: 'noticias'.tr(),
+              trailing: const BrandContactAction(),
+            )
           : ScreenHeader(
               title: 'noticias'.tr(),
               onBack: context.popOrHome,
@@ -65,11 +69,7 @@ class _NoticiasPageState extends State<NoticiasPage> {
               return const BrandSkeleton();
             }
             if (state is NoticiasErrorState) {
-              return BrandErrorState(
-                onRetry: () => _bloc.add(
-                  const LoadApiEvent(ignoreCache: true),
-                ),
-              );
+              return BrandErrorState(onRetry: _refresh);
             }
             if (state is! NoticiasLoadedState) {
               return const BrandEmptyState(
@@ -78,15 +78,17 @@ class _NoticiasPageState extends State<NoticiasPage> {
               );
             }
             return RefreshIndicator(
-              onRefresh: () async =>
-                  _bloc.add(const LoadApiEvent(ignoreCache: true)),
+              onRefresh: _refresh,
               child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: BrandTabBar.height),
                 children: [
                   if (widget.isTabRoot && state.banners.isNotEmpty)
-                    BannerCarousel(
-                      banners: state.banners,
-                      config: GetIt.I<BrandConfig>(),
+                    BrandManifestReveal(
+                      child: BannerCarousel(
+                        banners: state.banners,
+                        config: GetIt.I<BrandConfig>(),
+                      ),
                     ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -95,24 +97,42 @@ class _NoticiasPageState extends State<NoticiasPage> {
                       BrandSpace.lg,
                       0,
                     ),
-                    child: state.noticias.isEmpty
-                        ? const BrandEmptyState(
-                            messageKey: 'no_resultados',
-                            glyph: BrandIcons.news,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (state.noticias.isEmpty)
+                          BrandManifestReveal(
+                            child: BrandEmptyState(
+                              messageKey: 'noticias_vacias',
+                              glyph: BrandIcons.news,
+                              actionLabel: 'actualizar'.tr(),
+                              onAction: _refresh,
+                            ),
                           )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              for (final news in state.noticias)
-                                NewsCard(
-                                  news: news,
-                                  onTap: () => context.push(
-                                    AppRoutes.newsDetail(news.registroId),
-                                    extra: news,
+                        else
+                          for (var index = 0;
+                              index < state.noticias.length;
+                              index++)
+                            BrandManifestReveal(
+                              key: ValueKey(
+                                state.noticias[index].heroIdentity,
+                              ),
+                              delay: brandManifestDelay(
+                                index,
+                                startMilliseconds: 90,
+                              ),
+                              child: NewsCard(
+                                news: state.noticias[index],
+                                onTap: () => context.push(
+                                  AppRoutes.newsDetail(
+                                    state.noticias[index].heroIdentity,
                                   ),
+                                  extra: state.noticias[index],
                                 ),
-                            ],
-                          ),
+                              ),
+                            ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -121,5 +141,11 @@ class _NoticiasPageState extends State<NoticiasPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _refresh() async {
+    final completed = Completer<void>();
+    _bloc.add(LoadApiEvent(ignoreCache: true, completed: completed));
+    await completed.future;
   }
 }

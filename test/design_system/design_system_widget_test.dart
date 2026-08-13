@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:icourier/design_system/brand_states.dart';
+import 'package:icourier/design_system/calculator_components.dart';
 import 'package:icourier/design_system/core_components.dart';
 import 'package:icourier/domain/package_stage.dart';
 import 'package:icourier/services/model/recepcion.dart';
@@ -122,6 +123,27 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('campo numérico acepta separador decimal local', (tester) async {
+    final config = loadTestBrand('bmcargo');
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: BigNumberField(
+          label: 'Peso',
+          unit: 'lb',
+          controller: controller,
+        ),
+      ),
+    );
+    await tester.enterText(find.byType(TextField), '1,25');
+
+    expect(controller.text, '1,25');
     expect(tester.takeException(), isNull);
   });
 }

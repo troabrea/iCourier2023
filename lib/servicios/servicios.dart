@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +10,7 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
+import '../design_system/motion_components.dart';
 import '../helpers/contact_action.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -43,7 +46,10 @@ class _ServiciosPageState extends State<ServiciosPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = ServiciosBloc(GetIt.I<CourierService>())..add(const LoadApiEvent());
+    _bloc = ServiciosBloc(
+      GetIt.I<CourierService>(),
+      loadBanners: widget.isTabRoot,
+    )..add(const LoadApiEvent());
   }
 
   @override
@@ -75,36 +81,27 @@ class _ServiciosPageState extends State<ServiciosPage> {
               return const BrandSkeleton();
             }
             if (state is ServiciosErrorState) {
-              return BrandErrorState(
-                onRetry: () => _bloc.add(const LoadApiEvent(ignoreCache: true)),
-              );
+              return BrandErrorState(onRetry: _refresh);
             }
             if (state is! ServiciosLoadedState) {
-              return const BrandEmptyState(
-                messageKey: 'no_resultados',
-                glyph: BrandIcons.services,
-              );
-            }
-            if (state.servicios.isEmpty) {
-              return const BrandEmptyState(
-                messageKey: 'no_resultados',
-                glyph: BrandIcons.services,
-              );
+              return const SizedBox.shrink();
             }
             final showBanners = widget.isTabRoot && state.banners.isNotEmpty;
             return RefreshIndicator(
-              onRefresh: () async =>
-                  _bloc.add(const LoadApiEvent(ignoreCache: true)),
+              onRefresh: _refresh,
               child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.only(
                   bottom: BrandTabBar.height,
                   top: showBanners ? 0 : BrandSpace.md,
                 ),
                 children: [
                   if (showBanners)
-                    BannerCarousel(
-                      banners: state.banners,
-                      config: GetIt.I<BrandConfig>(),
+                    BrandManifestReveal(
+                      child: BannerCarousel(
+                        banners: state.banners,
+                        config: GetIt.I<BrandConfig>(),
+                      ),
                     ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -116,10 +113,41 @@ class _ServiciosPageState extends State<ServiciosPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        for (var index = 0;
-                            index < state.servicios.length;
-                            index++)
-                          _serviceCard(state.servicios[index], index),
+                        if (state.servicios.isEmpty)
+                          BrandManifestReveal(
+                            child: BrandEmptyState(
+                              messageKey: 'servicios_vacios',
+                              glyph: BrandIcons.services,
+                              actionLabel: 'actualizar'.tr(),
+                              onAction: _refresh,
+                            ),
+                          )
+                        else ...[
+                          if (!widget.isTabRoot) ...[
+                            BrandManifestReveal(
+                              child: _ServicesGuide(
+                                count: state.servicios.length,
+                              ),
+                            ),
+                            const SizedBox(height: BrandSpace.md),
+                          ],
+                          for (var index = 0;
+                              index < state.servicios.length;
+                              index++)
+                            BrandManifestReveal(
+                              key: ValueKey(
+                                state.servicios[index].registroId,
+                              ),
+                              delay: brandManifestDelay(
+                                index,
+                                startMilliseconds: 90,
+                              ),
+                              child: _serviceCard(
+                                state.servicios[index],
+                                index,
+                              ),
+                            ),
+                        ],
                       ],
                     ),
                   ),
@@ -138,6 +166,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
       title: service.titulo,
       description: service.resumen,
       glyph: _glyphs[index % _glyphs.length],
+      opensExternally: url != null,
       onTap: url == null
           ? null
           : () => launchUrl(url, mode: LaunchMode.externalApplication),
@@ -150,5 +179,51 @@ class _ServiciosPageState extends State<ServiciosPage> {
       return null;
     }
     return uri;
+  }
+
+  Future<void> _refresh() async {
+    final completed = Completer<void>();
+    _bloc.add(LoadApiEvent(ignoreCache: true, completed: completed));
+    await completed.future;
+  }
+}
+
+class _ServicesGuide extends StatelessWidget {
+  const _ServicesGuide({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Semantics(
+      container: true,
+      child: Row(
+        children: [
+          const BrandGlyphTile(
+            asset: BrandIcons.services,
+            size: 44,
+            glyphSize: 23,
+          ),
+          const SizedBox(width: BrandSpace.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'servicios_guia'.tr(),
+                  style: tokens.body(13, weight: FontWeight.w600, height: 1.35),
+                ),
+                const SizedBox(height: BrandSpace.xxs),
+                Text(
+                  'servicios_disponibles'.plural(count, args: ['$count']),
+                  style: tokens.body(12, color: tokens.textMuted),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

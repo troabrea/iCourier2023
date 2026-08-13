@@ -12,8 +12,9 @@ import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
-import '../helpers/contact_action.dart';
+import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
+import '../helpers/contact_action.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 import '../services/model/sucursal.dart';
@@ -221,14 +222,16 @@ class _SucursalesPageState extends State<SucursalesPage>
 
             return Column(
               children: [
-                BranchMap(
-                  branches: branches,
-                  focused: _focused,
-                  here: _here,
-                  showMyLocation: !_locationRefused,
-                  // A marker is already the branch's position, so tapping it
-                  // has nothing to frame; what it can still offer is the sheet.
-                  onSelect: _openBranch,
+                BrandManifestReveal(
+                  child: BranchMap(
+                    branches: branches,
+                    focused: _focused,
+                    here: _here,
+                    showMyLocation: !_locationRefused,
+                    // A marker is already the branch's position, so tapping it
+                    // has nothing to frame; what it can still offer is the sheet.
+                    onSelect: _openBranch,
+                  ),
                 ),
                 Expanded(
                   child: RefreshIndicator(
@@ -243,24 +246,40 @@ class _SucursalesPageState extends State<SucursalesPage>
                       ),
                       children: [
                         if (_here == null && _locationRefused)
-                          _LocationInvite(onEnable: _enableLocation),
+                          BrandManifestReveal(
+                            delay: brandManifestDelay(1),
+                            child: _LocationInvite(onEnable: _enableLocation),
+                          ),
                         if (branches.isEmpty)
-                          const BrandEmptyState(
-                            messageKey: 'no_resultados',
-                            glyph: BrandIcons.branches,
+                          BrandManifestReveal(
+                            delay: brandManifestDelay(1),
+                            child: const BrandEmptyState(
+                              messageKey: 'no_resultados',
+                              glyph: BrandIcons.branches,
+                            ),
                           )
                         else
                           BranchList(
                             children: [
-                              for (final branch in branches)
-                                BranchRow(
-                                  branch: branch,
-                                  distanceKm: _distanceTo(branch),
-                                  nearest: branch.registroId == nearest,
-                                  focused: branch.registroId ==
-                                      _focused?.registroId,
-                                  onTap: () => _focusBranch(branch),
-                                  onMore: () => _openBranch(branch),
+                              for (var index = 0;
+                                  index < branches.length;
+                                  index++)
+                                BrandManifestReveal(
+                                  key: ValueKey(branches[index].registroId),
+                                  delay: brandManifestDelay(
+                                    index,
+                                    startMilliseconds: 110,
+                                  ),
+                                  child: BranchRow(
+                                    branch: branches[index],
+                                    distanceKm: _distanceTo(branches[index]),
+                                    nearest:
+                                        branches[index].registroId == nearest,
+                                    focused: branches[index].registroId ==
+                                        _focused?.registroId,
+                                    onTap: () => _focusBranch(branches[index]),
+                                    onMore: () => _openBranch(branches[index]),
+                                  ),
                                 ),
                             ],
                           ),
@@ -296,8 +315,8 @@ class _SucursalesPageState extends State<SucursalesPage>
   /// the gesture reversible — the same tap that went in gets you back out.
   void _focusBranch(Sucursal branch) {
     setState(
-      () => _focused =
-          _focused?.registroId == branch.registroId ? null : branch,
+      () =>
+          _focused = _focused?.registroId == branch.registroId ? null : branch,
     );
   }
 
@@ -402,4 +421,3 @@ double _haversineKm(double lat1, double lon1, double lat2, double lon2) {
           2;
   return 12742 * asin(sqrt(a));
 }
-

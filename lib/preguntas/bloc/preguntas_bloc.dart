@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../services/courier_service.dart';
 
+import '../../services/courier_service.dart';
 import '../../services/model/pregunta.dart';
 
 part 'preguntas_event.dart';
@@ -24,11 +26,19 @@ class PreguntasBloc extends Bloc<PreguntasEvent, PreguntasState> {
 
     on<LoadApiEvent>((event, emit) async {
       try {
-        emit(PreguntasLoadingState());
+        // Pull-to-refresh keeps the answers readable beneath the native
+        // indicator. Only the first request replaces the screen with bones.
+        if (!event.ignoreCache || state is! PreguntasLoadedState) {
+          emit(PreguntasLoadingState());
+        }
         final preguntas = await _courierService.getPreguntas(event.ignoreCache);
         emit(PreguntasLoadedState(preguntas));
-      } catch (ex) {
+      } on Exception {
         emit(PreguntasErrorState());
+      } finally {
+        if (!(event.completed?.isCompleted ?? true)) {
+          event.completed!.complete();
+        }
       }
     });
   }

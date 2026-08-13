@@ -19,21 +19,21 @@ class NoticiaDetallePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    final body = noticia.contenido
-        .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n')
-        .replaceAll(RegExp(r'<[^>]*>'), ' ')
-        .replaceAll(RegExp(r'[ \t]+'), ' ')
-        .trim();
+    final title = noticia.titulo.isEmpty ? 'noticias'.tr() : noticia.titulo;
+    final summary = noticia.summaryText;
+    final body = noticia.plainContent;
+    final date = formatNewsDate(context, noticia);
+    final externalUri = noticia.externalUri;
 
     return Scaffold(
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
         title: 'noticias'.tr(),
         onBack: context.popOrHome,
-        trailing: noticia.url.isEmpty
+        trailing: externalUri == null
             ? null
             : IconButton(
-                onPressed: () => _open(noticia.url),
+                onPressed: () => _open(externalUri),
                 icon: Icon(Icons.open_in_new, color: tokens.onPrimary),
                 tooltip: 'ver_mas'.tr(),
               ),
@@ -49,37 +49,36 @@ class NoticiaDetallePage extends StatelessWidget {
           ),
           children: [
             Hero(
-              tag: newsHeroTag(noticia.registroId),
+              tag: newsHeroTag(noticia.heroIdentity),
               child: Material(
                 type: MaterialType.transparency,
-                child: Text(noticia.titulo, style: tokens.head(20)),
+                child: Text(title, style: tokens.head(20)),
               ),
             ),
-            const SizedBox(height: BrandSpace.xxs),
-            Text(
-              DateFormat('dd-MMM-yyyy').format(noticia.fecha),
-              style: tokens.body(13, color: tokens.textMuted),
-            ),
+            if (date.isNotEmpty) ...[
+              const SizedBox(height: BrandSpace.xxs),
+              Text(date, style: tokens.body(13, color: tokens.textMuted)),
+            ],
             const SizedBox(height: BrandSpace.md),
-            if (noticia.resumen.isNotEmpty) ...[
+            if (summary.isNotEmpty) ...[
               Text(
-                noticia.resumen,
+                summary,
                 style: tokens.body(15, weight: FontWeight.w600, height: 1.5),
               ),
               const SizedBox(height: BrandSpace.sm),
             ],
-            if (body.isNotEmpty)
+            if (body.isNotEmpty && body != summary)
               SelectableText(
                 body,
                 style: tokens.body(15, height: 1.6),
               ),
-            if (noticia.url.isNotEmpty) ...[
+            if (externalUri != null) ...[
               const SizedBox(height: BrandSpace.lg),
               BrandOutlineButton(
                 label: 'ver_mas'.tr(),
                 pill: true,
                 foreground: tokens.primary,
-                onPressed: () => _open(noticia.url),
+                onPressed: () => _open(externalUri),
               ),
             ],
           ],
@@ -88,10 +87,6 @@ class NoticiaDetallePage extends StatelessWidget {
     );
   }
 
-  Future<void> _open(String rawUrl) async {
-    final uri = Uri.tryParse(rawUrl);
-    if (uri != null && (uri.scheme == 'https' || uri.scheme == 'http')) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
+  Future<void> _open(Uri uri) =>
+      launchUrl(uri, mode: LaunchMode.externalApplication);
 }

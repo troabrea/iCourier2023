@@ -6,10 +6,12 @@ abstract class NoticiasEvent extends Equatable {
 
 class LoadApiEvent extends NoticiasEvent {
   final bool ignoreCache;
-  const LoadApiEvent({this.ignoreCache = false});
+  final Completer<void>? completed;
+
+  const LoadApiEvent({this.ignoreCache = false, this.completed});
+
   @override
-  // AppCenter.track
-  List<Object?> get props => [];
+  List<Object?> get props => [ignoreCache];
 }
 
 class NoInternetEvent extends NoticiasEvent {

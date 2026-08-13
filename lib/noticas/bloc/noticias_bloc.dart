@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +25,11 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
 
     on<LoadApiEvent>((event, emit) async {
       try {
-        emit(NoticiasLoadingState());
+        // A pull-to-refresh keeps the current feed readable under the native
+        // refresh indicator; only first load replaces the surface with bones.
+        if (!event.ignoreCache || state is! NoticiasLoadedState) {
+          emit(NoticiasLoadingState());
+        }
         final userProfile = await _courierService.getUserProfile();
         final empresa = await _courierService.getEmpresa();
         final noticias = await _courierService.getNoticias(event.ignoreCache);
@@ -33,6 +39,10 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
       } on Exception catch (e) {
         debugPrint(e.toString());
         emit(NoticiasErrorState());
+      } finally {
+        if (!(event.completed?.isCompleted ?? true)) {
+          event.completed!.complete();
+        }
       }
     });
   }

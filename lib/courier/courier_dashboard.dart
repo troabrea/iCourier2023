@@ -11,6 +11,7 @@ import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/home_components.dart';
+import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
 import '../helpers/contact_action.dart';
 import '../domain/package_stage.dart';
@@ -219,26 +220,29 @@ class _DashboardContentState extends State<_DashboardContent> {
           final list = ListView(
             padding: EdgeInsets.zero,
             children: [
-              BrandHeader(
-                key: _panelKey,
-                greeting: _firstName(userProfile),
-                accountName: userProfile?.nombre ?? '',
-                account: userProfile?.cuenta ?? '',
-                photoUrl: userProfile?.fotoPerfilUrl ?? '',
-                capabilities: capabilities,
-                unread: unread,
-                onAccounts: userProfile == null
-                    ? null
-                    : () => showBrandSheet<void>(
-                          context,
-                          scrollable: true,
-                          child: CuentasUsuario(userProfile: userProfile),
-                        ),
-                onContact: _contact(userProfile)?.open,
-                contactIcon:
-                    _contact(userProfile)?.icon ?? Icons.chat_bubble_outline,
-                onCarnet: () => context.push(AppRoutes.idCard),
-                onMessages: () => context.push(AppRoutes.messages),
+              BrandManifestReveal(
+                duration: const Duration(milliseconds: 760),
+                child: BrandHeader(
+                  key: _panelKey,
+                  greeting: _firstName(userProfile),
+                  accountName: userProfile?.nombre ?? '',
+                  account: userProfile?.cuenta ?? '',
+                  photoUrl: userProfile?.fotoPerfilUrl ?? '',
+                  capabilities: capabilities,
+                  unread: unread,
+                  onAccounts: userProfile == null
+                      ? null
+                      : () => showBrandSheet<void>(
+                            context,
+                            scrollable: true,
+                            child: CuentasUsuario(userProfile: userProfile),
+                          ),
+                  onContact: _contact(userProfile)?.open,
+                  contactIcon:
+                      _contact(userProfile)?.icon ?? Icons.chat_bubble_outline,
+                  onCarnet: () => context.push(AppRoutes.idCard),
+                  onMessages: () => context.push(AppRoutes.messages),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(
@@ -250,12 +254,15 @@ class _DashboardContentState extends State<_DashboardContent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _statusCard(
-                      context,
-                      capabilities,
-                      userProfile,
-                      pending,
-                      banner,
+                    BrandManifestReveal(
+                      delay: brandManifestDelay(1),
+                      child: _statusCard(
+                        context,
+                        capabilities,
+                        userProfile,
+                        pending,
+                        banner,
+                      ),
                     ),
                     // The hero card is pulled 30 up onto the header, so the
                     // flow below reclaims that space.
@@ -267,45 +274,57 @@ class _DashboardContentState extends State<_DashboardContent> {
                           // La tarjeta héroe termina justo encima; sin este
                           // aire las dos superficies se leen como una sola.
                           const SizedBox(height: 14),
-                          BrandSectionLabel('acciones_rapidas'.tr()),
-                          AdaptiveQuickActions(
-                            room: _roomForActions(
-                              context,
-                              groups: pending,
-                              hasBanner: state.banners.isNotEmpty,
+                          BrandManifestReveal(
+                            delay: brandManifestDelay(2),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                BrandSectionLabel('acciones_rapidas'.tr()),
+                                AdaptiveQuickActions(
+                                  room: _roomForActions(
+                                    context,
+                                    groups: pending,
+                                    hasBanner: state.banners.isNotEmpty,
+                                  ),
+                                  actions: [
+                                    QuickAction(
+                                      label: 'crear_prealerta'
+                                          .tr()
+                                          .replaceAll('\n', ' '),
+                                      icon: BrandIcons.prealert,
+                                      enabled: capabilities.prealerts,
+                                      onTap: () =>
+                                          context.push(AppRoutes.newPrealert),
+                                    ),
+                                    QuickAction(
+                                      label: 'ver_prealertas'
+                                          .tr()
+                                          .replaceAll('\n', ' '),
+                                      icon: BrandIcons.receptions,
+                                      enabled: capabilities.prealerts,
+                                      onTap: () =>
+                                          context.push(AppRoutes.prealert),
+                                    ),
+                                    QuickAction(
+                                      label: 'rastrear_paquete'
+                                          .tr()
+                                          .replaceAll('\n', ' '),
+                                      icon: BrandIcons.track,
+                                      onTap: () =>
+                                          context.push(AppRoutes.tracking),
+                                    ),
+                                    QuickAction(
+                                      label: 'consulta_historica'
+                                          .tr()
+                                          .replaceAll('\n', ' '),
+                                      icon: BrandIcons.history,
+                                      onTap: () =>
+                                          context.push(AppRoutes.history),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            actions: [
-                              QuickAction(
-                                label: 'crear_prealerta'
-                                    .tr()
-                                    .replaceAll('\n', ' '),
-                                icon: BrandIcons.prealert,
-                                enabled: capabilities.prealerts,
-                                onTap: () =>
-                                    context.push(AppRoutes.newPrealert),
-                              ),
-                              QuickAction(
-                                label:
-                                    'ver_prealertas'.tr().replaceAll('\n', ' '),
-                                icon: BrandIcons.receptions,
-                                enabled: capabilities.prealerts,
-                                onTap: () => context.push(AppRoutes.prealert),
-                              ),
-                              QuickAction(
-                                label: 'rastrear_paquete'
-                                    .tr()
-                                    .replaceAll('\n', ' '),
-                                icon: BrandIcons.track,
-                                onTap: () => context.push(AppRoutes.tracking),
-                              ),
-                              QuickAction(
-                                label: 'consulta_historica'
-                                    .tr()
-                                    .replaceAll('\n', ' '),
-                                icon: BrandIcons.history,
-                                onTap: () => context.push(AppRoutes.history),
-                              ),
-                            ],
                           ),
                           if (capabilities.points) ...[
                             const SizedBox(height: BrandSpace.md),
@@ -409,8 +428,7 @@ class _DashboardContentState extends State<_DashboardContent> {
         HomeStatusCard.heightFor(
           stageCount: stages.length,
           withActions: stages.contains(PackageStage.disponible),
-          bannerHeight:
-              hasBanner ? expectedBannerHeight(context, width) : 0,
+          bannerHeight: hasBanner ? expectedBannerHeight(context, width) : 0,
         ) +
         BrandTabBar.height +
         // Section label and the air around it.

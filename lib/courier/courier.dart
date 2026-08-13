@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
+import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
@@ -65,94 +66,97 @@ class _CourierPageState extends State<CourierPage> {
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 480),
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 28,
-                      vertical: BrandSpace.xxl,
-                    ),
-                    children: [
-                      _BrandMark(config: _config),
-                      const SizedBox(height: 28),
-                      Text('bienvenido'.tr(), style: tokens.head(18)),
-                      const SizedBox(height: BrandSpace.xxs),
-                      Text(
-                        'indique_credenciales'.tr(),
-                        style: tokens.body(13, color: tokens.textMuted),
+                  child: BrandManifestReveal(
+                    duration: const Duration(milliseconds: 760),
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 28,
+                        vertical: BrandSpace.xxl,
                       ),
-                      const SizedBox(height: BrandSpace.md),
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            _LoginField(
-                              controller: _accountController,
-                              hint: 'codigo_de_cliente'.tr(),
-                              capitalize: true,
-                            ),
-                            const SizedBox(height: 10),
-                            _LoginField(
-                              controller: _passwordController,
-                              hint: 'contraseña'.tr(),
-                              obscure: _obscurePassword,
-                              onSubmitted: (_) => _login(),
-                              suffix: IconButton(
-                                onPressed: () => setState(
-                                  () => _obscurePassword = !_obscurePassword,
-                                ),
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                  size: 18,
-                                  color: tokens.textMuted,
+                      children: [
+                        _BrandMark(config: _config),
+                        const SizedBox(height: 28),
+                        Text('bienvenido'.tr(), style: tokens.head(18)),
+                        const SizedBox(height: BrandSpace.xxs),
+                        Text(
+                          'indique_credenciales'.tr(),
+                          style: tokens.body(13, color: tokens.textMuted),
+                        ),
+                        const SizedBox(height: BrandSpace.md),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              _LoginField(
+                                controller: _accountController,
+                                hint: 'codigo_de_cliente'.tr(),
+                                capitalize: true,
+                              ),
+                              const SizedBox(height: 10),
+                              _LoginField(
+                                controller: _passwordController,
+                                hint: 'contraseña'.tr(),
+                                obscure: _obscurePassword,
+                                onSubmitted: (_) => _login(),
+                                suffix: IconButton(
+                                  onPressed: () => setState(
+                                    () => _obscurePassword = !_obscurePassword,
+                                  ),
+                                  icon: Icon(
+                                    _obscurePassword
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    size: 18,
+                                    color: tokens.textMuted,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (loggedOut?.showError ?? false) ...[
-                        const SizedBox(height: BrandSpace.xs),
-                        Text(
-                          'credenciales_invalidas'.tr(),
-                          style: tokens.body(
-                            12,
-                            weight: FontWeight.w600,
-                            color: tokens.danger,
+                            ],
                           ),
                         ),
-                      ],
-                      const SizedBox(height: BrandSpace.xs),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () => _showPasswordHelp(context),
-                          child: Text(
-                            'lo_olvidaste'.tr(),
+                        if (loggedOut?.showError ?? false) ...[
+                          const SizedBox(height: BrandSpace.xs),
+                          Text(
+                            'credenciales_invalidas'.tr(),
                             style: tokens.body(
                               12,
                               weight: FontWeight.w600,
-                              color: tokens.primary,
+                              color: tokens.danger,
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: BrandSpace.xs),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () => _showPasswordHelp(context),
+                            child: Text(
+                              'lo_olvidaste'.tr(),
+                              style: tokens.body(
+                                12,
+                                weight: FontWeight.w600,
+                                color: tokens.primary,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: BrandSpace.md),
-                      BrandPrimaryButton(
-                        label: 'iniciar_sesión'.tr(),
-                        fontSize: 15,
-                        verticalPadding: 14,
-                        onPressed: _login,
-                      ),
-                      if (loggedOut?.registerUrl.isNotEmpty ?? false) ...[
-                        const SizedBox(height: 14),
-                        _RegisterPrompt(
-                          onTap: () => _openRegistration(
-                            loggedOut!.registerUrl,
-                          ),
+                        const SizedBox(height: BrandSpace.md),
+                        BrandPrimaryButton(
+                          label: 'iniciar_sesión'.tr(),
+                          fontSize: 15,
+                          verticalPadding: 14,
+                          onPressed: _login,
                         ),
+                        if (loggedOut?.registerUrl.isNotEmpty ?? false) ...[
+                          const SizedBox(height: 14),
+                          _RegisterPrompt(
+                            onTap: () => _openRegistration(
+                              loggedOut!.registerUrl,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
