@@ -43,14 +43,24 @@ import 'app_routes.dart';
 import 'brand_navigation_shell.dart';
 import 'pending_destination_store.dart';
 import 'router_session.dart';
+import 'selected_tab_store.dart';
 
 abstract final class AppRouter {
   static GoRouter create({
     required BrandConfig config,
     required RouterSession session,
     required SharedPreferences preferences,
+    required int defaultTabIndex,
   }) {
     final pending = SharedPreferencesPendingDestinationStore(preferences);
+    final selectedTabStore = SelectedTabStore(preferences);
+    final initialTabIndex = selectedTabStore.restoreIndex(
+      config.navigation.tabs,
+      fallbackIndex: defaultTabIndex,
+    );
+    final initialTabLocation = _path(
+      config.navigation.tabs[initialTabIndex],
+    );
     final tabModules = config.navigation.tabs.toSet();
     final routes = <RouteBase>[
       GoRoute(
@@ -75,6 +85,9 @@ abstract final class AppRouter {
         builder: (context, state, navigationShell) => BrandNavigationShell(
           navigationShell: navigationShell,
           config: config,
+          onTabSelected: (index) => selectedTabStore.save(
+            config.navigation.tabs[index],
+          ),
         ),
         branches: config.navigation.tabs
             .map(
@@ -281,7 +294,8 @@ abstract final class AppRouter {
     final linkParser = AppDeepLinkParser(urlScheme: config.urlScheme);
 
     return GoRouter(
-      initialLocation: session.isLoggedIn ? AppRoutes.home : AppRoutes.login,
+      initialLocation:
+          session.isLoggedIn ? initialTabLocation : AppRoutes.login,
       routes: routes,
       refreshListenable: session,
       redirect: (context, state) {
@@ -302,7 +316,7 @@ abstract final class AppRouter {
             SharedPreferencesPendingDestinationStore.storageKey,
           );
           pending.clear();
-          return destination ?? AppRoutes.home;
+          return destination ?? initialTabLocation;
         }
         return null;
       },

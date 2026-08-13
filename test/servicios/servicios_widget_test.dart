@@ -56,6 +56,21 @@ void main() {
     expect(find.text('Elige el servicio que necesitas.'), findsNothing);
     expect(find.text('2 servicios disponibles'), findsNothing);
     expect(find.byIcon(Icons.arrow_back_ios_new), findsNothing);
+    expect(
+      find.text('Recibe tus compras y consulta cada etapa del traslado.'),
+      findsNothing,
+    );
+    expect(find.text('Ver detalle'), findsNothing);
+    expect(find.byIcon(Icons.open_in_new_rounded), findsNothing);
+
+    await tester.tap(find.text('Casillero internacional'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Recibe tus compras y consulta cada etapa del traslado.'),
+      findsOneWidget,
+    );
+    expect(find.text('Ver detalle'), findsOneWidget);
     expect(find.byIcon(Icons.open_in_new_rounded), findsOneWidget);
     expect(service.bannerRequests, 1);
     expect(tester.takeException(), isNull);
@@ -81,6 +96,7 @@ void main() {
     expect(find.text('Elige el servicio que necesitas.'), findsOneWidget);
     expect(find.text('2 servicios disponibles'), findsOneWidget);
     expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
+    expect(find.text('Ver detalle'), findsNothing);
     expect(service.bannerRequests, 0);
     expect(tester.takeException(), isNull);
     await expectLater(
@@ -141,8 +157,47 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    await tester.tap(find.text('Casillero internacional'));
+    await tester.pumpAndSettle();
+
     expect(find.text('Casillero internacional'), findsOneWidget);
     expect(find.text('Carga comercial'), findsOneWidget);
+    expect(find.text('Ver detalle'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('details and external action follow progressive disclosure', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const ServiciosPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ver detalle'), findsNothing);
+
+    await tester.tap(find.text('Carga comercial'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Conoce las opciones disponibles para tus envíos comerciales.'),
+      findsOneWidget,
+    );
+    expect(find.text('Ver detalle'), findsNothing);
+
+    await tester.tap(find.text('Carga comercial'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Conoce las opciones disponibles para tus envíos comerciales.'),
+      findsNothing,
+    );
+
+    await tester.tap(find.text('Casillero internacional'));
+    await tester.pumpAndSettle();
+    expect(find.text('Ver detalle'), findsOneWidget);
+    expect(find.byIcon(Icons.open_in_new_rounded), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
@@ -164,7 +219,7 @@ class _ServicesService extends CourierService {
       empresa: 'demo',
       titulo: 'Casillero internacional',
       resumen: 'Recibe tus compras y consulta cada etapa del traslado.',
-      url: 'https://example.com/casillero',
+      detailsUrl: 'https://example.com/casillero',
       orden: 1,
       deleted: false,
     ),
@@ -173,7 +228,7 @@ class _ServicesService extends CourierService {
       empresa: 'demo',
       titulo: 'Carga comercial',
       resumen: 'Conoce las opciones disponibles para tus envíos comerciales.',
-      url: '',
+      detailsUrl: '',
       orden: 2,
       deleted: false,
     ),

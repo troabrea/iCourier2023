@@ -207,15 +207,11 @@ class _Headline extends StatelessWidget {
           _RefreshAction(onTap: onRefresh!, busy: refreshing),
         if (glyph != null) ...[
           const SizedBox(width: BrandSpace.xxs),
-          Container(
-            width: 52,
-            height: 52,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: tokens.accentWash(tokens.primary),
-              shape: BoxShape.circle,
-            ),
-            child: BrandGlyph(glyph!, color: tokens.primary, size: 24),
+          BrandGlyphTile(
+            asset: glyph!,
+            size: 52,
+            glyphSize: 24,
+            shape: BoxShape.circle,
           ),
         ],
       ],
@@ -236,6 +232,11 @@ class _RetainedSubTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final warningColors = tokens.softAccentPair(
+      tokens.warning,
+      opacity: 0.16,
+      minimumContrast: 4.5,
+    );
     return Semantics(
       button: true,
       child: InkWell(
@@ -285,8 +286,8 @@ class _RetainedSubTile extends StatelessWidget {
               const SizedBox(width: BrandSpace.xs),
               BrandPill(
                 label: '${group.count}',
-                background: tokens.accentWash(tokens.warning, 0.16),
-                foreground: tokens.warning,
+                background: warningColors.background,
+                foreground: warningColors.foreground,
                 fontSize: 11,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 9,
@@ -313,6 +314,11 @@ class _RefreshAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final foreground = tokens.accessibleForeground(
+      tokens.surface,
+      preferred: tokens.primary,
+      minimumContrast: 3,
+    );
     return Semantics(
       button: true,
       label: 'refrescar'.tr(),
@@ -334,7 +340,7 @@ class _RefreshAction extends StatelessWidget {
                   )
                 // In the brand colour: muted grey on a white card reads as a
                 // control that is switched off.
-                : Icon(Icons.refresh, size: 24, color: tokens.primary),
+                : Icon(Icons.refresh, size: 24, color: foreground),
           ),
         ),
       ),
@@ -374,6 +380,11 @@ class _StageTile extends StatelessWidget {
     // read as progress, not as prompts.
     final accent =
         group.stage == PackageStage.disponible ? tokens.primary : tokens.text;
+    final countColors = tokens.softAccentPair(
+      accent,
+      opacity: 0.14,
+      minimumContrast: 4.5,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -425,8 +436,8 @@ class _StageTile extends StatelessWidget {
                   // every quantity in one vertical sweep.
                   BrandPill(
                     label: '${group.count}',
-                    background: tokens.accentWash(accent, 0.14),
-                    foreground: accent,
+                    background: countColors.background,
+                    foreground: countColors.foreground,
                     fontSize: 12,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -500,19 +511,11 @@ class _Empty extends StatelessWidget {
       children: [
         Row(
           children: [
-            Container(
-              width: 52,
-              height: 52,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: tokens.accentWash(tokens.primary),
-                shape: BoxShape.circle,
-              ),
-              child: BrandGlyph(
-                BrandIcons.receptions,
-                color: tokens.primary,
-                size: 26,
-              ),
+            const BrandGlyphTile(
+              asset: BrandIcons.receptions,
+              size: 52,
+              glyphSize: 26,
+              shape: BoxShape.circle,
             ),
             const SizedBox(width: BrandSpace.sm),
             Expanded(
@@ -591,10 +594,10 @@ class _ReceptionsGroupCardState extends State<ReceptionsGroupCard> {
                 ),
                 child: Row(
                   children: [
-                    BrandGlyph(
-                      BrandIcons.receptions,
-                      color: tokens.primary,
-                      size: 20,
+                    const BrandGlyphTile(
+                      asset: BrandIcons.receptions,
+                      size: 34,
+                      glyphSize: 19,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -651,6 +654,15 @@ class PointsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final redeemBackground = Color.lerp(
+      tokens.surface,
+      tokens.secondary,
+      0.22,
+    )!;
+    final redeemForeground = tokens.accessibleForeground(
+      redeemBackground,
+      preferred: tokens.primary,
+    );
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -691,16 +703,27 @@ class PointsCard extends StatelessWidget {
                 ),
                 if (onRedeem != null)
                   Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: GestureDetector(
-                      onTap: onRedeem,
-                      child: Text(
-                        'canjear'.tr(),
-                        style: tokens.body(
-                          11,
-                          weight: FontWeight.w600,
-                          color: tokens.primary,
+                    padding: const EdgeInsets.only(top: 2),
+                    child: TextButton(
+                      onPressed: onRedeem,
+                      style: TextButton.styleFrom(
+                        foregroundColor: redeemForeground,
+                        minimumSize: const Size(44, 44),
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.centerLeft,
+                        tapTargetSize: MaterialTapTargetSize.padded,
+                        textStyle: tokens.body(
+                          12,
+                          weight: FontWeight.w700,
                         ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('canjear'.tr()),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.arrow_forward_rounded, size: 14),
+                        ],
                       ),
                     ),
                   ),

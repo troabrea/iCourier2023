@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,7 @@ import '../design_system/overlay_components.dart';
 import '../helpers/contact_action.dart';
 import '../domain/package_stage.dart';
 import '../navigation/app_routes.dart';
+import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 import '../services/model/recepcion.dart';
@@ -34,6 +36,8 @@ class CourierDashboard extends StatefulWidget {
 class _CourierDashboardState extends State<CourierDashboard> {
   late final DashboardBloc _bloc;
   late final Future<UserProfile> _profile;
+  late final Event<UnreadMessagesChanged> _unreadMessagesChanged;
+  int? _unreadCount;
 
   /// Last screen we had. A refresh runs through the loading state, and holding
   /// on to this keeps that from blanking the dashboard.
@@ -43,6 +47,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
   void initState() {
     super.initState();
     final service = GetIt.I<CourierService>();
+    _unreadMessagesChanged = GetIt.I<Event<UnreadMessagesChanged>>()
+      ..subscribe(_onUnreadMessagesChanged);
     _profile = service.getUserProfile();
     _bloc = DashboardBloc(DashboardLoadingState())
       ..add(const LoadApiEvent(false));
@@ -50,8 +56,16 @@ class _CourierDashboardState extends State<CourierDashboard> {
 
   @override
   void dispose() {
+    _unreadMessagesChanged.unsubscribe(_onUnreadMessagesChanged);
     _bloc.close();
     super.dispose();
+  }
+
+  void _onUnreadMessagesChanged(UnreadMessagesChanged? change) {
+    if (change == null || !mounted) {
+      return;
+    }
+    setState(() => _unreadCount = change.unreadCount);
   }
 
   /// Runs a reload and completes when it lands.
@@ -107,6 +121,8 @@ class _CourierDashboardState extends State<CourierDashboard> {
           }
           return _DashboardContent(
             state: loaded,
+            unread: _unreadCount ??
+                loaded.mensajes.where((message) => !message.read).length,
             profile: _profile,
             refreshing: state is DashboardLoadingState,
             onRefresh: _refresh,
@@ -128,6 +144,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
 class _DashboardContent extends StatefulWidget {
   const _DashboardContent({
     required this.state,
+    required this.unread,
     required this.profile,
     required this.refreshing,
     required this.onRefresh,
@@ -137,6 +154,7 @@ class _DashboardContent extends StatefulWidget {
   });
 
   final DashboardLoadedState state;
+  final int unread;
   final Future<UserProfile> profile;
 
   /// A reload is in flight over the screen we are already showing.
@@ -191,7 +209,7 @@ class _DashboardContentState extends State<_DashboardContent> {
     final tokens = context.brand;
     final config = GetIt.I<BrandConfig>();
     final capabilities = config.capabilities.resolve(state.empresa);
-    final unread = state.mensajes.where((message) => !message.read).length;
+    final unread = widget.unread;
 
     return Scaffold(
       backgroundColor: tokens.bg,

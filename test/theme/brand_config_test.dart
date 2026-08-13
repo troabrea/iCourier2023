@@ -57,15 +57,71 @@ void main() {
             '${file.path}: light.primary');
         _checkAa(contrastFailures, config.light.text, config.light.bg,
             '${file.path}: light.text');
+        _checkAa(contrastFailures, config.light.text, config.light.surface,
+            '${file.path}: light.textOnSurface');
         _checkAa(contrastFailures, config.dark.primary, config.dark.onPrimary,
             '${file.path}: dark.primary');
         _checkAa(contrastFailures, config.dark.text, config.dark.bg,
             '${file.path}: dark.text');
+        _checkAa(contrastFailures, config.dark.text, config.dark.surface,
+            '${file.path}: dark.textOnSurface');
 
         final light = BrandTheme.light(config);
         final dark = BrandTheme.dark(config);
-        expect(light.extension<BrandTokens>(), isNotNull, reason: file.path);
-        expect(dark.extension<BrandTokens>(), isNotNull, reason: file.path);
+        final lightTokens = light.extension<BrandTokens>();
+        final darkTokens = dark.extension<BrandTokens>();
+        expect(lightTokens, isNotNull, reason: file.path);
+        expect(darkTokens, isNotNull, reason: file.path);
+
+        for (final entry in {
+          'light': lightTokens!,
+          'dark': darkTokens!,
+        }.entries) {
+          final tokens = entry.value;
+          for (final accent in {
+            'primary': tokens.primary,
+            'success': tokens.success,
+            'warning': tokens.warning,
+            'danger': tokens.danger,
+          }.entries) {
+            final glyphColors = tokens.softAccentPair(accent.value);
+            _checkMinimumContrast(
+              contrastFailures,
+              glyphColors.foreground,
+              glyphColors.background,
+              '${file.path}: ${entry.key}.${accent.key}SoftGlyph',
+              3,
+            );
+
+            final labelColors = tokens.softAccentPair(
+              accent.value,
+              opacity: 0.14,
+              minimumContrast: 4.5,
+            );
+            _checkAa(
+              contrastFailures,
+              labelColors.foreground,
+              labelColors.background,
+              '${file.path}: ${entry.key}.${accent.key}SoftLabel',
+            );
+          }
+
+          final redeemBackground = Color.lerp(
+            tokens.surface,
+            tokens.secondary,
+            0.22,
+          )!;
+          final redeemForeground = tokens.accessibleForeground(
+            redeemBackground,
+            preferred: tokens.primary,
+          );
+          _checkAa(
+            contrastFailures,
+            redeemForeground,
+            redeemBackground,
+            '${file.path}: ${entry.key}.redeemAction',
+          );
+        }
       }
       expect(contrastFailures, isEmpty);
     });
@@ -151,11 +207,20 @@ void _checkAa(
   Color foreground,
   Color background,
   String reason,
+) =>
+    _checkMinimumContrast(failures, foreground, background, reason, 4.5);
+
+void _checkMinimumContrast(
+  List<String> failures,
+  Color foreground,
+  Color background,
+  String reason,
+  double minimum,
 ) {
   final lighter = foreground.computeLuminance() + 0.05;
   final darker = background.computeLuminance() + 0.05;
   final ratio = lighter > darker ? lighter / darker : darker / lighter;
-  if (ratio < 4.5) {
+  if (ratio < minimum) {
     failures.add('$reason (${ratio.toStringAsFixed(2)}:1)');
   }
 }

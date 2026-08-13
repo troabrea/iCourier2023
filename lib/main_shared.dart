@@ -92,13 +92,6 @@ Future<void> mainShared(AppInfo appInfo) async {
   await EasyLocalization.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  String strValue = (await cache.load('lastSelectedTab', "")).toString();
-  if (strValue.isNotEmpty) {
-    var intValue = int.tryParse(strValue);
-    if (intValue != null) {
-      appInfo.defaultTab = intValue;
-    }
-  }
   final initiallyLoggedIn =
       (await cache.load('sessionId', '')).toString().isNotEmpty;
   final preferences = await SharedPreferences.getInstance();
@@ -220,6 +213,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       config: brandConfig,
       session: routerSession,
       preferences: widget.preferences,
+      defaultTabIndex: appInfo.defaultTab,
     );
     WidgetsBinding.instance.addObserver(this);
     widgetSyncCoordinator = WidgetSyncCoordinator(

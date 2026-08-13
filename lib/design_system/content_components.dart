@@ -89,7 +89,6 @@ class _BannerCarouselState extends State<BannerCarousel> {
 
   late final PageController _controller;
   Timer? _timer;
-  int _page = 0;
 
   /// Proportion of the artwork itself, once it has been decoded.
   double? _measured;
@@ -186,7 +185,6 @@ class _BannerCarouselState extends State<BannerCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    final tokens = context.brand;
     if (widget.banners.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -197,69 +195,23 @@ class _BannerCarouselState extends State<BannerCarousel> {
       constraints: BoxConstraints(maxHeight: maxBannerHeight(context)),
       child: AspectRatio(
         aspectRatio: _measured ?? widget.aspectRatio,
-        child: Stack(
-          children: [
-            NotificationListener<ScrollNotification>(
-              onNotification: _onUserScroll,
-              child: PageView.builder(
-                controller: _controller,
-                onPageChanged: (page) => setState(
-                  () => _page = page % widget.banners.length,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _onUserScroll,
+          child: PageView.builder(
+            controller: _controller,
+            itemBuilder: (context, index) {
+              final banner = widget.banners[index % widget.banners.length];
+              return GestureDetector(
+                onTap:
+                    widget.onTap == null ? null : () => widget.onTap!(banner),
+                child: _BannerArtwork(
+                  url: banner.url,
+                  caption: banner.descripcion,
+                  config: widget.config,
                 ),
-                itemBuilder: (context, index) {
-                  final banner = widget.banners[index % widget.banners.length];
-                  return GestureDetector(
-                    onTap: widget.onTap == null
-                        ? null
-                        : () => widget.onTap!(banner),
-                    child: _BannerArtwork(
-                      url: banner.url,
-                      caption: banner.descripcion,
-                      config: widget.config,
-                    ),
-                  );
-                },
-              ),
-            ),
-            if (widget.banners.length > 1)
-              Positioned(
-                bottom: BrandSpace.sm,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: BrandSpace.xs,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: tokens.scrimBottom,
-                      borderRadius: BorderRadius.circular(BrandShape.pill),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        for (var index = 0;
-                            index < widget.banners.length;
-                            index++)
-                          Container(
-                            width: index == _page ? 18 : 6,
-                            height: 6,
-                            margin: const EdgeInsets.symmetric(horizontal: 3),
-                            decoration: BoxDecoration(
-                              color: tokens.onScrim.withValues(
-                                alpha: index == _page ? 0.95 : 0.45,
-                              ),
-                              borderRadius:
-                                  BorderRadius.circular(BrandShape.pill),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -355,7 +307,8 @@ String formatBranchDistance(BuildContext context, double kilometres) {
 String branchStatusLabel(BuildContext context, BranchStatus status) {
   switch (status.state) {
     case BranchOpenState.open:
-      return 'abierto_cierra_a_las'.tr(args: [_clock(context, status.closesAt!)]);
+      return 'abierto_cierra_a_las'
+          .tr(args: [_clock(context, status.closesAt!)]);
     case BranchOpenState.closingSoon:
       return 'cierra_en_minutos'.tr(args: ['${status.minutesToClose}']);
     case BranchOpenState.closed:
@@ -869,8 +822,9 @@ class _BranchMapState extends State<BranchMap> {
                       markerId: MarkerId(branch.registroId),
                       position: LatLng(branch.latitud, branch.longitud),
                       icon: BitmapDescriptor.defaultMarkerWithHue(hue),
-                      zIndexInt:
-                          branch.registroId == widget.focused?.registroId ? 2 : 1,
+                      zIndexInt: branch.registroId == widget.focused?.registroId
+                          ? 2
+                          : 1,
                       infoWindow: InfoWindow(title: branch.nombre),
                       onTap: () => widget.onSelect?.call(branch),
                     ),
@@ -923,74 +877,159 @@ class _MapControl extends StatelessWidget {
   }
 }
 
-/// Service row with its glyph on a wash of the brand primary.
-class ServiceCard extends StatelessWidget {
+/// Service summary that progressively reveals its description and action.
+class ServiceCard extends StatefulWidget {
   const ServiceCard({
     super.key,
     required this.title,
     required this.description,
     this.glyph = BrandIcons.services,
-    this.imageUrl,
-    this.onTap,
-    this.opensExternally = false,
+    this.onOpenDetails,
+    this.initiallyExpanded = false,
   });
 
   final String title;
   final String description;
   final String glyph;
-  final String? imageUrl;
-  final VoidCallback? onTap;
+  final VoidCallback? onOpenDetails;
+  final bool initiallyExpanded;
 
-  /// Whether tapping the card leaves the app for an external destination.
-  final bool opensExternally;
+  @override
+  State<ServiceCard> createState() => _ServiceCardState();
+}
+
+class _ServiceCardState extends State<ServiceCard> {
+  late bool _open = widget.initiallyExpanded;
+
+  bool get _hasDetails =>
+      widget.description.trim().isNotEmpty || widget.onOpenDetails != null;
+
+  @override
+  void didUpdateWidget(ServiceCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initiallyExpanded != widget.initiallyExpanded) {
+      _open = widget.initiallyExpanded;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return Semantics(
-      hint: onTap != null && opensExternally
-          ? 'abre_enlace_externo'.tr()
-          : null,
-      child: BrandCard(
-        onTap: onTap,
-        margin: const EdgeInsets.only(bottom: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BrandGlyphTile(asset: glyph, glyphSize: 20),
-            const SizedBox(width: BrandSpace.sm),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: tokens.body(14, weight: FontWeight.w700)),
-                  if (description.trim().isNotEmpty) ...[
-                    const SizedBox(height: 3),
-                    Text(
-                      description,
-                      style: tokens.body(12, color: tokens.textMuted),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            if (onTap != null) ...[
-              const SizedBox(width: BrandSpace.xs),
-              Padding(
-                padding: const EdgeInsets.only(top: BrandSpace.xs),
-                child: ExcludeSemantics(
-                  child: opensExternally
-                      ? Icon(
-                          Icons.open_in_new_rounded,
-                          size: 19,
-                          color: tokens.primary,
-                        )
-                      : const BrandChevron(),
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
+    final duration =
+        reduceMotion ? Duration.zero : const Duration(milliseconds: 240);
+    final body = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (widget.description.trim().isNotEmpty)
+          Text(
+            widget.description,
+            style: tokens.body(13, color: tokens.textMuted, height: 1.5),
+          ),
+        if (widget.onOpenDetails != null) ...[
+          if (widget.description.trim().isNotEmpty)
+            const SizedBox(height: BrandSpace.sm),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Semantics(
+              hint: 'abre_enlace_externo'.tr(),
+              child: TextButton.icon(
+                onPressed: widget.onOpenDetails,
+                iconAlignment: IconAlignment.end,
+                icon: const Icon(Icons.open_in_new_rounded, size: 18),
+                label: Text('ver_detalle'.tr()),
+                style: TextButton.styleFrom(
+                  foregroundColor: tokens.primary,
+                  minimumSize: const Size(44, 44),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: BrandSpace.xs,
+                  ),
+                  textStyle: tokens.body(13, weight: FontWeight.w700),
                 ),
               ),
-            ],
-          ],
-        ),
+            ),
+          ),
+        ],
+      ],
+    );
+
+    return BrandCard(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.zero,
+      borderColor: _open ? tokens.primary : tokens.border,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(
+            button: _hasDetails,
+            expanded: _hasDetails ? _open : null,
+            hint: _hasDetails
+                ? (_open
+                        ? 'ocultar_detalles_servicio'
+                        : 'mostrar_detalles_servicio')
+                    .tr()
+                : null,
+            child: InkWell(
+              onTap: _hasDetails ? () => setState(() => _open = !_open) : null,
+              borderRadius: BorderRadius.circular(tokens.radiusMd),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 14,
+                ),
+                child: Row(
+                  children: [
+                    BrandGlyphTile(asset: widget.glyph, glyphSize: 20),
+                    const SizedBox(width: BrandSpace.sm),
+                    Expanded(
+                      child: Text(
+                        widget.title,
+                        style: tokens.body(14, weight: FontWeight.w700),
+                      ),
+                    ),
+                    if (_hasDetails) ...[
+                      const SizedBox(width: BrandSpace.xs),
+                      AnimatedRotation(
+                        turns: _open ? 0.5 : 0,
+                        duration: duration,
+                        curve: Curves.easeOutCubic,
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: tokens.accentWash(tokens.primary),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            size: 22,
+                            color: tokens.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+          ClipRect(
+            child: AnimatedSize(
+              alignment: Alignment.topCenter,
+              duration: duration,
+              curve: Curves.easeOutCubic,
+              child: _open && _hasDetails
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(67, 0, 15, 12),
+                      child: body,
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ),
+        ],
       ),
     );
   }

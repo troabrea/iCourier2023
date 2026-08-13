@@ -126,6 +126,38 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
     return overText >= overSurface ? text : surface;
   }
 
+  /// Keeps [preferred] when it meets [minimumContrast], otherwise falls back
+  /// to the most legible semantic foreground for [background].
+  ///
+  /// This lets white-label accents remain visible without assuming every
+  /// configured brand color can also carry icons or text.
+  Color accessibleForeground(
+    Color background, {
+    required Color preferred,
+    double minimumContrast = 4.5,
+  }) =>
+      _contrast(background, preferred) >= minimumContrast
+          ? preferred
+          : onAccent(background);
+
+  /// Resolves a stable soft accent surface and a foreground that remains
+  /// legible over it for every white-label palette.
+  ({Color background, Color foreground}) softAccentPair(
+    Color accent, {
+    double opacity = 0.12,
+    double minimumContrast = 3,
+  }) {
+    final background = Color.alphaBlend(accentWash(accent, opacity), surface);
+    return (
+      background: background,
+      foreground: accessibleForeground(
+        background,
+        preferred: accent,
+        minimumContrast: minimumContrast,
+      ),
+    );
+  }
+
   static double _contrast(Color first, Color second) {
     final a = first.computeLuminance() + 0.05;
     final b = second.computeLuminance() + 0.05;

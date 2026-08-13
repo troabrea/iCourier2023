@@ -67,7 +67,12 @@ class BrandEmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            BrandGlyph(glyph, color: tokens.border, size: 74),
+            BrandGlyphTile(
+              asset: glyph,
+              size: 74,
+              glyphSize: 40,
+              shape: BoxShape.circle,
+            ),
             const SizedBox(height: BrandSpace.sm),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 230),

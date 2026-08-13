@@ -10,6 +10,16 @@ class CourierIsBusyState extends CourierState {
   List<Object> get props => [];
 }
 
+/// Keeps the login surface in place while the credentials are verified.
+class CourierIsSubmittingState extends CourierState {
+  const CourierIsSubmittingState(this.registerUrl);
+
+  final String registerUrl;
+
+  @override
+  List<Object> get props => [registerUrl];
+}
+
 class CourierIsErrorState extends CourierState {
   @override
   // AppCenter.track

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -161,24 +162,30 @@ class _ServiciosPageState extends State<ServiciosPage> {
   }
 
   Widget _serviceCard(Servicio service, int index) {
-    final url = _serviceUrl(service.url);
+    final url = service.externalDetailsUri;
     return ServiceCard(
       title: service.titulo,
       description: service.resumen,
       glyph: _glyphs[index % _glyphs.length],
-      opensExternally: url != null,
-      onTap: url == null
-          ? null
-          : () => launchUrl(url, mode: LaunchMode.externalApplication),
+      onOpenDetails: url == null ? null : () => _openServiceDetails(url),
     );
   }
 
-  Uri? _serviceUrl(Object? raw) {
-    final uri = Uri.tryParse(raw?.toString() ?? '');
-    if (uri == null || (uri.scheme != 'https' && uri.scheme != 'http')) {
-      return null;
+  Future<void> _openServiceDetails(Uri url) async {
+    var opened = false;
+    try {
+      opened = await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    } on PlatformException {
+      opened = false;
     }
-    return uri;
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('no_se_pudo_abrir_enlace'.tr())),
+      );
+    }
   }
 
   Future<void> _refresh() async {

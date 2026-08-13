@@ -16,6 +16,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
   late CourierService courierService;
   late event.Event<LoginChanged> loginChanged;
   late event.Event<CourierRefreshRequested> refreshCourier;
+  String _registerUrl = '';
 
   CourierBloc(super.initialState) {
     courierService = GetIt.I<CourierService>();
@@ -29,6 +30,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
     on<CheckLoggedEvent>((event, emit) async {
       emit(CourierIsBusyState());
       var empresa = (await courierService.getEmpresa(retryEmtpy: true));
+      _registerUrl = empresa.registerUrl;
       var sessionId = (await cache.load('sessionId', '')).toString();
       var cuenta = (await cache.load('userAccount', '')).toString();
       var nombre = (await cache.load('userName', '')).toString();
@@ -36,14 +38,15 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
       if (isLogged) {
         emit(const CourierIsLoggedState());
       } else {
-        emit(CourierIsNotLoggedState(false, empresa.registerUrl));
+        emit(CourierIsNotLoggedState(false, _registerUrl));
       }
       loginChanged.broadcast(LoginChanged(isLogged, cuenta, nombre));
     });
 
     on<TryLoginEvent>((event, emit) async {
-      emit(CourierIsBusyState());
+      emit(CourierIsSubmittingState(_registerUrl));
       var empresa = (await courierService.getEmpresa(ignoreCache: true));
+      _registerUrl = empresa.registerUrl;
       var loginResult =
           await courierService.getLoginResult(event.usuario, event.clave);
       if (loginResult.sessionId.isNotEmpty) {
@@ -51,7 +54,7 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
             .broadcast(LoginChanged(true, event.usuario, loginResult.nombre));
         emit(const CourierIsLoggedState());
       } else {
-        emit(CourierIsNotLoggedState(true, empresa.registerUrl));
+        emit(CourierIsNotLoggedState(true, _registerUrl));
       }
     });
 
@@ -92,9 +95,10 @@ class CourierBloc extends Bloc<CourierEvent, CourierState> {
       //
       emit(CourierIsBusyState());
       var empresa = (await courierService.getEmpresa());
+      _registerUrl = empresa.registerUrl;
       await courierService.saveLoggedOutState();
       loginChanged.broadcast(LoginChanged(false, "", ""));
-      emit(CourierIsNotLoggedState(false, empresa.registerUrl));
+      emit(CourierIsNotLoggedState(false, _registerUrl));
     });
   }
 }

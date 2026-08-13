@@ -740,7 +740,13 @@ class _TabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    final color = selected ? tokens.primary : tokens.textMuted;
+    final color = selected
+        ? tokens.accessibleForeground(
+            tokens.surface,
+            preferred: tokens.primary,
+            minimumContrast: 3,
+          )
+        : tokens.textMuted;
     return Semantics(
       button: true,
       selected: selected,
@@ -1009,10 +1015,15 @@ class StatusBadge extends StatelessWidget {
 
     if (_soft) {
       final accent = neutral ? tokens.textMuted : fill;
+      final colors = tokens.softAccentPair(
+        accent,
+        opacity: 0.14,
+        minimumContrast: 4.5,
+      );
       return BrandPill(
         label: text,
-        background: tokens.accentWash(accent, 0.14),
-        foreground: accent,
+        background: colors.background,
+        foreground: colors.foreground,
         uppercase: true,
         fontSize: 10,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -1038,6 +1049,11 @@ class StageRail extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.brand;
     final accent = packageAccent(tokens, stage, retained);
+    final visibleAccent = tokens.accessibleForeground(
+      tokens.surface,
+      preferred: accent,
+      minimumContrast: 3,
+    );
     final active = stage == PackageStage.entregado ? 3 : stage.index;
     return Row(
       children: [
@@ -1047,7 +1063,7 @@ class StageRail extends StatelessWidget {
             width: index == active ? 22 : 14,
             height: 4,
             decoration: BoxDecoration(
-              color: index <= active ? accent : tokens.border,
+              color: index <= active ? visibleAccent : tokens.border,
               borderRadius: BorderRadius.circular(BrandShape.rail),
             ),
           ),
@@ -1103,7 +1119,11 @@ class MacroStepper extends StatelessWidget {
                       size: 22,
                       color: index > active
                           ? tokens.textMuted
-                          : tokens.onPrimary,
+                          : tokens.onAccent(
+                              index == 3 && delivered
+                                  ? tokens.success
+                                  : tokens.primary,
+                            ),
                     ),
                   ),
                   const SizedBox(height: 6),

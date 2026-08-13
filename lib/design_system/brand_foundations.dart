@@ -147,26 +147,32 @@ class BrandGlyphTile extends StatelessWidget {
     this.accent,
     this.size = 38,
     this.glyphSize = 21,
+    this.shape = BoxShape.rectangle,
   });
 
   final String asset;
   final Color? accent;
   final double size;
   final double glyphSize;
+  final BoxShape shape;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
     final color = accent ?? tokens.primary;
+    final colors = tokens.softAccentPair(color);
     return Container(
       width: size,
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: tokens.accentWash(color),
-        borderRadius: BorderRadius.circular(BrandShape.glyphTile),
+        color: colors.background,
+        shape: shape,
+        borderRadius: shape == BoxShape.rectangle
+            ? BorderRadius.circular(BrandShape.glyphTile)
+            : null,
       ),
-      child: BrandGlyph(asset, color: color, size: glyphSize),
+      child: BrandGlyph(asset, color: colors.foreground, size: glyphSize),
     );
   }
 }
