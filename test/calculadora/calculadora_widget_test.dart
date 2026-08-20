@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/calculadora/calculadora.dart';
+import 'package:icourier/design_system/motion_components.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
 import 'package:icourier/services/model/calculadora_model.dart';
@@ -82,9 +83,46 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('calculate fills the row when product selection is unavailable', (
+    tester,
+  ) async {
+    await GetIt.I.unregister<CourierService>();
+    GetIt.I.registerSingleton<CourierService>(
+      _CalculatorService(singleProduct: true),
+    );
+
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CalculadoraPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final actionArea = tester.getSize(find.byType(BrandManifestReveal).at(1));
+    final button = tester.getSize(
+      find.widgetWithText(FilledButton, 'Calcular Envío'),
+    );
+
+    expect(button.width, actionArea.width);
+    await expectLater(
+      find.byType(CalculadoraPage),
+      matchesGoldenFile('goldens/calculadora_sin_selector.png'),
+    );
+  });
 }
 
 class _CalculatorService extends CourierService {
+  _CalculatorService({this.singleProduct = false});
+
+  final bool singleProduct;
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,
@@ -108,14 +146,15 @@ class _CalculatorService extends CourierService {
           orden: 1,
           deleted: false,
         ),
-        Producto(
-          registroId: 'sea',
-          empresa: 'company',
-          titulo: 'Marítimo',
-          codigo: 'SEA',
-          orden: 2,
-          deleted: false,
-        ),
+        if (!singleProduct)
+          Producto(
+            registroId: 'sea',
+            empresa: 'company',
+            titulo: 'Marítimo',
+            codigo: 'SEA',
+            orden: 2,
+            deleted: false,
+          ),
       ];
 
   @override

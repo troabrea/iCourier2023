@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
+import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -18,13 +19,11 @@ class DisponiblesPage extends StatefulWidget {
   const DisponiblesPage({
     super.key,
     required this.disponibles,
-    required this.montoTotal,
     required this.empresa,
   });
 
   final List<Recepcion> disponibles;
   final Empresa empresa;
-  final double montoTotal;
 
   @override
   State<DisponiblesPage> createState() => _DisponiblesPageState();
@@ -32,7 +31,6 @@ class DisponiblesPage extends StatefulWidget {
 
 class _DisponiblesPageState extends State<DisponiblesPage> {
   late List<Recepcion> _packages;
-  final Set<String> _selected = {};
   bool _busy = false;
 
   @override
@@ -46,10 +44,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
     final tokens = context.brand;
     final config = GetIt.I<BrandConfig>();
     final capabilities = config.capabilities.resolve(widget.empresa);
-    final selectedPackages = _packages
-        .where((package) => _selected.contains(package.recepcionID))
-        .toList(growable: false);
-    final selectedTotal = selectedPackages.fold<double>(
+    final total = _packages.fold<double>(
       0,
       (sum, package) => sum + package.montoTotal(),
     );
@@ -66,14 +61,17 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
       ),
       body: Column(
         children: [
-          SelectionSummaryBar(
-            count: selectedPackages.length,
-            total: selectedTotal,
-            currency: r'$',
-            capabilities: capabilities,
-            onPickup: widget.empresa.hasNotifyModule ? _notifyPickup : null,
-            onPay: _payOnline,
-            onDelivery: _requestDelivery,
+          BrandManifestReveal(
+            duration: const Duration(milliseconds: 480),
+            child: SelectionSummaryBar(
+              count: _packages.length,
+              total: total,
+              currency: r'$',
+              capabilities: capabilities,
+              onPickup: widget.empresa.hasNotifyModule ? _notifyPickup : null,
+              onPay: _payOnline,
+              onDelivery: _requestDelivery,
+            ),
           ),
           Expanded(
             child: _busy
@@ -95,20 +93,22 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                             const SizedBox(height: 10),
                         itemBuilder: (context, index) {
                           final package = _packages[index];
-                          return SelectableRow(
-                            package: package,
-                            checked: _selected.contains(package.recepcionID),
-                            onOpen: () => context.push(
-                              AppRoutes.package(package.recepcionID),
-                              extra: package,
+                          return BrandManifestReveal(
+                            key: ValueKey(
+                              'available-${package.recepcionID}',
                             ),
-                            onToggle: (checked) => setState(() {
-                              if (checked) {
-                                _selected.add(package.recepcionID);
-                              } else {
-                                _selected.remove(package.recepcionID);
-                              }
-                            }),
+                            delay: brandManifestDelay(
+                              index,
+                              startMilliseconds: 80,
+                            ),
+                            duration: const Duration(milliseconds: 520),
+                            child: PackageCard(
+                              package: package,
+                              onTap: () => context.push(
+                                AppRoutes.package(package.recepcionID),
+                                extra: package,
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -124,19 +124,15 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
     if (!mounted) return;
     setState(() {
       _packages = packages.where((package) => package.disponible).toList();
-      _selected.removeWhere(
-        (id) => !_packages.any((package) => package.recepcionID == id),
-      );
       _busy = false;
     });
   }
 
   Future<void> _payOnline() async {
-    final total = _selected.isEmpty
-        ? widget.montoTotal
-        : _packages
-            .where((package) => _selected.contains(package.recepcionID))
-            .fold<double>(0, (sum, package) => sum + package.montoTotal());
+    final total = _packages.fold<double>(
+      0,
+      (sum, package) => sum + package.montoTotal(),
+    );
     await showBrandSheet<void>(
       context,
       child: PaymentSheet(
@@ -151,7 +147,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
     await showBrandSheet<void>(
       context,
       child: DeliverySheet(
-        count: _selected.length,
+        count: _packages.length,
         onConfirm: _submitDelivery,
       ),
     );
@@ -160,7 +156,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
   Future<void> _submitDelivery() async {
     setState(() => _busy = true);
     final result = await GetIt.I<CourierService>().solicitaDomicilio(
-      _selected.toList(growable: false),
+      _packages.map((package) => package.recepcionID).toList(growable: false),
     );
     if (!mounted) return;
     _showResult(result, successKey: 'solicitar_domicilio');
@@ -172,7 +168,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
       context,
       child: PickupSheet(
         modes: GetIt.I<BrandConfig>().capabilities.pickupModes,
-        count: _selected.isEmpty ? _packages.length : _selected.length,
+        count: _packages.length,
         onConfirm: _submitPickup,
       ),
     );

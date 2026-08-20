@@ -7,6 +7,8 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/design_system/brand_states.dart';
+import 'package:icourier/design_system/content_components.dart';
+import 'package:icourier/helpers/social_media_links.dart';
 import 'package:icourier/noticas/noticias.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
@@ -41,6 +43,39 @@ void main() {
 
   tearDown(() => GetIt.I.reset());
 
+  testWidgets('tab root places social links between banners and news', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const NoticiasPage(isTabRoot: true),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(BannerCarousel), findsOneWidget);
+    expect(find.byType(SocialMediaLinks), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.byType(SocialMediaLinks)).dy,
+      greaterThan(tester.getBottomLeft(find.byType(BannerCarousel)).dy),
+    );
+    expect(
+      tester.getBottomLeft(find.byType(SocialMediaLinks)).dy,
+      lessThan(
+          tester.getTopLeft(find.text('Nueva ruta directa a Santiago')).dy),
+    );
+    await expectLater(
+      find.byType(NoticiasPage),
+      matchesGoldenFile('goldens/noticias_tab_social.png'),
+    );
+  });
+
   testWidgets('news stays readable while pull-to-refresh completes',
       (tester) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -57,6 +92,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Nueva ruta directa a Santiago'), findsOneWidget);
+    expect(find.byType(SocialMediaLinks), findsNothing);
     expect(
         find.text('Contenido editorial sin resumen dedicado.'), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -153,7 +189,16 @@ class _NewsService extends CourierService {
     bool hideIfLogged = false,
     bool ignoreCache = false,
   }) async =>
-      [];
+      [
+        BannerImage(
+          registroId: 'banner-1',
+          empresa: 'demo',
+          imagenId: '',
+          descripcion: 'Noticias y novedades',
+          url: '',
+          deleted: false,
+        ),
+      ];
 
   @override
   Future<Empresa> getEmpresa({
@@ -161,7 +206,11 @@ class _NewsService extends CourierService {
     bool forceFirstTime = false,
     bool retryEmtpy = false,
   }) async =>
-      Empresa.empty();
+      Empresa.empty()
+        ..paginaWeb = 'https://example.com'
+        ..correoVentas = 'ventas@example.com'
+        ..instagram = 'example'
+        ..facebook = 'example';
 
   @override
   Future<UserProfile> getUserProfile() async => UserProfile(
@@ -172,5 +221,6 @@ class _NewsService extends CourierService {
         fotoPerfilUrl: '',
         direccionBuzon: '',
         buzones: const [],
+        emailSucursal: 'sucursal@example.com',
       );
 }

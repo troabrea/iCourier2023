@@ -397,6 +397,7 @@ Widget _homeCardReady() => const HomeStatusCard(
 
 Widget _homeCardOnTheWay() => const HomeStatusCard(
       total: 3,
+      onOpenAll: _noop,
       groups: [
         HomeStageGroup(
           stage: PackageStage.origen,

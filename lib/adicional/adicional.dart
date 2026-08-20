@@ -1,14 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
-import '../helpers/contact_action.dart';
 import '../design_system/overlay_components.dart';
+import '../helpers/contact_action.dart';
 import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -40,7 +42,8 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     final tokens = context.brand;
     return Scaffold(
       backgroundColor: tokens.bg,
-      appBar: ScreenHeader.tab(title: 'informacion_adicional'.tr(),
+      appBar: ScreenHeader.tab(
+        title: 'informacion_adicional'.tr(),
         trailing: const BrandContactAction(),
       ),
       body: FutureBuilder<_MoreData>(
@@ -60,8 +63,8 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
           // again here: the row would duplicate the destination and, since a
           // tab lives in the shell, pushing it would fight the navigator.
           final tabs = config.navigation.tabs.toSet();
-          final hasAbout = data.company.mision.isNotEmpty ||
-              data.company.vision.isNotEmpty;
+          final hasAbout =
+              data.company.mision.isNotEmpty || data.company.vision.isNotEmpty;
 
           return ListView(
             padding: const EdgeInsets.fromLTRB(
@@ -87,6 +90,20 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
                 label: 'preguntas_frecuentes'.tr(),
                 route: AppRoutes.faq,
                 visible: data.company.hasPreguntas,
+              ),
+              _MoreRow(
+                label: 'servicio_al_cliente'.tr(),
+                onTap: () => _openExternal(data.company.correoServicio),
+                visible: data.company.correoServicio.trim().isNotEmpty,
+                external: true,
+              ),
+              _MoreRow(
+                label: config.slug == 'blumbox'
+                    ? 'ticket_de_ayuda'.tr()
+                    : 'solicitar_soporte'.tr(),
+                onTap: () => _openExternal(data.company.twitter),
+                visible: data.company.twitter.trim().isNotEmpty,
+                external: true,
               ),
               if (hasAbout)
                 _MoreRow(
@@ -133,6 +150,23 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
     );
   }
 
+  Future<void> _openExternal(String target) async {
+    final uri = resolveExternalContactUri(target);
+    if (uri == null) {
+      return;
+    }
+    var opened = false;
+    try {
+      opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } on PlatformException {
+      opened = false;
+    }
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('no_se_pudo_abrir_enlace'.tr())),
+      );
+    }
+  }
 }
 
 /// Account identity, opening the membership card.
@@ -200,12 +234,14 @@ class _MoreRow extends StatelessWidget {
     this.route,
     this.onTap,
     this.visible = true,
+    this.external = false,
   });
 
   final String label;
   final String? route;
   final VoidCallback? onTap;
   final bool visible;
+  final bool external;
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +261,14 @@ class _MoreRow extends StatelessWidget {
               style: tokens.body(14, weight: FontWeight.w600),
             ),
           ),
-          const BrandChevron(),
+          if (external)
+            Icon(
+              Icons.open_in_new_rounded,
+              size: 20,
+              color: tokens.textMuted,
+            )
+          else
+            const BrandChevron(),
         ],
       ),
     );

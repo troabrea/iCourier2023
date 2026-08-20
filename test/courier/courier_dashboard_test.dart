@@ -78,6 +78,34 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     expect(unreadChanges.subscriberCount, 0);
   });
+
+  testWidgets('mantiene crear pre-alerta fuera de más acciones', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 520);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CourierDashboard(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Crear Pre-Alerta'), findsOneWidget);
+    expect(find.text('Más acciones'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Más acciones'));
+    await tester.tap(find.text('Más acciones'));
+    await tester.pumpAndSettle();
+
+    // La hoja sólo contiene las acciones secundarias.
+    expect(find.text('Crear Pre-Alerta'), findsOneWidget);
+    expect(find.text('Rastrear Paquete'), findsOneWidget);
+  });
 }
 
 class _DashboardService extends CourierService {

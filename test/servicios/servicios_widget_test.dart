@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/design_system/content_components.dart';
+import 'package:icourier/helpers/social_media_links.dart';
 import 'package:icourier/servicios/servicios.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
@@ -53,6 +54,15 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(BannerCarousel), findsOneWidget);
+    expect(find.byType(SocialMediaLinks), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.byType(SocialMediaLinks)).dy,
+      greaterThan(tester.getBottomLeft(find.byType(BannerCarousel)).dy),
+    );
+    expect(
+      tester.getBottomLeft(find.byType(SocialMediaLinks)).dy,
+      lessThan(tester.getTopLeft(find.text('Casillero internacional')).dy),
+    );
     expect(find.text('Elige el servicio que necesitas.'), findsNothing);
     expect(find.text('2 servicios disponibles'), findsNothing);
     expect(find.byIcon(Icons.arrow_back_ios_new), findsNothing);
@@ -93,6 +103,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(BannerCarousel), findsNothing);
+    expect(find.byType(SocialMediaLinks), findsNothing);
     expect(find.text('Elige el servicio que necesitas.'), findsOneWidget);
     expect(find.text('2 servicios disponibles'), findsOneWidget);
     expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
@@ -267,7 +278,11 @@ class _ServicesService extends CourierService {
     bool forceFirstTime = false,
     bool retryEmtpy = false,
   }) async =>
-      Empresa.empty();
+      Empresa.empty()
+        ..paginaWeb = 'https://example.com'
+        ..correoVentas = 'ventas@example.com'
+        ..instagram = 'example'
+        ..facebook = 'example';
 
   @override
   Future<UserProfile> getUserProfile() async => UserProfile(
@@ -278,5 +293,6 @@ class _ServicesService extends CourierService {
         fotoPerfilUrl: '',
         direccionBuzon: '',
         buzones: const [],
+        emailSucursal: 'sucursal@example.com',
       );
 }

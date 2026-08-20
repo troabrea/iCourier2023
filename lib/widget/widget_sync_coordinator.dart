@@ -12,8 +12,8 @@ import 'widget_state_v1.dart';
 
 /// Keeps the native widget snapshot aligned with the authenticated app state.
 ///
-/// Native widgets never perform network requests. All network/cache access is
-/// intentionally owned by this coordinator while the Flutter application runs.
+/// Flutter writes immediately after app refreshes. The native providers may
+/// also refresh an older snapshot in the background with the shared session.
 final class WidgetSyncCoordinator {
   WidgetSyncCoordinator({
     required BrandConfig config,
@@ -41,7 +41,6 @@ final class WidgetSyncCoordinator {
   void start({
     required Event<LoginChanged> loginChanges,
     required Event<CourierRefreshRequested> refreshRequests,
-    required Event<EmpresaRefreshFinished> accountRefreshes,
     required Event<SessionExpired> sessionExpirations,
   }) {
     if (_started || !_config.capabilities.widgets) {
@@ -58,7 +57,6 @@ final class WidgetSyncCoordinator {
       _enqueue(change.loggedIn ? refresh : clearForSignedOut);
     });
     refreshRequests.subscribe((_) => _enqueue(refresh));
-    accountRefreshes.subscribe((_) => _enqueue(refresh));
     sessionExpirations.subscribe((_) => _enqueue(clearForSignedOut));
     _enqueue(_restoreSessionAndRefresh);
   }
@@ -68,6 +66,14 @@ final class WidgetSyncCoordinator {
       return;
     }
     _brightness = brightness;
+    _enqueue(_signedIn ? refresh : clearForSignedOut);
+  }
+
+  /// Refreshes the native snapshot whenever the application becomes active.
+  void refreshAfterForeground() {
+    if (!_started || !_config.capabilities.widgets) {
+      return;
+    }
     _enqueue(_signedIn ? refresh : clearForSignedOut);
   }
 
@@ -84,7 +90,17 @@ final class WidgetSyncCoordinator {
       packages: packages,
       generatedAt: _clock(),
     );
-    await _store.write(snapshot, appGroup: _config.appGroup);
+    final sessionId = (await cache.load('sessionId', '')).toString();
+    await _store.write(
+      snapshot,
+      appGroup: _config.appGroup,
+      logoAsset: _config.assets.logoMark,
+      remoteSession: WidgetRemoteSession(
+        sessionId: sessionId,
+        companyId: _courierService.companyId,
+        endpoint: CourierService.receptionsEndpoint,
+      ),
+    );
   }
 
   Future<void> clearForSignedOut() async {
@@ -99,6 +115,12 @@ final class WidgetSyncCoordinator {
         generatedAt: _clock(),
       ),
       appGroup: _config.appGroup,
+      logoAsset: _config.assets.logoMark,
+      remoteSession: WidgetRemoteSession(
+        sessionId: '',
+        companyId: _courierService.companyId,
+        endpoint: CourierService.receptionsEndpoint,
+      ),
     );
   }
 

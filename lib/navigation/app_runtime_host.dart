@@ -8,33 +8,48 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/overlay_components.dart';
 import '../services/app_events.dart';
+import '../services/courier_service.dart';
 import '../services/notification_service.dart';
+import '../surveys/survey_launcher.dart';
+import '../surveys/survey_prompt_coordinator.dart';
+import '../surveys/survey_prompt_cue.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'app_routes.dart';
 
 /// Owns application-wide integrations that previously lived in the old tab UI.
 class AppRuntimeHost extends StatefulWidget {
-  const AppRuntimeHost({super.key, required this.child});
+  const AppRuntimeHost({
+    super.key,
+    required this.child,
+    required this.preferences,
+  });
 
   final Widget child;
+  final SharedPreferences preferences;
 
   @override
   State<AppRuntimeHost> createState() => _AppRuntimeHostState();
 }
 
-class _AppRuntimeHostState extends State<AppRuntimeHost> {
+class _AppRuntimeHostState extends State<AppRuntimeHost>
+    with WidgetsBindingObserver {
   final _connectivity = Connectivity();
   final _quickActions = const QuickActions();
   late final AppDeepLinkParser _linkParser;
+  late final SurveyPromptCoordinator _surveyPromptCoordinator;
+  late final SurveyLauncher _surveyLauncher;
   StreamSubscription<ConnectivityResult>? _connectivitySubscription;
   StreamSubscription<RemoteMessage>? _foregroundMessageSubscription;
   StreamSubscription<RemoteMessage>? _openedMessageSubscription;
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? _surveyCue;
   bool _connectionWasLost = false;
+  bool _isOpeningSurvey = false;
 
   @override
   void initState() {
@@ -42,6 +57,18 @@ class _AppRuntimeHostState extends State<AppRuntimeHost> {
     _linkParser = AppDeepLinkParser(
       urlScheme: GetIt.I<BrandConfig>().urlScheme,
     );
+    final surveyStore = SharedPreferencesSurveyPromptStore(widget.preferences);
+    _surveyPromptCoordinator = SurveyPromptCoordinator(
+      loadCompany: () => GetIt.I<CourierService>().getEmpresa(
+        forceFirstTime: true,
+      ),
+      store: surveyStore,
+    );
+    _surveyLauncher = SurveyLauncher(store: surveyStore);
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkForSurvey();
+    });
     _configureQuickActions();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_onConnectivityChanged);
@@ -68,6 +95,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _connectivitySubscription?.cancel();
     _foregroundMessageSubscription?.cancel();
     _openedMessageSubscription?.cancel();
@@ -76,6 +104,84 @@ class _AppRuntimeHostState extends State<AppRuntimeHost> {
 
   @override
   Widget build(BuildContext context) => widget.child;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkForSurvey();
+    }
+  }
+
+  Future<void> _checkForSurvey() async {
+    if (!mounted || _surveyCue != null || _isOpeningSurvey) {
+      return;
+    }
+    try {
+      final invitation = await _surveyPromptCoordinator.findInvitation();
+      if (!mounted || invitation == null || _surveyCue != null) {
+        return;
+      }
+      _showSurveyCue(invitation);
+    } on Exception catch (error) {
+      debugPrint('Survey availability check failed: $error');
+    }
+  }
+
+  void _showSurveyCue(SurveyInvitation invitation) {
+    final messenger = ScaffoldMessenger.of(context);
+    var answered = false;
+    late final ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
+        controller;
+
+    void closeCue(SnackBarClosedReason reason) {
+      messenger.hideCurrentSnackBar(reason: reason);
+    }
+
+    controller = messenger.showSnackBar(
+      buildSurveyPromptSnackBar(
+        context,
+        onPostpone: () => closeCue(SnackBarClosedReason.dismiss),
+        onAnswer: () {
+          answered = true;
+          closeCue(SnackBarClosedReason.action);
+          unawaited(_openSurvey(invitation));
+        },
+      ),
+    );
+    _surveyCue = controller;
+    unawaited(
+      controller.closed.then((reason) async {
+        if (!answered && reason != SnackBarClosedReason.remove) {
+          await _surveyPromptCoordinator.postpone(invitation);
+        }
+        if (identical(_surveyCue, controller)) {
+          _surveyCue = null;
+        }
+      }),
+    );
+  }
+
+  Future<void> _openSurvey(SurveyInvitation invitation) async {
+    _isOpeningSurvey = true;
+    var opened = false;
+    try {
+      opened = await _surveyLauncher.open(invitation);
+    } on Exception catch (error) {
+      debugPrint('Survey launch failed: $error');
+    } finally {
+      _isOpeningSurvey = false;
+    }
+    if (opened || !mounted) {
+      return;
+    }
+    await _surveyPromptCoordinator.postpone(invitation);
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('encuesta_no_abierta'.tr())),
+    );
+  }
 
   Future<void> _configureQuickActions() async {
     await _quickActions.initialize((shortcut) {

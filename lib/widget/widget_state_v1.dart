@@ -17,6 +17,7 @@ class WidgetStateV1 {
 
   static const schemaVersion = 1;
   static const storageKey = 'widget_state';
+  static const logoFileName = 'widget_logo.png';
 
   final WidgetBrandState brand;
   final WidgetSessionState session;
@@ -35,8 +36,8 @@ class WidgetStateV1 {
         'counts': counts.toJson(),
         'featured': featured?.toJson(),
         'deepLink': deepLink,
-        'generatedAt': generatedAt.toIso8601String(),
-        'staleAfter': staleAfter.toIso8601String(),
+        'generatedAt': _isoTimestamp(generatedAt),
+        'staleAfter': _isoTimestamp(staleAfter),
       };
 }
 
@@ -154,7 +155,7 @@ class WidgetFeaturedPackage {
         'retenido': retained,
         'montoUsd': amountUsd,
         'sucursal': branch,
-        'ultimoEvento': lastEvent?.toIso8601String(),
+        'ultimoEvento': _optionalIsoTimestamp(lastEvent),
       };
 }
 
@@ -202,9 +203,7 @@ abstract final class WidgetSnapshotBuilder {
               branch: branch,
               lastEvent: _lastEvent(featured),
             ),
-      deepLink: featured == null
-          ? '${config.urlScheme}://inicio'
-          : '${config.urlScheme}://paquete/${Uri.encodeComponent(featured.recepcionID)}',
+      deepLink: '${config.urlScheme}://inicio',
       generatedAt: generatedAt,
       staleAfter: generatedAt.add(staleDuration),
     );
@@ -242,7 +241,7 @@ abstract final class WidgetSnapshotBuilder {
       surface: _hex(palette.surface),
       text: _hex(palette.text),
       muted: _hex(palette.textMuted),
-      logoAsset: 'logo_mark',
+      logoAsset: WidgetStateV1.logoFileName,
     );
   }
 
@@ -259,15 +258,12 @@ abstract final class WidgetSnapshotBuilder {
       );
       if (status.stage == PackageStage.disponible) {
         available++;
-      }
-      if (package.retenido) {
+      } else if (package.retenido) {
         retained++;
-      }
-      if (status.stage == PackageStage.ruta ||
+      } else if (status.stage == PackageStage.ruta ||
           status.stage == PackageStage.destino) {
         inRoute++;
-      }
-      if (status.stage == PackageStage.origen) {
+      } else if (status.stage == PackageStage.origen) {
         inProcess++;
       }
     }
@@ -345,3 +341,9 @@ abstract final class WidgetSnapshotBuilder {
     return '#${value.toRadixString(16).padLeft(6, '0').toUpperCase()}';
   }
 }
+
+/// Serializes widget dates as unambiguous UTC timestamps for both native SDKs.
+String _isoTimestamp(DateTime value) => value.toUtc().toIso8601String();
+
+String? _optionalIsoTimestamp(DateTime? value) =>
+    value == null ? null : _isoTimestamp(value);

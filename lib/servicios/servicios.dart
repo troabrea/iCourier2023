@@ -13,6 +13,7 @@ import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/motion_components.dart';
 import '../helpers/contact_action.dart';
+import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../services/model/servicio.dart';
@@ -102,6 +103,22 @@ class _ServiciosPageState extends State<ServiciosPage> {
                       child: BannerCarousel(
                         banners: state.banners,
                         config: GetIt.I<BrandConfig>(),
+                      ),
+                    ),
+                  if (showBanners)
+                    BrandManifestReveal(
+                      delay: const Duration(milliseconds: 70),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          BrandSpace.lg,
+                          BrandSpace.xxs,
+                          BrandSpace.lg,
+                          0,
+                        ),
+                        child: SocialMediaLinks(
+                          empresa: state.empresa,
+                          userProfile: state.userProfile,
+                        ),
                       ),
                     ),
                   Padding(

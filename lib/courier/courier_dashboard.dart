@@ -297,23 +297,29 @@ class _DashboardContentState extends State<_DashboardContent> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                BrandSectionLabel('acciones_rapidas'.tr()),
+                                if (capabilities.prealerts)
+                                  QuickActionList(
+                                    actions: [
+                                      QuickAction(
+                                        label: 'crear_prealerta'
+                                            .tr()
+                                            .replaceAll('\n', ' '),
+                                        icon: BrandIcons.prealert,
+                                        onTap: () => context.push(
+                                          AppRoutes.newPrealert,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                BrandSectionLabel('mas_acciones'.tr()),
                                 AdaptiveQuickActions(
-                                  room: _roomForActions(
+                                  room: _roomForSecondaryActions(
                                     context,
                                     groups: pending,
                                     hasBanner: state.banners.isNotEmpty,
+                                    hasPrimaryAction: capabilities.prealerts,
                                   ),
                                   actions: [
-                                    QuickAction(
-                                      label: 'crear_prealerta'
-                                          .tr()
-                                          .replaceAll('\n', ' '),
-                                      icon: BrandIcons.prealert,
-                                      enabled: capabilities.prealerts,
-                                      onTap: () =>
-                                          context.push(AppRoutes.newPrealert),
-                                    ),
                                     QuickAction(
                                       label: 'ver_prealertas'
                                           .tr()
@@ -434,10 +440,11 @@ class _DashboardContentState extends State<_DashboardContent> {
   /// own height, so the answer is known while building instead of after a
   /// layout pass, and it cannot oscillate. A short answer only folds the rows
   /// behind a button — nothing is lost either way.
-  double _roomForActions(
+  double _roomForSecondaryActions(
     BuildContext context, {
     required List<({Recepcion package, PackageStage stage})> groups,
     required bool hasBanner,
+    required bool hasPrimaryAction,
   }) {
     final stages = groups.map((entry) => entry.stage).toSet();
     final width = MediaQuery.sizeOf(context).width - BrandSpace.lg * 2;
@@ -450,7 +457,10 @@ class _DashboardContentState extends State<_DashboardContent> {
         ) +
         BrandTabBar.height +
         // Section label and the air around it.
-        44;
+        44 +
+        // Creating a pre-alert never folds, so secondary actions only receive
+        // the room left after its dedicated row.
+        (hasPrimaryAction ? QuickActionList.heightFor(1) : 0);
     return MediaQuery.sizeOf(context).height - reserved;
   }
 
@@ -482,6 +492,7 @@ class _DashboardContentState extends State<_DashboardContent> {
     return HomeStatusCard(
       banner: banner,
       total: pending.length,
+      onOpenAll: () => context.push(AppRoutes.receptions),
       onRefresh: widget.onRefresh,
       refreshing: widget.refreshing,
       groups: [

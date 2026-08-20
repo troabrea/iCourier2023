@@ -1,31 +1,41 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
-import '../navigation/app_routes.dart';
 import '../design_system/overlay_components.dart';
+import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../services/model/mensaje.dart';
+import '../surveys/survey_launcher.dart';
+import '../surveys/survey_prompt_coordinator.dart';
+import '../surveys/survey_prompt_cue.dart';
 import '../theme/brand_tokens.dart';
 
 class MensajesUsuario extends StatefulWidget {
-  const MensajesUsuario({super.key});
+  const MensajesUsuario({
+    super.key,
+    this.openSurvey,
+  });
+
+  final Future<bool> Function(SurveyInvitation invitation)? openSurvey;
 
   @override
   State<MensajesUsuario> createState() => _MensajesUsuarioState();
 }
 
 class _MensajesUsuarioState extends State<MensajesUsuario> {
-  late Future<List<Mensaje>> _messages;
+  late Future<_NotificationCenterData> _data;
+  bool _isOpeningSurvey = false;
 
   @override
   void initState() {
     super.initState();
-    _messages = GetIt.I<CourierService>().getMensajes();
+    _data = _loadData();
   }
 
   @override
@@ -37,8 +47,8 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
         title: 'sus_mensajes'.tr(),
         onBack: context.popOrHome,
       ),
-      body: FutureBuilder<List<Mensaje>>(
-        future: _messages,
+      body: FutureBuilder<_NotificationCenterData>(
+        future: _data,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return BrandErrorState(onRetry: _reload);
@@ -46,8 +56,8 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
           if (!snapshot.hasData) {
             return const BrandSkeleton();
           }
-          final messages = snapshot.requireData;
-          if (messages.isEmpty) {
+          final data = snapshot.requireData;
+          if (data.messages.isEmpty && data.survey == null) {
             return const BrandEmptyState(
               messageKey: 'no_resultados',
               glyph: BrandIcons.information,
@@ -63,18 +73,24 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
                 BrandTabBar.height,
               ),
               children: [
-                for (final message in messages)
+                if (data.survey case final survey?)
+                  SurveyNotificationAction(
+                    onOpen: () => _openSurvey(survey),
+                  ),
+                for (final message in data.messages)
                   MessageRow(
                     message: message,
                     onTap: () => _open(message),
                   ),
-                const SizedBox(height: BrandSpace.xs),
-                BrandOutlineButton(
-                  label: 'todo_leido'.tr(),
-                  pill: true,
-                  verticalPadding: 12,
-                  onPressed: _markAllRead,
-                ),
+                if (data.messages.isNotEmpty) ...[
+                  const SizedBox(height: BrandSpace.xs),
+                  BrandOutlineButton(
+                    label: 'todo_leido'.tr(),
+                    pill: true,
+                    verticalPadding: 12,
+                    onPressed: _markAllRead,
+                  ),
+                ],
               ],
             ),
           );
@@ -85,9 +101,60 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
 
   void _reload({bool ignoreCache = false}) {
     setState(() {
-      _messages =
-          GetIt.I<CourierService>().getMensajes(ignoreCache: ignoreCache);
+      _data = _loadData(ignoreCache: ignoreCache);
     });
+  }
+
+  Future<_NotificationCenterData> _loadData({bool ignoreCache = false}) async {
+    final service = GetIt.I<CourierService>();
+    final survey = _loadSurvey(service, ignoreCache: ignoreCache);
+    final messages = await service.getMensajes(ignoreCache: ignoreCache);
+    return _NotificationCenterData(
+      messages: messages,
+      survey: await survey,
+    );
+  }
+
+  Future<SurveyInvitation?> _loadSurvey(
+    CourierService service, {
+    required bool ignoreCache,
+  }) async {
+    try {
+      final company = await service.getEmpresa(ignoreCache: ignoreCache);
+      return SurveyInvitation.activeFor(company, DateTime.now());
+    } on Exception catch (error) {
+      debugPrint('Notification center survey check failed: $error');
+      return null;
+    }
+  }
+
+  Future<void> _openSurvey(SurveyInvitation invitation) async {
+    if (_isOpeningSurvey) {
+      return;
+    }
+    _isOpeningSurvey = true;
+    var opened = false;
+    try {
+      final customOpen = widget.openSurvey;
+      if (customOpen != null) {
+        opened = await customOpen(invitation);
+      } else {
+        final preferences = await SharedPreferences.getInstance();
+        opened = await SurveyLauncher(
+          store: SharedPreferencesSurveyPromptStore(preferences),
+        ).open(invitation);
+      }
+    } on Exception catch (error) {
+      debugPrint('Notification center survey launch failed: $error');
+    } finally {
+      _isOpeningSurvey = false;
+    }
+    if (opened || !mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('encuesta_no_abierta'.tr())),
+    );
   }
 
   /// Opens the message and marks it read, which also clears the bell badge.
@@ -111,7 +178,7 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
   }
 
   Future<void> _markAllRead() async {
-    final messages = await _messages;
+    final messages = (await _data).messages;
     await GetIt.I<CourierService>().setMessagesRead(
       messages.map((message) => message.registroId).toList(growable: false),
     );
@@ -122,6 +189,16 @@ class _MensajesUsuarioState extends State<MensajesUsuario> {
       }
     });
   }
+}
+
+final class _NotificationCenterData {
+  const _NotificationCenterData({
+    required this.messages,
+    required this.survey,
+  });
+
+  final List<Mensaje> messages;
+  final SurveyInvitation? survey;
 }
 
 /// Reading template for a single message: no image, marks read on open.

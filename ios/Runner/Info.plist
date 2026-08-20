@@ -42,6 +42,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>KeychainAccessGroup</key>
+	<string>$(AppIdentifierPrefix)$(APP_GROUP_ID)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>

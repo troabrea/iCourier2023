@@ -2,7 +2,45 @@ import UIKit
 import Flutter
 import GoogleMaps
 import AppIntents
+import Security
 import WidgetKit
+
+private enum WidgetSessionKeychain {
+  private static let service = "com.barolit.icourier.widget-session"
+  private static let account = "current"
+
+  static func save(_ sessionId: String, accessGroup: String) throws {
+    let query: [String: Any] = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrService as String: service,
+      kSecAttrAccount as String: account,
+      kSecAttrAccessGroup as String: accessGroup,
+    ]
+    let deleteStatus = SecItemDelete(query as CFDictionary)
+    guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
+      throw keychainError(deleteStatus)
+    }
+    guard !sessionId.isEmpty else {
+      return
+    }
+
+    var item = query
+    item[kSecValueData as String] = Data(sessionId.utf8)
+    item[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    let addStatus = SecItemAdd(item as CFDictionary, nil)
+    guard addStatus == errSecSuccess else {
+      throw keychainError(addStatus)
+    }
+  }
+
+  private static func keychainError(_ status: OSStatus) -> NSError {
+    NSError(
+      domain: NSOSStatusErrorDomain,
+      code: Int(status),
+      userInfo: [NSLocalizedDescriptionKey: SecCopyErrorMessageString(status, nil) ?? "Keychain error" as CFString]
+    )
+  }
+}
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -32,14 +70,45 @@ import WidgetKit
 
         switch call.method {
         case "write":
-          guard let payload = arguments["payload"] as? String else {
+          guard let payload = arguments["payload"] as? String,
+                let logoFile = arguments["logoFile"] as? String,
+                let logoBytes = arguments["logoBytes"] as? FlutterStandardTypedData,
+                let sessionId = arguments["sessionId"] as? String,
+                let companyId = arguments["companyId"] as? String,
+                let endpoint = arguments["endpoint"] as? String,
+                let keychainAccessGroup = Bundle.main.object(
+                  forInfoDictionaryKey: "KeychainAccessGroup"
+                ) as? String,
+                logoFile == URL(fileURLWithPath: logoFile).lastPathComponent,
+                let containerURL = FileManager.default.containerURL(
+                  forSecurityApplicationGroupIdentifier: appGroup
+                ) else {
             result(FlutterError(
               code: "INVALID_WIDGET_PAYLOAD",
-              message: "The widget payload is missing.",
+              message: "The widget payload or brand icon is missing.",
               details: nil
             ))
             return
           }
+          do {
+            try WidgetSessionKeychain.save(
+              sessionId,
+              accessGroup: keychainAccessGroup
+            )
+            try logoBytes.data.write(
+              to: containerURL.appendingPathComponent(logoFile),
+              options: .atomic
+            )
+          } catch {
+            result(FlutterError(
+              code: "WIDGET_SHARED_STATE_WRITE_FAILED",
+              message: "The widget session or brand icon could not be stored.",
+              details: error.localizedDescription
+            ))
+            return
+          }
+          defaults.set(companyId, forKey: "widget_company_id")
+          defaults.set(endpoint, forKey: "widget_endpoint")
           defaults.set(payload, forKey: key)
           defaults.synchronize()
           if #available(iOS 14.0, *) {
@@ -47,6 +116,13 @@ import WidgetKit
           }
           result(nil)
         case "clear":
+          if let keychainAccessGroup = Bundle.main.object(
+            forInfoDictionaryKey: "KeychainAccessGroup"
+          ) as? String {
+            try? WidgetSessionKeychain.save("", accessGroup: keychainAccessGroup)
+          }
+          defaults.removeObject(forKey: "widget_company_id")
+          defaults.removeObject(forKey: "widget_endpoint")
           defaults.removeObject(forKey: key)
           defaults.synchronize()
           if #available(iOS 14.0, *) {

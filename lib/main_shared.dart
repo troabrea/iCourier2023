@@ -215,7 +215,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       preferences: widget.preferences,
       defaultTabIndex: appInfo.defaultTab,
     );
-    WidgetsBinding.instance.addObserver(this);
     widgetSyncCoordinator = WidgetSyncCoordinator(
       config: brandConfig,
       courierService: GetIt.I<CourierService>(),
@@ -225,9 +224,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     )..start(
         loginChanges: GetIt.I<event.Event<LoginChanged>>(),
         refreshRequests: GetIt.I<event.Event<CourierRefreshRequested>>(),
-        accountRefreshes: GetIt.I<event.Event<EmpresaRefreshFinished>>(),
         sessionExpirations: GetIt.I<event.Event<SessionExpired>>(),
       );
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -235,6 +234,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     widgetSyncCoordinator.updateBrightness(
       WidgetsBinding.instance.platformDispatcher.platformBrightness,
     );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      widgetSyncCoordinator.refreshAfterForeground();
+    }
   }
 
   @override
@@ -267,7 +273,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       darkTheme: BrandTheme.dark(brandConfig),
       themeMode: ThemeMode.system,
       routerConfig: router,
-      builder: (context, child) => AppRuntimeHost(child: child!),
+      builder: (context, child) => AppRuntimeHost(
+        preferences: widget.preferences,
+        child: child!,
+      ),
     );
   }
 }

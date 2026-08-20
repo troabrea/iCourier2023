@@ -20,11 +20,6 @@ void main() {
 
   List<QuickAction> actions() => [
         QuickAction(
-          label: 'Crear Pre-Alerta',
-          icon: BrandIcons.prealert,
-          onTap: () => opened++,
-        ),
-        QuickAction(
           label: 'Ver Pre-Alertas',
           icon: BrandIcons.receptions,
           onTap: () => opened++,
@@ -53,24 +48,24 @@ void main() {
   }
 
   testWidgets('con espacio de sobra las muestra en fila', (tester) async {
-    await pump(tester, QuickActionList.heightFor(4) + 1);
+    await pump(tester, QuickActionList.heightFor(3) + 1);
 
     expect(find.text('Rastrear Paquete'), findsOneWidget);
     expect(find.text('Consulta Histórica'), findsOneWidget);
   });
 
   testWidgets('sin espacio se pliegan tras un botón', (tester) async {
-    await pump(tester, QuickActionList.heightFor(4) - 1);
+    await pump(tester, QuickActionList.heightFor(3) - 1);
 
     expect(find.text('Rastrear Paquete'), findsNothing);
-    expect(find.text('Acciones rápidas'), findsOneWidget);
+    expect(find.text('Más acciones'), findsOneWidget);
   });
 
   testWidgets('el botón abre las acciones y ejecutarlas cierra la hoja',
       (tester) async {
     await pump(tester, 0);
 
-    await tester.tap(find.text('Acciones rápidas'));
+    await tester.tap(find.text('Más acciones'));
     await tester.pumpAndSettle();
     expect(find.text('Rastrear Paquete'), findsOneWidget);
 
@@ -90,8 +85,8 @@ void main() {
           room: QuickActionList.heightFor(1) + 1,
           actions: [
             QuickAction(
-              label: 'Crear Pre-Alerta',
-              icon: BrandIcons.prealert,
+              label: 'Ver Pre-Alertas',
+              icon: BrandIcons.receptions,
               enabled: false,
               onTap: () {},
             ),
@@ -108,6 +103,6 @@ void main() {
 
     // Sólo cuenta la habilitada, así que cabe en fila.
     expect(find.text('Rastrear Paquete'), findsOneWidget);
-    expect(find.text('Crear Pre-Alerta'), findsNothing);
+    expect(find.text('Ver Pre-Alertas'), findsNothing);
   });
 }

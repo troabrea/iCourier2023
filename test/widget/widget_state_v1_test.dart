@@ -1,11 +1,16 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:icourier/domain/package_stage.dart';
 import 'package:icourier/services/model/recepcion.dart';
 import 'package:icourier/theme/brand_config.dart';
+import 'package:icourier/widget/widget_state_store.dart';
 import 'package:icourier/widget/widget_state_v1.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   final config = BrandConfig.fromJson(const {
     'slug': 'bmcargo',
     'name': 'BM Cargo',
@@ -25,14 +30,30 @@ void main() {
     );
 
     expect(state.toJson()['schema'], 1);
+    expect(state.brand.logoAsset, WidgetStateV1.logoFileName);
     expect(state.featured?.stage, PackageStage.ruta);
-    expect(state.deepLink, 'bmcargo://paquete/1');
+    expect(state.deepLink, 'bmcargo://inicio');
     expect(state.staleAfter, now.add(const Duration(hours: 4)));
+    expect(state.toJson()['generatedAt'], '2026-08-10T13:12:00.000Z');
+    expect(state.toJson()['staleAfter'], '2026-08-10T17:12:00.000Z');
     expect(state.isStaleAt(now.add(const Duration(hours: 4))), isTrue);
     expect(
       state.isStaleAt(now.add(const Duration(hours: 4, seconds: 1))),
       isTrue,
     );
+  });
+
+  test('serializa relojes locales como UTC para los parsers nativos', () {
+    final localTime = DateTime(2026, 8, 10, 9, 12);
+    final state = WidgetSnapshotBuilder.signedOut(
+      config: config,
+      brightness: Brightness.light,
+      generatedAt: localTime,
+    );
+
+    final json = state.toJson();
+    expect(json['generatedAt'], endsWith('Z'));
+    expect(json['staleAfter'], endsWith('Z'));
   });
 
   test('prioriza disponible, retenido, tránsito y origen', () {
@@ -53,8 +74,15 @@ void main() {
     expect(state.featured?.id, 'disponible');
     expect(state.counts.available, 1);
     expect(state.counts.retained, 1);
-    expect(state.counts.inRoute, 2);
+    expect(state.counts.inRoute, 1);
     expect(state.counts.inProcess, 1);
+    expect(
+      state.counts.available +
+          state.counts.retained +
+          state.counts.inRoute +
+          state.counts.inProcess,
+      state.counts.total,
+    );
   });
 
   test('desempata por el evento más reciente', () {
@@ -112,6 +140,51 @@ void main() {
     expect(second.session.accountName, 'Segunda');
     expect(second.deepLink, 'bmcargo://inicio');
     expect(second.brand.primary, isNot(first.brand.primary));
+  });
+
+  test('envía el icono whitelabel junto al snapshot nativo', () async {
+    const channel = MethodChannel('icourier/widget_state');
+    MethodCall? capturedCall;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (call) async {
+      capturedCall = call;
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, null);
+    });
+    final state = WidgetSnapshotBuilder.signedOut(
+      config: config,
+      brightness: Brightness.light,
+      generatedAt: now,
+    );
+
+    await const MethodChannelWidgetStateStore().write(
+      state,
+      appGroup: config.appGroup,
+      logoAsset: 'images/bmcargo/icon.png',
+      remoteSession: const WidgetRemoteSession(
+        sessionId: 'session-test',
+        companyId: 'company-test',
+        endpoint: 'https://example.com/recepciones',
+      ),
+    );
+
+    expect(capturedCall?.method, 'write');
+    final arguments = capturedCall?.arguments as Map<Object?, Object?>;
+    expect(arguments['logoFile'], WidgetStateV1.logoFileName);
+    expect(arguments['logoBytes'], isA<Uint8List>());
+    expect((arguments['logoBytes'] as Uint8List), isNotEmpty);
+    expect(arguments['sessionId'], 'session-test');
+    expect(arguments['companyId'], 'company-test');
+    expect(arguments['endpoint'], 'https://example.com/recepciones');
+    expect(arguments, isNot(contains('password')));
+    expect(
+      (jsonDecode(arguments['payload']! as String)
+          as Map<String, dynamic>)['brand']['logoAsset'],
+      WidgetStateV1.logoFileName,
+    );
   });
 }
 

@@ -126,6 +126,10 @@ enum ShortCutToRun {
 }
 
 class CourierService {
+  static const receptionsEndpoint =
+      'https://icourierfunctions2023.azurewebsites.net/api/recepciones'
+      '?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==';
+
   late String companyId;
   late AppInfo
       appInfo; // = "08811d51-77bb-4a5b-a908-7d887632307d"; // "ebb66ab7-db15-4267-9ef4-92abcb5273eb";//
@@ -587,8 +591,7 @@ class CourierService {
       if (!await Permission.notification.isGranted) {
         await Permission.notification.request();
       }
-      final uri = Uri.parse(
-          "https://icourierfunctions2023.azurewebsites.net/api/recepciones?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==");
+      final uri = Uri.parse(receptionsEndpoint);
       //"https://icourierfunctions.azurewebsites.net/api/recepciones?code=bXIWbqplZhB58kuSsfo92xW7bG8SBoTzWdBzs3TjQeiQwvwo/q1laA==");
       final req = RecepcionRequest(empresaId: companyId, sessionId: sessionId);
       final json = jsonEncode(req);
@@ -600,6 +603,10 @@ class CourierService {
     result.sort((a, b) {
       return b.fechaRecibido().compareTo(a.fechaRecibido());
     });
+    if (forceRefresh) {
+      GetIt.I<event.Event<CourierRefreshRequested>>()
+          .broadcast(CourierRefreshRequested());
+    }
 
     // Update Batch
     // try {

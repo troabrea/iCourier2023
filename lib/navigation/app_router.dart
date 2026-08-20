@@ -186,10 +186,6 @@ abstract final class AppRouter {
           },
           builder: (context, data) => DisponiblesPage(
             disponibles: data.packages,
-            montoTotal: data.packages.fold(
-              0,
-              (total, reception) => total + reception.montoTotal(),
-            ),
             empresa: data.empresa,
           ),
         ),

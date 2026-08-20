@@ -6,6 +6,7 @@ import 'package:icourier/design_system/calculator_components.dart';
 import 'package:icourier/design_system/content_components.dart';
 import 'package:icourier/design_system/core_components.dart';
 import 'package:icourier/design_system/home_components.dart';
+import 'package:icourier/design_system/overlay_components.dart';
 import 'package:icourier/domain/package_stage.dart';
 import 'package:icourier/services/model/banner.dart';
 import 'package:icourier/services/model/recepcion.dart';
@@ -115,6 +116,71 @@ void main() {
 
     expect(find.text('900'), findsNothing);
     expect(find.byType(FilledButton), findsNothing);
+  });
+
+  testWidgets('el total de paquetes abre todas las recepciones', (
+    tester,
+  ) async {
+    final config = loadTestBrand('bmcargo');
+    var opened = false;
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: HomeStatusCard(
+          total: 1,
+          onOpenAll: () => opened = true,
+          groups: const [
+            HomeStageGroup(
+              stage: PackageStage.ruta,
+              count: 1,
+              contents: 'Libro',
+              onOpen: _noop,
+            ),
+          ],
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final totalLink = find
+        .descendant(
+          of: find.byType(HomeStatusCard),
+          matching: find.byType(InkWell),
+        )
+        .first;
+    expect(tester.getSemantics(totalLink).label, contains('1 paquete'));
+    expect(
+      find.descendant(of: totalLink, matching: find.byType(BrandChevron)),
+      findsOneWidget,
+    );
+
+    await tester.tap(totalLink);
+    expect(opened, isTrue);
+  });
+
+  testWidgets('confirmar el pago abre la pasarela una sola vez', (
+    tester,
+  ) async {
+    final config = loadTestBrand('bmcargo');
+    var confirmations = 0;
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: PaymentSheet(
+          amount: r'$344.14',
+          brandName: 'BM Cargo',
+          onConfirm: () => confirmations++,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Pagar'));
+    await tester.pumpAndSettle();
+
+    expect(confirmations, 1);
   });
 
   testWidgets('componentes soportan escalado de texto al 200%', (tester) async {

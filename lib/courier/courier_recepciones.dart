@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +9,6 @@ import '../design_system/core_components.dart';
 import '../design_system/home_components.dart';
 import '../domain/package_stage.dart';
 import '../navigation/app_routes.dart';
-import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/model/recepcion.dart';
 import '../theme/brand_tokens.dart';
@@ -53,12 +51,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
     final tokens = context.brand;
     final visible = _receptions.where((reception) {
       if (_stage == null) return true;
-      return PackageStatusMapper.map(
-            status: reception.estatus,
-            isAvailable: reception.disponible,
-            progress: reception.progreso,
-          ).stage ==
-          _stage;
+      return _stageFor(reception) == _stage;
     }).toList(growable: false);
 
     return Scaffold(
@@ -92,28 +85,9 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
                 ? const BrandSkeleton()
                 : visible.isEmpty
                     ? const BrandEmptyState(messageKey: 'no_paquetes')
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(
-                          BrandSpace.lg,
-                          BrandSpace.md,
-                          BrandSpace.lg,
-                          BrandTabBar.height,
-                        ),
-                        itemCount: visible.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 11),
-                        itemBuilder: (context, index) => PackageCard(
-                          package: visible[index],
-                          onTap: () => context.push(
-                            widget.retained
-                                ? AppRoutes.invoice(visible[index].recepcionID)
-                                : AppRoutes.package(
-                                    visible[index].recepcionID,
-                                  ),
-                            extra: visible[index],
-                          ),
-                        ),
-                      ),
+                    : _stage == null
+                        ? _groupedList(visible)
+                        : _flatList(visible),
           ),
         ],
       ),
@@ -122,8 +96,6 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
 
   Future<void> _refresh() async {
     setState(() => _refreshing = true);
-    GetIt.I<Event<CourierRefreshRequested>>()
-        .broadcast(CourierRefreshRequested());
     final receptions = await GetIt.I<CourierService>().getRecepciones(true);
     if (!mounted) return;
     setState(() {
@@ -139,4 +111,73 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
         PackageStage.disponible => 'disponibles',
         PackageStage.entregado => 'entregado',
       };
+
+  Widget _groupedList(List<Recepcion> receptions) {
+    final byStage = <PackageStage, List<Recepcion>>{
+      for (final stage in _stageOrder) stage: <Recepcion>[],
+    };
+    for (final reception in receptions) {
+      byStage[_stageFor(reception)]!.add(reception);
+    }
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(
+        BrandSpace.lg,
+        BrandSpace.xxs,
+        BrandSpace.lg,
+        BrandTabBar.height,
+      ),
+      children: [
+        for (final stage in _stageOrder)
+          if (byStage[stage]!.isNotEmpty) ...[
+            BrandSectionLabel(
+              '${_label(stage).tr()} (${byStage[stage]!.length})',
+            ),
+            for (final reception in byStage[stage]!)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 11),
+                child: _packageCard(reception),
+              ),
+          ],
+      ],
+    );
+  }
+
+  Widget _flatList(List<Recepcion> receptions) => ListView.separated(
+        padding: const EdgeInsets.fromLTRB(
+          BrandSpace.lg,
+          BrandSpace.md,
+          BrandSpace.lg,
+          BrandTabBar.height,
+        ),
+        itemCount: receptions.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 11),
+        itemBuilder: (context, index) => _packageCard(receptions[index]),
+      );
+
+  Widget _packageCard(Recepcion reception) => PackageCard(
+        package: reception,
+        showChevron: true,
+        showAmount: reception.disponible,
+        onTap: () => context.push(
+          widget.retained
+              ? AppRoutes.invoice(reception.recepcionID)
+              : AppRoutes.package(reception.recepcionID),
+          extra: reception,
+        ),
+      );
+
+  PackageStage _stageFor(Recepcion reception) => PackageStatusMapper.map(
+        status: reception.estatus,
+        isAvailable: reception.disponible,
+        progress: reception.progreso,
+      ).stage;
+
+  static const _stageOrder = <PackageStage>[
+    PackageStage.disponible,
+    PackageStage.origen,
+    PackageStage.ruta,
+    PackageStage.destino,
+    PackageStage.entregado,
+  ];
 }

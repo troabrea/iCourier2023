@@ -12,6 +12,7 @@ import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/motion_components.dart';
 import '../helpers/contact_action.dart';
+import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
 import '../theme/brand_config.dart';
@@ -77,17 +78,34 @@ class _NoticiasPageState extends State<NoticiasPage> {
                 glyph: BrandIcons.news,
               );
             }
+            final showBanners = widget.isTabRoot && state.banners.isNotEmpty;
             return RefreshIndicator(
               onRefresh: _refresh,
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: BrandTabBar.height),
                 children: [
-                  if (widget.isTabRoot && state.banners.isNotEmpty)
+                  if (showBanners)
                     BrandManifestReveal(
                       child: BannerCarousel(
                         banners: state.banners,
                         config: GetIt.I<BrandConfig>(),
+                      ),
+                    ),
+                  if (showBanners)
+                    BrandManifestReveal(
+                      delay: const Duration(milliseconds: 70),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          BrandSpace.lg,
+                          BrandSpace.xxs,
+                          BrandSpace.lg,
+                          0,
+                        ),
+                        child: SocialMediaLinks(
+                          empresa: state.empresa,
+                          userProfile: state.userProfile,
+                        ),
                       ),
                     ),
                   Padding(

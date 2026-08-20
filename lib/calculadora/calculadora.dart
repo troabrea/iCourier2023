@@ -222,6 +222,12 @@ class _ProductAndAction extends StatelessWidget {
             onChange: onProductChanged,
           )
         : null;
+    if (selector == null) {
+      return BrandPrimaryButton(
+        label: 'calcular_envio'.tr(),
+        onPressed: loading ? null : onCalculate,
+      );
+    }
     final action = BrandPrimaryButton(
       label: 'calcular_envio'.tr(),
       expand: false,
@@ -233,8 +239,7 @@ class _ProductAndAction extends StatelessWidget {
         final textScale = MediaQuery.textScalerOf(context).scale(1);
         // Long product names and the English action need their own line on
         // compact phones. Wider layouts keep the reference's inline pairing.
-        if (selector != null &&
-            (constraints.maxWidth < 390 || textScale > 1.3)) {
+        if (constraints.maxWidth < 390 || textScale > 1.3) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -249,7 +254,7 @@ class _ProductAndAction extends StatelessWidget {
         }
         return Row(
           children: [
-            if (selector != null) Expanded(child: selector) else const Spacer(),
+            Expanded(child: selector),
             const SizedBox(width: BrandSpace.xs),
             action,
           ],

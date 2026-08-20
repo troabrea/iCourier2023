@@ -1067,7 +1067,7 @@ class AdaptiveQuickActions extends StatelessWidget {
       return QuickActionList(actions: visible);
     }
     return BrandOutlineButton(
-      label: 'acciones_rapidas'.tr(),
+      label: 'mas_acciones'.tr(),
       icon: const Icon(Icons.grid_view_rounded, size: 18),
       // Scroll-controlled on purpose: this only folds on short screens, which
       // are exactly the ones where the list would not fit the sheet either.
@@ -1087,7 +1087,7 @@ class _QuickActionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BrandSheet(
-        title: 'acciones_rapidas'.tr(),
+        title: 'mas_acciones'.tr(),
         maxHeightFactor: 0.7,
         children: [
           QuickActionList(

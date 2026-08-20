@@ -1,8 +1,30 @@
+import Security
 import SwiftUI
+import UIKit
 import WidgetKit
 
 private let widgetKind = "ICourierWidget"
 private let storageKey = "widget_state"
+private let companyIdKey = "widget_company_id"
+private let endpointKey = "widget_endpoint"
+
+private enum WidgetDateParser {
+  private static let fractionalFormatter: ISO8601DateFormatter = {
+    let formatter = ISO8601DateFormatter()
+    formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+    return formatter
+  }()
+
+  private static let standardFormatter = ISO8601DateFormatter()
+
+  static func parse(_ value: String) -> Date? {
+    fractionalFormatter.date(from: value) ?? standardFormatter.date(from: value)
+  }
+
+  static func format(_ date: Date) -> String {
+    fractionalFormatter.string(from: date)
+  }
+}
 
 private struct WidgetBrand: Codable {
   let slug: String
@@ -52,10 +74,237 @@ private struct WidgetSnapshot: Codable {
   let staleAfter: String
 
   var isStale: Bool {
-    guard let date = ISO8601DateFormatter().date(from: staleAfter) else {
+    guard let date = WidgetDateParser.parse(staleAfter) else {
       return true
     }
     return date <= Date()
+  }
+
+  var generatedAtDate: Date? {
+    WidgetDateParser.parse(generatedAt)
+  }
+}
+
+private enum RemotePackageStage {
+  case origin
+  case route
+  case destination
+  case available
+  case delivered
+}
+
+private struct RemotePackage: Decodable {
+  let estatus: String?
+  let retenido: Bool?
+  let disponible: Bool?
+  let progreso: Int?
+}
+
+private enum WidgetRemoteRefresh {
+  static let interval: TimeInterval = 30 * 60
+  private static let staleInterval: TimeInterval = 4 * 60 * 60
+  private static let keychainService = "com.barolit.icourier.widget-session"
+  private static let keychainAccount = "current"
+
+  private static let deliveredTerms: Set<String> = [
+    "ENTREGADO AL CLIENTE", "ENTREGADO", "DELIVERED", "BILLED COUNTER",
+    "FACTURADO COUNTER",
+  ]
+  private static let routeTerms = [
+    "EMBARCADO", "SHIPMENT SENT", "IN TRANSIT", "EN RUTA",
+  ]
+  private static let destinationTerms = [
+    "TRANSFERIDO", "EMPACADO", "ADUANA", "TRANSITO", "DISTRIBUCION",
+    "RECIBIDO AILA", "ALMACEN", "WAREHOUSE", "CUSTOM",
+    "DISTRIBUTION CENTER", "PACKED", "OUTGOING TRANSFER", "DESTINO",
+  ]
+  private static let originTerms = [
+    "RECIBIDO PARA PROCESAR", "LISTO PARA EMBARCACION",
+    "RECIBIDO EN ORIGEN", "RECIBIDO MIAMI", "ORIGIN", "RECEIVED",
+  ]
+
+  static func refreshIfNeeded(
+    snapshot: WidgetSnapshot?,
+    appGroup: String,
+    now: Date
+  ) async -> WidgetSnapshot? {
+    guard let snapshot,
+          snapshot.session.signedIn,
+          shouldRefresh(snapshot, now: now),
+          let defaults = UserDefaults(suiteName: appGroup),
+          let companyId = defaults.string(forKey: companyIdKey),
+          let endpoint = defaults.string(forKey: endpointKey),
+          let sessionId = loadSessionId(),
+          !companyId.isEmpty,
+          !sessionId.isEmpty else {
+      return snapshot
+    }
+
+    do {
+      let packages = try await fetchPackages(
+        endpoint: endpoint,
+        companyId: companyId,
+        sessionId: sessionId
+      )
+      let refreshed = makeSnapshot(from: snapshot, packages: packages, now: now)
+      let payload = try JSONEncoder().encode(refreshed)
+      defaults.set(String(decoding: payload, as: UTF8.self), forKey: storageKey)
+      return refreshed
+    } catch {
+      return snapshot
+    }
+  }
+
+  static func nextRefreshDate(snapshot: WidgetSnapshot?, now: Date) -> Date {
+    guard let generatedAt = snapshot?.generatedAtDate else {
+      return now.addingTimeInterval(interval)
+    }
+    let requested = generatedAt.addingTimeInterval(interval)
+    return requested > now ? requested : now.addingTimeInterval(interval)
+  }
+
+  private static func shouldRefresh(_ snapshot: WidgetSnapshot, now: Date) -> Bool {
+    guard let generatedAt = snapshot.generatedAtDate else {
+      return true
+    }
+    return now.timeIntervalSince(generatedAt) >= interval
+  }
+
+  private static func loadSessionId() -> String? {
+    guard let accessGroup = Bundle.main.object(
+      forInfoDictionaryKey: "KeychainAccessGroup"
+    ) as? String else {
+      return nil
+    }
+    let query: [String: Any] = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrService as String: keychainService,
+      kSecAttrAccount as String: keychainAccount,
+      kSecAttrAccessGroup as String: accessGroup,
+      kSecReturnData as String: true,
+      kSecMatchLimit as String: kSecMatchLimitOne,
+    ]
+    var result: CFTypeRef?
+    guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
+          let data = result as? Data else {
+      return nil
+    }
+    return String(data: data, encoding: .utf8)
+  }
+
+  private static func fetchPackages(
+    endpoint: String,
+    companyId: String,
+    sessionId: String
+  ) async throws -> [RemotePackage] {
+    guard let url = URL(string: endpoint),
+          url.scheme == "https",
+          url.host == "icourierfunctions2023.azurewebsites.net" else {
+      throw URLError(.badURL)
+    }
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.timeoutInterval = 15
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpBody = try JSONSerialization.data(withJSONObject: [
+      "empresaId": companyId,
+      "sessionId": sessionId,
+    ])
+    let configuration = URLSessionConfiguration.ephemeral
+    configuration.timeoutIntervalForRequest = 15
+    let (data, response) = try await URLSession(configuration: configuration)
+      .data(for: request)
+    guard let httpResponse = response as? HTTPURLResponse,
+          200..<300 ~= httpResponse.statusCode else {
+      throw URLError(.badServerResponse)
+    }
+    return try JSONDecoder().decode([RemotePackage].self, from: data)
+  }
+
+  private static func makeSnapshot(
+    from snapshot: WidgetSnapshot,
+    packages: [RemotePackage],
+    now: Date
+  ) -> WidgetSnapshot {
+    let counts = summarize(packages)
+    return WidgetSnapshot(
+      schema: snapshot.schema,
+      brand: snapshot.brand,
+      session: snapshot.session,
+      counts: counts,
+      featured: snapshot.featured,
+      deepLink: snapshot.deepLink,
+      generatedAt: WidgetDateParser.format(now),
+      staleAfter: WidgetDateParser.format(now.addingTimeInterval(staleInterval))
+    )
+  }
+
+  private static func summarize(_ packages: [RemotePackage]) -> WidgetCounts {
+    var available = 0
+    var retained = 0
+    var inRoute = 0
+    var inProcess = 0
+    for package in packages {
+      let stage = stage(for: package)
+      if stage == .available {
+        available += 1
+      } else if package.retenido == true {
+        retained += 1
+      } else if stage == .route || stage == .destination {
+        inRoute += 1
+      } else if stage == .origin {
+        inProcess += 1
+      }
+    }
+    return WidgetCounts(
+      disponible: available,
+      retenido: retained,
+      enRuta: inRoute,
+      enProceso: inProcess,
+      total: packages.count
+    )
+  }
+
+  private static func stage(for package: RemotePackage) -> RemotePackageStage {
+    let status = normalize(package.estatus ?? "")
+    if deliveredTerms.contains(status) {
+      return .delivered
+    }
+    if package.disponible == true || status.contains("DISPONIBLE") {
+      return .available
+    }
+    if destinationTerms.contains(where: status.contains) {
+      return .destination
+    }
+    if routeTerms.contains(where: status.contains) {
+      return .route
+    }
+    if originTerms.contains(where: status.contains) {
+      return .origin
+    }
+    switch package.progreso ?? 0 {
+    case ...1:
+      return .origin
+    case 2:
+      return .route
+    case 3:
+      return .destination
+    case 4:
+      return .available
+    default:
+      return .delivered
+    }
+  }
+
+  private static func normalize(_ value: String) -> String {
+    let folded = value.folding(
+      options: [.diacriticInsensitive, .caseInsensitive],
+      locale: Locale(identifier: "es")
+    ).uppercased()
+    return folded
+      .components(separatedBy: CharacterSet.alphanumerics.inverted)
+      .filter { !$0.isEmpty }
+      .joined(separator: " ")
   }
 }
 
@@ -74,9 +323,29 @@ private struct WidgetProvider: TimelineProvider {
   }
 
   func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> Void) {
-    let now = Date()
-    let entry = WidgetEntry(date: now, snapshot: loadSnapshot())
-    completion(Timeline(entries: [entry], policy: .after(now.addingTimeInterval(60 * 60))))
+    Task {
+      let now = Date()
+      let appGroup = Bundle.main.object(
+        forInfoDictionaryKey: "AppGroupIdentifier"
+      ) as? String
+      let current = loadSnapshot()
+      let snapshot: WidgetSnapshot?
+      if let appGroup {
+        snapshot = await WidgetRemoteRefresh.refreshIfNeeded(
+          snapshot: current,
+          appGroup: appGroup,
+          now: now
+        )
+      } else {
+        snapshot = current
+      }
+      let entry = WidgetEntry(date: now, snapshot: snapshot)
+      let nextRefresh = WidgetRemoteRefresh.nextRefreshDate(
+        snapshot: snapshot,
+        now: now
+      )
+      completion(Timeline(entries: [entry], policy: .after(nextRefresh)))
+    }
   }
 
   private func loadSnapshot() -> WidgetSnapshot? {
@@ -98,7 +367,7 @@ private struct ICourierWidgetView: View {
       if let snapshot = entry.snapshot, snapshot.session.signedIn {
         signedIn(snapshot)
       } else {
-        signedOut
+        signedOut(entry.snapshot)
       }
     }
     .widgetURL(entry.snapshot.flatMap { URL(string: $0.deepLink) })
@@ -107,85 +376,182 @@ private struct ICourierWidgetView: View {
 
   @ViewBuilder
   private func signedIn(_ snapshot: WidgetSnapshot) -> some View {
-    if snapshot.isStale {
-      VStack(alignment: .leading, spacing: 6) {
-        Image(systemName: "arrow.clockwise.circle.fill")
-          .foregroundStyle(Color(hex: snapshot.brand.primary))
-        Text("Abre la app para actualizar")
-          .font(.system(.caption, design: .rounded, weight: .semibold))
-          .foregroundStyle(Color(hex: snapshot.brand.text))
+    Group {
+      if family == .systemSmall {
+        small(snapshot)
+      } else if family == .systemMedium {
+        summary(snapshot)
+      } else {
+        accessorySummary(snapshot)
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-    } else if family == .systemSmall {
-      small(snapshot)
-    } else {
-      package(snapshot)
     }
+    .opacity(snapshot.isStale ? 0.55 : 1)
+    .overlay(alignment: .bottomTrailing) {
+      if snapshot.isStale {
+        staleTimestamp(snapshot)
+      }
+    }
+  }
+
+  private func staleTimestamp(_ snapshot: WidgetSnapshot) -> some View {
+    HStack(spacing: 3) {
+      Image(systemName: "clock")
+      if let date = snapshot.generatedAtDate {
+        Text(date, style: .time)
+      }
+    }
+    .font(.system(size: 9, weight: .semibold, design: .rounded))
+    .foregroundStyle(Color(hex: snapshot.brand.text))
+    .padding(.horizontal, 5)
+    .padding(.vertical, 3)
+    .background(Color(hex: snapshot.brand.surface).opacity(0.94), in: Capsule())
+    .accessibilityLabel("Actualizado")
   }
 
   private func small(_ snapshot: WidgetSnapshot) -> some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Image(systemName: "shippingbox.fill")
-        .foregroundStyle(Color(hex: snapshot.brand.primary))
-      Spacer()
-      Text("\(snapshot.counts.disponible)")
-        .font(.system(size: 38, weight: .bold, design: .rounded))
-        .foregroundStyle(Color(hex: snapshot.brand.text))
-        .minimumScaleFactor(0.65)
-      Text("Disponibles")
-        .font(.system(.caption, design: .rounded, weight: .semibold))
-        .foregroundStyle(Color(hex: snapshot.brand.muted))
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-  }
-
-  private func package(_ snapshot: WidgetSnapshot) -> some View {
-    VStack(alignment: .leading, spacing: 7) {
-      if let featured = snapshot.featured {
-        HStack {
-          Text(featured.estadoLabel)
-            .font(.system(.caption2, design: .rounded, weight: .bold))
-            .foregroundStyle(Color(hex: snapshot.brand.primary))
-          Spacer()
-          if featured.retenido {
-            Image(systemName: "exclamationmark.triangle.fill")
-              .foregroundStyle(.orange)
-          }
-        }
-        Text(featured.contenido.isEmpty ? featured.id : featured.contenido)
-          .font(.system(.headline, design: .rounded, weight: .semibold))
-          .foregroundStyle(Color(hex: snapshot.brand.text))
-          .lineLimit(1)
-        HStack(spacing: 4) {
-          ForEach(0..<max(featured.stageCount, 1), id: \.self) { index in
-            Capsule()
-              .fill(index <= featured.stageIndex
-                ? Color(hex: snapshot.brand.primary)
-                : Color(hex: snapshot.brand.muted).opacity(0.25))
-              .frame(height: 5)
-          }
-        }
-        Text(featured.sucursal ?? snapshot.session.accountCode)
-          .font(.system(.caption2, design: .rounded))
-          .foregroundStyle(Color(hex: snapshot.brand.muted))
-          .lineLimit(1)
-      } else {
-        Text("No hay paquetes activos")
-          .font(.system(.caption, design: .rounded, weight: .semibold))
-          .foregroundStyle(Color(hex: snapshot.brand.text))
+    VStack(alignment: .leading, spacing: 8) {
+      HStack(alignment: .top) {
+        Image(systemName: "shippingbox.fill")
+          .foregroundStyle(Color(hex: snapshot.brand.primary))
+        Spacer()
+        brandIcon(snapshot, size: 30)
+      }
+      Spacer(minLength: 0)
+      HStack(alignment: .bottom, spacing: 10) {
+        smallMetric(
+          "Total",
+          value: snapshot.counts.total,
+          color: Color(hex: snapshot.brand.text)
+        )
+        Rectangle()
+          .fill(Color(hex: snapshot.brand.muted).opacity(0.22))
+          .frame(width: 1, height: 38)
+        smallMetric(
+          "Disponibles",
+          value: snapshot.counts.disponible,
+          color: Color(hex: snapshot.brand.primary)
+        )
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
   }
 
-  private var signedOut: some View {
+  private func smallMetric(_ title: String, value: Int, color: Color) -> some View {
+    VStack(alignment: .leading, spacing: 1) {
+      Text(title)
+        .font(.system(.caption2, design: .rounded, weight: .semibold))
+        .foregroundStyle(color.opacity(0.72))
+        .lineLimit(1)
+        .minimumScaleFactor(0.72)
+      Text("\(value)")
+        .font(.system(.title, design: .rounded, weight: .bold))
+        .foregroundStyle(color)
+        .lineLimit(1)
+        .minimumScaleFactor(0.65)
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .accessibilityElement(children: .combine)
+  }
+
+  private func summary(_ snapshot: WidgetSnapshot) -> some View {
+    VStack(alignment: .leading, spacing: 9) {
+      HStack(alignment: .top) {
+        VStack(alignment: .leading, spacing: 1) {
+          Text("\(snapshot.counts.total) paquetes")
+            .font(.system(.title2, design: .rounded, weight: .bold))
+            .foregroundStyle(Color(hex: snapshot.brand.text))
+          Text("Resumen por estatus")
+            .font(.system(.caption2, design: .rounded, weight: .medium))
+            .foregroundStyle(Color(hex: snapshot.brand.muted))
+        }
+        Spacer()
+        brandIcon(snapshot, size: 30)
+      }
+      Divider()
+        .overlay(Color(hex: snapshot.brand.muted).opacity(0.2))
+      HStack(alignment: .top, spacing: 8) {
+        statusMetric("Disponibles", value: snapshot.counts.disponible, snapshot: snapshot)
+        statusMetric("En proceso", value: snapshot.counts.enProceso, snapshot: snapshot)
+        statusMetric("En ruta", value: snapshot.counts.enRuta, snapshot: snapshot)
+        statusMetric("Retenidos", value: snapshot.counts.retenido, snapshot: snapshot)
+      }
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+  }
+
+  private func statusMetric(
+    _ title: String,
+    value: Int,
+    snapshot: WidgetSnapshot
+  ) -> some View {
+    VStack(alignment: .leading, spacing: 3) {
+      Text(title)
+        .font(.system(.caption2, design: .rounded, weight: .medium))
+        .foregroundStyle(Color(hex: snapshot.brand.muted))
+        .lineLimit(1)
+        .minimumScaleFactor(0.72)
+      Text("\(value)")
+        .font(.system(.title3, design: .rounded, weight: .bold))
+        .foregroundStyle(Color(hex: snapshot.brand.primary))
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .accessibilityElement(children: .combine)
+  }
+
+  private func accessorySummary(_ snapshot: WidgetSnapshot) -> some View {
+    HStack(spacing: 6) {
+      Image(systemName: "shippingbox.fill")
+        .foregroundStyle(Color(hex: snapshot.brand.primary))
+      Text("\(snapshot.counts.total) paquetes · \(snapshot.counts.disponible) disponibles")
+        .font(.system(.caption, design: .rounded, weight: .semibold))
+        .foregroundStyle(Color(hex: snapshot.brand.text))
+        .lineLimit(2)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+  }
+
+  private func signedOut(_ snapshot: WidgetSnapshot?) -> some View {
     VStack(alignment: .leading, spacing: 6) {
-      Image(systemName: "shippingbox")
-        .font(.title2)
+      HStack(alignment: .top) {
+        Image(systemName: "shippingbox")
+          .font(.title2)
+        Spacer()
+        if let snapshot {
+          brandIcon(snapshot, size: 30)
+        }
+      }
       Text("Inicia sesión")
         .font(.system(.caption, design: .rounded, weight: .semibold))
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+  }
+
+  @ViewBuilder
+  private func brandIcon(_ snapshot: WidgetSnapshot, size: CGFloat) -> some View {
+    if let image = loadBrandIcon(snapshot) {
+      Image(uiImage: image)
+        .resizable()
+        .scaledToFit()
+        .frame(width: size, height: size)
+        .clipShape(RoundedRectangle(cornerRadius: size * 0.22, style: .continuous))
+        .accessibilityLabel("Icono de la aplicación")
+    }
+  }
+
+  private func loadBrandIcon(_ snapshot: WidgetSnapshot) -> UIImage? {
+    guard let appGroup = Bundle.main.object(
+      forInfoDictionaryKey: "AppGroupIdentifier"
+    ) as? String,
+          let containerURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: appGroup
+          ) else {
+      return nil
+    }
+    return UIImage(
+      contentsOfFile: containerURL
+        .appendingPathComponent(snapshot.brand.logoAsset)
+        .path
+    )
   }
 }
 

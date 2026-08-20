@@ -64,6 +64,7 @@ class HomeStatusCard extends StatelessWidget {
     super.key,
     this.total = 0,
     this.groups = const [],
+    this.onOpenAll,
     this.onShowAddress,
     this.onRefresh,
     this.refreshing = false,
@@ -73,6 +74,9 @@ class HomeStatusCard extends StatelessWidget {
   /// Packages the customer still has something to wait for.
   final int total;
   final List<HomeStageGroup> groups;
+
+  /// Opens the complete receptions list without a stage filter.
+  final VoidCallback? onOpenAll;
   final VoidCallback? onShowAddress;
 
   /// Reloads the dashboard. Offered here as a button because the pull gesture
@@ -148,6 +152,7 @@ class HomeStatusCard extends StatelessWidget {
                           _Headline(
                             count: total,
                             glyph: BrandIcons.receptions,
+                            onOpenAll: onOpenAll,
                             onRefresh: onRefresh,
                             refreshing: refreshing,
                           ),
@@ -170,39 +175,71 @@ class _Headline extends StatelessWidget {
   const _Headline({
     required this.count,
     this.glyph,
+    this.onOpenAll,
     this.onRefresh,
     this.refreshing = false,
   });
 
   final int count;
   final String? glyph;
+  final VoidCallback? onOpenAll;
   final VoidCallback? onRefresh;
   final bool refreshing;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
+    final packageLabel = 'paquetes_contados'.plural(count);
+    final countText = Text.rich(
+      TextSpan(
+        text: '$count',
+        style: tokens.head(34, height: 1),
+        children: [
+          TextSpan(
+            text: ' $packageLabel',
+            style: tokens.body(
+              15,
+              weight: FontWeight.w600,
+              color: tokens.textMuted,
+            ),
+          ),
+        ],
+      ),
+    );
+    final countSummary = onOpenAll == null
+        ? countText
+        : Semantics(
+            button: true,
+            label: '$count $packageLabel, ${'recepciones'.tr()}',
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                onTap: onOpenAll,
+                borderRadius: BorderRadius.circular(tokens.radiusSm),
+                child: SizedBox(
+                  height: 52,
+                  child: Row(
+                    children: [
+                      Flexible(child: countText),
+                      const SizedBox(width: BrandSpace.xxs),
+                      BrandChevron(
+                        size: 18,
+                        color: tokens.accessibleForeground(
+                          tokens.surface,
+                          preferred: tokens.primary,
+                          minimumContrast: 3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Text.rich(
-            TextSpan(
-              text: '$count',
-              style: tokens.head(34, height: 1),
-              children: [
-                TextSpan(
-                  text: ' ${'paquetes_contados'.plural(count)}',
-                  style: tokens.body(
-                    15,
-                    weight: FontWeight.w600,
-                    color: tokens.textMuted,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        Expanded(child: countSummary),
         if (onRefresh != null)
           _RefreshAction(onTap: onRefresh!, busy: refreshing),
         if (glyph != null) ...[

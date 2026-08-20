@@ -8,6 +8,27 @@ import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 import '../theme/brand_tokens.dart';
 
+/// Converts legacy contact values into launchable web or email destinations.
+///
+/// Company configuration historically accepted an email address, a complete
+/// URL, or a web host without a scheme. Keeping that normalization here lets
+/// the redesigned contact rows preserve the production behavior.
+Uri? resolveExternalContactUri(String target) {
+  final value = target.trim();
+  if (value.isEmpty) {
+    return null;
+  }
+  if (value.contains('@')) {
+    final address =
+        value.startsWith('mailto:') ? value.substring('mailto:'.length) : value;
+    return Uri(scheme: 'mailto', path: address);
+  }
+  if (value.startsWith('http://') || value.startsWith('https://')) {
+    return Uri.tryParse(value);
+  }
+  return Uri.tryParse('https://$value');
+}
+
 /// The contact channel configured for an account, if any.
 ///
 /// WhatsApp wins; the brand chat is the fallback when the branch has no

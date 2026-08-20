@@ -402,8 +402,7 @@ class _HeaderButton extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: tokens.danger,
-                          borderRadius:
-                              BorderRadius.circular(BrandShape.pill),
+                          borderRadius: BorderRadius.circular(BrandShape.pill),
                         ),
                         child: Text(
                           '$badge',
@@ -512,9 +511,8 @@ class _ScreenHeaderState extends State<ScreenHeader> {
     final tokens = context.brand;
     final onBack = widget.onBack;
     final trailing = widget.trailing;
-    final rowHeight = widget.preferredSize.height -
-        BrandSpace.xs -
-        BrandSpace.xxs;
+    final rowHeight =
+        widget.preferredSize.height - BrandSpace.xs - BrandSpace.xxs;
     return Material(
       color: tokens.primary,
       child: SafeArea(
@@ -536,43 +534,43 @@ class _ScreenHeaderState extends State<ScreenHeader> {
                 child: Row(
                   children: [
                     if (onBack != null) ...[
-                    Semantics(
-                      button: true,
-                      label: 'atras'.tr(),
-                      child: GestureDetector(
-                        onTap: onBack,
-                        behavior: HitTestBehavior.opaque,
-                        child: SizedBox(
-                          width: 44,
-                          height: 44,
-                          child: Icon(
-                            Icons.arrow_back_ios_new,
-                            size: 20,
-                            color: tokens.onPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: BrandSpace.xxs),
-                  ],
-                  Expanded(
-                    child: _searching
-                        ? _SearchField(
-                            controller: _searchController,
-                            focusNode: _searchFocus,
-                            hint: widget.searchHint ?? 'buscar'.tr(),
-                            onChanged: widget.onSearchChanged!,
-                          )
-                        : Text(
-                            widget.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: tokens.head(
-                              widget.titleSize,
+                      Semantics(
+                        button: true,
+                        label: 'atras'.tr(),
+                        child: GestureDetector(
+                          onTap: onBack,
+                          behavior: HitTestBehavior.opaque,
+                          child: SizedBox(
+                            width: 44,
+                            height: 44,
+                            child: Icon(
+                              Icons.arrow_back_ios_new,
+                              size: 20,
                               color: tokens.onPrimary,
                             ),
                           ),
-                  ),
+                        ),
+                      ),
+                      const SizedBox(width: BrandSpace.xxs),
+                    ],
+                    Expanded(
+                      child: _searching
+                          ? _SearchField(
+                              controller: _searchController,
+                              focusNode: _searchFocus,
+                              hint: widget.searchHint ?? 'buscar'.tr(),
+                              onChanged: widget.onSearchChanged!,
+                            )
+                          : Text(
+                              widget.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: tokens.head(
+                                widget.titleSize,
+                                color: tokens.onPrimary,
+                              ),
+                            ),
+                    ),
                     if (widget.onSearchChanged != null)
                       IconButton(
                         onPressed: _searching ? _closeSearch : _openSearch,
@@ -1009,9 +1007,8 @@ class StatusBadge extends StatelessWidget {
     final fill = _fill(tokens);
     final neutral = fill == tokens.surfaceAlt;
 
-    final text = (label?.trim().isNotEmpty ?? false)
-        ? label!.trim()
-        : labelKey.tr();
+    final text =
+        (label?.trim().isNotEmpty ?? false) ? label!.trim() : labelKey.tr();
 
     if (_soft) {
       final accent = neutral ? tokens.textMuted : fill;
@@ -1153,11 +1150,15 @@ class PackageCard extends StatelessWidget {
     required this.package,
     this.onTap,
     this.currency = r'$',
+    this.showChevron = false,
+    this.showAmount = true,
   });
 
   final Recepcion package;
   final VoidCallback? onTap;
   final String currency;
+  final bool showChevron;
+  final bool showAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -1167,9 +1168,8 @@ class PackageCard extends StatelessWidget {
       isAvailable: package.disponible,
       progress: package.progreso,
     );
-    final title = package.contenido.isEmpty
-        ? package.suplidor
-        : package.contenido;
+    final title =
+        package.contenido.isEmpty ? package.suplidor : package.contenido;
     final meta = [
       if (package.suplidor.isNotEmpty) package.suplidor,
       if (package.totalPeso.isNotEmpty) '${package.totalPeso} ${'lbs'.tr()}',
@@ -1180,66 +1180,78 @@ class PackageCard extends StatelessWidget {
       onTap: onTap,
       shadow: true,
       padding: const EdgeInsets.all(15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  package.numeroRastreo.isEmpty
-                      ? package.recepcionID
-                      : package.numeroRastreo,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: tokens.body(
-                    11,
-                    weight: FontWeight.w500,
-                    color: tokens.textMuted,
-                    letterSpacing: 0.22,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        package.numeroRastreo.isEmpty
+                            ? package.recepcionID
+                            : package.numeroRastreo,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: tokens.body(
+                          11,
+                          weight: FontWeight.w500,
+                          color: tokens.textMuted,
+                          letterSpacing: 0.22,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: BrandSpace.xs),
+                    StatusBadge.soft(
+                      stage: status.stage,
+                      retained: package.retenido,
+                      available: package.disponible,
+                      label: package.estatus,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tokens.body(16, weight: FontWeight.w700),
+                      ),
+                    ),
+                    if (showAmount) ...[
+                      const SizedBox(width: 10),
+                      Text(
+                        '$currency${package.totalNeto}',
+                        style: tokens.body(15, weight: FontWeight.w700),
+                      ),
+                    ],
+                  ],
+                ),
+                if (meta.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    meta,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: tokens.body(12, color: tokens.textMuted),
                   ),
-                ),
-              ),
-              const SizedBox(width: BrandSpace.xs),
-              StatusBadge.soft(
-                stage: status.stage,
-                retained: package.retenido,
-                available: package.disponible,
-                label: package.estatus,
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Expanded(
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: tokens.body(16, weight: FontWeight.w700),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                '$currency${package.totalNeto}',
-                style: tokens.body(15, weight: FontWeight.w700),
-              ),
-            ],
-          ),
-          if (meta.isNotEmpty) ...[
-            const SizedBox(height: 3),
-            Text(
-              meta,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: tokens.body(12, color: tokens.textMuted),
+                ],
+                const SizedBox(height: BrandSpace.sm),
+                StageRail(stage: status.stage, retained: package.retenido),
+              ],
             ),
+          ),
+          if (showChevron) ...[
+            const SizedBox(width: BrandSpace.xs),
+            const BrandChevron(),
           ],
-          const SizedBox(height: BrandSpace.sm),
-          StageRail(stage: status.stage, retained: package.retenido),
         ],
       ),
     );
@@ -1515,7 +1527,7 @@ class SelectableRow extends StatelessWidget {
   }
 }
 
-/// Totals and actions for the current availability selection.
+/// Totals and actions for the complete availability batch.
 class SelectionSummaryBar extends StatelessWidget {
   const SelectionSummaryBar({
     super.key,
@@ -1544,9 +1556,9 @@ class SelectionSummaryBar extends StatelessWidget {
     final hasPickup = onPickup != null;
     final hasPay = capabilities.payments && onPay != null;
     final hasDelivery = capabilities.delivery && onDelivery != null;
-    if (!hasPickup && !hasPay && !hasDelivery) {
-      return const SizedBox.shrink();
-    }
+    final packageCount = '$count ${'paquetes_contados'.plural(count)}';
+    final formattedTotal = '$currency${total.toStringAsFixed(2)}';
+
     return ColoredBox(
       color: tokens.surfaceAlt,
       child: Padding(
@@ -1558,48 +1570,43 @@ class SelectionSummaryBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Total(label: 'cantidad'.tr(), value: '$count'),
-                const Spacer(),
-                _Total(
-                  label: 'total'.tr(),
-                  value: '$currency${total.toStringAsFixed(2)}',
-                  alignEnd: true,
+                Expanded(
+                  child: hasPickup
+                      ? _SummaryAction(
+                          label: 'retirar'.tr(),
+                          value: packageCount,
+                          icon: Icons.inventory_2_outlined,
+                          onPressed: count == 0 ? null : onPickup,
+                        )
+                      : _Total(label: 'cantidad'.tr(), value: '$count'),
+                ),
+                const SizedBox(width: BrandSpace.sm),
+                Expanded(
+                  child: hasPay
+                      ? _SummaryAction(
+                          label: 'pagar_ahora'.tr(),
+                          value: formattedTotal,
+                          icon: Icons.credit_card_outlined,
+                          onPressed: count == 0 ? null : onPay,
+                        )
+                      : _Total(
+                          label: 'total'.tr(),
+                          value: formattedTotal,
+                          alignEnd: true,
+                        ),
                 ),
               ],
             ),
-            const SizedBox(height: BrandSpace.sm),
-            Row(
-              children: [
-                if (hasPickup)
-                  Expanded(
-                    child: BrandOutlineButton(
-                      label: 'retirar'.tr(),
-                      onPressed: count == 0 ? null : onPickup,
-                    ),
-                  ),
-                if (hasPickup && (hasPay || hasDelivery))
-                  const SizedBox(width: 10),
-                if (hasPay)
-                  Expanded(
-                    child: BrandOutlineButton(
-                      label: 'pagar_ahora'.tr(),
-                      onPressed: count == 0 ? null : onPay,
-                    ),
-                  ),
-                if (hasPay && hasDelivery) const SizedBox(width: 10),
-                if (hasDelivery)
-                  Expanded(
-                    child: BrandPrimaryButton(
-                      label: 'domicilio'.tr(),
-                      onPressed: count == 0 ? null : onDelivery,
-                      fontSize: 13,
-                      verticalPadding: 11,
-                    ),
-                  ),
-              ],
-            ),
+            if (hasDelivery) ...[
+              const SizedBox(height: BrandSpace.sm),
+              BrandPrimaryButton(
+                label: 'domicilio'.tr(),
+                onPressed: count == 0 ? null : onDelivery,
+                fontSize: 13,
+                verticalPadding: 11,
+              ),
+            ],
             if (note != null) ...[
               const SizedBox(height: BrandSpace.xs),
               Text(
@@ -1628,13 +1635,135 @@ class _Total extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return Column(
-      crossAxisAlignment:
-          alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-      children: [
-        Text(label, style: tokens.body(11, color: tokens.textMuted)),
-        Text(value, style: tokens.head(20)),
-      ],
+    return SizedBox(
+      height: 64,
+      child: Align(
+        alignment: alignEnd ? Alignment.centerRight : Alignment.centerLeft,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(value, style: tokens.head(20)),
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(label, style: tokens.body(11, color: tokens.textMuted)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SummaryAction extends StatelessWidget {
+  const _SummaryAction({
+    required this.label,
+    required this.value,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  final String label;
+  final String value;
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final enabled = onPressed != null;
+    final foreground = enabled ? tokens.text : tokens.textMuted;
+    final labelColor =
+        enabled ? tokens.textMuted : tokens.textMuted.withValues(alpha: 0.65);
+    final iconColors = tokens.softAccentPair(
+      tokens.primary,
+      opacity: 0.14,
+      minimumContrast: 3,
+    );
+
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: '$label, $value',
+      child: ExcludeSemantics(
+        child: OutlinedButton(
+          onPressed: onPressed,
+          style: OutlinedButton.styleFrom(
+            foregroundColor: foreground,
+            disabledForegroundColor: foreground,
+            backgroundColor: tokens.surface,
+            disabledBackgroundColor: tokens.surface,
+            minimumSize: const Size.fromHeight(64),
+            padding: const EdgeInsets.symmetric(
+              horizontal: BrandSpace.sm,
+              vertical: BrandSpace.xs,
+            ),
+            side: BorderSide(color: tokens.border, width: 1.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(tokens.radiusSm),
+            ),
+          ),
+          child: Row(
+            children: [
+              Opacity(
+                opacity: enabled ? 1 : 0.5,
+                child: Container(
+                  width: 34,
+                  height: 34,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: iconColors.background,
+                    borderRadius: BorderRadius.circular(BrandShape.glyphTile),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 19,
+                    color: iconColors.foreground,
+                  ),
+                ),
+              ),
+              const SizedBox(width: BrandSpace.xs),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: tokens.body(
+                        11,
+                        weight: FontWeight.w600,
+                        color: labelColor,
+                      ),
+                    ),
+                    const SizedBox(height: BrandSpace.xxs),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        value,
+                        maxLines: 1,
+                        style: tokens.head(
+                          16,
+                          weight: FontWeight.w700,
+                          color: foreground,
+                          height: 1,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -1667,8 +1796,7 @@ class GroupRow extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(tokens.radiusSm),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
+            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
             child: Row(
               children: [
                 Expanded(
