@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>destination</key>
+	<string>export</string>
+	<key>method</key>
+	<string>app-store-connect</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>teamID</key>
+	<string>78D5P35NL6</string>
+	<key>stripSwiftSymbols</key>
+	<true/>
+	<key>uploadSymbols</key>
+	<true/>
+	<key>generateAppStoreInformation</key>
+	<false/>
+	<key>testFlightInternalTestingOnly</key>
+	<false/>
+	<!-- Xcode no decide el número de build. Lo decide CURRENT_PROJECT_VERSION
+	     en el proyecto, que es lo que se revisa y se commitea. Con esto en
+	     true, Xcode lo cambiaba al exportar y el número publicado dejaba de
+	     coincidir con el del repositorio. -->
+	<key>manageAppVersionAndBuildNumber</key>
+	<false/>
+</dict>
+</plist>
