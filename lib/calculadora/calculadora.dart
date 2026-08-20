@@ -5,12 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../asistente/assistant_action.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/calculator_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/motion_components.dart';
-import '../helpers/contact_action.dart';
 import '../services/courier_service.dart';
 import '../services/model/producto.dart';
 import '../theme/brand_config.dart';
@@ -58,7 +58,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader.tab(
         title: 'calculadora'.tr(),
-        trailing: const BrandContactAction(),
+        trailing: const BrandAssistantAction(),
       ),
       body: BlocProvider.value(
         value: _bloc,

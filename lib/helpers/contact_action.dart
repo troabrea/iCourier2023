@@ -66,6 +66,35 @@ Uri? resolveExternalContactUri(String target) {
   return null;
 }
 
+/// The contact channel, opened with [message] already typed into it.
+///
+/// The assistant hands a conversation to a person by opening WhatsApp with the
+/// customer's own summary waiting in the field. The customer still presses
+/// send: nothing is delivered on their behalf.
+///
+/// The brand chat fallback cannot carry a message, so it opens empty rather
+/// than not at all.
+Uri? resolveHandoffUri(UserProfile? profile, {String message = ''}) {
+  final whatsapp = profile?.whatsappSucursal.trim() ?? '';
+  if (whatsapp.isNotEmpty) {
+    final normalized = whatsapp.replaceAll(RegExp(r'[^0-9]'), '');
+    return Uri.https(
+      'wa.me',
+      '/$normalized',
+      message.trim().isEmpty ? null : {'text': message.trim()},
+    );
+  }
+
+  final chat = profile?.chatUrl.trim() ?? '';
+  final uri = Uri.tryParse(chat);
+  if (chat.isNotEmpty &&
+      uri != null &&
+      (uri.scheme == 'https' || uri.scheme == 'http')) {
+    return uri;
+  }
+  return null;
+}
+
 /// Header action that opens the account's contact channel.
 ///
 /// The original app carried this on every app bar; it is restored here as one

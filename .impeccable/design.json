@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-20T00:00:00Z",
+  "title": "Design System: iCourier WhiteLabel",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Manifest Canvas",
+        "canonical": "#f7f7f5",
+        "note": "Scaffold background. Derived per brand from the primary hue at HSL(s .35, l .955) in light and (.25, .094) in dark; this is the shipped neutral default.",
+        "tonalRamp": ["#2a2a22", "#4a4a3b", "#696954", "#88886d", "#a4a48e", "#c0c0b0", "#dbdbd2", "#f4f4f1"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Counter White",
+        "canonical": "#ffffff",
+        "note": "Cards, sheets, fields, the tab dock. The only neutral not hue-shifted in light mode.",
+        "tonalRamp": ["#262626", "#424242", "#5e5e5e", "#7a7a7a", "#999999", "#b8b8b8", "#d6d6d6", "#f2f2f2"]
+      },
+      "surface-alt": {
+        "role": "neutral",
+        "displayName": "Third Step",
+        "canonical": "#eeeeea",
+        "note": "Skeleton blocks, selected outline buttons, snackbars, notice fills.",
+        "tonalRamp": ["#2a2a22", "#49493b", "#686854", "#87876e", "#a4a48e", "#bfbfb0", "#dadad2", "#f4f4f1"]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Manifest Blue",
+        "canonical": "#22577a",
+        "note": "The one colour a brand must supply. Header band, home gradient, primary fill, focused border, links and list bullets in generated prose, scanner beam head.",
+        "tonalRamp": ["#112b3c", "#1d4a68", "#296994", "#3589bf", "#5fa5d3", "#8fc0e0", "#bfdbed", "#ebf4f9"]
+      },
+      "on-primary": {
+        "role": "primary",
+        "displayName": "On Manifest Blue",
+        "canonical": "#ffffff",
+        "note": "Replaced at config-parse time if a brand's declared value fails 4.5:1 over its primary.",
+        "tonalRamp": ["#262626", "#424242", "#5e5e5e", "#7a7a7a", "#999999", "#b8b8b8", "#d6d6d6", "#f2f2f2"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Manifest Green",
+        "canonical": "#4f772d",
+        "note": "Sparingly used second brand voice; trailing half of the scanner beam gradient.",
+        "tonalRamp": ["#253815", "#406024", "#5b8934", "#76b243", "#95c76b", "#b5d897", "#d5e9c4", "#f2f8ec"]
+      },
+      "on-secondary": {
+        "role": "secondary",
+        "displayName": "On Manifest Green",
+        "canonical": "#ffffff",
+        "note": "Same parse-time contrast guarantee as on-primary.",
+        "tonalRamp": ["#262626", "#424242", "#5e5e5e", "#7a7a7a", "#999999", "#b8b8b8", "#d6d6d6", "#f2f2f2"]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1f2529",
+        "note": "Body and heading colour; also the ceiling readableMuted() walks toward.",
+        "tonalRamp": ["#21272c", "#39444c", "#51616b", "#697e8b", "#8b9ca7", "#aebac2", "#d1d7dc", "#f0f3f4"]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Docket Grey",
+        "canonical": "#687076",
+        "note": "Authored against surface. Never used raw for a string on bg; resolve through readableMuted(background).",
+        "tonalRamp": ["#242729", "#3e4346", "#585f64", "#737c82", "#939a9f", "#b3b8bc", "#d4d7d9", "#f1f2f3"]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#dfe2e3",
+        "note": "The 1px rule on every card; does the work a shadow would do in a lifted system.",
+        "tonalRamp": ["#242829", "#3e4547", "#586165", "#727e83", "#929ca0", "#b3babc", "#d3d8d9", "#f1f3f3"]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Delivered Green",
+        "canonical": "#2e7d4f",
+        "note": "Delivered package accent and completed stage on the package rail.",
+        "tonalRamp": ["#153823", "#24613d", "#338a57", "#42b371", "#6ac891", "#97d9b2", "#c3e9d3", "#ecf8f1"]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Retained Amber",
+        "canonical": "#b26a00",
+        "note": "A package the customer must act on; border, glyph and action fill of BrandNotice.",
+        "tonalRamp": ["#4c2e00", "#854f00", "#bd7000", "#f59200", "#ffac33", "#ffc570", "#ffdead", "#fff5e5"]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Failed Red",
+        "canonical": "#b3261e",
+        "note": "Error states and destructive actions.",
+        "tonalRamp": ["#420e0b", "#721813", "#a2221b", "#d22d23", "#e25850", "#eb8a85", "#f3bcb9", "#fbeae9"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Largest figures: balances, point totals, calculator results. Built with tokens.head()." },
+      "headline": { "displayName": "Headline", "purpose": "Secondary large figure; rarely used outside the account surfaces." },
+      "title": { "displayName": "Title", "purpose": "ScreenHeader title — 20px pushed, 24px on a tab root." },
+      "body": { "displayName": "Body", "purpose": "Reading text at 15/1.55, including generated answers. 13px compact inside cards, 12px floor for metadata and provenance." },
+      "label": { "displayName": "Label", "purpose": "Buttons, pills, table figures. Weight 700." },
+      "eyebrow": { "displayName": "Eyebrow", "purpose": "Incumbent uppercase section label (BrandSectionLabel, 11px, 8% tracking). Documented because it exists in the token layer; not a device new surfaces are directed to introduce." }
+    },
+    "fontResolution": {
+      "note": "fontFamily is per brand (whitelabel/<slug>.json fonts.head / fonts.body). Bundled families — Myriad, Flipahaus, MadeTommy, AmpleSoft, Continumm, Bossa, ComicSans, iCourier — resolve directly; anything else is fetched from Google Fonts, and the family name is passed through when runtime fetching is disabled (golden runs).",
+      "default": "Myriad"
+    },
+    "shadows": [
+      { "name": "card", "value": "0 1px 2px rgba(0,0,0,0.03)", "purpose": "Resting list and content cards. Opt-in; most cards ship with the border alone." },
+      { "name": "hero", "value": "0 12px 30px rgba(0,0,0,0.13), 0 2px 6px rgba(0,0,0,0.05)", "purpose": "The single home card that overlaps the brand header skirt." },
+      { "name": "dock", "value": "0 8px 24px rgba(0,0,0,0.10)", "purpose": "The floating tab dock." },
+      { "name": "home-button", "value": "0 10px 24px <primary at 45%>", "purpose": "The only tinted shadow in the system, under the centre navigation button." }
+    ],
+    "motion": [
+      { "name": "manifest-reveal", "value": "620ms Curves.easeOutExpo, diagonal clip raked 14px, 2px primary→secondary beam over a 12px primary glow at 16% alpha", "purpose": "The app's only authored entrance. Runs once per widget identity, stops painting after arrival, resolves instantly under disableAnimations or accessibleNavigation." },
+      { "name": "manifest-stagger", "value": "index * 55ms, capped at 6 items", "purpose": "Sequence delay via brandManifestDelay(index), so a long backend list cannot turn motion into latency." }
+    ],
+    "derivations": [
+      { "name": "onAccent(background)", "purpose": "Picks whichever of text or surface has more contrast over an arbitrary accent." },
+      { "name": "accessibleForeground(background, preferred, minimumContrast)", "purpose": "Keeps the preferred accent when it clears the floor, otherwise falls back to onAccent." },
+      { "name": "softAccentPair(accent, opacity, minimumContrast)", "purpose": "Returns a wash background alpha-blended over surface plus a foreground that survives it. Behind every glyph tile." },
+      { "name": "readableMuted(background)", "purpose": "Required path for any secondary string. Returns textMuted untouched at ≥4.5:1, else walks it toward text in tenths until it clears." },
+      { "name": "accentWash(accent, opacity=0.12)", "purpose": "Translucent tint of an accent for badge and icon backdrops." },
+      { "name": "headerGradientEnd", "purpose": "Second stop of the home header gradient, lerped 22% from primary toward black or white depending on onPrimary luminance." },
+      { "name": "timelineGlow(accent)", "purpose": "Accent at 16% alpha behind an event timeline node." },
+      { "name": "scrimTop / scrimBottom / onScrim", "purpose": "Fixed 5%→55% black gradient and white foreground over brand-uncontrolled banner artwork." },
+      { "name": "logoBackdrop", "purpose": "Always white; brand marks are authored for a light background and are not tinted." }
+    ],
+    "enforcement": [
+      { "name": "tool/audit_presentation.dart", "value": "dart run tool/audit_presentation.dart", "purpose": "Fails the build on a colour literal (Color(, Colors.), a fontFamily literal, a numeric BorderRadius.circular, or a brand conditional, across every presentation directory and on brand conditionals anywhere in lib/." },
+      { "name": "flutter analyze", "value": "flutter analyze", "purpose": "Static gate." },
+      { "name": "flutter test", "value": "flutter test", "purpose": "354 tests including per-brand golden tests in light and dark." }
+    ],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled action per view. Foreground is derived from the fill, never assumed.",
+      "html": "<button class=\"ds-btn-primary\">Ver mis paquetes</button>",
+      "css": ".ds-btn-primary { display: block; width: 100%; min-height: 44px; background: #22577a; color: #ffffff; font-family: Myriad, system-ui, sans-serif; font-size: 14px; font-weight: 700; padding: 13px 16px; border: none; border-radius: 8px; cursor: pointer; transition: filter 0.15s ease; } .ds-btn-primary:hover { filter: brightness(1.08); } .ds-btn-primary:focus-visible { outline: 2px solid #22577a; outline-offset: 2px; } .ds-btn-primary:active { filter: brightness(0.94); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary destination, and the pill variant used inside empty and error states.",
+      "html": "<button class=\"ds-btn-outline\">Recargar</button>\n<button class=\"ds-btn-outline ds-btn-outline--selected\">Seleccionado</button>",
+      "css": ".ds-btn-outline { min-height: 44px; background: #ffffff; color: #1f2529; font-family: Myriad, system-ui, sans-serif; font-size: 13px; font-weight: 700; padding: 11px 12px; border: 1.5px solid #dfe2e3; border-radius: 8px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; } .ds-btn-outline:hover { border-color: #22577a; } .ds-btn-outline:focus-visible { outline: 2px solid #22577a; outline-offset: 2px; } .ds-btn-outline--selected { background: #eeeeea; color: #22577a; border: 2px solid #22577a; }"
+    },
+    {
+      "name": "Card Row",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The workhorse surface: list rows, form blocks, content blocks. Flat, hairline border, chevron when it drills down.",
+      "html": "<div class=\"ds-card\" role=\"button\" tabindex=\"0\"><div class=\"ds-card__tile\"><svg viewBox=\"0 0 24 24\" width=\"21\" height=\"21\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M21 8l-9-5-9 5v8l9 5 9-5V8zm-9-2.7L18.5 9 12 12.6 5.5 9 12 5.3zM5 10.7l6 3.3v6.1l-6-3.3v-6.1zm8 9.4v-6.1l6-3.3v6.1l-6 3.3z\"/></svg></div><div class=\"ds-card__body\"><div class=\"ds-card__title\">Recepciones</div><div class=\"ds-card__meta\">3 paquetes en tránsito</div></div><svg class=\"ds-card__chevron\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M9.3 6.7 14.6 12l-5.3 5.3 1.4 1.4L17.4 12l-6.7-6.7z\"/></svg></div>",
+      "css": ".ds-card { display: flex; align-items: center; gap: 12px; background: #ffffff; border: 1px solid #dfe2e3; border-radius: 16px; padding: 14px 15px; cursor: pointer; transition: border-color 0.15s ease; } .ds-card:hover { border-color: #c9cfd1; } .ds-card:focus-visible { outline: 2px solid #22577a; outline-offset: 2px; } .ds-card__tile { flex: 0 0 auto; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #e9eef2; color: #22577a; } .ds-card__body { flex: 1 1 auto; min-width: 0; } .ds-card__title { font-family: Myriad, system-ui, sans-serif; font-size: 14px; font-weight: 700; color: #1f2529; } .ds-card__meta { font-family: Myriad, system-ui, sans-serif; font-size: 12px; color: #687076; margin-top: 2px; } .ds-card__chevron { flex: 0 0 auto; color: #687076; }"
+    },
+    {
+      "name": "Glyph Tile",
+      "kind": "custom",
+      "refersTo": "glyph-tile",
+      "description": "Rounded square (or circle) holding a single-tone icon over a wash of its own accent. Both colours come from softAccentPair, so a pale brand accent still carries the glyph.",
+      "html": "<div class=\"ds-glyph-tile\"><svg viewBox=\"0 0 24 24\" width=\"21\" height=\"21\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 4.6-8-4.6V6l8 4.6L20 6v2.2z\"/></svg></div><div class=\"ds-glyph-tile ds-glyph-tile--round ds-glyph-tile--empty\"><svg viewBox=\"0 0 24 24\" width=\"40\" height=\"40\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M21 8l-9-5-9 5v8l9 5 9-5V8zm-9-2.7L18.5 9 12 12.6 5.5 9 12 5.3z\"/></svg></div>",
+      "css": ".ds-glyph-tile { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 12px; background: #e9eef2; color: #22577a; } .ds-glyph-tile--round { border-radius: 50%; width: 74px; height: 74px; } .ds-glyph-tile--empty { margin-left: 12px; }"
+    },
+    {
+      "name": "Status Pill",
+      "kind": "chip",
+      "refersTo": "pill",
+      "description": "Count or status word. Background and foreground always arrive as a derived pair.",
+      "html": "<span class=\"ds-pill\">3</span> <span class=\"ds-pill ds-pill--success\">ENTREGADO</span> <span class=\"ds-pill ds-pill--warning\">RETENIDO</span>",
+      "css": ".ds-pill { display: inline-block; font-family: Myriad, system-ui, sans-serif; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #e9eef2; color: #22577a; } .ds-pill--success { background: #e4f0e9; color: #23603c; letter-spacing: 0.6px; } .ds-pill--warning { background: #f6ecdd; color: #7f4c00; letter-spacing: 0.6px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Labelled field shared by every form. Focus thickens the border to 2px primary; no glow, no shift.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">Número de rastreo</span><input class=\"ds-field__input\" type=\"text\" placeholder=\"Ej. 1Z999AA10123456784\" /></label>",
+      "css": ".ds-field { display: block; font-family: Myriad, system-ui, sans-serif; } .ds-field__label { display: block; font-size: 12px; font-weight: 600; color: #687076; margin-bottom: 6px; } .ds-field__input { width: 100%; box-sizing: border-box; background: #ffffff; color: #1f2529; font-family: inherit; font-size: 14px; font-weight: 500; padding: 13px; border: 1px solid #dfe2e3; border-radius: 8px; } .ds-field__input::placeholder { color: #687076; } .ds-field__input:focus { outline: none; border: 2px solid #22577a; padding: 12px; }"
+    },
+    {
+      "name": "Screen Header",
+      "kind": "nav",
+      "refersTo": "screen-header",
+      "description": "Solid primary band under the status bar. The action row is pinned to exactly 44px so a stretched icon button cannot add slack under the vertically centred title.",
+      "html": "<header class=\"ds-header\"><button class=\"ds-header__back\" aria-label=\"Atrás\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M15.4 4.6 13.9 3.2 5.1 12l8.8 8.8 1.5-1.4L8 12z\"/></svg></button><h1 class=\"ds-header__title\">Asistente</h1><button class=\"ds-header__action\" aria-label=\"Buscar\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M15.5 14h-.8l-.3-.3a6.5 6.5 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z\"/></svg></button></header>",
+      "css": ".ds-header { display: flex; align-items: center; gap: 4px; height: 44px; padding: 8px 20px 4px; background: #22577a; color: #ffffff; } .ds-header__title { flex: 1 1 auto; margin: 0; font-family: Myriad, system-ui, sans-serif; font-size: 20px; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-header__back, .ds-header__action { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: none; border: none; color: #ffffff; cursor: pointer; border-radius: 999px; } .ds-header__back:hover, .ds-header__action:hover { background: rgba(255,255,255,0.12); } .ds-header__back:focus-visible, .ds-header__action:focus-visible { outline: 2px solid #ffffff; outline-offset: -2px; }"
+    },
+    {
+      "name": "Tab Dock",
+      "kind": "nav",
+      "refersTo": "tab-dock",
+      "description": "Floating five-slot dock with the brand mark at index 2. Selected glyphs resolve through accessibleForeground at a 3:1 floor; the centre mark keeps its own colours and signals selection with a ring.",
+      "html": "<nav class=\"ds-dock\" aria-label=\"Principal\"><button class=\"ds-dock__tab\" aria-label=\"Noticias\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M4 4h16v16H4zm2 2v3h12V6zm0 5v2h12v-2zm0 4v2h8v-2z\"/></svg></button><button class=\"ds-dock__tab\" aria-label=\"Sucursales\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z\"/></svg></button><button class=\"ds-dock__home ds-dock__home--selected\" aria-label=\"Mi courier\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"25\" height=\"25\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M21 8l-9-5-9 5v8l9 5 9-5V8zm-9-2.7L18.5 9 12 12.6 5.5 9 12 5.3z\"/></svg></button><button class=\"ds-dock__tab\" aria-label=\"Calculadora\"><svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm1 3v3h10V5zm0 5v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2zm-8 4v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2z\"/></svg></button><button class=\"ds-dock__tab\" aria-label=\"Más\"><span class=\"ds-dock__dots\"><i></i><i></i><i></i></span></button></nav>",
+      "css": ".ds-dock { display: flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #dfe2e3; border-radius: 26px; box-shadow: 0 8px 24px rgba(0,0,0,0.10); padding: 6px 8px; margin: 0 12px; } .ds-dock__tab { flex: 1 1 0; display: flex; align-items: center; justify-content: center; height: 52px; background: none; border: none; color: #687076; cursor: pointer; border-radius: 26px; } .ds-dock__tab:hover { color: #22577a; } .ds-dock__tab:focus-visible { outline: 2px solid #22577a; outline-offset: -2px; } .ds-dock__home { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; margin: 0 auto; border-radius: 50%; background: linear-gradient(150deg, #22577a, #1a4460); color: #ffffff; border: 1px solid #dfe2e3; box-shadow: 0 10px 24px rgba(34,87,122,0.45); cursor: pointer; } .ds-dock__home--selected { border: 2px solid #22577a; } .ds-dock__dots { display: flex; flex-direction: column; gap: 4px; } .ds-dock__dots i { display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }"
+    },
+    {
+      "name": "Skeleton",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "The loading state for every screen: placeholder blocks in the shape of the content that is coming. Never a full-screen spinner.",
+      "html": "<div class=\"ds-skeleton\"><div class=\"ds-skeleton__block ds-skeleton__block--tall\"></div><div class=\"ds-skeleton__block\"></div><div class=\"ds-skeleton__block ds-skeleton__block--tall\"></div><div class=\"ds-skeleton__block\"></div></div>",
+      "css": ".ds-skeleton { display: flex; flex-direction: column; gap: 10px; padding: 20px; } .ds-skeleton__block { height: 64px; border-radius: 16px; background: #eeeeea; } .ds-skeleton__block--tall { height: 92px; } @media (prefers-reduced-motion: no-preference) { .ds-skeleton__block { animation: ds-skeleton-pulse 1.6s ease-in-out infinite; } } @keyframes ds-skeleton-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }"
+    },
+    {
+      "name": "Inline Notice",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Explains why a package is blocked and offers the remedy. Warning border and glyph on a surface-alt card.",
+      "html": "<div class=\"ds-notice\"><svg class=\"ds-notice__glyph\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M12 2 1 21h22L12 2zm1 14h-2v2h2zm0-6h-2v4h2z\"/></svg><div class=\"ds-notice__body\"><div class=\"ds-notice__title\">Falta la factura</div><div class=\"ds-notice__text\">Sube la factura comercial para que podamos liberar este paquete.</div><button class=\"ds-notice__action\">Subir factura</button></div></div>",
+      "css": ".ds-notice { display: flex; gap: 10px; background: #eeeeea; border: 1px solid #b26a00; border-radius: 16px; padding: 12px 14px; font-family: Myriad, system-ui, sans-serif; } .ds-notice__glyph { flex: 0 0 auto; margin-top: 1px; color: #b26a00; } .ds-notice__title { font-size: 13px; font-weight: 700; color: #1f2529; } .ds-notice__text { font-size: 12px; line-height: 1.4; color: #5a6167; margin-top: 2px; } .ds-notice__action { margin-top: 8px; background: #b26a00; color: #ffffff; font-family: inherit; font-size: 12px; font-weight: 700; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; } .ds-notice__action:hover { filter: brightness(1.08); } .ds-notice__action:focus-visible { outline: 2px solid #1f2529; outline-offset: 2px; }"
+    },
+    {
+      "name": "Answer Document",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Generated long-form content typeset in the app's own ramp: 18px question, 15px/1.55 prose, primary bullets, one primary destination, then the provenance line. The disclosure never sits between the answer and its button.",
+      "html": "<article class=\"ds-answer\"><h2 class=\"ds-answer__question\">¿Dónde puedo recoger mi paquete?</h2><p class=\"ds-answer__p\">Tu paquete está asignado a la sucursal <strong>Naco</strong>. Puedes retirarlo en:</p><ul class=\"ds-answer__list\"><li>Av. Tiradentes 32, Naco — lunes a viernes, 8:30 a 18:00</li><li>Sábados, 9:00 a 13:00</li></ul><button class=\"ds-answer__action\">Ver sucursales</button><p class=\"ds-answer__provenance\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z\"/></svg><span>Estas respuestas las redacta un asistente automático sobre los datos de tu cuenta.</span></p></article>",
+      "css": ".ds-answer { font-family: Myriad, system-ui, sans-serif; color: #1f2529; padding: 20px 20px 24px; } .ds-answer__question { margin: 0 0 16px; font-size: 18px; font-weight: 700; line-height: 1.3; } .ds-answer__p { margin: 0; font-size: 15px; line-height: 1.55; } .ds-answer__list { margin: 12px 0 0; padding: 0; list-style: none; } .ds-answer__list li { position: relative; padding-left: 22px; font-size: 15px; line-height: 1.55; } .ds-answer__list li + li { margin-top: 8px; } .ds-answer__list li::before { content: \"\"; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: #22577a; } .ds-answer__action { display: block; width: 100%; min-height: 44px; margin-top: 24px; background: #22577a; color: #ffffff; font-family: inherit; font-size: 14px; font-weight: 700; padding: 13px 16px; border: none; border-radius: 8px; cursor: pointer; } .ds-answer__action:hover { filter: brightness(1.08); } .ds-answer__action:focus-visible { outline: 2px solid #22577a; outline-offset: 2px; } .ds-answer__provenance { display: flex; gap: 8px; align-items: flex-start; margin: 16px 0 0; font-size: 12px; line-height: 1.4; color: #5a6167; } .ds-answer__provenance svg { flex: 0 0 auto; margin-top: 1px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Scanned Manifest",
+    "overview": "This is a courier's counter turned into a phone screen. The mood is operational rather than decorative: solid brand bands, flat surfaces with a hairline border, one clear thing per row, and nothing on screen that a customer at a pickup counter would not need. Every screen answers a small, urgent question — has it arrived, what will it cost, when do you open — so density is generous rather than tight, and the single moment of theatre in the whole system is the scanner beam that wipes new content in, as if the app just read a barcode.\n\nThe system's hardest constraint is that it has no fixed appearance. Thirty-five courier brands ship this same binary; each supplies its own whitelabel/<slug>.json with a primary, an optional secondary, two font families, and three corner radii. Everything else — background, surfaces, text, muted text, borders, in light and in dark — is derived from that primary's hue, so a brand that declares almost nothing still gets a coherent, recognisably warm or cool world instead of the same grey as everyone else. The consequence is that no screen may know what colour it is. The token layer is a Flutter ThemeExtension named BrandTokens, reached only through context.brand, and a repo gate (tool/audit_presentation.dart) fails the build if a presentation file names a colour, a font family, a literal radius, or a brand slug. That gate is why this system holds; it is as much a part of the design as the palette.\n\nBecause the palette is unknown at authoring time, contrast cannot be eyeballed — it has to be computed. The system therefore ships derivation helpers rather than hard-coded pairings: a foreground for an arbitrary accent, a soft wash plus a foreground that survives it, a muted text colour that walks toward the body colour only as far as the 4.5:1 floor demands. Reaching for a raw token where a derivation exists is the most common way to break this system, and it does not show up on the default brand.",
+    "keyCharacteristics": [
+      "Semantic tokens only; no screen names a colour, font or radius.",
+      "Palette derived from one brand primary, per brightness, per brand.",
+      "Flat surfaces on a tinted background; depth from four allowed shadows only.",
+      "Contrast computed at runtime, never assumed.",
+      "Exactly one authored motion, and it respects Reduce Motion.",
+      "Five navigation tabs, home always centre."
+    ],
+    "rules": [
+      { "name": "The Token-Only Rule", "body": "No presentation file names a colour, a font family, a literal corner radius, or a brand slug. Everything reaches the palette through context.brand. This is enforced by tool/audit_presentation.dart, which fails the build on Color(, Colors., fontFamily: '...', BorderRadius.circular(<number>), or any brand conditional, across every presentation directory.", "section": "colors" },
+      { "name": "The Untrusted Accent Rule", "body": "A brand's accent cannot be assumed to carry text or icons. Any foreground drawn on an accent goes through a derivation: onAccent(background) picks whichever of text or surface reads better; accessibleForeground(background, preferred:, minimumContrast:) keeps the accent when it clears the floor and falls back when it does not; softAccentPair(accent) returns a wash and a foreground that survives it. Painting primary straight onto surface as a text colour is the violation this rule exists to stop.", "section": "colors" },
+      { "name": "The Readable Muted Rule", "body": "Every secondary or muted string resolves through readableMuted(background), never through raw textMuted. textMuted is authored against surface; on bg several derived palettes land it near 4.1:1, under the 4.5:1 floor. readableMuted returns it untouched where it already clears the floor and otherwise walks it toward text in tenths until it does, so the muted step in the hierarchy survives everywhere it legitimately can.", "section": "colors" },
+      { "name": "The Derived Neutral Rule", "body": "Neutrals are generated from the brand primary's hue at fixed saturation and lightness targets, one set per brightness, and both brightnesses take the hue of the light primary so a brand whose dark accent moves across the wheel keeps the cast that identifies it. A value declared explicitly in whitelabel/<slug>.json always wins over the derived one. A primary with under 8% saturation falls back to the shipped neutral defaults rather than producing a muddy family.", "section": "colors" },
+      { "name": "The Fixed Foreground Rule", "body": "Three colours are deliberately not brand-derived, because the material underneath them is not brand-controlled: the scrim gradient over banner artwork (5% to 55% black) and its white foreground, and logoBackdrop, which stays white in both themes because brand marks are authored for a light background and would be swallowed by a dark surface.", "section": "colors" },
+      { "name": "The Two-Family Rule", "body": "Every text style in the app is produced by head(), body() or eyebrow() on BrandTokens. A widget states a size, a weight and a token colour; it never states a family. This is what lets one screen render in Myriad for one brand and Rubik for another with no conditional anywhere.", "section": "typography" },
+      { "name": "The Fifteen-Point Rule", "body": "Long-form reading text is 15px at 1.55 line-height and runs the full content width between the standard 20px gutters. Generated prose gets the same ramp as authored prose — an assistant answer is typeset as a document, with a 16px heading, a 15px paragraph, and list items whose bullet is a 5px primary dot optically centred on the first line at any system text scale.", "section": "typography" },
+      { "name": "The Dock Inset Rule", "body": "Every scrolling screen reserves BrandTabBar.height (108px) of bottom padding so its last row clears the floating dock and the home indicator. A screen that forgets it hides its own final item.", "section": "layout" },
+      { "name": "The 44-Point Rule", "body": "44px is the floor for anything tappable: header actions, both button variants (minimumSize: Size(44, 44)), row hit areas.", "section": "layout" },
+      { "name": "The Four Shadows Rule", "body": "BrandElevation.card, .hero, .dock and .homeButton(primary) are the complete set. Three of them are neutral black by design so they stay identical across all thirty-five identities; the fourth is the one deliberate exception. A new shadow value in a screen is a system violation, not a style choice.", "section": "elevation" },
+      { "name": "The Border-Before-Shadow Rule", "body": "When a surface needs to separate from what is behind it, raise it one tonal step and give it a hairline border. Reach for a shadow only when it actually floats over scrolling content.", "section": "elevation" },
+      { "name": "The Two-Source Corner Rule", "body": "A corner is either a brand radius token or a named BrandShape constant. There is no third option, and the audit gate enforces it.", "section": "shapes" },
+      { "name": "The No-Spinner Rule", "body": "A loading screen shows placeholder blocks in the shape of the content that is coming. A full-screen spinner is never the answer.", "section": "components" },
+      { "name": "The Answer-Action-Provenance Rule", "body": "Generated content reads in one order: the answer, then the action it points at, then the disclosure of where it came from. The disclosure never sits between the answer and its button, and it stays quiet — a 12px muted line under an info mark — because it rides under every correct answer too, and a warning band would cry wolf on all of them.", "section": "components" },
+      { "name": "The One Motion Rule", "body": "BrandManifestReveal is the only authored entrance in the system. New surfaces reuse it; they do not add a second signature.", "section": "components" },
+      { "name": "The Honest Motion Rule", "body": "The reveal resolves instantly to its finished state when the OS reports disableAnimations or accessibleNavigation. Motion is never the only carrier of meaning, and it never repeats on rebuild.", "section": "components" }
+    ],
+    "dos": [
+      "Do reach every colour, font and radius through context.brand; run dart run tool/audit_presentation.dart before calling a screen done.",
+      "Do resolve muted text with readableMuted(background) against the background it actually sits on — bg and surface are different backgrounds.",
+      "Do derive any accent foreground through onAccent, accessibleForeground or softAccentPair.",
+      "Do reserve BrandTabBar.height (108px) at the bottom of every scrolling screen.",
+      "Do compose the four state devices — skeleton, empty, error, notice — instead of writing a new one.",
+      "Do keep to one primary button per view; a second destination is an outline.",
+      "Do verify a new screen in light and dark on at least two brands with very different primaries; flutter test includes per-brand golden tests for both."
+    ],
+    "donts": [
+      "Don't write a hex, a font family name, a numeric BorderRadius.circular, or a brand conditional (if (slug == 'x')) in presentation code. The build fails.",
+      "Don't use raw textMuted for a string on bg.",
+      "Don't paint text or an icon in primary or secondary without a contrast derivation; a brand accent may be far too pale to carry it.",
+      "Don't invent a shadow. The vocabulary is card, hero, dock, homeButton(primary).",
+      "Don't show a full-screen spinner, and don't leave a failure without a retry.",
+      "Don't add a second entrance animation, and don't make an animation the only way a change is perceivable.",
+      "Don't assume the tab set: five slots, home at index 2, and every module is gated by BrandCapabilities resolved against what the backend reports.",
+      "Don't tint multi-tone artwork; icons in this system are single-tone silhouettes."
+    ]
+  }
+}

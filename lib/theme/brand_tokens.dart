@@ -158,6 +158,25 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
     );
   }
 
+  /// A secondary foreground that stays readable on [background].
+  ///
+  /// `textMuted` is authored against `surface`. On `bg`, several derived
+  /// palettes land it around 4.1:1, just under the floor for body text. This
+  /// walks it toward `text` only as far as 4.5:1 demands, so the muted step in
+  /// the hierarchy survives everywhere it legitimately can.
+  Color readableMuted(Color background) {
+    if (_contrast(background, textMuted) >= 4.5) {
+      return textMuted;
+    }
+    for (var step = 1; step < 10; step++) {
+      final candidate = Color.lerp(textMuted, text, step / 10)!;
+      if (_contrast(background, candidate) >= 4.5) {
+        return candidate;
+      }
+    }
+    return text;
+  }
+
   static double _contrast(Color first, Color second) {
     final a = first.computeLuminance() + 0.05;
     final b = second.computeLuminance() + 0.05;

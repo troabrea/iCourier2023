@@ -6,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../asistente/assistant_action.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/motion_components.dart';
-import '../helpers/contact_action.dart';
 import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -55,12 +55,12 @@ class _NoticiasPageState extends State<NoticiasPage> {
       appBar: widget.isTabRoot
           ? ScreenHeader.tab(
               title: 'noticias'.tr(),
-              trailing: const BrandContactAction(),
+              trailing: const BrandAssistantAction(),
             )
           : ScreenHeader(
               title: 'noticias'.tr(),
               onBack: context.popOrHome,
-              trailing: const BrandContactAction(),
+              trailing: const BrandAssistantAction(),
             ),
       body: BlocProvider.value(
         value: _bloc,

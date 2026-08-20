@@ -79,7 +79,11 @@ class BrandEmptyState extends StatelessWidget {
               child: Text(
                 messageKey.tr(),
                 textAlign: TextAlign.center,
-                style: tokens.body(13, color: tokens.textMuted, height: 1.45),
+                style: tokens.body(
+                  13,
+                  color: tokens.readableMuted(tokens.bg),
+                  height: 1.45,
+                ),
               ),
             ),
             if (actionLabel != null && onAction != null) ...[
@@ -121,7 +125,11 @@ class BrandErrorState extends StatelessWidget {
               child: Text(
                 (messageKey ?? 'error_reintentar').tr(),
                 textAlign: TextAlign.center,
-                style: tokens.body(13, color: tokens.textMuted, height: 1.45),
+                style: tokens.body(
+                  13,
+                  color: tokens.readableMuted(tokens.bg),
+                  height: 1.45,
+                ),
               ),
             ),
             const SizedBox(height: BrandSpace.md),
@@ -178,7 +186,11 @@ class BrandNotice extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   message,
-                  style: tokens.body(12, color: tokens.textMuted, height: 1.4),
+                  style: tokens.body(
+                    12,
+                    color: tokens.readableMuted(tokens.surfaceAlt),
+                    height: 1.4,
+                  ),
                 ),
                 if (actionLabel != null && onAction != null)
                   Padding(

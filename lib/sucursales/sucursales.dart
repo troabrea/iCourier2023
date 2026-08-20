@@ -8,13 +8,13 @@ import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../asistente/assistant_action.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
-import '../helpers/contact_action.dart';
 import '../services/courier_service.dart';
 import '../services/model/login_model.dart';
 import '../services/model/sucursal.dart';
@@ -164,7 +164,7 @@ class _SucursalesPageState extends State<SucursalesPage>
           _query = value;
           _focused = null;
         }),
-        trailing: const BrandContactAction(),
+        trailing: const BrandAssistantAction(),
       ),
       body: BlocProvider.value(
         value: _bloc,

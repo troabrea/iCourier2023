@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:event/event.dart' as event;
 import 'package:icourier/adicional/adicional.dart';
+import 'package:icourier/navigation/router_session.dart';
+import 'package:icourier/services/app_events.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/services/courier_service.dart';
@@ -37,6 +40,17 @@ void main() {
     GetIt.I.registerSingleton<AppInfo>(BmcargoAppInfo());
     GetIt.I.registerSingleton<BrandConfig>(config);
     GetIt.I.registerSingleton<CourierService>(_AdditionalService());
+    // This screen is behind the session, so its header carries the assistant
+    // rather than the WhatsApp fallback.
+    GetIt.I.registerSingleton<event.Event<LoginChanged>>(
+      event.Event<LoginChanged>(),
+    );
+    GetIt.I.registerSingleton<RouterSession>(
+      RouterSession(
+        initiallyLoggedIn: true,
+        loginChanges: GetIt.I<event.Event<LoginChanged>>(),
+      ),
+    );
   });
 
   tearDown(() async {
@@ -59,6 +73,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    expect(find.text('Asistente'), findsOneWidget);
     expect(find.text('Servicio al Cliente'), findsOneWidget);
     expect(find.text('Solicitar Soporte'), findsOneWidget);
     expect(find.byIcon(Icons.open_in_new_rounded), findsNWidgets(2));

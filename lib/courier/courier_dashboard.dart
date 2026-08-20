@@ -14,7 +14,6 @@ import '../design_system/core_components.dart';
 import '../design_system/home_components.dart';
 import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
-import '../helpers/contact_action.dart';
 import '../domain/package_stage.dart';
 import '../navigation/app_routes.dart';
 import '../services/app_events.dart';
@@ -225,9 +224,8 @@ class _DashboardContentState extends State<_DashboardContent> {
               : BannerCarousel(banners: state.banners, config: config);
           final actions = BrandHeaderActions(
             unread: unread,
-            onContact: _contact(userProfile)?.open,
-            contactIcon:
-                _contact(userProfile)?.icon ?? Icons.chat_bubble_outline,
+            onContact: () => context.push(AppRoutes.assistant),
+            contactMark: _assistantMark(context),
             onCarnet: () => context.push(AppRoutes.idCard),
             onMessages: () => context.push(AppRoutes.messages),
           );
@@ -255,9 +253,8 @@ class _DashboardContentState extends State<_DashboardContent> {
                             scrollable: true,
                             child: CuentasUsuario(userProfile: userProfile),
                           ),
-                  onContact: _contact(userProfile)?.open,
-                  contactIcon:
-                      _contact(userProfile)?.icon ?? Icons.chat_bubble_outline,
+                  onContact: () => context.push(AppRoutes.assistant),
+                  contactMark: _assistantMark(context),
                   onCarnet: () => context.push(AppRoutes.idCard),
                   onMessages: () => context.push(AppRoutes.messages),
                 ),
@@ -562,11 +559,16 @@ class _DashboardContentState extends State<_DashboardContent> {
     return seen.join(' · ');
   }
 
-  /// Same resolution the tab headers use, so both open the same channel.
-  ({IconData icon, Future<void> Function() open})? _contact(
-    UserProfile? profile,
-  ) =>
-      resolveContactChannel(profile);
+  /// The assistant's own mark, so the header button shows what it opens.
+  ///
+  /// This position used to carry the branch WhatsApp. Home is behind the
+  /// session, so the assistant is always available here; WhatsApp is one tap
+  /// deeper, in the assistant's own header.
+  Widget _assistantMark(BuildContext context) => BrandGlyph(
+        BrandIcons.assistant,
+        color: context.brand.onPrimary,
+        size: 18,
+      );
 
   String _firstName(UserProfile? profile) {
     final name = profile?.nombre.trim() ?? '';

@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icourier/courier/courier_dashboard.dart';
+import 'package:icourier/design_system/brand_foundations.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
 import 'package:icourier/services/model/banner.dart';
@@ -36,6 +38,32 @@ void main() {
   });
 
   tearDown(() => GetIt.I.reset());
+
+  testWidgets('the header contact position now opens the assistant', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CourierDashboard(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // The expanded panel and the collapsed bar carry the same cluster, so the
+    // mark appears twice and WhatsApp appears nowhere.
+    final marks = find.byWidgetPredicate(
+      (widget) =>
+          widget is BrandGlyph && widget.asset == BrandIcons.assistant,
+    );
+    expect(marks, findsNWidgets(2));
+    expect(find.byType(FaIcon), findsNothing);
+  });
 
   testWidgets('clears the notification badge when messages become read', (
     tester,

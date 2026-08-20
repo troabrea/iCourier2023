@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../adicional/adicional.dart';
+import '../asistente/asistente.dart';
 import '../adicional/appbrowser.dart';
 import '../calculadora/calculadora.dart';
 import '../courier/carnet_usuario.dart';
@@ -247,6 +248,11 @@ abstract final class AppRouter {
         },
       ),
       GoRoute(
+        path: AppRoutes.assistant,
+        name: 'assistant',
+        builder: (context, state) => const AsistentePage(),
+      ),
+      GoRoute(
         path: AppRoutes.faq,
         name: 'faq',
         builder: (context, state) => const PreguntasPage(),
@@ -319,14 +325,7 @@ abstract final class AppRouter {
     );
   }
 
-  static String _path(TabModule module) => switch (module) {
-        TabModule.news => AppRoutes.news,
-        TabModule.branches => AppRoutes.branches,
-        TabModule.home => AppRoutes.home,
-        TabModule.calculator => AppRoutes.calculator,
-        TabModule.more => AppRoutes.more,
-        TabModule.services => AppRoutes.services,
-      };
+  static String _path(TabModule module) => module.location;
 
   /// Builds a module's screen.
   ///

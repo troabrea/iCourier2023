@@ -23,6 +23,7 @@ abstract final class AppRoutes {
   static const invoices = '/mas/facturados';
   static const accountStatement = '/mas/estado-cuenta';
   static const faq = '/faq';
+  static const assistant = '/asistente';
   static const onlinePayment = '/mas/pago-en-linea';
   static const packagePattern = '/paquete/:id';
   static const componentGallery = '/galeria-componentes';
@@ -71,6 +72,7 @@ final class AppDeepLinkParser {
     AppRoutes.newPrealert,
     AppRoutes.faq,
     AppRoutes.services,
+    AppRoutes.assistant,
   };
 
   static final _packageRoute = RegExp(r'^/paquete/[^/]+(?:/factura)?$');

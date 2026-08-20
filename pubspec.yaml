@@ -195,6 +195,7 @@ flutter:
 #    - images/tls/
 #    - images/tupaq/
     - images/noticias.svg
+    - images/asistente.svg
     - images/sucursales.svg
     - images/calculadora.svg
     - images/servicios.svg

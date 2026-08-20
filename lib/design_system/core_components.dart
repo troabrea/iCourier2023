@@ -36,6 +36,7 @@ class BrandHeader extends StatelessWidget {
     this.onRefresh,
     this.onContact,
     this.contactIcon = Icons.chat_bubble_outline,
+    this.contactMark,
   });
 
   /// First name of the signed-in customer.
@@ -60,6 +61,10 @@ class BrandHeader extends StatelessWidget {
 
   /// Mark of the resolved channel, so the button shows what it will open.
   final IconData contactIcon;
+
+  /// Authored mark used in place of [contactIcon] when the destination has one
+  /// of its own, as the assistant does.
+  final Widget? contactMark;
 
   String get _initial {
     final source = (accountName?.trim().isNotEmpty ?? false)
@@ -176,6 +181,7 @@ class BrandHeader extends StatelessWidget {
         onRefresh: onRefresh,
         onContact: onContact,
         contactIcon: contactIcon,
+        contactMark: contactMark,
       );
 }
 
@@ -190,6 +196,7 @@ class BrandHeaderActions extends StatelessWidget {
     this.onRefresh,
     this.onContact,
     this.contactIcon = Icons.chat_bubble_outline,
+    this.contactMark,
   });
 
   final int unread;
@@ -198,6 +205,9 @@ class BrandHeaderActions extends StatelessWidget {
   final VoidCallback? onRefresh;
   final VoidCallback? onContact;
   final IconData contactIcon;
+
+  /// Authored mark used in place of [contactIcon] when the destination has one.
+  final Widget? contactMark;
 
   @override
   Widget build(BuildContext context) {
@@ -216,9 +226,11 @@ class BrandHeaderActions extends StatelessWidget {
           const SizedBox(width: 6),
           _HeaderButton(
             icon: contactIcon,
+            mark: contactMark,
             onTap: onContact,
             tokens: tokens,
-            semanticLabel: 'escribenos'.tr(),
+            semanticLabel:
+                contactMark == null ? 'escribenos'.tr() : 'asistente'.tr(),
           ),
         ],
         if (onCarnet != null) ...[
@@ -357,11 +369,15 @@ class _HeaderButton extends StatelessWidget {
     required this.icon,
     required this.tokens,
     required this.semanticLabel,
+    this.mark,
     this.onTap,
     this.badge = 0,
   });
 
   final IconData icon;
+
+  /// Drawn instead of [icon] when the destination ships its own mark.
+  final Widget? mark;
   final BrandTokens tokens;
   final String semanticLabel;
   final VoidCallback? onTap;
@@ -389,7 +405,8 @@ class _HeaderButton extends StatelessWidget {
                       color: tokens.headerOverlay(0.18),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(icon, size: 18, color: tokens.onPrimary),
+                    child:
+                        mark ?? Icon(icon, size: 18, color: tokens.onPrimary),
                   ),
                   if (badge > 0)
                     Positioned(

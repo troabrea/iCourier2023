@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../asistente/assistant_action.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/content_components.dart';
 import '../design_system/core_components.dart';
 import '../design_system/motion_components.dart';
-import '../helpers/contact_action.dart';
 import '../helpers/social_media_links.dart';
 import '../navigation/app_routes.dart';
 import '../services/courier_service.dart';
@@ -68,12 +68,12 @@ class _ServiciosPageState extends State<ServiciosPage> {
       appBar: widget.isTabRoot
           ? ScreenHeader.tab(
               title: 'nuestros_servicios'.tr(),
-              trailing: const BrandContactAction(),
+              trailing: const BrandAssistantAction(),
             )
           : ScreenHeader(
               title: 'nuestros_servicios'.tr(),
               onBack: context.popOrHome,
-              trailing: const BrandContactAction(),
+              trailing: const BrandAssistantAction(),
             ),
       body: BlocProvider.value(
         value: _bloc,

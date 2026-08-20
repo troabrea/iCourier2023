@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
@@ -114,6 +115,12 @@ class _PreguntasPageState extends State<PreguntasPage> {
                           initiallyExpanded: index == 0 && _query.isEmpty,
                         ),
                       ),
+                  const SizedBox(height: BrandSpace.md),
+                  BrandManifestReveal(
+                    delay: brandManifestDelay(questions.length,
+                        startMilliseconds: 80),
+                    child: const _AskAssistant(),
+                  ),
                 ],
               ),
             );
@@ -127,6 +134,51 @@ class _PreguntasPageState extends State<PreguntasPage> {
     final completed = Completer<void>();
     _bloc.add(LoadApiEvent(ignoreCache: true, completed: completed));
     await completed.future;
+  }
+}
+
+/// Hands an unanswered question to the assistant.
+///
+/// The published questions cover what most customers ask; the ones they cannot
+/// find here are exactly the ones worth asking in their own words.
+class _AskAssistant extends StatelessWidget {
+  const _AskAssistant();
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return BrandCard(
+      onTap: () => context.push(AppRoutes.assistant),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          const BrandGlyphTile(
+            asset: BrandIcons.assistant,
+            size: 38,
+            glyphSize: 21,
+          ),
+          const SizedBox(width: BrandSpace.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'preguntas_sin_respuesta'.tr(),
+                  style: tokens.body(14, weight: FontWeight.w600),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'preguntas_abrir_asistente'.tr(),
+                  style: tokens.body(12, color: tokens.textMuted, height: 1.4),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: BrandSpace.xs),
+          const BrandChevron(),
+        ],
+      ),
+    );
   }
 }
 

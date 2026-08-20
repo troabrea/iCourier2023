@@ -10,6 +10,8 @@ import 'package:icourier/helpers/appcenter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'apps/appinfo.dart';
 import '../../services/app_events.dart';
+import 'asistente/assistant_conversation.dart';
+import '../../services/assistant_service.dart';
 import '../../services/courier_service.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -108,6 +110,7 @@ Future<void> mainShared(AppInfo appInfo) async {
   GetIt.I.registerSingleton<AppInfo>(appInfo);
   GetIt.I.registerSingleton<BrandConfig>(brandConfig);
   GetIt.I.registerSingleton<CourierService>(CourierService());
+  GetIt.I.registerSingleton<AssistantService>(AssistantService());
   await GetIt.I<CourierService>().clearDataCache();
   GetIt.I.registerSingleton<event.Event<UnreadMessagesChanged>>(
       event.Event<UnreadMessagesChanged>());
@@ -133,6 +136,15 @@ Future<void> mainShared(AppInfo appInfo) async {
       event.Event<NotificarRetiroRequested>());
   GetIt.I.registerSingleton<event.Event<AutoNotificarRetiroRequested>>(
       event.Event<AutoNotificarRetiroRequested>());
+
+  // Registered after the events it listens to: the conversation is dropped the
+  // moment the session it belongs to ends.
+  GetIt.I.registerSingleton<AssistantConversation>(
+    AssistantConversation(
+      logouts: GetIt.I<event.Event<LogoutRequested>>(),
+      expiries: GetIt.I<event.Event<SessionExpired>>(),
+    ),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -209,6 +221,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       initiallyLoggedIn: widget.initiallyLoggedIn,
       loginChanges: GetIt.I<event.Event<LoginChanged>>(),
     );
+    // The header assistant action needs the session too, and it is placed by
+    // screens that never see the router.
+    if (!GetIt.I.isRegistered<RouterSession>()) {
+      GetIt.I.registerSingleton<RouterSession>(routerSession);
+    }
     router = AppRouter.create(
       config: brandConfig,
       session: routerSession,

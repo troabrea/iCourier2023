@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../asistente/assistant_action.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/core_components.dart';
@@ -44,7 +45,7 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
       backgroundColor: tokens.bg,
       appBar: ScreenHeader.tab(
         title: 'informacion_adicional'.tr(),
-        trailing: const BrandContactAction(),
+        trailing: const BrandAssistantAction(),
       ),
       body: FutureBuilder<_MoreData>(
         future: _data,
@@ -76,6 +77,10 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
             children: [
               _ProfileRow(profile: data.profile, config: config),
               const SizedBox(height: 10),
+              _MoreRow(
+                label: 'asistente'.tr(),
+                route: AppRoutes.assistant,
+              ),
               _MoreRow(
                 label: 'nuestros_servicios'.tr(),
                 route: AppRoutes.services,

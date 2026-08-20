@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../navigation/app_routes.dart';
 import '../services/model/empresa.dart';
 
 /// Modules that can occupy a persistent navigation slot.
 enum TabModule { news, branches, home, calculator, more, services }
+
+/// The canonical location a module is reached at, tab or not.
+///
+/// Declared beside the enum rather than inside the router so any screen can ask
+/// where a module lives without importing the router that renders it.
+extension TabModuleLocation on TabModule {
+  String get location => switch (this) {
+        TabModule.news => AppRoutes.news,
+        TabModule.branches => AppRoutes.branches,
+        TabModule.home => AppRoutes.home,
+        TabModule.calculator => AppRoutes.calculator,
+        TabModule.more => AppRoutes.more,
+        TabModule.services => AppRoutes.services,
+      };
+}
 
 /// Color values used to build one brightness of a brand theme.
 @immutable
@@ -372,6 +388,15 @@ final class BrandNavigationConfig {
       );
 
   final List<TabModule> tabs;
+
+  /// Whether [location] is one of this brand's permanent tab roots.
+  ///
+  /// A tab root lives inside the navigation shell, so pushing it stacks the
+  /// whole shell on top of itself and the navigator raises duplicate page
+  /// keys. Screens that send the customer to a module have to ask this first
+  /// and switch branches instead of pushing.
+  bool isTabRoot(String location) =>
+      tabs.any((module) => module.location == location);
 }
 
 /// Complete local configuration for one WhiteLabel application.
