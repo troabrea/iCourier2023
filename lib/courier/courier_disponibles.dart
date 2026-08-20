@@ -62,7 +62,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
       body: Column(
         children: [
           BrandManifestReveal(
-            duration: const Duration(milliseconds: 480),
+            duration: const Duration(milliseconds: 280),
             child: SelectionSummaryBar(
               count: _packages.length,
               total: total,
@@ -99,9 +99,9 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
                             ),
                             delay: brandManifestDelay(
                               index,
-                              startMilliseconds: 80,
+                              startMilliseconds: 40,
                             ),
-                            duration: const Duration(milliseconds: 520),
+                            duration: const Duration(milliseconds: 300),
                             child: PackageCard(
                               package: package,
                               onTap: () => context.push(

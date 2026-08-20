@@ -158,7 +158,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
                               ),
                               delay: brandManifestDelay(
                                 index,
-                                startMilliseconds: 90,
+                                startMilliseconds: 45,
                               ),
                               child: _serviceCard(
                                 state.servicios[index],

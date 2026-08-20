@@ -78,10 +78,6 @@ class _AdicionalInfoPageState extends State<AdicionalInfoPage> {
               _ProfileRow(profile: data.profile, config: config),
               const SizedBox(height: 10),
               _MoreRow(
-                label: 'asistente'.tr(),
-                route: AppRoutes.assistant,
-              ),
-              _MoreRow(
                 label: 'nuestros_servicios'.tr(),
                 route: AppRoutes.services,
                 visible: !tabs.contains(TabModule.services),

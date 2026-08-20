@@ -237,7 +237,7 @@ class _DashboardContentState extends State<_DashboardContent> {
             padding: EdgeInsets.zero,
             children: [
               BrandManifestReveal(
-                duration: const Duration(milliseconds: 760),
+                duration: const Duration(milliseconds: 420),
                 child: BrandHeader(
                   key: _panelKey,
                   greeting: _firstName(userProfile),

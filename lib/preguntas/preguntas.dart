@@ -107,7 +107,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
                         key: ValueKey(questions[index].registroId),
                         delay: brandManifestDelay(
                           index,
-                          startMilliseconds: 80,
+                          startMilliseconds: 40,
                         ),
                         child: FaqAccordion(
                           question: questions[index].titulo,
@@ -118,7 +118,7 @@ class _PreguntasPageState extends State<PreguntasPage> {
                   const SizedBox(height: BrandSpace.md),
                   BrandManifestReveal(
                     delay: brandManifestDelay(questions.length,
-                        startMilliseconds: 80),
+                        startMilliseconds: 40),
                     child: const _AskAssistant(),
                   ),
                 ],

@@ -73,7 +73,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Asistente'), findsOneWidget);
+    expect(find.text('Asistente'), findsNothing);
     expect(find.text('Servicio al Cliente'), findsOneWidget);
     expect(find.text('Solicitar Soporte'), findsOneWidget);
     expect(find.byIcon(Icons.open_in_new_rounded), findsNWidgets(2));

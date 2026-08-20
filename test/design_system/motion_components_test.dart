@@ -11,9 +11,12 @@ void main() {
 
   test('manifest delays stay bounded for backend-driven lists', () {
     expect(brandManifestDelay(0), Duration.zero);
+    // The stagger stops compounding early, so a long backend list never turns
+    // the entrance into waiting: item 100 starts no later than item 4.
+    expect(brandManifestDelay(100), brandManifestDelay(4));
     expect(
       brandManifestDelay(100, startMilliseconds: 90),
-      const Duration(milliseconds: 420),
+      const Duration(milliseconds: 218),
     );
   });
 

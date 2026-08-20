@@ -10,7 +10,7 @@ import '../theme/brand_tokens.dart';
 /// The cap keeps a long backend list from turning motion into latency while
 /// preserving the sense that the first visible items arrived in order.
 Duration brandManifestDelay(int index, {int startMilliseconds = 0}) => Duration(
-      milliseconds: startMilliseconds + math.min(index, 6) * 55,
+      milliseconds: startMilliseconds + math.min(index, 4) * 32,
     );
 
 /// Reveals loaded content as if it passed through a branded parcel scanner.
@@ -24,7 +24,7 @@ final class BrandManifestReveal extends StatefulWidget {
     super.key,
     required this.child,
     this.delay = Duration.zero,
-    this.duration = const Duration(milliseconds: 620),
+    this.duration = const Duration(milliseconds: 340),
   });
 
   final Widget child;
@@ -87,30 +87,36 @@ class _BrandManifestRevealState extends State<BrandManifestReveal>
         if (_controller.value >= 1) {
           return child!;
         }
-        final progress = Curves.easeOutExpo.transform(_controller.value);
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            ClipPath(
-              clipper: _ManifestClipper(
-                progress: progress,
-                direction: direction,
+        final progress = Curves.easeOutCubic.transform(_controller.value);
+        // Isolated so one card's reveal never repaints the list around it, and
+        // hard-edged because an antialiased diagonal clip is the most expensive
+        // thing on this screen and the edge is moving too fast to inspect.
+        return RepaintBoundary(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              ClipPath(
+                clipper: _ManifestClipper(
+                  progress: progress,
+                  direction: direction,
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: child,
               ),
-              child: child,
-            ),
-            Positioned.fill(
-              child: IgnorePointer(
-                child: CustomPaint(
-                  painter: _ScannerBeamPainter(
-                    progress: progress,
-                    direction: direction,
-                    primary: tokens.primary,
-                    secondary: tokens.secondary,
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: CustomPaint(
+                    painter: _ScannerBeamPainter(
+                      progress: progress,
+                      direction: direction,
+                      primary: tokens.primary,
+                      secondary: tokens.secondary,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

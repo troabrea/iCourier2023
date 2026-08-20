@@ -268,7 +268,7 @@ class _SucursalesPageState extends State<SucursalesPage>
                                   key: ValueKey(branches[index].registroId),
                                   delay: brandManifestDelay(
                                     index,
-                                    startMilliseconds: 110,
+                                    startMilliseconds: 55,
                                   ),
                                   child: BranchRow(
                                     branch: branches[index],

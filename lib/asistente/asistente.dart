@@ -669,7 +669,7 @@ class _Welcome extends StatelessWidget {
               const SizedBox(height: BrandSpace.lg),
               for (var index = 0; index < starters.length; index++)
                 BrandManifestReveal(
-                  delay: brandManifestDelay(index, startMilliseconds: 90),
+                  delay: brandManifestDelay(index, startMilliseconds: 45),
                   child: BrandCard(
                     onTap: () => onAsk(starters[index]),
                     margin: const EdgeInsets.only(bottom: 10),

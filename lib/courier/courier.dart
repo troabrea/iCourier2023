@@ -160,7 +160,7 @@ class _LoginScreen extends StatelessWidget {
         body: _LoginFrame(
           config: config,
           child: BrandManifestReveal(
-            duration: const Duration(milliseconds: 760),
+            duration: const Duration(milliseconds: 420),
             child: _LoginPanel(
               formKey: formKey,
               accountController: accountController,
