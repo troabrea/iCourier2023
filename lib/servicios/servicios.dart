@@ -119,7 +119,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
               child: BannerCarousel(
                 banners: state.banners,
                 config: GetIt.I<BrandConfig>(),
-                // Fills the skirt's corners with the banner's own edge colours
+                // Fills the skirt's corners from the banner's own backdrop
                 // instead of lifting the artwork into the curve and losing its
                 // top strip.
                 topBleed: ScreenHeader.skirtOverlap,

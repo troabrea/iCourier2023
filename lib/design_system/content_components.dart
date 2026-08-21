@@ -53,10 +53,10 @@ double expectedBannerHeight(BuildContext context, double width) {
 
 /// Colours of a banner's left and right edges along its top.
 ///
-/// A banner that begins where the header ends leaves a pale wedge in each of
-/// the skirt's corners. Rather than lift the artwork into the curve and lose
-/// its top strip, the carousel continues these two colours above it, so the
-/// corners read as the banner while the piece itself stays whole.
+/// The first answer the backdrop can give, before the artwork it is washed
+/// from has been decoded. Two colours are enough for that moment: the corners
+/// of the header's skirt are the only part of the strip anyone sees, and each
+/// one continues the side of the artwork it sits over.
 @immutable
 class BannerEdgeColors {
   const BannerEdgeColors(this.left, this.right);
@@ -75,6 +75,14 @@ class BannerEdgeColors {
 /// Edge colours already read, keyed by url. Sampling costs a decode, and the
 /// answer cannot change for a given image.
 final Map<String, BannerEdgeColors> _bannerEdgeCache = {};
+
+/// Width the backdrop wash is decoded at.
+///
+/// The wash carries colour, not detail, so it is stretched from a thumbnail
+/// this small on purpose: blown up across the strip the bilinear filter turns
+/// it into a soft field of the artwork's own colours, which is the whole
+/// effect, and it costs one tiny decode instead of a blur every frame.
+const int _bannerBackdropWidth = 8;
 
 /// Reads the top-left and top-right colour of the artwork at [url].
 ///
@@ -191,7 +199,7 @@ class BannerCarousel extends StatefulWidget {
   final List<BannerImage> banners;
   final BrandConfig config;
 
-  /// Height of a strip drawn above the artwork in its own edge colours.
+  /// Height of a strip drawn above the artwork, on the backdrop's wash.
   ///
   /// A screen that paints behind a curved header passes the depth of the curve
   /// here: the strip fills the corners, and the artwork below it keeps every
@@ -226,9 +234,14 @@ class _BannerCarouselState extends State<BannerCarousel> {
   ImageStream? _stream;
   ImageStreamListener? _listener;
 
-  /// Banner the pager is showing, so the bleed above it wears its colours.
+  /// Banner the pager is showing, so the backdrop wears its colours.
   int _page = 0;
   BannerEdgeColors? _edges;
+
+  /// Artwork the backdrop is washed from: whichever banner is on screen.
+  String get _showing => widget.banners.isEmpty
+      ? ''
+      : widget.banners[_page % widget.banners.length].url;
 
   @override
   void initState() {
@@ -239,14 +252,13 @@ class _BannerCarouselState extends State<BannerCarousel> {
     _readEdges();
   }
 
-  /// Reads the edge colours of the banner on screen, when a bleed asked for
-  /// them.
+  /// Reads the edge colours of the banner on screen.
   Future<void> _readEdges() async {
-    if (widget.topBleed <= 0 || widget.banners.isEmpty) {
+    final url = _showing;
+    if (url.isEmpty) {
       return;
     }
-    final banner = widget.banners[_page % widget.banners.length];
-    final edges = await readBannerEdgeColors(banner.url);
+    final edges = await readBannerEdgeColors(url);
     if (!mounted || edges == null) {
       return;
     }
@@ -339,33 +351,65 @@ class _BannerCarouselState extends State<BannerCarousel> {
     if (widget.banners.isEmpty) {
       return const SizedBox.shrink();
     }
-    final art = _pager(context);
-    if (widget.topBleed <= 0) {
-      return art;
-    }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [_bleed(context), art],
+    return _backdrop(
+      context,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.topBleed > 0) SizedBox(height: widget.topBleed),
+          _pager(context),
+        ],
+      ),
     );
   }
 
-  /// Strip that carries the artwork past the header's corners.
-  Widget _bleed(BuildContext context) {
+  /// Wash of the banner's own colours behind the whole strip.
+  ///
+  /// The artwork is fitted and never cropped, so two things around it have to
+  /// be filled: the bars each side of a piece that does not match the pager's
+  /// shape, and the bleed above it that reaches into the header's curve. They
+  /// used to be filled by two different things — a brand gradient and a pair
+  /// of sampled colours — which is why the corners showed a wedge wherever the
+  /// two disagreed. One backdrop behind both cannot disagree with itself.
+  ///
+  /// It is the banner itself, covered and stretched from a thumbnail, so the
+  /// corners read as a soft continuation of the piece rather than as a colour
+  /// that happens to be near it. The edge colours stay as the ground under it,
+  /// for the moment before the thumbnail is decoded and for artwork that never
+  /// loads at all.
+  Widget _backdrop(BuildContext context, {required Widget child}) {
     final edges = _edges;
+    final url = _showing;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 240),
-      height: widget.topBleed,
       decoration: BoxDecoration(
-        // Both ends are read from the piece itself, so each corner continues
-        // the side of the artwork it sits over. The stretch between them is
-        // hidden behind the opaque middle of the header.
         gradient: LinearGradient(
           colors: [
             edges?.left ?? context.brand.bg,
             edges?.right ?? context.brand.bg,
           ],
         ),
+        image: url.isEmpty
+            ? null
+            : DecorationImage(
+                image: ResizeImage(
+                  CachedNetworkImageProvider(url),
+                  width: _bannerBackdropWidth,
+                  allowUpscaling: false,
+                ),
+                fit: BoxFit.cover,
+                // Pinned to the top so the header's corners keep showing the
+                // top of the piece. Covering a box taller than the artwork
+                // otherwise crops towards the middle, and the corners would
+                // start describing a part of the banner nowhere near them.
+                alignment: Alignment.topCenter,
+                filterQuality: FilterQuality.medium,
+                // A wash that cannot be fetched leaves the edge colours
+                // showing, which is what the strip looked like before it.
+                onError: (_, __) {},
+              ),
       ),
+      child: child,
     );
   }
 
@@ -382,7 +426,9 @@ class _BannerCarouselState extends State<BannerCarousel> {
           child: PageView.builder(
             controller: _controller,
             onPageChanged: (index) {
-              _page = index;
+              // The backdrop is washed from whichever banner is on screen, so
+              // the page has to be state and not just a note to the sampler.
+              setState(() => _page = index);
               _readEdges();
             },
             itemBuilder: (context, index) {
@@ -460,19 +506,16 @@ class _BannerArtwork extends StatelessWidget {
       return placeholder();
     }
     // Fitted, never cropped: whatever the upload measures, the whole piece is
-    // visible. The brand gradient fills any letterbox so the strip still reads
-    // as one block.
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        placeholder(),
-        CachedNetworkImage(
-          imageUrl: url,
-          fit: BoxFit.contain,
-          placeholder: (context, _) => ColoredBox(color: tokens.surfaceAlt),
-          errorWidget: (context, _, __) => placeholder(),
-        ),
-      ],
+    // visible. Nothing is drawn behind it, so the carousel's backdrop fills
+    // whatever the fit leaves over and the piece sits on its own colours. The
+    // placeholder is kept for artwork that is missing or refuses to load,
+    // where there is no piece to sit on and its caption is the only message
+    // left to show.
+    return CachedNetworkImage(
+      imageUrl: url,
+      fit: BoxFit.contain,
+      placeholder: (context, _) => const SizedBox.shrink(),
+      errorWidget: (context, _, __) => placeholder(),
     );
   }
 }
