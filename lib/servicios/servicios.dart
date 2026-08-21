@@ -63,117 +63,131 @@ class _ServiciosPageState extends State<ServiciosPage> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return Scaffold(
-      backgroundColor: tokens.bg,
-      appBar: widget.isTabRoot
-          ? ScreenHeader.tab(
-              title: 'nuestros_servicios'.tr(),
-              trailing: const BrandAssistantAction(),
-            )
-          : ScreenHeader(
-              title: 'nuestros_servicios'.tr(),
-              onBack: context.popOrHome,
-              trailing: const BrandAssistantAction(),
-            ),
-      body: BlocProvider.value(
-        value: _bloc,
-        child: BlocBuilder<ServiciosBloc, ServiciosState>(
-          builder: (context, state) {
-            if (state is ServiciosLoadingState) {
-              return const BrandSkeleton();
-            }
-            if (state is ServiciosErrorState) {
-              return BrandErrorState(onRetry: _refresh);
-            }
-            if (state is! ServiciosLoadedState) {
-              return const SizedBox.shrink();
-            }
-            final showBanners = widget.isTabRoot && state.banners.isNotEmpty;
-            return RefreshIndicator(
-              onRefresh: _refresh,
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.only(
-                  bottom: BrandTabBar.height,
-                  top: showBanners ? 0 : BrandSpace.md,
-                ),
-                children: [
-                  if (showBanners)
-                    BrandManifestReveal(
-                      child: BannerCarousel(
-                        banners: state.banners,
-                        config: GetIt.I<BrandConfig>(),
-                      ),
-                    ),
-                  if (showBanners)
-                    BrandManifestReveal(
-                      delay: const Duration(milliseconds: 70),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          BrandSpace.lg,
-                          BrandSpace.xxs,
-                          BrandSpace.lg,
-                          0,
-                        ),
-                        child: SocialMediaLinks(
-                          empresa: state.empresa,
-                          userProfile: state.userProfile,
-                        ),
-                      ),
-                    ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      BrandSpace.lg,
-                      showBanners ? BrandSpace.md : 0,
-                      BrandSpace.lg,
-                      0,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (state.servicios.isEmpty)
-                          BrandManifestReveal(
-                            child: BrandEmptyState(
-                              messageKey: 'servicios_vacios',
-                              glyph: BrandIcons.services,
-                              actionLabel: 'actualizar'.tr(),
-                              onAction: _refresh,
-                            ),
-                          )
-                        else ...[
-                          if (!widget.isTabRoot) ...[
-                            BrandManifestReveal(
-                              child: _ServicesGuide(
-                                count: state.servicios.length,
-                              ),
-                            ),
-                            const SizedBox(height: BrandSpace.md),
-                          ],
-                          for (var index = 0;
-                              index < state.servicios.length;
-                              index++)
-                            BrandManifestReveal(
-                              key: ValueKey(
-                                state.servicios[index].registroId,
-                              ),
-                              delay: brandManifestDelay(
-                                index,
-                                startMilliseconds: 45,
-                              ),
-                              child: _serviceCard(
-                                state.servicios[index],
-                                index,
-                              ),
-                            ),
-                        ],
-                      ],
-                    ),
+    return BlocProvider.value(
+      value: _bloc,
+      child: BlocBuilder<ServiciosBloc, ServiciosState>(
+        builder: (context, state) {
+          final showBanners = widget.isTabRoot &&
+              state is ServiciosLoadedState &&
+              state.banners.isNotEmpty;
+          return Scaffold(
+            backgroundColor: tokens.bg,
+            // The banner runs edge to edge, so it is the piece that fills the
+            // skirt's corners: the list starts under the header and lifts the
+            // banner into the curve instead of leaving a pale wedge each side.
+            extendBodyBehindAppBar: showBanners,
+            appBar: widget.isTabRoot
+                ? ScreenHeader.tab(
+                    title: 'nuestros_servicios'.tr(),
+                    trailing: const BrandAssistantAction(),
+                  )
+                : ScreenHeader(
+                    title: 'nuestros_servicios'.tr(),
+                    onBack: context.popOrHome,
+                    trailing: const BrandAssistantAction(),
                   ),
-                ],
-              ),
-            );
-          },
+            body: _body(context, state, showBanners),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _body(BuildContext context, ServiciosState state, bool showBanners) {
+    if (state is ServiciosLoadingState) {
+      return const BrandSkeleton();
+    }
+    if (state is ServiciosErrorState) {
+      return BrandErrorState(onRetry: _refresh);
+    }
+    if (state is! ServiciosLoadedState) {
+      return const SizedBox.shrink();
+    }
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(
+          bottom: BrandTabBar.height,
+          top: showBanners
+              ? ScreenHeader.tabHeight(context) - ScreenHeader.skirtOverlap
+              : BrandSpace.md,
         ),
+        children: [
+          if (showBanners)
+            BrandManifestReveal(
+              child: BannerCarousel(
+                banners: state.banners,
+                config: GetIt.I<BrandConfig>(),
+                // Fills the skirt's corners with the banner's own edge colours
+                // instead of lifting the artwork into the curve and losing its
+                // top strip.
+                topBleed: ScreenHeader.skirtOverlap,
+              ),
+            ),
+          if (showBanners)
+            BrandManifestReveal(
+              delay: const Duration(milliseconds: 70),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  BrandSpace.lg,
+                  BrandSpace.xxs,
+                  BrandSpace.lg,
+                  0,
+                ),
+                child: SocialMediaLinks(
+                  empresa: state.empresa,
+                  userProfile: state.userProfile,
+                ),
+              ),
+            ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              BrandSpace.lg,
+              showBanners ? BrandSpace.md : 0,
+              BrandSpace.lg,
+              0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (state.servicios.isEmpty)
+                  BrandManifestReveal(
+                    child: BrandEmptyState(
+                      messageKey: 'servicios_vacios',
+                      glyph: BrandIcons.services,
+                      actionLabel: 'actualizar'.tr(),
+                      onAction: _refresh,
+                    ),
+                  )
+                else ...[
+                  if (!widget.isTabRoot) ...[
+                    BrandManifestReveal(
+                      child: _ServicesGuide(
+                        count: state.servicios.length,
+                      ),
+                    ),
+                    const SizedBox(height: BrandSpace.md),
+                  ],
+                  for (var index = 0; index < state.servicios.length; index++)
+                    BrandManifestReveal(
+                      key: ValueKey(
+                        state.servicios[index].registroId,
+                      ),
+                      delay: brandManifestDelay(
+                        index,
+                        startMilliseconds: 45,
+                      ),
+                      child: _serviceCard(
+                        state.servicios[index],
+                        index,
+                      ),
+                    ),
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

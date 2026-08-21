@@ -50,113 +50,126 @@ class _NoticiasPageState extends State<NoticiasPage> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    return Scaffold(
-      backgroundColor: tokens.bg,
-      appBar: widget.isTabRoot
-          ? ScreenHeader.tab(
-              title: 'noticias'.tr(),
-              trailing: const BrandAssistantAction(),
-            )
-          : ScreenHeader(
-              title: 'noticias'.tr(),
-              onBack: context.popOrHome,
-              trailing: const BrandAssistantAction(),
-            ),
-      body: BlocProvider.value(
-        value: _bloc,
-        child: BlocBuilder<NoticiasBloc, NoticiasState>(
-          builder: (context, state) {
-            if (state is NoticiasLoadingState) {
-              return const BrandSkeleton();
-            }
-            if (state is NoticiasErrorState) {
-              return BrandErrorState(onRetry: _refresh);
-            }
-            if (state is! NoticiasLoadedState) {
-              return const BrandEmptyState(
-                messageKey: 'no_resultados',
-                glyph: BrandIcons.news,
-              );
-            }
-            final showBanners = widget.isTabRoot && state.banners.isNotEmpty;
-            return RefreshIndicator(
-              onRefresh: _refresh,
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(bottom: BrandTabBar.height),
-                children: [
-                  if (showBanners)
-                    BrandManifestReveal(
-                      child: BannerCarousel(
-                        banners: state.banners,
-                        config: GetIt.I<BrandConfig>(),
-                      ),
-                    ),
-                  if (showBanners)
-                    BrandManifestReveal(
-                      delay: const Duration(milliseconds: 70),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          BrandSpace.lg,
-                          BrandSpace.xxs,
-                          BrandSpace.lg,
-                          0,
-                        ),
-                        child: SocialMediaLinks(
-                          empresa: state.empresa,
-                          userProfile: state.userProfile,
-                        ),
-                      ),
-                    ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      BrandSpace.lg,
-                      widget.isTabRoot ? BrandSpace.md : BrandSpace.lg,
-                      BrandSpace.lg,
-                      0,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (state.noticias.isEmpty)
-                          BrandManifestReveal(
-                            child: BrandEmptyState(
-                              messageKey: 'noticias_vacias',
-                              glyph: BrandIcons.news,
-                              actionLabel: 'actualizar'.tr(),
-                              onAction: _refresh,
-                            ),
-                          )
-                        else
-                          for (var index = 0;
-                              index < state.noticias.length;
-                              index++)
-                            BrandManifestReveal(
-                              key: ValueKey(
-                                state.noticias[index].heroIdentity,
-                              ),
-                              delay: brandManifestDelay(
-                                index,
-                                startMilliseconds: 45,
-                              ),
-                              child: NewsCard(
-                                news: state.noticias[index],
-                                onTap: () => context.push(
-                                  AppRoutes.newsDetail(
-                                    state.noticias[index].heroIdentity,
-                                  ),
-                                  extra: state.noticias[index],
-                                ),
-                              ),
-                            ),
-                      ],
-                    ),
+    return BlocProvider.value(
+      value: _bloc,
+      child: BlocBuilder<NoticiasBloc, NoticiasState>(
+        builder: (context, state) {
+          final showBanners = widget.isTabRoot &&
+              state is NoticiasLoadedState &&
+              state.banners.isNotEmpty;
+          return Scaffold(
+            backgroundColor: tokens.bg,
+            // The banner runs edge to edge, so it is the piece that fills the
+            // skirt's corners; see [BannerCarousel.topBleed].
+            extendBodyBehindAppBar: showBanners,
+            appBar: widget.isTabRoot
+                ? ScreenHeader.tab(
+                    title: 'noticias'.tr(),
+                    trailing: const BrandAssistantAction(),
+                  )
+                : ScreenHeader(
+                    title: 'noticias'.tr(),
+                    onBack: context.popOrHome,
+                    trailing: const BrandAssistantAction(),
                   ),
-                ],
-              ),
-            );
-          },
+            body: _body(context, state, showBanners),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _body(BuildContext context, NoticiasState state, bool showBanners) {
+    if (state is NoticiasLoadingState) {
+      return const BrandSkeleton();
+    }
+    if (state is NoticiasErrorState) {
+      return BrandErrorState(onRetry: _refresh);
+    }
+    if (state is! NoticiasLoadedState) {
+      return const BrandEmptyState(
+        messageKey: 'no_resultados',
+        glyph: BrandIcons.news,
+      );
+    }
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(
+          bottom: BrandTabBar.height,
+          top: showBanners
+              ? ScreenHeader.tabHeight(context) - ScreenHeader.skirtOverlap
+              : 0,
         ),
+        children: [
+          if (showBanners)
+            BrandManifestReveal(
+              child: BannerCarousel(
+                banners: state.banners,
+                config: GetIt.I<BrandConfig>(),
+                topBleed: ScreenHeader.skirtOverlap,
+              ),
+            ),
+          if (showBanners)
+            BrandManifestReveal(
+              delay: const Duration(milliseconds: 70),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  BrandSpace.lg,
+                  BrandSpace.xxs,
+                  BrandSpace.lg,
+                  0,
+                ),
+                child: SocialMediaLinks(
+                  empresa: state.empresa,
+                  userProfile: state.userProfile,
+                ),
+              ),
+            ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              BrandSpace.lg,
+              widget.isTabRoot ? BrandSpace.md : BrandSpace.lg,
+              BrandSpace.lg,
+              0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (state.noticias.isEmpty)
+                  BrandManifestReveal(
+                    child: BrandEmptyState(
+                      messageKey: 'noticias_vacias',
+                      glyph: BrandIcons.news,
+                      actionLabel: 'actualizar'.tr(),
+                      onAction: _refresh,
+                    ),
+                  )
+                else
+                  for (var index = 0; index < state.noticias.length; index++)
+                    BrandManifestReveal(
+                      key: ValueKey(
+                        state.noticias[index].heroIdentity,
+                      ),
+                      delay: brandManifestDelay(
+                        index,
+                        startMilliseconds: 45,
+                      ),
+                      child: NewsCard(
+                        news: state.noticias[index],
+                        onTap: () => context.push(
+                          AppRoutes.newsDetail(
+                            state.noticias[index].heroIdentity,
+                          ),
+                          extra: state.noticias[index],
+                        ),
+                      ),
+                    ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

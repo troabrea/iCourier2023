@@ -26,8 +26,11 @@ abstract final class BrandShape {
   /// Fully rounded ends, for chips, pills and circular buttons.
   static const double pill = 999;
 
-  /// Bottom corners of the home brand header.
-  static const double headerSkirt = 34;
+  /// Bottom corners of the brand header.
+  ///
+  /// Kept shallow on purpose: the curve has to read as a shape without cutting
+  /// far enough into a full-bleed banner underneath to eat its artwork.
+  static const double headerSkirt = 18;
 
   /// Corner of the floating tab dock.
   static const double tabDock = 26;
@@ -450,7 +453,8 @@ class BrandField extends StatelessWidget {
         if (label != null) ...[
           Text(
             label!,
-            style: tokens.body(12, weight: FontWeight.w600, color: tokens.textMuted),
+            style: tokens.body(12,
+                weight: FontWeight.w600, color: tokens.textMuted),
           ),
           const SizedBox(height: 6),
         ],
@@ -464,7 +468,8 @@ class BrandField extends StatelessWidget {
           style: tokens.body(14, weight: FontWeight.w500),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: tokens.body(14, weight: FontWeight.w500, color: tokens.textMuted),
+            hintStyle: tokens.body(14,
+                weight: FontWeight.w500, color: tokens.textMuted),
             suffixIcon: suffix,
             isDense: true,
             contentPadding:

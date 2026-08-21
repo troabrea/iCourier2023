@@ -73,7 +73,16 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
           builder: (context, state) {
             if (state is CalculadoraPreparedState) {
               _products = state.productos;
-              _selectedProduct ??= state.productoDefault;
+              // A choice made against an earlier list cannot address this one:
+              // after an account switch the selector would hold a product it
+              // no longer lists, and the dropdown asserts on that.
+              final chosen = _selectedProduct;
+              _selectedProduct = chosen == null
+                  ? state.productoDefault
+                  : _products.firstWhere(
+                      (product) => product.codigo == chosen.codigo,
+                      orElse: () => state.productoDefault,
+                    );
             }
             if (state is CalculadoraLoadingState && _products.isEmpty) {
               return const BrandSkeleton();

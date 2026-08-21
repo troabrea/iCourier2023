@@ -116,12 +116,44 @@ void main() {
       matchesGoldenFile('goldens/calculadora_sin_selector.png'),
     );
   });
+  testWidgets('a configured product the catalogue lacks still leaves a choice',
+      (tester) async {
+    await GetIt.I.unregister<CourierService>();
+    GetIt.I.registerSingleton<CourierService>(
+      _CalculatorService(companyProduct: 'GROUND'),
+    );
+
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CalculadoraPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // The selector used to be handed a product it never listed, and the whole
+    // tab came up as an error box instead of a calculator.
+    expect(tester.takeException(), isNull);
+    expect(find.text('Aéreo estándar'), findsOneWidget);
+  });
 }
 
 class _CalculatorService extends CourierService {
-  _CalculatorService({this.singleProduct = false});
+  _CalculatorService({
+    this.singleProduct = false,
+    this.companyProduct = 'AIR',
+  });
 
   final bool singleProduct;
+
+  /// Product code the brand is configured to quote, which is not always one
+  /// the catalogue returns.
+  final String companyProduct;
 
   @override
   Future<Empresa> getEmpresa({
@@ -132,7 +164,7 @@ class _CalculatorService extends CourierService {
     final company = Empresa.empty();
     company
       ..registroId = 'company'
-      ..calculadoraProducto = 'AIR';
+      ..calculadoraProducto = companyProduct;
     return company;
   }
 

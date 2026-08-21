@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -49,6 +51,127 @@ double expectedBannerHeight(BuildContext context, double width) {
   return natural < ceiling ? natural : ceiling;
 }
 
+/// Colours of a banner's left and right edges along its top.
+///
+/// A banner that begins where the header ends leaves a pale wedge in each of
+/// the skirt's corners. Rather than lift the artwork into the curve and lose
+/// its top strip, the carousel continues these two colours above it, so the
+/// corners read as the banner while the piece itself stays whole.
+@immutable
+class BannerEdgeColors {
+  const BannerEdgeColors(this.left, this.right);
+
+  final Color left;
+  final Color right;
+
+  @override
+  bool operator ==(Object other) =>
+      other is BannerEdgeColors && other.left == left && other.right == right;
+
+  @override
+  int get hashCode => Object.hash(left, right);
+}
+
+/// Edge colours already read, keyed by url. Sampling costs a decode, and the
+/// answer cannot change for a given image.
+final Map<String, BannerEdgeColors> _bannerEdgeCache = {};
+
+/// Reads the top-left and top-right colour of the artwork at [url].
+///
+/// Decodes a thumbnail rather than the full upload: the answer is an average
+/// over a band of pixels, which survives the downscale, and a 48px decode costs
+/// almost nothing next to a 1200px one.
+Future<BannerEdgeColors?> readBannerEdgeColors(String url) async {
+  if (url.isEmpty) {
+    return null;
+  }
+  final known = _bannerEdgeCache[url];
+  if (known != null) {
+    return known;
+  }
+  final completer = Completer<ui.Image?>();
+  final stream = ResizeImage(
+    CachedNetworkImageProvider(url),
+    width: 48,
+    allowUpscaling: false,
+  ).resolve(ImageConfiguration.empty);
+  late final ImageStreamListener listener;
+  listener = ImageStreamListener(
+    (info, _) {
+      if (!completer.isCompleted) {
+        completer.complete(info.image);
+      }
+      stream.removeListener(listener);
+    },
+    onError: (_, __) {
+      if (!completer.isCompleted) {
+        completer.complete(null);
+      }
+      stream.removeListener(listener);
+    },
+  );
+  stream.addListener(listener);
+  final image = await completer.future;
+  if (image == null) {
+    return null;
+  }
+  final pixels = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+  if (pixels == null || image.width < 2 || image.height < 1) {
+    return null;
+  }
+  // The strip continues the top of the artwork, so only the top band speaks
+  // for it; a colour taken from halfway down would describe a different part
+  // of the piece.
+  final rows = (image.height * 0.25).ceil().clamp(1, image.height);
+  final columns = (image.width * 0.04).ceil().clamp(1, image.width ~/ 2);
+  final edges = BannerEdgeColors(
+    _averageColor(pixels, image.width, rows, 0, columns),
+    _averageColor(pixels, image.width, rows, image.width - columns, columns),
+  );
+  _bannerEdgeCache[url] = edges;
+  return edges;
+}
+
+/// Averages a [columns] wide, [rows] tall block starting at [fromColumn].
+Color _averageColor(
+  ByteData pixels,
+  int width,
+  int rows,
+  int fromColumn,
+  int columns,
+) {
+  var red = 0;
+  var green = 0;
+  var blue = 0;
+  var counted = 0;
+  for (var y = 0; y < rows; y++) {
+    for (var x = fromColumn; x < fromColumn + columns; x++) {
+      final offset = (y * width + x) * 4;
+      if (offset + 3 >= pixels.lengthInBytes) {
+        continue;
+      }
+      // A transparent pixel has no colour to contribute; counting it would
+      // drag the average towards black on artwork with a cut-out edge.
+      if (pixels.getUint8(offset + 3) < 128) {
+        continue;
+      }
+      red += pixels.getUint8(offset);
+      green += pixels.getUint8(offset + 1);
+      blue += pixels.getUint8(offset + 2);
+      counted++;
+    }
+  }
+  if (counted == 0) {
+    return Colors.transparent;
+  }
+  return Color.fromARGB(
+    255,
+    red ~/ counted,
+    green ~/ counted,
+    blue ~/ counted,
+  );
+}
+
 /// Full-bleed banner pager that advances on its own, endlessly.
 ///
 /// The caption always sits on a bottom gradient so it stays legible over any
@@ -62,10 +185,18 @@ class BannerCarousel extends StatefulWidget {
     this.onTap,
     this.autoScroll = true,
     this.interval = const Duration(seconds: 5),
+    this.topBleed = 0,
   });
 
   final List<BannerImage> banners;
   final BrandConfig config;
+
+  /// Height of a strip drawn above the artwork in its own edge colours.
+  ///
+  /// A screen that paints behind a curved header passes the depth of the curve
+  /// here: the strip fills the corners, and the artwork below it keeps every
+  /// pixel it was uploaded with.
+  final double topBleed;
 
   /// Shape of the strip. The carousel sizes itself from the width it is given
   /// instead of a fixed height, so it holds on any screen. Defaults to
@@ -95,12 +226,31 @@ class _BannerCarouselState extends State<BannerCarousel> {
   ImageStream? _stream;
   ImageStreamListener? _listener;
 
+  /// Banner the pager is showing, so the bleed above it wears its colours.
+  int _page = 0;
+  BannerEdgeColors? _edges;
+
   @override
   void initState() {
     super.initState();
     _controller = PageController(initialPage: _origin);
     _restartTimer();
     _measureArtwork();
+    _readEdges();
+  }
+
+  /// Reads the edge colours of the banner on screen, when a bleed asked for
+  /// them.
+  Future<void> _readEdges() async {
+    if (widget.topBleed <= 0 || widget.banners.isEmpty) {
+      return;
+    }
+    final banner = widget.banners[_page % widget.banners.length];
+    final edges = await readBannerEdgeColors(banner.url);
+    if (!mounted || edges == null) {
+      return;
+    }
+    setState(() => _edges = edges);
   }
 
   /// Reads the natural proportion of the first banner so the strip matches it.
@@ -145,6 +295,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
     final was = oldWidget.banners.isEmpty ? '' : oldWidget.banners.first.url;
     if (first != was) {
       _measureArtwork();
+      _readEdges();
     }
   }
 
@@ -188,6 +339,37 @@ class _BannerCarouselState extends State<BannerCarousel> {
     if (widget.banners.isEmpty) {
       return const SizedBox.shrink();
     }
+    final art = _pager(context);
+    if (widget.topBleed <= 0) {
+      return art;
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [_bleed(context), art],
+    );
+  }
+
+  /// Strip that carries the artwork past the header's corners.
+  Widget _bleed(BuildContext context) {
+    final edges = _edges;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 240),
+      height: widget.topBleed,
+      decoration: BoxDecoration(
+        // Both ends are read from the piece itself, so each corner continues
+        // the side of the artwork it sits over. The stretch between them is
+        // hidden behind the opaque middle of the header.
+        gradient: LinearGradient(
+          colors: [
+            edges?.left ?? context.brand.bg,
+            edges?.right ?? context.brand.bg,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _pager(BuildContext context) {
     return ConstrainedBox(
       // The banner has to stay on screen next to the packages card and the tab
       // bar, so the artwork cannot be the one deciding how tall it gets. Taller
@@ -199,6 +381,10 @@ class _BannerCarouselState extends State<BannerCarousel> {
           onNotification: _onUserScroll,
           child: PageView.builder(
             controller: _controller,
+            onPageChanged: (index) {
+              _page = index;
+              _readEdges();
+            },
             itemBuilder: (context, index) {
               final banner = widget.banners[index % widget.banners.length];
               return GestureDetector(

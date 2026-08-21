@@ -441,8 +441,11 @@ class _HeaderButton extends StatelessWidget {
 
 /// Header for tab roots and stacked screens.
 ///
-/// Renders as a solid `primary` band rather than a Material app bar so the
-/// title typography and the status-bar inset match the design reference.
+/// Renders as a brand band rather than a Material app bar so the title
+/// typography and the status-bar inset match the design reference. It wears the
+/// same skin as [BrandHeader] — the `primary` to `headerGradientEnd` gradient,
+/// the two translucent discs and the rounded skirt — so every screen reads as
+/// the same surface as home rather than as a flat bar bolted on top of it.
 class ScreenHeader extends StatefulWidget implements PreferredSizeWidget {
   const ScreenHeader({
     super.key,
@@ -481,10 +484,28 @@ class ScreenHeader extends StatefulWidget implements PreferredSizeWidget {
   /// slack under the title, which is centred in the same row.
   static const double _actionRowHeight = 44;
 
+  /// Room reserved under the action row for the skirt to curve away in.
+  ///
+  /// Without it the title sits on the curve: the corners cut in level with the
+  /// text, and the band reads as clipped rather than as a shape.
+  static const double _skirtSlack = 12;
+
   /// Band height of a tab header carrying actions, below the status bar. Lets
   /// a screen line something else up with the bar without building one.
   static const double tabBandHeight =
-      BrandSpace.xs + _actionRowHeight + BrandSpace.xxs;
+      BrandSpace.xs + _actionRowHeight + BrandSpace.xxs + _skirtSlack;
+
+  /// How far a full-bleed element has to rise for the skirt's corners to show
+  /// it instead of the page behind them.
+  ///
+  /// A map or a banner that begins exactly where the header ends leaves a pale
+  /// wedge in each corner, because the curve has already turned away by then.
+  static const double skirtOverlap = BrandShape.headerSkirt;
+
+  /// Room a tab header takes from the top of the screen, status-bar inset
+  /// included, for a screen that paints its own content behind it.
+  static double tabHeight(BuildContext context) =>
+      MediaQuery.paddingOf(context).top + tabBandHeight;
 
   @override
   Size get preferredSize => Size.fromHeight(
@@ -492,7 +513,8 @@ class ScreenHeader extends StatefulWidget implements PreferredSizeWidget {
             (onBack != null || trailing != null || onSearchChanged != null
                 ? _actionRowHeight
                 : titleSize * 1.5) +
-            BrandSpace.xxs,
+            BrandSpace.xxs +
+            _skirtSlack,
       );
 
   @override
@@ -528,76 +550,112 @@ class _ScreenHeaderState extends State<ScreenHeader> {
     final tokens = context.brand;
     final onBack = widget.onBack;
     final trailing = widget.trailing;
-    final rowHeight =
-        widget.preferredSize.height - BrandSpace.xs - BrandSpace.xxs;
-    return Material(
-      color: tokens.primary,
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+    final rowHeight = widget.preferredSize.height -
+        BrandSpace.xs -
+        BrandSpace.xxs -
+        ScreenHeader._skirtSlack;
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(
+        bottom: Radius.circular(BrandShape.headerSkirt),
+      ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: const Alignment(-0.75, -1),
+            end: const Alignment(0.75, 1),
+            colors: [tokens.primary, tokens.headerGradientEnd],
+          ),
+        ),
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                BrandSpace.lg,
-                BrandSpace.xs,
-                BrandSpace.lg,
-                BrandSpace.xxs,
-              ),
-              // Pinned so a Material icon button cannot stretch the row past
-              // what preferredSize reserved.
-              child: SizedBox(
-                height: rowHeight,
-                child: Row(
+            // Same two discs as the home header, sunk further past the edges so
+            // a band this short shows the curve of each rather than the whole
+            // circle.
+            Positioned(
+              top: -110,
+              right: -50,
+              child: _Disc(size: 200, color: tokens.headerOverlay(0.12)),
+            ),
+            Positioned(
+              bottom: -130,
+              left: -40,
+              child: _Disc(size: 190, color: tokens.headerOverlay(0.08)),
+            ),
+            // Transparent so the gradient shows through, and present so the
+            // search button still has a Material to ink over.
+            Material(
+              type: MaterialType.transparency,
+              child: SafeArea(
+                bottom: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (onBack != null) ...[
-                      Semantics(
-                        button: true,
-                        label: 'atras'.tr(),
-                        child: GestureDetector(
-                          onTap: onBack,
-                          behavior: HitTestBehavior.opaque,
-                          child: SizedBox(
-                            width: 44,
-                            height: 44,
-                            child: Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 20,
-                              color: tokens.onPrimary,
-                            ),
-                          ),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        BrandSpace.lg,
+                        BrandSpace.xs,
+                        BrandSpace.lg,
+                        BrandSpace.xxs + ScreenHeader._skirtSlack,
                       ),
-                      const SizedBox(width: BrandSpace.xxs),
-                    ],
-                    Expanded(
-                      child: _searching
-                          ? _SearchField(
-                              controller: _searchController,
-                              focusNode: _searchFocus,
-                              hint: widget.searchHint ?? 'buscar'.tr(),
-                              onChanged: widget.onSearchChanged!,
-                            )
-                          : Text(
-                              widget.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: tokens.head(
-                                widget.titleSize,
-                                color: tokens.onPrimary,
+                      // Pinned so a Material icon button cannot stretch the row past
+                      // what preferredSize reserved.
+                      child: SizedBox(
+                        height: rowHeight,
+                        child: Row(
+                          children: [
+                            if (onBack != null) ...[
+                              Semantics(
+                                button: true,
+                                label: 'atras'.tr(),
+                                child: GestureDetector(
+                                  onTap: onBack,
+                                  behavior: HitTestBehavior.opaque,
+                                  child: SizedBox(
+                                    width: 44,
+                                    height: 44,
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new,
+                                      size: 20,
+                                      color: tokens.onPrimary,
+                                    ),
+                                  ),
+                                ),
                               ),
+                              const SizedBox(width: BrandSpace.xxs),
+                            ],
+                            Expanded(
+                              child: _searching
+                                  ? _SearchField(
+                                      controller: _searchController,
+                                      focusNode: _searchFocus,
+                                      hint: widget.searchHint ?? 'buscar'.tr(),
+                                      onChanged: widget.onSearchChanged!,
+                                    )
+                                  : Text(
+                                      widget.title,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: tokens.head(
+                                        widget.titleSize,
+                                        color: tokens.onPrimary,
+                                      ),
+                                    ),
                             ),
-                    ),
-                    if (widget.onSearchChanged != null)
-                      IconButton(
-                        onPressed: _searching ? _closeSearch : _openSearch,
-                        icon: Icon(
-                          _searching ? Icons.close : Icons.search,
-                          color: tokens.onPrimary,
+                            if (widget.onSearchChanged != null)
+                              IconButton(
+                                onPressed:
+                                    _searching ? _closeSearch : _openSearch,
+                                icon: Icon(
+                                  _searching ? Icons.close : Icons.search,
+                                  color: tokens.onPrimary,
+                                ),
+                                tooltip: 'buscar'.tr(),
+                              ),
+                            if (trailing != null && !_searching) trailing,
+                          ],
                         ),
-                        tooltip: 'buscar'.tr(),
                       ),
-                    if (trailing != null && !_searching) trailing,
+                    ),
                   ],
                 ),
               ),

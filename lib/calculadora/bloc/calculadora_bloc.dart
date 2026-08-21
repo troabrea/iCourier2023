@@ -36,11 +36,17 @@ class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
       if (products.isEmpty) {
         products.add(empresaDefault);
       }
-      final productoDefault = products.firstWhereOrNull(
-          (element) => element.codigo == empresa.calculadoraProducto);
       products.sort((a, b) => a.orden.compareTo(b.orden));
-      emit(CalculadoraPreparedState(
-          products, productoDefault ?? empresaDefault));
+      // The default has to be one of the products the selector lists. The
+      // brand's configured code is not always among them, and falling back to
+      // the synthetic company product left the dropdown pointing at an entry
+      // it never showed — which Flutter asserts on, so the whole tab came up
+      // as an error box instead of a calculator.
+      final productoDefault = products.firstWhereOrNull(
+            (element) => element.codigo == empresa.calculadoraProducto,
+          ) ??
+          products.first;
+      emit(CalculadoraPreparedState(products, productoDefault));
     });
 
     on<CalculateEvent>((event, emit) async {

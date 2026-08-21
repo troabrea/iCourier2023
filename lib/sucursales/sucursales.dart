@@ -155,6 +155,11 @@ class _SucursalesPageState extends State<SucursalesPage>
     final tokens = context.brand;
     return Scaffold(
       backgroundColor: tokens.bg,
+      // The map runs edge to edge, so it is what fills the skirt's corners: it
+      // starts under the header rather than leaving a pale wedge each side.
+      // Cropping its top costs nothing — the camera frames the branches, not
+      // the first pixels.
+      extendBodyBehindAppBar: true,
       appBar: ScreenHeader.tab(
         title: 'sucursales'.tr(),
         // Filtering drops the focus with it: holding the camera on a branch the
@@ -166,130 +171,138 @@ class _SucursalesPageState extends State<SucursalesPage>
         }),
         trailing: const BrandAssistantAction(),
       ),
-      body: BlocProvider.value(
-        value: _bloc,
-        child: BlocBuilder<SucursalesBloc, SucursalesState>(
-          builder: (context, state) {
-            if (state is SucursalesLoadingState) {
-              return const BrandSkeleton();
-            }
-            if (state is SucursalesErrorState) {
-              return BrandErrorState(
-                onRetry: () => _bloc.add(const LoadApiEvent(ignoreCache: true)),
-              );
-            }
-            if (state is! SucursalesLoadedState) {
-              return const BrandEmptyState(
-                messageKey: 'no_resultados',
-                glyph: BrandIcons.branches,
-              );
-            }
-            final query = _query.toLowerCase();
-            final branches = state.sucursales
-                .where(
-                  (branch) =>
-                      query.isEmpty ||
-                      branch.nombre.toLowerCase().contains(query) ||
-                      branch.ciudad.toLowerCase().contains(query) ||
-                      branch.direccion.toLowerCase().contains(query),
-                )
-                .toList();
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: ScreenHeader.tabHeight(context) - ScreenHeader.skirtOverlap,
+        ),
+        child: BlocProvider.value(
+          value: _bloc,
+          child: BlocBuilder<SucursalesBloc, SucursalesState>(
+            builder: (context, state) {
+              if (state is SucursalesLoadingState) {
+                return const BrandSkeleton();
+              }
+              if (state is SucursalesErrorState) {
+                return BrandErrorState(
+                  onRetry: () =>
+                      _bloc.add(const LoadApiEvent(ignoreCache: true)),
+                );
+              }
+              if (state is! SucursalesLoadedState) {
+                return const BrandEmptyState(
+                  messageKey: 'no_resultados',
+                  glyph: BrandIcons.branches,
+                );
+              }
+              final query = _query.toLowerCase();
+              final branches = state.sucursales
+                  .where(
+                    (branch) =>
+                        query.isEmpty ||
+                        branch.nombre.toLowerCase().contains(query) ||
+                        branch.ciudad.toLowerCase().contains(query) ||
+                        branch.direccion.toLowerCase().contains(query),
+                  )
+                  .toList();
 
-            // Knowing where the customer stands changes what the right order
-            // is: proximity beats whatever sequence the backend stored. A
-            // branch the backend has no coordinates for sinks to the end
-            // rather than pretending to be next door.
-            if (_here != null) {
-              branches.sort((first, second) {
-                final firstKm = _distanceTo(first);
-                final secondKm = _distanceTo(second);
-                if (firstKm == null) {
-                  return secondKm == null ? 0 : 1;
-                }
-                if (secondKm == null) {
-                  return -1;
-                }
-                return firstKm.compareTo(secondKm);
-              });
-            }
-            // Only crown the nearest of everything. Inside a search result the
-            // claim would be true of the filter, not of the network.
-            final nearest = query.isEmpty &&
-                    branches.length > 1 &&
-                    _distanceTo(branches.first) != null
-                ? branches.first.registroId
-                : null;
+              // Knowing where the customer stands changes what the right order
+              // is: proximity beats whatever sequence the backend stored. A
+              // branch the backend has no coordinates for sinks to the end
+              // rather than pretending to be next door.
+              if (_here != null) {
+                branches.sort((first, second) {
+                  final firstKm = _distanceTo(first);
+                  final secondKm = _distanceTo(second);
+                  if (firstKm == null) {
+                    return secondKm == null ? 0 : 1;
+                  }
+                  if (secondKm == null) {
+                    return -1;
+                  }
+                  return firstKm.compareTo(secondKm);
+                });
+              }
+              // Only crown the nearest of everything. Inside a search result the
+              // claim would be true of the filter, not of the network.
+              final nearest = query.isEmpty &&
+                      branches.length > 1 &&
+                      _distanceTo(branches.first) != null
+                  ? branches.first.registroId
+                  : null;
 
-            return Column(
-              children: [
-                BrandManifestReveal(
-                  child: BranchMap(
-                    branches: branches,
-                    focused: _focused,
-                    here: _here,
-                    showMyLocation: !_locationRefused,
-                    // A marker is already the branch's position, so tapping it
-                    // has nothing to frame; what it can still offer is the sheet.
-                    onSelect: _openBranch,
-                  ),
-                ),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async =>
-                        _bloc.add(const LoadApiEvent(ignoreCache: true)),
-                    child: ListView(
-                      padding: const EdgeInsets.fromLTRB(
-                        BrandSpace.lg,
-                        14,
-                        BrandSpace.lg,
-                        BrandTabBar.height,
-                      ),
-                      children: [
-                        if (_here == null && _locationRefused)
-                          BrandManifestReveal(
-                            delay: brandManifestDelay(1),
-                            child: _LocationInvite(onEnable: _enableLocation),
-                          ),
-                        if (branches.isEmpty)
-                          BrandManifestReveal(
-                            delay: brandManifestDelay(1),
-                            child: const BrandEmptyState(
-                              messageKey: 'no_resultados',
-                              glyph: BrandIcons.branches,
-                            ),
-                          )
-                        else
-                          BranchList(
-                            children: [
-                              for (var index = 0;
-                                  index < branches.length;
-                                  index++)
-                                BrandManifestReveal(
-                                  key: ValueKey(branches[index].registroId),
-                                  delay: brandManifestDelay(
-                                    index,
-                                    startMilliseconds: 55,
-                                  ),
-                                  child: BranchRow(
-                                    branch: branches[index],
-                                    distanceKm: _distanceTo(branches[index]),
-                                    nearest:
-                                        branches[index].registroId == nearest,
-                                    focused: branches[index].registroId ==
-                                        _focused?.registroId,
-                                    onTap: () => _focusBranch(branches[index]),
-                                    onMore: () => _openBranch(branches[index]),
-                                  ),
-                                ),
-                            ],
-                          ),
-                      ],
+              return Column(
+                children: [
+                  BrandManifestReveal(
+                    child: BranchMap(
+                      branches: branches,
+                      focused: _focused,
+                      here: _here,
+                      showMyLocation: !_locationRefused,
+                      // A marker is already the branch's position, so tapping it
+                      // has nothing to frame; what it can still offer is the sheet.
+                      onSelect: _openBranch,
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async =>
+                          _bloc.add(const LoadApiEvent(ignoreCache: true)),
+                      child: ListView(
+                        padding: const EdgeInsets.fromLTRB(
+                          BrandSpace.lg,
+                          14,
+                          BrandSpace.lg,
+                          BrandTabBar.height,
+                        ),
+                        children: [
+                          if (_here == null && _locationRefused)
+                            BrandManifestReveal(
+                              delay: brandManifestDelay(1),
+                              child: _LocationInvite(onEnable: _enableLocation),
+                            ),
+                          if (branches.isEmpty)
+                            BrandManifestReveal(
+                              delay: brandManifestDelay(1),
+                              child: const BrandEmptyState(
+                                messageKey: 'no_resultados',
+                                glyph: BrandIcons.branches,
+                              ),
+                            )
+                          else
+                            BranchList(
+                              children: [
+                                for (var index = 0;
+                                    index < branches.length;
+                                    index++)
+                                  BrandManifestReveal(
+                                    key: ValueKey(branches[index].registroId),
+                                    delay: brandManifestDelay(
+                                      index,
+                                      startMilliseconds: 55,
+                                    ),
+                                    child: BranchRow(
+                                      branch: branches[index],
+                                      distanceKm: _distanceTo(branches[index]),
+                                      nearest:
+                                          branches[index].registroId == nearest,
+                                      focused: branches[index].registroId ==
+                                          _focused?.registroId,
+                                      onTap: () =>
+                                          _focusBranch(branches[index]),
+                                      onMore: () =>
+                                          _openBranch(branches[index]),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
