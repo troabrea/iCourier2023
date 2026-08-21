@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:icourier/services/assistant_service.dart';
 import 'package:icourier/services/model/asistente_model.dart';
+import 'package:icourier/services/model/assistant_settings.dart';
 
 const _identity = AssistantIdentity(
   empresaId: 'ebb66ab7-db15-4267-9ef4-92abcb5273eb',
@@ -15,14 +16,113 @@ const _identity = AssistantIdentity(
   sucursalId: 'DO-BVT',
 );
 
-AssistantService _service(MockClient client, {AssistantIdentity? identity}) =>
+AssistantService _service(
+  MockClient client, {
+  AssistantIdentity? identity,
+  AssistantSettings settings = AssistantSettings.none,
+}) =>
     AssistantService(
       client: client,
       endpoint: Uri.parse('https://example.test/assistant'),
       identity: () async => identity ?? _identity,
+      settings: () async => settings,
     );
 
 void main() {
+  group('the courier record', () {
+    test('routes the question to the workflow the courier configured',
+        () async {
+      Request? sent;
+      final service = _service(
+        MockClient((request) async {
+          sent = request;
+          return Response(jsonEncode({'output': 'Hola'}), 200);
+        }),
+        settings: AssistantSettings.parse(jsonEncode({
+          'Name': 'Asistente',
+          'ServiceSettings': {
+            'ServiceUrl': 'https://n8n.example.test/webhook/tupaq',
+            'ApiKey': 'tupaq-key',
+          },
+        })),
+      );
+
+      await service.ask('¿Tengo paquetes?');
+
+      expect(sent!.url.toString(), 'https://n8n.example.test/webhook/tupaq');
+      expect(sent!.headers['X-Api-Key'], 'tupaq-key');
+    });
+
+    test('falls back to the shared workflow while a record is still empty',
+        () async {
+      Request? sent;
+      final service = _service(
+        MockClient((request) async {
+          sent = request;
+          return Response(jsonEncode({'output': 'Hola'}), 200);
+        }),
+      );
+
+      await service.ask('¿Tengo paquetes?');
+
+      expect(sent!.url.toString(), 'https://example.test/assistant');
+      expect(sent!.headers.containsKey('X-Api-Key'), isFalse);
+    });
+
+    test('never sends a key the courier left blank', () async {
+      Request? sent;
+      final service = _service(
+        MockClient((request) async {
+          sent = request;
+          return Response(jsonEncode({'output': 'Hola'}), 200);
+        }),
+        settings: AssistantSettings.parse(jsonEncode({
+          'ServiceSettings': {
+            'ServiceUrl': 'https://n8n.example.test/webhook/tupaq',
+            'ApiKey': '   ',
+          },
+        })),
+      );
+
+      await service.ask('¿Tengo paquetes?');
+
+      expect(sent!.headers.containsKey('X-Api-Key'), isFalse);
+    });
+
+    test('a spent quota is told apart from a failure worth retrying', () async {
+      final service = _service(
+        MockClient((request) async => Response('rate limit reached', 429)),
+      );
+
+      await expectLater(
+        service.ask('¿Tengo paquetes?'),
+        throwsA(isA<AssistantQuotaException>()),
+      );
+    });
+
+    test('a refused payment is a spent quota too', () async {
+      final service = _service(
+        MockClient((request) async => Response('quota exhausted', 402)),
+      );
+
+      await expectLater(
+        service.ask('¿Tengo paquetes?'),
+        throwsA(isA<AssistantQuotaException>()),
+      );
+    });
+
+    test('every other bad status stays a retryable failure', () async {
+      final service = _service(
+        MockClient((request) async => Response('boom', 500)),
+      );
+
+      await expectLater(
+        service.ask('¿Tengo paquetes?'),
+        throwsA(isA<AssistantUnavailableException>()),
+      );
+    });
+  });
+
   test('sends every field the workflow expects, as UTF-8 JSON', () async {
     Request? sent;
     final service = _service(
@@ -73,9 +173,11 @@ void main() {
             .text;
 
     expect(await answerFor({'output': 'uno'}), 'uno');
-    expect(await answerFor([
-      {'output': 'dos'},
-    ]), 'dos');
+    expect(
+        await answerFor([
+          {'output': 'dos'},
+        ]),
+        'dos');
     expect(await answerFor({'answer': 'tres'}), 'tres');
     expect(await answerFor('cuatro'), 'cuatro');
   });
@@ -108,7 +210,8 @@ void main() {
     );
   });
 
-  test('an error status, an empty answer and a dropped connection all read as '
+  test(
+      'an error status, an empty answer and a dropped connection all read as '
       'unavailable', () async {
     Future<void> expectUnavailable(MockClient client) => expectLater(
           _service(client).ask('hola'),

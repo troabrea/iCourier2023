@@ -143,7 +143,7 @@ class _DashboardService extends CourierService {
     bool forceFirstTime = false,
     bool retryEmtpy = false,
   }) async =>
-      Empresa.empty();
+      Empresa.empty()..hasAssistantModule = true;
 
   @override
   Future<List<BannerImage>> getBanners({

@@ -110,6 +110,44 @@ void main() {
     expect(find.byType(BrandGlyph), findsNothing);
   });
 
+  testWidgets('a courier without the module keeps WhatsApp, session or not',
+      (tester) async {
+    // The module is sold per courier, so the brand that never bought it must
+    // not show the button at all — not even to a signed-in customer.
+    await GetIt.I.unregister<CourierService>();
+    GetIt.I.registerSingleton<CourierService>(
+      _ContactService(assistant: false),
+    );
+
+    await pump(tester, signedIn: true);
+
+    expect(find.byType(BrandContactAction), findsOneWidget);
+    expect(
+      tester.widget<FaIcon>(find.byType(FaIcon)).icon,
+      FontAwesomeIcons.whatsapp,
+    );
+    expect(find.byType(BrandGlyph), findsNothing);
+  });
+
+  testWidgets('the module arriving after the first frame corrects the button',
+      (tester) async {
+    await GetIt.I.unregister<CourierService>();
+    final courier = _ContactService(assistant: false);
+    GetIt.I.registerSingleton<CourierService>(courier);
+
+    await pump(tester, signedIn: true);
+    expect(find.byType(FaIcon), findsOneWidget);
+
+    // What the company record landing looks like from here.
+    courier.assistantEnabled.value = true;
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<BrandGlyph>(find.byType(BrandGlyph)).asset,
+      BrandIcons.assistant,
+    );
+  });
+
   testWidgets('signing in swaps the fallback for the assistant',
       (tester) async {
     await pump(tester, signedIn: false);
@@ -127,6 +165,10 @@ void main() {
 }
 
 class _ContactService extends CourierService {
+  _ContactService({bool assistant = true}) {
+    assistantEnabled.value = assistant;
+  }
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,

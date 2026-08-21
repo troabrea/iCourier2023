@@ -7,6 +7,7 @@ import '../design_system/brand_foundations.dart';
 import '../helpers/contact_action.dart';
 import '../navigation/app_routes.dart';
 import '../navigation/router_session.dart';
+import '../services/courier_service.dart';
 import '../theme/brand_tokens.dart';
 
 /// Header action that opens the assistant.
@@ -18,7 +19,9 @@ import '../theme/brand_tokens.dart';
 ///
 /// A customer with no session cannot be answered — the webhook resolves their
 /// packages from it — so the button falls back to the contact channel it
-/// replaced rather than disappearing from the public screens.
+/// replaced rather than disappearing from the public screens. A courier who
+/// does not pay for the module falls back the same way: the position keeps
+/// working, it simply leads to a person again.
 class BrandAssistantAction extends StatelessWidget {
   const BrandAssistantAction({super.key, this.color});
 
@@ -27,17 +30,22 @@ class BrandAssistantAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final session = GetIt.I.isRegistered<RouterSession>()
-        ? GetIt.I<RouterSession>()
+    final session =
+        GetIt.I.isRegistered<RouterSession>() ? GetIt.I<RouterSession>() : null;
+    final courier = GetIt.I.isRegistered<CourierService>()
+        ? GetIt.I<CourierService>()
         : null;
-    if (session == null) {
+    if (session == null || courier == null) {
       return BrandContactAction(color: color);
     }
+    // Both sources can settle after this button is first drawn, so it is built
+    // against them rather than against a snapshot of them.
     return ListenableBuilder(
-      listenable: session,
-      builder: (context, _) => session.isLoggedIn
-          ? _AssistantButton(color: color)
-          : BrandContactAction(color: color),
+      listenable: Listenable.merge([session, courier.assistantEnabled]),
+      builder: (context, _) =>
+          session.isLoggedIn && courier.assistantEnabled.value
+              ? _AssistantButton(color: color)
+              : BrandContactAction(color: color),
     );
   }
 }

@@ -85,6 +85,10 @@ void main() {
 }
 
 class _AdditionalService extends CourierService {
+  _AdditionalService() {
+    assistantEnabled.value = true;
+  }
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,

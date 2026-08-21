@@ -113,6 +113,14 @@ class AsistenteBloc extends Bloc<AsistenteEvent, AsistenteState> {
           failedQuestion: question,
         ),
       );
+    } on AssistantQuotaException {
+      emit(
+        state.copyWith(
+          clearPending: true,
+          failure: AssistantFailure.quotaSpent,
+          failedQuestion: question,
+        ),
+      );
     } on AssistantUnavailableException {
       emit(
         state.copyWith(

@@ -10,6 +10,7 @@ import '../apps/appinfo.dart';
 import '../helpers/appcenter.dart';
 import 'courier_service.dart';
 import 'model/asistente_model.dart';
+import 'model/assistant_settings.dart';
 
 /// The customer is not signed in, so no question can be attributed.
 final class AssistantSignedOutException implements Exception {
@@ -21,8 +22,20 @@ final class AssistantUnavailableException implements Exception {
   const AssistantUnavailableException();
 }
 
+/// The workflow refused the question because a quota is spent.
+///
+/// The caps themselves live in the courier's record and are counted by the
+/// workflow. This app only reports the refusal, because a limit the client
+/// counts is a limit anyone can reset by reinstalling.
+final class AssistantQuotaException implements Exception {
+  const AssistantQuotaException();
+}
+
 /// Reads the identity a question is asked under.
 typedef AssistantIdentityReader = Future<AssistantIdentity> Function();
+
+/// Reads the courier's own assistant configuration.
+typedef AssistantSettingsReader = Future<AssistantSettings> Function();
 
 /// Talks to the hosted assistant webhook.
 ///
@@ -41,10 +54,17 @@ class AssistantService {
     Client? client,
     Uri? endpoint,
     AssistantIdentityReader? identity,
+    AssistantSettingsReader? settings,
   })  : _client = client ?? Client(),
         _endpoint = endpoint ?? Uri.parse(defaultEndpoint),
-        _identity = identity ?? readSessionIdentity;
+        _identity = identity ?? readSessionIdentity,
+        _settings = settings ?? readCompanySettings;
 
+  /// Where questions go for a courier whose record names no workflow.
+  ///
+  /// Kept as the fallback rather than as a hard requirement so the module
+  /// keeps working through the rollout, while every courier's record is still
+  /// being filled in.
   static const String defaultEndpoint =
       'https://n8n.barolitcloud.dev/webhook/courier/assistant';
 
@@ -53,12 +73,33 @@ class AssistantService {
   final Client _client;
   final Uri _endpoint;
   final AssistantIdentityReader _identity;
+  final AssistantSettingsReader _settings;
 
   /// The identity the next question would be asked under.
   ///
   /// The screen needs it before the first question, to greet the customer and
   /// to know whether there is a session at all.
   Future<AssistantIdentity> identity() => _identity();
+
+  /// Reads the assistant record off the company the app is running as.
+  ///
+  /// The company record is cached, so asking for it on every question costs a
+  /// read rather than a request. With no courier registered there is nothing
+  /// to read and no way to fail over: the shared fallback endpoint answers,
+  /// exactly as it did before the record existed.
+  static Future<AssistantSettings> readCompanySettings() async {
+    if (!GetIt.I.isRegistered<CourierService>()) {
+      return AssistantSettings.none;
+    }
+    final courier = GetIt.I<CourierService>();
+    try {
+      await courier.getEmpresa(retryEmtpy: true);
+    } on Exception {
+      // A record that cannot be fetched leaves whatever was already read in
+      // place, and the fallback endpoint answers meanwhile.
+    }
+    return courier.assistantSettings;
+  }
 
   /// Builds the identity from the live courier session.
   static Future<AssistantIdentity> readSessionIdentity() async {
@@ -78,9 +119,10 @@ class AssistantService {
   /// Returns the assistant's reply.
   ///
   /// Throws [AssistantSignedOutException] when there is no session to attribute
-  /// the question to, and [AssistantUnavailableException] for every transport,
-  /// status, or empty-body failure the customer can only respond to by
-  /// retrying.
+  /// the question to, [AssistantQuotaException] when the workflow refuses the
+  /// question because a cap is spent, and [AssistantUnavailableException] for
+  /// every transport, status, or empty-body failure the customer can only
+  /// respond to by retrying.
   Future<AssistantReply> ask(String question) async {
     final asked = question.trim();
     if (asked.isEmpty) {
@@ -91,6 +133,8 @@ class AssistantService {
     if (!identity.isSignedIn) {
       throw const AssistantSignedOutException();
     }
+
+    final settings = await _settings();
 
     if (GetIt.I.isRegistered<AppInfo>()) {
       try {
@@ -106,8 +150,11 @@ class AssistantService {
     try {
       response = await _client
           .post(
-            _endpoint,
-            headers: const {'Content-Type': 'application/json; charset=utf-8'},
+            settings.endpoint ?? _endpoint,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              if (settings.apiKey.isNotEmpty) 'X-Api-Key': settings.apiKey,
+            },
             body: utf8.encode(jsonEncode(identity.requestBody(asked))),
           )
           .timeout(timeout);
@@ -117,6 +164,13 @@ class AssistantService {
       throw const AssistantUnavailableException();
     } on ClientException {
       throw const AssistantUnavailableException();
+    }
+
+    // A spent cap is the one refusal retrying cannot fix, so it is told apart
+    // from the failures that a second tap does fix.
+    if (response.statusCode == HttpStatus.tooManyRequests ||
+        response.statusCode == HttpStatus.paymentRequired) {
+      throw const AssistantQuotaException();
     }
 
     if (response.statusCode < 200 || response.statusCode >= 300) {

@@ -141,8 +141,23 @@ class _PreguntasPageState extends State<PreguntasPage> {
 ///
 /// The published questions cover what most customers ask; the ones they cannot
 /// find here are exactly the ones worth asking in their own words.
+///
+/// The row is only offered by a courier who pays for the module. It watches
+/// the flag rather than reading it once, because the company record can land
+/// after this list is first drawn.
 class _AskAssistant extends StatelessWidget {
   const _AskAssistant();
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<bool>(
+        valueListenable: GetIt.I<CourierService>().assistantEnabled,
+        builder: (context, enabled, _) =>
+            enabled ? const _AskAssistantCard() : const SizedBox.shrink(),
+      );
+}
+
+class _AskAssistantCard extends StatelessWidget {
+  const _AskAssistantCard();
 
   @override
   Widget build(BuildContext context) {

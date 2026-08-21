@@ -34,6 +34,8 @@ class Empresa {
     required this.pushHubEndpoint,
     required this.pushHubName,
     required this.options,
+    this.hasAssistantModule = false,
+    this.assistantSettings = "",
   });
 
   String registroId;
@@ -70,6 +72,31 @@ class Empresa {
   String pushHubEndpoint;
   String pushHubName;
   String options;
+
+  /// Whether this courier pays for the assistant module.
+  ///
+  /// Carried over the wire as `hasChatBotModule`. That pair of columns was cut
+  /// for a menu-driven chatbot that never shipped, and the API cannot grow new
+  /// ones right now, so the assistant took the empty seats rather than waiting
+  /// for a backend release. The names here describe what the fields mean today;
+  /// only the mapping remembers where they came from.
+  ///
+  /// Defaults to off, here and in [Empresa.empty], because a record that is
+  /// stale, partial, or older than the module must not hand a paid feature out
+  /// for free.
+  bool hasAssistantModule;
+
+  /// The assistant's own record, as the portal saved it.
+  ///
+  /// Carried over the wire as `chatBotSettings`. A few couriers still hold the
+  /// abandoned chatbot's record in that column — `BotName`, `ChatTextOptions`
+  /// and friends. It parses to no service settings at all, which reads exactly
+  /// like a courier who never filled the form in, so it needs no migration.
+  ///
+  /// Kept as the raw string the backend sent, exactly like [options]: parsing
+  /// belongs to [AssistantSettings], and a record this model could not read
+  /// must still survive a round trip through [toJson].
+  String assistantSettings;
 
   DateTime get encuestaActiveUntil {
     if (pushHubName.isEmpty) {
@@ -119,7 +146,12 @@ class Empresa {
       clientSecret: json["clientSecret"] ?? "",
       pushHubEndpoint: json["pushHubEndpoint"] ?? "",
       pushHubName: json["pushHubName"] ?? "",
-      options: json["options"] ?? "");
+      options: json["options"] ?? "",
+      hasAssistantModule: json["hasChatBotModule"] as bool? ??
+          json["hasAssistantModule"] as bool? ??
+          false,
+      assistantSettings:
+          json["chatBotSettings"] ?? json["assistantSettings"] ?? "");
 
   factory Empresa.empty() => Empresa(
       registroId: "",
@@ -155,7 +187,9 @@ class Empresa {
       clientSecret: "",
       pushHubEndpoint: "",
       pushHubName: "",
-      options: "");
+      options: "",
+      hasAssistantModule: false,
+      assistantSettings: "");
 
   Map<String, dynamic> toJson() => {
         "registroID": registroId,
@@ -191,6 +225,8 @@ class Empresa {
         "clientSecret": clientSecret,
         "pushHubEndpoint": pushHubEndpoint,
         "pushHubName": pushHubName,
-        "options": options
+        "options": options,
+        "hasChatBotModule": hasAssistantModule,
+        "chatBotSettings": assistantSettings
       };
 }

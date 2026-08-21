@@ -123,6 +123,10 @@ void main() {
 }
 
 class _QuestionsService extends CourierService {
+  _QuestionsService() {
+    assistantEnabled.value = true;
+  }
+
   int requests = 0;
   Completer<List<Pregunta>>? refresh;
   final List<Pregunta> items = [

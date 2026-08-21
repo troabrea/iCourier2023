@@ -273,6 +273,8 @@
   "asistente_preparando": "Preparando tu respuesta.",
   "asistente_tardando": "Esto está tardando un poco más de lo normal. Sigo trabajando.",
   "asistente_sin_respuesta": "No pude traer la respuesta. Revisa tu conexión e inténtalo otra vez.",
+  "asistente_limite_alcanzado": "Llegaste al límite de preguntas por ahora. Intenta más tarde o escríbenos.",
+  "asistente_no_disponible": "El asistente no está disponible en esta app.",
   "asistente_sesion_terminada": "Tu sesión terminó. Vuelve a entrar para seguir preguntando.",
   "asistente_sugerencia_paquetes": "¿Tengo paquetes disponibles?",
   "asistente_sugerencia_sucursales": "¿Cuál es el horario de mi sucursal?",

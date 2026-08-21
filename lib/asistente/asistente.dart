@@ -189,6 +189,18 @@ class _AsistentePageState extends State<AsistentePage> {
           if (!snapshot.hasData) {
             return _frame(context, body: const BrandSkeleton(rows: 4));
           }
+          // Every way in is hidden for a courier without the module, so this
+          // only catches a restored route or a deep link. It says so plainly
+          // rather than opening a composer whose questions nobody will answer.
+          if (!snapshot.requireData.company.hasAssistantModule) {
+            return _frame(
+              context,
+              body: const BrandEmptyState(
+                messageKey: 'asistente_no_disponible',
+                glyph: BrandIcons.assistant,
+              ),
+            );
+          }
           return BlocProvider.value(
             value: _bloc!,
             child: BlocBuilder<AsistenteBloc, AsistenteState>(
@@ -841,6 +853,15 @@ class _Failure extends StatelessWidget {
         glyph: BrandIcons.user,
         actionLabel: 'iniciar_sesion'.tr(),
         onAction: () => context.go(AppRoutes.login),
+      );
+    }
+    // A spent allowance is the one failure with no retry button: the same
+    // question would be refused again, and offering the tap would only teach
+    // the customer that the app is broken.
+    if (failure == AssistantFailure.quotaSpent) {
+      return const BrandEmptyState(
+        messageKey: 'asistente_limite_alcanzado',
+        glyph: BrandIcons.assistant,
       );
     }
     return BrandErrorState(

@@ -15,6 +15,7 @@ import '../design_system/home_components.dart';
 import '../design_system/motion_components.dart';
 import '../design_system/overlay_components.dart';
 import '../domain/package_stage.dart';
+import '../helpers/contact_action.dart';
 import '../navigation/app_routes.dart';
 import '../services/app_events.dart';
 import '../services/courier_service.dart';
@@ -218,14 +219,23 @@ class _DashboardContentState extends State<_DashboardContent> {
         future: widget.profile,
         builder: (context, snapshot) {
           final userProfile = snapshot.data;
+          // The assistant is a paid module. When this courier does not have
+          // it, the header position goes back to the branch contact channel it
+          // held before, instead of leading nowhere.
+          final assistant = state.empresa.hasAssistantModule;
+          final channel = assistant ? null : resolveContactChannel(userProfile);
+          final onContact = assistant
+              ? () => context.push(AppRoutes.assistant)
+              : (channel == null ? null : () => channel.open());
+          final contactMark = assistant ? _assistantMark(context) : null;
           final pending = _pending();
           final banner = state.banners.isEmpty
               ? null
               : BannerCarousel(banners: state.banners, config: config);
           final actions = BrandHeaderActions(
             unread: unread,
-            onContact: () => context.push(AppRoutes.assistant),
-            contactMark: _assistantMark(context),
+            onContact: onContact,
+            contactMark: contactMark,
             onCarnet: () => context.push(AppRoutes.idCard),
             onMessages: () => context.push(AppRoutes.messages),
           );
@@ -253,8 +263,8 @@ class _DashboardContentState extends State<_DashboardContent> {
                             scrollable: true,
                             child: CuentasUsuario(userProfile: userProfile),
                           ),
-                  onContact: () => context.push(AppRoutes.assistant),
-                  contactMark: _assistantMark(context),
+                  onContact: onContact,
+                  contactMark: contactMark,
                   onCarnet: () => context.push(AppRoutes.idCard),
                   onMessages: () => context.push(AppRoutes.messages),
                 ),

@@ -388,6 +388,33 @@ void main() {
     expect(find.text('Tienes 2 paquetes disponibles.'), findsOneWidget);
   });
 
+  testWidgets('a spent allowance is explained without a retry to waste',
+      (tester) async {
+    await open(tester);
+
+    await tester.tap(find.text('¿Tengo paquetes disponibles?'));
+    await tester.pump();
+    assistant.pending!.completeError(const AssistantQuotaException());
+    await tester.pumpAndSettle();
+
+    expect(find.text('asistente_limite_alcanzado'.tr()), findsOneWidget);
+    // The same question would be refused again, so no button offers to send it.
+    expect(find.text('Reintentar'), findsNothing);
+  });
+
+  testWidgets('a courier without the module has no assistant to deep-link into',
+      (tester) async {
+    await GetIt.I.unregister<CourierService>();
+    GetIt.I.registerSingleton<CourierService>(
+      _AssistantCourierService(assistant: false),
+    );
+
+    await open(tester);
+
+    expect(find.text('asistente_no_disponible'.tr()), findsOneWidget);
+    expect(find.text('Escribe tu pregunta'), findsNothing);
+  });
+
   testWidgets('sends the customer back to sign in when the session ended',
       (tester) async {
     await open(tester);
@@ -453,13 +480,24 @@ class _FakeAssistant extends AssistantService {
 }
 
 class _AssistantCourierService extends CourierService {
+  _AssistantCourierService({this.assistant = true}) {
+    // This brand pays for the module; the screens under test are the ones it
+    // unlocks.
+    assistantEnabled.value = assistant;
+  }
+
+  /// Whether this courier bought the assistant module.
+  final bool assistant;
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,
     bool forceFirstTime = false,
     bool retryEmtpy = false,
   }) async =>
-      Empresa.empty()..hasPreguntas = true;
+      Empresa.empty()
+        ..hasPreguntas = true
+        ..hasAssistantModule = assistant;
 
   @override
   Future<UserProfile> getUserProfile() async => UserProfile(

@@ -7,6 +7,9 @@ enum AssistantFailure {
 
   /// The webhook could not be reached or answered with nothing.
   unavailable,
+
+  /// The courier's allowance for this customer, or for the month, is spent.
+  quotaSpent,
 }
 
 /// Everything the assistant screen draws.

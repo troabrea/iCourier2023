@@ -23,6 +23,7 @@ import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/model/calculadora_model.dart';
+import 'model/assistant_settings.dart';
 import '../../services/model/notificarretiro_model.dart';
 import '../../services/model/postalerta_model.dart';
 import '../../services/model/prealerta_model.dart';
@@ -136,6 +137,24 @@ class CourierService {
   bool firstTime = true;
   ShortCutToRun shortCutToRun = ShortCutToRun.none;
   Map? optionsMap;
+
+  /// Whether the assistant module is on for this courier, as the backend last
+  /// reported it.
+  ///
+  /// A notifier rather than a plain flag because the header actions build
+  /// before the first company record lands. They start on the safe answer — a
+  /// paid module is off until the backend says otherwise — and are corrected
+  /// in place, instead of offering the assistant to a courier who never
+  /// bought it.
+  final ValueNotifier<bool> assistantEnabled = ValueNotifier<bool>(false);
+
+  /// The assistant's configuration, parsed once per company record.
+  AssistantSettings assistantSettings = AssistantSettings.none;
+
+  /// The raw record the parsed [assistantSettings] came from, so a company
+  /// record read from cache on every screen is not re-parsed each time.
+  String _assistantRecord = '';
+
   CourierService() {
     appInfo = GetIt.I<AppInfo>();
     companyId = appInfo.companyId;
@@ -359,6 +378,7 @@ class CourierService {
       });
 
       var result = empresaFromJson(jsonData);
+      _rememberAssistant(result);
 
       if (optionsMap == null) {
         try {
@@ -374,6 +394,15 @@ class CourierService {
       }
       rethrow;
     }
+  }
+
+  /// Keeps the assistant module reachable without awaiting [getEmpresa].
+  void _rememberAssistant(Empresa empresa) {
+    if (empresa.assistantSettings != _assistantRecord) {
+      _assistantRecord = empresa.assistantSettings;
+      assistantSettings = AssistantSettings.parse(_assistantRecord);
+    }
+    assistantEnabled.value = empresa.hasAssistantModule;
   }
 
   Future<void> _refreshEmpresa() async {
