@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../design_system/brand_foundations.dart';
 import '../design_system/overlay_components.dart';
+import '../noticas/emerging_news_coordinator.dart';
+import '../noticas/emerging_news_dialog.dart';
 import '../services/app_events.dart';
 import '../services/courier_service.dart';
 import '../services/notification_service.dart';
@@ -33,6 +35,8 @@ class AppRuntimeHost extends StatefulWidget {
     this.loadInitialMessage,
     this.navigatorKey,
     this.router,
+    this.emergingNewsCoordinator,
+    this.emergingNewsImagePreloader = preloadEmergingNewsImage,
   });
 
   final Widget child;
@@ -42,6 +46,8 @@ class AppRuntimeHost extends StatefulWidget {
   final Future<RemoteMessage?> Function()? loadInitialMessage;
   final GlobalKey<NavigatorState>? navigatorKey;
   final GoRouter? router;
+  final EmergingNewsCoordinator? emergingNewsCoordinator;
+  final EmergingNewsImagePreloader emergingNewsImagePreloader;
 
   @override
   State<AppRuntimeHost> createState() => _AppRuntimeHostState();
@@ -54,12 +60,15 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
   late final AppDeepLinkParser _linkParser;
   late final SurveyPromptCoordinator _surveyPromptCoordinator;
   late final SurveyLauncher _surveyLauncher;
+  late final EmergingNewsCoordinator _emergingNewsCoordinator;
   StreamSubscription<ConnectivityResult>? _connectivitySubscription;
   StreamSubscription<RemoteMessage>? _foregroundMessageSubscription;
   StreamSubscription<RemoteMessage>? _openedMessageSubscription;
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? _surveyCue;
   bool _connectionWasLost = false;
   bool _isOpeningSurvey = false;
+  bool _isShowingEmergingNews = false;
+  bool _isCheckingRuntimePrompts = false;
 
   @override
   void initState() {
@@ -75,9 +84,18 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
       store: surveyStore,
     );
     _surveyLauncher = SurveyLauncher(store: surveyStore);
+    final courierService = GetIt.I<CourierService>();
+    _emergingNewsCoordinator = widget.emergingNewsCoordinator ??
+        EmergingNewsCoordinator(
+          loadCompany: () => courierService.getEmpresa(forceFirstTime: true),
+          loadNews: () => courierService.getNoticias(true),
+          store: SharedPreferencesEmergingNewsSeenStore(widget.preferences),
+        );
+    final initialMessage = widget.loadInitialMessage?.call() ??
+        FirebaseMessaging.instance.getInitialMessage();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkForSurvey();
+      unawaited(_handleInitialMessage(initialMessage));
     });
     _configureQuickActions();
     _connectivitySubscription =
@@ -87,16 +105,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
             .listen(_onForegroundMessage);
     _openedMessageSubscription =
         (widget.openedMessages ?? FirebaseMessaging.onMessageOpenedApp)
-            .listen(_openMessage);
-    (widget.loadInitialMessage?.call() ??
-            FirebaseMessaging.instance.getInitialMessage())
-        .then((message) {
-      if (message != null) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _openMessage(message);
-        });
-      }
-    });
+            .listen((message) => unawaited(_openMessage(message)));
     GetIt.I<Event<SessionExpired>>().subscribe((event) {
       if (!mounted) {
         return;
@@ -124,9 +133,103 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _checkForSurvey();
+      unawaited(_checkForRuntimePrompts());
       unawaited(_refreshMessageHistory());
     }
+  }
+
+  Future<void> _checkForRuntimePrompts() async {
+    if (!mounted || _isShowingEmergingNews || _isCheckingRuntimePrompts) {
+      return;
+    }
+    _isCheckingRuntimePrompts = true;
+    try {
+      if (await _showEmergingNewsIfAvailable()) {
+        return;
+      }
+      await _checkForSurvey();
+    } finally {
+      _isCheckingRuntimePrompts = false;
+    }
+  }
+
+  Future<void> _handleInitialMessage(
+    Future<RemoteMessage?> initialMessage,
+  ) async {
+    RemoteMessage? message;
+    try {
+      message = await initialMessage;
+    } on Exception catch (error) {
+      debugPrint('Initial push lookup failed: $error');
+    }
+    if (!mounted) {
+      return;
+    }
+    if (message != null) {
+      await _openMessage(message);
+      return;
+    }
+    await _checkForRuntimePrompts();
+  }
+
+  Future<bool> _showEmergingNewsIfAvailable() async {
+    EmergingNewsAnnouncement? announcement;
+    try {
+      announcement = await _emergingNewsCoordinator.findAnnouncement();
+    } on Exception catch (error) {
+      debugPrint('Emerging news availability check failed: $error');
+      return false;
+    }
+    if (!mounted || announcement == null) {
+      return false;
+    }
+
+    final presentationContext = widget.navigatorKey?.currentContext ??
+        Navigator.maybeOf(context)?.context;
+    if (presentationContext == null || !presentationContext.mounted) {
+      return false;
+    }
+    final imageReady = await widget.emergingNewsImagePreloader(
+      presentationContext,
+      announcement.imageUrl,
+    );
+    if (!mounted || !presentationContext.mounted || !imageReady) {
+      return false;
+    }
+
+    try {
+      await _emergingNewsCoordinator.markShown(announcement);
+    } on Exception catch (error) {
+      debugPrint('Emerging news persistence failed: $error');
+      return false;
+    }
+    if (!mounted || !presentationContext.mounted) {
+      return false;
+    }
+
+    _isShowingEmergingNews = true;
+    late final bool openNews;
+    try {
+      openNews = await showEmergingNewsDialog(
+        presentationContext,
+        announcement: announcement,
+      );
+    } finally {
+      _isShowingEmergingNews = false;
+    }
+    if (!mounted || !openNews || announcement.news == null) {
+      return true;
+    }
+
+    final news = announcement.news!;
+    final location = AppRoutes.newsDetail(news.heroIdentity);
+    final router = widget.router;
+    if (router != null) {
+      await router.push<void>(location, extra: news);
+    } else if (presentationContext.mounted) {
+      await presentationContext.push<void>(location, extra: news);
+    }
+    return true;
   }
 
   Future<void> _checkForSurvey() async {
@@ -240,7 +343,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     ]);
   }
 
-  void _openMessage(RemoteMessage message) {
+  Future<void> _openMessage(RemoteMessage message) async {
     if (!mounted) {
       return;
     }
@@ -265,7 +368,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     if (presentationContext == null) {
       return;
     }
-    showBrandSheet<void>(
+    await showBrandSheet<void>(
       presentationContext,
       child: BrandSheet(
         title: content.title,

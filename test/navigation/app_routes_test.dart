@@ -32,6 +32,7 @@ void main() {
       expect(AppDeepLinkParser.isProtected('/paquete/123'), isTrue);
       expect(AppDeepLinkParser.isProtected(AppRoutes.messages), isTrue);
       expect(AppDeepLinkParser.isProtected(AppRoutes.news), isFalse);
+      expect(AppDeepLinkParser.isProtected('/noticias/news-42'), isFalse);
     });
   });
 

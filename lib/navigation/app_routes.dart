@@ -104,6 +104,7 @@ final class AppDeepLinkParser {
     final path = Uri.tryParse(location)?.path ?? '';
     return path != AppRoutes.login &&
         path != AppRoutes.news &&
+        !path.startsWith('${AppRoutes.news}/') &&
         path != AppRoutes.branches &&
         path != AppRoutes.calculator &&
         path != AppRoutes.services;
