@@ -15,12 +15,12 @@ part 'calculadora_state.dart';
 
 class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
   final CourierService _courierService;
+  late final event.Event<LoginChanged> _loginChanges;
   // final ConnectivityService _connectivityService;
 
   CalculadoraBloc(this._courierService) : super(CalculadoraLoadingState()) {
-    GetIt.I<event.Event<LoginChanged>>().subscribe((args) {
-      add(CalculatorPrepareEvent());
-    });
+    _loginChanges = GetIt.I<event.Event<LoginChanged>>()
+      ..subscribe(_onLoginChanged);
 
     on<CalculatorPrepareEvent>((event, emit) async {
       emit(CalculadoraLoadingState());
@@ -66,5 +66,17 @@ class CalculadoraBloc extends Bloc<CalculadoraEvent, CalculadoraState> {
       emit(CalculadoraLoadedState(result, subtotal, impuesto, total,
           event.libras, event.valor, correo));
     });
+  }
+
+  void _onLoginChanged(LoginChanged? change) {
+    if (!isClosed) {
+      add(CalculatorPrepareEvent());
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _loginChanges.unsubscribe(_onLoginChanged);
+    return super.close();
   }
 }

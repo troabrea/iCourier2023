@@ -127,6 +127,8 @@ enum ShortCutToRun {
 }
 
 class CourierService {
+  static const _legacyReceptionsCacheKey = 'recepciones';
+
   static const receptionsEndpoint =
       'https://icourierfunctions2023.azurewebsites.net/api/recepciones'
       '?code=O8L9ICL7ETpVKjLCYDS34-g6Sz6-2OMvH6D9_RJC6xIXAzFuEDs6Mw==';
@@ -557,8 +559,15 @@ class CourierService {
   }
 
   Future<void> clearCourierDataCache() async {
-    await _destroyCache('recepciones');
+    final account = (await cache.load('userAccount', '')).toString();
+    await Future.wait([
+      _destroyCache(_legacyReceptionsCacheKey),
+      if (account.isNotEmpty) _destroyCache(_receptionsCacheKey(account)),
+    ]);
   }
+
+  String _receptionsCacheKey(String account) =>
+      '$_legacyReceptionsCacheKey:${Uri.encodeComponent(account)}';
 
   Future<List<PreAlertaDto>> getPrealertas() async {
     var sessionId = (await cache.load('sessionId', '')).toString();
@@ -596,25 +605,28 @@ class CourierService {
   }
 
   Future<List<Recepcion>> getRecepciones(bool forceRefresh) async {
+    final account = (await cache.load('userAccount', '')).toString();
+    final sessionId = (await cache.load('sessionId', '')).toString();
+    if (account.isEmpty || sessionId.isEmpty) {
+      return <Recepcion>[];
+    }
+    final receptionsCacheKey = _receptionsCacheKey(account);
     if (forceRefresh) {
       final connectivity = Connectivity();
       final result = await connectivity.checkConnectivity();
       if (result != ConnectivityResult.none) {
-        await _destroyCache('recepciones');
+        await Future.wait([
+          _destroyCache(receptionsCacheKey),
+          _destroyCache(_legacyReceptionsCacheKey),
+        ]);
         await _destroyCache('empresa');
         await _destroyCache('sucursales');
         await getEmpresa();
         GetIt.I<event.Event<EmpresaRefreshFinished>>().broadcast();
       }
     }
-    AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
-    var jsonData = await cache.remember('recepciones', () async {
-      var sessionId = (await cache.load('sessionId', ''))
-          .toString(); //  prefs.getString('sessionId');
-      if (sessionId == "") {
-        return "[]";
-      }
-
+    var jsonData = await cache.remember(receptionsCacheKey, () async {
+      AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_GET_RECEPCIONES");
       await _validateSession();
 
       if (!await Permission.notification.isGranted) {
@@ -760,6 +772,14 @@ class CourierService {
     var data = await cache.load('storedAccounts');
     var list =
         data == null ? <UserAccount>[].toList() : userAccountsFromJson(data);
+    final containedSessionTokens =
+        list.any((account) => account.sessionId.isNotEmpty);
+    if (containedSessionTokens) {
+      for (final account in list) {
+        account.sessionId = '';
+      }
+      await cache.write('storedAccounts', userAccountsToJson(list));
+    }
     return list;
   }
 
@@ -773,7 +793,6 @@ class CourierService {
 
   Future<List<UserAccount>> addCurrentAccountToStore() async {
     var list = await getStoredAccounts();
-    final sessionId = await cache.load('sessionId', "");
     final userAccount = await cache.load('userAccount', "");
     final password = await cache.load('userPassword', "");
     final userName = await cache.load('userName', "");
@@ -781,14 +800,14 @@ class CourierService {
         list.firstWhereOrNull((x) => x.userAccount == userAccount);
     if (storedAccount == null) {
       list.add(UserAccount(
-          sessionId: sessionId,
+          sessionId: '',
           nombre: userName,
           userAccount: userAccount,
           password: password));
     } else {
       storedAccount.password = password;
       storedAccount.nombre = userName;
-      storedAccount.sessionId = sessionId;
+      storedAccount.sessionId = '';
     }
     final data = userAccountsToJson(list);
     await cache.write('storedAccounts', data);
@@ -807,6 +826,9 @@ class CourierService {
     await saveLoggedOutState();
     await saveLoggedInState(
         loginResult, storedAccount.userAccount, storedAccount.password);
+    // A remembered response for this account may predate the newly issued
+    // session. The first frame after the switch must come from that session.
+    await clearCourierDataCache();
     return true;
   }
 
@@ -847,8 +869,11 @@ class CourierService {
           .unsubscribeFromTopic("${appInfo.pushChannelTopic}_$userAccount");
     }
 
+    await clearCourierDataCache();
+
     await cache.write('sessionId', "");
     await cache.write('userAccount', "");
+    await cache.write('userPassword', "");
     await cache.write('userName', "");
     await cache.write('userEmail', "");
     await cache.write('userSucursal', "");

@@ -28,10 +28,20 @@ class AppRuntimeHost extends StatefulWidget {
     super.key,
     required this.child,
     required this.preferences,
+    this.foregroundMessages,
+    this.openedMessages,
+    this.loadInitialMessage,
+    this.navigatorKey,
+    this.router,
   });
 
   final Widget child;
   final SharedPreferences preferences;
+  final Stream<RemoteMessage>? foregroundMessages;
+  final Stream<RemoteMessage>? openedMessages;
+  final Future<RemoteMessage?> Function()? loadInitialMessage;
+  final GlobalKey<NavigatorState>? navigatorKey;
+  final GoRouter? router;
 
   @override
   State<AppRuntimeHost> createState() => _AppRuntimeHostState();
@@ -73,12 +83,18 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_onConnectivityChanged);
     _foregroundMessageSubscription =
-        FirebaseMessaging.onMessage.listen(showFlutterNotification);
+        (widget.foregroundMessages ?? FirebaseMessaging.onMessage)
+            .listen(_onForegroundMessage);
     _openedMessageSubscription =
-        FirebaseMessaging.onMessageOpenedApp.listen(_openMessage);
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
+        (widget.openedMessages ?? FirebaseMessaging.onMessageOpenedApp)
+            .listen(_openMessage);
+    (widget.loadInitialMessage?.call() ??
+            FirebaseMessaging.instance.getInitialMessage())
+        .then((message) {
       if (message != null) {
-        _openMessage(message);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _openMessage(message);
+        });
       }
     });
     GetIt.I<Event<SessionExpired>>().subscribe((event) {
@@ -109,6 +125,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _checkForSurvey();
+      unawaited(_refreshMessageHistory());
     }
   }
 
@@ -227,29 +244,53 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     if (!mounted) {
       return;
     }
+    unawaited(_refreshMessageHistory());
     final rawLink = message.data['link']?.toString();
     final destination = rawLink == null ? null : _linkParser.parse(rawLink);
     if (destination != null) {
-      context.go(destination);
+      final router = widget.router;
+      if (router != null) {
+        router.go(destination);
+      } else {
+        context.go(destination);
+      }
       return;
     }
-    final notification = message.notification;
-    if (notification?.title == null || notification?.body == null) {
+    final content = notificationContentFor(message);
+    if (content == null) {
+      return;
+    }
+    final presentationContext = widget.navigatorKey?.currentContext ??
+        Navigator.maybeOf(context)?.context;
+    if (presentationContext == null) {
       return;
     }
     showBrandSheet<void>(
-      context,
+      presentationContext,
       child: BrandSheet(
-        title: notification!.title!,
-        subtitle: notification.body!,
+        title: content.title,
+        subtitle: content.body,
         children: [
           BrandPrimaryButton(
             label: 'aceptar'.tr(),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(presentationContext).pop(),
           ),
         ],
       ),
     );
+  }
+
+  void _onForegroundMessage(RemoteMessage message) {
+    showFlutterNotification(message);
+    unawaited(_refreshMessageHistory());
+  }
+
+  Future<void> _refreshMessageHistory() async {
+    try {
+      await GetIt.I<CourierService>().getMensajes(ignoreCache: true);
+    } on Exception {
+      // The push remains readable even if the history endpoint is unavailable.
+    }
   }
 
   void _onConnectivityChanged(ConnectivityResult result) {

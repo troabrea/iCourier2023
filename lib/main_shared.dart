@@ -292,6 +292,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       routerConfig: router,
       builder: (context, child) => AppRuntimeHost(
         preferences: widget.preferences,
+        navigatorKey: router.routerDelegate.navigatorKey,
+        router: router,
         child: child!,
       ),
     );

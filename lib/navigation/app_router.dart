@@ -98,6 +98,9 @@ abstract final class AppRouter {
                     path: _path(module),
                     name: 'tab-${module.name}',
                     pageBuilder: (context, state) => NoTransitionPage(
+                      key: ValueKey(
+                        '${state.pageKey}-${session.accountRevision}',
+                      ),
                       child: _screen(module, isTabRoot: true),
                     ),
                   ),

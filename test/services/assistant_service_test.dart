@@ -94,10 +94,92 @@ void main() {
         MockClient((request) async => Response('rate limit reached', 429)),
       );
 
-      await expectLater(
-        service.ask('¿Tengo paquetes?'),
-        throwsA(isA<AssistantQuotaException>()),
+      try {
+        await service.ask('¿Tengo paquetes?');
+        fail('The question should have been refused.');
+      } on AssistantQuotaException catch (error) {
+        expect(error.scope, AssistantQuotaScope.unknown);
+        expect(error.resetAt, isNull);
+        expect(error.requestId, isNull);
+      }
+    });
+
+    test('missing quota fields keep the refusal generic', () async {
+      final service = _service(
+        MockClient(
+          (request) async => Response(jsonEncode({'error': {}}), 429),
+        ),
       );
+
+      try {
+        await service.ask('¿Tengo paquetes?');
+        fail('The question should have been refused.');
+      } on AssistantQuotaException catch (error) {
+        expect(error.scope, AssistantQuotaScope.unknown);
+        expect(error.resetAt, isNull);
+        expect(error.requestId, isNull);
+      }
+    });
+
+    test('reads the daily session quota returned by the proxy', () async {
+      final service = _service(
+        MockClient(
+          (request) async => Response(
+            jsonEncode({
+              'error': {
+                'code': 'rate_limit_exceeded',
+                'message': 'Se alcanzó el límite de solicitudes disponible.',
+                'requestId': '8b49c78a-5f86-47ad-a60d-e8eb7522dd71',
+                'scope': 'session_daily',
+                'resetAt': '2026-08-22T04:00:00.000Z',
+              },
+            }),
+            429,
+          ),
+        ),
+      );
+
+      try {
+        await service.ask('¿Tengo paquetes?');
+        fail('The question should have been refused.');
+      } on AssistantQuotaException catch (error) {
+        expect(error.scope, AssistantQuotaScope.sessionDaily);
+        expect(error.resetAt, DateTime.utc(2026, 8, 22, 4));
+        expect(
+          error.requestId,
+          '8b49c78a-5f86-47ad-a60d-e8eb7522dd71',
+        );
+      }
+    });
+
+    test('reads the company monthly quota returned by the proxy', () async {
+      final service = _service(
+        MockClient(
+          (request) async => Response(
+            jsonEncode({
+              'error': {
+                'code': 'rate_limit_exceeded',
+                'requestId': '8b49c78a-5f86-47ad-a60d-e8eb7522dd71',
+                'scope': 'company_monthly',
+                'resetAt': '2026-09-01T04:00:00.000Z',
+              },
+            }),
+            429,
+          ),
+        ),
+      );
+
+      try {
+        await service.ask('¿Tengo paquetes?');
+        fail('The question should have been refused.');
+      } on AssistantQuotaException catch (error) {
+        expect(error.scope, AssistantQuotaScope.companyMonthly);
+        expect(error.resetAt, DateTime.utc(2026, 9, 1, 4));
+        expect(
+          error.requestId,
+          '8b49c78a-5f86-47ad-a60d-e8eb7522dd71',
+        );
+      }
     });
 
     test('a refused payment is a spent quota too', () async {
@@ -105,10 +187,14 @@ void main() {
         MockClient((request) async => Response('quota exhausted', 402)),
       );
 
-      await expectLater(
-        service.ask('¿Tengo paquetes?'),
-        throwsA(isA<AssistantQuotaException>()),
-      );
+      try {
+        await service.ask('¿Tengo paquetes?');
+        fail('The question should have been refused.');
+      } on AssistantQuotaException catch (error) {
+        expect(error.scope, AssistantQuotaScope.unknown);
+        expect(error.resetAt, isNull);
+        expect(error.requestId, isNull);
+      }
     });
 
     test('every other bad status stays a retryable failure', () async {

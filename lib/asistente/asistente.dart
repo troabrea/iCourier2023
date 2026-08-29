@@ -309,20 +309,39 @@ class _Conversation extends StatelessWidget {
                 selectedIndex: state.selectedIndex,
                 onSelect: onSelect,
               ),
-            Expanded(child: _body()),
-            _Composer(
-              controller: composer,
-              focusNode: composerFocus,
-              enabled: !state.isAsking,
-              onSubmit: onAsk,
-            ),
+            Expanded(child: _body(context)),
+            if (!state.hasSpentQuota)
+              _Composer(
+                controller: composer,
+                focusNode: composerFocus,
+                enabled: !state.isAsking,
+                onSubmit: onAsk,
+              ),
           ],
         ),
       );
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     if (state.isAsking) {
       return _Thinking(question: state.pendingQuestion!);
+    }
+    if (state.quotaScope case final scope?) {
+      return _QuotaUnavailable(
+        // The scope is deliberately not presented: allowances belong to the
+        // courier's commercial agreement, not to the customer's experience.
+        key: ValueKey(scope),
+        onOpenWhatsApp:
+            data.profile?.whatsappSucursal.trim().isNotEmpty ?? false
+                ? () => onHandoff(
+                      'asistente_ayuda_whatsapp_mensaje'.tr(
+                        args: [data.identity.userAccount],
+                      ),
+                    )
+                : null,
+        onOpenFaq: data.company.hasPreguntas
+            ? () => openAssistantShortcut(context, AppRoutes.faq)
+            : null,
+      );
     }
     if (state.failure != null) {
       return _Failure(failure: state.failure!, onRetry: onRetry);
@@ -855,18 +874,81 @@ class _Failure extends StatelessWidget {
         onAction: () => context.go(AppRoutes.login),
       );
     }
-    // A spent allowance is the one failure with no retry button: the same
-    // question would be refused again, and offering the tap would only teach
-    // the customer that the app is broken.
-    if (failure == AssistantFailure.quotaSpent) {
-      return const BrandEmptyState(
-        messageKey: 'asistente_limite_alcanzado',
-        glyph: BrandIcons.assistant,
-      );
-    }
     return BrandErrorState(
       onRetry: onRetry,
       messageKey: 'asistente_sin_respuesta',
+    );
+  }
+}
+
+/// Offers human and published help without exposing commercial allowances.
+class _QuotaUnavailable extends StatelessWidget {
+  const _QuotaUnavailable({
+    super.key,
+    this.onOpenWhatsApp,
+    this.onOpenFaq,
+  });
+
+  final VoidCallback? onOpenWhatsApp;
+  final VoidCallback? onOpenFaq;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: BrandSpace.lg,
+          vertical: 48,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const BrandGlyphTile(
+              asset: BrandIcons.assistant,
+              size: 74,
+              glyphSize: 40,
+              shape: BoxShape.circle,
+            ),
+            const SizedBox(height: BrandSpace.sm),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 260),
+              child: Text(
+                'asistente_no_puedo_responder_ahora'.tr(),
+                textAlign: TextAlign.center,
+                style: tokens.body(
+                  13,
+                  color: tokens.readableMuted(tokens.bg),
+                  height: 1.45,
+                ),
+              ),
+            ),
+            if (onOpenWhatsApp != null || onOpenFaq != null) ...[
+              const SizedBox(height: BrandSpace.md),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 280),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (onOpenWhatsApp != null)
+                      BrandPrimaryButton(
+                        label: 'asistente_humano_escribir'.tr(),
+                        onPressed: onOpenWhatsApp,
+                      ),
+                    if (onOpenWhatsApp != null && onOpenFaq != null)
+                      const SizedBox(height: BrandSpace.sm),
+                    if (onOpenFaq != null)
+                      BrandOutlineButton(
+                        label: 'asistente_ir_faq'.tr(),
+                        onPressed: onOpenFaq,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

@@ -35,7 +35,8 @@ class CourierDashboard extends StatefulWidget {
 
 class _CourierDashboardState extends State<CourierDashboard> {
   late final DashboardBloc _bloc;
-  late final Future<UserProfile> _profile;
+  late Future<UserProfile> _profile;
+  late final Event<LoginChanged> _loginChanges;
   late final Event<UnreadMessagesChanged> _unreadMessagesChanged;
   int? _unreadCount;
 
@@ -49,6 +50,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
     final service = GetIt.I<CourierService>();
     _unreadMessagesChanged = GetIt.I<Event<UnreadMessagesChanged>>()
       ..subscribe(_onUnreadMessagesChanged);
+    _loginChanges = GetIt.I<Event<LoginChanged>>()..subscribe(_onLoginChanged);
     _profile = service.getUserProfile();
     _bloc = DashboardBloc(DashboardLoadingState())
       ..add(const LoadApiEvent(false));
@@ -57,6 +59,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
   @override
   void dispose() {
     _unreadMessagesChanged.unsubscribe(_onUnreadMessagesChanged);
+    _loginChanges.unsubscribe(_onLoginChanged);
     _bloc.close();
     super.dispose();
   }
@@ -66,6 +69,18 @@ class _CourierDashboardState extends State<CourierDashboard> {
       return;
     }
     setState(() => _unreadCount = change.unreadCount);
+  }
+
+  void _onLoginChanged(LoginChanged? change) {
+    if (change == null || !change.loggedIn || !mounted) {
+      return;
+    }
+    setState(() {
+      _loaded = null;
+      _unreadCount = null;
+      _profile = GetIt.I<CourierService>().getUserProfile();
+    });
+    _bloc.add(const LoadApiEvent(false));
   }
 
   /// Runs a reload and completes when it lands.

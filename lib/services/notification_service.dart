@@ -7,6 +7,29 @@ late AndroidNotificationChannel notificationChannel;
 bool notificationsInitialized = false;
 late FlutterLocalNotificationsPlugin localNotifications;
 
+/// User-visible content carried by a push notification.
+final class PushNotificationContent {
+  const PushNotificationContent({required this.title, required this.body});
+
+  final String title;
+  final String body;
+}
+
+/// Keeps push payload interpretation in one place for notification rendering
+/// and for the in-app message opened from a notification tap.
+PushNotificationContent? notificationContentFor(RemoteMessage message) {
+  final title =
+      message.notification?.title ?? message.data['title']?.toString();
+  final body = message.notification?.body ?? message.data['body']?.toString();
+  if (title == null ||
+      title.trim().isEmpty ||
+      body == null ||
+      body.trim().isEmpty) {
+    return null;
+  }
+  return PushNotificationContent(title: title.trim(), body: body.trim());
+}
+
 void showFlutterNotification(RemoteMessage message) {
   final notification = message.notification;
   final android = notification?.android;

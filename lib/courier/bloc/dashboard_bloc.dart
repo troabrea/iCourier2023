@@ -18,6 +18,7 @@ part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final _courierService = GetIt.I<CourierService>();
+  var _loadGeneration = 0;
 
   DashboardBloc(super.initialState) {
     on<StoreCurrentAccountEvent>((event, emit) async {
@@ -139,6 +140,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     });
 
     on<LoadApiEvent>((event, emit) async {
+      final generation = ++_loadGeneration;
       try {
         emit(DashboardLoadingState());
         final empresa =
@@ -169,6 +171,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final disponiblesCount = disponibles.length;
         final montoTotal = disponibles.map((e) => e.montoTotal()).toList().sum;
 
+        if (generation != _loadGeneration) {
+          return;
+        }
         emit(DashboardLoadedState(
             empresa: empresa,
             banners: banners,
@@ -184,6 +189,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
             reclamoUrl: reclamoUrl,
             referirUrl: referirUrl));
       } catch (e) {
+        if (generation != _loadGeneration) {
+          return;
+        }
         emit(DashboardFinishedState(
             withErrors: true, errorMessage: "error_favor_reintentar".tr()));
       }

@@ -81,12 +81,23 @@ final class WidgetSyncCoordinator {
     if (!_config.capabilities.widgets || !_signedIn) {
       return;
     }
+    final accountCode = _accountCode;
+    final accountName = _accountName;
     final packages = await _courierService.getRecepciones(false);
+    // A switch may finish while the previous account's request is in flight.
+    // Never combine that response with the identity that arrived afterwards.
+    if (!_signedIn || accountCode != _accountCode) {
+      return;
+    }
+    final persistedAccount = (await cache.load('userAccount', '')).toString();
+    if (persistedAccount != accountCode) {
+      return;
+    }
     final snapshot = WidgetSnapshotBuilder.build(
       config: _config,
       brightness: _brightness,
-      accountCode: _accountCode,
-      accountName: _accountName,
+      accountCode: accountCode,
+      accountName: accountName,
       packages: packages,
       generatedAt: _clock(),
     );

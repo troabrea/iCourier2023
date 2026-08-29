@@ -94,12 +94,8 @@ class UserAccount {
       userAccount: json["userAccount"] ?? "",
       password: json["password"] ?? "");
 
-  Map<String, dynamic> toJson() => {
-        "sessionId": sessionId,
-        "nombre": nombre,
-        "userAccount": userAccount,
-        "password": password
-      };
+  Map<String, dynamic> toJson() =>
+      {"nombre": nombre, "userAccount": userAccount, "password": password};
 }
 
 class UserProfileModel {

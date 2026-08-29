@@ -38,7 +38,7 @@ class AsistenteBloc extends Bloc<AsistenteEvent, AsistenteState> {
     Emitter<AsistenteState> emit,
   ) async {
     final question = event.question.trim();
-    if (question.isEmpty || state.isAsking) {
+    if (question.isEmpty || state.isAsking || state.hasSpentQuota) {
       return;
     }
     await _ask(question, emit);
@@ -49,7 +49,7 @@ class AsistenteBloc extends Bloc<AsistenteEvent, AsistenteState> {
     Emitter<AsistenteState> emit,
   ) async {
     final question = state.failedQuestion;
-    if (question == null || state.isAsking) {
+    if (question == null || state.isAsking || state.hasSpentQuota) {
       return;
     }
     await _ask(question, emit);
@@ -63,7 +63,13 @@ class AsistenteBloc extends Bloc<AsistenteEvent, AsistenteState> {
       return;
     }
     _conversation.clear();
-    emit(const AsistenteState());
+    emit(
+      AsistenteState(
+        quotaScope: state.quotaScope,
+        quotaResetAt: state.quotaResetAt,
+        quotaRequestId: state.quotaRequestId,
+      ),
+    );
   }
 
   void _onSelected(
@@ -113,12 +119,14 @@ class AsistenteBloc extends Bloc<AsistenteEvent, AsistenteState> {
           failedQuestion: question,
         ),
       );
-    } on AssistantQuotaException {
+    } on AssistantQuotaException catch (error) {
       emit(
         state.copyWith(
           clearPending: true,
-          failure: AssistantFailure.quotaSpent,
-          failedQuestion: question,
+          clearFailure: true,
+          quotaScope: error.scope,
+          quotaResetAt: error.resetAt,
+          quotaRequestId: error.requestId,
         ),
       );
     } on AssistantUnavailableException {

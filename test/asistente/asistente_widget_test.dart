@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart' as event;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/asistente/asistente.dart';
 import 'package:icourier/asistente/assistant_conversation.dart';
+import 'package:icourier/asistente/bloc/asistente_bloc.dart';
 import 'package:icourier/helpers/contact_action.dart';
 import 'package:icourier/design_system/brand_foundations.dart';
 import 'package:icourier/design_system/motion_components.dart';
@@ -388,7 +390,73 @@ void main() {
     expect(find.text('Tienes 2 paquetes disponibles.'), findsOneWidget);
   });
 
-  testWidgets('a spent allowance is explained without a retry to waste',
+  testWidgets('a daily quota offers help without exposing the allowance',
+      (tester) async {
+    await open(tester);
+
+    await tester.tap(find.text('¿Tengo paquetes disponibles?'));
+    await tester.pump();
+    assistant.pending!.completeError(
+      AssistantQuotaException(
+        scope: AssistantQuotaScope.sessionDaily,
+        resetAt: DateTime.utc(2026, 8, 22, 4),
+        requestId: '8b49c78a-5f86-47ad-a60d-e8eb7522dd71',
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('asistente_no_puedo_responder_ahora'.tr()),
+      findsOneWidget,
+    );
+    expect(find.textContaining('límite'), findsNothing);
+    expect(find.text('asistente_humano_escribir'.tr()), findsOneWidget);
+    expect(find.text('asistente_ir_faq'.tr()), findsOneWidget);
+    expect(find.text('Reintentar'), findsNothing);
+    expect(find.byType(TextField), findsNothing);
+
+    final bloc = BlocProvider.of<AsistenteBloc>(
+      tester.element(
+        find.byType(BlocBuilder<AsistenteBloc, AsistenteState>),
+      ),
+    );
+    bloc.add(const AssistantQuestionAsked('Otra pregunta'));
+    await tester.pump();
+    expect(assistant.askCount, 1);
+
+    bloc.add(const AssistantConversationCleared());
+    await tester.pump();
+    expect(
+      find.text('asistente_no_puedo_responder_ahora'.tr()),
+      findsOneWidget,
+    );
+    expect(find.byType(TextField), findsNothing);
+  });
+
+  testWidgets('a monthly quota uses the same customer-friendly recovery',
+      (tester) async {
+    await open(tester);
+
+    await tester.tap(find.text('¿Tengo paquetes disponibles?'));
+    await tester.pump();
+    assistant.pending!.completeError(
+      const AssistantQuotaException(
+        scope: AssistantQuotaScope.companyMonthly,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('asistente_no_puedo_responder_ahora'.tr()),
+      findsOneWidget,
+    );
+    expect(find.textContaining('mensual'), findsNothing);
+    expect(find.text('asistente_humano_escribir'.tr()), findsOneWidget);
+    expect(find.text('asistente_ir_faq'.tr()), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
+  });
+
+  testWidgets('an unidentified quota gets the same neutral explanation',
       (tester) async {
     await open(tester);
 
@@ -397,9 +465,37 @@ void main() {
     assistant.pending!.completeError(const AssistantQuotaException());
     await tester.pumpAndSettle();
 
-    expect(find.text('asistente_limite_alcanzado'.tr()), findsOneWidget);
-    // The same question would be refused again, so no button offers to send it.
-    expect(find.text('Reintentar'), findsNothing);
+    expect(
+      find.text('asistente_no_puedo_responder_ahora'.tr()),
+      findsOneWidget,
+    );
+    expect(find.text('asistente_humano_escribir'.tr()), findsOneWidget);
+    expect(find.text('asistente_ir_faq'.tr()), findsOneWidget);
+  });
+
+  testWidgets('a courier without FAQs still offers WhatsApp assistance',
+      (tester) async {
+    await GetIt.I.unregister<CourierService>();
+    GetIt.I.registerSingleton<CourierService>(
+      _AssistantCourierService(hasFaq: false),
+    );
+    await open(tester);
+
+    await tester.tap(find.text('¿Tengo paquetes disponibles?'));
+    await tester.pump();
+    assistant.pending!.completeError(
+      const AssistantQuotaException(
+        scope: AssistantQuotaScope.sessionDaily,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('asistente_no_puedo_responder_ahora'.tr()),
+      findsOneWidget,
+    );
+    expect(find.text('asistente_humano_escribir'.tr()), findsOneWidget);
+    expect(find.text('asistente_ir_faq'.tr()), findsNothing);
   });
 
   testWidgets('a courier without the module has no assistant to deep-link into',
@@ -469,8 +565,11 @@ class _FakeAssistant extends AssistantService {
 
   Completer<AssistantReply>? pending;
 
+  int askCount = 0;
+
   @override
   Future<AssistantReply> ask(String question) {
+    askCount++;
     if (answers.isNotEmpty) {
       return Future.value(AssistantReply(text: answers.removeAt(0)));
     }
@@ -480,7 +579,7 @@ class _FakeAssistant extends AssistantService {
 }
 
 class _AssistantCourierService extends CourierService {
-  _AssistantCourierService({this.assistant = true}) {
+  _AssistantCourierService({this.assistant = true, this.hasFaq = true}) {
     // This brand pays for the module; the screens under test are the ones it
     // unlocks.
     assistantEnabled.value = assistant;
@@ -489,6 +588,9 @@ class _AssistantCourierService extends CourierService {
   /// Whether this courier bought the assistant module.
   final bool assistant;
 
+  /// Whether this courier publishes a frequently asked questions module.
+  final bool hasFaq;
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,
@@ -496,7 +598,7 @@ class _AssistantCourierService extends CourierService {
     bool retryEmtpy = false,
   }) async =>
       Empresa.empty()
-        ..hasPreguntas = true
+        ..hasPreguntas = hasFaq
         ..hasAssistantModule = assistant;
 
   @override

@@ -17,11 +17,11 @@ part 'noticias_state.dart';
 
 class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
   final CourierService _courierService;
+  late final event.Event<LoginChanged> _loginChanges;
 
   NoticiasBloc(this._courierService) : super(NoticiasLoadingState()) {
-    GetIt.I<event.Event<LoginChanged>>().subscribe((args) {
-      add(const LoadApiEvent());
-    });
+    _loginChanges = GetIt.I<event.Event<LoginChanged>>()
+      ..subscribe(_onLoginChanged);
 
     on<LoadApiEvent>((event, emit) async {
       try {
@@ -45,5 +45,17 @@ class NoticiasBloc extends Bloc<NoticiasEvent, NoticiasState> {
         }
       }
     });
+  }
+
+  void _onLoginChanged(LoginChanged? change) {
+    if (!isClosed) {
+      add(const LoadApiEvent());
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _loginChanges.unsubscribe(_onLoginChanged);
+    return super.close();
   }
 }

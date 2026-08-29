@@ -58,6 +58,11 @@ GoRouter _router({required String tapRoute}) {
         builder: (context, state) =>
             const Scaffold(body: Center(child: Text('recepciones'))),
       ),
+      GoRoute(
+        path: AppRoutes.faq,
+        builder: (context, state) =>
+            const Scaffold(body: Center(child: Text('faq'))),
+      ),
     ],
   );
 }
@@ -103,7 +108,8 @@ void main() {
     expect(find.text('Ver sucursales'), findsNothing);
   });
 
-  testWidgets('a stacked destination still pushes, so back returns to the answer',
+  testWidgets(
+      'a stacked destination still pushes, so back returns to the answer',
       (tester) async {
     await _openAssistant(
       tester,
@@ -120,6 +126,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Ver sucursales'), findsOneWidget);
+  });
+
+  testWidgets('the quota fallback opens the existing FAQ route',
+      (tester) async {
+    await _openAssistant(
+      tester,
+      _router(tapRoute: AppRoutes.faq),
+    );
+
+    await tester.tap(find.text('Ver sucursales'));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.text('faq'), findsOneWidget);
   });
 
   test('the brand knows which locations are its tab roots', () {

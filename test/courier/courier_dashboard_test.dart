@@ -32,6 +32,9 @@ void main() {
     GetIt.I.registerSingleton<AppInfo>(BmcargoAppInfo());
     GetIt.I.registerSingleton<BrandConfig>(config);
     GetIt.I.registerSingleton<CourierService>(_DashboardService());
+    GetIt.I.registerSingleton<event.Event<LoginChanged>>(
+      event.Event<LoginChanged>(),
+    );
     GetIt.I.registerSingleton<event.Event<UnreadMessagesChanged>>(
       event.Event<UnreadMessagesChanged>(),
     );
@@ -58,8 +61,7 @@ void main() {
     // The expanded panel and the collapsed bar carry the same cluster, so the
     // mark appears twice and WhatsApp appears nowhere.
     final marks = find.byWidgetPredicate(
-      (widget) =>
-          widget is BrandGlyph && widget.asset == BrandIcons.assistant,
+      (widget) => widget is BrandGlyph && widget.asset == BrandIcons.assistant,
     );
     expect(marks, findsNWidgets(2));
     expect(find.byType(FaIcon), findsNothing);
@@ -134,9 +136,48 @@ void main() {
     expect(find.text('Crear Pre-Alerta'), findsOneWidget);
     expect(find.text('Rastrear Paquete'), findsOneWidget);
   });
+
+  testWidgets('cambiar de cuenta reemplaza identidad y paquetes visibles', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final service = GetIt.I<CourierService>() as _DashboardService;
+    service.useAccountScenario = true;
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CourierDashboard(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Alicia'), findsWidgets);
+    expect(find.text('BM-001'), findsOneWidget);
+    expect(find.text('Paquete de cuenta uno'), findsOneWidget);
+
+    service.activeAccount = 2;
+    GetIt.I<event.Event<LoginChanged>>().broadcast(
+      LoginChanged(true, 'BM-002', 'Bruno'),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Bruno'), findsWidgets);
+    expect(find.text('BM-002'), findsOneWidget);
+    expect(find.text('Paquete de cuenta dos'), findsOneWidget);
+    expect(find.text('Alicia'), findsNothing);
+    expect(find.text('BM-001'), findsNothing);
+    expect(find.text('Paquete de cuenta uno'), findsNothing);
+  });
 }
 
 class _DashboardService extends CourierService {
+  bool useAccountScenario = false;
+  int activeAccount = 1;
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,
@@ -166,12 +207,43 @@ class _DashboardService extends CourierService {
       ];
 
   @override
-  Future<List<Recepcion>> getRecepciones(bool forceRefresh) async => [];
+  Future<List<Recepcion>> getRecepciones(bool forceRefresh) async {
+    if (!useAccountScenario) {
+      return [];
+    }
+    final accountLabel = activeAccount == 1 ? 'uno' : 'dos';
+    return [
+      Recepcion(
+        recepcionID: 'package-$activeAccount',
+        fecha: '2026.08.28',
+        producto: 'Libra',
+        suplidor: 'Proveedor',
+        cantidadPaquetes: 1,
+        contenido: 'Paquete de cuenta $accountLabel',
+        enviadoPor: '',
+        totalPeso: '1',
+        totalVolumen: '',
+        totalNeto: '10.00',
+        estatus: 'Embarcado',
+        retenido: false,
+        disponible: false,
+        paquetes: const [],
+        fotoPaqueteSmallUrl: '',
+        fotoPaqueteUrl: '',
+        fotoFacturaUrl: '',
+        fechaHora: '2026-08-28T12:00:00',
+        progreso: 2,
+        numeroRastreo: 'tracking-$activeAccount',
+      ),
+    ];
+  }
 
   @override
   Future<UserProfile> getUserProfile() async => UserProfile(
-        cuenta: 'BM-123',
-        nombre: 'Ada Lovelace',
+        cuenta: useAccountScenario ? 'BM-00$activeAccount' : 'BM-123',
+        nombre: useAccountScenario
+            ? (activeAccount == 1 ? 'Alicia' : 'Bruno')
+            : 'Ada Lovelace',
         email: 'ada@example.com',
         sucursal: 'Principal',
         fotoPerfilUrl: '',

@@ -120,4 +120,20 @@ void main() {
       AppRoutes.calculator,
     );
   });
+
+  test('active account changes notify even while login remains active', () {
+    final changes = Event<LoginChanged>();
+    final session = RouterSession(
+      initiallyLoggedIn: true,
+      loginChanges: changes,
+    );
+    addTearDown(session.dispose);
+    var notifications = 0;
+    session.addListener(() => notifications++);
+
+    changes.broadcast(LoginChanged(true, 'BM-002', 'Bruno'));
+
+    expect(session.isLoggedIn, isTrue);
+    expect(notifications, 1);
+  });
 }

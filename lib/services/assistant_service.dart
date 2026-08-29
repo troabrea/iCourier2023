@@ -22,13 +22,38 @@ final class AssistantUnavailableException implements Exception {
   const AssistantUnavailableException();
 }
 
+/// Which server-side allowance refused an assistant question.
+enum AssistantQuotaScope {
+  /// This customer's allowance for the current day is spent.
+  sessionDaily,
+
+  /// The courier's shared allowance for the current month is spent.
+  companyMonthly,
+
+  /// An older or malformed response did not identify the spent allowance.
+  unknown,
+}
+
 /// The workflow refused the question because a quota is spent.
 ///
 /// The caps themselves live in the courier's record and are counted by the
 /// workflow. This app only reports the refusal, because a limit the client
 /// counts is a limit anyone can reset by reinstalling.
 final class AssistantQuotaException implements Exception {
-  const AssistantQuotaException();
+  const AssistantQuotaException({
+    this.scope = AssistantQuotaScope.unknown,
+    this.resetAt,
+    this.requestId,
+  });
+
+  /// Which allowance refused the question.
+  final AssistantQuotaScope scope;
+
+  /// When the allowance becomes available again, if the proxy supplied it.
+  final DateTime? resetAt;
+
+  /// The proxy's correlation id, if the refusal reached its request log.
+  final String? requestId;
 }
 
 /// Reads the identity a question is asked under.
@@ -168,8 +193,10 @@ class AssistantService {
 
     // A spent cap is the one refusal retrying cannot fix, so it is told apart
     // from the failures that a second tap does fix.
-    if (response.statusCode == HttpStatus.tooManyRequests ||
-        response.statusCode == HttpStatus.paymentRequired) {
+    if (response.statusCode == HttpStatus.tooManyRequests) {
+      throw _readQuota(response);
+    }
+    if (response.statusCode == HttpStatus.paymentRequired) {
       throw const AssistantQuotaException();
     }
 
@@ -197,6 +224,41 @@ class AssistantService {
     } on FormatException {
       return response.body;
     }
+  }
+
+  /// Reads the structured refusal returned by the assistant proxy.
+  ///
+  /// A malformed body still means the quota is spent because the HTTP status
+  /// is authoritative. It only costs the app the more specific explanation.
+  static AssistantQuotaException _readQuota(Response response) {
+    Object? decoded;
+    try {
+      decoded = jsonDecode(_decode(response));
+    } on FormatException {
+      return const AssistantQuotaException();
+    }
+    if (decoded is! Map) {
+      return const AssistantQuotaException();
+    }
+    final error = decoded['error'];
+    if (error is! Map) {
+      return const AssistantQuotaException();
+    }
+
+    final scope = switch (error['scope']) {
+      'session_daily' => AssistantQuotaScope.sessionDaily,
+      'company_monthly' => AssistantQuotaScope.companyMonthly,
+      _ => AssistantQuotaScope.unknown,
+    };
+    final resetAt = error['resetAt'];
+    final requestId = error['requestId'];
+    return AssistantQuotaException(
+      scope: scope,
+      resetAt: resetAt is String ? DateTime.tryParse(resetAt) : null,
+      requestId: requestId is String && requestId.trim().isNotEmpty
+          ? requestId.trim()
+          : null,
+    );
   }
 
   /// Pulls the reply out of the webhook body.

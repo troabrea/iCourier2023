@@ -90,12 +90,53 @@ void main() {
     expect(find.text('Abrir encuesta'), findsNothing);
     expect(find.text('No hay resultados'), findsOneWidget);
   });
+
+  testWidgets('lists a recent push message and marks it read when opened', (
+    tester,
+  ) async {
+    final message = Mensaje(
+      registroId: 'push-1',
+      empresa: 'company',
+      fecha: DateTime(2026, 8, 29),
+      titulo: 'Paquete disponible',
+      contenido: 'Ya puedes retirar tu paquete.',
+      deleted: false,
+      read: false,
+    );
+    final service = _NotificationCenterService(
+      company: _company(url: '', activeUntil: ''),
+      messages: [message],
+    );
+    GetIt.I.registerSingleton<CourierService>(service);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const MensajesUsuario(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Paquete disponible'), findsOneWidget);
+    expect(service.readMessageIds, isEmpty);
+
+    await tester.tap(find.text('Paquete disponible'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ya puedes retirar tu paquete.'), findsNWidgets(2));
+    expect(service.readMessageIds, ['push-1']);
+  });
 }
 
 final class _NotificationCenterService extends CourierService {
-  _NotificationCenterService({required this.company});
+  _NotificationCenterService({
+    required this.company,
+    this.messages = const [],
+  });
 
   final Empresa company;
+  final List<Mensaje> messages;
+  final List<String> readMessageIds = [];
 
   @override
   Future<Empresa> getEmpresa({
@@ -106,7 +147,13 @@ final class _NotificationCenterService extends CourierService {
       company;
 
   @override
-  Future<List<Mensaje>> getMensajes({bool ignoreCache = false}) async => [];
+  Future<List<Mensaje>> getMensajes({bool ignoreCache = false}) async =>
+      messages;
+
+  @override
+  Future<void> setMessagesRead(List<String> mensajesToMark) async {
+    readMessageIds.addAll(mensajesToMark);
+  }
 }
 
 Empresa _company({required String url, required String activeUntil}) => Empresa(
