@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +28,41 @@ Future<bool> preloadEmergingNewsImage(
 Future<bool> showEmergingNewsDialog(
   BuildContext context, {
   required EmergingNewsAnnouncement announcement,
+  ImageProvider<Object>? imageProvider,
 }) async {
-  final openNews = await showDialog<bool>(
-    context: context,
-    barrierColor: context.brand.modalScrim,
-    barrierDismissible: true,
-    builder: (context) => EmergingNewsDialog(announcement: announcement),
+  final media = MediaQuery.of(context);
+  final reduceMotion = media.disableAnimations || media.accessibleNavigation;
+  final openNews = await Navigator.of(context, rootNavigator: true).push<bool>(
+    PageRouteBuilder<bool>(
+      opaque: false,
+      barrierDismissible: true,
+      barrierColor: context.brand.modalScrim,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      transitionDuration:
+          reduceMotion ? Duration.zero : const Duration(milliseconds: 420),
+      reverseTransitionDuration:
+          reduceMotion ? Duration.zero : const Duration(milliseconds: 220),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          EmergingNewsDialog(
+        announcement: announcement,
+        imageProvider: imageProvider,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final arrival = CurvedAnimation(
+          parent: animation,
+          curve: const Cubic(0.16, 1, 0.3, 1),
+          reverseCurve: Curves.easeInCubic,
+        );
+        return SlideTransition(
+          key: const ValueKey('emerging-news-roll-down'),
+          position: Tween<Offset>(
+            begin: const Offset(0, -0.1),
+            end: Offset.zero,
+          ).animate(arrival),
+          child: FadeTransition(opacity: arrival, child: child),
+        );
+      },
+    ),
   );
   return openNews ?? false;
 }
@@ -56,128 +83,88 @@ class EmergingNewsDialog extends StatelessWidget {
     final tokens = context.brand;
     final news = announcement.news;
     final viewport = MediaQuery.sizeOf(context);
-    final maxImageHeight = math.min(
-      viewport.width - (BrandSpace.lg * 4),
-      viewport.height * (news == null ? 0.68 : 0.46),
-    );
     final title = news?.titulo.trim() ?? '';
     final preview = news?.previewText.trim() ?? '';
     final semanticLabel = title.isEmpty ? 'noticias'.tr() : title;
 
     return Dialog(
       backgroundColor: tokens.surface,
-      insetPadding: const EdgeInsets.symmetric(
-        horizontal: BrandSpace.lg,
-        vertical: BrandSpace.xl,
-      ),
+      insetPadding: EdgeInsets.zero,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radiusLg),
       ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 440,
-          maxHeight: viewport.height - (BrandSpace.xl * 2),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Stack(
-                children: [
-                  ColoredBox(
-                    color: tokens.surfaceAlt,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: maxImageHeight),
-                      child: Image(
-                        image: imageProvider ??
-                            CachedNetworkImageProvider(announcement.imageUrl),
-                        width: double.infinity,
-                        fit: BoxFit.contain,
-                        semanticLabel: semanticLabel,
-                        errorBuilder: (context, error, stackTrace) => Center(
-                          child: BrandGlyph(
-                            BrandIcons.news,
-                            size: 44,
-                            color: tokens.textMuted,
-                          ),
-                        ),
-                      ),
+      child: SizedBox(
+        key: const ValueKey('emerging-news-card'),
+        width: viewport.width * 0.8,
+        height: viewport.height * 0.6,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ColoredBox(
+                color: tokens.surfaceAlt,
+                child: Image(
+                  image: imageProvider ??
+                      CachedNetworkImageProvider(announcement.imageUrl),
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  semanticLabel: semanticLabel,
+                  errorBuilder: (context, error, stackTrace) => Center(
+                    child: BrandGlyph(
+                      BrandIcons.news,
+                      size: 44,
+                      color: tokens.textMuted,
                     ),
-                  ),
-                  PositionedDirectional(
-                    top: BrandSpace.xs,
-                    end: BrandSpace.xs,
-                    child: Semantics(
-                      button: true,
-                      label: 'cerrar'.tr(),
-                      child: Material(
-                        color: tokens.surface,
-                        shape: const CircleBorder(),
-                        elevation: 0,
-                        child: InkWell(
-                          customBorder: const CircleBorder(),
-                          onTap: () => Navigator.of(context).pop(false),
-                          child: SizedBox.square(
-                            dimension: 44,
-                            child: Icon(
-                              Icons.close,
-                              size: 20,
-                              color: tokens.text,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (news != null)
-                Container(
-                  decoration: BoxDecoration(
-                    color: tokens.surface,
-                    border: Border(top: BorderSide(color: tokens.border)),
-                  ),
-                  padding: const EdgeInsets.fromLTRB(
-                    BrandSpace.lg,
-                    BrandSpace.md,
-                    BrandSpace.lg,
-                    BrandSpace.lg,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      if (title.isNotEmpty)
-                        Text(
-                          title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: tokens.head(18, height: 1.3),
-                        ),
-                      if (title.isNotEmpty && preview.isNotEmpty)
-                        const SizedBox(height: BrandSpace.xs),
-                      if (preview.isNotEmpty)
-                        Text(
-                          preview,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: tokens.body(
-                            13,
-                            height: 1.45,
-                            color: tokens.readableMuted(tokens.surface),
-                          ),
-                        ),
-                      const SizedBox(height: BrandSpace.md),
-                      BrandPrimaryButton(
-                        label: 'ver_mas'.tr(),
-                        onPressed: () => Navigator.of(context).pop(true),
-                      ),
-                    ],
                   ),
                 ),
-            ],
-          ),
+              ),
+            ),
+            if (news != null)
+              Container(
+                decoration: BoxDecoration(
+                  color: tokens.surface,
+                  border: Border(top: BorderSide(color: tokens.border)),
+                ),
+                padding: const EdgeInsets.fromLTRB(
+                  BrandSpace.lg,
+                  BrandSpace.md,
+                  BrandSpace.lg,
+                  BrandSpace.lg,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (title.isNotEmpty)
+                      Text(
+                        title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tokens.head(18, height: 1.3),
+                      ),
+                    if (title.isNotEmpty && preview.isNotEmpty)
+                      const SizedBox(height: BrandSpace.xs),
+                    if (preview.isNotEmpty)
+                      Text(
+                        preview,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tokens.body(
+                          13,
+                          height: 1.45,
+                          color: tokens.readableMuted(tokens.surface),
+                        ),
+                      ),
+                    const SizedBox(height: BrandSpace.md),
+                    BrandPrimaryButton(
+                      label: 'ver_mas'.tr(),
+                      onPressed: () => Navigator.of(context).pop(true),
+                    ),
+                  ],
+                ),
+              ),
+          ],
         ),
       ),
     );

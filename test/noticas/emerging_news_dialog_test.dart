@@ -29,17 +29,14 @@ void main() {
         child: Builder(
           builder: (context) => ElevatedButton(
             onPressed: () async {
-              opened = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => EmergingNewsDialog(
-                      announcement: EmergingNewsAnnouncement(
-                        imageUrl: 'https://cdn.example.com/alert.png',
-                        news: _news(),
-                      ),
-                      imageProvider: _image,
-                    ),
-                  ) ??
-                  false;
+              opened = await showEmergingNewsDialog(
+                context,
+                announcement: EmergingNewsAnnouncement(
+                  imageUrl: 'https://cdn.example.com/alert.png',
+                  news: _news(),
+                ),
+                imageProvider: _image,
+              );
             },
             child: const Text('Mostrar'),
           ),
@@ -64,7 +61,7 @@ void main() {
     expect(find.byType(EmergingNewsDialog), findsNothing);
   });
 
-  testWidgets('keeps an image-only campaign free of empty controls', (
+  testWidgets('uses the campaign dimensions and closes from the barrier', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -77,37 +74,73 @@ void main() {
         config: loadTestBrand('bmcargo'),
         child: Builder(
           builder: (context) => ElevatedButton(
-            onPressed: () => showDialog<void>(
-              context: context,
-              builder: (context) => EmergingNewsDialog(
-                announcement: const EmergingNewsAnnouncement(
-                  imageUrl: 'https://cdn.example.com/alert.png',
-                ),
-                imageProvider: _goldenImage,
+            onPressed: () => showEmergingNewsDialog(
+              context,
+              announcement: const EmergingNewsAnnouncement(
+                imageUrl: 'https://cdn.example.com/alert.png',
               ),
+              imageProvider: _goldenImage,
             ),
             child: const Text('Mostrar'),
           ),
         ),
       ),
     );
-    await tester.runAsync(
-      () => precacheImage(
-        _goldenImage,
-        tester.element(find.text('Mostrar')),
-      ),
-    );
 
     await tester.tap(find.text('Mostrar'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 16));
+
+    final entrance = tester.widget<SlideTransition>(
+      find.byKey(const ValueKey('emerging-news-roll-down')),
+    );
+    expect(entrance.position.value.dy, lessThan(0));
+
     await tester.pumpAndSettle();
 
+    final cardSize = tester.getSize(
+      find.byKey(const ValueKey('emerging-news-card')),
+    );
+    expect(cardSize.width, closeTo(390 * 0.8, 0.01));
+    expect(cardSize.height, closeTo(844 * 0.6, 0.01));
     expect(find.text('Ver más'), findsNothing);
-    expect(find.byIcon(Icons.close), findsOneWidget);
+    expect(find.byIcon(Icons.close), findsNothing);
+    expect(
+      tester
+          .widget<Image>(
+            find.descendant(
+              of: find.byType(EmergingNewsDialog),
+              matching: find.byType(Image),
+            ),
+          )
+          .fit,
+      BoxFit.cover,
+    );
 
-    await tester.tap(find.byIcon(Icons.close));
+    await tester.tapAt(const Offset(4, 4));
     await tester.pumpAndSettle();
 
     expect(find.byType(EmergingNewsDialog), findsNothing);
+  });
+
+  testWidgets('keeps an image-only campaign free of empty controls', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      brandTestApp(
+        config: loadTestBrand('bmcargo'),
+        child: EmergingNewsDialog(
+          announcement: const EmergingNewsAnnouncement(
+            imageUrl: 'https://cdn.example.com/alert.png',
+          ),
+          imageProvider: _goldenImage,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ver más'), findsNothing);
+    expect(find.byIcon(Icons.close), findsNothing);
   });
 
   testWidgets('remains usable with large text on a compact phone', (
