@@ -10,6 +10,7 @@
   "activa": "Active",
   "activar_ubicacion": "Turn on location",
   "actualizacion_disponible": "Update Available!",
+  "actualizacion_requerida": "You must update the application to continue. Version {} is now available; you have version {}.",
   "actualizar": "Update",
   "adjunta_valor_factura": "Attach the value and the invoice to release this package.",
   "adjuntar_factura": "Attach invoice",

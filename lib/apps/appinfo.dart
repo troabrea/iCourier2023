@@ -3,6 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 abstract class AppInfo {
   /// Stable slug used to load the local WhiteLabel configuration.
   String get brandSlug => metricsPrefixKey.toLowerCase();
+
+  /// App Store storefront used to look up this WhiteLabel on iOS.
+  String get appStoreCountryCode => 'DO';
+
   String get companyId;
   String get iphoneAnalyticsAppId;
   String get androidAnalyticsAppId;

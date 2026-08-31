@@ -4,6 +4,9 @@ import '../appinfo.dart';
 
 class SwoopAppInfo extends AppInfo {
   @override
+  String get appStoreCountryCode => 'US';
+
+  @override
   // TODO: implement appFirebaseOptions
   FirebaseOptions get appFirebaseOptions => throw UnimplementedError();
   @override

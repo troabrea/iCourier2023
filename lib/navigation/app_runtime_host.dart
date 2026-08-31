@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../apps/appinfo.dart';
 import '../design_system/brand_foundations.dart';
 import '../design_system/overlay_components.dart';
 import '../noticas/emerging_news_coordinator.dart';
@@ -22,6 +23,8 @@ import '../surveys/survey_prompt_coordinator.dart';
 import '../surveys/survey_prompt_cue.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
+import '../updates/app_update_coordinator.dart';
+import '../updates/app_update_dialog.dart';
 import 'app_routes.dart';
 
 /// Owns application-wide integrations that previously lived in the old tab UI.
@@ -35,6 +38,7 @@ class AppRuntimeHost extends StatefulWidget {
     this.loadInitialMessage,
     this.navigatorKey,
     this.router,
+    this.appUpdateCoordinator,
     this.emergingNewsCoordinator,
     this.emergingNewsImagePreloader = preloadEmergingNewsImage,
   });
@@ -46,6 +50,7 @@ class AppRuntimeHost extends StatefulWidget {
   final Future<RemoteMessage?> Function()? loadInitialMessage;
   final GlobalKey<NavigatorState>? navigatorKey;
   final GoRouter? router;
+  final AppUpdateCoordinator? appUpdateCoordinator;
   final EmergingNewsCoordinator? emergingNewsCoordinator;
   final EmergingNewsImagePreloader emergingNewsImagePreloader;
 
@@ -60,6 +65,8 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
   late final AppDeepLinkParser _linkParser;
   late final SurveyPromptCoordinator _surveyPromptCoordinator;
   late final SurveyLauncher _surveyLauncher;
+  late final AppUpdateCoordinator _appUpdateCoordinator;
+  late final bool _ownsAppUpdateCoordinator;
   late final EmergingNewsCoordinator _emergingNewsCoordinator;
   StreamSubscription<ConnectivityResult>? _connectivitySubscription;
   StreamSubscription<RemoteMessage>? _foregroundMessageSubscription;
@@ -67,6 +74,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? _surveyCue;
   bool _connectionWasLost = false;
   bool _isOpeningSurvey = false;
+  bool _isHandlingAppUpdate = false;
   bool _isShowingEmergingNews = false;
   bool _isCheckingRuntimePrompts = false;
 
@@ -84,6 +92,11 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
       store: surveyStore,
     );
     _surveyLauncher = SurveyLauncher(store: surveyStore);
+    _ownsAppUpdateCoordinator = widget.appUpdateCoordinator == null;
+    _appUpdateCoordinator = widget.appUpdateCoordinator ??
+        StoreAppUpdateCoordinator(
+          appStoreCountryCode: GetIt.I<AppInfo>().appStoreCountryCode,
+        );
     final courierService = GetIt.I<CourierService>();
     _emergingNewsCoordinator = widget.emergingNewsCoordinator ??
         EmergingNewsCoordinator(
@@ -124,6 +137,9 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     _connectivitySubscription?.cancel();
     _foregroundMessageSubscription?.cancel();
     _openedMessageSubscription?.cancel();
+    if (_ownsAppUpdateCoordinator) {
+      _appUpdateCoordinator.dispose();
+    }
     super.dispose();
   }
 
@@ -133,17 +149,20 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      unawaited(_checkForRuntimePrompts());
+      unawaited(_checkForRuntimePrompts(refreshAppUpdate: true));
       unawaited(_refreshMessageHistory());
     }
   }
 
-  Future<void> _checkForRuntimePrompts() async {
+  Future<void> _checkForRuntimePrompts({bool refreshAppUpdate = false}) async {
     if (!mounted || _isShowingEmergingNews || _isCheckingRuntimePrompts) {
       return;
     }
     _isCheckingRuntimePrompts = true;
     try {
+      if (await _showAppUpdateIfAvailable(refresh: refreshAppUpdate)) {
+        return;
+      }
       if (await _showEmergingNewsIfAvailable()) {
         return;
       }
@@ -165,11 +184,69 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     if (!mounted) {
       return;
     }
+    final updateWasShown = await _showAppUpdateIfAvailable();
+    if (!mounted) {
+      return;
+    }
     if (message != null) {
       await _openMessage(message);
       return;
     }
+    if (updateWasShown) {
+      return;
+    }
     await _checkForRuntimePrompts();
+  }
+
+  Future<bool> _showAppUpdateIfAvailable({bool refresh = false}) async {
+    if (_isHandlingAppUpdate) {
+      return true;
+    }
+    _isHandlingAppUpdate = true;
+    try {
+      AvailableAppUpdate? update;
+      try {
+        update = await _appUpdateCoordinator.findUpdate(refresh: refresh);
+      } on Exception catch (error) {
+        debugPrint('App update availability check failed: $error');
+        return false;
+      }
+      if (!mounted || update == null) {
+        return false;
+      }
+
+      final presentationContext = widget.navigatorKey?.currentContext ??
+          Navigator.maybeOf(context)?.context;
+      if (presentationContext == null || !presentationContext.mounted) {
+        return false;
+      }
+
+      try {
+        await _appUpdateCoordinator.markPrompted();
+      } on Exception catch (error) {
+        debugPrint('App update prompt persistence failed: $error');
+      }
+      if (!mounted || !presentationContext.mounted) {
+        return false;
+      }
+
+      final action = await showAppUpdateDialog(
+        presentationContext,
+        update: update,
+      );
+      if (!mounted || action != AppUpdateAction.update) {
+        return true;
+      }
+
+      try {
+        await _appUpdateCoordinator.openStore();
+      } on Exception catch (error) {
+        debugPrint('Opening the app store failed: $error');
+      }
+      return true;
+    } finally {
+      _isHandlingAppUpdate = false;
+    }
   }
 
   Future<bool> _showEmergingNewsIfAvailable() async {

@@ -19,6 +19,7 @@ import 'package:icourier/services/model/mensaje.dart';
 import 'package:icourier/services/model/noticia.dart';
 import 'package:icourier/theme/brand_config.dart';
 import 'package:icourier/theme/brand_theme.dart';
+import 'package:icourier/updates/app_update_coordinator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/brand_test_app.dart';
@@ -58,6 +59,7 @@ void main() {
           navigatorKey: navigatorKey,
           foregroundMessages: const Stream<RemoteMessage>.empty(),
           openedMessages: const Stream<RemoteMessage>.empty(),
+          appUpdateCoordinator: _FakeAppUpdateCoordinator(),
           loadInitialMessage: () async => const RemoteMessage(
             data: {
               'title': 'Paquete disponible',
@@ -140,6 +142,7 @@ void main() {
           emergingNewsImagePreloader: (context, imageUrl) async => true,
           foregroundMessages: const Stream<RemoteMessage>.empty(),
           openedMessages: const Stream<RemoteMessage>.empty(),
+          appUpdateCoordinator: _FakeAppUpdateCoordinator(),
           loadInitialMessage: () async => null,
           child: child!,
         ),
@@ -158,6 +161,118 @@ void main() {
 
     expect(find.text('Detalle news-42'), findsOneWidget);
   });
+
+  testWidgets('prompts for an update and opens the platform store', (
+    tester,
+  ) async {
+    final preferences = await SharedPreferences.getInstance();
+    final config = GetIt.I<BrandConfig>();
+    final navigatorKey = GlobalKey<NavigatorState>();
+    final updateCoordinator = _FakeAppUpdateCoordinator(
+      update: const AvailableAppUpdate(
+        installedVersion: '2027.0.2',
+        storeVersion: '2027.0.3',
+        isRequired: false,
+      ),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        navigatorKey: navigatorKey,
+        theme: BrandTheme.light(config),
+        builder: (context, child) => AppRuntimeHost(
+          preferences: preferences,
+          navigatorKey: navigatorKey,
+          foregroundMessages: const Stream<RemoteMessage>.empty(),
+          openedMessages: const Stream<RemoteMessage>.empty(),
+          appUpdateCoordinator: updateCoordinator,
+          loadInitialMessage: () async => null,
+          child: child!,
+        ),
+        home: const Scaffold(body: Text('Inicio')),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Actualización Disponible!'), findsOneWidget);
+    expect(
+      find.text(
+        'Existe una nueva versión (2027.0.3) más reciente que su versión '
+        'actual (2027.0.2), desea actualizar?',
+      ),
+      findsOneWidget,
+    );
+    expect(updateCoordinator.promptCount, 1);
+
+    await tester.tap(find.text('Actualizar'));
+    await tester.pumpAndSettle();
+
+    expect(updateCoordinator.storeOpenCount, 1);
+    expect(find.text('Actualización Disponible!'), findsNothing);
+  });
+
+  testWidgets('does not allow postponing a required update', (tester) async {
+    final preferences = await SharedPreferences.getInstance();
+    final config = GetIt.I<BrandConfig>();
+    final navigatorKey = GlobalKey<NavigatorState>();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        navigatorKey: navigatorKey,
+        theme: BrandTheme.light(config),
+        builder: (context, child) => AppRuntimeHost(
+          preferences: preferences,
+          navigatorKey: navigatorKey,
+          foregroundMessages: const Stream<RemoteMessage>.empty(),
+          openedMessages: const Stream<RemoteMessage>.empty(),
+          appUpdateCoordinator: _FakeAppUpdateCoordinator(
+            update: const AvailableAppUpdate(
+              installedVersion: '2026.9.0',
+              storeVersion: '2027.0.3',
+              isRequired: true,
+            ),
+          ),
+          loadInitialMessage: () async => null,
+          child: child!,
+        ),
+        home: const Scaffold(body: Text('Inicio')),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Actualizar'), findsOneWidget);
+    expect(find.text('Quizás después'), findsNothing);
+
+    await tester.tapAt(const Offset(5, 5));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Actualización Disponible!'), findsOneWidget);
+  });
+}
+
+final class _FakeAppUpdateCoordinator implements AppUpdateCoordinator {
+  _FakeAppUpdateCoordinator({this.update});
+
+  final AvailableAppUpdate? update;
+  int promptCount = 0;
+  int storeOpenCount = 0;
+
+  @override
+  Future<AvailableAppUpdate?> findUpdate({bool refresh = false}) async =>
+      update;
+
+  @override
+  Future<void> markPrompted() async {
+    promptCount++;
+  }
+
+  @override
+  Future<void> openStore() async {
+    storeOpenCount++;
+  }
+
+  @override
+  void dispose() {}
 }
 
 final class _MemoryEmergingNewsSeenStore implements EmergingNewsSeenStore {
