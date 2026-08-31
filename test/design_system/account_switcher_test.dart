@@ -38,15 +38,19 @@ void main() {
   Future<void> pumpSwitcher(
     WidgetTester tester, {
     required ValueChanged<UserAccount> onDelete,
+    ValueChanged<UserAccount>? onEdit,
+    List<UserAccount>? accounts,
   }) async {
     final only = account();
+    final visibleAccounts = accounts ?? [only];
     await tester.pumpWidget(
       brandTestApp(
         config: loadTestBrand('bmcargo'),
         child: AccountSwitcher(
-          accounts: [only],
-          activeAccount: only.userAccount,
+          accounts: visibleAccounts,
+          activeAccount: visibleAccounts.first.userAccount,
           onSelect: (_) {},
+          onEdit: onEdit,
           onDelete: onDelete,
           onAdd: () {},
         ),
@@ -62,6 +66,100 @@ void main() {
     expect(find.text('Cambiar Cuenta / Cerrar Sesión'), findsOneWidget);
     // El botón rojo suelto de cerrar sesión ya no existe.
     expect(find.text('Cerrar Sesión'), findsNothing);
+  });
+
+  testWidgets('editar y el check solo aparecen en la cuenta activa',
+      (tester) async {
+    final active = account();
+    final inactive = UserAccount(
+      sessionId: 's2',
+      nombre: 'Ada Lovelace',
+      userAccount: 'BM-000002',
+      password: 'y',
+    );
+    UserAccount? edited;
+
+    await pumpSwitcher(
+      tester,
+      accounts: [active, inactive],
+      onDelete: (_) {},
+      onEdit: (account) => edited = account,
+    );
+
+    expect(find.text('Activa'), findsNothing);
+    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.edit_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.delete_outline), findsNWidgets(2));
+    expect(
+      find.byKey(ValueKey('edit-account-${active.userAccount}')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(ValueKey('edit-account-${inactive.userAccount}')),
+      findsNothing,
+    );
+
+    await tester.tap(find.byIcon(Icons.edit_outlined));
+    expect(edited, same(active));
+  });
+
+  testWidgets('editar y borrar conservan separación', (tester) async {
+    await pumpSwitcher(
+      tester,
+      onDelete: (_) {},
+      onEdit: (_) {},
+    );
+
+    final edit = tester.getRect(find.byKey(const ValueKey(
+      'edit-account-BM-096791',
+    )));
+    final delete = tester.getRect(find.byKey(const ValueKey(
+      'delete-account-BM-096791',
+    )));
+
+    expect(delete.left - edit.right, greaterThanOrEqualTo(4));
+  });
+
+  testWidgets('el check es un badge junto al número de cuenta', (tester) async {
+    await pumpSwitcher(
+      tester,
+      onDelete: (_) {},
+      onEdit: (_) {},
+    );
+
+    final accountNumber = tester.getRect(find.text('BM-096791'));
+    final badge = tester.getRect(
+      find.byKey(const ValueKey('active-account-BM-096791')),
+    );
+    final edit = tester.getRect(
+      find.byKey(const ValueKey('edit-account-BM-096791')),
+    );
+
+    expect(badge.left, greaterThan(accountNumber.right));
+    expect(
+      badge.center.dy,
+      closeTo(accountNumber.center.dy, 1),
+    );
+    expect(badge.size, const Size.square(16));
+    expect(badge.width, lessThan(edit.width));
+  });
+
+  testWidgets('la fila activa cabe en una pantalla angosta', (tester) async {
+    tester.view.physicalSize = const Size(320, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await pumpSwitcher(
+      tester,
+      onDelete: (_) {},
+      onEdit: (_) {},
+    );
+
+    expect(tester.takeException(), isNull);
+    expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.edit_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.delete_outline), findsOneWidget);
   });
 
   testWidgets('un toque en el botón destructivo no borra', (tester) async {

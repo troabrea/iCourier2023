@@ -1200,13 +1200,40 @@ class CourierService {
     final userId = (await cache.load('userAccount', '')).toString();
     final password = (await cache.load('userPassword', '')).toString();
 
-    var map = <String, String>{};
-    map['ActionURL'] = 'https://micuenta.cps.iplus.app/lg-es/ut/Sesion.aspx';
-    map['UsuarioID'] = userId;
-    map['UsuarioPW'] = password;
-    map['UrlID'] = 'micuenta';
+    return <String, String>{
+      'UsuarioID': userId,
+      'UsuarioPW': password,
+    };
+  }
 
-    return map;
+  Future<bool> canEditProfile() async {
+    if (optionsMap == null) {
+      await getEmpresa(retryEmtpy: true);
+    }
+
+    final profileUrl = await empresaOptionValue('ProfileUrl');
+    if (profileUrl.isNotEmpty) {
+      return true;
+    }
+    final editProfileUrl = await empresaOptionValue('EditProfileUrl');
+    return editProfileUrl.isNotEmpty;
+  }
+
+  Future<Uri?> getProfileEditUri() async {
+    final fields = await getProfileUrl();
+    final userId = fields['UsuarioID'] ?? '';
+    final password = fields['UsuarioPW'] ?? '';
+    if (companyId.isEmpty || userId.isEmpty || password.isEmpty) {
+      return null;
+    }
+
+    final encodedCompany = base64Encode(utf8.encode(companyId));
+    final encodedUser = base64Encode(utf8.encode(userId));
+    final encodedPassword = base64Encode(utf8.encode(password));
+    return Uri.parse(
+      'https://icourier.barolit.net/EditProfile/'
+      '$encodedCompany/$encodedUser/$encodedPassword',
+    );
   }
 
   Future<Map<String, String>> getPaymentUrl() async {

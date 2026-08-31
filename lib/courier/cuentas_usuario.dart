@@ -1,8 +1,10 @@
 import 'package:event/event.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../adicional/appbrowser.dart';
 import '../design_system/brand_states.dart';
 import '../design_system/overlay_components.dart';
 import '../services/app_events.dart';
@@ -23,18 +25,18 @@ class CuentasUsuario extends StatefulWidget {
 }
 
 class _CuentasUsuarioState extends State<CuentasUsuario> {
-  late Future<List<UserAccount>> _accounts;
+  late Future<_AccountSwitcherData> _data;
 
   @override
   void initState() {
     super.initState();
-    _accounts = GetIt.I<CourierService>().getStoredAccounts();
+    _data = _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<UserAccount>>(
-      future: _accounts,
+    return FutureBuilder<_AccountSwitcherData>(
+      future: _data,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return BrandErrorState(onRetry: _reload);
@@ -42,10 +44,12 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
         if (!snapshot.hasData) {
           return const BrandSkeleton(rows: 3);
         }
+        final data = snapshot.requireData;
         return AccountSwitcher(
-          accounts: snapshot.requireData,
+          accounts: data.accounts,
           activeAccount: widget.userProfile.cuenta,
           onSelect: _switchAccount,
+          onEdit: data.canEditProfile ? _editProfile : null,
           onDelete: _delete,
           onAdd: _logout,
         );
@@ -53,9 +57,19 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
     );
   }
 
+  Future<_AccountSwitcherData> _loadData() async {
+    final service = GetIt.I<CourierService>();
+    final accounts = service.getStoredAccounts();
+    final canEditProfile = service.canEditProfile();
+    return _AccountSwitcherData(
+      accounts: await accounts,
+      canEditProfile: await canEditProfile,
+    );
+  }
+
   void _reload() {
     setState(() {
-      _accounts = GetIt.I<CourierService>().getStoredAccounts();
+      _data = _loadData();
     });
   }
 
@@ -87,6 +101,33 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
     _reload();
   }
 
+  Future<void> _editProfile(UserAccount account) async {
+    if (account.userAccount != widget.userProfile.cuenta) {
+      return;
+    }
+
+    final uri = await GetIt.I<CourierService>().getProfileEditUri();
+    if (!mounted || uri == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('no_se_pudo_abrir_enlace'.tr())),
+        );
+      }
+      return;
+    }
+
+    final navigator = Navigator.of(context, rootNavigator: true);
+    Navigator.of(context).pop();
+    await navigator.push<void>(
+      MaterialPageRoute<void>(
+        builder: (context) => AppBrowser(
+          initialUrl: uri.toString(),
+          title: 'editar_perfil'.tr(),
+        ),
+      ),
+    );
+  }
+
   /// Signing in with another account and signing out are the same move: both
   /// release the current session and land on the login screen.
   void _logout() {
@@ -95,4 +136,14 @@ class _CuentasUsuarioState extends State<CuentasUsuario> {
     }
     GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
   }
+}
+
+final class _AccountSwitcherData {
+  const _AccountSwitcherData({
+    required this.accounts,
+    required this.canEditProfile,
+  });
+
+  final List<UserAccount> accounts;
+  final bool canEditProfile;
 }

@@ -640,6 +640,7 @@ class AccountSwitcher extends StatefulWidget {
     required this.onSelect,
     required this.onDelete,
     required this.onAdd,
+    this.onEdit,
   });
 
   final List<UserAccount> accounts;
@@ -647,6 +648,7 @@ class AccountSwitcher extends StatefulWidget {
   final ValueChanged<UserAccount> onSelect;
   final ValueChanged<UserAccount> onDelete;
   final VoidCallback onAdd;
+  final ValueChanged<UserAccount>? onEdit;
 
   @override
   State<AccountSwitcher> createState() => _AccountSwitcherState();
@@ -668,6 +670,10 @@ class _AccountSwitcherState extends State<AccountSwitcher> {
             active: account.userAccount == widget.activeAccount,
             confirming: _pendingDelete == account.userAccount,
             onSelect: () => widget.onSelect(account),
+            onEdit: account.userAccount == widget.activeAccount &&
+                    widget.onEdit != null
+                ? () => widget.onEdit!(account)
+                : null,
             onAskDelete: () =>
                 setState(() => _pendingDelete = account.userAccount),
             onCancelDelete: () => setState(() => _pendingDelete = null),
@@ -704,6 +710,7 @@ class _AccountRow extends StatelessWidget {
     required this.active,
     required this.confirming,
     required this.onSelect,
+    required this.onEdit,
     required this.onAskDelete,
     required this.onCancelDelete,
     required this.onConfirmDelete,
@@ -713,6 +720,7 @@ class _AccountRow extends StatelessWidget {
   final bool active;
   final bool confirming;
   final VoidCallback onSelect;
+  final VoidCallback? onEdit;
   final VoidCallback onAskDelete;
   final VoidCallback onCancelDelete;
   final VoidCallback onConfirmDelete;
@@ -762,24 +770,68 @@ class _AccountRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: tokens.body(13, weight: FontWeight.w700),
                       ),
-                      Text(
-                        account.userAccount,
-                        style: tokens.body(11, color: tokens.textMuted),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              account.userAccount,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: tokens.body(
+                                11,
+                                color: tokens.textMuted,
+                              ),
+                            ),
+                          ),
+                          if (active) ...[
+                            const SizedBox(width: 4),
+                            Semantics(
+                              label: 'activa'.tr(),
+                              child: ExcludeSemantics(
+                                child: Container(
+                                  key: ValueKey(
+                                    'active-account-${account.userAccount}',
+                                  ),
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    color: tokens.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.check_rounded,
+                                    size: 11,
+                                    color: tokens.onAccent(tokens.primary),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
-              if (active)
-                BrandPill(
-                  label: 'activa'.tr(),
-                  background: tokens.primary,
-                  foreground: tokens.onAccent(tokens.primary),
-                  fontSize: 10,
+              if (onEdit != null) ...[
+                const SizedBox(width: 6),
+                IconButton(
+                  key: ValueKey('edit-account-${account.userAccount}'),
+                  onPressed: onEdit,
+                  visualDensity: VisualDensity.compact,
+                  icon: Icon(
+                    Icons.edit_outlined,
+                    size: 18,
+                    color: tokens.primary,
+                  ),
+                  tooltip: 'editar_perfil'.tr(),
                 ),
+              ],
+              const SizedBox(width: 4),
               // Offered on the active account too: forgetting the one you are
               // signed in with is how you sign out of it for good.
               IconButton(
+                key: ValueKey('delete-account-${account.userAccount}'),
                 onPressed: onAskDelete,
                 visualDensity: VisualDensity.compact,
                 icon: Icon(
