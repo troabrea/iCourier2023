@@ -41,7 +41,7 @@ void main() {
     expect(announcement?.news, isNull);
   });
 
-  test('does not return an image that was already shown', () async {
+  test('returns each image only once by default', () async {
     const imageUrl = 'https://cdn.example.com/alert.jpg';
     final store = _MemorySeenStore();
     final coordinator = EmergingNewsCoordinator(
@@ -54,7 +54,26 @@ void main() {
 
     final second = await coordinator.findAnnouncement();
 
+    expect(store.urls, {imageUrl});
     expect(second, isNull);
+  });
+
+  test('can disable one-time control explicitly', () async {
+    const imageUrl = 'https://cdn.example.com/alert.jpg';
+    final store = _MemorySeenStore();
+    final coordinator = EmergingNewsCoordinator(
+      loadCompany: () async => _company(imageUrl: imageUrl),
+      loadNews: () async => [],
+      store: store,
+      enforceSeenOnce: false,
+    );
+    final first = await coordinator.findAnnouncement();
+    await coordinator.markShown(first!);
+
+    final second = await coordinator.findAnnouncement();
+
+    expect(store.urls, isEmpty);
+    expect(second, isNotNull);
   });
 
   test('ignores empty and malformed image URLs', () async {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -6,21 +8,49 @@ import '../design_system/brand_foundations.dart';
 import '../theme/brand_tokens.dart';
 import 'emerging_news_coordinator.dart';
 
-typedef EmergingNewsImagePreloader = Future<bool> Function(
+typedef EmergingNewsImagePreloader = Future<Size?> Function(
   BuildContext context,
   String imageUrl,
 );
 
 /// Warms the campaign artwork so the popup never opens onto a loading flash.
-Future<bool> preloadEmergingNewsImage(
+Future<Size?> preloadEmergingNewsImage(
   BuildContext context,
   String imageUrl,
 ) async {
+  final provider = CachedNetworkImageProvider(imageUrl);
   try {
-    await precacheImage(CachedNetworkImageProvider(imageUrl), context);
-    return true;
+    await precacheImage(provider, context);
+    if (!context.mounted) {
+      return null;
+    }
+    final completer = Completer<Size>();
+    final stream = provider.resolve(createLocalImageConfiguration(context));
+    late final ImageStreamListener listener;
+    listener = ImageStreamListener(
+      (info, synchronousCall) {
+        stream.removeListener(listener);
+        if (!completer.isCompleted) {
+          completer.complete(
+            Size(
+              info.image.width.toDouble(),
+              info.image.height.toDouble(),
+            ),
+          );
+        }
+        info.dispose();
+      },
+      onError: (Object error, StackTrace? stackTrace) {
+        stream.removeListener(listener);
+        if (!completer.isCompleted) {
+          completer.completeError(error, stackTrace);
+        }
+      },
+    );
+    stream.addListener(listener);
+    return await completer.future;
   } on Exception {
-    return false;
+    return null;
   }
 }
 
@@ -29,6 +59,7 @@ Future<bool> showEmergingNewsDialog(
   BuildContext context, {
   required EmergingNewsAnnouncement announcement,
   ImageProvider<Object>? imageProvider,
+  double imageAspectRatio = 0.5,
 }) async {
   final media = MediaQuery.of(context);
   final reduceMotion = media.disableAnimations || media.accessibleNavigation;
@@ -46,6 +77,7 @@ Future<bool> showEmergingNewsDialog(
           EmergingNewsDialog(
         announcement: announcement,
         imageProvider: imageProvider,
+        imageAspectRatio: imageAspectRatio,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final arrival = CurvedAnimation(
@@ -73,10 +105,14 @@ class EmergingNewsDialog extends StatelessWidget {
     super.key,
     required this.announcement,
     this.imageProvider,
+    this.imageAspectRatio = 0.5,
   });
 
   final EmergingNewsAnnouncement announcement;
   final ImageProvider<Object>? imageProvider;
+
+  /// Width divided by height for the campaign artwork.
+  final double imageAspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -86,87 +122,151 @@ class EmergingNewsDialog extends StatelessWidget {
     final title = news?.titulo.trim() ?? '';
     final preview = news?.previewText.trim() ?? '';
     final semanticLabel = title.isEmpty ? 'noticias'.tr() : title;
+    final artworkSize = _fitArtwork(
+      maximum: Size(viewport.width * 0.8, viewport.height * 0.6),
+      aspectRatio: imageAspectRatio,
+    );
+    final footerNote =
+        news == null ? 'noticia_emergente_cerrar_ayuda'.tr() : null;
 
     return Dialog(
       backgroundColor: tokens.surface,
       insetPadding: EdgeInsets.zero,
+      constraints: const BoxConstraints(),
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(tokens.radiusLg),
       ),
-      child: SizedBox(
+      child: ConstrainedBox(
         key: const ValueKey('emerging-news-card'),
-        width: viewport.width * 0.8,
-        height: viewport.height * 0.6,
+        constraints: BoxConstraints(
+          minWidth: artworkSize.width,
+          maxWidth: artworkSize.width,
+          maxHeight: viewport.height - MediaQuery.paddingOf(context).vertical,
+        ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              child: ColoredBox(
-                color: tokens.surfaceAlt,
-                child: Image(
-                  image: imageProvider ??
-                      CachedNetworkImageProvider(announcement.imageUrl),
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                  semanticLabel: semanticLabel,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: BrandGlyph(
-                      BrandIcons.news,
-                      size: 44,
-                      color: tokens.textMuted,
-                    ),
+            SizedBox(
+              width: artworkSize.width,
+              height: artworkSize.height,
+              child: Image(
+                image: imageProvider ??
+                    CachedNetworkImageProvider(announcement.imageUrl),
+                fit: BoxFit.contain,
+                semanticLabel: semanticLabel,
+                errorBuilder: (context, error, stackTrace) => Center(
+                  child: BrandGlyph(
+                    BrandIcons.news,
+                    size: 44,
+                    color: tokens.textMuted,
                   ),
                 ),
               ),
             ),
-            if (news != null)
-              Container(
-                decoration: BoxDecoration(
-                  color: tokens.surface,
-                  border: Border(top: BorderSide(color: tokens.border)),
-                ),
-                padding: const EdgeInsets.fromLTRB(
-                  BrandSpace.lg,
-                  BrandSpace.md,
-                  BrandSpace.lg,
-                  BrandSpace.lg,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (title.isNotEmpty)
-                      Text(
-                        title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: tokens.head(18, height: 1.3),
-                      ),
-                    if (title.isNotEmpty && preview.isNotEmpty)
-                      const SizedBox(height: BrandSpace.xs),
-                    if (preview.isNotEmpty)
-                      Text(
-                        preview,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: tokens.body(
-                          13,
-                          height: 1.45,
-                          color: tokens.readableMuted(tokens.surface),
-                        ),
-                      ),
-                    const SizedBox(height: BrandSpace.md),
-                    BrandPrimaryButton(
-                      label: 'ver_mas'.tr(),
-                      onPressed: () => Navigator.of(context).pop(true),
-                    ),
-                  ],
+            Flexible(
+              child: SingleChildScrollView(
+                child: _AnnouncementFooter(
+                  hasNews: news != null,
+                  title: title,
+                  preview: preview,
+                  note: footerNote,
                 ),
               ),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+class _AnnouncementFooter extends StatelessWidget {
+  const _AnnouncementFooter({
+    required this.hasNews,
+    required this.title,
+    required this.preview,
+    required this.note,
+  });
+
+  final bool hasNews;
+  final String title;
+  final String preview;
+  final String? note;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return Container(
+      decoration: BoxDecoration(
+        color: tokens.surface,
+        border: Border(top: BorderSide(color: tokens.border)),
+      ),
+      padding: EdgeInsets.fromLTRB(
+        BrandSpace.lg,
+        hasNews ? BrandSpace.md : BrandSpace.sm,
+        BrandSpace.lg,
+        hasNews ? BrandSpace.lg : BrandSpace.sm,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (hasNews && title.isNotEmpty)
+            Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: tokens.head(18, height: 1.3),
+            ),
+          if (hasNews && title.isNotEmpty && preview.isNotEmpty)
+            const SizedBox(height: BrandSpace.xs),
+          if (hasNews && preview.isNotEmpty)
+            Text(
+              preview,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: tokens.body(
+                13,
+                height: 1.45,
+                color: tokens.readableMuted(tokens.surface),
+              ),
+            ),
+          if (hasNews) ...[
+            const SizedBox(height: BrandSpace.md),
+            BrandPrimaryButton(
+              label: 'ver_mas'.tr(),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+            const SizedBox(height: BrandSpace.sm),
+          ],
+          if (note != null)
+            Text(
+              note!,
+              key: const ValueKey('emerging-news-footer-note'),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: tokens.body(
+                12,
+                height: 1.35,
+                color: tokens.readableMuted(tokens.surface),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+Size _fitArtwork({required Size maximum, required double aspectRatio}) {
+  final safeAspectRatio =
+      aspectRatio.isFinite && aspectRatio > 0 ? aspectRatio : 0.5;
+  var width = maximum.width;
+  var height = width / safeAspectRatio;
+  if (height > maximum.height) {
+    height = maximum.height;
+    width = height * safeAspectRatio;
+  }
+  return Size(width, height);
 }

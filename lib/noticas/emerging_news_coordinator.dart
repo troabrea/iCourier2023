@@ -58,6 +58,7 @@ final class EmergingNewsCoordinator {
     required Future<Empresa> Function() loadCompany,
     required Future<List<Noticia>> Function() loadNews,
     required EmergingNewsSeenStore store,
+    this.enforceSeenOnce = true,
   })  : _loadCompany = loadCompany,
         _loadNews = loadNews,
         _store = store;
@@ -65,6 +66,12 @@ final class EmergingNewsCoordinator {
   final Future<Empresa> Function() _loadCompany;
   final Future<List<Noticia>> Function() _loadNews;
   final EmergingNewsSeenStore _store;
+
+  /// Whether each image is presented only once on this installation.
+  ///
+  /// Defaults to `true`. Tests or preview tooling can opt out explicitly.
+  final bool enforceSeenOnce;
+
   bool _isChecking = false;
 
   /// Returns the announcement that has not yet been shown, when configured.
@@ -77,7 +84,10 @@ final class EmergingNewsCoordinator {
       final company = await _loadCompany();
       final options = _parseOptions(company.options);
       final imageUrl = _optionText(options, emergingNewsImageUrlOptionKey);
-      if (!_isHttpUrl(imageUrl) || await _store.contains(imageUrl)) {
+      if (!_isHttpUrl(imageUrl)) {
+        return null;
+      }
+      if (enforceSeenOnce && await _store.contains(imageUrl)) {
         return null;
       }
 
@@ -102,9 +112,13 @@ final class EmergingNewsCoordinator {
     }
   }
 
-  /// Prevents [announcement] from being presented again on this installation.
-  Future<void> markShown(EmergingNewsAnnouncement announcement) =>
-      _store.add(announcement.imageUrl);
+  /// Remembers [announcement] when one-time presentation is enabled.
+  Future<void> markShown(EmergingNewsAnnouncement announcement) {
+    if (!enforceSeenOnce) {
+      return Future<void>.value();
+    }
+    return _store.add(announcement.imageUrl);
+  }
 }
 
 Map<String, dynamic> _parseOptions(String rawOptions) {

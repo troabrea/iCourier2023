@@ -266,11 +266,11 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     if (presentationContext == null || !presentationContext.mounted) {
       return false;
     }
-    final imageReady = await widget.emergingNewsImagePreloader(
+    final imageSize = await widget.emergingNewsImagePreloader(
       presentationContext,
       announcement.imageUrl,
     );
-    if (!mounted || !presentationContext.mounted || !imageReady) {
+    if (!mounted || !presentationContext.mounted || imageSize == null) {
       return false;
     }
 
@@ -290,6 +290,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
       openNews = await showEmergingNewsDialog(
         presentationContext,
         announcement: announcement,
+        imageAspectRatio: imageSize.width / imageSize.height,
       );
     } finally {
       _isShowingEmergingNews = false;

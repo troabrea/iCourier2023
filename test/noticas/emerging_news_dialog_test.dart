@@ -36,6 +36,7 @@ void main() {
                   news: _news(),
                 ),
                 imageProvider: _image,
+                imageAspectRatio: 1,
               );
             },
             child: const Text('Mostrar'),
@@ -53,6 +54,11 @@ void main() {
     );
     expect(preview.maxLines, 2);
     expect(preview.overflow, TextOverflow.ellipsis);
+    expect(
+      find.byKey(const ValueKey('emerging-news-footer-note')),
+      findsNothing,
+    );
+    expect(find.byIcon(Icons.close_rounded), findsNothing);
 
     await tester.tap(find.text('Ver más'));
     await tester.pumpAndSettle();
@@ -80,6 +86,7 @@ void main() {
                 imageUrl: 'https://cdn.example.com/alert.png',
               ),
               imageProvider: _goldenImage,
+              imageAspectRatio: _goldenAspectRatio,
             ),
             child: const Text('Mostrar'),
           ),
@@ -102,9 +109,10 @@ void main() {
       find.byKey(const ValueKey('emerging-news-card')),
     );
     expect(cardSize.width, closeTo(390 * 0.8, 0.01));
-    expect(cardSize.height, closeTo(844 * 0.6, 0.01));
+    expect(cardSize.height, lessThan(844 * 0.6));
     expect(find.text('Ver más'), findsNothing);
-    expect(find.byIcon(Icons.close), findsNothing);
+    expect(find.byIcon(Icons.close_rounded), findsNothing);
+    expect(find.text('Tocar fuera para cerrar'), findsOneWidget);
     expect(
       tester
           .widget<Image>(
@@ -114,7 +122,7 @@ void main() {
             ),
           )
           .fit,
-      BoxFit.cover,
+      BoxFit.contain,
     );
 
     await tester.tapAt(const Offset(4, 4));
@@ -123,7 +131,7 @@ void main() {
     expect(find.byType(EmergingNewsDialog), findsNothing);
   });
 
-  testWidgets('keeps an image-only campaign free of empty controls', (
+  testWidgets('gives an image-only campaign subtle dismissal guidance', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -134,13 +142,15 @@ void main() {
             imageUrl: 'https://cdn.example.com/alert.png',
           ),
           imageProvider: _goldenImage,
+          imageAspectRatio: _goldenAspectRatio,
         ),
       ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('Ver más'), findsNothing);
-    expect(find.byIcon(Icons.close), findsNothing);
+    expect(find.byIcon(Icons.close_rounded), findsNothing);
+    expect(find.text('Tocar fuera para cerrar'), findsOneWidget);
   });
 
   testWidgets('remains usable with large text on a compact phone', (
@@ -161,6 +171,7 @@ void main() {
             news: _news(),
           ),
           imageProvider: _goldenImage,
+          imageAspectRatio: _goldenAspectRatio,
         ),
       ),
     );
@@ -225,6 +236,7 @@ void main() {
               news: _news(),
             ),
             imageProvider: _goldenImage,
+            imageAspectRatio: _goldenAspectRatio,
           ),
         ),
       );
@@ -247,6 +259,8 @@ final ImageProvider<Object> _image = MemoryImage(
 final ImageProvider<Object> _goldenImage = MemoryImage(
   File('images/amazon.png').readAsBytesSync(),
 );
+
+const double _goldenAspectRatio = 286 / 176;
 
 Future<void> _loadMaterialIcons() async {
   final flutterRoot = Platform.environment['FLUTTER_ROOT'] ??

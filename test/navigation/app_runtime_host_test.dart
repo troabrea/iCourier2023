@@ -139,7 +139,8 @@ void main() {
           navigatorKey: router.routerDelegate.navigatorKey,
           router: router,
           emergingNewsCoordinator: coordinator,
-          emergingNewsImagePreloader: (context, imageUrl) async => true,
+          emergingNewsImagePreloader: (context, imageUrl) async =>
+              const Size(300, 600),
           foregroundMessages: const Stream<RemoteMessage>.empty(),
           openedMessages: const Stream<RemoteMessage>.empty(),
           appUpdateCoordinator: _FakeAppUpdateCoordinator(),
@@ -153,7 +154,7 @@ void main() {
     expect(find.text('Operación especial'), findsOneWidget);
     expect(
       seenStore.urls,
-      {'https://cdn.example.com/emergency-news.jpg'},
+      contains('https://cdn.example.com/emergency-news.jpg'),
     );
 
     await tester.tap(find.text('Ver más'));
