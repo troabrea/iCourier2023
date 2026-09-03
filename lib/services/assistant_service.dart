@@ -56,6 +56,32 @@ final class AssistantQuotaException implements Exception {
   final String? requestId;
 }
 
+/// One meaningful update received while the assistant writes a reply.
+sealed class AssistantStreamEvent {
+  const AssistantStreamEvent();
+}
+
+/// A safe, localized progress state the backend wants the app to communicate.
+final class AssistantStreamStatus extends AssistantStreamEvent {
+  const AssistantStreamStatus(this.code);
+
+  final String code;
+}
+
+/// Text to append verbatim to the answer currently on screen.
+final class AssistantTextDelta extends AssistantStreamEvent {
+  const AssistantTextDelta(this.text);
+
+  final String text;
+}
+
+/// The authoritative reply and metadata that close a streamed answer.
+final class AssistantReplyCompleted extends AssistantStreamEvent {
+  const AssistantReplyCompleted(this.reply);
+
+  final AssistantReply reply;
+}
+
 /// Reads the identity a question is asked under.
 typedef AssistantIdentityReader = Future<AssistantIdentity> Function();
 
@@ -64,12 +90,12 @@ typedef AssistantSettingsReader = Future<AssistantSettings> Function();
 
 /// Talks to the hosted assistant webhook.
 ///
-/// The endpoint is a plain request/response call: there is no streaming and no
-/// client-side thread id, because the backend keys its own memory on the
-/// courier `sessionId` it already receives. Answers have been measured between
-/// three and twenty-two seconds, so [timeout] is generous on purpose — cutting
-/// a slow but valid answer short is worse than making the customer wait with a
-/// visible state.
+/// The endpoint may return an incremental NDJSON stream or the legacy JSON
+/// body. There is no client-side thread id because the backend keys its own
+/// memory on the courier `sessionId` it already receives. Answers have been
+/// measured between three and twenty-two seconds, so [timeout] is generous on
+/// purpose — cutting a slow but valid answer short is worse than making the
+/// customer wait with a visible state.
 ///
 /// Nothing in here writes the question, the answer, or the identity to disk or
 /// to a log. The conversation is personal data and stays in memory for as long
@@ -141,7 +167,7 @@ class AssistantService {
     );
   }
 
-  /// Returns the assistant's reply.
+  /// Returns the assistant's reply after collecting its stream.
   ///
   /// Throws [AssistantSignedOutException] when there is no session to attribute
   /// the question to, [AssistantQuotaException] when the workflow refuses the
@@ -149,6 +175,24 @@ class AssistantService {
   /// every transport, status, or empty-body failure the customer can only
   /// respond to by retrying.
   Future<AssistantReply> ask(String question) async {
+    AssistantReply? completed;
+    await for (final event in askStream(question)) {
+      if (event case AssistantReplyCompleted(:final reply)) {
+        completed = reply;
+      }
+    }
+    if (completed == null) {
+      throw const AssistantUnavailableException();
+    }
+    return completed;
+  }
+
+  /// Streams progress, text deltas, and the completed assistant reply.
+  ///
+  /// An `application/x-ndjson` response is interpreted one complete line at a
+  /// time. Any other successful content type keeps the previous buffered JSON
+  /// behavior, so the backend and mobile app can be deployed independently.
+  Stream<AssistantStreamEvent> askStream(String question) async* {
     final asked = question.trim();
     if (asked.isEmpty) {
       throw const AssistantUnavailableException();
@@ -171,44 +215,127 @@ class AssistantService {
       }
     }
 
-    Response response;
     try {
-      response = await _client
-          .post(
-            settings.endpoint ?? _endpoint,
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
-              if (settings.apiKey.isNotEmpty) 'X-Api-Key': settings.apiKey,
-            },
-            body: utf8.encode(jsonEncode(identity.requestBody(asked))),
-          )
-          .timeout(timeout);
+      final request = Request('POST', settings.endpoint ?? _endpoint)
+        ..headers.addAll({
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept': 'application/x-ndjson, application/json',
+          if (settings.apiKey.isNotEmpty) 'X-Api-Key': settings.apiKey,
+        })
+        ..bodyBytes = utf8.encode(jsonEncode(identity.requestBody(asked)));
+      final response = await _client.send(request).timeout(timeout);
+
+      if (response.statusCode == HttpStatus.tooManyRequests) {
+        throw _readQuota(await Response.fromStream(response).timeout(timeout));
+      }
+      if (response.statusCode == HttpStatus.paymentRequired) {
+        throw const AssistantQuotaException();
+      }
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw const AssistantUnavailableException();
+      }
+
+      if (_isNdjson(response)) {
+        yield* _readNdjson(response);
+        return;
+      }
+
+      final buffered = await Response.fromStream(response).timeout(timeout);
+      final reply = _readReply(_decode(buffered));
+      if (reply.text.isEmpty) {
+        throw const AssistantUnavailableException();
+      }
+      yield AssistantReplyCompleted(reply);
     } on TimeoutException {
       throw const AssistantUnavailableException();
     } on SocketException {
       throw const AssistantUnavailableException();
     } on ClientException {
       throw const AssistantUnavailableException();
-    }
-
-    // A spent cap is the one refusal retrying cannot fix, so it is told apart
-    // from the failures that a second tap does fix.
-    if (response.statusCode == HttpStatus.tooManyRequests) {
-      throw _readQuota(response);
-    }
-    if (response.statusCode == HttpStatus.paymentRequired) {
-      throw const AssistantQuotaException();
-    }
-
-    if (response.statusCode < 200 || response.statusCode >= 300) {
+    } on FormatException {
       throw const AssistantUnavailableException();
+    } on AssistantSignedOutException {
+      rethrow;
+    } on AssistantQuotaException {
+      rethrow;
+    } on AssistantUnavailableException {
+      rethrow;
+    }
+  }
+
+  static bool _isNdjson(StreamedResponse response) {
+    String? contentType;
+    for (final entry in response.headers.entries) {
+      if (entry.key.toLowerCase() == 'content-type') {
+        contentType = entry.value.toLowerCase();
+        break;
+      }
+    }
+    return contentType?.contains('application/x-ndjson') ?? false;
+  }
+
+  /// Reassembles NDJSON lines independently of the transport chunk boundaries.
+  static Stream<AssistantStreamEvent> _readNdjson(
+    StreamedResponse response,
+  ) async* {
+    final answer = StringBuffer();
+    final lines = response.stream
+        .timeout(timeout)
+        .transform(utf8.decoder)
+        .transform(const LineSplitter());
+
+    await for (final line in lines) {
+      final trimmed = line.trim();
+      if (trimmed.isEmpty) {
+        continue;
+      }
+      final decoded = jsonDecode(trimmed);
+      if (decoded is! Map) {
+        throw const AssistantUnavailableException();
+      }
+      final event = decoded.cast<String, dynamic>();
+      switch (event['type']) {
+        case 'status':
+          final code = event['code'];
+          if (code is String && code.trim().isNotEmpty) {
+            yield AssistantStreamStatus(code.trim());
+          }
+          continue;
+        case 'delta':
+          final value = event['text'] ?? event['delta'];
+          if (value is String && value.isNotEmpty) {
+            answer.write(value);
+            yield AssistantTextDelta(value);
+          }
+          continue;
+        case 'done':
+          var reply = _readReply(jsonEncode(event));
+          if (reply.text.isEmpty) {
+            reply = AssistantReply(
+              text: answer.toString().trim(),
+              source: reply.source,
+              needsHuman: reply.needsHuman,
+              summary: reply.summary,
+            );
+          }
+          if (reply.text.isEmpty) {
+            throw const AssistantUnavailableException();
+          }
+          yield AssistantReplyCompleted(reply);
+          return;
+        case 'error':
+          if (event['code'] == 'rate_limit_exceeded') {
+            throw _quotaFromMap(event);
+          }
+          throw const AssistantUnavailableException();
+        default:
+          throw const AssistantUnavailableException();
+      }
     }
 
-    final reply = _readReply(_decode(response));
-    if (reply.text.isEmpty) {
-      throw const AssistantUnavailableException();
-    }
-    return reply;
+    // A closed stream without `done` may contain a convincing but incomplete
+    // sentence. It must not be remembered as an authoritative answer.
+    throw const AssistantUnavailableException();
   }
 
   /// Reads the body as text.
@@ -245,6 +372,10 @@ class AssistantService {
       return const AssistantQuotaException();
     }
 
+    return _quotaFromMap(error.cast<Object?, Object?>());
+  }
+
+  static AssistantQuotaException _quotaFromMap(Map<Object?, Object?> error) {
     final scope = switch (error['scope']) {
       'session_daily' => AssistantQuotaScope.sessionDaily,
       'company_monthly' => AssistantQuotaScope.companyMonthly,
@@ -304,7 +435,7 @@ class AssistantService {
       source: decoded['source'] is String
           ? (decoded['source'] as String).trim()
           : '',
-      needsHuman: _readFlag(decoded['needs_human']),
+      needsHuman: _readFlag(decoded['needs_human'] ?? decoded['needsHuman']),
       summary: decoded['summary'] is String
           ? (decoded['summary'] as String).trim()
           : '',

@@ -335,7 +335,22 @@ class _Conversation extends StatelessWidget {
 
   Widget _body(BuildContext context) {
     if (state.isAsking) {
-      return _Thinking(question: state.pendingQuestion!);
+      if (state.hasStreamingAnswer) {
+        return _StreamingDocument(
+          question: state.pendingQuestion!,
+          answer: state.streamingAnswer,
+          avatarSvg: data.settings.avatarSvg,
+          assistantName: data.settings.displayName(GetIt.I<BrandConfig>().name),
+          scrollController: documentScroll,
+          onOpenLink: onOpenLink,
+        );
+      }
+      return _Thinking(
+        question: state.pendingQuestion!,
+        statusCode: state.streamingStatus,
+        avatarSvg: data.settings.avatarSvg,
+        assistantName: data.settings.displayName(GetIt.I<BrandConfig>().name),
+      );
     }
     if (state.quotaScope case final scope?) {
       return _QuotaUnavailable(
@@ -404,6 +419,66 @@ class _Conversation extends StatelessWidget {
       if (capabilities.prealerts) AppRoutes.prealert,
       if (company.hasPreguntas) AppRoutes.faq,
     };
+  }
+}
+
+/// The growing answer, visually attributed to the assistant until it closes.
+class _StreamingDocument extends StatelessWidget {
+  const _StreamingDocument({
+    required this.question,
+    required this.answer,
+    required this.avatarSvg,
+    required this.assistantName,
+    required this.scrollController,
+    required this.onOpenLink,
+  });
+
+  final String question;
+  final String answer;
+  final String avatarSvg;
+  final String assistantName;
+  final ScrollController scrollController;
+  final ValueChanged<String> onOpenLink;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    return ListView(
+      key: const ValueKey('assistant-streaming-document'),
+      controller: scrollController,
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: const EdgeInsets.fromLTRB(
+        BrandSpace.lg,
+        BrandSpace.lg,
+        BrandSpace.lg,
+        BrandSpace.xl,
+      ),
+      children: [
+        Text(question, style: tokens.head(18, height: 1.3)),
+        const SizedBox(height: BrandSpace.md),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AssistantAvatar(
+              avatarSvg: avatarSvg,
+              semanticLabel: assistantName,
+              size: 32,
+              backgroundColor: tokens.accentWash(tokens.primary),
+              padding: avatarSvg.isEmpty ? 4 : 1,
+            ),
+            const SizedBox(width: BrandSpace.sm),
+            Expanded(
+              child: SelectionArea(
+                child: AssistantAnswer(
+                  markdown: answer,
+                  onOpenLink: onOpenLink,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -737,14 +812,21 @@ class _Welcome extends StatelessWidget {
 
 /// The wait, told honestly.
 ///
-/// Measured answers run from three to twenty-two seconds, so the question stays
-/// on screen and the placeholder keeps the shape of the document that is about
-/// to replace it. Past ten seconds the screen says so rather than letting the
-/// customer wonder whether the app is stuck.
+/// Measured answers run from three to twenty-two seconds, so the question and
+/// assistant stay on screen from the first instant. Past ten seconds the screen
+/// says so rather than letting the customer wonder whether the app is stuck.
 class _Thinking extends StatefulWidget {
-  const _Thinking({required this.question});
+  const _Thinking({
+    required this.question,
+    required this.statusCode,
+    required this.avatarSvg,
+    required this.assistantName,
+  });
 
   final String question;
+  final String statusCode;
+  final String avatarSvg;
+  final String assistantName;
 
   /// When the wait stops being ordinary and the screen admits it.
   static const Duration slow = Duration(seconds: 10);
@@ -753,12 +835,7 @@ class _Thinking extends StatefulWidget {
   State<_Thinking> createState() => _ThinkingState();
 }
 
-class _ThinkingState extends State<_Thinking>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _pulse = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1100),
-  );
+class _ThinkingState extends State<_Thinking> {
   Timer? _slowTimer;
   bool _slow = false;
 
@@ -773,33 +850,19 @@ class _ThinkingState extends State<_Thinking>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.of(context).disableAnimations) {
-      _pulse.stop();
-      _pulse.value = 1;
-      return;
-    }
-    if (!_pulse.isAnimating) {
-      _pulse.repeat(reverse: true);
-    }
-  }
-
-  @override
   void dispose() {
     _slowTimer?.cancel();
-    _pulse.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    // Line widths of a real paragraph, so the placeholder reads as prose.
-    const widths = <double>[1, 0.94, 0.97, 0.62];
+    final statusMessage =
+        (_slow ? 'asistente_tardando' : _statusMessageKey).tr();
     return Semantics(
       liveRegion: true,
-      label: 'asistente_preparando'.tr(),
+      label: statusMessage,
       child: ListView(
         padding: const EdgeInsets.fromLTRB(
           BrandSpace.lg,
@@ -810,46 +873,60 @@ class _ThinkingState extends State<_Thinking>
         children: [
           Text(widget.question, style: tokens.head(18, height: 1.3)),
           const SizedBox(height: BrandSpace.md),
-          FadeTransition(
-            opacity: _pulse.drive(
-              Tween<double>(begin: 0.45, end: 1).chain(
-                CurveTween(curve: Curves.easeOutCubic),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AssistantAvatarEntrance(
+                duration: const Duration(milliseconds: 360),
+                peakScale: 1.08,
+                child: AssistantAvatar(
+                  avatarSvg: widget.avatarSvg,
+                  semanticLabel: widget.assistantName,
+                  size: 32,
+                  backgroundColor: tokens.accentWash(tokens.primary),
+                  padding: widget.avatarSvg.isEmpty ? 4 : 1,
+                ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (final width in widths)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: FractionallySizedBox(
-                      alignment: Alignment.centerLeft,
-                      widthFactor: width,
-                      child: Container(
-                        height: 13,
-                        decoration: BoxDecoration(
-                          color: tokens.surfaceAlt,
-                          borderRadius: BorderRadius.circular(tokens.radiusSm),
-                        ),
-                      ),
+              const SizedBox(width: BrandSpace.sm),
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: MediaQuery.of(context).disableAnimations
+                      ? Duration.zero
+                      : const Duration(milliseconds: 180),
+                  switchInCurve: Curves.easeOutCubic,
+                  switchOutCurve: Curves.easeInCubic,
+                  layoutBuilder: (currentChild, previousChildren) => Stack(
+                    alignment: Alignment.topLeft,
+                    children: [
+                      ...previousChildren,
+                      if (currentChild != null) currentChild,
+                    ],
+                  ),
+                  child: Text(
+                    statusMessage,
+                    key: ValueKey(statusMessage),
+                    style: tokens.body(
+                      15,
+                      weight: FontWeight.w600,
+                      color: tokens.readableMuted(tokens.bg),
+                      height: 1.45,
                     ),
                   ),
-              ],
-            ),
-          ),
-          const SizedBox(height: BrandSpace.xs),
-          Text(
-            (_slow ? 'asistente_tardando' : 'asistente_preparando').tr(),
-            style: tokens.body(
-              13,
-              color: tokens.readableMuted(tokens.bg),
-              height: 1.45,
-            ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
+
+  String get _statusMessageKey => switch (widget.statusCode) {
+        'checking_packages' => 'asistente_estado_paquetes',
+        'checking_branches' => 'asistente_estado_sucursales',
+        'calculating_shipping' => 'asistente_estado_calculando',
+        _ => 'asistente_preparando',
+      };
 }
 
 /// The question could not be answered, and what to do about it.

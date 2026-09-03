@@ -26,6 +26,8 @@ final class AsistenteState extends Equatable {
     this.quotaScope,
     this.quotaResetAt,
     this.quotaRequestId,
+    this.streamingAnswer = '',
+    this.streamingStatus = '',
     this.justAnswered = false,
   });
 
@@ -51,6 +53,12 @@ final class AsistenteState extends Equatable {
   /// Correlates the refusal with the proxy's logs.
   final String? quotaRequestId;
 
+  /// The answer received so far, before its final metadata arrives.
+  final String streamingAnswer;
+
+  /// The backend's safe progress code while it prepares the first text.
+  final String streamingStatus;
+
   /// True only on the state that carries a newly arrived answer.
   ///
   /// The arrival reveal is the one authored moment on this surface, so it must
@@ -59,6 +67,8 @@ final class AsistenteState extends Equatable {
   final bool justAnswered;
 
   bool get isAsking => pendingQuestion != null;
+
+  bool get hasStreamingAnswer => streamingAnswer.isNotEmpty;
 
   bool get hasSpentQuota => quotaScope != null;
 
@@ -80,6 +90,9 @@ final class AsistenteState extends Equatable {
     AssistantQuotaScope? quotaScope,
     DateTime? quotaResetAt,
     String? quotaRequestId,
+    String? streamingAnswer,
+    String? streamingStatus,
+    bool clearStreaming = false,
     bool justAnswered = false,
   }) =>
       AsistenteState(
@@ -93,6 +106,10 @@ final class AsistenteState extends Equatable {
         quotaScope: quotaScope ?? this.quotaScope,
         quotaResetAt: quotaResetAt ?? this.quotaResetAt,
         quotaRequestId: quotaRequestId ?? this.quotaRequestId,
+        streamingAnswer:
+            clearStreaming ? '' : streamingAnswer ?? this.streamingAnswer,
+        streamingStatus:
+            clearStreaming ? '' : streamingStatus ?? this.streamingStatus,
         justAnswered: justAnswered,
       );
 
@@ -106,6 +123,8 @@ final class AsistenteState extends Equatable {
         quotaScope,
         quotaResetAt,
         quotaRequestId,
+        streamingAnswer,
+        streamingStatus,
         justAnswered,
       ];
 }

@@ -36,3 +36,29 @@ final class AssistantRetryRequested extends AsistenteEvent {
 final class AssistantConversationCleared extends AsistenteEvent {
   const AssistantConversationCleared();
 }
+
+final class _AssistantStreamUpdate extends AsistenteEvent {
+  const _AssistantStreamUpdate(this.requestId, this.event);
+
+  final int requestId;
+  final AssistantStreamEvent event;
+}
+
+final class _AssistantStreamFailed extends AsistenteEvent {
+  const _AssistantStreamFailed(this.requestId, this.error);
+
+  final int requestId;
+  final Object error;
+}
+
+final class _AssistantStreamClosed extends AsistenteEvent {
+  const _AssistantStreamClosed(this.requestId);
+
+  final int requestId;
+}
+
+final class _AssistantStreamFlushed extends AsistenteEvent {
+  const _AssistantStreamFlushed(this.requestId);
+
+  final int requestId;
+}

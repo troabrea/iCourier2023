@@ -129,6 +129,17 @@ void main() {
     );
   });
 
+  test('bloc closes while a response is streaming', () async {
+    final stream = StreamController<AssistantStreamEvent>();
+    assistant.streaming = stream;
+    final bloc = AsistenteBloc(assistant, AssistantConversation())
+      ..add(const AssistantQuestionAsked('Hola'));
+    await Future<void>.delayed(Duration.zero);
+    await bloc.close().timeout(const Duration(seconds: 2));
+    expect(stream.hasListener, isFalse);
+    await stream.close();
+  });
+
   testWidgets('uses the configured assistant name and avatar', (tester) async {
     courier
       ..assistantName = 'Mía'
@@ -174,7 +185,9 @@ void main() {
     await tester.pump();
 
     expect(find.text('¿Tengo paquetes disponibles?'), findsOneWidget);
-    expect(find.text('Preparando tu respuesta.'), findsOneWidget);
+    expect(find.text('Buscando…'), findsOneWidget);
+    expect(
+        tester.widget<AssistantAvatar>(find.byType(AssistantAvatar)).size, 32);
     await expectLater(
       find.byType(AsistentePage),
       matchesGoldenFile('goldens/asistente_esperando.png'),
@@ -184,7 +197,72 @@ void main() {
         text: 'Tienes 2 paquetes disponibles para retiro.'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Preparando tu respuesta.'), findsNothing);
+    expect(find.text('Buscando…'), findsNothing);
+  });
+
+  testWidgets('streams the answer beside the configured assistant avatar',
+      (tester) async {
+    courier
+      ..assistantName = 'Mía'
+      ..avatarSvg =
+          "<svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='8'/></svg>";
+    final stream = StreamController<AssistantStreamEvent>();
+    assistant.streaming = stream;
+    await open(tester);
+
+    await tester.tap(find.text('¿Tengo paquetes disponibles?'));
+    await tester.pump();
+    stream.add(const AssistantStreamStatus('checking_packages'));
+    await tester.pump();
+
+    expect(find.text('Consultando tus paquetes.'), findsOneWidget);
+    final thinkingAvatar = tester.widget<AssistantAvatar>(
+      find.byType(AssistantAvatar),
+    );
+    expect(thinkingAvatar.size, 32);
+    expect(thinkingAvatar.avatarSvg, contains('<circle'));
+
+    stream.add(const AssistantTextDelta('Tienes **2 paquetes**'));
+    await tester.pump();
+
+    expect(
+      find.byKey(const ValueKey('assistant-streaming-document')),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Tienes'), findsOneWidget);
+    final avatar = tester.widget<AssistantAvatar>(
+      find.byType(AssistantAvatar),
+    );
+    expect(avatar.size, 32);
+    expect(avatar.avatarSvg, contains('<circle'));
+    expect(avatar.semanticLabel, 'Mía');
+    expect(find.text('Ver mis paquetes'), findsNothing);
+    expect(find.textContaining('Respuesta generada'), findsNothing);
+    await expectLater(
+      find.byType(AsistentePage),
+      matchesGoldenFile('goldens/asistente_streaming.png'),
+    );
+
+    stream
+      ..add(const AssistantTextDelta(' disponibles.'))
+      ..add(
+        const AssistantReplyCompleted(
+          AssistantReply(
+            text: 'Tienes **2 paquetes** disponibles.',
+            source: 'get_paquetes',
+          ),
+        ),
+      );
+    await stream.close();
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(const ValueKey('assistant-streaming-document')),
+      findsNothing,
+    );
+    expect(find.byType(AssistantAvatar), findsNothing);
+    expect(find.text('Ver mis paquetes'), findsOneWidget);
+    expect(find.textContaining('Respuesta generada'), findsOneWidget);
   });
 
   testWidgets('admits when the wait runs long', (tester) async {
@@ -649,16 +727,30 @@ class _FakeAssistant extends AssistantService {
 
   Completer<AssistantReply>? pending;
 
+  StreamController<AssistantStreamEvent>? streaming;
+
   int askCount = 0;
 
   @override
-  Future<AssistantReply> ask(String question) {
+  Stream<AssistantStreamEvent> askStream(String question) {
     askCount++;
+    final controlled = streaming;
+    if (controlled != null) {
+      streaming = null;
+      return controlled.stream;
+    }
+    return _reply();
+  }
+
+  Stream<AssistantStreamEvent> _reply() async* {
     if (answers.isNotEmpty) {
-      return Future.value(AssistantReply(text: answers.removeAt(0)));
+      yield AssistantReplyCompleted(
+        AssistantReply(text: answers.removeAt(0)),
+      );
+      return;
     }
     pending = Completer<AssistantReply>();
-    return pending!.future;
+    yield AssistantReplyCompleted(await pending!.future);
   }
 }
 

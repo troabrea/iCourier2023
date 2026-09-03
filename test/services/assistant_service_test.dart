@@ -17,7 +17,7 @@ const _identity = AssistantIdentity(
 );
 
 AssistantService _service(
-  MockClient client, {
+  Client client, {
   AssistantIdentity? identity,
   AssistantSettings settings = AssistantSettings.none,
 }) =>
@@ -225,6 +225,10 @@ void main() {
     await service.ask('  ¿Tengo paquetes?  ');
 
     final body = jsonDecode(utf8.decode(sent!.bodyBytes));
+    expect(
+      sent!.headers['Accept'],
+      'application/x-ndjson, application/json',
+    );
     expect(body, {
       'empresaId': 'ebb66ab7-db15-4267-9ef4-92abcb5273eb',
       'sessionId': '0x0200000027',
@@ -233,6 +237,94 @@ void main() {
       'userAccount': 'BM-096791',
       'sucursalId': 'DO-BVT',
       'question': '¿Tengo paquetes?',
+    });
+  });
+
+  group('streaming replies', () {
+    test('reassembles split UTF-8 chunks and returns final metadata', () async {
+      final payload = [
+        jsonEncode({'type': 'status', 'code': 'checking_packages'}),
+        jsonEncode({'type': 'delta', 'text': 'Tu paquete lleg'}),
+        jsonEncode({'type': 'delta', 'text': 'ó.'}),
+        jsonEncode({
+          'type': 'done',
+          'source': 'get_paquetes',
+          'needs_human': false,
+          'summary': '',
+        }),
+        '',
+      ].join('\n');
+      final bytes = utf8.encode(payload);
+      final splitInsideAccent = bytes.indexOf(0xc3) + 1;
+      final service = _service(
+        _ChunkedClient(
+          chunks: [
+            bytes.sublist(0, 17),
+            bytes.sublist(17, splitInsideAccent),
+            bytes.sublist(splitInsideAccent),
+          ],
+          headers: {'content-type': 'application/x-ndjson; charset=utf-8'},
+        ),
+      );
+
+      final events = await service.askStream('¿Dónde está?').toList();
+
+      expect(
+        events.whereType<AssistantStreamStatus>().single.code,
+        'checking_packages',
+      );
+      expect(
+        events.whereType<AssistantTextDelta>().map((event) => event.text),
+        ['Tu paquete lleg', 'ó.'],
+      );
+      final reply = events.whereType<AssistantReplyCompleted>().single.reply;
+      expect(reply.text, 'Tu paquete llegó.');
+      expect(reply.source, 'get_paquetes');
+      expect(reply.needsHuman, isFalse);
+    });
+
+    test('accepts a full answer on the done event', () async {
+      final service = _service(
+        _ChunkedClient.ndjson([
+          {'type': 'done', 'output': 'Respuesta completa.'},
+        ]),
+      );
+
+      expect((await service.ask('hola')).text, 'Respuesta completa.');
+    });
+
+    test('rejects a stream that closes without a done event', () async {
+      final service = _service(
+        _ChunkedClient.ndjson([
+          {'type': 'delta', 'text': 'Respuesta incompleta'},
+        ]),
+      );
+
+      await expectLater(
+        service.ask('hola'),
+        throwsA(isA<AssistantUnavailableException>()),
+      );
+    });
+
+    test('reads a quota failure emitted after the stream starts', () async {
+      final service = _service(
+        _ChunkedClient.ndjson([
+          {
+            'type': 'error',
+            'code': 'rate_limit_exceeded',
+            'scope': 'session_daily',
+            'requestId': 'request-7',
+          },
+        ]),
+      );
+
+      try {
+        await service.ask('hola');
+        fail('The stream should have reported the spent quota.');
+      } on AssistantQuotaException catch (error) {
+        expect(error.scope, AssistantQuotaScope.sessionDaily);
+        expect(error.requestId, 'request-7');
+      }
     });
   });
 
@@ -499,4 +591,30 @@ void main() {
       expect(splitCustomerName(''), (firstName: '', lastName: ''));
     });
   });
+}
+
+final class _ChunkedClient extends BaseClient {
+  _ChunkedClient({
+    required this.chunks,
+    this.headers = const {},
+  });
+
+  factory _ChunkedClient.ndjson(List<Map<String, Object?>> events) {
+    final body = '${events.map(jsonEncode).join('\n')}\n';
+    return _ChunkedClient(
+      chunks: [utf8.encode(body)],
+      headers: {'content-type': 'application/x-ndjson; charset=utf-8'},
+    );
+  }
+
+  final List<List<int>> chunks;
+  final Map<String, String> headers;
+
+  @override
+  Future<StreamedResponse> send(BaseRequest request) async => StreamedResponse(
+        Stream<List<int>>.fromIterable(chunks),
+        200,
+        headers: headers,
+        request: request,
+      );
 }
