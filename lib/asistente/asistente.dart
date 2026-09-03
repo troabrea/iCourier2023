@@ -462,9 +462,11 @@ class _StreamingDocument extends StatelessWidget {
             AssistantAvatar(
               avatarSvg: avatarSvg,
               semanticLabel: assistantName,
-              size: 32,
+              // Configured artwork carries its own frame, so it is given the
+              // room the tinted circle used to take.
+              size: avatarSvg.isEmpty ? 32 : 40,
               backgroundColor: tokens.accentWash(tokens.primary),
-              padding: avatarSvg.isEmpty ? 4 : 1,
+              padding: 4,
             ),
             const SizedBox(width: BrandSpace.sm),
             Expanded(
@@ -730,9 +732,9 @@ class _Welcome extends StatelessWidget {
                         child: AssistantAvatar(
                           avatarSvg: avatarSvg,
                           semanticLabel: assistantName,
-                          size: 96,
+                          size: avatarSvg.isEmpty ? 96 : 128,
                           backgroundColor: tokens.accentWash(tokens.primary),
-                          padding: avatarSvg.isEmpty ? 10 : 3,
+                          padding: 2,
                         ),
                       ),
                     ),
@@ -882,9 +884,9 @@ class _ThinkingState extends State<_Thinking> {
                 child: AssistantAvatar(
                   avatarSvg: widget.avatarSvg,
                   semanticLabel: widget.assistantName,
-                  size: 32,
+                  size: widget.avatarSvg.isEmpty ? 32 : 40,
                   backgroundColor: tokens.accentWash(tokens.primary),
-                  padding: widget.avatarSvg.isEmpty ? 4 : 1,
+                  padding: 4,
                 ),
               ),
               const SizedBox(width: BrandSpace.sm),

@@ -36,6 +36,34 @@ void main() {
     expect(find.byType(BrandGlyph), findsNothing);
   });
 
+  testWidgets('draws configured artwork without the tinted circle',
+      (tester) async {
+    await pumpAvatar(tester, _avatarSvg);
+
+    expect(
+      find.descendant(
+        of: find.byType(AssistantAvatar),
+        matching: find.byType(ClipOval),
+      ),
+      findsNothing,
+    );
+    final artwork = tester.widget<SvgPicture>(find.byType(SvgPicture));
+    expect(artwork.width, 52);
+    expect(artwork.height, 52);
+  });
+
+  testWidgets('keeps the circle around the bundled fallback', (tester) async {
+    await pumpAvatar(tester, '');
+
+    expect(
+      find.descendant(
+        of: find.byType(AssistantAvatar),
+        matching: find.byType(ClipOval),
+      ),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('uses the bundled assistant for a blank avatar', (tester) async {
     await pumpAvatar(tester, '');
 

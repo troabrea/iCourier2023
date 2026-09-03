@@ -7,7 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../design_system/brand_foundations.dart';
 import '../theme/brand_tokens.dart';
 
-/// Circular artwork that identifies the configured assistant.
+/// Artwork that identifies the configured assistant.
+///
+/// Configured artwork is drawn bare, filling the whole box: a courier's avatar
+/// is already a finished piece with its own shape and background, and framing
+/// it in a tinted circle shrinks it and buries its detail. Only the bundled
+/// fallback glyph keeps the circle, which it needs to read as an avatar.
 ///
 /// The backend sanitizes the raw SVG. Rendering still degrades to the bundled
 /// assistant glyph when a stale or malformed record reaches the app.
@@ -28,7 +33,11 @@ class AssistantAvatar extends StatelessWidget {
   final String avatarSvg;
   final String semanticLabel;
   final double size;
+
+  /// Inset around the bundled fallback glyph. Configured artwork ignores it.
   final double padding;
+
+  /// Circle behind the bundled fallback glyph. Configured artwork ignores it.
   final Color? backgroundColor;
   final Color? fallbackColor;
 
@@ -39,29 +48,32 @@ class AssistantAvatar extends StatelessWidget {
     return Semantics(
       image: true,
       label: semanticLabel,
-      child: Container(
+      child: SizedBox(
         width: size,
         height: size,
+        child: avatarSvg.isEmpty
+            ? _framed(tokens, fallback)
+            : SvgPicture.string(
+                avatarSvg,
+                width: size,
+                height: size,
+                fit: BoxFit.contain,
+                excludeFromSemantics: true,
+                errorBuilder: (context, error, stackTrace) =>
+                    _framed(tokens, fallback),
+              ),
+      ),
+    );
+  }
+
+  Widget _framed(BrandTokens tokens, Widget child) => Container(
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
           color: backgroundColor ?? tokens.surface,
           shape: BoxShape.circle,
         ),
-        child: ClipOval(
-          child: avatarSvg.isEmpty
-              ? fallback
-              : SvgPicture.string(
-                  avatarSvg,
-                  width: size - padding * 2,
-                  height: size - padding * 2,
-                  fit: BoxFit.contain,
-                  excludeFromSemantics: true,
-                  errorBuilder: (context, error, stackTrace) => fallback,
-                ),
-        ),
-      ),
-    );
-  }
+        child: ClipOval(child: child),
+      );
 
   Widget _fallback(BrandTokens tokens) => BrandGlyph(
         BrandIcons.assistant,

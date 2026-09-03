@@ -725,6 +725,7 @@ class BrandTabBar extends StatelessWidget {
     required this.onTap,
     required this.logoMark,
     this.trailing,
+    this.trailingGap,
   });
 
   final List<TabModule> modules;
@@ -737,6 +738,12 @@ class BrandTabBar extends StatelessWidget {
 
   /// Utility action displayed beside, but outside, the navigation dock.
   final Widget? trailing;
+
+  /// Space between the dock and the trailing action. A trailing action that
+  /// paints wider than its slot — artwork with no button under it — asks for
+  /// less, so the dock keeps the width instead of spending it on a gap that
+  /// the artwork covers anyway.
+  final double? trailingGap;
 
   /// Height of the row that holds every destination.
   static const double _rowHeight = 52;
@@ -810,7 +817,10 @@ class BrandTabBar extends StatelessWidget {
             return Row(
               children: [
                 Expanded(child: dock),
-                SizedBox(width: compact ? BrandSpace.xs : BrandSpace.sm),
+                SizedBox(
+                  width: trailingGap ??
+                      (compact ? BrandSpace.xs : BrandSpace.sm),
+                ),
                 SizedBox.square(dimension: 56, child: trailing),
               ],
             );

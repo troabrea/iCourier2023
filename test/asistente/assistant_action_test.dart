@@ -47,7 +47,11 @@ void main() {
 
   /// The accesses live on a real scaffold and router because their placement,
   /// destination and colours all come from that context.
-  Future<String> pump(WidgetTester tester, {required bool signedIn}) async {
+  Future<String> pump(
+    WidgetTester tester, {
+    required bool signedIn,
+    double? trailingGap,
+  }) async {
     GetIt.I.registerSingleton<RouterSession>(
       RouterSession(initiallyLoggedIn: signedIn, loginChanges: loginChanges),
     );
@@ -69,6 +73,7 @@ void main() {
               logoMark: config.assets.logoMark,
               onTap: (_) {},
               trailing: const BrandAssistantFloatingAction(),
+              trailingGap: trailingGap,
             ),
           ),
         ),
@@ -132,6 +137,14 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('asistente'), findsOneWidget);
+  });
+
+  testWidgets('a narrower gap gives the dock the width back', (tester) async {
+    await pump(tester, signedIn: true, trailingGap: 4);
+
+    final dock = tester.getRect(find.byKey(const ValueKey('brand-tab-dock')));
+    final trailing = tester.getRect(find.byType(FloatingActionButton));
+    expect(trailing.left - dock.right, 4);
   });
 
   testWidgets('the side-by-side dock keeps usable tabs at compact width',

@@ -53,6 +53,10 @@ class BrandAssistantAction extends StatelessWidget {
 class BrandAssistantFloatingAction extends StatelessWidget {
   const BrandAssistantFloatingAction({super.key});
 
+  /// Side of the configured artwork, larger than the 56pt dock slot it paints
+  /// over so the character reads at a glance.
+  static const double _floatingArtwork = 72;
+
   @override
   Widget build(BuildContext context) {
     final session =
@@ -76,6 +80,34 @@ class BrandAssistantFloatingAction extends StatelessWidget {
         final tokens = context.brand;
         final settings = courier.assistantSettings.value;
         final name = settings.displayName(GetIt.I<BrandConfig>().name);
+        if (settings.avatarSvg.isNotEmpty) {
+          // Configured artwork floats bare beside the dock. A white button
+          // under it competes with the artwork's own shape and shrinks it to
+          // the point where the courier's character stops reading at all.
+          // The tap target stays the 56pt slot the dock reserves; only the
+          // painting overflows it.
+          return GestureDetector(
+            onTap: () => context.push(AppRoutes.assistant),
+            behavior: HitTestBehavior.opaque,
+            child: Tooltip(
+              message: name,
+              child: OverflowBox(
+                maxWidth: _floatingArtwork,
+                maxHeight: _floatingArtwork,
+                child: AssistantAvatarEntrance(
+                  child: Hero(
+                    tag: AssistantAvatar.heroTag,
+                    child: AssistantAvatar(
+                      avatarSvg: settings.avatarSvg,
+                      semanticLabel: name,
+                      size: _floatingArtwork,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
         return FloatingActionButton(
           heroTag: null,
           onPressed: () => context.push(AppRoutes.assistant),
@@ -91,7 +123,7 @@ class BrandAssistantFloatingAction extends StatelessWidget {
                 avatarSvg: settings.avatarSvg,
                 semanticLabel: name,
                 size: 52,
-                padding: settings.avatarSvg.isEmpty ? 5 : 1,
+                padding: 5,
               ),
             ),
           ),

@@ -219,7 +219,7 @@ void main() {
     final thinkingAvatar = tester.widget<AssistantAvatar>(
       find.byType(AssistantAvatar),
     );
-    expect(thinkingAvatar.size, 32);
+    expect(thinkingAvatar.size, 40);
     expect(thinkingAvatar.avatarSvg, contains('<circle'));
 
     stream.add(const AssistantTextDelta('Tienes **2 paquetes**'));
@@ -233,7 +233,7 @@ void main() {
     final avatar = tester.widget<AssistantAvatar>(
       find.byType(AssistantAvatar),
     );
-    expect(avatar.size, 32);
+    expect(avatar.size, 40);
     expect(avatar.avatarSvg, contains('<circle'));
     expect(avatar.semanticLabel, 'Mía');
     expect(find.text('Ver mis paquetes'), findsNothing);
