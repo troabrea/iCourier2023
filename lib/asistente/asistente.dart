@@ -361,6 +361,7 @@ class _Conversation extends StatelessWidget {
       shortcuts: AssistantShortcuts.resolve(
         question: turn.question,
         answer: turn.answer,
+        source: turn.reply.source,
         available: _availableRoutes(data.company),
       ),
       scrollController: documentScroll,

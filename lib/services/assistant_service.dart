@@ -263,13 +263,13 @@ class AssistantService {
 
   /// Pulls the reply out of the webhook body.
   ///
-  /// The workflow answers `{"output": ..., "needs_human": ..., "summary": ...}`,
-  /// but the handoff fields are produced by a language model asked for JSON, and
-  /// that is the part of the contract most likely to be missing on any given
-  /// call. A body carrying only `output` is still a complete answer; it simply
-  /// offers no handoff. The same tolerance covers an n8n node returning its
-  /// items unwrapped as a single-element list, and a field renamed on the
-  /// workflow side without anyone telling the app.
+  /// The workflow answers with `output`, `source`, `needs_human`, and `summary`,
+  /// but the metadata fields are produced by a language model asked for JSON,
+  /// and are the part of the contract most likely to be missing on any given
+  /// call. A body carrying only `output` is still a complete answer. The same
+  /// tolerance covers an n8n node returning its items unwrapped as a
+  /// single-element list, and a field renamed on the workflow side without
+  /// anyone telling the app.
   static AssistantReply _readReply(String body) {
     Object? decoded;
     try {
@@ -301,6 +301,9 @@ class AssistantService {
     }
     return AssistantReply(
       text: text,
+      source: decoded['source'] is String
+          ? (decoded['source'] as String).trim()
+          : '',
       needsHuman: _readFlag(decoded['needs_human']),
       summary: decoded['summary'] is String
           ? (decoded['summary'] as String).trim()

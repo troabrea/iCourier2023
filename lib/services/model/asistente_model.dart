@@ -67,12 +67,18 @@ final class AssistantIdentity {
 final class AssistantReply {
   const AssistantReply({
     required this.text,
+    this.source = '',
     this.needsHuman = false,
     this.summary = '',
   });
 
   /// Markdown as the webhook returned it. Rendering belongs to the surface.
   final String text;
+
+  /// The workflow tool that primarily informed [text].
+  ///
+  /// An empty value identifies legacy answers that predate this field.
+  final String source;
 
   /// Whether this exchange should be handed to a person.
   final bool needsHuman;

@@ -18,15 +18,89 @@ const _everything = <String>{
 List<String> _routes({
   required String question,
   String answer = '',
+  String source = '',
   Set<String> available = _everything,
 }) =>
     AssistantShortcuts.resolve(
       question: question,
       answer: answer,
+      source: source,
       available: available,
     ).map((shortcut) => shortcut.route).toList();
 
 void main() {
+  group('structured source', () {
+    const expectedRoutes = {
+      'get_paquetes': AppRoutes.receptions,
+      'get_historico': AppRoutes.history,
+      'calcula_envio': AppRoutes.calculator,
+      'get_sucursales': AppRoutes.branches,
+      'get_servicios': AppRoutes.services,
+      'get_preguntas': AppRoutes.faq,
+      'crear_prealerta': AppRoutes.prealert,
+      'crear_postalerta': AppRoutes.receptions,
+    };
+
+    for (final entry in expectedRoutes.entries) {
+      test('${entry.key} maps directly to ${entry.value}', () {
+        expect(
+          _routes(question: 'texto sin relación', source: entry.key),
+          [entry.value],
+        );
+      });
+    }
+
+    test('takes precedence over conflicting prose', () {
+      expect(
+        _routes(
+          question: '¿Tengo paquetes activos?',
+          answer: 'Tienes un paquete disponible.',
+          source: 'get_historico',
+        ),
+        [AppRoutes.history],
+      );
+    });
+
+    test('does not infer a shortcut for a conversational answer', () {
+      expect(
+        _routes(
+          question: '¿Tengo paquetes?',
+          answer: 'Hablemos de sus paquetes.',
+          source: 'conversacion',
+        ),
+        isEmpty,
+      );
+    });
+
+    test('does not infer a shortcut for an unknown non-empty source', () {
+      expect(
+        _routes(
+          question: '¿Tengo paquetes?',
+          source: 'herramienta_nueva',
+        ),
+        isEmpty,
+      );
+    });
+
+    test('does not offer a mapped module the brand disabled', () {
+      expect(
+        _routes(
+          question: 'Quiero hacer una prealerta',
+          source: 'crear_prealerta',
+          available: _everything.difference({AppRoutes.prealert}),
+        ),
+        isEmpty,
+      );
+    });
+
+    test('an empty source falls back to the prose rules', () {
+      expect(
+        _routes(question: '¿Tengo paquetes?', source: '   '),
+        [AppRoutes.receptions],
+      );
+    });
+  });
+
   test('offers the packages screen when the answer is about packages', () {
     expect(
       _routes(
@@ -160,7 +234,8 @@ Temístocles, durante el último mes, has recibido los siguientes paquetes:
     });
 
     test('the workflow saying "último mes" is decisive on its own', () {
-      final routes = _routes(question: '¿Y lo de antes?', answer: historyAnswer);
+      final routes =
+          _routes(question: '¿Y lo de antes?', answer: historyAnswer);
 
       expect(routes.first, AppRoutes.history);
     });

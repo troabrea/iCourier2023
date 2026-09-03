@@ -27,13 +27,13 @@ final class AssistantShortcut {
   int get hashCode => Object.hash(labelKey, route);
 }
 
-/// Matches an exchange to the screens it talks about.
+/// Matches an assistant reply to the screen that follows from it.
 ///
-/// The webhook answers in prose and knows nothing about this app's navigation,
-/// so the match is made here, on the customer's own words plus the answer text.
-/// Keeping it local means the workflow never has to learn a route table, and a
-/// brand that does not ship a module simply never passes that route in
-/// `available`.
+/// A structured workflow source maps directly to navigation. Legacy replies
+/// without that field still use the customer's words plus the answer text.
+/// Keeping the routes local means the workflow never has to learn the app's
+/// route table, and a brand that does not ship a module simply never passes
+/// that route in `available`.
 abstract final class AssistantShortcuts {
   /// Most a single answer may offer. Two buttons still read as an offer; a row
   /// of five reads as a menu the customer now has to choose from.
@@ -146,7 +146,46 @@ abstract final class AssistantShortcuts {
     ),
   ];
 
+  static const Map<String, AssistantShortcut> _sourceShortcuts = {
+    'get_paquetes': AssistantShortcut(
+      labelKey: 'asistente_ir_paquetes',
+      route: AppRoutes.receptions,
+    ),
+    'get_historico': AssistantShortcut(
+      labelKey: 'asistente_ir_historico',
+      route: AppRoutes.history,
+    ),
+    'calcula_envio': AssistantShortcut(
+      labelKey: 'asistente_ir_calculadora',
+      route: AppRoutes.calculator,
+    ),
+    'get_sucursales': AssistantShortcut(
+      labelKey: 'asistente_ir_sucursales',
+      route: AppRoutes.branches,
+    ),
+    'get_servicios': AssistantShortcut(
+      labelKey: 'asistente_ir_servicios',
+      route: AppRoutes.services,
+    ),
+    'get_preguntas': AssistantShortcut(
+      labelKey: 'asistente_ir_faq',
+      route: AppRoutes.faq,
+    ),
+    'crear_prealerta': AssistantShortcut(
+      labelKey: 'asistente_ir_prealerta',
+      route: AppRoutes.prealert,
+    ),
+    'crear_postalerta': AssistantShortcut(
+      labelKey: 'asistente_ir_paquetes',
+      route: AppRoutes.receptions,
+    ),
+  };
+
   /// Returns at most [maxShortcuts] destinations for one exchange.
+  ///
+  /// A non-empty [source] is authoritative: it returns its mapped shortcut, or
+  /// no shortcut when the source or destination is unsupported. Only an empty
+  /// [source] falls back to matching [question] and [answer].
   ///
   /// [available] is the set of routes this brand and this session can actually
   /// open, so a module the brand never enabled can never be offered. Rules are
@@ -160,8 +199,16 @@ abstract final class AssistantShortcuts {
   static List<AssistantShortcut> resolve({
     required String question,
     required String answer,
+    String source = '',
     required Set<String> available,
   }) {
+    if (source.trim().isNotEmpty) {
+      final shortcut = _sourceShortcuts[source.trim()];
+      return shortcut != null && available.contains(shortcut.route)
+          ? [shortcut]
+          : const [];
+    }
+
     final haystack = '${_fold(question)} ${_fold(answer)}';
     final scored = <(int rank, int score, _Rule rule)>[];
     for (var index = 0; index < _rules.length; index++) {

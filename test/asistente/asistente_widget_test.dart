@@ -166,6 +166,26 @@ void main() {
     );
   });
 
+  testWidgets('uses reply source before the answer wording for shortcuts',
+      (tester) async {
+    await open(tester);
+
+    await tester.enterText(find.byType(TextField), '¿Qué recibí en agosto?');
+    await tester.pump();
+    await tester.testTextInput.receiveAction(TextInputAction.send);
+    await tester.pump();
+    assistant.pending!.complete(
+      const AssistantReply(
+        text: 'Recibiste seis paquetes en agosto.',
+        source: 'get_historico',
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('asistente_ir_historico'.tr()), findsOneWidget);
+    expect(find.text('asistente_ir_paquetes'.tr()), findsNothing);
+  });
+
   testWidgets('indexes earlier questions once there is more than one',
       (tester) async {
     await open(tester);

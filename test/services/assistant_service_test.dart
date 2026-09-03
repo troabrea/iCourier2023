@@ -317,9 +317,9 @@ void main() {
       () async {
     // Captured verbatim from the live workflow after the parser was added.
     const body =
-        '{"output":{"output":"Su sucursal **DO.BVT** cierra a las **7:00 PM** '
+        '[{"output":{"output":"Su sucursal **DO.BVT** cierra a las **7:00 PM** '
         'de Lunes a Viernes y a las **4:00 PM** los Sábados.",'
-        '"needs_human":false,"summary":""}}';
+        '"needs_human":false,"summary":"","source":"get_sucursales"}}]';
     final service = _service(
       MockClient(
         (request) async => Response.bytes(utf8.encode(body), 200),
@@ -329,6 +329,7 @@ void main() {
     final reply = await service.ask('¿A qué hora cierra mi sucursal?');
 
     expect(reply.text, startsWith('Su sucursal **DO.BVT** cierra'));
+    expect(reply.source, 'get_sucursales');
     expect(reply.needsHuman, isFalse);
   });
 
@@ -363,6 +364,35 @@ void main() {
     );
 
     expect((await service.ask('hola')).text, 'Tienes 2 paquetes.');
+  });
+
+  test('trims a source from a flat body', () async {
+    final service = _service(
+      MockClient(
+        (request) async => Response(
+          jsonEncode({
+            'output': 'Tienes 2 paquetes.',
+            'source': '  get_paquetes  ',
+          }),
+          200,
+        ),
+      ),
+    );
+
+    expect((await service.ask('hola')).source, 'get_paquetes');
+  });
+
+  test('defaults to an empty source for a legacy body', () async {
+    final service = _service(
+      MockClient(
+        (request) async => Response(
+          jsonEncode({'output': 'Tienes 2 paquetes.'}),
+          200,
+        ),
+      ),
+    );
+
+    expect((await service.ask('hola')).source, isEmpty);
   });
 
   group('the handoff fields', () {
