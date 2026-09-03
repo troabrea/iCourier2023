@@ -234,15 +234,12 @@ class _DashboardContentState extends State<_DashboardContent> {
         future: widget.profile,
         builder: (context, snapshot) {
           final userProfile = snapshot.data;
-          // The assistant is a paid module. When this courier does not have
-          // it, the header position goes back to the branch contact channel it
-          // held before, instead of leading nowhere.
+          // The assistant is a paid module. It floats above the tab bar when
+          // enabled; otherwise this header position remains the branch contact
+          // channel it held before.
           final assistant = state.empresa.hasAssistantModule;
           final channel = assistant ? null : resolveContactChannel(userProfile);
-          final onContact = assistant
-              ? () => context.push(AppRoutes.assistant)
-              : (channel == null ? null : () => channel.open());
-          final contactMark = assistant ? _assistantMark(context) : null;
+          final onContact = channel == null ? null : () => channel.open();
           final pending = _pending();
           final banner = state.banners.isEmpty
               ? null
@@ -250,7 +247,6 @@ class _DashboardContentState extends State<_DashboardContent> {
           final actions = BrandHeaderActions(
             unread: unread,
             onContact: onContact,
-            contactMark: contactMark,
             onCarnet: () => context.push(AppRoutes.idCard),
             onMessages: () => context.push(AppRoutes.messages),
           );
@@ -279,7 +275,6 @@ class _DashboardContentState extends State<_DashboardContent> {
                             child: CuentasUsuario(userProfile: userProfile),
                           ),
                   onContact: onContact,
-                  contactMark: contactMark,
                   onCarnet: () => context.push(AppRoutes.idCard),
                   onMessages: () => context.push(AppRoutes.messages),
                 ),
@@ -583,17 +578,6 @@ class _DashboardContentState extends State<_DashboardContent> {
     }
     return seen.join(' · ');
   }
-
-  /// The assistant's own mark, so the header button shows what it opens.
-  ///
-  /// This position used to carry the branch WhatsApp. Home is behind the
-  /// session, so the assistant is always available here; WhatsApp is one tap
-  /// deeper, in the assistant's own header.
-  Widget _assistantMark(BuildContext context) => BrandGlyph(
-        BrandIcons.assistant,
-        color: context.brand.onPrimary,
-        size: 18,
-      );
 
   String _firstName(UserProfile? profile) {
     final name = profile?.nombre.trim() ?? '';

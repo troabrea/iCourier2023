@@ -7,6 +7,7 @@ import 'package:icourier/services/model/empresa.dart';
 const _record = '''
 {
     "Name" : "Asistente",
+    "AvatarSvg": "<svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='10'/></svg>",
     "ServiceSettings": {
         "ServiceUrl": "https://n8n.example.test/webhook/courier/assistant",
         "ApiKey": "tupaq-2f8c",
@@ -21,6 +22,7 @@ void main() {
     final settings = AssistantSettings.parse(_record);
 
     expect(settings.name, 'Asistente');
+    expect(settings.avatarSvg, contains("viewBox='0 0 24 24'"));
     expect(
       settings.endpoint.toString(),
       'https://n8n.example.test/webhook/courier/assistant',
@@ -33,6 +35,7 @@ void main() {
   test('reads the same record however the backend cased its keys', () {
     final settings = AssistantSettings.parse(jsonEncode({
       'name': 'Asistente',
+      'avatarSvg': "<svg viewBox='0 0 1 1'></svg>",
       'serviceSettings': {
         'serviceUrl': 'https://n8n.example.test/webhook/x',
         'apiKey': 'k',
@@ -41,6 +44,34 @@ void main() {
 
     expect(settings.endpoint.toString(), 'https://n8n.example.test/webhook/x');
     expect(settings.apiKey, 'k');
+    expect(settings.avatarSvg, contains("viewBox='0 0 1 1'"));
+  });
+
+  test('uses the configured name or falls back to the courier', () {
+    expect(
+      AssistantSettings.parse('{"Name":" Ada "}').displayName('BM Cargo'),
+      'Ada',
+    );
+    expect(
+      AssistantSettings.parse('{"Name":"   "}').displayName(' BM Cargo '),
+      'BM Cargo',
+    );
+    expect(AssistantSettings.none.displayName('BM Cargo'), 'BM Cargo');
+  });
+
+  test('blank and oversized avatars are omitted', () {
+    expect(
+      AssistantSettings.parse('{"AvatarSvg":"   "}').avatarSvg,
+      isEmpty,
+    );
+    final oversized = '<svg viewBox="0 0 1 1">'
+        '${List.filled(AssistantSettings.maxAvatarBytes, 'x').join()}'
+        '</svg>';
+    final settings = AssistantSettings.parse(
+      jsonEncode({'AvatarSvg': oversized}),
+    );
+
+    expect(settings.avatarSvg, isEmpty);
   });
 
   test('a record saved with a trailing comma costs the settings, not the app',

@@ -724,6 +724,7 @@ class BrandTabBar extends StatelessWidget {
     required this.index,
     required this.onTap,
     required this.logoMark,
+    this.trailing,
   });
 
   final List<TabModule> modules;
@@ -733,6 +734,9 @@ class BrandTabBar extends StatelessWidget {
   /// Brand mark shown at the centre, as the original tab bar did. Falls back
   /// to the package glyph when a brand ships no icon.
   final String logoMark;
+
+  /// Utility action displayed beside, but outside, the navigation dock.
+  final Widget? trailing;
 
   /// Height of the row that holds every destination.
   static const double _rowHeight = 52;
@@ -759,40 +763,58 @@ class BrandTabBar extends StatelessWidget {
           BrandSpace.sm,
           _bottomGap,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: tokens.surface,
-            border: Border.all(color: tokens.border),
-            borderRadius: BorderRadius.circular(BrandShape.tabDock),
-            boxShadow: BrandElevation.dock,
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: BrandSpace.xs,
-            vertical: 6,
-          ),
-          child: SizedBox(
-            height: _rowHeight,
-            child: Row(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final hasTrailing = trailing != null;
+            final compact = hasTrailing && constraints.maxWidth < 324;
+            final dock = Container(
+              key: const ValueKey('brand-tab-dock'),
+              decoration: BoxDecoration(
+                color: tokens.surface,
+                border: Border.all(color: tokens.border),
+                borderRadius: BorderRadius.circular(BrandShape.tabDock),
+                boxShadow: BrandElevation.dock,
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: compact ? 0 : BrandSpace.xs,
+                vertical: 6,
+              ),
+              child: SizedBox(
+                height: _rowHeight,
+                child: Row(
+                  children: [
+                    for (var slot = 0; slot < modules.length; slot++)
+                      Expanded(
+                        key: ValueKey('brand-tab-slot-$slot'),
+                        child: slot == homeIndex
+                            ? Center(
+                                child: _HomeButton(
+                                  selected: slot == index,
+                                  logoMark: logoMark,
+                                  onTap: () => onTap(slot),
+                                ),
+                              )
+                            : _TabButton(
+                                module: modules[slot],
+                                selected: slot == index,
+                                onTap: () => onTap(slot),
+                              ),
+                      ),
+                  ],
+                ),
+              ),
+            );
+            if (!hasTrailing) {
+              return dock;
+            }
+            return Row(
               children: [
-                for (var slot = 0; slot < modules.length; slot++)
-                  Expanded(
-                    child: slot == homeIndex
-                        ? Center(
-                            child: _HomeButton(
-                              selected: slot == index,
-                              logoMark: logoMark,
-                              onTap: () => onTap(slot),
-                            ),
-                          )
-                        : _TabButton(
-                            module: modules[slot],
-                            selected: slot == index,
-                            onTap: () => onTap(slot),
-                          ),
-                  ),
+                Expanded(child: dock),
+                SizedBox(width: compact ? BrandSpace.xs : BrandSpace.sm),
+                SizedBox.square(dimension: 56, child: trailing),
               ],
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

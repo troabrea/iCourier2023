@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event/event.dart' as event;
@@ -9,6 +10,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/asistente/asistente.dart';
+import 'package:icourier/asistente/assistant_avatar.dart';
 import 'package:icourier/asistente/assistant_conversation.dart';
 import 'package:icourier/asistente/bloc/asistente_bloc.dart';
 import 'package:icourier/helpers/contact_action.dart';
@@ -41,6 +43,7 @@ const _branchAnswer = '''
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late _FakeAssistant assistant;
+  late _AssistantCourierService courier;
 
   setUpAll(() async {
     initializeTestTranslations();
@@ -55,7 +58,8 @@ void main() {
     GetIt.I.registerSingleton<event.Event<LoginChanged>>(
       event.Event<LoginChanged>(),
     );
-    GetIt.I.registerSingleton<CourierService>(_AssistantCourierService());
+    courier = _AssistantCourierService();
+    GetIt.I.registerSingleton<CourierService>(courier);
     assistant = _FakeAssistant();
     GetIt.I.registerSingleton<AssistantService>(assistant);
     GetIt.I.registerSingleton<AssistantConversation>(AssistantConversation());
@@ -83,6 +87,29 @@ void main() {
     await open(tester);
 
     expect(find.text('Hola, Temístocles.'), findsOneWidget);
+    expect(find.text('BM Cargo'), findsOneWidget);
+    final hero = tester.widget<Hero>(find.byType(Hero));
+    expect(hero.tag, AssistantAvatar.heroTag);
+    expect(
+      tester
+          .widget<AssistantAvatarEntrance>(
+            find.byType(AssistantAvatarEntrance),
+          )
+          .rotate,
+      isTrue,
+    );
+    expect(
+      tester.widget<AssistantAvatar>(find.byType(AssistantAvatar)).size,
+      96,
+    );
+    final introduction = tester.widget<Text>(
+      find.byKey(const ValueKey('assistant-introduction')),
+    );
+    expect(
+      introduction.textSpan!.toPlainText(),
+      'Soy BM Cargo, pregúntame por tus paquetes, las sucursales, '
+      'los servicios o el costo de un envío.',
+    );
     expect(find.text('¿Tengo paquetes disponibles?'), findsOneWidget);
     expect(find.text('¿Qué servicios ofrecen?'), findsOneWidget);
     expect(find.text('Escribe tu pregunta'), findsOneWidget);
@@ -100,6 +127,43 @@ void main() {
       find.byType(AsistentePage),
       matchesGoldenFile('goldens/asistente_inicio.png'),
     );
+  });
+
+  testWidgets('uses the configured assistant name and avatar', (tester) async {
+    courier
+      ..assistantName = 'Mía'
+      ..avatarSvg =
+          "<svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='8'/></svg>";
+
+    await open(tester);
+
+    expect(find.text('Mía'), findsOneWidget);
+    final avatar = tester.widget<AssistantAvatar>(
+      find.byType(AssistantAvatar),
+    );
+    expect(avatar.semanticLabel, 'Mía');
+    expect(avatar.avatarSvg, contains('<circle'));
+    final introduction = tester.widget<Text>(
+      find.byKey(const ValueKey('assistant-introduction')),
+    );
+    final spans = (introduction.textSpan! as TextSpan).children!;
+    final nameSpan = spans[1] as TextSpan;
+    expect(nameSpan.text, 'Mía');
+    expect(nameSpan.style!.fontWeight, FontWeight.w700);
+  });
+
+  testWidgets('falls back to the bundled avatar for malformed SVG',
+      (tester) async {
+    courier.avatarSvg = '<svg';
+
+    await open(tester);
+
+    final avatar = find.byType(AssistantAvatar);
+    expect(
+      find.descendant(of: avatar, matching: find.byType(BrandGlyph)),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('keeps the question on screen while the answer is prepared',
@@ -611,6 +675,9 @@ class _AssistantCourierService extends CourierService {
   /// Whether this courier publishes a frequently asked questions module.
   final bool hasFaq;
 
+  String assistantName = '';
+  String avatarSvg = '';
+
   @override
   Future<Empresa> getEmpresa({
     bool ignoreCache = false,
@@ -619,7 +686,11 @@ class _AssistantCourierService extends CourierService {
   }) async =>
       Empresa.empty()
         ..hasPreguntas = hasFaq
-        ..hasAssistantModule = assistant;
+        ..hasAssistantModule = assistant
+        ..assistantSettings = jsonEncode({
+          if (assistantName.isNotEmpty) 'Name': assistantName,
+          if (avatarSvg.isNotEmpty) 'AvatarSvg': avatarSvg,
+        });
 
   @override
   Future<UserProfile> getUserProfile() async => UserProfile(

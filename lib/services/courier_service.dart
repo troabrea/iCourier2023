@@ -151,7 +151,11 @@ class CourierService {
   final ValueNotifier<bool> assistantEnabled = ValueNotifier<bool>(false);
 
   /// The assistant's configuration, parsed once per company record.
-  AssistantSettings assistantSettings = AssistantSettings.none;
+  ///
+  /// It is observable because the shell can already be mounted when a fresh
+  /// company record supplies a new name or avatar.
+  final ValueNotifier<AssistantSettings> assistantSettings =
+      ValueNotifier<AssistantSettings>(AssistantSettings.none);
 
   /// The raw record the parsed [assistantSettings] came from, so a company
   /// record read from cache on every screen is not re-parsed each time.
@@ -402,7 +406,7 @@ class CourierService {
   void _rememberAssistant(Empresa empresa) {
     if (empresa.assistantSettings != _assistantRecord) {
       _assistantRecord = empresa.assistantSettings;
-      assistantSettings = AssistantSettings.parse(_assistantRecord);
+      assistantSettings.value = AssistantSettings.parse(_assistantRecord);
     }
     assistantEnabled.value = empresa.hasAssistantModule;
   }

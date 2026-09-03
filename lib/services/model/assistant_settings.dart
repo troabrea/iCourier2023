@@ -20,6 +20,7 @@ import 'package:flutter/foundation.dart';
 final class AssistantSettings {
   const AssistantSettings({
     this.name = '',
+    this.avatarSvg = '',
     this.serviceUrl = '',
     this.apiKey = '',
     this.sessionDailyLimit = unlimited,
@@ -32,6 +33,9 @@ final class AssistantSettings {
   /// What the portal writes for a limit that is not capped.
   static const int unlimited = -1;
 
+  /// Largest avatar accepted by the portal contract.
+  static const int maxAvatarBytes = 64 * 1024;
+
   /// Reads the portal's record, keeping whichever fields survive.
   factory AssistantSettings.parse(String raw) {
     final record = _readObject(raw);
@@ -41,6 +45,7 @@ final class AssistantSettings {
     final service = _readChild(record, 'servicesettings');
     return AssistantSettings(
       name: _readText(record['name']),
+      avatarSvg: _readAvatar(record['avatarsvg']),
       serviceUrl: _readText(service['serviceurl']),
       apiKey: _readText(service['apikey']),
       sessionDailyLimit: _readLimit(service['sessiondailyratelimit']),
@@ -50,6 +55,9 @@ final class AssistantSettings {
 
   /// What the courier calls the assistant, when they renamed it.
   final String name;
+
+  /// Sanitized SVG artwork supplied by the courier.
+  final String avatarSvg;
 
   final String serviceUrl;
 
@@ -66,6 +74,10 @@ final class AssistantSettings {
 
   /// How many questions the whole company may ask per month.
   final int companyMonthlyLimit;
+
+  /// The configured assistant name, or the courier name when it is unset.
+  String displayName(String courierName) =>
+      name.isNotEmpty ? name : courierName.trim();
 
   /// The workflow this courier's questions go to, when one is configured.
   ///
@@ -110,6 +122,14 @@ final class AssistantSettings {
       };
 
   static String _readText(Object? value) => value is String ? value.trim() : '';
+
+  static String _readAvatar(Object? value) {
+    final avatar = _readText(value);
+    if (avatar.isEmpty || utf8.encode(avatar).length > maxAvatarBytes) {
+      return '';
+    }
+    return avatar;
+  }
 
   /// Reads a limit a portal field may have saved as text.
   static int _readLimit(Object? value) {

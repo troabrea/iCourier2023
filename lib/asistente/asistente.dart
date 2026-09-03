@@ -38,10 +38,12 @@ import '../navigation/app_routes.dart';
 import '../services/assistant_service.dart';
 import '../services/courier_service.dart';
 import '../services/model/asistente_model.dart';
+import '../services/model/assistant_settings.dart';
 import '../services/model/empresa.dart';
 import '../services/model/login_model.dart';
 import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
+import 'assistant_avatar.dart';
 import 'assistant_conversation.dart';
 import 'assistant_markdown.dart';
 import 'assistant_shortcuts.dart';
@@ -98,10 +100,12 @@ class _AsistentePageState extends State<AsistentePage> {
     // this future is in scope.
     _profile = await profileRequest;
 
+    final company = await companyRequest;
     return (
-      company: await companyRequest,
+      company: company,
       identity: identity,
       profile: _profile,
+      settings: AssistantSettings.parse(company.assistantSettings),
     );
   }
 
@@ -189,12 +193,17 @@ class _AsistentePageState extends State<AsistentePage> {
           if (!snapshot.hasData) {
             return _frame(context, body: const BrandSkeleton(rows: 4));
           }
+          final data = snapshot.requireData;
+          final assistantName = data.settings.displayName(
+            GetIt.I<BrandConfig>().name,
+          );
           // Every way in is hidden for a courier without the module, so this
           // only catches a restored route or a deep link. It says so plainly
           // rather than opening a composer whose questions nobody will answer.
-          if (!snapshot.requireData.company.hasAssistantModule) {
+          if (!data.company.hasAssistantModule) {
             return _frame(
               context,
+              title: assistantName,
               body: const BrandEmptyState(
                 messageKey: 'asistente_no_disponible',
                 glyph: BrandIcons.assistant,
@@ -206,13 +215,14 @@ class _AsistentePageState extends State<AsistentePage> {
             child: BlocBuilder<AsistenteBloc, AsistenteState>(
               builder: (context, state) => _frame(
                 context,
+                title: assistantName,
                 // Only offered once there is something to clear.
                 trailing: state.hasConversation
                     ? _ResetAction(onReset: _reset)
                     : null,
                 body: _Conversation(
                   state: state,
-                  data: snapshot.requireData,
+                  data: data,
                   composer: _composer,
                   composerFocus: _composerFocus,
                   documentScroll: _document,
@@ -233,12 +243,13 @@ class _AsistentePageState extends State<AsistentePage> {
   Widget _frame(
     BuildContext context, {
     required Widget body,
+    String? title,
     Widget? trailing,
   }) =>
       Scaffold(
         backgroundColor: context.brand.bg,
         appBar: ScreenHeader(
-          title: 'asistente'.tr(),
+          title: title ?? GetIt.I<BrandConfig>().name,
           onBack: context.popOrHome,
           trailing: trailing,
         ),
@@ -269,6 +280,7 @@ typedef _AssistantContext = ({
   Empresa company,
   AssistantIdentity identity,
   UserProfile? profile,
+  AssistantSettings settings,
 });
 
 class _Conversation extends StatelessWidget {
@@ -351,6 +363,8 @@ class _Conversation extends StatelessWidget {
       return _Welcome(
         firstName: data.identity.firstName,
         company: data.company,
+        assistantName: data.settings.displayName(GetIt.I<BrandConfig>().name),
+        avatarSvg: data.settings.avatarSvg,
         onAsk: onAsk,
       );
     }
@@ -502,48 +516,6 @@ void openAssistantShortcut(BuildContext context, String route) {
   context.push(route);
 }
 
-/// The courier's own mark, so the greeting comes from the brand rather than
-/// from a generic chat bubble.
-///
-/// Brand marks are drawn for a light ground, so they keep their own colours on
-/// `logoBackdrop` in both themes instead of being tinted like a glyph. A brand
-/// that ships no mark falls back to its initial.
-class _BrandMark extends StatelessWidget {
-  const _BrandMark();
-
-  static const double _size = 52;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = context.brand;
-    final config = GetIt.I<BrandConfig>();
-    final mark = config.assets.logoMark;
-    return Semantics(
-      label: config.name,
-      image: true,
-      child: Container(
-        width: _size,
-        height: _size,
-        alignment: Alignment.center,
-        padding: mark.isEmpty ? null : const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: mark.isEmpty
-              ? tokens.accentWash(tokens.primary)
-              : tokens.logoBackdrop,
-          border: Border.all(color: tokens.border),
-        ),
-        child: mark.isEmpty
-            ? Text(
-                config.name.characters.first.toUpperCase(),
-                style: tokens.head(20, color: tokens.primary),
-              )
-            : ClipOval(child: Image.asset(mark, fit: BoxFit.contain)),
-      ),
-    );
-  }
-}
-
 /// Offers the conversation to a person, carrying what was already said.
 ///
 /// The workflow decides this, not the app: it knows when its own tools came up
@@ -628,11 +600,15 @@ class _Welcome extends StatelessWidget {
   const _Welcome({
     required this.firstName,
     required this.company,
+    required this.assistantName,
+    required this.avatarSvg,
     required this.onAsk,
   });
 
   final String firstName;
   final Empresa company;
+  final String assistantName;
+  final String avatarSvg;
   final ValueChanged<String> onAsk;
 
   @override
@@ -668,31 +644,49 @@ class _Welcome extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               BrandManifestReveal(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
                   children: [
-                    const _BrandMark(),
-                    const SizedBox(width: BrandSpace.sm),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    AssistantAvatarEntrance(
+                      rotate: true,
+                      delay: const Duration(milliseconds: 280),
+                      duration: const Duration(milliseconds: 650),
+                      child: Hero(
+                        tag: AssistantAvatar.heroTag,
+                        child: AssistantAvatar(
+                          avatarSvg: avatarSvg,
+                          semanticLabel: assistantName,
+                          size: 96,
+                          backgroundColor: tokens.accentWash(tokens.primary),
+                          padding: avatarSvg.isEmpty ? 10 : 3,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: BrandSpace.sm),
+                    Text(
+                      firstName.isEmpty
+                          ? 'asistente_saludo_generico'.tr()
+                          : 'asistente_saludo'.tr(args: [firstName]),
+                      textAlign: TextAlign.center,
+                      style: tokens.head(20, height: 1.25),
+                    ),
+                    const SizedBox(height: BrandSpace.xxs),
+                    Text.rich(
+                      key: const ValueKey('assistant-introduction'),
+                      TextSpan(
                         children: [
-                          Text(
-                            firstName.isEmpty
-                                ? 'asistente_saludo_generico'.tr()
-                                : 'asistente_saludo'.tr(args: [firstName]),
-                            style: tokens.head(20, height: 1.25),
+                          TextSpan(text: '${'asistente_soy'.tr()} '),
+                          TextSpan(
+                            text: assistantName,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
-                          const SizedBox(height: BrandSpace.xxs),
-                          Text(
-                            'asistente_intro'.tr(),
-                            style: tokens.body(
-                              13,
-                              color: tokens.readableMuted(tokens.bg),
-                              height: 1.45,
-                            ),
-                          ),
+                          TextSpan(text: ', ${'asistente_intro'.tr()}'),
                         ],
+                      ),
+                      textAlign: TextAlign.center,
+                      style: tokens.body(
+                        13,
+                        color: tokens.readableMuted(tokens.bg),
+                        height: 1.45,
                       ),
                     ),
                   ],

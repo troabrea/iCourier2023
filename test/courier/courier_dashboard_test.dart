@@ -42,7 +42,7 @@ void main() {
 
   tearDown(() => GetIt.I.reset());
 
-  testWidgets('the header contact position now opens the assistant', (
+  testWidgets('the active assistant no longer occupies the header', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -58,12 +58,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // The expanded panel and the collapsed bar carry the same cluster, so the
-    // mark appears twice and WhatsApp appears nowhere.
+    // The shell owns the floating assistant. The dashboard's expanded and
+    // collapsed header clusters therefore carry no duplicate access.
     final marks = find.byWidgetPredicate(
       (widget) => widget is BrandGlyph && widget.asset == BrandIcons.assistant,
     );
-    expect(marks, findsNWidgets(2));
+    expect(marks, findsNothing);
     expect(find.byType(FaIcon), findsNothing);
   });
 

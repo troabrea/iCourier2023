@@ -123,7 +123,7 @@ class AssistantService {
       // A record that cannot be fetched leaves whatever was already read in
       // place, and the fallback endpoint answers meanwhile.
     }
-    return courier.assistantSettings;
+    return courier.assistantSettings.value;
   }
 
   /// Builds the identity from the live courier session.
