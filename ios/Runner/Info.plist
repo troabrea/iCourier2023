@@ -44,6 +44,8 @@
 	<false/>
 	<key>KeychainAccessGroup</key>
 	<string>$(AppIdentifierPrefix)$(APP_GROUP_ID)</string>
+	<key>AppGroupIdentifier</key>
+	<string>$(APP_GROUP_ID)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>

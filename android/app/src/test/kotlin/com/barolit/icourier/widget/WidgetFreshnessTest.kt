@@ -47,6 +47,17 @@ class WidgetFreshnessTest {
     }
 
     @Test
+    fun pushRefreshBypassesThirtyMinuteWindow() {
+        assertTrue(
+            WidgetRemoteRefreshWorker.needsRefresh(
+                generatedAt = "2026-08-10T12:59:59Z",
+                now = now,
+                forceRefresh = true,
+            ),
+        )
+    }
+
+    @Test
     fun backgroundSummaryMatchesFlutterCategories() {
         val packages = JSONArray(
             """[

@@ -2,11 +2,13 @@ import Security
 import SwiftUI
 import UIKit
 import WidgetKit
+import os
 
 private let widgetKind = "ICourierWidget"
 private let storageKey = "widget_state"
 private let companyIdKey = "widget_company_id"
 private let endpointKey = "widget_endpoint"
+private let refreshRequestedAtKey = "widget_refresh_requested_at"
 
 private enum WidgetDateParser {
   private static let fractionalFormatter: ISO8601DateFormatter = {
@@ -105,6 +107,10 @@ private enum WidgetRemoteRefresh {
   private static let staleInterval: TimeInterval = 4 * 60 * 60
   private static let keychainService = "com.barolit.icourier.widget-session"
   private static let keychainAccount = "current"
+  private static let logger = Logger(
+    subsystem: "com.barolit.icourier.widget",
+    category: "remote-refresh"
+  )
 
   private static let deliveredTerms: Set<String> = [
     "ENTREGADO AL CLIENTE", "ENTREGADO", "DELIVERED", "BILLED COUNTER",
@@ -128,15 +134,22 @@ private enum WidgetRemoteRefresh {
     appGroup: String,
     now: Date
   ) async -> WidgetSnapshot? {
-    guard let snapshot,
-          snapshot.session.signedIn,
-          shouldRefresh(snapshot, now: now),
-          let defaults = UserDefaults(suiteName: appGroup),
-          let companyId = defaults.string(forKey: companyIdKey),
+    guard let snapshot, snapshot.session.signedIn else {
+      return snapshot
+    }
+    guard let defaults = UserDefaults(suiteName: appGroup) else {
+      logger.error("The widget App Group is unavailable.")
+      return snapshot
+    }
+    guard shouldRefresh(snapshot, defaults: defaults, now: now) else {
+      return snapshot
+    }
+    guard let companyId = defaults.string(forKey: companyIdKey),
+          !companyId.isEmpty,
           let endpoint = defaults.string(forKey: endpointKey),
           let sessionId = loadSessionId(),
-          !companyId.isEmpty,
           !sessionId.isEmpty else {
+      logger.error("The shared widget session is incomplete.")
       return snapshot
     }
 
@@ -151,6 +164,10 @@ private enum WidgetRemoteRefresh {
       defaults.set(String(decoding: payload, as: UTF8.self), forKey: storageKey)
       return refreshed
     } catch {
+      let nsError = error as NSError
+      logger.error(
+        "The remote widget refresh failed (\(nsError.domain, privacy: .public): \(nsError.code))."
+      )
       return snapshot
     }
   }
@@ -163,11 +180,19 @@ private enum WidgetRemoteRefresh {
     return requested > now ? requested : now.addingTimeInterval(interval)
   }
 
-  private static func shouldRefresh(_ snapshot: WidgetSnapshot, now: Date) -> Bool {
+  private static func shouldRefresh(
+    _ snapshot: WidgetSnapshot,
+    defaults: UserDefaults,
+    now: Date
+  ) -> Bool {
     guard let generatedAt = snapshot.generatedAtDate else {
       return true
     }
-    return now.timeIntervalSince(generatedAt) >= interval
+    let requestedAt = Date(
+      timeIntervalSince1970: defaults.double(forKey: refreshRequestedAtKey)
+    )
+    return requestedAt > generatedAt ||
+      now.timeIntervalSince(generatedAt) >= interval
   }
 
   private static func loadSessionId() -> String? {

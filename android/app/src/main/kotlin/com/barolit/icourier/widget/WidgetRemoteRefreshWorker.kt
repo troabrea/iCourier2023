@@ -1,6 +1,7 @@
 package com.barolit.icourier.widget
 
 import android.content.Context
+import android.util.Log
 import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -20,6 +21,7 @@ class WidgetRemoteRefreshWorker(
     parameters: WorkerParameters,
 ) : CoroutineWorker(context, parameters) {
     override suspend fun doWork(): Result {
+        val forceRefresh = inputData.getBoolean(FORCE_REFRESH_INPUT_KEY, false)
         val preferences = applicationContext.getSharedPreferences(
             MainActivity.WIDGET_PREFERENCES,
             Context.MODE_PRIVATE,
@@ -31,7 +33,7 @@ class WidgetRemoteRefreshWorker(
         if (!root.getJSONObject("session").optBoolean("signedIn")) {
             return Result.success()
         }
-        if (!needsRefresh(root.optString("generatedAt"))) {
+        if (!needsRefresh(root.optString("generatedAt"), forceRefresh = forceRefresh)) {
             return Result.success()
         }
         val sessionId = WidgetSessionStore.read(applicationContext)
@@ -52,9 +54,13 @@ class WidgetRemoteRefreshWorker(
                 .commit()
             ICourierWidget().updateAll(applicationContext)
             Result.success()
-        } catch (_: Exception) {
+        } catch (error: Exception) {
             // Preserve the last valid snapshot and wait for the next periodic
             // window instead of repeatedly calling the legacy service.
+            Log.w(
+                "ICourierWidget",
+                "Remote refresh failed (${error.javaClass.simpleName}); keeping snapshot.",
+            )
             Result.success()
         }
     }
@@ -98,6 +104,7 @@ class WidgetRemoteRefreshWorker(
     }
 
     companion object {
+        internal const val FORCE_REFRESH_INPUT_KEY = "force_widget_refresh"
         private val refreshInterval: Duration = Duration.ofMinutes(30)
 
         private val deliveredTerms = setOf(
@@ -140,9 +147,15 @@ class WidgetRemoteRefreshWorker(
         internal fun needsRefresh(
             generatedAt: String,
             now: Instant = Instant.now(),
-        ): Boolean = runCatching {
-            Duration.between(Instant.parse(generatedAt), now) >= refreshInterval
-        }.getOrDefault(true)
+            forceRefresh: Boolean = false,
+        ): Boolean {
+            if (forceRefresh) {
+                return true
+            }
+            return runCatching {
+                Duration.between(Instant.parse(generatedAt), now) >= refreshInterval
+            }.getOrDefault(true)
+        }
 
         internal fun summarize(packages: JSONArray): JSONObject {
             var available = 0

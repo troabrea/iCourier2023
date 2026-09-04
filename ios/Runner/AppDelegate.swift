@@ -5,6 +5,25 @@ import AppIntents
 import Security
 import WidgetKit
 
+private enum WidgetBackgroundRefreshRequest {
+  private static let appGroupInfoKey = "AppGroupIdentifier"
+  private static let requestKey = "widget_refresh_requested_at"
+
+  static func enqueue() {
+    guard let appGroup = Bundle.main.object(
+      forInfoDictionaryKey: appGroupInfoKey
+    ) as? String,
+          let defaults = UserDefaults(suiteName: appGroup) else {
+      return
+    }
+    defaults.set(Date().timeIntervalSince1970, forKey: requestKey)
+    defaults.synchronize()
+    if #available(iOS 14.0, *) {
+      WidgetCenter.shared.reloadTimelines(ofKind: "ICourierWidget")
+    }
+  }
+}
+
 private enum WidgetSessionKeychain {
   private static let service = "com.barolit.icourier.widget-session"
   private static let account = "current"
@@ -123,6 +142,7 @@ private enum WidgetSessionKeychain {
           }
           defaults.removeObject(forKey: "widget_company_id")
           defaults.removeObject(forKey: "widget_endpoint")
+          defaults.removeObject(forKey: "widget_refresh_requested_at")
           defaults.removeObject(forKey: key)
           defaults.synchronize()
           if #available(iOS 14.0, *) {
@@ -136,7 +156,19 @@ private enum WidgetSessionKeychain {
     }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-    
+
+  override func application(
+    _ application: UIApplication,
+    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
+    WidgetBackgroundRefreshRequest.enqueue()
+    super.application(
+      application,
+      didReceiveRemoteNotification: userInfo,
+      fetchCompletionHandler: completionHandler
+    )
+  }
 }
 
 @available(iOS 16.0, *)
