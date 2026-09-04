@@ -197,6 +197,51 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('los destinos del tab bar usan glifos más visibles', (
+    tester,
+  ) async {
+    final config = loadTestBrand('bmcargo');
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: BrandTabBar(
+          modules: BrandNavigationConfig.standard().tabs,
+          index: 2,
+          onTap: (_) {},
+          logoMark: 'images/bmcargo/icon.png',
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final destinationGlyphs = tester
+        .widgetList<BrandGlyph>(find.byType(BrandGlyph))
+        .where((glyph) => glyph.size == 34);
+    expect(destinationGlyphs, hasLength(3));
+    expect(tester.widget<BrandMoreGlyph>(find.byType(BrandMoreGlyph)).size, 34);
+  });
+
+  testWidgets('el glifo de acción queda visible sobre superficies oscuras', (
+    tester,
+  ) async {
+    final config = loadTestBrand('bmcargo');
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        brightness: Brightness.dark,
+        child: const BrandActionGlyph(asset: BrandIcons.services),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final glyph = tester.widget<BrandGlyph>(find.byType(BrandGlyph));
+    final tokens = Theme.of(tester.element(find.byType(BrandActionGlyph)))
+        .extension<BrandTokens>()!;
+    expect(_contrast(glyph.color, tokens.surface), greaterThanOrEqualTo(3));
+  });
+
   testWidgets('campo numérico acepta separador decimal local', (tester) async {
     final config = loadTestBrand('bmcargo');
     final controller = TextEditingController();

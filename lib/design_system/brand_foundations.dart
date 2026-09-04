@@ -181,6 +181,45 @@ class BrandGlyphTile extends StatelessWidget {
   }
 }
 
+/// Unbacked glyph that identifies an action inside a surface row.
+///
+/// It follows the social-link treatment: the brand primary carries the mark
+/// directly, with an accessible foreground fallback for dark surfaces and
+/// pale brand palettes.
+class BrandActionGlyph extends StatelessWidget {
+  const BrandActionGlyph({
+    super.key,
+    required this.asset,
+    this.accent,
+  });
+
+  /// Alignment box reserved by the action glyph.
+  static const double boxSize = 44;
+
+  /// Visual size of the unbacked action glyph.
+  static const double glyphSize = 32;
+
+  final String asset;
+  final Color? accent;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final preferred = accent ?? tokens.primary;
+    final foreground = tokens.accessibleForeground(
+      tokens.surface,
+      preferred: preferred,
+      minimumContrast: 3,
+    );
+    return SizedBox.square(
+      dimension: boxSize,
+      child: Center(
+        child: BrandGlyph(asset, color: foreground, size: glyphSize),
+      ),
+    );
+  }
+}
+
 /// Small capsule carrying a count or a status word.
 class BrandPill extends StatelessWidget {
   const BrandPill({

@@ -748,6 +748,9 @@ class BrandTabBar extends StatelessWidget {
   /// Height of the row that holds every destination.
   static const double _rowHeight = 52;
 
+  /// Visual size of every non-home destination glyph.
+  static const double _destinationGlyphSize = 34;
+
   /// Gap between the dock and the home indicator. Small on purpose: the safe
   /// area already keeps the dock clear of the indicator, so anything more just
   /// reads as dead space under the bar.
@@ -818,8 +821,8 @@ class BrandTabBar extends StatelessWidget {
               children: [
                 Expanded(child: dock),
                 SizedBox(
-                  width: trailingGap ??
-                      (compact ? BrandSpace.xs : BrandSpace.sm),
+                  width:
+                      trailingGap ?? (compact ? BrandSpace.xs : BrandSpace.sm),
                 ),
                 SizedBox.square(dimension: 56, child: trailing),
               ],
@@ -863,8 +866,15 @@ class _TabButton extends StatelessWidget {
           height: BrandTabBar._rowHeight,
           child: Center(
             child: module == TabModule.more
-                ? BrandMoreGlyph(color: color)
-                : BrandGlyph(_tabGlyph(module), color: color, size: 29),
+                ? BrandMoreGlyph(
+                    color: color,
+                    size: BrandTabBar._destinationGlyphSize,
+                  )
+                : BrandGlyph(
+                    _tabGlyph(module),
+                    color: color,
+                    size: BrandTabBar._destinationGlyphSize,
+                  ),
           ),
         ),
       ),
@@ -956,7 +966,8 @@ class QuickActionList extends StatelessWidget {
   final List<QuickAction> actions;
 
   /// Height one row takes, margin included.
-  static const double rowHeight = 38 + 7 * 2 + BrandSpace.xs;
+  static const double rowHeight =
+      BrandActionGlyph.boxSize + 7 * 2 + BrandSpace.xs;
 
   /// Room this list needs for [count] rows, so a layout can decide whether to
   /// show them or fold them behind a single button.
@@ -984,7 +995,7 @@ class QuickActionList extends StatelessWidget {
               button: true,
               child: Row(
                 children: [
-                  BrandGlyphTile(asset: action.icon),
+                  BrandActionGlyph(asset: action.icon),
                   const SizedBox(width: BrandSpace.sm),
                   Expanded(
                     child: Text(
@@ -1039,7 +1050,7 @@ class QuickActionGrid extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        BrandGlyphTile(asset: action.icon),
+                        BrandActionGlyph(asset: action.icon),
                         const SizedBox(height: 10),
                         Text(
                           action.label,

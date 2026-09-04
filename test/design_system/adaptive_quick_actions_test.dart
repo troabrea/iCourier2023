@@ -52,6 +52,12 @@ void main() {
 
     expect(find.text('Rastrear Paquete'), findsOneWidget);
     expect(find.text('Consulta Histórica'), findsOneWidget);
+
+    final glyph =
+        tester.widget<BrandActionGlyph>(find.byType(BrandActionGlyph).first);
+    expect(BrandActionGlyph.boxSize, 44);
+    expect(BrandActionGlyph.glyphSize, 32);
+    expect(glyph.asset, BrandIcons.receptions);
   });
 
   testWidgets('sin espacio se pliegan tras un botón', (tester) async {

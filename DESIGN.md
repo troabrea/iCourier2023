@@ -95,6 +95,9 @@ components:
   glyph-tile:
     rounded: "{rounded.glyph-tile}"
     size: "38px"
+    action-box-size: "44px"
+    action-glyph-size: "32px"
+    action-background: "none"
   field:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text}"
@@ -112,6 +115,7 @@ components:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.tab-dock}"
     height: "108px"
+    destination-glyph-size: "34px"
 ---
 
 # Design System: iCourier WhiteLabel
@@ -351,9 +355,13 @@ the 6px selection checkbox, the 3px segment of the four-part package rail, and t
 12px membership QR card.
 
 Icons are single-tone SVG silhouettes tinted from a token, so the same asset reads
-correctly on any brand and in either theme. Multi-tone artwork is excluded on
-purpose: a glyph that draws its detail as a white knockout collapses into a blob
-when tinted.
+correctly on any brand and in either theme. List actions use an unbacked 32px glyph
+inside a 44px alignment box, matching the direct primary-colour treatment of the
+social bar. Their foreground falls back to the most legible semantic colour when a
+brand primary cannot clear 3:1 against the card surface. Non-home tab destinations
+use a 34px glyph so their silhouette remains identifiable at a glance. Multi-tone
+artwork is excluded on purpose: a glyph that draws its detail as a white knockout
+collapses into a blob when tinted.
 
 ### Named Rules
 

@@ -1210,7 +1210,7 @@ class _ServiceCardState extends State<ServiceCard> {
                 ),
                 child: Row(
                   children: [
-                    BrandGlyphTile(asset: widget.glyph, glyphSize: 20),
+                    BrandActionGlyph(asset: widget.glyph),
                     const SizedBox(width: BrandSpace.sm),
                     Expanded(
                       child: Text(
@@ -1252,7 +1252,12 @@ class _ServiceCardState extends State<ServiceCard> {
               curve: Curves.easeOutCubic,
               child: _open && _hasDetails
                   ? Padding(
-                      padding: const EdgeInsets.fromLTRB(67, 0, 15, 12),
+                      padding: const EdgeInsets.fromLTRB(
+                        15 + BrandActionGlyph.boxSize + BrandSpace.sm,
+                        0,
+                        15,
+                        12,
+                      ),
                       child: body,
                     )
                   : const SizedBox.shrink(),
