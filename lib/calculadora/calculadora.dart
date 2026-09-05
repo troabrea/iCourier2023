@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../asistente/assistant_action.dart';
@@ -26,7 +27,8 @@ class CalculadoraPage extends StatefulWidget {
 
 class _CalculadoraPageState extends State<CalculadoraPage> {
   final _weightController = TextEditingController();
-  final _valueController = TextEditingController(text: '0');
+  final _valueController = TextEditingController(text: '0.00');
+  final _valueFocusNode = FocusNode();
   late final CalculadoraBloc _bloc;
   late final BrandConfig _config;
   List<Producto> _products = const [];
@@ -39,6 +41,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
     super.initState();
     _config = GetIt.I<BrandConfig>();
     _weightController.text = _config.calculator.initialWeight.toString();
+    _valueFocusNode.addListener(_handleValueFocusChanged);
     _bloc = CalculadoraBloc(GetIt.I<CourierService>())
       ..add(CalculatorPrepareEvent());
   }
@@ -47,6 +50,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
   void dispose() {
     _weightController.dispose();
     _valueController.dispose();
+    _valueFocusNode.dispose();
     _bloc.close();
     super.dispose();
   }
@@ -121,6 +125,7 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
                             unit: r'US$',
                             unitLeading: true,
                             controller: _valueController,
+                            focusNode: _valueFocusNode,
                             onChanged: (_) => _markQuoteStale(),
                           ),
                         ),
@@ -202,6 +207,34 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
         _validationMessage = null;
         _quoteIsStale = true;
       });
+    }
+  }
+
+  void _handleValueFocusChanged() {
+    if (_valueFocusNode.hasFocus) {
+      final editableValue = _valueController.text.replaceAll(',', '');
+      _valueController.value = TextEditingValue(
+        text: editableValue,
+        selection: TextSelection(
+          baseOffset: 0,
+          extentOffset: editableValue.length,
+        ),
+      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_valueFocusNode.hasFocus) {
+          return;
+        }
+        _valueController.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: _valueController.text.length,
+        );
+      });
+      return;
+    }
+
+    final value = _parseDecimal(_valueController.text);
+    if (value != null) {
+      _valueController.text = _formatFob(value);
     }
   }
 }
@@ -479,7 +512,6 @@ class _Result extends StatelessWidget {
         ),
         const SizedBox(height: BrandSpace.sm),
         ConceptTable(
-          currency: config.currency,
           weightUnit: config.weightUnit,
           concepts: state.resultados
               .map(
@@ -525,9 +557,15 @@ class _Result extends StatelessWidget {
 }
 
 double? _parseDecimal(String value) {
-  final normalized = value.trim().replaceAll(',', '.');
+  final trimmed = value.trim();
+  final normalized = trimmed.contains(',') && trimmed.contains('.')
+      ? trimmed.replaceAll(',', '')
+      : trimmed.replaceAll(',', '.');
   return double.tryParse(normalized);
 }
+
+String _formatFob(double value) =>
+    intl.NumberFormat('#,##0.00', 'en_US').format(value);
 
 String _compactNumber(double value) => value == value.truncateToDouble()
     ? value.toInt().toString()

@@ -78,11 +78,9 @@ class _SucursalesPageState extends State<SucursalesPage>
     }
   }
 
-  /// Resolves the customer position so the list can lead with the nearest
-  /// branch.
+  /// Resolves the customer position so the list can show branch distances.
   ///
-  /// Location stays optional: a refusal costs the ordering and the distances,
-  /// never the screen.
+  /// Location stays optional: a refusal costs the distances, never the screen.
   ///
   /// [prompt] gates the system dialog. The screen asks once on arrival and
   /// again only when the customer taps the invitation; the check that runs on
@@ -106,10 +104,9 @@ class _SucursalesPageState extends State<SucursalesPage>
       // Granting the permission is not the same as the device being able to
       // answer. With location services off system-wide, or no fix available,
       // `getLocation` simply never completes — it does not throw and does not
-      // return. Left unbounded it strands the screen forever: no distances, no
-      // ordering, and no invitation either, because the refusal branch above
-      // was never the one taken. So it is time-boxed, and the resume check
-      // tries again later.
+      // return. Left unbounded it strands the screen forever without distances
+      // or an invitation, because the refusal branch above was never the one
+      // taken. So it is time-boxed, and the resume check tries again later.
       if (!await location.serviceEnabled()) {
         if (!prompt || !await location.requestService()) {
           return;
@@ -205,31 +202,6 @@ class _SucursalesPageState extends State<SucursalesPage>
                   )
                   .toList();
 
-              // Knowing where the customer stands changes what the right order
-              // is: proximity beats whatever sequence the backend stored. A
-              // branch the backend has no coordinates for sinks to the end
-              // rather than pretending to be next door.
-              if (_here != null) {
-                branches.sort((first, second) {
-                  final firstKm = _distanceTo(first);
-                  final secondKm = _distanceTo(second);
-                  if (firstKm == null) {
-                    return secondKm == null ? 0 : 1;
-                  }
-                  if (secondKm == null) {
-                    return -1;
-                  }
-                  return firstKm.compareTo(secondKm);
-                });
-              }
-              // Only crown the nearest of everything. Inside a search result the
-              // claim would be true of the filter, not of the network.
-              final nearest = query.isEmpty &&
-                      branches.length > 1 &&
-                      _distanceTo(branches.first) != null
-                  ? branches.first.registroId
-                  : null;
-
               return Column(
                 children: [
                   BrandManifestReveal(
@@ -283,8 +255,7 @@ class _SucursalesPageState extends State<SucursalesPage>
                                     child: BranchRow(
                                       branch: branches[index],
                                       distanceKm: _distanceTo(branches[index]),
-                                      nearest:
-                                          branches[index].registroId == nearest,
+                                      isFavorite: branches[index].isFavorite,
                                       focused: branches[index].registroId ==
                                           _focused?.registroId,
                                       onTap: () =>
@@ -378,9 +349,9 @@ class _SucursalesPageState extends State<SucursalesPage>
 
 /// Way back in after the location permission was turned down.
 ///
-/// A refusal used to end the conversation: no distances, no ordering, and no
-/// hint that either had ever been on offer. This says what is missing and gives
-/// the one control that restores it.
+/// A refusal used to end the conversation without distances or any hint that
+/// they had ever been on offer. This says what is missing and gives the one
+/// control that restores it.
 class _LocationInvite extends StatelessWidget {
   const _LocationInvite({required this.onEnable});
 

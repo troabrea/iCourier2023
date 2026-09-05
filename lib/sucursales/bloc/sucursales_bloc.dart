@@ -20,10 +20,7 @@ class SucursalesBloc extends Bloc<SucursalesEvent, SucursalesState> {
             await _courierService.getSucursales(event.ignoreCache);
         final Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
         for (var sucursal in sucursales) {
-          if (sucursal.codigo == userProfile.sucursal) {
-            sucursal.isFavorite = true;
-            sucursal.orden = -9999;
-          }
+          sucursal.isFavorite = sucursal.codigo == userProfile.sucursal;
           final MarkerId markerId = MarkerId(sucursal.registroId);
           final Marker marker = Marker(
             markerId: markerId,
@@ -36,7 +33,12 @@ class SucursalesBloc extends Bloc<SucursalesEvent, SucursalesState> {
           );
           markers[markerId] = marker;
         }
-        sucursales.sort((a, b) => a.orden.compareTo(b.orden));
+        sucursales.sort((first, second) {
+          if (first.isFavorite != second.isFavorite) {
+            return first.isFavorite ? -1 : 1;
+          }
+          return first.orden.compareTo(second.orden);
+        });
         //
         emit(SucursalesLoadedState(sucursales, markers));
       } catch (ex) {

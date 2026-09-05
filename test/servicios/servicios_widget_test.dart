@@ -116,6 +116,42 @@ void main() {
     );
   });
 
+  testWidgets('services are searchable by title and description', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const ServiciosPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.search));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'envíos comerciales');
+    await tester.pump();
+
+    expect(find.text('Casillero internacional'), findsNothing);
+    expect(find.text('Carga comercial'), findsOneWidget);
+    expect(find.text('1 servicio disponible'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'mudanzas');
+    await tester.pump();
+
+    expect(
+      find.text('No encontramos servicios que coincidan con tu búsqueda.'),
+      findsOneWidget,
+    );
+    expect(find.text('Carga comercial'), findsNothing);
+
+    await tester.tap(find.byIcon(Icons.close));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Casillero internacional'), findsOneWidget);
+    expect(find.text('Carga comercial'), findsOneWidget);
+  });
+
   testWidgets('pull-to-refresh keeps services visible', (tester) async {
     await tester.pumpWidget(
       brandTestApp(

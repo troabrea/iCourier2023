@@ -407,7 +407,9 @@ class _PackageRoute extends StatelessWidget {
       return HistoricoPaquetePage(recepcion: reception);
     }
     if (reception.fotoFacturaUrl.isEmpty) {
-      return CrearPostAlertaPage(recepcion: reception);
+      return reception.retenido
+          ? CrearPostAlertaPage(recepcion: reception)
+          : HistoricoPaquetePage(recepcion: reception);
     }
     return FacturaViewerPage(
       url: reception.fotoFacturaUrl,

@@ -574,9 +574,8 @@ String _clock(BuildContext context, int minutes) {
 
 /// Branch summary row: address, opening hours and phone, each with a glyph.
 ///
-/// The distance is the reason this screen exists, so it is the one thing set as
-/// a badge rather than as another line of prose, and the branch that turns out
-/// to be closest keeps the badge filled.
+/// Distance is set as a badge rather than as another line of prose. The
+/// customer's default branch keeps that badge filled as part of its highlight.
 /// The branches, as one continuous list rather than a stack of cards.
 ///
 /// A card per branch made every row announce itself as a separate object, which
@@ -629,7 +628,7 @@ class BranchRow extends StatelessWidget {
     this.onTap,
     this.onMore,
     this.distanceKm,
-    this.nearest = false,
+    this.isFavorite = false,
     this.focused = false,
     this.at,
   });
@@ -645,8 +644,8 @@ class BranchRow extends StatelessWidget {
   /// Distance from the customer, when location is available.
   final double? distanceKm;
 
-  /// Whether this is the closest branch the customer has.
-  final bool nearest;
+  /// Whether this is the customer's default branch.
+  final bool isFavorite;
 
   /// Whether the map is currently held on this branch.
   final bool focused;
@@ -661,17 +660,17 @@ class BranchRow extends StatelessWidget {
     final distance = distanceKm;
     final status =
         BranchHours.parse(branch.horario)?.statusAt(at ?? DateTime.now());
-    // The crown outranks the focus tint: being closest is a property of the
-    // branch, while being framed on the map is a property of the moment.
-    final background = nearest
+    // The default branch outranks the focus tint: the account preference is a
+    // lasting property, while being framed on the map is momentary.
+    final background = isFavorite
         ? Color.alphaBlend(tokens.accentWash(tokens.primary), tokens.surface)
         : focused
             ? tokens.surfaceAlt
             : null;
     return Semantics(
       container: true,
-      label: nearest
-          ? '${branch.nombre}. ${'sucursal_mas_cercana'.tr()}'
+      label: isFavorite
+          ? '${branch.nombre}. ${'sucursal_predeterminada'.tr()}'
           : branch.nombre,
       // Read after the branch name, so the gesture announces what it does.
       // Tapping a row used to open a detail, which needed no explaining; now it
@@ -705,19 +704,19 @@ class BranchRow extends StatelessWidget {
                       const SizedBox(width: BrandSpace.xs),
                       _DistancePill(
                         label: formatBranchDistance(context, distance),
-                        filled: nearest,
+                        filled: isFavorite,
                       ),
                     ],
                     _MoreButton(onTap: onMore),
                   ],
                 ),
-                if (nearest) ...[
+                if (isFavorite) ...[
                   const SizedBox(height: 3),
                   Text(
                     // Plain text, not the brand accent: this sits on a wash of
-                    // that same accent, and the crown is already carried by the
-                    // tinted row and the filled badge.
-                    'sucursal_mas_cercana'.tr(),
+                    // that same accent, and the preference is already carried
+                    // by the tinted row and the filled badge.
+                    'sucursal_predeterminada'.tr(),
                     style: tokens.body(11, weight: FontWeight.w700),
                   ),
                 ],
@@ -793,7 +792,7 @@ class _MoreButton extends StatelessWidget {
   }
 }
 
-/// Distance badge, filled when it marks the closest branch.
+/// Distance badge, filled when it belongs to the default branch.
 class _DistancePill extends StatelessWidget {
   const _DistancePill({required this.label, required this.filled});
 

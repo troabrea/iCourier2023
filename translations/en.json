@@ -149,6 +149,7 @@
   "peso": "Weight",
   "prealertas": "Pre-Alerts",
   "buscar_preguntas": "Search questions",
+  "buscar_servicios": "Search services",
   "preguntas": "Q & A",
   "preguntas_disponibles": {
     "one": "{} question to explore",
@@ -194,6 +195,7 @@
   "seleccione_producto": "Pick Product",
   "seleccione_transportista": "Pick carrier",
   "sin_preguntas_coincidentes": "We couldn't find a question that matches your search.",
+  "sin_servicios_coincidentes": "We couldn't find a service that matches your search.",
   "servicio_al_cliente": "Customer Service",
   "servicios": "Services",
   "servicios_disponibles": {
@@ -220,7 +222,7 @@
   "solicitar_reclamo": "Submit Claim",
   "solicitar_soporte": "Contact Support",
   "subtotal": "Subtotal",
-  "sucursal_mas_cercana": "Closest to you",
+  "sucursal_predeterminada": "Default branch",
   "sucursales": "Locations",
   "sus_cuentas": "Your accounts",
   "sus_mensajes": "Your messages",

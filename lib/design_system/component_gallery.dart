@@ -309,9 +309,8 @@ class _ComponentGalleryState extends State<ComponentGallery> {
           ),
           const SizedBox(height: 10),
           _pad(
-            ConceptTable(
-              currency: widget.config.currency,
-              concepts: const [
+            const ConceptTable(
+              concepts: [
                 CalcConceptView(
                   label: 'Flete Estándar',
                   amount: 15,
@@ -355,7 +354,7 @@ class _ComponentGalleryState extends State<ComponentGallery> {
               branch: branch,
               onTap: () {},
               distanceKm: 1.2,
-              nearest: true,
+              isFavorite: true,
             ),
           ),
           _pad(BranchRow(branch: branch, onTap: () {}, distanceKm: 2.4)),

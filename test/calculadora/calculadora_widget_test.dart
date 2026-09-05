@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/calculadora/calculadora.dart';
+import 'package:icourier/design_system/calculator_components.dart';
 import 'package:icourier/design_system/motion_components.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
@@ -68,6 +69,20 @@ void main() {
 
     expect(find.text('Total Estimado de Flete'), findsOneWidget);
     expect(find.text('RD\$28.00'), findsWidgets);
+    expect(
+      find.descendant(
+        of: find.byType(ConceptTable),
+        matching: find.text('RD\$28.00'),
+      ),
+      findsNothing,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(ConceptTable),
+        matching: find.text('28.00'),
+      ),
+      findsOneWidget,
+    );
     expect(tester.takeException(), isNull);
     await expectLater(
       find.byType(CalculadoraPage),
@@ -81,6 +96,45 @@ void main() {
     expect(
       find.text('Estime el costo de sus paquetes usando nuestra calculadora.'),
       findsOneWidget,
+    );
+  });
+
+  testWidgets('FOB formats on blur and selects its editable value on focus', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CalculadoraPage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final fields = find.byType(TextField);
+    TextEditingController fobController() =>
+        tester.widget<TextField>(fields.at(1)).controller!;
+
+    expect(fobController().text, '0.00');
+
+    await tester.tap(fields.at(1));
+    await tester.pump();
+
+    expect(fobController().selection,
+        const TextSelection(baseOffset: 0, extentOffset: 4));
+
+    await tester.enterText(fields.at(1), '1234.5');
+    await tester.tap(find.text('Calcular Envío'));
+    await tester.pumpAndSettle();
+
+    expect(fobController().text, '1,234.50');
+
+    await tester.tap(fields.at(1));
+    await tester.pump();
+
+    expect(fobController().text, '1234.50');
+    expect(
+      fobController().selection,
+      const TextSelection(baseOffset: 0, extentOffset: 7),
     );
   });
 

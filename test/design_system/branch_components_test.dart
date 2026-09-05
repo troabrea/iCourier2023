@@ -70,7 +70,8 @@ void main() {
       expect(find.textContaining('Cerrado'), findsNothing);
     });
 
-    testWidgets('crowns the closest branch and names it for a screen reader',
+    testWidgets(
+        'highlights the default branch and names it for a screen reader',
         (tester) async {
       await tester.pumpWidget(
         brandTestApp(
@@ -78,19 +79,19 @@ void main() {
           child: BranchRow(
             branch: branchWith('Lunes a viernes · 8:00–17:00'),
             distanceKm: 1.2,
-            nearest: true,
+            isFavorite: true,
             at: openHour,
           ),
         ),
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('La más cercana'), findsOneWidget);
+      expect(find.text('Sucursal predeterminada'), findsOneWidget);
       expect(
         tester
             .getSemantics(find.byType(BranchRow))
             .label
-            .contains('La más cercana'),
+            .contains('Sucursal predeterminada'),
         isTrue,
       );
     });
@@ -186,7 +187,10 @@ void main() {
           child: SingleChildScrollView(
             child: BranchList(
               children: [
-                BranchRow(branch: long, distanceKm: 12.4, nearest: true,
+                BranchRow(
+                    branch: long,
+                    distanceKm: 12.4,
+                    isFavorite: true,
                     at: openHour),
               ],
             ),

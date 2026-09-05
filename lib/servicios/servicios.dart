@@ -34,6 +34,7 @@ class ServiciosPage extends StatefulWidget {
 
 class _ServiciosPageState extends State<ServiciosPage> {
   late final ServiciosBloc _bloc;
+  String _query = '';
 
   /// Glyphs cycle through the service icon set so each card reads distinctly
   /// without the backend having to supply one.
@@ -79,11 +80,15 @@ class _ServiciosPageState extends State<ServiciosPage> {
             appBar: widget.isTabRoot
                 ? ScreenHeader.tab(
                     title: 'nuestros_servicios'.tr(),
+                    onSearchChanged: _updateQuery,
+                    searchHint: 'buscar_servicios'.tr(),
                     trailing: const BrandAssistantAction(),
                   )
                 : ScreenHeader(
                     title: 'nuestros_servicios'.tr(),
                     onBack: context.popOrHome,
+                    onSearchChanged: _updateQuery,
+                    searchHint: 'buscar_servicios'.tr(),
                     trailing: const BrandAssistantAction(),
                   ),
             body: _body(context, state, showBanners),
@@ -103,10 +108,19 @@ class _ServiciosPageState extends State<ServiciosPage> {
     if (state is! ServiciosLoadedState) {
       return const SizedBox.shrink();
     }
+    final normalizedQuery = _query.toLowerCase();
+    final services = [
+      for (final (index, service) in state.servicios.indexed)
+        if (normalizedQuery.isEmpty ||
+            service.titulo.toLowerCase().contains(normalizedQuery) ||
+            service.resumen.toLowerCase().contains(normalizedQuery))
+          (service: service, glyphIndex: index),
+    ];
     return RefreshIndicator(
       onRefresh: _refresh,
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: EdgeInsets.only(
           bottom: BrandTabBar.height,
           top: showBanners
@@ -151,36 +165,39 @@ class _ServiciosPageState extends State<ServiciosPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (state.servicios.isEmpty)
+                if (services.isEmpty)
                   BrandManifestReveal(
                     child: BrandEmptyState(
-                      messageKey: 'servicios_vacios',
+                      messageKey: normalizedQuery.isEmpty
+                          ? 'servicios_vacios'
+                          : 'sin_servicios_coincidentes',
                       glyph: BrandIcons.services,
-                      actionLabel: 'actualizar'.tr(),
-                      onAction: _refresh,
+                      actionLabel:
+                          normalizedQuery.isEmpty ? 'actualizar'.tr() : null,
+                      onAction: normalizedQuery.isEmpty ? _refresh : null,
                     ),
                   )
                 else ...[
                   if (!widget.isTabRoot) ...[
                     BrandManifestReveal(
                       child: _ServicesGuide(
-                        count: state.servicios.length,
+                        count: services.length,
                       ),
                     ),
                     const SizedBox(height: BrandSpace.md),
                   ],
-                  for (var index = 0; index < state.servicios.length; index++)
+                  for (var index = 0; index < services.length; index++)
                     BrandManifestReveal(
                       key: ValueKey(
-                        state.servicios[index].registroId,
+                        services[index].service.registroId,
                       ),
                       delay: brandManifestDelay(
                         index,
                         startMilliseconds: 45,
                       ),
                       child: _serviceCard(
-                        state.servicios[index],
-                        index,
+                        services[index].service,
+                        services[index].glyphIndex,
                       ),
                     ),
                 ],
@@ -217,6 +234,10 @@ class _ServiciosPageState extends State<ServiciosPage> {
         SnackBar(content: Text('no_se_pudo_abrir_enlace'.tr())),
       );
     }
+  }
+
+  void _updateQuery(String value) {
+    setState(() => _query = value.trim());
   }
 
   Future<void> _refresh() async {

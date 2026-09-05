@@ -247,7 +247,7 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
         ],
       ),
     ),
-    // The grouped list is the shape the screen actually ships: the crowned row
+    // The grouped list is the shape the screen actually ships: the default row
     // has to hold its own against a neighbour, not against white space.
     MapEntry(
       'branch_list',
@@ -256,7 +256,7 @@ List<MapEntry<String, Widget Function()>> _fixtures() {
           BranchRow(
             branch: branch,
             distanceKm: 0.86,
-            nearest: true,
+            isFavorite: true,
             at: DateTime(2026, 8, 12, 10, 30),
           ),
           BranchRow(
@@ -315,7 +315,6 @@ Widget _totalsPanel() => const TotalsPanel(
     );
 
 Widget _conceptTable() => const ConceptTable(
-      currency: 'RD\$',
       concepts: [
         CalcConceptView(
           label: 'Flete Estándar',
@@ -375,7 +374,8 @@ Widget _emptyState() => const BrandEmptyState(messageKey: 'no_paquetes');
 
 Widget _errorState() => const BrandErrorState(onRetry: _noop);
 
-Widget _skeleton() => const SizedBox(height: 220, child: BrandSkeleton(rows: 2));
+Widget _skeleton() =>
+    const SizedBox(height: 220, child: BrandSkeleton(rows: 2));
 
 // Cubre el envoltura de las tres acciones, que es lo que más alto ocupa. Sin
 // resumen: el marco del golden mide 320 y las dos cosas juntas no caben. El

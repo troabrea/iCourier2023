@@ -70,6 +70,7 @@ class BigNumberField extends StatelessWidget {
     required this.label,
     required this.unit,
     required this.controller,
+    this.focusNode,
     this.onChanged,
     this.unitLeading = false,
     this.hint = '0.00',
@@ -78,6 +79,7 @@ class BigNumberField extends StatelessWidget {
   final String label;
   final String unit;
   final TextEditingController controller;
+  final FocusNode? focusNode;
   final ValueChanged<String>? onChanged;
 
   /// Currency units sit before the number; weight units sit after it.
@@ -93,6 +95,7 @@ class BigNumberField extends StatelessWidget {
     );
     final field = TextField(
       controller: controller,
+      focusNode: focusNode,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^\d*[\.,]?\d{0,2}')),
@@ -272,12 +275,10 @@ class ConceptTable extends StatelessWidget {
   const ConceptTable({
     super.key,
     required this.concepts,
-    required this.currency,
     this.weightUnit = 'lbs',
   });
 
   final List<CalcConceptView> concepts;
-  final String currency;
   final String weightUnit;
 
   static const _columns = <int, TableColumnWidth>{
@@ -328,7 +329,7 @@ class ConceptTable extends StatelessWidget {
                   alignEnd: true,
                 ),
                 _BodyCell(
-                  '$currency${_money(concept.amount)}',
+                  _money(concept.amount),
                   weight: FontWeight.w700,
                   size: 12,
                   alignEnd: true,

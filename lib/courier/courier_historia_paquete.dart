@@ -62,18 +62,17 @@ class HistoricoPaquetePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: BrandSpace.md),
-            ] else ...[
+            ] else if (recepcion.fotoFacturaUrl.isNotEmpty) ...[
               BrandOutlineButton(
-                label: recepcion.fotoFacturaUrl.isEmpty
-                    ? 'crear_post_alerta'.tr()
-                    : 'facturas_pendientes'.tr(),
+                label: 'facturas_pendientes'.tr(),
                 onPressed: () => context.push(
                   AppRoutes.invoice(recepcion.recepcionID),
                 ),
               ),
               const SizedBox(height: BrandSpace.lg),
             ],
-            Text('linea_de_tiempo'.tr(), style: tokens.body(13, weight: FontWeight.w700)),
+            Text('linea_de_tiempo'.tr(),
+                style: tokens.body(13, weight: FontWeight.w700)),
             const SizedBox(height: 10),
             if (events.isEmpty)
               const BrandEmptyState(messageKey: 'no_resultados')

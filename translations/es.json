@@ -151,6 +151,7 @@
   "peso": "Peso",
   "prealertas": "Pre-Alertas",
   "buscar_preguntas": "Buscar preguntas",
+  "buscar_servicios": "Buscar servicios",
   "preguntas": "Preguntas",
   "preguntas_disponibles": {
     "one": "{} pregunta para explorar",
@@ -198,6 +199,7 @@
   "seleccione_producto": "Seleccione Producto",
   "seleccione_transportista": "Seleccione transportista",
   "sin_preguntas_coincidentes": "No encontramos preguntas que coincidan con tu búsqueda.",
+  "sin_servicios_coincidentes": "No encontramos servicios que coincidan con tu búsqueda.",
   "servicio_al_cliente": "Servicio al Cliente",
   "servicios": "Servicios",
   "servicios_disponibles": {
@@ -224,7 +226,7 @@
   "solicitar_reclamo": "Solicitar Reclamo",
   "solicitar_soporte": "Solicitar Soporte",
   "subtotal": "Subtotal",
-  "sucursal_mas_cercana": "La más cercana",
+  "sucursal_predeterminada": "Sucursal predeterminada",
   "sucursales": "Sucursales",
   "sus_cuentas": "Sus Cuentas",
   "sus_mensajes": "Sus Mensajes",
