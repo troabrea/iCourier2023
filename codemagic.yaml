@@ -67,7 +67,7 @@ workflows:
       groups:
         - keystone_credentials
         - google_credentials
-      vars:
+      vars: &bmcargo_credentials
         FCI_KEYSTORE_PATH: /tmp/keystore.keystore
         FCI_KEYSTORE: Encrypted(Z0FBQUFBQmpUb0RVX0V2aGk0RzRTaEVYaFVXOWlTbEQ3cjNNMjZhbDFlam9VNEJQUGFUemRpMHk3SGRHbzV4LVZNNTVCS2lvTWNHejUyTFZPcTFIdjEyN0hERTU0V2F5SnFNaWxILUl4LWdDMjFheHd2cmppcmVySnZiYmVCZ1NaTHVwc09fZV9nWmpBanhuQk9taGxvY3kyS3lxNXpveE9HWlJjS0V4NmNkSGVBVUVRNTBzMXJ5cDNOVmkwM3J3VlB1MDdCQ1Jodkg2QXhxczA1RDdLV3FlM2lZb3haTVdld2k4X1JZQUxnY3EtaGloTE9vSUJqWmNTbm1lbHBnTmhpeURfOGhDeXAwRU9vTVhCbHQ1V0FXWDNUeUpmRkJZX041YWNEN240b08yYUt2SktzVmpoOW82ejFSRGlhOVVPdkZSalJ4bjFFWDBoT0ZZaHVmMHpTSGo4cTJiazIxRXdTMTR2cklxZWZ5WWJzTF92Q0FjM2NzMHEwN0pRdjJ1ZEFTQ1p5VmN2U1BGbzdDR2tPNDgyQWg3dWJ0OFYyeFFNMzlnaU93OG53SGRmNTNSVlFhUzhuV1ZQbEZHdXdqeVl5b2NqT2tGOHVqaA==)
         FCI_KEYSTORE_PASSWORD: Encrypted(Z0FBQUFBQmpUb0RVRkRfbGg1aVRxdWU4MXpmQVVNTmNmTWVrSDJ6SWdKWllwQTQyd2NpNzNIaFhHMG1HRXFKXzN2UllEdEctdExmdWRvanAwSGNWQ0ZsSzJTTGVCQVhGNUE9PQ==)
@@ -122,6 +122,83 @@ workflows:
         issuer_id: 69a6de70-7f29-47e3-e053-5b8c7c11a4d1
         submit_to_testflight: true
         submit_to_app_store: false
+
+  bmcargo_testflight:
+    name: BMCargo TestFlight
+    max_build_duration: 60
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: redesign/fidelidad-visual
+          include: true
+          source: true
+    environment:
+      vars: *bmcargo_credentials
+      flutter: default
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - flutter packages pub get
+      - find . -name "Podfile" -execdir pod install \;
+      - keychain initialize
+      - app-store-connect fetch-signing-files "com.barolit.bmcargo" --type IOS_APP_STORE --create
+      - app-store-connect fetch-signing-files "com.barolit.bmcargo.widget" --type IOS_APP_STORE --create
+      - keychain add-certificates
+      - xcode-project use-profiles
+      - flutter build ipa --release --flavor bmcargo -t lib/apps/bmcargo/main_bmcargo.dart --build-name 2027.0.2 --build-number 55 --export-options-plist ~/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      email:
+        recipients:
+          - temis@barolit.com
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
+
+  tupaq_testflight:
+    name: TuPaq TestFlight
+    max_build_duration: 60
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: redesign/fidelidad-visual
+          include: true
+          source: true
+    environment:
+      vars: *bmcargo_credentials
+      flutter: default
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - flutter packages pub get
+      - find . -name "Podfile" -execdir pod install \;
+      - keychain initialize
+      - app-store-connect fetch-signing-files "com.barolit.tupaq" --type IOS_APP_STORE --create
+      - app-store-connect fetch-signing-files "com.barolit.tupaq.widget" --type IOS_APP_STORE --create
+      - keychain add-certificates
+      - xcode-project use-profiles
+      - flutter build ipa --release --flavor tupaq -t lib/apps/tupaq/main_tupaq.dart --build-name 2027.0.2 --build-number 55 --export-options-plist ~/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      email:
+        recipients:
+          - temis@barolit.com
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
+
   domex:
     name: Domex
     max_build_duration: 60
