@@ -1,3 +1,4 @@
+# LEGACY: Codemagic is no longer used for builds or releases in this project.
 workflows:
   caribepack:
     name: Caribepack
