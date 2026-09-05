@@ -139,7 +139,7 @@ workflows:
       - app-store-connect fetch-signing-files "com.barolit.bmcargo.widget" --type IOS_APP_STORE --create
       - keychain add-certificates
       - xcode-project use-profiles
-      - flutter build ipa --release --flavor bmcargo -t lib/apps/bmcargo/main_bmcargo.dart --build-name 2027.0.2 --build-number 55 --export-options-plist ~/export_options.plist
+      - flutter build ipa --release --flavor bmcargo -t lib/apps/bmcargo/main_bmcargo.dart --build-name 2027.0.2 --build-number 56 --export-options-plist ~/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
@@ -170,7 +170,7 @@ workflows:
       - app-store-connect fetch-signing-files "com.barolit.tupaq.widget" --type IOS_APP_STORE --create
       - keychain add-certificates
       - xcode-project use-profiles
-      - flutter build ipa --release --flavor tupaq -t lib/apps/tupaq/main_tupaq.dart --build-name 2027.0.2 --build-number 55 --export-options-plist ~/export_options.plist
+      - flutter build ipa --release --flavor tupaq -t lib/apps/tupaq/main_tupaq.dart --build-name 2027.0.2 --build-number 56 --export-options-plist ~/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
