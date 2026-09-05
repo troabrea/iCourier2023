@@ -126,13 +126,6 @@ workflows:
   bmcargo_testflight:
     name: BMCargo TestFlight
     max_build_duration: 60
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: redesign/fidelidad-visual
-          include: true
-          source: true
     environment:
       vars: *bmcargo_credentials
       flutter: default
@@ -164,13 +157,6 @@ workflows:
   tupaq_testflight:
     name: TuPaq TestFlight
     max_build_duration: 60
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: redesign/fidelidad-visual
-          include: true
-          source: true
     environment:
       vars: *bmcargo_credentials
       flutter: default
