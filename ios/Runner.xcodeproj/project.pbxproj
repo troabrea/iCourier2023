@@ -2345,7 +2345,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				APP_DISPLAY_NAME = Tupaq;
+				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 36;
@@ -3314,7 +3314,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Tupaq;
+				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tupaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
@@ -3407,14 +3407,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Tupaq;
+				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tupaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3497,7 +3497,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Tupaq;
+				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-tupaq";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
@@ -12902,10 +12902,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				APP_DISPLAY_NAME = Tupaq;
+				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
@@ -13328,7 +13328,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				APP_DISPLAY_NAME = Tupaq;
+				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 36;

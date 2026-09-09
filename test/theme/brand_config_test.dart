@@ -130,6 +130,7 @@ void main() {
       final bmcargo = _config('bmcargo');
       final fixocargo = _config('fixocargo');
       final picknSend = _config('picknsend');
+      final tupaq = _config('tupaq');
       final tls = _config('tls');
       final caribepack = _config('caribepack');
 
@@ -137,6 +138,7 @@ void main() {
       expect(bmcargo.capabilities.pickupModes, hasLength(2));
       expect(fixocargo.capabilities.pickupModes, isEmpty);
       expect(picknSend.calculator.showContactEmail, isTrue);
+      expect(tupaq.name, 'TUPAQ');
       expect(tls.capabilities.pushTopicUsesSessionId, isTrue);
       expect(tls.passwordReset.enabled, isTrue);
       expect(caribepack.navigation.tabs[3], TabModule.services);
