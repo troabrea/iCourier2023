@@ -1317,11 +1317,16 @@ class PackageCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                // A Wrap, not a Row: the id is what the counter asks for, so
+                // it is never allowed to shrink or ellipsize. When the state
+                // label is long enough that both do not fit, the badge drops
+                // to its own line instead of squeezing the id.
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: BrandSpace.xs,
+                  runSpacing: 6,
                   children: [
-                    if (leadId.isNotEmpty)
-                      Flexible(child: _ReceptionIdChip(id: leadId)),
-                    if (leadId.isNotEmpty) const SizedBox(width: BrandSpace.xs),
+                    if (leadId.isNotEmpty) ReceptionIdChip(id: leadId),
                     StatusBadge.soft(
                       stage: status.stage,
                       retained: package.retenido,
@@ -1363,7 +1368,7 @@ class PackageCard extends StatelessWidget {
                 ],
                 if (showTracking) ...[
                   const SizedBox(height: 5),
-                  _TrackingLine(number: tracking),
+                  TrackingLine(number: tracking),
                 ],
                 const SizedBox(height: BrandSpace.sm),
                 StageRail(stage: status.stage, retained: package.retenido),
@@ -1382,10 +1387,17 @@ class PackageCard extends StatelessWidget {
 
 /// The reception id, drawn as a tinted tag so it reads as the handle of the
 /// package rather than as one more line of grey meta text.
-class _ReceptionIdChip extends StatelessWidget {
-  const _ReceptionIdChip({required this.id});
+///
+/// The id is what the courier's counter, invoice and support chat all use to
+/// find a package, so it is always shown in full. A value too long for one
+/// line wraps inside the tag; it is never shortened with an ellipsis.
+class ReceptionIdChip extends StatelessWidget {
+  const ReceptionIdChip({super.key, required this.id, this.fontSize = 12});
 
   final String id;
+
+  /// Raised on detail screens, where the id is the heading of the card.
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -1407,10 +1419,8 @@ class _ReceptionIdChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           child: Text(
             id,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: tokens.body(
-              12,
+              fontSize,
               weight: FontWeight.w700,
               color: colors.foreground,
               letterSpacing: 0.2,
@@ -1424,8 +1434,8 @@ class _ReceptionIdChip extends StatelessWidget {
 
 /// Carrier tracking number, kept under the meta line and clearly labelled so
 /// it is never mistaken for the reception id above it.
-class _TrackingLine extends StatelessWidget {
-  const _TrackingLine({required this.number});
+class TrackingLine extends StatelessWidget {
+  const TrackingLine({super.key, required this.number});
 
   final String number;
 

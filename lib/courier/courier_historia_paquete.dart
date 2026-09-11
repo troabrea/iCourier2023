@@ -105,22 +105,26 @@ class _SummaryCard extends StatelessWidget {
       if (package.fecha.isNotEmpty) package.fecha,
     ].join(' · ');
 
+    final id = package.recepcionID.trim();
+    final tracking = package.numeroRastreo.trim();
+    final leadId = id.isEmpty ? tracking : id;
+    final showTracking = tracking.isNotEmpty && tracking != leadId;
+
     return BrandCard(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          // Same rule as the list card: the reception id leads, is always
+          // drawn and is never shortened, and the state label moves to its
+          // own line rather than taking width away from it.
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: BrandSpace.xs,
+            runSpacing: 6,
             children: [
-              Expanded(
-                child: Text(
-                  package.numeroRastreo.isEmpty
-                      ? package.recepcionID
-                      : package.numeroRastreo,
-                  style: tokens.body(11, color: tokens.textMuted),
-                ),
-              ),
-              const SizedBox(width: BrandSpace.xs),
+              if (leadId.isNotEmpty)
+                ReceptionIdChip(id: leadId, fontSize: 13),
               StatusBadge(
                 stage: stage,
                 retained: package.retenido,
@@ -129,7 +133,7 @@ class _SummaryCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: BrandSpace.xxs),
+          const SizedBox(height: BrandSpace.xs),
           Text(
             package.contenido.isEmpty ? package.suplidor : package.contenido,
             style: tokens.body(16, weight: FontWeight.w700),
@@ -152,6 +156,10 @@ class _SummaryCard extends StatelessWidget {
               ),
             ],
           ),
+          if (showTracking) ...[
+            const SizedBox(height: 5),
+            TrackingLine(number: tracking),
+          ],
         ],
       ),
     );

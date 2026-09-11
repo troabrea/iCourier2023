@@ -47,6 +47,21 @@ void main() {
     expect(find.text('Adjuntar factura'), findsNothing);
   });
 
+  testWidgets('el historial muestra el id de recepción y el rastreo', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      brandTestApp(
+        config: loadTestBrand('bmcargo'),
+        child: HistoricoPaquetePage(recepcion: _package()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('reception-1'), findsOneWidget);
+    expect(find.text('TRACK-1'), findsOneWidget);
+  });
+
   testWidgets('ofrece adjuntar la factura cuando el paquete está retenido', (
     tester,
   ) async {

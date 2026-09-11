@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:icourier/design_system/brand_foundations.dart';
 import 'package:icourier/design_system/brand_states.dart';
@@ -114,6 +115,27 @@ void main() {
     // Sin rastreo el id sigue saliendo y la línea de rastreo desaparece.
     expect(find.text('RD-1'), findsOneWidget);
     expect(find.byIcon(Icons.local_shipping_outlined), findsNothing);
+  });
+
+  testWidgets('un estado largo no recorta el id de recepción', (tester) async {
+    const id = 'WR0100353012345';
+    final package = _package(retained: false)
+      ..recepcionID = id
+      ..estatus = 'Entregado Linea Aerea';
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: loadTestBrand('bmcargo'),
+        child: SizedBox(width: 320, child: PackageCard(package: package)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // El id se dibuja completo: la insignia de estado baja de línea antes de
+    // quitarle ancho.
+    final paragraph = tester.renderObject<RenderParagraph>(find.text(id));
+    expect(paragraph.didExceedMaxLines, isFalse);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('capacidades ocultan puntos y pago', (tester) async {
