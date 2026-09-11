@@ -86,6 +86,36 @@ void main() {
     expect(toggled, isFalse);
   });
 
+  testWidgets('la tarjeta de paquete siempre muestra el id de recepción',
+      (tester) async {
+    final config = loadTestBrand('bmcargo');
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: PackageCard(package: _package(retained: false)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Con rastreo salen los dos números, y el id manda arriba.
+    expect(find.text('RD-1'), findsOneWidget);
+    expect(find.text('1Z999'), findsOneWidget);
+    expect(find.byIcon(Icons.local_shipping_outlined), findsOneWidget);
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: config,
+        child: PackageCard(package: _package(retained: false, tracking: '')),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Sin rastreo el id sigue saliendo y la línea de rastreo desaparece.
+    expect(find.text('RD-1'), findsOneWidget);
+    expect(find.byIcon(Icons.local_shipping_outlined), findsNothing);
+  });
+
   testWidgets('capacidades ocultan puntos y pago', (tester) async {
     final config = loadTestBrand('fixocargo');
 
@@ -537,7 +567,8 @@ double _contrast(Color first, Color second) {
   return a > b ? a / b : b / a;
 }
 
-Recepcion _package({required bool retained}) => Recepcion(
+Recepcion _package({required bool retained, String tracking = '1Z999'}) =>
+    Recepcion(
       recepcionID: 'RD-1',
       fecha: '2026-08-10',
       producto: 'Aéreo',
@@ -557,5 +588,5 @@ Recepcion _package({required bool retained}) => Recepcion(
       fotoFacturaUrl: '',
       fechaHora: '2026-08-10T10:00:00',
       progreso: 3,
-      numeroRastreo: '1Z999',
+      numeroRastreo: tracking,
     );

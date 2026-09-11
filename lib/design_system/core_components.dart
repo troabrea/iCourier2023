@@ -1262,6 +1262,11 @@ class MacroStepper extends StatelessWidget {
 }
 
 /// Package summary row used by every list of receptions.
+///
+/// The reception id is the number the counter, the invoice and the support
+/// chat all speak, so it leads the card and is always drawn. The carrier
+/// tracking number is useful but secondary: it is shown under the meta line
+/// when the operation has one, and never replaces the id.
 class PackageCard extends StatelessWidget {
   const PackageCard({
     super.key,
@@ -1294,6 +1299,14 @@ class PackageCard extends StatelessWidget {
       if (package.fecha.isNotEmpty) package.fecha,
     ].join(' · ');
 
+    final id = package.recepcionID.trim();
+    final tracking = package.numeroRastreo.trim();
+    // The id owns the lead slot. Only a reception that arrived without one
+    // falls back to the tracking number, and then the tracking row would just
+    // repeat it, so it is dropped.
+    final leadId = id.isEmpty ? tracking : id;
+    final showTracking = tracking.isNotEmpty && tracking != leadId;
+
     return BrandCard(
       onTap: onTap,
       shadow: true,
@@ -1306,22 +1319,9 @@ class PackageCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        package.numeroRastreo.isEmpty
-                            ? package.recepcionID
-                            : package.numeroRastreo,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: tokens.body(
-                          11,
-                          weight: FontWeight.w500,
-                          color: tokens.textMuted,
-                          letterSpacing: 0.22,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: BrandSpace.xs),
+                    if (leadId.isNotEmpty)
+                      Flexible(child: _ReceptionIdChip(id: leadId)),
+                    if (leadId.isNotEmpty) const SizedBox(width: BrandSpace.xs),
                     StatusBadge.soft(
                       stage: status.stage,
                       retained: package.retenido,
@@ -1330,7 +1330,7 @@ class PackageCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
@@ -1361,6 +1361,10 @@ class PackageCard extends StatelessWidget {
                     style: tokens.body(12, color: tokens.textMuted),
                   ),
                 ],
+                if (showTracking) ...[
+                  const SizedBox(height: 5),
+                  _TrackingLine(number: tracking),
+                ],
                 const SizedBox(height: BrandSpace.sm),
                 StageRail(stage: status.stage, retained: package.retenido),
               ],
@@ -1370,6 +1374,84 @@ class PackageCard extends StatelessWidget {
             const SizedBox(width: BrandSpace.xs),
             const BrandChevron(),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+/// The reception id, drawn as a tinted tag so it reads as the handle of the
+/// package rather than as one more line of grey meta text.
+class _ReceptionIdChip extends StatelessWidget {
+  const _ReceptionIdChip({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final colors = tokens.softAccentPair(
+      tokens.primary,
+      opacity: 0.12,
+      minimumContrast: 4.5,
+    );
+    return Semantics(
+      label: '${'recepcion_id'.tr()} $id',
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.background,
+          borderRadius: BorderRadius.circular(BrandShape.pill),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          child: Text(
+            id,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: tokens.body(
+              12,
+              weight: FontWeight.w700,
+              color: colors.foreground,
+              letterSpacing: 0.2,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Carrier tracking number, kept under the meta line and clearly labelled so
+/// it is never mistaken for the reception id above it.
+class _TrackingLine extends StatelessWidget {
+  const _TrackingLine({required this.number});
+
+  final String number;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.brand;
+    final style = tokens.body(11, color: tokens.textMuted);
+    return Semantics(
+      label: '${'numero_rastreo'.tr()} $number',
+      excludeSemantics: true,
+      child: Row(
+        children: [
+          Icon(
+            Icons.local_shipping_outlined,
+            size: 13,
+            color: tokens.textMuted,
+          ),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              number,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: style.copyWith(letterSpacing: 0.2),
+            ),
+          ),
         ],
       ),
     );
