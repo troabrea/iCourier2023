@@ -103,6 +103,7 @@ final class AppDeepLinkParser {
   static bool isProtected(String location) {
     final path = Uri.tryParse(location)?.path ?? '';
     return path != AppRoutes.login &&
+        path != AppRoutes.home &&
         path != AppRoutes.news &&
         !path.startsWith('${AppRoutes.news}/') &&
         path != AppRoutes.branches &&

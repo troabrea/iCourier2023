@@ -124,7 +124,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
         return;
       }
       GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(false, '', ''));
-      context.go(AppRoutes.login);
+      context.go(AppRoutes.home);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('password_invalido'.tr())),
       );

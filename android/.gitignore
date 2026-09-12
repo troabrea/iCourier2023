@@ -13,3 +13,6 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Local signing profiles (templates in signing.example are versioned).
+/signing/

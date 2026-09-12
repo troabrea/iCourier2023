@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -8,6 +10,15 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// One Android version code for every courier; iOS still uses pubspec.yaml.
+val releaseProperties = Properties().apply {
+    rootProject.file("release.properties").inputStream().use { load(it) }
+}
+val sharedAndroidVersionCode = releaseProperties.getProperty("versionCode")
+    ?.takeIf { it.matches(Regex("[0-9]+")) }?.toIntOrNull()
+    ?.takeIf { it in 1..2100000000 }
+    ?: throw GradleException("android/release.properties: versionCode debe ser un entero entre 1 y 2100000000.")
 
 android {
     namespace = "com.barolit.icourier"
@@ -44,7 +55,7 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
+        versionCode = sharedAndroidVersionCode
         versionName = flutter.versionName
         manifestPlaceholders["urlScheme"] = "icourier"
     }
@@ -62,42 +73,34 @@ android {
         create("domex") {
             dimension = "app"
             applicationId = "com.barolit.domex"
-            versionCode = 5202601
         }
         create("bmcargo") {
             dimension = "app"
             applicationId = "com.barolit.bmcargo"
-            versionCode = 5202605
         }
         create("jetpack") {
             dimension = "app"
             applicationId = "com.barolit.jetpack"
-            versionCode = 5202601
         }
         create("almapaq") {
             dimension = "app"
             applicationId = "com.barolit.almapaq"
-            versionCode = 5202601
         }
         create("beexpress") {
             dimension = "app"
             applicationId = "com.barolit.beexpress"
-            versionCode = 5202601
         }
         create("boxpaq") {
             dimension = "app"
             applicationId = "com.barolit.boxpaq"
-            versionCode = 5202601
         }
         create("encargopaq") {
             dimension = "app"
             applicationId = "com.barolit.encargopaq"
-            versionCode = 5202603
         }
         create("pintopaq") {
             dimension = "app"
             applicationId = "com.barolit.pintopaq"
-            versionCode = 5202601
         }
         create("caribepack") {
             dimension = "app"
@@ -106,7 +109,6 @@ android {
         create("tls") {
             dimension = "app"
             applicationId = "com.barolit.tls"
-            versionCode = 5202604
         }
         create("cps") {
             dimension = "app"
@@ -199,17 +201,14 @@ android {
         create("taino") {
             dimension = "app"
             applicationId = "com.barolit.taino"
-            versionCode = 5202601
         }
         create("fixocargo") {
             dimension = "app"
             applicationId = "com.barolit.fixocargo"
-            versionCode = 5202601
         }
         create("picknsend") {
             dimension = "app"
             applicationId = "com.barolit.picknsend"
-            versionCode = 5202601
         }
     }
 
@@ -220,9 +219,7 @@ android {
     buildTypes {
         // getByName("release") is used to modify the standard 'release' build type
         getByName("release") {
-            if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {
-                signingConfig = signingConfigs.getByName("release")
-            }
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
@@ -242,4 +239,21 @@ dependencies {
 
 flutter {
     source = "../.."
+}
+
+// Check the selected graph before execution, including direct Flutter/Gradle builds.
+// IDE sync and debug-only task graphs do not need production credentials.
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it.project == project && it.name.contains("Release") }) {
+        val missing = listOf(
+            "ANDROID_KEYSTORE_PATH", "ANDROID_KEYSTORE_PASSWORD",
+            "ANDROID_KEY_ALIAS", "ANDROID_KEY_PASSWORD",
+        ).filter { System.getenv(it).isNullOrBlank() }
+        if (missing.isNotEmpty()) {
+            throw GradleException(
+                "Firma release incompleta: ${missing.joinToString()}. " +
+                    "Usa bash tools/build_android_bundle.sh <courier>.",
+            )
+        }
+    }
 }

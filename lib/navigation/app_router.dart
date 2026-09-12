@@ -299,8 +299,7 @@ abstract final class AppRouter {
     final linkParser = AppDeepLinkParser(urlScheme: config.urlScheme);
 
     return GoRouter(
-      initialLocation:
-          session.isLoggedIn ? initialTabLocation : AppRoutes.login,
+      initialLocation: session.isLoggedIn ? initialTabLocation : AppRoutes.home,
       routes: routes,
       refreshListenable: session,
       redirect: (context, state) {
@@ -312,16 +311,26 @@ abstract final class AppRouter {
           return linkParser.parse(state.uri.toString()) ?? AppRoutes.home;
         }
         final location = state.uri.toString();
+        if (!session.isLoggedIn && state.uri.path == AppRoutes.login) {
+          return AppRoutes.home;
+        }
         if (!session.isLoggedIn && AppDeepLinkParser.isProtected(location)) {
           pending.save(location);
-          return AppRoutes.login;
+          return AppRoutes.home;
         }
-        if (session.isLoggedIn && state.uri.path == AppRoutes.login) {
+        if (session.isLoggedIn &&
+            (state.uri.path == AppRoutes.login ||
+                state.uri.path == AppRoutes.home)) {
           final destination = preferences.getString(
             SharedPreferencesPendingDestinationStore.storageKey,
           );
-          pending.clear();
-          return destination ?? initialTabLocation;
+          if (destination != null) {
+            pending.clear();
+            return destination;
+          }
+          if (state.uri.path == AppRoutes.login) {
+            return initialTabLocation;
+          }
         }
         return null;
       },

@@ -56,9 +56,13 @@ La matriz completa, intencionalmente explícita y secuencial, se ejecuta con:
 ./tool/build_matrix.sh all all
 ```
 
-Los builds release Android solo usan firma si CI define
-`ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` y
-`ANDROID_KEY_PASSWORD`. No hay credenciales ni rutas personales en Gradle.
+Los releases Android se generan mediante `bash tools/build_android_bundle.sh <courier>`.
+El código común se lee de `android/release.properties`; los perfiles privados
+se guardan en `android/signing/`, ignorado por Git, y se asignan por courier en
+`tools/android_releases.json`. Las tareas release rechazan credenciales ausentes;
+el script además verifica el certificado, el paquete y el código del AAB.
+Véase [Releases Android por courier](android-releases.md), fuente operativa vigente
+que sustituye la selección manual de firmas y líneas comentadas del script.
 
 Los builds iOS locales usan `--no-codesign`. TestFlight, closed testing y los
 artefactos firmados se ejecutan exclusivamente desde CI o desde una máquina con

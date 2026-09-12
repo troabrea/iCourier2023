@@ -315,24 +315,30 @@ class _BrandMark extends StatelessWidget {
       header: true,
       child: Column(
         children: [
-          Container(
-            width: 116,
-            height: 96,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: tokens.logoBackdrop,
-              borderRadius: BorderRadius.circular(tokens.radiusLg),
-              boxShadow: BrandElevation.dock,
+          if (brandAsset.isEmpty)
+            Container(
+              key: const Key('login-brand-logo'),
+              width: 116,
+              height: 96,
+              decoration: BoxDecoration(
+                color: tokens.logoBackdrop,
+                borderRadius: BorderRadius.circular(tokens.radiusLg),
+                boxShadow: BrandElevation.dock,
+              ),
+              child: Center(
+                child: Text(
+                  config.name.characters.first.toUpperCase(),
+                  style: tokens.head(34, color: tokens.primary),
+                ),
+              ),
+            )
+          else
+            SizedBox(
+              key: const Key('login-brand-logo'),
+              width: 116,
+              height: 96,
+              child: Image.asset(brandAsset, fit: BoxFit.contain),
             ),
-            child: brandAsset.isEmpty
-                ? Center(
-                    child: Text(
-                      config.name.characters.first.toUpperCase(),
-                      style: tokens.head(34, color: tokens.primary),
-                    ),
-                  )
-                : Image.asset(brandAsset, fit: BoxFit.contain),
-          ),
           const SizedBox(height: BrandSpace.sm),
           ExcludeSemantics(
             child: Text(

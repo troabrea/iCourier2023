@@ -945,7 +945,7 @@ class _Failure extends StatelessWidget {
         messageKey: 'asistente_sesion_terminada',
         glyph: BrandIcons.user,
         actionLabel: 'iniciar_sesion'.tr(),
-        onAction: () => context.go(AppRoutes.login),
+        onAction: () => context.go(AppRoutes.home),
       );
     }
     return BrandErrorState(

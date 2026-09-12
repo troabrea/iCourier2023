@@ -121,6 +121,29 @@ void main() {
     );
   });
 
+  test('router starts a signed-out session in the central home tab', () async {
+    SharedPreferences.setMockInitialValues({
+      SelectedTabStore.storageKey: TabModule.calculator.name,
+    });
+    final preferences = await SharedPreferences.getInstance();
+    final session = RouterSession(
+      initiallyLoggedIn: false,
+      loginChanges: Event<LoginChanged>(),
+    );
+    final router = AppRouter.create(
+      config: loadTestBrand('bmcargo'),
+      session: session,
+      preferences: preferences,
+      defaultTabIndex: 2,
+    );
+    addTearDown(() {
+      router.dispose();
+      session.dispose();
+    });
+
+    expect(router.routeInformationProvider.value.uri.path, AppRoutes.home);
+  });
+
   test('active account changes notify even while login remains active', () {
     final changes = Event<LoginChanged>();
     final session = RouterSession(

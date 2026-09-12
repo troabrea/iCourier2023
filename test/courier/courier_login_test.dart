@@ -123,6 +123,17 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('renders the configured logo without a backdrop', (tester) async {
+    _setPhoneViewport(tester);
+    await tester.pumpWidget(_loginApp(GetIt.I<BrandConfig>()));
+    await tester.pumpAndSettle();
+
+    final logo = tester.widget<SizedBox>(
+      find.byKey(const Key('login-brand-logo')),
+    );
+    expect(logo.child, isA<Image>());
+  });
+
   testWidgets('floating labels stay legible over a bright brand outline', (
     tester,
   ) async {

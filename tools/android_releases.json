@@ -1,0 +1,212 @@
+{
+  "acc": {
+    "applicationId": "com.barolit.acc",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "almapaq": {
+    "applicationId": "com.barolit.almapaq",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "arribex": {
+    "applicationId": "com.barolit.arribex",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "atiempo": {
+    "applicationId": "com.barolit.atiempo",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "beexpress": {
+    "applicationId": "com.barolit.beexpress",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "blumbox": {
+    "applicationId": "com.barolit.blumbox",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "bmcargo": {
+    "applicationId": "com.barolit.bmcargo",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "boxpaq": {
+    "applicationId": "com.barolit.boxpaq",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "brodpaq": {
+    "applicationId": "com.barolit.brodpaq",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "cainca": {
+    "applicationId": "com.barolit.cainca",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "cargospot": {
+    "applicationId": "com.barolit.cargospot",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "cargowise": {
+    "applicationId": "com.barolit.cargowise",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "caribepack": {
+    "applicationId": "com.barolit.caribepackapp",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "clickpack": {
+    "applicationId": "com.barolit.clickpack",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "cps": {
+    "applicationId": "com.barolit.cps",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "domex": {
+    "applicationId": "com.barolit.domex",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "ecopaq": {
+    "applicationId": "com.barolit.ecopaq",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "encargopaq": {
+    "applicationId": "com.barolit.encargopaq",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "fixocargo": {
+    "applicationId": "com.barolit.fixocargo",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "flypack": {
+    "applicationId": "com.barolit.flypack",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "gopack": {
+    "applicationId": "com.barolit.gopack",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "inbox": {
+    "applicationId": "com.barolit.inbox",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "jetpack": {
+    "applicationId": "com.barolit.jetpack",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "mcccargo": {
+    "applicationId": "com.barolit.mcccargo",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "picknsend": {
+    "applicationId": "com.barolit.picknsend",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "pintopaq": {
+    "applicationId": "com.barolit.pintopaq",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "priority": {
+    "applicationId": "com.barolit.priority",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "qm": {
+    "applicationId": "com.barolit.qm",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "skyhigh": {
+    "applicationId": "com.barolit.skyhigh",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "swoop": {
+    "applicationId": "com.barolit.swoop",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "taino": {
+    "applicationId": "com.barolit.taino",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "tdexpress": {
+    "applicationId": "com.barolit.tdexpress",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "telo": {
+    "applicationId": "com.barolit.telo",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "tls": {
+    "applicationId": "com.barolit.tls",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
+  "tupaq": {
+    "applicationId": "com.barolit.tupaq",
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
+    "lastPublishedVersionCode": null,
+    "profile": "release"
+  }
+}
