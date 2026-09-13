@@ -11,6 +11,7 @@ abstract final class AppRoutes {
   static const calculator = '/calculadora';
   static const more = '/mas';
   static const receptions = '/recepciones';
+  static const pickupNotified = '/recepciones?retiroNotificado=true';
   static const available = '/disponibles';
   static const tracking = '/rastreo';
   static const idCard = '/carnet';

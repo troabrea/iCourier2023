@@ -141,10 +141,14 @@ abstract final class AppRouter {
           },
           builder: (context, receptions) => RecepcionesPage(
             recepciones: receptions,
+            pickupNotified:
+                state.uri.queryParameters['retiroNotificado'] == 'true',
             retained: state.uri.queryParameters['retenido'] == 'true',
             titulo: state.uri.queryParameters['retenido'] == 'true'
                 ? 'sin_factura'.tr()
-                : 'recepciones'.tr(),
+                : state.uri.queryParameters['retiroNotificado'] == 'true'
+                    ? 'retiro_notificado_titulo'.tr()
+                    : 'recepciones'.tr(),
             initialStage: _stageFromName(
               state.uri.queryParameters['estado'],
             ),

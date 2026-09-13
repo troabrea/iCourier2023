@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create iCourier Release"
+  short_description: "Releases iOS y Android por courier de iCourier"
+  default_prompt: "Usa $create-icourier-release para preparar un release de los couriers y plataformas indicados, incrementando el build y conservando la versión salvo que solicite cambiarla."

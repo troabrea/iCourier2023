@@ -432,6 +432,9 @@ class _DashboardContentState extends State<_DashboardContent> {
   List<({Recepcion package, PackageStage stage})> _pending() {
     final pending = <({Recepcion package, PackageStage stage})>[];
     for (final package in widget.state.recepciones) {
+      if (package.retiroNotificado) {
+        continue;
+      }
       var stage = PackageStatusMapper.map(
         status: package.estatus,
         isAvailable: package.disponible,
@@ -451,6 +454,10 @@ class _DashboardContentState extends State<_DashboardContent> {
     return pending;
   }
 
+  List<Recepcion> get _pickupNotified => widget.state.recepciones
+      .where((package) => package.retiroNotificado)
+      .toList(growable: false);
+
   /// Vertical space the quick actions may take on the first screen.
   ///
   /// Budgeted rather than measured: every piece that outranks them declares its
@@ -468,15 +475,14 @@ class _DashboardContentState extends State<_DashboardContent> {
     final reserved = MediaQuery.paddingOf(context).top +
         ScreenHeader.tabBandHeight +
         HomeStatusCard.heightFor(
-          stageCount: stages.length,
+          stageCount: stages.length + (_pickupNotified.isEmpty ? 0 : 1),
           withActions: stages.contains(PackageStage.disponible),
           bannerHeight: hasBanner ? expectedBannerHeight(context, width) : 0,
         ) +
         BrandTabBar.height +
         // Section label and the air around it.
         44 +
-        // Creating a pre-alert never folds, so secondary actions only receive
-        // the room left after its dedicated row.
+        // Creating a pre-alert stays outside the secondary actions.
         (hasPrimaryAction ? QuickActionList.heightFor(1) : 0);
     return MediaQuery.sizeOf(context).height - reserved;
   }
@@ -492,7 +498,8 @@ class _DashboardContentState extends State<_DashboardContent> {
     List<({Recepcion package, PackageStage stage})> pending,
     Widget? banner,
   ) {
-    if (pending.isEmpty) {
+    final pickupNotified = _pickupNotified;
+    if (pending.isEmpty && pickupNotified.isEmpty) {
       return HomeStatusCard(
         banner: banner,
         onShowAddress: () => context.push(AppRoutes.idCard),
@@ -508,11 +515,17 @@ class _DashboardContentState extends State<_DashboardContent> {
 
     return HomeStatusCard(
       banner: banner,
-      total: pending.length,
+      total: pending.length + pickupNotified.length,
       onOpenAll: () => context.push(AppRoutes.receptions),
       onRefresh: widget.onRefresh,
       refreshing: widget.refreshing,
       groups: [
+        if (pickupNotified.isNotEmpty)
+          HomeStageGroup.pickupNotified(
+            count: pickupNotified.length,
+            contents: _contents(pickupNotified),
+            onOpen: () => context.push(AppRoutes.pickupNotified),
+          ),
         for (final stage in _stageOrder)
           if ((byStage[stage] ?? const <Recepcion>[]).isNotEmpty)
             _group(context, capabilities, stage, byStage[stage]!),

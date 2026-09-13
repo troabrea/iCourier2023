@@ -20,11 +20,15 @@ class RecepcionesPage extends StatefulWidget {
     this.titulo = '',
     this.initialStage,
     this.retained = false,
+    this.pickupNotified = false,
   });
 
   final List<Recepcion> recepciones;
   final String titulo;
   final PackageStage? initialStage;
+
+  /// Shows only receptions whose pickup has already been notified.
+  final bool pickupNotified;
 
   /// Held packages: opening one goes straight to its post-alert, the way the
   /// operation expects the invoice to arrive, instead of to its history.
@@ -50,6 +54,11 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
   Widget build(BuildContext context) {
     final tokens = context.brand;
     final visible = _receptions.where((reception) {
+      if (widget.retained && !reception.retenido) {
+        return false;
+      }
+      if (widget.pickupNotified) return reception.retiroNotificado;
+      if (_stage != null && reception.retiroNotificado) return false;
       if (_stage == null) return true;
       return _stageFor(reception) == _stage;
     }).toList(growable: false);
@@ -85,7 +94,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
                 ? const BrandSkeleton()
                 : visible.isEmpty
                     ? const BrandEmptyState(messageKey: 'no_paquetes')
-                    : _stage == null
+                    : _stage == null && !widget.pickupNotified
                         ? _groupedList(visible)
                         : _flatList(visible),
           ),
@@ -116,7 +125,11 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
     final byStage = <PackageStage, List<Recepcion>>{
       for (final stage in _stageOrder) stage: <Recepcion>[],
     };
+    final pickupNotified = receptions
+        .where((reception) => reception.retiroNotificado)
+        .toList(growable: false);
     for (final reception in receptions) {
+      if (reception.retiroNotificado) continue;
       byStage[_stageFor(reception)]!.add(reception);
     }
 
@@ -128,6 +141,16 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
         BrandTabBar.height,
       ),
       children: [
+        if (pickupNotified.isNotEmpty) ...[
+          BrandSectionLabel(
+            '${'retiro_notificado_titulo'.tr()} (${pickupNotified.length})',
+          ),
+          for (final reception in pickupNotified)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 11),
+              child: _packageCard(reception),
+            ),
+        ],
         for (final stage in _stageOrder)
           if (byStage[stage]!.isNotEmpty) ...[
             BrandSectionLabel(

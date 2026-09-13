@@ -19,7 +19,18 @@ class HomeStageGroup {
     this.onPay,
   });
 
-  final PackageStage stage;
+  /// An operational status that uses the same cell as journey stages.
+  const HomeStageGroup.pickupNotified({
+    required this.count,
+    required this.contents,
+    required this.onOpen,
+  })  : stage = null,
+        retained = null,
+        onPickup = null,
+        onDelivery = null,
+        onPay = null;
+
+  final PackageStage? stage;
   final int count;
 
   /// What is inside, gathered from the packages themselves.
@@ -157,8 +168,7 @@ class HomeStatusCard extends StatelessWidget {
                             refreshing: refreshing,
                           ),
                           const SizedBox(height: BrandSpace.md),
-                          for (final group in groups)
-                            _StageTile(group: group),
+                          for (final group in groups) _StageTile(group: group),
                         ],
                       ),
               ),
@@ -437,7 +447,9 @@ class _StageTile extends StatelessWidget {
               child: Row(
                 children: [
                   BrandGlyphTile(
-                    asset: _glyphs[group.stage] ?? BrandIcons.receptions,
+                    asset: group.stage == null
+                        ? BrandIcons.available
+                        : _glyphs[group.stage] ?? BrandIcons.receptions,
                     accent: accent == tokens.text ? tokens.textMuted : accent,
                   ),
                   const SizedBox(width: BrandSpace.sm),
@@ -447,7 +459,10 @@ class _StageTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          (_labels[group.stage] ?? '').tr(),
+                          (group.stage == null
+                                  ? 'retiro_notificado_titulo'
+                                  : _labels[group.stage]!)
+                              .tr(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: tokens.body(
@@ -563,7 +578,8 @@ class _Empty extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     'sin_paquetes_cuerpo'.tr(),
-                    style: tokens.body(13, color: tokens.textMuted, height: 1.4),
+                    style:
+                        tokens.body(13, color: tokens.textMuted, height: 1.4),
                   ),
                 ],
               ),

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+import 'package:icourier/apps/appinfo.dart';
+import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
+import 'package:icourier/services/courier_service.dart';
 import 'package:icourier/courier/courier_recepciones.dart';
 import 'package:icourier/design_system/core_components.dart';
 import 'package:icourier/design_system/home_components.dart';
@@ -38,6 +42,40 @@ void main() {
     );
   });
 
+  testWidgets('separa retiro notificado de las recepciones ordinarias', (
+    tester,
+  ) async {
+    await _pumpReceptions(tester, includePickupNotified: true);
+    expect(_visibleIds(tester), ['pickup', 'available', 'route-a', 'route-b']);
+    expect(find.text('RETIRO NOTIFICADO (1)'), findsOneWidget);
+
+    await _pumpReceptions(
+      tester,
+      includePickupNotified: true,
+      pickupNotified: true,
+    );
+    expect(_visibleIds(tester), ['pickup']);
+    expect(find.text('RECIBIDO (1)'), findsNothing);
+  });
+
+  testWidgets('mantiene retiro notificado separado después de actualizar', (
+    tester,
+  ) async {
+    addTearDown(GetIt.I.reset);
+    GetIt.I.registerSingleton<AppInfo>(BmcargoAppInfo());
+    GetIt.I.registerSingleton<CourierService>(_RefreshService());
+    await _pumpReceptions(
+      tester,
+      includePickupNotified: true,
+      pickupNotified: true,
+    );
+
+    await tester.tap(find.byIcon(Icons.refresh));
+    await tester.pumpAndSettle();
+
+    expect(_visibleIds(tester), ['new-pickup']);
+  });
+
   testWidgets('restaura los grupos cuando se elimina el filtro', (
     tester,
   ) async {
@@ -64,6 +102,8 @@ void main() {
 Future<void> _pumpReceptions(
   WidgetTester tester, {
   PackageStage? initialStage,
+  bool includePickupNotified = false,
+  bool pickupNotified = false,
 }) async {
   tester.view.physicalSize = const Size(390, 844);
   tester.view.devicePixelRatio = 1;
@@ -74,6 +114,8 @@ Future<void> _pumpReceptions(
     brandTestApp(
       config: loadTestBrand('bmcargo'),
       child: RecepcionesPage(
+        key: ValueKey(pickupNotified),
+        pickupNotified: pickupNotified,
         recepciones: [
           _reception('route-a', status: 'En ruta', progress: 2),
           _reception(
@@ -83,6 +125,8 @@ Future<void> _pumpReceptions(
             available: true,
           ),
           _reception('route-b', status: 'Embarcado', progress: 2),
+          if (includePickupNotified)
+            _reception('pickup', status: ' retiro   notificado ', progress: 1),
         ],
         initialStage: initialStage,
       ),
@@ -124,3 +168,12 @@ Recepcion _reception(
       progreso: progress,
       numeroRastreo: 'tracking-$id',
     );
+
+class _RefreshService extends CourierService {
+  @override
+  Future<List<Recepcion>> getRecepciones(bool forceRefresh) async => [
+        _reception('pickup', status: 'Entregado', progress: 5),
+        _reception('new-pickup', status: 'RETIRO NOTIFICADO', progress: 1),
+        _reception('route', status: 'Embarcado', progress: 2),
+      ];
+}

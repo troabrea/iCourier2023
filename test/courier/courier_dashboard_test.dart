@@ -7,6 +7,7 @@ import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icourier/courier/courier_dashboard.dart';
 import 'package:icourier/design_system/brand_foundations.dart';
+import 'package:icourier/design_system/home_components.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
 import 'package:icourier/services/model/banner.dart';
@@ -65,6 +66,7 @@ void main() {
     );
     expect(marks, findsNothing);
     expect(find.byType(FaIcon), findsNothing);
+    expect(find.textContaining('Retiro Notificado'), findsNothing);
   });
 
   testWidgets('clears the notification badge when messages become read', (
@@ -129,12 +131,48 @@ void main() {
     expect(find.text('Más acciones'), findsOneWidget);
 
     await tester.ensureVisible(find.text('Más acciones'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Más acciones'));
     await tester.pumpAndSettle();
 
     // La hoja sólo contiene las acciones secundarias.
     expect(find.text('Crear Pre-Alerta'), findsOneWidget);
     expect(find.text('Rastrear Paquete'), findsOneWidget);
+  });
+
+  testWidgets('incluye retiro notificado dentro de la tarjeta y del total', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final service = GetIt.I<CourierService>() as _DashboardService;
+    service.useAccountScenario = true;
+    service.pickupNotified = true;
+    service.includeRegularPackage = true;
+
+    await tester.pumpWidget(
+      brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: const CourierDashboard(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final card = tester.widget<HomeStatusCard>(find.byType(HomeStatusCard));
+    expect(card.total, 2);
+    expect(card.groups, hasLength(2));
+    expect(card.groups.first.count, 1);
+    expect(
+        find.descendant(
+          of: find.byType(HomeStatusCard),
+          matching: find.text('Retiro Notificado'),
+        ),
+        findsOneWidget);
+    expect(find.text('Retiro Notificado (1)'), findsNothing);
+    expect(find.text('Paquete de cuenta uno'), findsOneWidget);
+    expect(find.text('Recibido'), findsOneWidget);
   });
 
   testWidgets('cambiar de cuenta reemplaza identidad y paquetes visibles', (
@@ -157,6 +195,7 @@ void main() {
 
     expect(find.text('Alicia'), findsWidgets);
     expect(find.text('BM-001'), findsOneWidget);
+    expect(find.textContaining('Retiro Notificado'), findsNothing);
     expect(find.text('Paquete de cuenta uno'), findsOneWidget);
 
     service.activeAccount = 2;
@@ -176,6 +215,8 @@ void main() {
 
 class _DashboardService extends CourierService {
   bool useAccountScenario = false;
+  bool pickupNotified = false;
+  bool includeRegularPackage = false;
   int activeAccount = 1;
 
   @override
@@ -212,7 +253,7 @@ class _DashboardService extends CourierService {
       return [];
     }
     final accountLabel = activeAccount == 1 ? 'uno' : 'dos';
-    return [
+    final packages = [
       Recepcion(
         recepcionID: 'package-$activeAccount',
         fecha: '2026.08.28',
@@ -224,7 +265,7 @@ class _DashboardService extends CourierService {
         totalPeso: '1',
         totalVolumen: '',
         totalNeto: '10.00',
-        estatus: 'Embarcado',
+        estatus: pickupNotified ? 'Retiro Notificado' : 'Embarcado',
         retenido: false,
         disponible: false,
         paquetes: const [],
@@ -235,6 +276,16 @@ class _DashboardService extends CourierService {
         progreso: 2,
         numeroRastreo: 'tracking-$activeAccount',
       ),
+    ];
+    return [
+      ...packages,
+      if (includeRegularPackage)
+        Recepcion.fromJson({
+          ...packages.single.toJson(),
+          'recepcionID': 'regular',
+          'estatus': 'Recibido para procesar',
+          'contenido': 'Artículo Personal',
+        }),
     ];
   }
 

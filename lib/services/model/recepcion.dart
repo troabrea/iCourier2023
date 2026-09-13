@@ -52,6 +52,11 @@ class Recepcion {
   late String numeroRastreo;
   bool selected = false;
 
+  /// Whether pickup has already been notified for this reception.
+  bool get retiroNotificado =>
+      estatus.trim().toUpperCase().replaceAll(RegExp(r'\s+'), ' ') ==
+      'RETIRO NOTIFICADO';
+
   int progresoActual() {
     return PackageStatusMapper.map(
       status: estatus,

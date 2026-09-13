@@ -272,9 +272,9 @@ class CourierService {
       return response.body;
     }, 60 * 20);
 
+    final cutoff = DateTime.now().subtract(const Duration(days: 30));
     final mensajes = mensajeFromJson(jsonData)
-        .where((element) => element.fecha
-            .isAfter(DateTime.now().subtract(const Duration(days: 30))))
+        .where((message) => !message.deleted && message.fecha.isAfter(cutoff))
         .toList();
     final readMessagesRaw =
         (await cache.load("messages_leidos", "")).toString();
