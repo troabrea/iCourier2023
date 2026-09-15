@@ -124,6 +124,6 @@ Widget _testApp(Empresa company) => brandTestApp(
       ),
     );
 
-Finder _socialIcon(IconData icon) => find.byWidgetPredicate(
-      (widget) => widget is FaIcon && widget.icon == icon,
+Finder _socialIcon(FaIconData icon) => find.byWidgetPredicate(
+      (widget) => widget is FaIcon && widget.icon == icon.data,
     );

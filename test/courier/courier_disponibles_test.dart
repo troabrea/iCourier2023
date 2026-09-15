@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/courier/courier_disponibles.dart';
 import 'package:icourier/design_system/core_components.dart';
+import 'package:icourier/design_system/overlay_components.dart';
+import 'package:icourier/services/app_intent_bridge.dart';
 import 'package:icourier/services/model/empresa.dart';
 import 'package:icourier/services/model/recepcion.dart';
 import 'package:icourier/theme/brand_config.dart';
@@ -23,6 +28,56 @@ void main() {
   });
 
   tearDown(() => GetIt.I.reset());
+
+  testWidgets(
+      'Siri presents once and handles the next request on the same page',
+      (tester) async {
+    const channel = MethodChannel('icourier_app_intent_channel');
+    final messenger = tester.binding.defaultBinaryMessenger;
+    messenger.setMockMethodCallHandler(channel, (_) async => null);
+    final opened = <String>[];
+    final bridge = AppIntentBridge(openPickup: opened.add);
+    GetIt.I.registerSingleton<AppIntentBridge>(bridge);
+    addTearDown(() {
+      bridge.dispose();
+      messenger.setMockMethodCallHandler(channel, null);
+    });
+    await bridge.start();
+
+    Future<dynamic> send(String id) async {
+      final reply = Completer<ByteData?>();
+      await messenger.handlePlatformMessage(
+        channel.name,
+        channel.codec.encodeMethodCall(
+          MethodCall('notificar_retiro', {'id': id}),
+        ),
+        reply.complete,
+      );
+      return channel.codec.decodeEnvelope((await reply.future)!);
+    }
+
+    for (final id in ['cold', 'resumed']) {
+      final response = send(id);
+      await tester.pump();
+      expect(opened.last, id);
+      await tester.pumpWidget(brandTestApp(
+        config: GetIt.I<BrandConfig>(),
+        child: DisponiblesPage(
+          disponibles: [_package()],
+          empresa: Empresa.empty()..hasNotifyModule = true,
+          pickupIntentId: id,
+        ),
+      ));
+      await tester.pumpAndSettle();
+      expect(find.byType(PickupSheet), findsOneWidget);
+      // Cancelling consumes the intent without calling the pickup endpoint.
+      Navigator.of(tester.element(find.byType(PickupSheet))).pop();
+      await tester.pumpAndSettle();
+      expect(await response, isTrue);
+      await tester.pump();
+      expect(find.byType(PickupSheet), findsNothing);
+    }
+  });
 
   testWidgets('resume todos los disponibles sin controles de selección', (
     tester,

@@ -1,3 +1,4 @@
+import '../services/app_intent_bridge.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -20,10 +21,12 @@ class DisponiblesPage extends StatefulWidget {
     super.key,
     required this.disponibles,
     required this.empresa,
+    this.pickupIntentId,
   });
 
   final List<Recepcion> disponibles;
   final Empresa empresa;
+  final String? pickupIntentId;
 
   @override
   State<DisponiblesPage> createState() => _DisponiblesPageState();
@@ -37,6 +40,34 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
   void initState() {
     super.initState();
     _packages = [...widget.disponibles];
+    WidgetsBinding.instance.addPostFrameCallback((_) => _presentPickupIntent());
+  }
+
+  @override
+  void didUpdateWidget(covariant DisponiblesPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.pickupIntentId != widget.pickupIntentId) {
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => _presentPickupIntent());
+    }
+  }
+
+  Future<void> _presentPickupIntent() async {
+    final id = widget.pickupIntentId;
+    if (!mounted || id == null || !GetIt.I.isRegistered<AppIntentBridge>()) {
+      return;
+    }
+    final bridge = GetIt.I<AppIntentBridge>();
+    if (!bridge.beginPresentation(id)) {
+      return;
+    }
+    try {
+      if (widget.empresa.hasNotifyModule) {
+        await _notifyPickup();
+      }
+    } finally {
+      bridge.complete(id);
+    }
   }
 
   @override

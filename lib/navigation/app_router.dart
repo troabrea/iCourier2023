@@ -195,6 +195,7 @@ abstract final class AppRouter {
           builder: (context, data) => DisponiblesPage(
             disponibles: data.packages,
             empresa: data.empresa,
+            pickupIntentId: state.uri.queryParameters['pickupIntent'],
           ),
         ),
       ),

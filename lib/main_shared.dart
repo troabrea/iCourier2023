@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,8 +23,10 @@ import 'package:event/event.dart' as event;
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'services/notification_service.dart';
 import 'navigation/app_router.dart';
+import 'navigation/app_routes.dart';
 import 'navigation/app_runtime_host.dart';
 import 'navigation/router_session.dart';
+import 'services/app_intent_bridge.dart';
 import 'theme/brand_config.dart';
 import 'theme/brand_config_loader.dart';
 import 'theme/brand_theme.dart';
@@ -160,22 +164,6 @@ Future<void> mainShared(AppInfo appInfo) async {
   );
   AppCenter.trackEventAsync("${appInfo.metricsPrefixKey}_INICIO_SESION");
 
-  Future<dynamic> appIntentHandler(MethodCall call) async {
-    switch (call.method) {
-      case 'notificar_retiro':
-        GetIt.I<event.Event<AutoNotificarRetiroRequested>>().broadcast();
-      // break;
-      default:
-        throw PlatformException(
-          code: 'No implementado',
-          details: 'El método ${call.method} no esta implementado.',
-        );
-    }
-  }
-
-  MethodChannel channel = const MethodChannel('icourier_app_intent_channel');
-  channel.setMethodCallHandler(appIntentHandler);
-
   runApp(EasyLocalization(
       startLocale: Locale(appInfo.defaultLocale),
       supportedLocales: appInfo.additionalLocale.isEmpty
@@ -212,6 +200,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final BrandConfig brandConfig = GetIt.I<BrandConfig>();
   late final RouterSession routerSession;
   late final GoRouter router;
+  AppIntentBridge? appIntentBridge;
   late final WidgetSyncCoordinator widgetSyncCoordinator;
 
   @override
@@ -232,6 +221,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       preferences: widget.preferences,
       defaultTabIndex: appInfo.defaultTab,
     );
+    if (Platform.isIOS) {
+      final bridge = AppIntentBridge(
+        openPickup: (id) => router.go(
+          Uri(path: AppRoutes.available, queryParameters: {
+            'pickupIntent': id,
+          }).toString(),
+        ),
+      );
+      appIntentBridge = bridge;
+      GetIt.I.registerSingleton<AppIntentBridge>(bridge);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (mounted) {
+          await bridge.start();
+        }
+      });
+    }
     widgetSyncCoordinator = WidgetSyncCoordinator(
       config: brandConfig,
       courierService: GetIt.I<CourierService>(),
@@ -263,6 +268,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    appIntentBridge?.dispose();
+    if (appIntentBridge != null) {
+      GetIt.I.unregister<AppIntentBridge>();
+    }
     router.dispose();
     routerSession.dispose();
     super.dispose();

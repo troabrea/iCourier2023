@@ -29,6 +29,11 @@ pero la configuración activa vive en `android/signing/`.
 común y la asignación. No compila ni consulta Google Play. Un perfil pendiente,
 una huella distinta o credenciales incompletas detienen la operación.
 
+En un clon independiente, `--signing-profile /ruta/absoluta/release.env` permite
+leer un perfil privado existente sin copiarlo. Se mantienen las validaciones de
+permisos, contraseñas y huella asignada al courier; no modifica el perfil ni el
+keystore. Sin esa opción se usa `android/signing/<perfil>.env`.
+
 El build se entrega únicamente tras comprobar criptográficamente todas sus
 entradas, el certificado firmante y el paquete/código extraídos del manifiesto
 **del AAB**, mediante bundletool. Destinos:

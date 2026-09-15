@@ -35,7 +35,7 @@ Uri? resolveExternalContactUri(String target) {
 /// number, exactly as the original app bar behaved. Resolving it in one place
 /// keeps the icon and the destination from drifting apart between the home
 /// header and the tab headers.
-({IconData icon, Future<void> Function() open})? resolveContactChannel(
+({FaIconData icon, Future<void> Function() open})? resolveContactChannel(
   UserProfile? profile,
 ) {
   final whatsapp = profile?.whatsappSucursal.trim() ?? '';

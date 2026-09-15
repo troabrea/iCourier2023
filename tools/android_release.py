@@ -158,7 +158,7 @@ def check_manifest(xml, application_id, code):
         raise ReleaseError('No se pudo leer el manifiesto del AAB.') from None
 
 
-def prepare(root, flavor, inherited):
+def prepare(root, flavor, inherited, signing_profile=None):
     records = json.loads((root / 'tools/android_releases.json').read_text())
     if not re.fullmatch('[a-z0-9]+', flavor) or flavor not in records:
         raise ReleaseError(f'Courier desconocido: {flavor}. Usa --list.')
@@ -173,7 +173,10 @@ def prepare(root, flavor, inherited):
     target = entrypoint(root, flavor)
     code = version_code(root)
     version_status = check_version(code, record['lastPublishedVersionCode'])
-    env = read_profile(root / f'android/signing/{profile}.env', inherited)
+    profile_path = Path(signing_profile) if signing_profile else root / f'android/signing/{profile}.env'
+    if signing_profile and not profile_path.is_absolute():
+        raise ReleaseError('--signing-profile requiere una ruta absoluta.')
+    env = read_profile(profile_path, inherited)
     fingerprint = signing_fingerprint(root, env)
     require_fingerprint(fingerprint, record['certificateSha256'])
     return record, target, code, version_status, env, fingerprint
@@ -182,6 +185,7 @@ def prepare(root, flavor, inherited):
 def main(argv=None, root=ROOT):
     parser = argparse.ArgumentParser(description='Build AAB firmado de un courier; secretos en android/signing/.')
     parser.add_argument('courier', nargs='?')
+    parser.add_argument('--signing-profile', help='Leer un perfil privado existente sin copiar secretos al clon.')
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--list', action='store_true', help='Listar couriers y perfiles pendientes/confirmados.')
     mode.add_argument('--check', action='store_true', help='Validar firma y versión sin compilar.')
@@ -197,7 +201,7 @@ def main(argv=None, root=ROOT):
         parser.print_help()
         return 2
     flavor = args.courier.lower()
-    record, target, code, status, env, fingerprint = prepare(root, flavor, os.environ)
+    record, target, code, status, env, fingerprint = prepare(root, flavor, os.environ, args.signing_profile)
     print(f"Courier: {flavor} | Perfil: {record['profile']} | Código Android: {code}", flush=True)
     print(f'Certificado SHA-256: {fingerprint}\n{status}', flush=True)
     if args.check:

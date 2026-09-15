@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 import android_release as release
@@ -92,6 +93,27 @@ class ReleaseTests(unittest.TestCase):
         for package, code in [('com.barolit.other', 5202700), ('com.barolit.tupaq', 58)]:
             with self.assertRaises(release.ReleaseError):
                 release.check_manifest(xml, package, code)
+
+    def test_external_profile_preserves_certificate_checks_without_copying(self):
+        records = {'tupaq': {'profile': 'release', 'certificateSha256': 'A' * 64,
+                            'lastPublishedVersionCode': None}}
+        (self.root / 'tools/android_releases.json').write_text(json.dumps(records))
+        (self.root / 'whitelabel/tupaq.json').write_text('{}')
+        target = self.root / 'lib/apps/tupaq/main_tupaq.dart'
+        target.parent.mkdir()
+        target.touch()
+        external = self.root / 'external.env'
+        self.profile.rename(external)
+        before = external.read_bytes()
+        with patch.object(release, 'signing_fingerprint', return_value='A' * 64):
+            release.prepare(self.root, 'tupaq', {}, str(external))
+        self.assertFalse(self.profile.exists())
+        self.assertEqual(external.read_bytes(), before)
+        with patch.object(release, 'signing_fingerprint', return_value='B' * 64):
+            with self.assertRaises(release.ReleaseError):
+                release.prepare(self.root, 'tupaq', {}, str(external))
+        with self.assertRaises(release.ReleaseError):
+            release.prepare(self.root, 'tupaq', {}, 'relative.env')
 
     def test_all_flavors_use_common_version(self):
         text = (release.ROOT / 'android/app/build.gradle.kts').read_text()

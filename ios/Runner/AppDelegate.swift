@@ -4,6 +4,7 @@ import GoogleMaps
 import AppIntents
 import Security
 import WidgetKit
+import firebase_messaging
 
 private enum WidgetBackgroundRefreshRequest {
   private static let appGroupInfoKey = "AppGroupIdentifier"
@@ -62,99 +63,119 @@ private enum WidgetSessionKeychain {
 }
 
 @main
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    FLTFirebaseMessagingPlugin.configureNotificationCenterDelegate()
     GMSServices.provideAPIKey("AIzaSyCTBvcej7pKYNYILF__pe4qmoo_NAzTIwk")
-    GeneratedPluginRegistrant.register(with: self)
-    if let controller = window?.rootViewController as? FlutterViewController {
-      let widgetChannel = FlutterMethodChannel(
-        name: "icourier/widget_state",
-        binaryMessenger: controller.binaryMessenger
-      )
-      widgetChannel.setMethodCallHandler { call, result in
-        guard let arguments = call.arguments as? [String: Any],
-              let appGroup = arguments["appGroup"] as? String,
-              let key = arguments["key"] as? String,
-              let defaults = UserDefaults(suiteName: appGroup) else {
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
+    GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+    let messenger = engineBridge.applicationRegistrar.messenger()
+    let intentChannel = FlutterMethodChannel(
+      name: "icourier_app_intent_channel",
+      binaryMessenger: messenger
+    )
+    AppIntentDelivery.shared.bind { id, completion in
+      intentChannel.invokeMethod("notificar_retiro", arguments: ["id": id]) { reply in
+        completion((reply as? Bool) == true)
+      }
+    }
+    intentChannel.setMethodCallHandler { call, result in
+      guard call.method == "ready" else {
+        result(FlutterMethodNotImplemented)
+        return
+      }
+      result(nil)
+      AppIntentDelivery.shared.markReady()
+    }
+    let widgetChannel = FlutterMethodChannel(
+      name: "icourier/widget_state",
+      binaryMessenger: messenger
+    )
+    widgetChannel.setMethodCallHandler { call, result in
+      guard let arguments = call.arguments as? [String: Any],
+            let appGroup = arguments["appGroup"] as? String,
+            let key = arguments["key"] as? String,
+            let defaults = UserDefaults(suiteName: appGroup) else {
+        result(FlutterError(
+          code: "INVALID_WIDGET_STATE",
+          message: "Widget App Group arguments are invalid.",
+          details: nil
+        ))
+        return
+      }
+
+      switch call.method {
+      case "write":
+        guard let payload = arguments["payload"] as? String,
+              let logoFile = arguments["logoFile"] as? String,
+              let logoBytes = arguments["logoBytes"] as? FlutterStandardTypedData,
+              let sessionId = arguments["sessionId"] as? String,
+              let companyId = arguments["companyId"] as? String,
+              let endpoint = arguments["endpoint"] as? String,
+              let keychainAccessGroup = Bundle.main.object(
+                forInfoDictionaryKey: "KeychainAccessGroup"
+              ) as? String,
+              logoFile == URL(fileURLWithPath: logoFile).lastPathComponent,
+              let containerURL = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: appGroup
+              ) else {
           result(FlutterError(
-            code: "INVALID_WIDGET_STATE",
-            message: "Widget App Group arguments are invalid.",
+            code: "INVALID_WIDGET_PAYLOAD",
+            message: "The widget payload or brand icon is missing.",
             details: nil
           ))
           return
         }
-
-        switch call.method {
-        case "write":
-          guard let payload = arguments["payload"] as? String,
-                let logoFile = arguments["logoFile"] as? String,
-                let logoBytes = arguments["logoBytes"] as? FlutterStandardTypedData,
-                let sessionId = arguments["sessionId"] as? String,
-                let companyId = arguments["companyId"] as? String,
-                let endpoint = arguments["endpoint"] as? String,
-                let keychainAccessGroup = Bundle.main.object(
-                  forInfoDictionaryKey: "KeychainAccessGroup"
-                ) as? String,
-                logoFile == URL(fileURLWithPath: logoFile).lastPathComponent,
-                let containerURL = FileManager.default.containerURL(
-                  forSecurityApplicationGroupIdentifier: appGroup
-                ) else {
-            result(FlutterError(
-              code: "INVALID_WIDGET_PAYLOAD",
-              message: "The widget payload or brand icon is missing.",
-              details: nil
-            ))
-            return
-          }
-          do {
-            try WidgetSessionKeychain.save(
-              sessionId,
-              accessGroup: keychainAccessGroup
-            )
-            try logoBytes.data.write(
-              to: containerURL.appendingPathComponent(logoFile),
-              options: .atomic
-            )
-          } catch {
-            result(FlutterError(
-              code: "WIDGET_SHARED_STATE_WRITE_FAILED",
-              message: "The widget session or brand icon could not be stored.",
-              details: error.localizedDescription
-            ))
-            return
-          }
-          defaults.set(companyId, forKey: "widget_company_id")
-          defaults.set(endpoint, forKey: "widget_endpoint")
-          defaults.set(payload, forKey: key)
-          defaults.synchronize()
-          if #available(iOS 14.0, *) {
-            WidgetCenter.shared.reloadAllTimelines()
-          }
-          result(nil)
-        case "clear":
-          if let keychainAccessGroup = Bundle.main.object(
-            forInfoDictionaryKey: "KeychainAccessGroup"
-          ) as? String {
-            try? WidgetSessionKeychain.save("", accessGroup: keychainAccessGroup)
-          }
-          defaults.removeObject(forKey: "widget_company_id")
-          defaults.removeObject(forKey: "widget_endpoint")
-          defaults.removeObject(forKey: "widget_refresh_requested_at")
-          defaults.removeObject(forKey: key)
-          defaults.synchronize()
-          if #available(iOS 14.0, *) {
-            WidgetCenter.shared.reloadAllTimelines()
-          }
-          result(nil)
-        default:
-          result(FlutterMethodNotImplemented)
+        do {
+          try WidgetSessionKeychain.save(
+            sessionId,
+            accessGroup: keychainAccessGroup
+          )
+          try logoBytes.data.write(
+            to: containerURL.appendingPathComponent(logoFile),
+            options: .atomic
+          )
+        } catch {
+          result(FlutterError(
+            code: "WIDGET_SHARED_STATE_WRITE_FAILED",
+            message: "The widget session or brand icon could not be stored.",
+            details: error.localizedDescription
+          ))
+          return
         }
+        defaults.set(companyId, forKey: "widget_company_id")
+        defaults.set(endpoint, forKey: "widget_endpoint")
+        defaults.set(payload, forKey: key)
+        defaults.synchronize()
+        if #available(iOS 14.0, *) {
+          WidgetCenter.shared.reloadAllTimelines()
+        }
+        result(nil)
+      case "clear":
+        if let keychainAccessGroup = Bundle.main.object(
+          forInfoDictionaryKey: "KeychainAccessGroup"
+        ) as? String {
+          try? WidgetSessionKeychain.save("", accessGroup: keychainAccessGroup)
+        }
+        defaults.removeObject(forKey: "widget_company_id")
+        defaults.removeObject(forKey: "widget_endpoint")
+        defaults.removeObject(forKey: "widget_refresh_requested_at")
+        defaults.removeObject(forKey: key)
+        defaults.synchronize()
+        if #available(iOS 14.0, *) {
+          WidgetCenter.shared.reloadAllTimelines()
+        }
+        result(nil)
+      default:
+        result(FlutterMethodNotImplemented)
       }
     }
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
   override func application(
@@ -174,14 +195,9 @@ private enum WidgetSessionKeychain {
 @available(iOS 16.0, *)
 struct NotificarRetiroIntent : AppIntent {
     static var title: LocalizedStringResource = "Notificar Retiro"
-    func perform()  throws -> some IntentResult  {
-        let controller = UIApplication.shared.delegate?.window??.rootViewController as! FlutterViewController
-          
-                  
-      let channel = FlutterMethodChannel(name: "icourier_app_intent_channel", binaryMessenger: controller.binaryMessenger)
-      
-        channel.invokeMethod("notificar_retiro", arguments: [])
-        
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        AppIntentDelivery.shared.enqueue()
         return .result()
     }
     static let openAppWhenRun: Bool = true;

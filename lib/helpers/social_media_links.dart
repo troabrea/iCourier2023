@@ -35,7 +35,7 @@ class SocialMediaLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.brand;
     final socialOptions = _SocialOptions.parse(empresa.options);
-    final links = <({IconData icon, String label, VoidCallback onTap})>[
+    final links = <({FaIconData icon, String label, VoidCallback onTap})>[
       if (empresa.paginaWeb.isNotEmpty)
         (
           icon: FontAwesomeIcons.globe,

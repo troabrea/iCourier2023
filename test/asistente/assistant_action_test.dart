@@ -176,7 +176,7 @@ void main() {
     expect(find.byType(FloatingActionButton), findsNothing);
     expect(
       tester.widget<FaIcon>(find.byType(FaIcon)).icon,
-      FontAwesomeIcons.whatsapp,
+      FontAwesomeIcons.whatsapp.data,
     );
     expect(
       find.byWidgetPredicate(
@@ -202,7 +202,7 @@ void main() {
     expect(find.byType(FloatingActionButton), findsNothing);
     expect(
       tester.widget<FaIcon>(find.byType(FaIcon)).icon,
-      FontAwesomeIcons.whatsapp,
+      FontAwesomeIcons.whatsapp.data,
     );
     expect(
       find.byWidgetPredicate(

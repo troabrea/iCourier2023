@@ -53,6 +53,7 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		CBA83082CA096DAC4CF08D84 /* AppIntentDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD596AC6573B8E34EF5AEF4A /* AppIntentDelivery.swift */; };
 		DADF849B113849AC3725387F /* ICourierWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1355FAE11A1D8AF8E89D3BE1 /* ICourierWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -233,6 +234,7 @@
 		CF869CDEEB6E92030ADBCCBB /* Pods-Runner.debug-tupaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-tupaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-tupaq.xcconfig"; sourceTree = "<group>"; };
 		D1067F6D84DE10F2D59E94E5 /* Pods-Runner.release-inbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-inbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-inbox.xcconfig"; sourceTree = "<group>"; };
 		D11205DF576565D38BBE7043 /* Pods-Runner.profile-blumbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-blumbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-blumbox.xcconfig"; sourceTree = "<group>"; };
+		DD596AC6573B8E34EF5AEF4A /* AppIntentDelivery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppIntentDelivery.swift; sourceTree = "<group>"; };
 		DE3509B15934E3B94F87B807 /* Pods-Runner.profile-inbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-inbox.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-inbox.xcconfig"; sourceTree = "<group>"; };
 		E50773BBCC8A474AFB2853D8 /* Pods-Runner.debug-flypack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-flypack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-flypack.xcconfig"; sourceTree = "<group>"; };
 		E65889ADC38E3006A2E8A39F /* Pods-Runner.profile-arribex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-arribex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-arribex.xcconfig"; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				DD596AC6573B8E34EF5AEF4A /* AppIntentDelivery.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -767,6 +770,7 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				CBA83082CA096DAC4CF08D84 /* AppIntentDelivery.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,7 +1161,7 @@
 				APP_DISPLAY_NAME = BMCargo;
 				APP_GROUP_ID = group.com.barolit.bmcargo;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 62;
+				CURRENT_PROJECT_VERSION = 63;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
@@ -10108,7 +10112,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 62;
+				CURRENT_PROJECT_VERSION = 63;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
