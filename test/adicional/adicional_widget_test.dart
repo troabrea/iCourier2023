@@ -5,6 +5,12 @@ import 'package:get_it/get_it.dart';
 import 'package:event/event.dart' as event;
 import 'package:icourier/adicional/adicional.dart';
 import 'package:icourier/navigation/router_session.dart';
+import 'package:icourier/navigation/app_router.dart';
+import 'package:icourier/navigation/app_routes.dart';
+import 'package:icourier/design_system/brand_foundations.dart';
+import 'package:icourier/asistente/assistant_action.dart';
+import 'package:icourier/theme/brand_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
@@ -40,8 +46,7 @@ void main() {
     GetIt.I.registerSingleton<AppInfo>(BmcargoAppInfo());
     GetIt.I.registerSingleton<BrandConfig>(config);
     GetIt.I.registerSingleton<CourierService>(_AdditionalService());
-    // This screen is behind the session, so its header carries the assistant
-    // rather than the WhatsApp fallback.
+    // Signed-in fixture: the header carries the assistant.
     GetIt.I.registerSingleton<event.Event<LoginChanged>>(
       event.Event<LoginChanged>(),
     );
@@ -55,6 +60,43 @@ void main() {
 
   tearDown(() async {
     await GetIt.I.reset();
+  });
+
+  testWidgets('Más opens from the tab bar without a session or assistant',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final preferences = await SharedPreferences.getInstance();
+    final config = GetIt.I<BrandConfig>();
+    final session = GetIt.I<RouterSession>();
+    GetIt.I<event.Event<LoginChanged>>().broadcast(LoginChanged(false, '', ''));
+    GetIt.I.registerSingleton<event.Event<CourierRefreshRequested>>(
+      event.Event<CourierRefreshRequested>(),
+    );
+    GetIt.I.registerSingleton<event.Event<LogoutRequested>>(
+      event.Event<LogoutRequested>(),
+    );
+    final router = AppRouter.create(
+      config: config,
+      session: session,
+      preferences: preferences,
+      defaultTabIndex: 2,
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(MaterialApp.router(
+      theme: BrandTheme.light(config),
+      routerConfig: router,
+    ));
+    await tester.pumpAndSettle();
+    expect(find.byType(BrandAssistantFloatingAction), findsNothing);
+
+    await tester.tap(find.byType(BrandMoreGlyph));
+    await tester.pumpAndSettle();
+
+    expect(router.routeInformationProvider.value.uri.path, AppRoutes.more);
+    expect(find.byType(AdicionalInfoPage), findsOneWidget);
+    expect(find.text('Servicio al Cliente'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('restores the customer service and support actions', (

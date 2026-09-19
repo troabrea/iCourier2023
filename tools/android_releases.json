@@ -37,9 +37,9 @@
   },
   "bmcargo": {
     "applicationId": "com.barolit.bmcargo",
-    "certificateSha256": null,
-    "lastPublishedVersionCode": null,
-    "profile": null
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
+    "lastPublishedVersionCode": 5204605,
+    "profile": "release"
   },
   "boxpaq": {
     "applicationId": "com.barolit.boxpaq",

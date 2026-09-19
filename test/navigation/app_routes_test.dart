@@ -35,6 +35,22 @@ void main() {
       expect(AppDeepLinkParser.isProtected(AppRoutes.news), isFalse);
       expect(AppDeepLinkParser.isProtected('/noticias/news-42'), isFalse);
     });
+
+    test('Más es público pero sus destinos de cuenta requieren sesión', () {
+      expect(AppDeepLinkParser.isProtected(AppRoutes.more), isFalse);
+      for (final location in [
+        AppRoutes.accounts,
+        AppRoutes.history,
+        AppRoutes.invoices,
+        AppRoutes.accountStatement,
+        AppRoutes.onlinePayment,
+        AppRoutes.idCard,
+        AppRoutes.assistant,
+      ]) {
+        expect(AppDeepLinkParser.isProtected(location), isTrue,
+            reason: location);
+      }
+    });
   });
 
   test('PendingDestinationStore restaura el destino una sola vez', () async {
