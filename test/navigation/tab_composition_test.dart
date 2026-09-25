@@ -21,9 +21,15 @@ void main() {
       .toList(growable: false);
 
   group('composición de tabs', () {
-    test('las 35 marcas declaran cinco tabs con home al centro', () {
+    test('todas las marcas declaran cinco tabs con home al centro', () {
       final configs = loadAll();
-      expect(configs.length, 35);
+      final androidRegistry =
+          jsonDecode(File('tools/android_releases.json').readAsStringSync())
+              as Map<String, dynamic>;
+      expect(
+        configs.map((config) => config.slug).toSet(),
+        androidRegistry.keys.toSet(),
+      );
       for (final config in configs) {
         expect(config.navigation.tabs.length, 5, reason: config.slug);
         expect(config.navigation.tabs[2], TabModule.home, reason: config.slug);

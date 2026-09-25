@@ -95,6 +95,12 @@
     "lastPublishedVersionCode": null,
     "profile": null
   },
+  "dopack": {
+    "applicationId": "com.barolit.dopack",
+    "certificateSha256": null,
+    "lastPublishedVersionCode": null,
+    "profile": null
+  },
   "ecopaq": {
     "applicationId": "com.barolit.ecopaq",
     "certificateSha256": null,

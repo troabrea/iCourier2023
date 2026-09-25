@@ -31,7 +31,7 @@ void main() {
       expect(config.navigation.tabs[2], TabModule.home);
     });
 
-    test('valida y renderiza las 35 marcas con contraste AA', () async {
+    test('valida y renderiza todas las marcas con contraste AA', () async {
       final files = Directory('whitelabel')
           .listSync()
           .whereType<File>()
@@ -39,7 +39,13 @@ void main() {
           .where((file) => file.path.endsWith('.json'))
           .toList();
 
-      expect(files, hasLength(35));
+      final configSlugs = files
+          .map((file) => file.uri.pathSegments.last.replaceAll('.json', ''))
+          .toSet();
+      final androidRegistry =
+          jsonDecode(File('tools/android_releases.json').readAsStringSync())
+              as Map<String, dynamic>;
+      expect(configSlugs, androidRegistry.keys.toSet());
       final contrastFailures = <String>[];
       for (final file in files) {
         final json =
@@ -148,7 +154,36 @@ void main() {
       );
     });
 
-    test('la matriz nativa y los entrypoints cubren las 35 marcas', () {
+    test('DoPack conserva identidad, navegación y contraste aprobados', () {
+      final dopack = _config('dopack');
+
+      expect(dopack.name, 'DoPack');
+      expect(dopack.bundleId, 'com.barolit.dopack');
+      expect(dopack.appGroup, 'group.com.barolit.dopack');
+      expect(dopack.urlScheme, 'dopack');
+      expect(dopack.locale, 'es-DO');
+      expect(dopack.currency, r'RD$');
+      expect(dopack.weightUnit, 'lb');
+      expect(dopack.headFont, 'Red Hat Display');
+      expect(dopack.bodyFont, 'Red Hat Text');
+      expect(dopack.navigation.tabs, [
+        TabModule.news,
+        TabModule.branches,
+        TabModule.home,
+        TabModule.calculator,
+        TabModule.more,
+      ]);
+      expect(dopack.light.primary, const Color(0xffc51e25));
+      expect(dopack.light.secondary, const Color(0xff01609a));
+      expect(dopack.light.bg, const Color(0xfff3f3f3));
+      expect(dopack.light.text, const Color(0xff003658));
+      expect(dopack.dark.primary, const Color(0xffe7787d));
+      expect(dopack.dark.onPrimary, const Color(0xff31090c));
+      expect(dopack.dark.secondary, const Color(0xff26b6f6));
+      expect(dopack.dark.onSecondary, const Color(0xff003658));
+    });
+
+    test('la matriz nativa y los entrypoints cubren todas las marcas', () {
       final configs = Directory('whitelabel')
           .listSync()
           .whereType<File>()

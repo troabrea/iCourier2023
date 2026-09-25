@@ -1,0 +1,6 @@
+interface:
+  display_name: "Add iCourier Whitelabel"
+  short_description: "Plan or add a new iCourier brand safely"
+  default_prompt: "Use $add-icourier-whitelabel to plan a new iCourier brand without changing files."
+policy:
+  allow_implicit_invocation: false
