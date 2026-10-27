@@ -175,6 +175,23 @@ void main() {
     expect(find.text('Recibido'), findsOneWidget);
   });
 
+  testWidgets(
+      'un disponible con retenido en el API no crea el grupo Sin Factura',
+      (tester) async {
+    final service = GetIt.I<CourierService>() as _DashboardService;
+    service.useAccountScenario = true;
+    service.availableRetained = true;
+    await tester.pumpWidget(brandTestApp(
+      config: GetIt.I<BrandConfig>(),
+      child: const CourierDashboard(),
+    ));
+    await tester.pumpAndSettle();
+    final card = tester.widget<HomeStatusCard>(find.byType(HomeStatusCard));
+    expect(card.groups, hasLength(1));
+    expect(card.groups.single.retained, isNull);
+    expect(find.text('Retenido'), findsNothing);
+  });
+
   testWidgets('cambiar de cuenta reemplaza identidad y paquetes visibles', (
     tester,
   ) async {
@@ -215,6 +232,7 @@ void main() {
 
 class _DashboardService extends CourierService {
   bool useAccountScenario = false;
+  bool availableRetained = false;
   bool pickupNotified = false;
   bool includeRegularPackage = false;
   int activeAccount = 1;
@@ -266,8 +284,8 @@ class _DashboardService extends CourierService {
         totalVolumen: '',
         totalNeto: '10.00',
         estatus: pickupNotified ? 'Retiro Notificado' : 'Embarcado',
-        retenido: false,
-        disponible: false,
+        retenido: availableRetained,
+        disponible: availableRetained,
         paquetes: const [],
         fotoPaqueteSmallUrl: '',
         fotoPaqueteUrl: '',

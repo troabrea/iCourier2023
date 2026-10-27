@@ -177,7 +177,7 @@ void main() {
       expect(dopack.light.secondary, const Color(0xff01609a));
       expect(dopack.light.bg, const Color(0xfff3f3f3));
       expect(dopack.light.text, const Color(0xff003658));
-      expect(dopack.dark.primary, const Color(0xffe7787d));
+      expect(dopack.dark.primary, const Color(0xfff44349));
       expect(dopack.dark.onPrimary, const Color(0xff31090c));
       expect(dopack.dark.secondary, const Color(0xff26b6f6));
       expect(dopack.dark.onSecondary, const Color(0xff003658));

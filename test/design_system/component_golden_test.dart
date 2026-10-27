@@ -363,7 +363,7 @@ Widget _statusBadgeSoft() => const StatusBadge.soft(
     );
 
 Widget _brandNotice() => const BrandNotice(
-      title: 'Retenido — Falta factura',
+      title: 'Sin Factura',
       message: 'Adjunta el valor y la factura para liberar este paquete.',
       glyph: BrandIcons.missingInvoice,
       actionLabel: 'Adjuntar factura',
@@ -404,6 +404,11 @@ Widget _homeCardOnTheWay() => const HomeStatusCard(
           count: 3,
           contents: 'Cargador inalámbrico',
           onOpen: _noop,
+          retained: HomeRetainedGroup(
+            count: 1,
+            contents: 'Cargador inalámbrico',
+            onOpen: _noop,
+          ),
         ),
       ],
     );

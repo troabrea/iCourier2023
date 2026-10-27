@@ -7,6 +7,14 @@ import '../theme/brand_config.dart';
 import '../theme/brand_tokens.dart';
 import 'brand_foundations.dart';
 
+final _missingInvoiceLabel = RegExp(
+  r'\b(?:retenid[oa]s?|on hold|sin factura|invoice missing)\b',
+  caseSensitive: false,
+);
+
+String _packageStatusLabel(String label) =>
+    _missingInvoiceLabel.hasMatch(label) ? 'sin_factura'.tr() : label;
+
 /// Resolves the accent that represents a package across every surface.
 Color packageAccent(BrandTokens tokens, PackageStage stage, bool retained) {
   if (stage == PackageStage.entregado) {
@@ -332,7 +340,7 @@ class _AccountChip extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: tokens.headerOverlay(0.2),
             borderRadius: BorderRadius.circular(BrandShape.pill),
@@ -346,8 +354,8 @@ class _AccountChip extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: tokens.body(
-                    10,
-                    weight: FontWeight.w600,
+                    14,
+                    weight: FontWeight.w700,
                     color: tokens.onPrimary,
                   ),
                 ),
@@ -355,7 +363,7 @@ class _AccountChip extends StatelessWidget {
               const SizedBox(width: 4),
               Icon(
                 Icons.keyboard_arrow_down,
-                size: 12,
+                size: 16,
                 color: tokens.onPrimary,
               ),
             ],
@@ -1096,14 +1104,16 @@ class StatusBadge extends StatelessWidget {
   /// The operation's own wording for the state, shown verbatim when there is
   /// one. The macro stage still picks the colour, but it never gets to
   /// contradict the backend: it knows four steps, the operation has dozens.
+  /// Availability takes priority when the API also leaves retention flagged.
   final String? label;
   final bool _soft;
 
   bool get _isAvailable => available || stage == PackageStage.disponible;
+  bool get _isRetained => retained && !available;
 
   String get labelKey {
     if (stage == PackageStage.entregado) return 'entregado';
-    if (_isAvailable && retained) return 'retenido';
+    if (_isAvailable && _isRetained) return 'sin_factura';
     if (_isAvailable) return 'disponibles';
     return switch (stage) {
       PackageStage.origen => 'recibido',
@@ -1114,7 +1124,7 @@ class StatusBadge extends StatelessWidget {
 
   Color _fill(BrandTokens tokens) {
     if (stage == PackageStage.entregado) return tokens.success;
-    if (_isAvailable && retained) return tokens.warning;
+    if (_isAvailable && _isRetained) return tokens.warning;
     if (_isAvailable) return tokens.primary;
     return tokens.surfaceAlt;
   }
@@ -1125,8 +1135,11 @@ class StatusBadge extends StatelessWidget {
     final fill = _fill(tokens);
     final neutral = fill == tokens.surfaceAlt;
 
-    final text =
-        (label?.trim().isNotEmpty ?? false) ? label!.trim() : labelKey.tr();
+    final sourceLabel = label?.trim() ?? '';
+    final useLabel = !(available &&
+            (retained || _missingInvoiceLabel.hasMatch(sourceLabel))) &&
+        sourceLabel.isNotEmpty;
+    final text = useLabel ? _packageStatusLabel(sourceLabel) : labelKey.tr();
 
     if (_soft) {
       final accent = neutral ? tokens.textMuted : fill;
@@ -1371,7 +1384,7 @@ class PackageCard extends StatelessWidget {
                   TrackingLine(number: tracking),
                 ],
                 const SizedBox(height: BrandSpace.sm),
-                StageRail(stage: status.stage, retained: package.retenido),
+                StageRail(stage: status.stage, retained: package.estaRetenido),
               ],
             ),
           ),
@@ -1516,7 +1529,8 @@ class EventTimeline extends StatelessWidget {
                         Text(
                           sorted[index].nombreEstatus.isEmpty
                               ? sorted[index].ciudad
-                              : sorted[index].nombreEstatus,
+                              : _packageStatusLabel(
+                                  sorted[index].nombreEstatus),
                           style: index == 0
                               ? tokens.body(15, weight: FontWeight.w700)
                               : tokens.body(14, weight: FontWeight.w500),
@@ -1613,7 +1627,7 @@ class SelectableRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.brand;
-    final locked = package.retenido;
+    final locked = package.estaRetenido;
     return BrandCard(
       opacity: locked ? 0.75 : 1,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),

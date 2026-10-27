@@ -52,6 +52,9 @@ class Recepcion {
   late String numeroRastreo;
   bool selected = false;
 
+  /// Available packages are no longer held, even if the API retains the flag.
+  bool get estaRetenido => retenido && !disponible;
+
   /// Whether pickup has already been notified for this reception.
   bool get retiroNotificado =>
       estatus.trim().toUpperCase().replaceAll(RegExp(r'\s+'), ' ') ==

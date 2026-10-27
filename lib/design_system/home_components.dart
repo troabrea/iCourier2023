@@ -309,7 +309,7 @@ class _RetainedSubTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'retenido'.tr(),
+                      'sin_factura'.tr(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: tokens.body(
@@ -335,10 +335,10 @@ class _RetainedSubTile extends StatelessWidget {
                 label: '${group.count}',
                 background: warningColors.background,
                 foreground: warningColors.foreground,
-                fontSize: 11,
+                fontSize: 16,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
-                  vertical: 2,
+                  horizontal: 12,
+                  vertical: 5,
                 ),
               ),
               const SizedBox(width: BrandSpace.xxs),
@@ -490,10 +490,10 @@ class _StageTile extends StatelessWidget {
                     label: '${group.count}',
                     background: countColors.background,
                     foreground: countColors.foreground,
-                    fontSize: 12,
+                    fontSize: 16,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 3,
+                      horizontal: 12,
+                      vertical: 5,
                     ),
                   ),
                   const SizedBox(width: BrandSpace.xxs),

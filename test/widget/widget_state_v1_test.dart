@@ -56,6 +56,25 @@ void main() {
     expect(json['staleAfter'], endsWith('Z'));
   });
 
+  test('un disponible no exporta retención al widget aunque el API la indique',
+      () {
+    final state = WidgetSnapshotBuilder.build(
+      config: config,
+      brightness: Brightness.light,
+      accountCode: 'BM-002332',
+      accountName: 'Prueba',
+      packages: [
+        _reception('available', 'Disponible',
+            progress: 4, available: true, retained: true)
+      ],
+      generatedAt: now,
+    );
+    expect(state.counts.available, 1);
+    expect(state.counts.retained, 0);
+    expect(state.featured?.retained, isFalse);
+    expect((state.toJson()['featured'] as Map)['retenido'], isFalse);
+  });
+
   test('prioriza disponible, retenido, tránsito y origen', () {
     final state = WidgetSnapshotBuilder.build(
       config: config,

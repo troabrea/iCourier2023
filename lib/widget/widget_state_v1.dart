@@ -198,7 +198,7 @@ abstract final class WidgetSnapshotBuilder {
               statusLabel: featured.estatus,
               stageIndex: _stageIndex(featuredStatus.stage),
               stageCount: 4,
-              retained: featured.retenido,
+              retained: featured.estaRetenido,
               amountUsd: featured.montoTotal(),
               branch: branch,
               lastEvent: _lastEvent(featured),
@@ -258,7 +258,7 @@ abstract final class WidgetSnapshotBuilder {
       );
       if (status.stage == PackageStage.disponible) {
         available++;
-      } else if (package.retenido) {
+      } else if (package.estaRetenido) {
         retained++;
       } else if (status.stage == PackageStage.ruta ||
           status.stage == PackageStage.destino) {
@@ -297,7 +297,7 @@ abstract final class WidgetSnapshotBuilder {
     if (status.stage == PackageStage.disponible) {
       return 0;
     }
-    if (package.retenido) {
+    if (package.estaRetenido) {
       return 1;
     }
     if (status.stage == PackageStage.ruta ||

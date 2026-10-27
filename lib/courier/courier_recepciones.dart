@@ -54,7 +54,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
   Widget build(BuildContext context) {
     final tokens = context.brand;
     final visible = _receptions.where((reception) {
-      if (widget.retained && !reception.retenido) {
+      if (widget.retained && !reception.estaRetenido) {
         return false;
       }
       if (widget.pickupNotified) return reception.retiroNotificado;

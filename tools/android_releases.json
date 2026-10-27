@@ -31,9 +31,9 @@
   },
   "blumbox": {
     "applicationId": "com.barolit.blumbox",
-    "certificateSha256": null,
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
     "lastPublishedVersionCode": null,
-    "profile": null
+    "profile": "release"
   },
   "bmcargo": {
     "applicationId": "com.barolit.bmcargo",
@@ -91,15 +91,15 @@
   },
   "domex": {
     "applicationId": "com.barolit.domex",
-    "certificateSha256": null,
-    "lastPublishedVersionCode": null,
-    "profile": null
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
+    "lastPublishedVersionCode": 5203601,
+    "profile": "release"
   },
   "dopack": {
     "applicationId": "com.barolit.dopack",
-    "certificateSha256": null,
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
     "lastPublishedVersionCode": null,
-    "profile": null
+    "profile": "release"
   },
   "ecopaq": {
     "applicationId": "com.barolit.ecopaq",
@@ -115,9 +115,9 @@
   },
   "fixocargo": {
     "applicationId": "com.barolit.fixocargo",
-    "certificateSha256": null,
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
     "lastPublishedVersionCode": null,
-    "profile": null
+    "profile": "release"
   },
   "flypack": {
     "applicationId": "com.barolit.flypack",

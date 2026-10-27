@@ -1,5 +1,6 @@
 import 'package:event/event.dart' as event;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icourier/apps/appinfo.dart';
@@ -34,6 +35,74 @@ void main() {
   });
 
   tearDown(() => GetIt.I.reset());
+
+  testWidgets('opens registration inside the app with Safari View Controller', (
+    tester,
+  ) async {
+    _setPhoneViewport(tester);
+    final launches = _mockUrlLauncher(tester);
+    await tester.pumpWidget(_loginApp(GetIt.I<BrandConfig>()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.textContaining('Créala aquí.', findRichText: true));
+    await tester.pumpAndSettle();
+
+    expect(launches, hasLength(1));
+    expect(launches.single.method, 'launch');
+    expect(launches.single.arguments['url'], 'https://example.com/register');
+    expect(launches.single.arguments['useSafariVC'], isTrue);
+    expect(tester.takeException(), isNull);
+  });
+
+  for (final throwsException in [false, true]) {
+    testWidgets(
+      'reports registration launch failure (exception: $throwsException)',
+      (tester) async {
+        _setPhoneViewport(tester);
+        final launches = _mockUrlLauncher(
+          tester,
+          opens: false,
+          error:
+              throwsException ? PlatformException(code: 'launch_failed') : null,
+        );
+        await tester.pumpWidget(_loginApp(GetIt.I<BrandConfig>()));
+        await tester.pumpAndSettle();
+
+        await tester
+            .tap(find.textContaining('Créala aquí.', findRichText: true));
+        await tester.pumpAndSettle();
+
+        expect(
+          find.text('No pudimos abrir el enlace. Inténtalo nuevamente.'),
+          findsOneWidget,
+        );
+        expect(launches, hasLength(1));
+        expect(launches.single.arguments['useSafariVC'], isTrue);
+        expect(find.byKey(const Key('login-account-field')), findsOneWidget);
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
+  testWidgets('rejects an invalid registration URL without leaving the app', (
+    tester,
+  ) async {
+    _setPhoneViewport(tester);
+    service.registerUrl = 'https:///register';
+    final launches = _mockUrlLauncher(tester);
+    await tester.pumpWidget(_loginApp(GetIt.I<BrandConfig>()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.textContaining('Créala aquí.', findRichText: true));
+    await tester.pumpAndSettle();
+
+    expect(launches, isEmpty);
+    expect(
+      find.text('No pudimos abrir el enlace. Inténtalo nuevamente.'),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('keeps the form visible while credentials are verified', (
     tester,
@@ -242,6 +311,29 @@ void _setPhoneViewport(WidgetTester tester) {
   addTearDown(tester.view.resetDevicePixelRatio);
 }
 
+List<MethodCall> _mockUrlLauncher(
+  WidgetTester tester, {
+  bool opens = true,
+  PlatformException? error,
+}) {
+  const channel = MethodChannel('plugins.flutter.io/url_launcher');
+  final launches = <MethodCall>[];
+  tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
+    call,
+  ) async {
+    launches.add(call);
+    if (error != null) {
+      throw error;
+    }
+    return opens;
+  });
+  addTearDown(() {
+    tester.binding.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
+  });
+  return launches;
+}
+
 LoginResult _invalidLogin() => LoginResult(
       sessionId: '',
       nombre: '',
@@ -261,6 +353,7 @@ double _contrast(Color first, Color second) {
 
 class _LoginService extends CourierService {
   int loginRequests = 0;
+  String registerUrl = 'https://example.com/register';
   final loginDelay = const Duration(milliseconds: 600);
 
   @override
@@ -269,7 +362,7 @@ class _LoginService extends CourierService {
     bool forceFirstTime = false,
     bool retryEmtpy = false,
   }) async =>
-      Empresa.empty()..registerUrl = 'https://example.com/register';
+      Empresa.empty()..registerUrl = registerUrl;
 
   @override
   Future<LoginResult> getLoginResult(

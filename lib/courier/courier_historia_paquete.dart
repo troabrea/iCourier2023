@@ -28,7 +28,8 @@ class HistoricoPaquetePage extends StatelessWidget {
     final events = recepcion.paquetes
         .expand((package) => package.historia)
         .toList(growable: false);
-    final needsInvoice = recepcion.retenido && recepcion.fotoFacturaUrl.isEmpty;
+    final needsInvoice =
+        recepcion.estaRetenido && recepcion.fotoFacturaUrl.isEmpty;
 
     return Scaffold(
       backgroundColor: tokens.bg,
@@ -53,7 +54,7 @@ class HistoricoPaquetePage extends StatelessWidget {
             const SizedBox(height: 22),
             if (needsInvoice) ...[
               BrandNotice(
-                title: 'retenido_falta_factura'.tr(),
+                title: 'sin_factura'.tr(),
                 message: 'adjunta_valor_factura'.tr(),
                 glyph: BrandIcons.missingInvoice,
                 actionLabel: 'adjuntar_factura'.tr(),
@@ -80,7 +81,7 @@ class HistoricoPaquetePage extends StatelessWidget {
               EventTimeline(
                 events: events,
                 stage: status.stage,
-                retained: recepcion.retenido,
+                retained: recepcion.estaRetenido,
               ),
           ],
         ),
@@ -123,8 +124,7 @@ class _SummaryCard extends StatelessWidget {
             spacing: BrandSpace.xs,
             runSpacing: 6,
             children: [
-              if (leadId.isNotEmpty)
-                ReceptionIdChip(id: leadId, fontSize: 13),
+              if (leadId.isNotEmpty) ReceptionIdChip(id: leadId, fontSize: 13),
               StatusBadge(
                 stage: stage,
                 retained: package.retenido,

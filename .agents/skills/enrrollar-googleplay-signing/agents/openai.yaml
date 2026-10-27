@@ -1,0 +1,6 @@
+interface:
+  display_name: "Enrolar Google Play App Signing"
+  short_description: "Migrar firma de couriers con PEPK y clave de subida"
+  default_prompt: "Usa $enrrollar-googleplay-signing para migrar un courier existente a Google Play App Signing."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Onboard Courier"
+  short_description: "Alta de couriers en Apple y preparación de Google Play"
+  default_prompt: "Usa $onboard-courier dopack en ambas tiendas, modo plan, y muestra los requisitos y pasos manuales pendientes."
+policy:
+  allow_implicit_invocation: false

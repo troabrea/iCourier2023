@@ -45,6 +45,8 @@ El JSON muestra versión, build, courier, bundle/package ID y entrypoint. El hel
 
 ## Compilar y entregar
 
+Si una app Android existente necesita enrolarse en Play App Signing o separar su firma original de la clave de subida, usa [enrrollar-googleplay-signing](../enrrollar-googleplay-signing/SKILL.md) antes de asignar una firma o regenerar su AAB.
+
 Ejecuta los couriers **secuencialmente**: Flutter/Xcode comparten `Generated.xcconfig`, salidas y metadatos de flavor. Una compilación en paralelo o un `flutter run` concurrente puede mezclar los targets. Conserva los artefactos verificados de cada courier antes del siguiente.
 
 - **Android:** usa únicamente `bash tools/build_android_bundle.sh <courier>`; este script asigna la firma, compila y verifica el AAB. La entrega válida es el AAB y JSON anunciados al finalizar con éxito en `build/releases/<courier>/<code>/`. No uses `tool/build_matrix.sh` para releases. Conserva `lastPublishedVersionCode=null` hasta confirmar publicación; una subida aceptada no es publicación.

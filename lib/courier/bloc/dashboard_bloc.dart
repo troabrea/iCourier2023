@@ -94,7 +94,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final recepcionesCount = recepciones.length;
 
         final retenidosCount =
-            recepciones.where((element) => element.retenido == true).length;
+            recepciones.where((element) => element.estaRetenido).length;
 
         var disponibles =
             recepciones.where((element) => element.disponible == true).toList();
@@ -164,7 +164,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final recepcionesCount = recepciones.length;
 
         final retenidosCount =
-            recepciones.where((element) => element.retenido == true).length;
+            recepciones.where((element) => element.estaRetenido).length;
 
         var disponibles =
             recepciones.where((element) => element.disponible == true).toList();

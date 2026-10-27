@@ -61,6 +61,11 @@ abstract final class BrandConfigValidator {
     final fonts = _map(json, 'fonts');
     _string(fonts, 'head');
     _string(fonts, 'body');
+    final headScale = fonts['headScale'];
+    if (headScale != null &&
+        (headScale is! num || !headScale.isFinite || headScale <= 0)) {
+      throw const FormatException('fonts.headScale must be positive');
+    }
 
     final radius = _map(json, 'radius');
     for (final key in ['sm', 'md', 'lg']) {

@@ -42,6 +42,22 @@ void main() {
     );
   });
 
+  testWidgets('Sin Factura excluye disponibles con retenido en el API',
+      (tester) async {
+    final available = _reception('available',
+        status: 'Disponible', progress: 4, available: true)
+      ..retenido = true;
+    final retained = _reception('retained', status: 'Aduana', progress: 3)
+      ..retenido = true;
+    await tester.pumpWidget(brandTestApp(
+      config: loadTestBrand('bmcargo'),
+      child:
+          RecepcionesPage(retained: true, recepciones: [available, retained]),
+    ));
+    await tester.pumpAndSettle();
+    expect(_visibleIds(tester), ['retained']);
+  });
+
   testWidgets('separa retiro notificado de las recepciones ordinarias', (
     tester,
   ) async {

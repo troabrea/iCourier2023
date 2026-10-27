@@ -57,7 +57,7 @@ void main() {
   testWidgets('retenido deshabilita selección y usa estado de advertencia',
       (tester) async {
     final config = loadTestBrand('bmcargo');
-    final package = _package(retained: true);
+    final package = _package(retained: true)..disponible = false;
     var toggled = false;
 
     await tester.pumpWidget(
@@ -85,6 +85,46 @@ void main() {
     expect(find.byType(Opacity), findsWidgets);
     await tester.tap(find.byType(SelectableRow), warnIfMissed: false);
     expect(toggled, isFalse);
+  });
+
+  testWidgets('un disponible conserva selección aunque el API indique retenido',
+      (tester) async {
+    var toggled = false;
+    await tester.pumpWidget(brandTestApp(
+      config: loadTestBrand('bmcargo'),
+      child: SelectableRow(
+        package: _package(retained: true),
+        checked: false,
+        onToggle: (_) => toggled = true,
+      ),
+    ));
+    await tester.pumpAndSettle();
+    expect(find.text('Sin factura — no elegible hasta adjuntar'), findsNothing);
+    await tester.tap(find
+        .descendant(
+          of: find.byType(SelectableRow),
+          matching: find.byType(GestureDetector),
+        )
+        .first);
+    expect(toggled, isTrue);
+  });
+
+  testWidgets('un disponible reemplaza labels de retención por Disponibles',
+      (tester) async {
+    for (final retained in [false, true]) {
+      final package = _package(retained: retained);
+      for (final label in ['', 'Retenido', 'Sin Factura', 'On hold']) {
+        package.estatus = label;
+        await tester.pumpWidget(brandTestApp(
+          config: loadTestBrand('bmcargo'),
+          child: PackageCard(package: package),
+        ));
+        await tester.pumpAndSettle();
+        expect(find.text('DISPONIBLES'), findsOneWidget);
+        expect(find.text('RETENIDO'), findsNothing);
+        expect(find.text('SIN FACTURA'), findsNothing);
+      }
+    }
   });
 
   testWidgets('la tarjeta de paquete siempre muestra el id de recepción',

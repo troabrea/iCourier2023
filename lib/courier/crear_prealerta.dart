@@ -154,7 +154,7 @@ class _CrearPreAlertaPageState extends State<CrearPreAlertaPage> {
       context: context,
       initialDate: _date,
       firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
+      lastDate: DateTime(2100, 12, 31),
     );
     if (selected != null && mounted) {
       setState(() => _date = selected);

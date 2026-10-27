@@ -272,7 +272,7 @@ class _Found extends StatelessWidget {
             EventTimeline(
               events: events,
               stage: status.stage,
-              retained: package.retenido,
+              retained: package.estaRetenido,
               dotSize: 11,
               spacing: 16,
             ),

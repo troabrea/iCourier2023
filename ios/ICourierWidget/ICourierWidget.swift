@@ -498,7 +498,7 @@ private struct ICourierWidgetView: View {
         statusMetric("Disponibles", value: snapshot.counts.disponible, snapshot: snapshot)
         statusMetric("En proceso", value: snapshot.counts.enProceso, snapshot: snapshot)
         statusMetric("En ruta", value: snapshot.counts.enRuta, snapshot: snapshot)
-        statusMetric("Retenidos", value: snapshot.counts.retenido, snapshot: snapshot)
+        statusMetric("Sin Factura", value: snapshot.counts.retenido, snapshot: snapshot)
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

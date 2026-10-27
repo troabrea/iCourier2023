@@ -9,6 +9,13 @@ Cada marca tiene un archivo `whitelabel/<slug>.json`. El contrato documental es
 `whitelabel/_schema.json`; el contrato ejecutable, con defaults compatibles, vive
 en `BrandConfig` y se valida al cargar con `BrandConfigValidator`.
 
+`fonts.head` y `fonts.body` eligen las fuentes de títulos y cuerpo. El campo
+opcional `fonts.headScale` ajusta solo el tamaño de los títulos y cifras que usan
+`BrandTokens.head`, incluidos los estilos Material de encabezados y diálogos.
+Su valor predeterminado es `1`; respeta el escalado de texto del sistema.
+Blumbox usa `MadeTommy` con `headScale: 0.9` para evitar el peso y ancho de
+`Bossa-Black`, manteniendo `Myriad` para el cuerpo y las demás marcas intactas.
+
 Los valores heredados se pueden volver a auditar contra el commit de origen con:
 
 ```sh

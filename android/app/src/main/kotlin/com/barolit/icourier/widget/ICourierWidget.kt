@@ -178,7 +178,7 @@ private fun CompactSummary(
             contentPrimary,
         )
         CompactStatusRow(
-            "Retenidos",
+            "Sin Factura",
             state.retained,
             contentText,
             contentPrimary,
@@ -261,7 +261,7 @@ private fun WideSummary(
             GlanceModifier.defaultWeight(),
         )
         SummaryMetric(
-            "Retenidos",
+            "Sin Factura",
             state.retained,
             state.muted,
             contentPrimary,

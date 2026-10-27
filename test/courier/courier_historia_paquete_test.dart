@@ -73,8 +73,43 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Retenido — Falta factura'), findsOneWidget);
+    expect(find.text('Sin Factura'), findsWidgets);
+    expect(find.textContaining('Retenido'), findsNothing);
     expect(find.text('Adjuntar factura'), findsOneWidget);
+  });
+
+  testWidgets('un disponible no muestra retención aunque el API la indique',
+      (tester) async {
+    final package = _package(retained: true)..disponible = true;
+    await tester.pumpWidget(brandTestApp(
+      config: loadTestBrand('bmcargo'),
+      child: HistoricoPaquetePage(recepcion: package),
+    ));
+    await tester.pumpAndSettle();
+    expect(find.text('Retenido — Falta factura'), findsNothing);
+    expect(find.text('Adjuntar factura'), findsNothing);
+    expect(find.text('Retenido'), findsNothing);
+    expect(find.text('Disponibles'), findsWidgets);
+    expect(package.toJson()['retenido'], isTrue);
+  });
+
+  testWidgets(
+      'la ruta de factura evita post-alertas para disponibles retenidos por el API',
+      (tester) async {
+    final fixture = _package(retained: true)..disponible = true;
+    final route = await _routerAtInvoice(fixture);
+    addTearDown(() {
+      route.router.dispose();
+      route.session.dispose();
+    });
+    await tester.pumpWidget(MaterialApp.router(
+      locale: const Locale('es'),
+      theme: BrandTheme.light(loadTestBrand('bmcargo')),
+      routerConfig: route.router,
+    ));
+    await tester.pumpAndSettle();
+    expect(find.byType(HistoricoPaquetePage), findsOneWidget);
+    expect(find.byType(CrearPostAlertaPage), findsNothing);
   });
 
   testWidgets('la ruta de factura rechaza post-alertas para no retenidos', (

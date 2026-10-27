@@ -51,6 +51,7 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
     required this.danger,
     required this.headFont,
     required this.bodyFont,
+    this.headFontScale = 1,
     required this.radiusSm,
     required this.radiusMd,
     required this.radiusLg,
@@ -71,6 +72,7 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
   final Color danger;
   final String headFont;
   final String bodyFont;
+  final double headFontScale;
   final double radiusSm;
   final double radiusMd;
   final double radiusLg;
@@ -200,6 +202,7 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
     Color? danger,
     String? headFont,
     String? bodyFont,
+    double? headFontScale,
     double? radiusSm,
     double? radiusMd,
     double? radiusLg,
@@ -220,6 +223,7 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
         danger: danger ?? this.danger,
         headFont: headFont ?? this.headFont,
         bodyFont: bodyFont ?? this.bodyFont,
+        headFontScale: headFontScale ?? this.headFontScale,
         radiusSm: radiusSm ?? this.radiusSm,
         radiusMd: radiusMd ?? this.radiusMd,
         radiusLg: radiusLg ?? this.radiusLg,
@@ -246,6 +250,7 @@ final class BrandTokens extends ThemeExtension<BrandTokens> {
       danger: Color.lerp(danger, other.danger, t)!,
       headFont: t < 0.5 ? headFont : other.headFont,
       bodyFont: t < 0.5 ? bodyFont : other.bodyFont,
+      headFontScale: headFontScale + (other.headFontScale - headFontScale) * t,
       radiusSm: radiusSm + (other.radiusSm - radiusSm) * t,
       radiusMd: radiusMd + (other.radiusMd - radiusMd) * t,
       radiusLg: radiusLg + (other.radiusLg - radiusLg) * t,
@@ -271,7 +276,7 @@ extension BrandTypography on BrandTokens {
     double? letterSpacing,
   }) =>
       resolveBrandFont(headFont).copyWith(
-        fontSize: size,
+        fontSize: size * headFontScale,
         fontWeight: weight,
         color: color ?? text,
         height: height,

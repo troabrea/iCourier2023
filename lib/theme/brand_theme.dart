@@ -28,14 +28,15 @@ abstract final class BrandTheme {
       danger: palette.danger,
       headFont: config.headFont,
       bodyFont: config.bodyFont,
+      headFontScale: config.headFontScale,
       radiusSm: config.radii.sm,
       radiusMd: config.radii.md,
       radiusLg: config.radii.lg,
     );
     final textTheme = TextTheme(
-      displayLarge: _text(config.headFont, 34, FontWeight.w700, palette.text),
-      displayMedium: _text(config.headFont, 28, FontWeight.w700, palette.text),
-      titleLarge: _text(config.headFont, 20, FontWeight.w700, palette.text),
+      displayLarge: tokens.head(34),
+      displayMedium: tokens.head(28),
+      titleLarge: tokens.head(20),
       titleMedium: _text(config.bodyFont, 17, FontWeight.w600, palette.text),
       bodyLarge: _text(config.bodyFont, 15, FontWeight.w400, palette.text),
       bodyMedium: _text(config.bodyFont, 15, FontWeight.w400, palette.text),
@@ -137,8 +138,7 @@ abstract final class BrandTheme {
         backgroundColor: palette.surface,
         barrierColor: tokens.modalScrim,
         elevation: 0,
-        titleTextStyle:
-            _text(config.headFont, 17, FontWeight.w700, palette.text),
+        titleTextStyle: tokens.head(17),
         contentTextStyle:
             _text(config.bodyFont, 13, FontWeight.w400, palette.textMuted),
         shape: RoundedRectangleBorder(

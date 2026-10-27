@@ -33,7 +33,8 @@
       "type": "object",
       "properties": {
         "head": { "type": "string", "default": "Myriad" },
-        "body": { "type": "string", "default": "Myriad" }
+        "body": { "type": "string", "default": "Myriad" },
+        "headScale": { "type": "number", "exclusiveMinimum": 0, "default": 1 }
       },
       "additionalProperties": true
     },

@@ -416,6 +416,7 @@ final class BrandConfig {
     required this.weightUnit,
     required this.headFont,
     required this.bodyFont,
+    this.headFontScale = 1,
     required this.radii,
     required this.light,
     required this.dark,
@@ -453,6 +454,7 @@ final class BrandConfig {
       weightUnit: json['weightUnit'] as String? ?? 'lb',
       headFont: fonts['head'] as String? ?? 'Myriad',
       bodyFont: fonts['body'] as String? ?? 'Myriad',
+      headFontScale: _readDouble(fonts['headScale'], 1),
       radii: BrandRadii.fromJson(map('radius')),
       light: light,
       dark: BrandPalette.fromJson(
@@ -483,6 +485,9 @@ final class BrandConfig {
   final String weightUnit;
   final String headFont;
   final String bodyFont;
+
+  /// Adjusts heading sizes to the metrics of the brand's chosen face.
+  final double headFontScale;
   final BrandRadii radii;
   final BrandPalette light;
   final BrandPalette dark;

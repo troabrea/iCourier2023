@@ -145,7 +145,7 @@ class _CourierDashboardState extends State<CourierDashboard> {
             onPickup: () => _bloc.add(NotificarRetiroEvent(context)),
             onDelivery: () {
               final available = loaded.recepciones
-                  .where((package) => package.disponible && !package.retenido)
+                  .where((package) => package.disponible)
                   .toList(growable: false);
               _bloc.add(SolicitarDomicilioEvent(context, available));
             },
@@ -551,7 +551,7 @@ class _DashboardContentState extends State<_DashboardContent> {
     // Only what the customer can collect carries actions; everything else is
     // still travelling and there is nothing to do about it yet.
     final ready = stage == PackageStage.disponible;
-    final held = packages.where((package) => package.retenido).toList();
+    final held = packages.where((package) => package.estaRetenido).toList();
     return HomeStageGroup(
       stage: stage,
       count: packages.length,

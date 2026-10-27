@@ -228,7 +228,7 @@ class _ComponentGalleryState extends State<ComponentGallery> {
           const SizedBox(height: 10),
           _pad(
             BrandNotice(
-              title: 'Retenido — Falta factura',
+              title: 'Sin Factura',
               message: 'Adjunta el valor y la factura para liberar el paquete.',
               glyph: BrandIcons.missingInvoice,
               actionLabel: 'Adjuntar factura',

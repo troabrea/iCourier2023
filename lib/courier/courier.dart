@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -98,9 +99,22 @@ class _CourierPageState extends State<CourierPage> {
   }
 
   Future<void> _openRegistration(String rawUrl) async {
-    final uri = Uri.tryParse(rawUrl);
-    if (uri != null && (uri.scheme == 'https' || uri.scheme == 'http')) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final uri = Uri.tryParse(rawUrl.trim());
+    var opened = false;
+    if (uri != null &&
+        uri.host.isNotEmpty &&
+        (uri.scheme == 'https' || uri.scheme == 'http')) {
+      try {
+        // Keep account creation in the app using SFSafariViewController on iOS.
+        opened = await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
+      } on PlatformException {
+        opened = false;
+      }
+    }
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('no_se_pudo_abrir_enlace'.tr())),
+      );
     }
   }
 

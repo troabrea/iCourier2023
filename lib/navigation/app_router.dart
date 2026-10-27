@@ -134,7 +134,7 @@ abstract final class AppRouter {
                 await GetIt.I<CourierService>().getRecepciones(false);
             if (state.uri.queryParameters['retenido'] == 'true') {
               return receptions
-                  .where((reception) => reception.retenido)
+                  .where((reception) => reception.estaRetenido)
                   .toList(growable: false);
             }
             return receptions;
@@ -421,7 +421,7 @@ class _PackageRoute extends StatelessWidget {
       return HistoricoPaquetePage(recepcion: reception);
     }
     if (reception.fotoFacturaUrl.isEmpty) {
-      return reception.retenido
+      return reception.estaRetenido
           ? CrearPostAlertaPage(recepcion: reception)
           : HistoricoPaquetePage(recepcion: reception);
     }

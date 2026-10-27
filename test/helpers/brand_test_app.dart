@@ -31,7 +31,7 @@ Future<void> loadBrandFonts() async {
     'Myriad': ['fonts/MYRIADPRO-REGULAR.OTF', 'fonts/MYRIADPRO-BOLD.OTF'],
     'Flipahaus': ['fonts/Flipahaus-V2.otf', 'fonts/Flipahaus-Bold.otf'],
     'MadeTommy': ['fonts/made-tommy-regular.otf', 'fonts/made-tommy-bold.otf'],
-    'AmpleSoft': ['fonts/AmpleSoftPro-Regular.ttf', 'fonts/Nexa-Bold.ttf'],
+    'AmpleSoft': ['fonts/AmpleSoftPro-Regular.ttf'],
     'Continumm': ['fonts/contl.ttf', 'fonts/contm.ttf'],
     'Bossa': ['fonts/Bossa-Black.otf'],
     'ComicSans': ['fonts/Comic-Sans-MS.ttf'],
