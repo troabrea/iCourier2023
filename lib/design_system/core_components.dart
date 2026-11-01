@@ -12,8 +12,14 @@ final _missingInvoiceLabel = RegExp(
   caseSensitive: false,
 );
 
-String _packageStatusLabel(String label) =>
-    _missingInvoiceLabel.hasMatch(label) ? 'sin_factura'.tr() : label;
+String _packageStatusLabel(String label) {
+  if (_missingInvoiceLabel.hasMatch(label)) return 'sin_factura'.tr();
+  return switch (label.trim().toUpperCase()) {
+    'EN RUTA' => PackageStage.ruta.labelKey.tr(),
+    'EN DESTINO' => PackageStage.destino.labelKey.tr(),
+    _ => label,
+  };
+}
 
 /// Resolves the accent that represents a package across every surface.
 Color packageAccent(BrandTokens tokens, PackageStage stage, bool retained) {
@@ -1114,12 +1120,8 @@ class StatusBadge extends StatelessWidget {
   String get labelKey {
     if (stage == PackageStage.entregado) return 'entregado';
     if (_isAvailable && _isRetained) return 'sin_factura';
-    if (_isAvailable) return 'disponibles';
-    return switch (stage) {
-      PackageStage.origen => 'recibido',
-      PackageStage.ruta => 'en_ruta',
-      _ => 'en_destino',
-    };
+    if (_isAvailable) return PackageStage.disponible.labelKey;
+    return stage.labelKey;
   }
 
   Color _fill(BrandTokens tokens) {
@@ -1136,7 +1138,12 @@ class StatusBadge extends StatelessWidget {
     final neutral = fill == tokens.surfaceAlt;
 
     final sourceLabel = label?.trim() ?? '';
-    final useLabel = !(available &&
+    final prematureAvailability = !available &&
+        stage != PackageStage.disponible &&
+        stage != PackageStage.entregado &&
+        PackageStatusMapper.isAvailabilityStatus(sourceLabel);
+    final useLabel = !prematureAvailability &&
+        !(available &&
             (retained || _missingInvoiceLabel.hasMatch(sourceLabel))) &&
         sourceLabel.isNotEmpty;
     final text = useLabel ? _packageStatusLabel(sourceLabel) : labelKey.tr();
@@ -1214,7 +1221,12 @@ class MacroStepper extends StatelessWidget {
     BrandIcons.available,
   ];
 
-  static const _labelKeys = ['origen', 'en_ruta', 'en_destino', 'disponibles'];
+  static const _stages = [
+    PackageStage.origen,
+    PackageStage.ruta,
+    PackageStage.destino,
+    PackageStage.disponible,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -1223,53 +1235,63 @@ class MacroStepper extends StatelessWidget {
     final active = delivered ? 3 : stage.index;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (var index = 0; index < 4; index++)
-            Expanded(
-              child: Column(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: index > active
-                          ? tokens.surfaceAlt
-                          : (index == 3 && delivered
-                              ? tokens.success
-                              : tokens.primary),
-                    ),
-                    child: BrandGlyph(
-                      _glyphs[index],
-                      size: 22,
-                      color: index > active
-                          ? tokens.textMuted
-                          : tokens.onAccent(
-                              index == 3 && delivered
+      child: LayoutBuilder(builder: (context, constraints) {
+        final largeText = MediaQuery.textScalerOf(context).scale(9) > 12;
+        final columns = largeText || constraints.maxWidth < 280 ? 2 : 4;
+        return Column(mainAxisSize: MainAxisSize.min, children: [
+          for (var row = 0; row < 4 ~/ columns; row++) ...[
+            if (row > 0) const SizedBox(height: BrandSpace.md),
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              for (var index = row * columns;
+                  index < (row + 1) * columns;
+                  index++)
+                Expanded(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: index > active
+                              ? tokens.surfaceAlt
+                              : (index == 3 && delivered
                                   ? tokens.success
-                                  : tokens.primary,
-                            ),
-                    ),
+                                  : tokens.primary),
+                        ),
+                        child: BrandGlyph(
+                          _glyphs[index],
+                          size: 22,
+                          color: index > active
+                              ? tokens.textMuted
+                              : tokens.onAccent(
+                                  index == 3 && delivered
+                                      ? tokens.success
+                                      : tokens.primary,
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        (index == 3 && delivered
+                                ? PackageStage.entregado.labelKey
+                                : _stages[index].labelKey)
+                            .tr(),
+                        textAlign: TextAlign.center,
+                        style: tokens.body(
+                          9,
+                          weight: FontWeight.w600,
+                          color: tokens.textMuted,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    (index == 3 && delivered ? 'entregado' : _labelKeys[index])
-                        .tr(),
-                    textAlign: TextAlign.center,
-                    style: tokens.body(
-                      9,
-                      weight: FontWeight.w600,
-                      color: tokens.textMuted,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+                ),
+            ]),
+          ],
+        ]);
+      }),
     );
   }
 }

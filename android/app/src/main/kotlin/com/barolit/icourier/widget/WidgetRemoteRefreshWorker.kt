@@ -11,10 +11,8 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
-import java.text.Normalizer
 import java.time.Duration
 import java.time.Instant
-import java.util.Locale
 
 class WidgetRemoteRefreshWorker(
     context: Context,
@@ -33,7 +31,8 @@ class WidgetRemoteRefreshWorker(
         if (!root.getJSONObject("session").optBoolean("signedIn")) {
             return Result.success()
         }
-        if (!needsRefresh(root.optString("generatedAt"), forceRefresh = forceRefresh)) {
+        if (!needsRefresh(root.optString("generatedAt"), forceRefresh = forceRefresh ||
+                !hasJourneyCounts(root.getJSONObject("counts")))) {
             return Result.success()
         }
         val sessionId = WidgetSessionStore.read(applicationContext)
@@ -107,43 +106,6 @@ class WidgetRemoteRefreshWorker(
         internal const val FORCE_REFRESH_INPUT_KEY = "force_widget_refresh"
         private val refreshInterval: Duration = Duration.ofMinutes(30)
 
-        private val deliveredTerms = setOf(
-            "ENTREGADO AL CLIENTE",
-            "ENTREGADO",
-            "DELIVERED",
-            "BILLED COUNTER",
-            "FACTURADO COUNTER",
-        )
-        private val routeTerms = setOf(
-            "EMBARCADO",
-            "SHIPMENT SENT",
-            "IN TRANSIT",
-            "EN RUTA",
-        )
-        private val destinationTerms = setOf(
-            "TRANSFERIDO",
-            "EMPACADO",
-            "ADUANA",
-            "TRANSITO",
-            "DISTRIBUCION",
-            "RECIBIDO AILA",
-            "ALMACEN",
-            "WAREHOUSE",
-            "CUSTOM",
-            "DISTRIBUTION CENTER",
-            "PACKED",
-            "OUTGOING TRANSFER",
-            "DESTINO",
-        )
-        private val originTerms = setOf(
-            "RECIBIDO PARA PROCESAR",
-            "LISTO PARA EMBARCACION",
-            "RECIBIDO EN ORIGEN",
-            "RECIBIDO MIAMI",
-            "ORIGIN",
-            "RECEIVED",
-        )
-
         internal fun needsRefresh(
             generatedAt: String,
             now: Instant = Instant.now(),
@@ -157,74 +119,47 @@ class WidgetRemoteRefreshWorker(
             }.getOrDefault(true)
         }
 
+        internal fun hasJourneyCounts(counts: JSONObject): Boolean =
+            counts.has("enTransito") && counts.has("enDistribucion")
+
         internal fun summarize(packages: JSONArray): JSONObject {
             var available = 0
             var retained = 0
-            var inRoute = 0
+            var inTransit = 0
+            var inDistribution = 0
             var inProcess = 0
             for (index in 0 until packages.length()) {
                 val packageJson = packages.getJSONObject(index)
                 val stage = stage(packageJson)
                 if (stage == RemotePackageStage.AVAILABLE) {
                     available++
-                } else if (packageJson.optBoolean("retenido")) {
-                    retained++
-                } else if (
-                    stage == RemotePackageStage.ROUTE ||
-                    stage == RemotePackageStage.DESTINATION
-                ) {
-                    inRoute++
+                } else if (stage == RemotePackageStage.ROUTE) {
+                    inTransit++
+                } else if (stage == RemotePackageStage.DESTINATION) {
+                    inDistribution++
                 } else if (stage == RemotePackageStage.ORIGIN) {
                     inProcess++
+                }
+                if (packageJson.optBoolean("retenido") && !packageJson.optBoolean("disponible") &&
+                    stage != RemotePackageStage.DELIVERED) {
+                    retained++
                 }
             }
             return JSONObject()
                 .put("disponible", available)
                 .put("retenido", retained)
-                .put("enRuta", inRoute)
+                .put("enRuta", inTransit + inDistribution)
+                .put("enTransito", inTransit)
+                .put("enDistribucion", inDistribution)
                 .put("enProceso", inProcess)
                 .put("total", packages.length())
         }
 
-        private fun stage(packageJson: JSONObject): RemotePackageStage {
-            val status = normalize(packageJson.optString("estatus"))
-            if (status in deliveredTerms) {
-                return RemotePackageStage.DELIVERED
-            }
-            if (packageJson.optBoolean("disponible") || "DISPONIBLE" in status) {
-                return RemotePackageStage.AVAILABLE
-            }
-            if (destinationTerms.any(status::contains)) {
-                return RemotePackageStage.DESTINATION
-            }
-            if (routeTerms.any(status::contains)) {
-                return RemotePackageStage.ROUTE
-            }
-            if (originTerms.any(status::contains)) {
-                return RemotePackageStage.ORIGIN
-            }
-            return when (packageJson.optInt("progreso")) {
-                0, 1 -> RemotePackageStage.ORIGIN
-                2 -> RemotePackageStage.ROUTE
-                3 -> RemotePackageStage.DESTINATION
-                4 -> RemotePackageStage.AVAILABLE
-                else -> RemotePackageStage.DELIVERED
-            }
-        }
-
-        private fun normalize(value: String): String = Normalizer
-            .normalize(value, Normalizer.Form.NFD)
-            .replace(Regex("\\p{M}+"), "")
-            .uppercase(Locale.ROOT)
-            .replace(Regex("[^A-Z0-9]+"), " ")
-            .trim()
+        private fun stage(packageJson: JSONObject): RemotePackageStage =
+            PackageStatusMapper.map(
+                status = packageJson.optString("estatus"),
+                isAvailable = packageJson.optBoolean("disponible"),
+                progress = packageJson.optInt("progreso"),
+            )
     }
-}
-
-private enum class RemotePackageStage {
-    ORIGIN,
-    ROUTE,
-    DESTINATION,
-    AVAILABLE,
-    DELIVERED,
 }

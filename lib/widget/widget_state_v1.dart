@@ -93,7 +93,8 @@ class WidgetCounts {
   const WidgetCounts({
     required this.available,
     required this.retained,
-    required this.inRoute,
+    required this.inTransit,
+    required this.inDistribution,
     required this.inProcess,
     required this.total,
   });
@@ -101,13 +102,18 @@ class WidgetCounts {
   const WidgetCounts.empty()
       : available = 0,
         retained = 0,
-        inRoute = 0,
+        inTransit = 0,
+        inDistribution = 0,
         inProcess = 0,
         total = 0;
 
   final int available;
   final int retained;
-  final int inRoute;
+  final int inTransit;
+  final int inDistribution;
+
+  /// Legacy aggregate retained for existing snapshot readers.
+  int get inRoute => inTransit + inDistribution;
   final int inProcess;
   final int total;
 
@@ -115,6 +121,8 @@ class WidgetCounts {
         'disponible': available,
         'retenido': retained,
         'enRuta': inRoute,
+        'enTransito': inTransit,
+        'enDistribucion': inDistribution,
         'enProceso': inProcess,
         'total': total,
       };
@@ -248,7 +256,8 @@ abstract final class WidgetSnapshotBuilder {
   static WidgetCounts _counts(List<Recepcion> packages) {
     var available = 0;
     var retained = 0;
-    var inRoute = 0;
+    var inTransit = 0;
+    var inDistribution = 0;
     var inProcess = 0;
     for (final package in packages) {
       final status = PackageStatusMapper.map(
@@ -258,19 +267,22 @@ abstract final class WidgetSnapshotBuilder {
       );
       if (status.stage == PackageStage.disponible) {
         available++;
-      } else if (package.estaRetenido) {
-        retained++;
-      } else if (status.stage == PackageStage.ruta ||
-          status.stage == PackageStage.destino) {
-        inRoute++;
+      } else if (status.stage == PackageStage.ruta) {
+        inTransit++;
+      } else if (status.stage == PackageStage.destino) {
+        inDistribution++;
       } else if (status.stage == PackageStage.origen) {
         inProcess++;
+      }
+      if (package.estaRetenido && status.stage != PackageStage.entregado) {
+        retained++;
       }
     }
     return WidgetCounts(
       available: available,
       retained: retained,
-      inRoute: inRoute,
+      inTransit: inTransit,
+      inDistribution: inDistribution,
       inProcess: inProcess,
       total: packages.length,
     );

@@ -13,8 +13,11 @@ en `BrandConfig` y se valida al cargar con `BrandConfigValidator`.
 opcional `fonts.headScale` ajusta solo el tamaño de los títulos y cifras que usan
 `BrandTokens.head`, incluidos los estilos Material de encabezados y diálogos.
 Su valor predeterminado es `1`; respeta el escalado de texto del sistema.
-Blumbox usa `MadeTommy` con `headScale: 0.9` para evitar el peso y ancho de
-`Bossa-Black`, manteniendo `Myriad` para el cuerpo y las demás marcas intactas.
+Blumbox usa `Outfit` con `headScale: 0.9` en los títulos y `Source Sans 3` en el
+cuerpo, igual que las demás marcas.
+
+Solo se empaquetan fuentes con licencia SIL OFL 1.1 (`fonts/OFL-*.txt`). Las
+familias que no están en `pubspec.yaml` se descargan de Google Fonts.
 
 Los valores heredados se pueden volver a auditar contra el commit de origen con:
 

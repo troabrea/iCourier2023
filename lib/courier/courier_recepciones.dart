@@ -113,13 +113,7 @@ class _RecepcionesPageState extends State<RecepcionesPage> {
     });
   }
 
-  String _label(PackageStage stage) => switch (stage) {
-        PackageStage.origen => 'recibido',
-        PackageStage.ruta => 'en_ruta',
-        PackageStage.destino => 'en_destino',
-        PackageStage.disponible => 'disponibles',
-        PackageStage.entregado => 'entregado',
-      };
+  String _label(PackageStage stage) => stage.labelKey;
 
   Widget _groupedList(List<Recepcion> receptions) {
     final byStage = <PackageStage, List<Recepcion>>{

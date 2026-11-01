@@ -30,6 +30,7 @@ import 'services/app_intent_bridge.dart';
 import 'theme/brand_config.dart';
 import 'theme/brand_config_loader.dart';
 import 'theme/brand_theme.dart';
+import 'theme/font_licenses.dart';
 import 'widget/widget_state_store.dart';
 import 'widget/widget_sync_coordinator.dart';
 
@@ -85,6 +86,7 @@ Future<void> setupFlutterNotifications(String pushDefaultTopic) async {
 
 Future<void> mainShared(AppInfo appInfo) async {
   WidgetsFlutterBinding.ensureInitialized();
+  registerFontLicenses();
   final brandConfig = await BrandConfigLoader.load(appInfo.brandSlug);
 
   // final config =

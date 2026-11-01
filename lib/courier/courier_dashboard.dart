@@ -435,19 +435,13 @@ class _DashboardContentState extends State<_DashboardContent> {
       if (package.retiroNotificado) {
         continue;
       }
-      var stage = PackageStatusMapper.map(
+      final stage = PackageStatusMapper.map(
         status: package.estatus,
         isAvailable: package.disponible,
         progress: package.progreso,
       ).stage;
       if (stage == PackageStage.entregado) {
         continue;
-      }
-      // The operational status text can read "disponible" before the flag that
-      // pickup and delivery act on catches up. The flag is the one that decides
-      // whether the customer can actually collect, so it wins.
-      if (stage == PackageStage.disponible && !package.disponible) {
-        stage = PackageStage.destino;
       }
       pending.add((package: package, stage: stage));
     }

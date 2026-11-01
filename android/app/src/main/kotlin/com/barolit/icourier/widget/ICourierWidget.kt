@@ -131,7 +131,7 @@ private fun MinimalSummary(
         )
         Spacer(GlanceModifier.width(10.dp))
         SummaryMetric(
-            title = "Disponibles",
+            title = "Disponible",
             value = state.available,
             labelColor = state.muted,
             valueColor = contentPrimary,
@@ -160,20 +160,26 @@ private fun CompactSummary(
         )
         Spacer(GlanceModifier.height(5.dp))
         CompactStatusRow(
-            "Disponibles",
+            "Disponible",
             state.available,
             contentText,
             contentPrimary,
         )
         CompactStatusRow(
-            "En proceso",
+            "Origen",
             state.inProcess,
             contentText,
             contentPrimary,
         )
         CompactStatusRow(
-            "En ruta",
-            state.inRoute,
+            "En tránsito",
+            state.inTransit,
+            contentText,
+            contentPrimary,
+        )
+        CompactStatusRow(
+            "En distribución",
+            state.inDistribution,
             contentText,
             contentPrimary,
         )
@@ -189,14 +195,14 @@ private fun CompactSummary(
 @Composable
 private fun CompactStatusRow(
     title: String,
-    value: Int,
+    value: Int?,
     labelColor: Int,
     valueColor: Int,
 ) {
     Row(
         modifier = GlanceModifier
             .fillMaxWidth()
-            .height(38.dp),
+            .height(28.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -209,7 +215,7 @@ private fun CompactStatusRow(
         )
         Spacer(GlanceModifier.defaultWeight())
         Text(
-            text = value.toString(),
+            text = value?.toString() ?: "—",
             style = TextStyle(
                 color = widgetColorProvider(valueColor),
                 fontWeight = FontWeight.Bold,
@@ -239,41 +245,22 @@ private fun WideSummary(
     )
     Spacer(GlanceModifier.height(8.dp))
     Row(modifier = GlanceModifier.fillMaxWidth()) {
-        SummaryMetric(
-            "Disponibles",
-            state.available,
-            state.muted,
-            contentPrimary,
-            GlanceModifier.defaultWeight(),
-        )
-        SummaryMetric(
-            "En proceso",
-            state.inProcess,
-            state.muted,
-            contentPrimary,
-            GlanceModifier.defaultWeight(),
-        )
-        SummaryMetric(
-            "En ruta",
-            state.inRoute,
-            state.muted,
-            contentPrimary,
-            GlanceModifier.defaultWeight(),
-        )
-        SummaryMetric(
-            "Sin Factura",
-            state.retained,
-            state.muted,
-            contentPrimary,
-            GlanceModifier.defaultWeight(),
-        )
+        SummaryMetric("Origen", state.inProcess, state.muted, contentPrimary, GlanceModifier.defaultWeight())
+        SummaryMetric("En tránsito", state.inTransit, state.muted, contentPrimary, GlanceModifier.defaultWeight())
+        SummaryMetric("En distribución", state.inDistribution, state.muted, contentPrimary, GlanceModifier.defaultWeight())
+        SummaryMetric("Disponible", state.available, state.muted, contentPrimary, GlanceModifier.defaultWeight())
     }
+    Spacer(GlanceModifier.height(5.dp))
+    Text(
+        text = "Sin Factura: ${state.retained}",
+        style = TextStyle(color = widgetColorProvider(state.muted), fontSize = 11.sp),
+    )
 }
 
 @Composable
 private fun SummaryMetric(
     title: String,
-    value: Int,
+    value: Int?,
     labelColor: Int,
     valueColor: Int,
     modifier: GlanceModifier,
@@ -282,11 +269,11 @@ private fun SummaryMetric(
     Column(modifier = modifier) {
         Text(
             text = title,
-            maxLines = 1,
+            maxLines = 2,
             style = TextStyle(color = widgetColorProvider(labelColor), fontSize = 10.sp),
         )
         Text(
-            text = value.toString(),
+            text = value?.toString() ?: "—",
             maxLines = 1,
             style = TextStyle(
                 color = widgetColorProvider(valueColor),
@@ -341,7 +328,8 @@ private data class WidgetViewState(
     val total: Int,
     val available: Int,
     val inProcess: Int,
-    val inRoute: Int,
+    val inTransit: Int?,
+    val inDistribution: Int?,
     val retained: Int,
     val deepLink: String,
 ) {
@@ -359,7 +347,8 @@ private data class WidgetViewState(
             total = 0,
             available = 0,
             inProcess = 0,
-            inRoute = 0,
+            inTransit = 0,
+            inDistribution = 0,
             retained = 0,
             deepLink = "icourier://login",
         )
@@ -380,12 +369,14 @@ private fun parseState(payload: String): WidgetViewState {
             text = Color.parseColor(brand.getString("text")),
             muted = Color.parseColor(brand.getString("muted")),
             signedIn = session.getBoolean("signedIn"),
-            stale = isSnapshotStale(root.optString("staleAfter")),
+            stale = isSnapshotStale(root.optString("staleAfter")) ||
+                !WidgetRemoteRefreshWorker.hasJourneyCounts(counts),
             generatedAtLabel = formatSnapshotTime(root.optString("generatedAt")),
             total = counts.getInt("total"),
             available = counts.getInt("disponible"),
             inProcess = counts.getInt("enProceso"),
-            inRoute = counts.getInt("enRuta"),
+            inTransit = if (counts.has("enTransito")) counts.getInt("enTransito") else null,
+            inDistribution = if (counts.has("enDistribucion")) counts.getInt("enDistribucion") else null,
             retained = counts.getInt("retenido"),
             deepLink = root.getString("deepLink"),
         )
@@ -413,7 +404,7 @@ internal fun widgetColorProvider(color: Int): ColorProvider =
 internal fun usesWideWidgetLayout(widthDp: Float): Boolean = widthDp >= 280f
 
 internal fun usesCompactStatusList(widthDp: Float, heightDp: Float): Boolean =
-    !usesWideWidgetLayout(widthDp) && heightDp >= 180f
+    !usesWideWidgetLayout(widthDp) && heightDp >= 250f
 
 internal fun packageCountLabel(total: Int): String =
     "$total ${if (total == 1) "paquete" else "paquetes"}"

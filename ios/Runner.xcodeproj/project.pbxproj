@@ -55,6 +55,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		CBA83082CA096DAC4CF08D84 /* AppIntentDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD596AC6573B8E34EF5AEF4A /* AppIntentDelivery.swift */; };
+		D7D8E151203C2711F70B2B0E /* PackageStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544DACDBAE259CACA47CD667 /* PackageStage.swift */; };
 		DADF849B113849AC3725387F /* ICourierWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1355FAE11A1D8AF8E89D3BE1 /* ICourierWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -145,6 +146,7 @@
 		4F39B2C9D9A78156BACB18BB /* Pods-Runner.profile-jetpack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-jetpack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-jetpack.xcconfig"; sourceTree = "<group>"; };
 		533BF5909D89100626ACF6AD /* Pods-Runner.profile-dopack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-dopack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-dopack.xcconfig"; sourceTree = "<group>"; };
 		53B9D0B0D5CB222AFFDEC6D1 /* Pods-Runner.release-priority.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-priority.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-priority.xcconfig"; sourceTree = "<group>"; };
+		544DACDBAE259CACA47CD667 /* PackageStage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PackageStage.swift; sourceTree = "<group>"; };
 		569265A3B79E77A16B24D9BF /* Pods-Runner.profile-pintopaq.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-pintopaq.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-pintopaq.xcconfig"; sourceTree = "<group>"; };
 		575B94315B460C09E4A93106 /* Pods-Runner.debug-caribepack.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-caribepack.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-caribepack.xcconfig"; sourceTree = "<group>"; };
 		5CAB8818132B0A6F73E7117A /* Pods-Runner.profile-domex.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-domex.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-domex.xcconfig"; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				0DA4D9D8E3849946800E7808 /* ICourierWidget.swift */,
 				6BE98C2E213E56E3AE36A290 /* Info.plist */,
 				917EE9BD2106F562EFF3B617 /* ICourierWidget.entitlements */,
+				544DACDBAE259CACA47CD667 /* PackageStage.swift */,
 			);
 			name = ICourierWidget;
 			path = ICourierWidget;
@@ -771,6 +774,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8B85DB024B447F05B1DE45 /* ICourierWidget.swift in Sources */,
+				D7D8E151203C2711F70B2B0E /* PackageStage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1179,13 +1183,13 @@
 				APP_DISPLAY_NAME = BMCargo;
 				APP_GROUP_ID = group.com.barolit.bmcargo;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1940,7 +1944,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 75;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1954,7 +1958,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.dopack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2116,13 +2120,13 @@
 				APP_DISPLAY_NAME = "Fixo Cargo";
 				APP_GROUP_ID = group.com.barolit.fixocargo;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.4;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2652,13 +2656,13 @@
 				APP_DISPLAY_NAME = "Blumbox Courier";
 				APP_GROUP_ID = group.com.barolit.blumbox;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3577,7 +3581,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3591,7 +3595,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4133,7 +4137,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4147,7 +4151,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.blumbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7493,7 +7497,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7507,7 +7511,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.4;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -10271,7 +10275,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -10285,7 +10289,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -13068,13 +13072,13 @@
 				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13363,13 +13367,13 @@
 				APP_DISPLAY_NAME = DoPack;
 				APP_GROUP_ID = group.com.barolit.dopack;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 75;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.dopack.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

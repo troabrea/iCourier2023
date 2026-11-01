@@ -3,6 +3,17 @@ import 'dart:developer' as developer;
 /// Macroestado compartido por la aplicación y los widgets nativos.
 enum PackageStage { origen, ruta, destino, disponible, entregado }
 
+/// Visible stage names; enum values stay stable for saved links and widgets.
+extension PackageStageLabel on PackageStage {
+  String get labelKey => switch (this) {
+        PackageStage.origen => 'origen',
+        PackageStage.ruta => 'en_transito',
+        PackageStage.destino => 'en_distribucion',
+        PackageStage.disponible => 'disponible',
+        PackageStage.entregado => 'entregado',
+      };
+}
+
 /// Resultado normalizado de un estado operativo del backend.
 class PackageStatus {
   const PackageStatus({
@@ -44,18 +55,26 @@ abstract final class PackageStatusMapper {
     'SHIPMENT SENT',
     'IN TRANSIT',
     'EN RUTA',
+    'EN TRANSITO',
+    'TRANSITO',
+    'ADUANA',
+    'CUSTOM',
+    'CUSTOMS',
   };
 
   static const _destinationTerms = <String>{
     'TRANSFERIDO',
     'EMPACADO',
-    'ADUANA',
-    'TRANSITO',
+    'TRANSITO A SUCURSAL',
+    'TRANSITO HACIA SUCURSAL',
+    'IN TRANSIT TO BRANCH',
+    'RECIBIDO EN SUCURSAL',
+    'RECIBIDO SUCURSAL',
+    'RECEIVED AT BRANCH',
     'DISTRIBUCION',
     'RECIBIDO AILA',
     'ALMACEN',
     'WAREHOUSE',
-    'CUSTOM',
     'DISTRIBUTION CENTER',
     'PACKED',
     'OUTGOING TRANSFER',
@@ -69,6 +88,7 @@ abstract final class PackageStatusMapper {
     'RECIBIDO MIAMI',
     'ORIGIN',
     'RECEIVED',
+    'ENTREGADO LINEA AEREA',
   };
 
   static PackageStatus map({
@@ -82,8 +102,13 @@ abstract final class PackageStatusMapper {
     if (_deliveredTerms.contains(normalized)) {
       return _known(PackageStage.entregado, status);
     }
-    if (isAvailable || normalized.contains('DISPONIBLE')) {
+    if (isAvailable) {
       return _known(PackageStage.disponible, status);
+    }
+    // Pickup and delivery use the API flag. A label or progress=4 alone must
+    // not advertise availability in a different screen or native widget.
+    if (isAvailabilityStatus(status)) {
+      return _known(PackageStage.destino, status);
     }
     if (_matchesAny(normalized, _destinationTerms)) {
       return _known(PackageStage.destino, status);
@@ -113,15 +138,18 @@ abstract final class PackageStatusMapper {
   }
 
   static bool _matchesAny(String status, Set<String> terms) {
-    return terms.any(status.contains);
+    return terms.any((term) => ' $status '.contains(' $term '));
   }
+
+  static bool isAvailabilityStatus(String status) =>
+      _matchesAny(_normalize(status), const {'DISPONIBLE', 'AVAILABLE'});
 
   static PackageStage _fromProgress(int progress) {
     return switch (progress) {
       <= 1 => PackageStage.origen,
       2 => PackageStage.ruta,
       3 => PackageStage.destino,
-      4 => PackageStage.disponible,
+      4 => PackageStage.destino,
       _ => PackageStage.entregado,
     };
   }
@@ -137,7 +165,8 @@ abstract final class PackageStatusMapper {
         .replaceAll(RegExp(r'[ÚÙÜÛ]'), 'U')
         .replaceAll('Ñ', 'N')
         .replaceAll(RegExp(r'[^A-Z0-9]+'), ' ')
-        .replaceAll(RegExp(r'\s+'), ' ');
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
   }
 
   static void _reportUnknown(String status, int progress) {

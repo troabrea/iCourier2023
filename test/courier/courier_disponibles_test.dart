@@ -19,7 +19,7 @@ void main() {
 
   setUpAll(() async {
     initializeTestTranslations();
-    await loadBrandFonts();
+    await loadBrandFonts(includeGoogleFamilies: true);
   });
 
   setUp(() async {

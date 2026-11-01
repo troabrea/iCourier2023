@@ -83,7 +83,7 @@ class _DisponiblesPageState extends State<DisponiblesPage> {
     return Scaffold(
       backgroundColor: tokens.bg,
       appBar: ScreenHeader(
-        title: 'disponibles'.tr(),
+        title: 'paquetes_disponibles'.tr(),
         onBack: context.popOrHome,
         trailing: IconButton(
           onPressed: _busy ? null : _refresh,

@@ -109,7 +109,7 @@ void main() {
     expect(toggled, isTrue);
   });
 
-  testWidgets('un disponible reemplaza labels de retención por Disponibles',
+  testWidgets('un disponible reemplaza labels de retención por Disponible',
       (tester) async {
     for (final retained in [false, true]) {
       final package = _package(retained: retained);
@@ -120,7 +120,7 @@ void main() {
           child: PackageCard(package: package),
         ));
         await tester.pumpAndSettle();
-        expect(find.text('DISPONIBLES'), findsOneWidget);
+        expect(find.text('DISPONIBLE'), findsOneWidget);
         expect(find.text('RETENIDO'), findsNothing);
         expect(find.text('SIN FACTURA'), findsNothing);
       }

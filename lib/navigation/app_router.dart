@@ -180,7 +180,7 @@ abstract final class AppRouter {
         name: 'available',
         builder: (context, state) =>
             _AsyncRoute<({Empresa empresa, List<Recepcion> packages})>(
-          title: 'disponibles'.tr(),
+          title: 'paquetes_disponibles'.tr(),
           load: () async {
             final service = GetIt.I<CourierService>();
             final results = await Future.wait([

@@ -1,0 +1,247 @@
+[
+  {
+    "name": "received",
+    "status": "Recibido para procesar",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "origen"
+  },
+  {
+    "name": "ready",
+    "status": "Listo para embarcación",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "origen"
+  },
+  {
+    "name": "airline",
+    "status": "Entregado Línea Aérea",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "origen"
+  },
+  {
+    "name": "shipped",
+    "status": "Embarcado",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "ruta"
+  },
+  {
+    "name": "customs",
+    "status": "Aduana",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "ruta"
+  },
+  {
+    "name": "customs accents",
+    "status": "  EN ADUÁNA  ",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "ruta"
+  },
+  {
+    "name": "international transit",
+    "status": "En tránsito",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "ruta"
+  },
+  {
+    "name": "generic transit",
+    "status": "Tránsito",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "ruta"
+  },
+  {
+    "name": "branch transit",
+    "status": "En tránsito a sucursal",
+    "isAvailable": false,
+    "progress": 2,
+    "expected": "destino"
+  },
+  {
+    "name": "branch accents",
+    "status": " EN   TRÁNSITO A SUCURSAL ",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "branch received",
+    "status": "Recibido en sucursal",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "branch received English",
+    "status": "Received at branch",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "branch transit English",
+    "status": "In transit to branch",
+    "isAvailable": false,
+    "progress": 2,
+    "expected": "destino"
+  },
+  {
+    "name": "legacy transfer",
+    "status": "Transferido",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "legacy packed",
+    "status": "Empacado",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "legacy airport",
+    "status": "Recibido AILA",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "legacy warehouse",
+    "status": "En almacén",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "destino"
+  },
+  {
+    "name": "ready flag",
+    "status": "Recibido en sucursal",
+    "isAvailable": true,
+    "progress": 1,
+    "expected": "disponible"
+  },
+  {
+    "name": "flag wins customs",
+    "status": "Aduana",
+    "isAvailable": true,
+    "progress": 3,
+    "expected": "disponible"
+  },
+  {
+    "name": "premature label",
+    "status": "Disponible para entrega",
+    "isAvailable": false,
+    "progress": 4,
+    "expected": "destino"
+  },
+  {
+    "name": "negative availability",
+    "status": "No disponible",
+    "isAvailable": false,
+    "progress": 4,
+    "expected": "destino"
+  },
+  {
+    "name": "premature English label",
+    "status": "Available",
+    "isAvailable": false,
+    "progress": 4,
+    "expected": "destino"
+  },
+  {
+    "name": "delivered",
+    "status": "Entregado al cliente",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "entregado"
+  },
+  {
+    "name": "delivered beats available",
+    "status": "Entregado",
+    "isAvailable": true,
+    "progress": 4,
+    "expected": "entregado"
+  },
+  {
+    "name": "counter",
+    "status": "Facturado Counter",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "entregado"
+  },
+  {
+    "name": "English shipped",
+    "status": "Shipment sent",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "ruta"
+  },
+  {
+    "name": "English customs",
+    "status": "Customs",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "ruta"
+  },
+  {
+    "name": "English received",
+    "status": "Received",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "origen"
+  },
+  {
+    "name": "word boundary",
+    "status": "Customermanagement",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "origen"
+  },
+  {
+    "name": "unknown origin",
+    "status": "Evento nuevo",
+    "isAvailable": false,
+    "progress": 1,
+    "expected": "origen"
+  },
+  {
+    "name": "unknown route",
+    "status": "Evento nuevo",
+    "isAvailable": false,
+    "progress": 2,
+    "expected": "ruta"
+  },
+  {
+    "name": "unknown distribution",
+    "status": "Evento nuevo",
+    "isAvailable": false,
+    "progress": 3,
+    "expected": "destino"
+  },
+  {
+    "name": "unknown unavailable",
+    "status": "Evento nuevo",
+    "isAvailable": false,
+    "progress": 4,
+    "expected": "destino"
+  },
+  {
+    "name": "unknown delivery",
+    "status": "Evento nuevo",
+    "isAvailable": false,
+    "progress": 5,
+    "expected": "entregado"
+  },
+  {
+    "name": "missing status",
+    "status": "",
+    "isAvailable": false,
+    "progress": 0,
+    "expected": "origen"
+  }
+]

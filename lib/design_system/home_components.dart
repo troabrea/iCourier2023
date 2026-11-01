@@ -409,14 +409,6 @@ class _StageTile extends StatelessWidget {
     PackageStage.entregado: BrandIcons.receptions,
   };
 
-  static const _labels = <PackageStage, String>{
-    PackageStage.origen: 'recibido',
-    PackageStage.ruta: 'en_ruta',
-    PackageStage.destino: 'en_destino',
-    PackageStage.disponible: 'disponibles',
-    PackageStage.entregado: 'entregado',
-  };
-
   bool get _actionable =>
       group.onPickup != null || group.onDelivery != null || group.onPay != null;
 
@@ -461,10 +453,8 @@ class _StageTile extends StatelessWidget {
                         Text(
                           (group.stage == null
                                   ? 'retiro_notificado_titulo'
-                                  : _labels[group.stage]!)
+                                  : group.stage!.labelKey)
                               .tr(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: tokens.body(
                             14,
                             weight: FontWeight.w700,

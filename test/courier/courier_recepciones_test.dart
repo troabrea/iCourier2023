@@ -17,7 +17,7 @@ void main() {
 
   setUpAll(() async {
     initializeTestTranslations();
-    await loadBrandFonts();
+    await loadBrandFonts(includeGoogleFamilies: true);
   });
 
   testWidgets('agrupa las recepciones por estado cuando abre sin filtro', (
@@ -25,8 +25,8 @@ void main() {
   ) async {
     await _pumpReceptions(tester);
 
-    expect(find.text('DISPONIBLES (1)'), findsOneWidget);
-    expect(find.text('EN RUTA (2)'), findsOneWidget);
+    expect(find.text('DISPONIBLE (1)'), findsOneWidget);
+    expect(find.text('EN TRÁNSITO (2)'), findsOneWidget);
     expect(_visibleIds(tester), ['available', 'route-a', 'route-b']);
     expect(find.text(r'$10.00'), findsOneWidget);
     expect(
@@ -99,7 +99,7 @@ void main() {
 
     expect(find.byType(BrandFilterChip), findsOneWidget);
     expect(find.byType(PackageCard), findsNWidgets(2));
-    expect(find.text('EN RUTA (2)'), findsNothing);
+    expect(find.text('EN TRÁNSITO (2)'), findsNothing);
 
     await tester.tap(
       find.descendant(
@@ -109,8 +109,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('DISPONIBLES (1)'), findsOneWidget);
-    expect(find.text('EN RUTA (2)'), findsOneWidget);
+    expect(find.text('DISPONIBLE (1)'), findsOneWidget);
+    expect(find.text('EN TRÁNSITO (2)'), findsOneWidget);
     expect(_visibleIds(tester), ['available', 'route-a', 'route-b']);
   });
 }

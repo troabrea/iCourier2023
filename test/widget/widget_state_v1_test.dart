@@ -84,6 +84,7 @@ void main() {
       packages: [
         _reception('origen', 'Recibido para procesar', progress: 1),
         _reception('ruta', 'Embarcado', progress: 2),
+        _reception('sucursal', 'Recibido en sucursal', progress: 1),
         _reception('retenido', 'Aduana', progress: 3, retained: true),
         _reception('disponible', 'Disponible', progress: 4, available: true),
       ],
@@ -93,13 +94,12 @@ void main() {
     expect(state.featured?.id, 'disponible');
     expect(state.counts.available, 1);
     expect(state.counts.retained, 1);
-    expect(state.counts.inRoute, 1);
+    expect(state.counts.inRoute, 3);
+    expect(state.counts.inTransit, 2);
+    expect(state.counts.inDistribution, 1);
     expect(state.counts.inProcess, 1);
     expect(
-      state.counts.available +
-          state.counts.retained +
-          state.counts.inRoute +
-          state.counts.inProcess,
+      state.counts.available + state.counts.inRoute + state.counts.inProcess,
       state.counts.total,
     );
   });

@@ -150,8 +150,8 @@ class _ComponentGalleryState extends State<ComponentGallery> {
               initiallyExpanded: true,
               children: [
                 GroupRow(label: 'Recibido', count: 1, onTap: () {}),
-                GroupRow(label: 'En ruta', count: 2, onTap: () {}),
-                GroupRow(label: 'Disponibles', count: 3, onTap: () {}),
+                GroupRow(label: 'En tránsito', count: 2, onTap: () {}),
+                GroupRow(label: 'Disponible', count: 3, onTap: () {}),
               ],
             ),
           ),
@@ -190,7 +190,7 @@ class _ComponentGalleryState extends State<ComponentGallery> {
             ),
           ),
           const SizedBox(height: 10),
-          _pad(BrandFilterChip(label: 'Disponibles', onClear: () {})),
+          _pad(BrandFilterChip(label: 'Disponible', onClear: () {})),
           _section('Estados'),
           _pad(
             Wrap(

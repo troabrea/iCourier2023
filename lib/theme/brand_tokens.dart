@@ -3,14 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 /// Families shipped as assets in `pubspec.yaml`.
 const _bundledFamilies = {
-  'Myriad',
-  'Flipahaus',
-  'MadeTommy',
-  'AmpleSoft',
-  'Continumm',
-  'Bossa',
-  'ComicSans',
-  'iCourier',
+  'Source Sans 3',
+  'Outfit',
 };
 
 /// Resolves a configured family name to a usable base text style.

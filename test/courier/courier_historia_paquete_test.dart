@@ -89,7 +89,7 @@ void main() {
     expect(find.text('Retenido — Falta factura'), findsNothing);
     expect(find.text('Adjuntar factura'), findsNothing);
     expect(find.text('Retenido'), findsNothing);
-    expect(find.text('Disponibles'), findsWidgets);
+    expect(find.text('Disponible'), findsWidgets);
     expect(package.toJson()['retenido'], isTrue);
   });
 

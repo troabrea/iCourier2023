@@ -1,7 +1,24 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:icourier/domain/package_stage.dart';
 
 void main() {
+  final cases =
+      jsonDecode(File('test/fixtures/package_stages.json').readAsStringSync())
+          as List;
+  for (final fixture in cases.cast<Map<String, dynamic>>()) {
+    test('shared case: ${fixture['name']}', () {
+      final actual = PackageStatusMapper.map(
+          status: fixture['status'] as String,
+          isAvailable: fixture['isAvailable'] as bool,
+          progress: fixture['progress'] as int,
+          onUnknown: (_, __) {});
+      expect(actual.stage.name, fixture['expected']);
+    });
+  }
+
   group('PackageStatusMapper', () {
     test('normaliza eventos conocidos en español e inglés', () {
       expect(_map('Embarcado').stage, PackageStage.ruta);

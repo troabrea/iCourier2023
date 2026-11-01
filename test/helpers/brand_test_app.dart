@@ -21,21 +21,41 @@ BrandConfig loadTestBrand(String slug) {
 /// as a filled box, which is exactly why the previous goldens passed while the
 /// typography was wrong. Loading the real files makes a golden fail when the
 /// family, size or weight of a label changes.
-Future<void> loadBrandFonts() async {
+Future<void> loadBrandFonts({bool includeGoogleFamilies = false}) async {
   // Golden runs are offline and must be deterministic: a brand configured with
   // a Google family renders in the fallback here instead of reaching the
   // network. Production still resolves it through the package cache.
   GoogleFonts.config.allowRuntimeFetching = false;
 
   const families = <String, List<String>>{
-    'Myriad': ['fonts/MYRIADPRO-REGULAR.OTF', 'fonts/MYRIADPRO-BOLD.OTF'],
-    'Flipahaus': ['fonts/Flipahaus-V2.otf', 'fonts/Flipahaus-Bold.otf'],
-    'MadeTommy': ['fonts/made-tommy-regular.otf', 'fonts/made-tommy-bold.otf'],
-    'AmpleSoft': ['fonts/AmpleSoftPro-Regular.ttf'],
-    'Continumm': ['fonts/contl.ttf', 'fonts/contm.ttf'],
-    'Bossa': ['fonts/Bossa-Black.otf'],
-    'ComicSans': ['fonts/Comic-Sans-MS.ttf'],
+    'Source Sans 3': [
+      'fonts/SourceSans3-Regular.ttf',
+      'fonts/SourceSans3-Medium.ttf',
+      'fonts/SourceSans3-SemiBold.ttf',
+      'fonts/SourceSans3-Bold.ttf',
+    ],
+    'Outfit': [
+      'fonts/Outfit-Regular.ttf',
+      'fonts/Outfit-Medium.ttf',
+      'fonts/Outfit-SemiBold.ttf',
+      'fonts/Outfit-Bold.ttf',
+    ],
   };
+
+  if (includeGoogleFamilies) {
+    for (final family in ['Rubik', 'RedHatDisplay', 'RedHatText']) {
+      final name = switch (family) {
+        'RedHatDisplay' => 'Red Hat Display',
+        'RedHatText' => 'Red Hat Text',
+        _ => family,
+      };
+      final loader = FontLoader(name)
+        ..addFont(Future.value(ByteData.sublistView(
+          File('test/fonts/$family-Variable.ttf').readAsBytesSync(),
+        )));
+      await loader.load();
+    }
+  }
 
   for (final entry in families.entries) {
     final loader = FontLoader(entry.key);

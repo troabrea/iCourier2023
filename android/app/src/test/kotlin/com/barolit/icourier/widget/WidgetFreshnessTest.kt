@@ -1,6 +1,8 @@
 package com.barolit.icourier.widget
 
 import java.time.Instant
+import java.io.File
+import org.json.JSONObject
 import org.json.JSONArray
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertEquals
@@ -64,16 +66,19 @@ class WidgetFreshnessTest {
                 {"estatus":"Disponible","disponible":true,"retenido":false,"progreso":4},
                 {"estatus":"Aduana","disponible":false,"retenido":true,"progreso":3},
                 {"estatus":"Embarcado","disponible":false,"retenido":false,"progreso":2},
+                {"estatus":"Recibido en sucursal","disponible":false,"retenido":false,"progreso":1},
                 {"estatus":"Recibido para procesar","disponible":false,"retenido":false,"progreso":1}
             ]""",
         )
 
         val counts = WidgetRemoteRefreshWorker.summarize(packages)
 
-        assertEquals(4, counts.getInt("total"))
+        assertEquals(5, counts.getInt("total"))
         assertEquals(1, counts.getInt("disponible"))
         assertEquals(1, counts.getInt("retenido"))
-        assertEquals(1, counts.getInt("enRuta"))
+        assertEquals(3, counts.getInt("enRuta"))
+        assertEquals(2, counts.getInt("enTransito"))
+        assertEquals(1, counts.getInt("enDistribucion"))
         assertEquals(1, counts.getInt("enProceso"))
     }
 
@@ -89,7 +94,8 @@ class WidgetFreshnessTest {
         assertFalse(usesWideWidgetLayout(190f))
         assertFalse(usesWideWidgetLayout(279f))
         assertTrue(usesWideWidgetLayout(280f))
-        assertTrue(usesCompactStatusList(widthDp = 190f, heightDp = 230f))
+        assertFalse(usesCompactStatusList(widthDp = 190f, heightDp = 230f))
+        assertTrue(usesCompactStatusList(widthDp = 190f, heightDp = 270f))
         assertFalse(usesCompactStatusList(widthDp = 190f, heightDp = 150f))
         assertFalse(usesCompactStatusList(widthDp = 280f, heightDp = 230f))
     }
@@ -99,4 +105,22 @@ class WidgetFreshnessTest {
         assertEquals("1 paquete", packageCountLabel(1))
         assertEquals("2 paquetes", packageCountLabel(2))
     }
+    @Test
+    fun sharedStageCasesMatchDartAndSwift() {
+        val fixture = generateSequence(File(checkNotNull(System.getProperty("user.dir")))) { it.parentFile }
+            .map { File(it, "test/fixtures/package_stages.json") }.first { it.isFile }
+        val cases = JSONArray(fixture.readText())
+        for (i in 0 until cases.length()) {
+            val row = cases.getJSONObject(i)
+            assertEquals(row.getString("name"), row.getString("expected"),
+                PackageStatusMapper.map(row.getString("status"), row.getBoolean("isAvailable"), row.getInt("progress")).key)
+        }
+    }
+
+    @Test
+    fun oldSnapshotNeedsJourneyCountsWithoutInventingASplit() {
+        assertFalse(WidgetRemoteRefreshWorker.hasJourneyCounts(JSONObject("{\"enRuta\":3}")))
+        assertTrue(WidgetRemoteRefreshWorker.hasJourneyCounts(JSONObject("{\"enTransito\":1,\"enDistribucion\":2}")))
+    }
+
 }

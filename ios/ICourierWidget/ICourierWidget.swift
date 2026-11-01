@@ -48,6 +48,10 @@ private struct WidgetCounts: Codable {
   let disponible: Int
   let retenido: Int
   let enRuta: Int
+  let enTransito: Int?
+  let enDistribucion: Int?
+
+  var hasJourneyCounts: Bool { enTransito != nil && enDistribucion != nil }
   let enProceso: Int
   let total: Int
 }
@@ -76,6 +80,7 @@ private struct WidgetSnapshot: Codable {
   let staleAfter: String
 
   var isStale: Bool {
+    if !counts.hasJourneyCounts { return true }
     guard let date = WidgetDateParser.parse(staleAfter) else {
       return true
     }
@@ -85,14 +90,6 @@ private struct WidgetSnapshot: Codable {
   var generatedAtDate: Date? {
     WidgetDateParser.parse(generatedAt)
   }
-}
-
-private enum RemotePackageStage {
-  case origin
-  case route
-  case destination
-  case available
-  case delivered
 }
 
 private struct RemotePackage: Decodable {
@@ -111,23 +108,6 @@ private enum WidgetRemoteRefresh {
     subsystem: "com.barolit.icourier.widget",
     category: "remote-refresh"
   )
-
-  private static let deliveredTerms: Set<String> = [
-    "ENTREGADO AL CLIENTE", "ENTREGADO", "DELIVERED", "BILLED COUNTER",
-    "FACTURADO COUNTER",
-  ]
-  private static let routeTerms = [
-    "EMBARCADO", "SHIPMENT SENT", "IN TRANSIT", "EN RUTA",
-  ]
-  private static let destinationTerms = [
-    "TRANSFERIDO", "EMPACADO", "ADUANA", "TRANSITO", "DISTRIBUCION",
-    "RECIBIDO AILA", "ALMACEN", "WAREHOUSE", "CUSTOM",
-    "DISTRIBUTION CENTER", "PACKED", "OUTGOING TRANSFER", "DESTINO",
-  ]
-  private static let originTerms = [
-    "RECIBIDO PARA PROCESAR", "LISTO PARA EMBARCACION",
-    "RECIBIDO EN ORIGEN", "RECIBIDO MIAMI", "ORIGIN", "RECEIVED",
-  ]
 
   static func refreshIfNeeded(
     snapshot: WidgetSnapshot?,
@@ -185,6 +165,7 @@ private enum WidgetRemoteRefresh {
     defaults: UserDefaults,
     now: Date
   ) -> Bool {
+    if !snapshot.counts.hasJourneyCounts { return true }
     guard let generatedAt = snapshot.generatedAtDate else {
       return true
     }
@@ -267,70 +248,43 @@ private enum WidgetRemoteRefresh {
   private static func summarize(_ packages: [RemotePackage]) -> WidgetCounts {
     var available = 0
     var retained = 0
-    var inRoute = 0
+    var inTransit = 0
+    var inDistribution = 0
     var inProcess = 0
     for package in packages {
       let stage = stage(for: package)
       if stage == .available {
         available += 1
-      } else if package.retenido == true {
-        retained += 1
-      } else if stage == .route || stage == .destination {
-        inRoute += 1
+      } else if stage == .route {
+        inTransit += 1
+      } else if stage == .destination {
+        inDistribution += 1
       } else if stage == .origin {
         inProcess += 1
+      }
+      if package.retenido == true && package.disponible != true && stage != .delivered {
+        retained += 1
       }
     }
     return WidgetCounts(
       disponible: available,
       retenido: retained,
-      enRuta: inRoute,
+      enRuta: inTransit + inDistribution,
+      enTransito: inTransit,
+      enDistribucion: inDistribution,
       enProceso: inProcess,
       total: packages.count
     )
   }
 
   private static func stage(for package: RemotePackage) -> RemotePackageStage {
-    let status = normalize(package.estatus ?? "")
-    if deliveredTerms.contains(status) {
-      return .delivered
-    }
-    if package.disponible == true || status.contains("DISPONIBLE") {
-      return .available
-    }
-    if destinationTerms.contains(where: status.contains) {
-      return .destination
-    }
-    if routeTerms.contains(where: status.contains) {
-      return .route
-    }
-    if originTerms.contains(where: status.contains) {
-      return .origin
-    }
-    switch package.progreso ?? 0 {
-    case ...1:
-      return .origin
-    case 2:
-      return .route
-    case 3:
-      return .destination
-    case 4:
-      return .available
-    default:
-      return .delivered
-    }
+    PackageStatusMapper.map(
+      status: package.estatus ?? "",
+      isAvailable: package.disponible == true,
+      progress: package.progreso ?? 0
+    )
   }
 
-  private static func normalize(_ value: String) -> String {
-    let folded = value.folding(
-      options: [.diacriticInsensitive, .caseInsensitive],
-      locale: Locale(identifier: "es")
-    ).uppercased()
-    return folded
-      .components(separatedBy: CharacterSet.alphanumerics.inverted)
-      .filter { !$0.isEmpty }
-      .joined(separator: " ")
-  }
 }
 
 private struct WidgetEntry: TimelineEntry {
@@ -452,7 +406,7 @@ private struct ICourierWidgetView: View {
           .fill(Color(hex: snapshot.brand.muted).opacity(0.22))
           .frame(width: 1, height: 38)
         smallMetric(
-          "Disponibles",
+          "Disponible",
           value: snapshot.counts.disponible,
           color: Color(hex: snapshot.brand.primary)
         )
@@ -495,27 +449,30 @@ private struct ICourierWidgetView: View {
       Divider()
         .overlay(Color(hex: snapshot.brand.muted).opacity(0.2))
       HStack(alignment: .top, spacing: 8) {
-        statusMetric("Disponibles", value: snapshot.counts.disponible, snapshot: snapshot)
-        statusMetric("En proceso", value: snapshot.counts.enProceso, snapshot: snapshot)
-        statusMetric("En ruta", value: snapshot.counts.enRuta, snapshot: snapshot)
-        statusMetric("Sin Factura", value: snapshot.counts.retenido, snapshot: snapshot)
+        statusMetric("Origen", value: snapshot.counts.enProceso, snapshot: snapshot)
+        statusMetric("En tránsito", value: snapshot.counts.enTransito, snapshot: snapshot)
+        statusMetric("En distribución", value: snapshot.counts.enDistribucion, snapshot: snapshot)
+        statusMetric("Disponible", value: snapshot.counts.disponible, snapshot: snapshot)
       }
+      Text("Sin Factura: \(snapshot.counts.retenido)")
+        .font(.system(.caption2, design: .rounded, weight: .medium))
+        .foregroundStyle(Color(hex: snapshot.brand.muted))
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
   }
 
   private func statusMetric(
     _ title: String,
-    value: Int,
+    value: Int?,
     snapshot: WidgetSnapshot
   ) -> some View {
     VStack(alignment: .leading, spacing: 3) {
       Text(title)
         .font(.system(.caption2, design: .rounded, weight: .medium))
         .foregroundStyle(Color(hex: snapshot.brand.muted))
-        .lineLimit(1)
+        .lineLimit(2)
         .minimumScaleFactor(0.72)
-      Text("\(value)")
+      Text(value.map { String($0) } ?? "—")
         .font(.system(.title3, design: .rounded, weight: .bold))
         .foregroundStyle(Color(hex: snapshot.brand.primary))
     }

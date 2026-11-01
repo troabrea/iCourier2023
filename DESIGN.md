@@ -17,32 +17,32 @@ colors:
   danger: "#b3261e"
 typography:
   display:
-    fontFamily: "Myriad"
+    fontFamily: "Source Sans 3"
     fontSize: "34px"
     fontWeight: 700
     lineHeight: 1.15
   headline:
-    fontFamily: "Myriad"
+    fontFamily: "Source Sans 3"
     fontSize: "28px"
     fontWeight: 700
     lineHeight: 1.2
   title:
-    fontFamily: "Myriad"
+    fontFamily: "Source Sans 3"
     fontSize: "20px"
     fontWeight: 700
     lineHeight: 1.3
   body:
-    fontFamily: "Myriad"
+    fontFamily: "Source Sans 3"
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "Myriad"
+    fontFamily: "Source Sans 3"
     fontSize: "13px"
     fontWeight: 700
     lineHeight: 1.3
   eyebrow:
-    fontFamily: "Myriad"
+    fontFamily: "Source Sans 3"
     fontSize: "11px"
     fontWeight: 600
     letterSpacing: "0.88px"
@@ -244,9 +244,9 @@ background and would be swallowed by a dark `surface`.
 
 ## Typography
 
-**Display Font:** brand `fonts.head` (default Myriad; bundled families are used
+**Display Font:** brand `fonts.head` (default Source Sans 3; bundled families are used
 directly, anything else is resolved through Google Fonts, e.g. Rubik for BM Cargo)
-**Body Font:** brand `fonts.body` (default Myriad)
+**Body Font:** brand `fonts.body` (default Source Sans 3)
 
 **Character:** two families at most, both brand-supplied, so the type carries the
 identity while the ramp stays identical everywhere. The heading face is used
@@ -271,7 +271,7 @@ system is spent on the palette, not on the type.
 **The Two-Family Rule.** Every text style in the app is produced by `head()`,
 `body()` or `eyebrow()` on `BrandTokens`. A widget states a size, a weight and a
 token colour; it never states a family. This is what lets one screen render in
-Myriad for one brand and Rubik for another with no conditional anywhere.
+Source Sans 3 for one brand and Rubik for another with no conditional anywhere.
 
 **The Fifteen-Point Rule.** Long-form reading text is 15px at 1.55 line-height and
 runs the full content width between the standard 20px gutters. Generated prose gets

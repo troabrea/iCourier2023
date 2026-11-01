@@ -21,7 +21,7 @@ void main() {
 
   setUpAll(() async {
     initializeTestTranslations();
-    await loadBrandFonts();
+    await loadBrandFonts(includeGoogleFamilies: true);
   });
 
   for (final brand in ['bmcargo', 'fixocargo']) {
@@ -422,7 +422,7 @@ Widget _pointsCard() => const PointsCard(
     );
 
 Widget _filterChip() => const BrandFilterChip(
-      label: 'Disponibles',
+      label: 'Disponible',
       onClear: _noop,
     );
 

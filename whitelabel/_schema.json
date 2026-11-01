@@ -32,8 +32,8 @@
     "fonts": {
       "type": "object",
       "properties": {
-        "head": { "type": "string", "default": "Myriad" },
-        "body": { "type": "string", "default": "Myriad" },
+        "head": { "type": "string", "default": "Source Sans 3" },
+        "body": { "type": "string", "default": "Source Sans 3" },
         "headScale": { "type": "number", "exclusiveMinimum": 0, "default": 1 }
       },
       "additionalProperties": true

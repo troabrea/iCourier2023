@@ -172,7 +172,7 @@ void main() {
         findsOneWidget);
     expect(find.text('Retiro Notificado (1)'), findsNothing);
     expect(find.text('Paquete de cuenta uno'), findsOneWidget);
-    expect(find.text('Recibido'), findsOneWidget);
+    expect(find.text('Origen'), findsOneWidget);
   });
 
   testWidgets(
