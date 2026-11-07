@@ -103,6 +103,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
           loadCompany: () => courierService.getEmpresa(forceFirstTime: true),
           loadNews: () => courierService.getNoticias(true),
           store: SharedPreferencesEmergingNewsSeenStore(widget.preferences),
+          courierId: courierService.companyId,
         );
     final initialMessage = widget.loadInitialMessage?.call() ??
         FirebaseMessaging.instance.getInitialMessage();

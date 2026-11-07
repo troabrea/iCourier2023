@@ -13,6 +13,7 @@ import 'package:icourier/navigation/app_runtime_host.dart';
 import 'package:icourier/navigation/app_routes.dart';
 import 'package:icourier/navigation/router_session.dart';
 import 'package:icourier/noticas/emerging_news_coordinator.dart';
+import 'package:icourier/noticas/emerging_news_dialog.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
 import 'package:icourier/services/model/empresa.dart';
@@ -139,6 +140,46 @@ void main() {
     expect(find.text('Paquete disponible'), findsNothing);
   });
 
+  testWidgets('daily popup shows once per opportunity up to N per day',
+      (tester) async {
+    final preferences = await SharedPreferences.getInstance();
+    final dialog = find.byType(EmergingNewsDialog);
+    await _pumpEmergingNewsHost(
+      tester,
+      coordinator: _dailyCoordinator(preferences, timesPerDay: 2),
+    );
+
+    expect(dialog, findsOneWidget);
+    Navigator.of(tester.element(dialog)).pop(false);
+    await tester.pumpAndSettle();
+    expect(dialog, findsNothing, reason: 'closing must not reopen it');
+
+    await _returnFromBackground(tester);
+    expect(dialog, findsOneWidget);
+    Navigator.of(tester.element(dialog)).pop(false);
+    await tester.pumpAndSettle();
+
+    await _returnFromBackground(tester);
+    expect(dialog, findsNothing, reason: 'third opportunity exceeds N=2');
+  });
+
+  testWidgets('art that fails to load does not consume the daily quota',
+      (tester) async {
+    final preferences = await SharedPreferences.getInstance();
+    await _pumpEmergingNewsHost(
+      tester,
+      coordinator: _dailyCoordinator(preferences, timesPerDay: 1),
+      preloader: (context, imageUrl) async => null,
+    );
+
+    expect(find.byType(EmergingNewsDialog), findsNothing);
+    expect(
+      preferences
+          .getString(SharedPreferencesEmergingNewsSeenStore.dailyStorageKey),
+      isNull,
+    );
+  });
+
   testWidgets('shows emerging news once and opens its detail', (tester) async {
     final preferences = await SharedPreferences.getInstance();
     final config = GetIt.I<BrandConfig>();
@@ -163,6 +204,7 @@ void main() {
       loadCompany: () async => company,
       loadNews: () async => [news],
       store: seenStore,
+      courierId: 'courier',
     );
     late final GoRouter router;
     router = GoRouter(
@@ -303,6 +345,66 @@ void main() {
   });
 }
 
+Future<void> _pumpEmergingNewsHost(
+  WidgetTester tester, {
+  required EmergingNewsCoordinator coordinator,
+  EmergingNewsImagePreloader? preloader,
+}) async {
+  final preferences = await SharedPreferences.getInstance();
+  final router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const Scaffold(body: Text('Inicio')),
+      ),
+    ],
+  );
+  addTearDown(router.dispose);
+  await tester.pumpWidget(
+    MaterialApp.router(
+      theme: BrandTheme.light(GetIt.I<BrandConfig>()),
+      routerConfig: router,
+      builder: (context, child) => AppRuntimeHost(
+        preferences: preferences,
+        navigatorKey: router.routerDelegate.navigatorKey,
+        router: router,
+        emergingNewsCoordinator: coordinator,
+        emergingNewsImagePreloader:
+            preloader ?? (context, imageUrl) async => const Size(300, 600),
+        foregroundMessages: const Stream<RemoteMessage>.empty(),
+        openedMessages: const Stream<RemoteMessage>.empty(),
+        appUpdateCoordinator: _FakeAppUpdateCoordinator(),
+        loadInitialMessage: () async => null,
+        child: child!,
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
+Future<void> _returnFromBackground(WidgetTester tester) async {
+  tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+  tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+  await tester.pumpAndSettle();
+}
+
+EmergingNewsCoordinator _dailyCoordinator(
+  SharedPreferences preferences, {
+  required int timesPerDay,
+}) =>
+    EmergingNewsCoordinator(
+      loadCompany: () async => Empresa.empty()
+        ..options = jsonEncode({
+          emergingNewsImageUrlOptionKey: 'https://cdn.example.com/daily.jpg',
+          emergingNewsTimesPerDayOptionKey: timesPerDay,
+        }),
+      loadNews: () async => [],
+      store: SharedPreferencesEmergingNewsSeenStore(preferences),
+      courierId: 'courier',
+      now: () => DateTime.utc(2026, 11, 7, 15),
+    );
+
 final class _FakeAppUpdateCoordinator implements AppUpdateCoordinator {
   _FakeAppUpdateCoordinator({this.update});
 
@@ -336,6 +438,12 @@ final class _MemoryEmergingNewsSeenStore implements EmergingNewsSeenStore {
 
   @override
   Future<bool> contains(String imageUrl) async => urls.contains(imageUrl);
+
+  @override
+  Future<int> shownCount(String campaignKey, String day) async => 0;
+
+  @override
+  Future<void> recordShown(String campaignKey, String day) async {}
 }
 
 final class _RuntimeCourierService extends CourierService {
