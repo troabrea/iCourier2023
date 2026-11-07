@@ -93,7 +93,11 @@ class SocialMediaLinks extends StatelessWidget {
                 padding: const EdgeInsets.all(BrandSpace.sm),
                 child: FaIcon(
                   link.icon,
-                  color: tokens.primary,
+                  color: tokens.accessibleForeground(
+                    tokens.bg,
+                    preferred: tokens.primary,
+                    minimumContrast: 3,
+                  ),
                   size: iconSize,
                 ),
               ),

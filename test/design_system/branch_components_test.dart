@@ -37,6 +37,37 @@ void main() {
   final openHour = DateTime(2026, 8, 12, 10, 30);
 
   group('BranchCard', () {
+    for (final brightness in Brightness.values) {
+      for (final state in ['normal', 'focused', 'favorite']) {
+        testWidgets('Domex title contrast ${brightness.name} $state',
+            (tester) async {
+          await tester.pumpWidget(brandTestApp(
+            config: loadTestBrand('domex'),
+            brightness: brightness,
+            child: BranchRow(
+              branch: branchWith(''),
+              focused: state == 'focused',
+              isFavorite: state == 'favorite',
+              at: openHour,
+            ),
+          ));
+          await tester.pumpAndSettle();
+
+          final titleFinder = find.text('Sucursal Principal');
+          final title = tester.widget<Text>(titleFinder);
+          final material = tester.widget<Material>(find
+              .ancestor(
+                of: titleFinder,
+                matching: find.byType(Material),
+              )
+              .first);
+          final a = title.style!.color!.computeLuminance() + 0.05;
+          final b = material.color!.computeLuminance() + 0.05;
+          expect(a > b ? a / b : b / a, greaterThanOrEqualTo(4.5));
+        });
+      }
+    }
+
     testWidgets('reads a schedule it understands into today\'s state',
         (tester) async {
       await tester.pumpWidget(

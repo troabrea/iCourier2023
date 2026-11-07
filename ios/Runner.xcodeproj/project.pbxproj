@@ -1252,13 +1252,13 @@
 				APP_DISPLAY_NAME = "Domex Courier";
 				APP_GROUP_ID = group.com.barolit.domex;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 81;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -7125,7 +7125,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 80;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7139,7 +7139,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7218,7 +7218,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 74;
+				CURRENT_PROJECT_VERSION = 81;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7232,7 +7232,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.3;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7308,7 +7308,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 80;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7322,7 +7322,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -13609,7 +13609,7 @@
 				APP_DISPLAY_NAME = "Domex Courier";
 				APP_GROUP_ID = group.com.barolit.domex;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 80;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -13618,7 +13618,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -14033,13 +14033,13 @@
 				APP_DISPLAY_NAME = "Domex Courier";
 				APP_GROUP_ID = group.com.barolit.domex;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 80;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.domex.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

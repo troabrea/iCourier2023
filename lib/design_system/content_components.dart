@@ -696,7 +696,10 @@ class BranchRow extends StatelessWidget {
                         style: tokens.body(
                           14,
                           weight: FontWeight.w700,
-                          color: tokens.primary,
+                          color: tokens.accessibleForeground(
+                            background ?? tokens.surface,
+                            preferred: tokens.primary,
+                          ),
                         ),
                       ),
                     ),
@@ -1392,7 +1395,7 @@ String formatNewsDate(BuildContext context, Noticia news) {
   return DateFormat.yMMMd(locale).format(news.fecha);
 }
 
-/// News summary card; the title carries the brand primary.
+/// News summary card with a readable brand-accent title.
 class NewsCard extends StatelessWidget {
   const NewsCard({super.key, required this.news, this.onTap});
 
@@ -1429,7 +1432,10 @@ class NewsCard extends StatelessWidget {
                       style: tokens.body(
                         14,
                         weight: FontWeight.w700,
-                        color: tokens.primary,
+                        color: tokens.accessibleForeground(
+                          tokens.surface,
+                          preferred: tokens.primary,
+                        ),
                         height: 1.25,
                       ),
                     ),
@@ -1480,23 +1486,27 @@ class _NewsDateStamp extends StatelessWidget {
       );
     }
     final locale = Localizations.localeOf(context).toLanguageTag();
+    final dateAccent = tokens.softAccentPair(
+      tokens.primary,
+      minimumContrast: 4.5,
+    );
     return Container(
       width: 50,
       constraints: const BoxConstraints(minHeight: 58),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
       decoration: BoxDecoration(
-        color: tokens.accentWash(tokens.primary),
+        color: dateAccent.background,
         borderRadius: BorderRadius.circular(BrandShape.glyphTile),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('${news.fecha.day}',
-              style: tokens.head(20, color: tokens.primary)),
+              style: tokens.head(20, color: dateAccent.foreground)),
           Text(
             DateFormat.MMM(locale).format(news.fecha).toUpperCase(),
             maxLines: 1,
-            style: tokens.eyebrow(9, color: tokens.primary),
+            style: tokens.eyebrow(9, color: dateAccent.foreground),
           ),
         ],
       ),

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Asistente de IA Domex</title>
+  <desc>Robot amarillo sonriente con antena y destello, sobre fondo transparente.</desc>
+  <path d="M64 33V43" stroke="#242424" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="64" cy="28" r="5" fill="#F7D701" stroke="#242424" stroke-width="4"/>
+  <rect x="28" y="43" width="72" height="55" rx="20" fill="#F7D701" stroke="#242424" stroke-width="4"/>
+  <path d="M19 62V77M109 62V77" stroke="#242424" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="50" cy="64" r="4" fill="#242424"/>
+  <circle cx="78" cy="64" r="4" fill="#242424"/>
+  <path d="M51 79C57 86 71 86 77 79" stroke="#242424" stroke-width="4" stroke-linecap="round"/>
+  <path d="M101 19L104.8 29.2L115 33L104.8 36.8L101 47L97.2 36.8L87 33L97.2 29.2L101 19Z" fill="#F7D701"/>
+</svg>

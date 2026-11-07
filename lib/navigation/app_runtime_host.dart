@@ -119,13 +119,23 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
     _openedMessageSubscription =
         (widget.openedMessages ?? FirebaseMessaging.onMessageOpenedApp)
             .listen((message) => unawaited(_openMessage(message)));
-    GetIt.I<Event<SessionExpired>>().subscribe((event) {
+    GetIt.I<Event<SessionExpired>>().subscribe(_onSessionExpired);
+  }
+
+  void _onSessionExpired(SessionExpired? event) {
+    if (!mounted) {
+      return;
+    }
+    GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(false, '', ''));
+    final router = widget.router ?? GoRouter.of(context);
+    router.go(AppRoutes.home);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
-      GetIt.I<Event<LoginChanged>>().broadcast(LoginChanged(false, '', ''));
-      context.go(AppRoutes.home);
-      ScaffoldMessenger.of(context).showSnackBar(
+      final presentationContext =
+          widget.navigatorKey?.currentContext ?? context;
+      ScaffoldMessenger.of(presentationContext).showSnackBar(
         SnackBar(content: Text('password_invalido'.tr())),
       );
     });
@@ -133,6 +143,7 @@ class _AppRuntimeHostState extends State<AppRuntimeHost>
 
   @override
   void dispose() {
+    GetIt.I<Event<SessionExpired>>().unsubscribe(_onSessionExpired);
     WidgetsBinding.instance.removeObserver(this);
     _connectivitySubscription?.cancel();
     _foregroundMessageSubscription?.cancel();

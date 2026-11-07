@@ -445,8 +445,9 @@ class CourierService {
     var loginResult =
         await getLoginResult(userId, password, checkForNew: false);
     if (loginResult.sessionId.isEmpty || loginResult.sucursal != sucursal) {
-      GetIt.I<Event<LogoutRequested>>().broadcast(LogoutRequested());
+      await saveLoggedOutState();
       GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired());
+      throw Exception('Session expired');
     } else {
       await cache.write('sessionId', sessionId);
       FirebaseMessaging.instance.subscribeToTopic(

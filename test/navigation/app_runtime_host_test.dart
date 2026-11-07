@@ -11,6 +11,7 @@ import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/navigation/app_runtime_host.dart';
 import 'package:icourier/navigation/app_routes.dart';
+import 'package:icourier/navigation/router_session.dart';
 import 'package:icourier/noticas/emerging_news_coordinator.dart';
 import 'package:icourier/services/app_events.dart';
 import 'package:icourier/services/courier_service.dart';
@@ -42,6 +43,57 @@ void main() {
   });
 
   tearDown(() => GetIt.I.reset());
+
+  testWidgets('expired session redirects from the app builder and shows notice',
+      (tester) async {
+    final preferences = await SharedPreferences.getInstance();
+    final session = RouterSession(
+      initiallyLoggedIn: true,
+      loginChanges: GetIt.I<Event<LoginChanged>>(),
+    );
+    addTearDown(session.dispose);
+    final router = GoRouter(
+      refreshListenable: session,
+      initialLocation: AppRoutes.available,
+      routes: [
+        GoRoute(
+            path: AppRoutes.home,
+            builder: (context, state) =>
+                Scaffold(body: Text(session.isLoggedIn ? 'Inicio' : 'Login'))),
+        GoRoute(
+            path: AppRoutes.available,
+            builder: (context, state) =>
+                const Scaffold(body: Text('Paquetes'))),
+      ],
+    );
+    addTearDown(router.dispose);
+    await tester.pumpWidget(MaterialApp.router(
+      routerConfig: router,
+      builder: (context, child) => AppRuntimeHost(
+        preferences: preferences,
+        router: router,
+        navigatorKey: router.routerDelegate.navigatorKey,
+        foregroundMessages: const Stream<RemoteMessage>.empty(),
+        openedMessages: const Stream<RemoteMessage>.empty(),
+        appUpdateCoordinator: _FakeAppUpdateCoordinator(),
+        loadInitialMessage: () async => null,
+        child: child!,
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Paquetes'), findsOneWidget);
+    expect(
+      () => GetIt.I<Event<SessionExpired>>().broadcast(SessionExpired()),
+      returnsNormally,
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Login'), findsOneWidget);
+    expect(find.byType(SnackBar), findsOneWidget);
+    expect(session.isLoggedIn, isFalse);
+    expect(router.routeInformationProvider.value.uri.path, AppRoutes.home);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('shows an initial push after the application is mounted', (
     tester,
