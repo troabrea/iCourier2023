@@ -1,9 +1,9 @@
 {
   "acc": {
     "applicationId": "com.barolit.acc",
-    "certificateSha256": null,
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
     "lastPublishedVersionCode": null,
-    "profile": null
+    "profile": "release"
   },
   "almapaq": {
     "applicationId": "com.barolit.almapaq",
@@ -19,9 +19,9 @@
   },
   "atiempo": {
     "applicationId": "com.barolit.atiempo",
-    "certificateSha256": null,
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
     "lastPublishedVersionCode": null,
-    "profile": null
+    "profile": "release"
   },
   "beexpress": {
     "applicationId": "com.barolit.beexpress",
@@ -67,9 +67,9 @@
   },
   "cargowise": {
     "applicationId": "com.barolit.cargowise",
-    "certificateSha256": null,
+    "certificateSha256": "5F3177B6E5FFA8193FC7C09DC19E49AED6983D420E4EAA59C6335FA059972BCC",
     "lastPublishedVersionCode": null,
-    "profile": null
+    "profile": "release"
   },
   "caribepack": {
     "applicationId": "com.barolit.caribepackapp",

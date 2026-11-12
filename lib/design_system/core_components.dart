@@ -1551,8 +1551,7 @@ class EventTimeline extends StatelessWidget {
                         Text(
                           sorted[index].nombreEstatus.isEmpty
                               ? sorted[index].ciudad
-                              : _packageStatusLabel(
-                                  sorted[index].nombreEstatus),
+                              : sorted[index].nombreEstatus,
                           style: index == 0
                               ? tokens.body(15, weight: FontWeight.w700)
                               : tokens.body(14, weight: FontWeight.w500),
