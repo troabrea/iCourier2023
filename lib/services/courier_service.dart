@@ -552,13 +552,7 @@ class CourierService {
             fotoPerfilUrl: "");
     if (result.sessionId.isNotEmpty && checkForNew) {
       await saveLoggedInState(result, usuario, clave);
-      var storedAccounts = await getStoredAccounts();
-      if (storedAccounts.isEmpty) {
-        await addCurrentAccountToStore();
-      } else {
-        result.shouldAskToStore =
-            (!storedAccounts.any((element) => element.userAccount == usuario));
-      }
+      await addCurrentAccountToStore();
     }
     return result;
   }

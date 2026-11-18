@@ -51,7 +51,8 @@
       "type": "object",
       "properties": {
         "logoWide": { "type": "string" },
-        "logoMark": { "type": "string" }
+        "logoMark": { "type": "string" },
+        "logoMarkTint": { "$ref": "#/$defs/color" }
       },
       "additionalProperties": true
     },

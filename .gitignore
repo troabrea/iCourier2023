@@ -51,5 +51,7 @@ app.*.map.json
 # AI agent harness config, written per-machine by tool installers
 .codex/
 .cursor/
+# Temporary agent audit notes and verification scripts
+/.audit/
 # Golden test failure artefacts, regenerated on every failing run.
 test/**/failures/

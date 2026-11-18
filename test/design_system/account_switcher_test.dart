@@ -63,7 +63,7 @@ void main() {
     await pumpSwitcher(tester, onDelete: (_) {});
 
     expect(find.byIcon(Icons.delete_outline), findsOneWidget);
-    expect(find.text('Cambiar Cuenta / Cerrar Sesión'), findsOneWidget);
+    expect(find.text('Agregar Cuenta / Cerrar Sesión'), findsOneWidget);
     // El botón rojo suelto de cerrar sesión ya no existe.
     expect(find.text('Cerrar Sesión'), findsNothing);
   });

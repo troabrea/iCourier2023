@@ -738,6 +738,7 @@ class BrandTabBar extends StatelessWidget {
     required this.index,
     required this.onTap,
     required this.logoMark,
+    this.logoMarkTint,
     this.trailing,
     this.trailingGap,
   });
@@ -749,6 +750,9 @@ class BrandTabBar extends StatelessWidget {
   /// Brand mark shown at the centre, as the original tab bar did. Falls back
   /// to the package glyph when a brand ships no icon.
   final String logoMark;
+
+  /// Optional brand-configured tint for the central mark.
+  final Color? logoMarkTint;
 
   /// Utility action displayed beside, but outside, the navigation dock.
   final Widget? trailing;
@@ -815,6 +819,7 @@ class BrandTabBar extends StatelessWidget {
                                 child: _HomeButton(
                                   selected: slot == index,
                                   logoMark: logoMark,
+                                  logoMarkTint: logoMarkTint,
                                   onTap: () => onTap(slot),
                                 ),
                               )
@@ -900,11 +905,13 @@ class _HomeButton extends StatelessWidget {
   const _HomeButton({
     required this.selected,
     required this.logoMark,
+    required this.logoMarkTint,
     required this.onTap,
   });
 
   final bool selected;
   final String logoMark;
+  final Color? logoMarkTint;
   final VoidCallback onTap;
 
   @override
@@ -923,8 +930,6 @@ class _HomeButton extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            // The mark keeps its own colours, so it sits on the light backdrop
-            // it was drawn for; selection is carried by the ring instead.
             color: logoMark.isEmpty ? null : tokens.logoBackdrop,
             gradient: logoMark.isEmpty
                 ? LinearGradient(
@@ -945,7 +950,14 @@ class _HomeButton extends StatelessWidget {
                   color: tokens.onPrimary,
                   size: 25,
                 )
-              : ClipOval(child: Image.asset(logoMark, fit: BoxFit.contain)),
+              : ClipOval(
+                  child: Image.asset(
+                    logoMark,
+                    fit: BoxFit.contain,
+                    color: logoMarkTint,
+                    colorBlendMode: BlendMode.srcIn,
+                  ),
+                ),
         ),
       ),
     );

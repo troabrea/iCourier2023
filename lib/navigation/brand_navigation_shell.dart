@@ -42,6 +42,7 @@ class BrandNavigationShell extends StatelessWidget {
           modules: config.navigation.tabs,
           index: navigationShell.currentIndex,
           logoMark: config.assets.logoMark,
+          logoMarkTint: config.assets.logoMarkTint,
           trailing: trailing,
           trailingGap: trailingGap,
           onTap: (index) {

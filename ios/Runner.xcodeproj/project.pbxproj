@@ -1137,13 +1137,13 @@
 				APP_DISPLAY_NAME = "Caribe Pack";
 				APP_GROUP_ID = group.com.barolit.caribepack;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1183,13 +1183,13 @@
 				APP_DISPLAY_NAME = BMCargo;
 				APP_GROUP_ID = group.com.barolit.bmcargo;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 82;
+				CURRENT_PROJECT_VERSION = 116;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.6;
+				MARKETING_VERSION = 2027.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1206,13 +1206,13 @@
 				APP_DISPLAY_NAME = Taino;
 				APP_GROUP_ID = group.com.barolit.taino;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.taino.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1396,13 +1396,13 @@
 				APP_DISPLAY_NAME = "Boxpaq Courier";
 				APP_GROUP_ID = group.com.barolit.boxpaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 93;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1468,13 +1468,13 @@
 				APP_DISPLAY_NAME = "Beexpress Courier";
 				APP_GROUP_ID = group.com.barolit.beexpress;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 92;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1514,13 +1514,13 @@
 				APP_DISPLAY_NAME = "Telo Courier";
 				APP_GROUP_ID = group.com.barolit.telo;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 115;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.telo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1632,13 +1632,13 @@
 				APP_DISPLAY_NAME = "Cargospot Courier";
 				APP_GROUP_ID = group.com.barolit.cargospot;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.9;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1979,13 +1979,13 @@
 				APP_DISPLAY_NAME = Cainca;
 				APP_GROUP_ID = group.com.barolit.cainca;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 97;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2051,13 +2051,13 @@
 				APP_DISPLAY_NAME = "SKYhigh Cargo";
 				APP_GROUP_ID = group.com.barolit.skyhigh;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 112;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2074,13 +2074,13 @@
 				APP_DISPLAY_NAME = "Pick n' Send";
 				APP_GROUP_ID = group.com.barolit.picknsend;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 108;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2120,13 +2120,13 @@
 				APP_DISPLAY_NAME = "Fixo Cargo";
 				APP_GROUP_ID = group.com.barolit.fixocargo;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 116;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.6;
+				MARKETING_VERSION = 2027.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2195,13 +2195,13 @@
 				APP_DISPLAY_NAME = Priority;
 				APP_GROUP_ID = group.com.barolit.priority;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 110;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2290,13 +2290,13 @@
 				APP_DISPLAY_NAME = "BrodPaq Courier";
 				APP_GROUP_ID = group.com.barolit.brodpaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 94;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.brodpaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2541,13 +2541,13 @@
 				APP_DISPLAY_NAME = "Inbox Courier";
 				APP_GROUP_ID = group.com.barolit.inbox;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 107;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.1;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2587,13 +2587,13 @@
 				APP_DISPLAY_NAME = "CPS Courier";
 				APP_GROUP_ID = group.com.barolit.cps;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 96;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2610,13 +2610,13 @@
 				APP_DISPLAY_NAME = "TLS Courier";
 				APP_GROUP_ID = group.com.barolit.tls;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 113;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.2;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2679,13 +2679,13 @@
 				APP_DISPLAY_NAME = ClickPack;
 				APP_GROUP_ID = group.com.barolit.clickpack;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 100;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2702,13 +2702,13 @@
 				APP_DISPLAY_NAME = "Almapaq Courier";
 				APP_GROUP_ID = group.com.barolit.almapaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2803,13 +2803,13 @@
 				APP_DISPLAY_NAME = "Jetpack Courier";
 				APP_GROUP_ID = group.com.barolit.jetpack;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 106;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3025,7 +3025,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 112;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3039,7 +3039,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.skyhigh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3581,7 +3581,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 116;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3595,7 +3595,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.6;
+				MARKETING_VERSION = 2027.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3859,7 +3859,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 109;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -3873,7 +3873,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -4971,7 +4971,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 108;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -4985,7 +4985,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.PicknSend;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5249,7 +5249,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 100;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5263,7 +5263,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.clickpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -5527,7 +5527,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 111;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -5541,7 +5541,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6083,7 +6083,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6097,7 +6097,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.taino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6361,7 +6361,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 107;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6375,7 +6375,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.1;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.inbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6662,7 +6662,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6676,7 +6676,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.9;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cargospot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -6940,7 +6940,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 94;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -6954,7 +6954,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.brodpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7497,7 +7497,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 116;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7511,7 +7511,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.6;
+				MARKETING_VERSION = 2027.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.fixocargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -7774,7 +7774,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -7788,7 +7788,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.caribepack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8052,7 +8052,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 113;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8066,7 +8066,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.2;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tls;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8607,7 +8607,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 102;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8621,7 +8621,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -8885,7 +8885,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 106;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -8899,7 +8899,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.jetpack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9163,7 +9163,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 110;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -9177,7 +9177,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.priority;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9719,7 +9719,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 103;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -9733,7 +9733,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -9997,7 +9997,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -10011,7 +10011,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.arribex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -10275,7 +10275,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 82;
+				CURRENT_PROJECT_VERSION = 116;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -10289,7 +10289,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2027.0.6;
+				MARKETING_VERSION = 2027.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.bmcargo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -10553,7 +10553,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -10567,7 +10567,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.almapaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -10831,7 +10831,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 92;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -10845,7 +10845,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.beexpress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -11109,7 +11109,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 97;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -11123,7 +11123,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cainca;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -11386,7 +11386,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 96;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -11400,7 +11400,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.cps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -11664,7 +11664,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 101;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -11678,7 +11678,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.ecopaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -11942,7 +11942,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 115;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -11956,7 +11956,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.1;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.telo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -12220,7 +12220,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 104;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -12234,7 +12234,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.gopack;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -12498,7 +12498,7 @@
 				CAMERA_USAGE_PERMISSION_TEXT = "La aplicación usará la foto como evidencia de compra del paquete que recibirá, cumpliendo con las normas de aduanas. ej: imagen de la factura de compra que muestre la descripción del producto y su valor.";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 93;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -12512,7 +12512,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCATION_USAGE_PERMISSION_TEXT = "Asistirle en localizar nuestras oficinas";
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.boxpaq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -12623,13 +12623,13 @@
 				APP_DISPLAY_NAME = "Arribex Courier";
 				APP_GROUP_ID = group.com.barolit.arribex;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2023.7.9;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.arribex.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13072,13 +13072,13 @@
 				APP_DISPLAY_NAME = TUPAQ;
 				APP_GROUP_ID = group.com.barolit.tupaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 116;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2027.0.6;
+				MARKETING_VERSION = 2027.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.tupaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13095,13 +13095,13 @@
 				APP_DISPLAY_NAME = "Flypack Courier";
 				APP_GROUP_ID = group.com.barolit.flypack;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 103;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.flypack.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13141,13 +13141,13 @@
 				APP_DISPLAY_NAME = "Gopack Courier";
 				APP_GROUP_ID = group.com.barolit.gopack;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 104;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.gopack.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13344,13 +13344,13 @@
 				APP_DISPLAY_NAME = "QM Courier";
 				APP_GROUP_ID = group.com.barolit.qm;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 111;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.qm.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13390,13 +13390,13 @@
 				APP_DISPLAY_NAME = "Pintopaq Courier";
 				APP_GROUP_ID = group.com.barolit.pintopaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 109;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2025.1.8;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.pintopaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13488,13 +13488,13 @@
 				APP_DISPLAY_NAME = "Ecopaq Courier";
 				APP_GROUP_ID = group.com.barolit.ecopaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 101;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.ecopaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -13511,13 +13511,13 @@
 				APP_DISPLAY_NAME = "Encargopaq Courier";
 				APP_GROUP_ID = group.com.barolit.encargopaq;
 				CODE_SIGN_ENTITLEMENTS = ICourierWidget/ICourierWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 102;
 				DEVELOPMENT_TEAM = 78D5P35NL6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ICourierWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 2026.1.0;
+				MARKETING_VERSION = 2027.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.barolit.encargopaq.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

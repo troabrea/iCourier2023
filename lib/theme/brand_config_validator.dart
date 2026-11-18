@@ -78,6 +78,12 @@ abstract final class BrandConfigValidator {
     final assets = _map(json, 'assets');
     _string(assets, 'logoWide');
     _string(assets, 'logoMark');
+    if (assets.containsKey('logoMarkTint')) {
+      final tint = assets['logoMarkTint'];
+      if (tint is! String || !_hex.hasMatch(tint)) {
+        throw const FormatException('assets.logoMarkTint is not hex');
+      }
+    }
 
     final palettes = _map(json, 'palettes');
     for (final brightness in ['light', 'dark']) {

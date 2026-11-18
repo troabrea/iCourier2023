@@ -1,8 +1,13 @@
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core_platform_interface/test.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:icourier/apps/appinfo.dart';
 import 'package:icourier/apps/bmcargo/appinfo_bmcargo.dart';
 import 'package:icourier/services/courier_service.dart';
@@ -15,6 +20,16 @@ import '../helpers/brand_test_app.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  setupFirebaseCoreMocks();
+
+  setUpAll(() async {
+    await Firebase.initializeApp();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/firebase_messaging'),
+      (_) async => <String, dynamic>{},
+    );
+  });
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
@@ -24,6 +39,65 @@ void main() {
   });
 
   tearDown(() => GetIt.I.reset());
+
+  test('logging in with a second account remembers both across switches',
+      () async {
+    await http.runWithClient(() async {
+      final service = CourierService();
+      await service.getLoginResult('BM-001', 'password-one');
+      expect((await service.getStoredAccounts()).map((a) => a.userAccount),
+          ['BM-001']);
+
+      await service.saveLoggedOutState();
+      await service.getLoginResult('BM-002', 'password-two');
+      expect(await cache.load('userAccount', ''), 'BM-002');
+      expect((await service.getStoredAccounts()).map((a) => a.userAccount),
+          ['BM-001', 'BM-002']);
+
+      final reopenedService = CourierService();
+      expect(await reopenedService.switchUserAccount('BM-001'), isTrue);
+      expect(await cache.load('userAccount', ''), 'BM-001');
+      expect(
+          (await reopenedService.getStoredAccounts()).map((a) => a.userAccount),
+          ['BM-001', 'BM-002']);
+      expect(await reopenedService.switchUserAccount('BM-002'), isTrue);
+      expect(await cache.load('userAccount', ''), 'BM-002');
+      expect(
+          (await reopenedService.getStoredAccounts())
+              .every((a) => a.sessionId.isEmpty),
+          isTrue);
+      expect((await cache.load('storedAccounts', '')).toString(),
+          isNot(contains('session-')));
+    }, _loginClient);
+  });
+
+  test('signing in again updates remembered credentials without duplicates',
+      () async {
+    await http.runWithClient(() async {
+      final service = CourierService();
+      await service.getLoginResult('BM-001', 'password-one');
+      await service.saveLoggedOutState();
+      await service.getLoginResult('BM-001', 'updated-password');
+
+      final accounts = await service.getStoredAccounts();
+      expect(accounts, hasLength(1));
+      expect(accounts.single.password, 'updated-password');
+    }, _loginClient);
+  });
+
+  test('failed login does not remember an account or replace the session',
+      () async {
+    await http.runWithClient(() async {
+      final service = CourierService();
+      await service.getLoginResult('BM-001', 'password-one');
+      final result = await service.getLoginResult('BM-002', 'invalid');
+
+      expect(result.sessionId, isEmpty);
+      expect(await cache.load('userAccount', ''), 'BM-001');
+      expect((await service.getStoredAccounts()).map((a) => a.userAccount),
+          ['BM-001']);
+    }, _loginClient);
+  });
 
   test('switching accounts discards packages cached by the prior session',
       () async {
@@ -82,6 +156,22 @@ void main() {
     );
   });
 }
+
+http.Client _loginClient() => MockClient((request) async {
+      final body = jsonDecode(request.body) as Map<String, dynamic>;
+      final account = body['userAccount'] as String;
+      return http.Response(
+        jsonEncode({
+          'sessionId': body['password'] == 'invalid' ? '' : 'session-$account',
+          'nombre': account == 'BM-001' ? 'Alicia' : 'Bruno',
+          'email': 'example@example.com',
+          'telefono': '',
+          'sucursal': 'SDQ',
+          'fotoPerfilUrl': '',
+        }),
+        200,
+      );
+    });
 
 final class _AccountSwitchService extends CourierService {
   @override

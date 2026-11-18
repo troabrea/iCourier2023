@@ -217,15 +217,26 @@ final class BrandRadii {
 /// Brand-controlled assets available before login and while offline.
 @immutable
 final class BrandAssets {
-  const BrandAssets({required this.logoWide, required this.logoMark});
+  const BrandAssets({
+    required this.logoWide,
+    required this.logoMark,
+    this.logoMarkTint,
+  });
 
   factory BrandAssets.fromJson(Map<String, dynamic> json) => BrandAssets(
         logoWide: json['logoWide'] as String? ?? '',
         logoMark: json['logoMark'] as String? ?? '',
+        logoMarkTint: json['logoMarkTint'] == null
+            ? null
+            : _parseColor(
+                json['logoMarkTint'] as String, const Color(0xff000000)),
       );
 
   final String logoWide;
   final String logoMark;
+
+  /// Optional tint for monochrome artwork in the central navigation tab.
+  final Color? logoMarkTint;
 }
 
 /// Calculator presentation constraints that vary by local brand contract.

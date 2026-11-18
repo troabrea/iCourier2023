@@ -16,6 +16,11 @@ Su valor predeterminado es `1`; respeta el escalado de texto del sistema.
 Blumbox usa `Outfit` con `headScale: 0.9` en los títulos y `Source Sans 3` en el
 cuerpo, igual que las demás marcas.
 
+`assets.logoMarkTint` permite aplicar un color hexadecimal al símbolo del tab
+central. Es opcional; si se omite, el símbolo conserva sus colores originales.
+Inbox declara `#3AB8EB`, el azul alterno de su logo, para distinguir el símbolo
+sobre el fondo blanco en ambos temas.
+
 Solo se empaquetan fuentes con licencia SIL OFL 1.1 (`fonts/OFL-*.txt`). Las
 familias que no están en `pubspec.yaml` se descargan de Google Fonts.
 
