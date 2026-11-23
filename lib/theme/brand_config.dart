@@ -311,6 +311,7 @@ final class BrandCapabilities {
     this.prealerts = true,
     this.widgets = false,
     this.notifications = true,
+    this.accountStatement = false,
     this.pushTopicUsesSessionId = false,
     this.pickupModes = const [],
   });
@@ -323,6 +324,7 @@ final class BrandCapabilities {
         prealerts: json['prealerts'] as bool? ?? true,
         widgets: json['widgets'] as bool? ?? false,
         notifications: json['notifications'] as bool? ?? true,
+        accountStatement: json['accountStatement'] as bool? ?? false,
         pushTopicUsesSessionId:
             json['pushTopicUsesSessionId'] as bool? ?? false,
         pickupModes: (json['pickupModes'] as List<dynamic>? ?? const [])
@@ -338,6 +340,7 @@ final class BrandCapabilities {
   final bool prealerts;
   final bool widgets;
   final bool notifications;
+  final bool accountStatement;
   final bool pushTopicUsesSessionId;
   final List<BrandPickupMode> pickupModes;
 
@@ -353,6 +356,7 @@ final class BrandCapabilities {
       prealerts: prealerts,
       widgets: widgets,
       notifications: notifications,
+      accountStatement: accountStatement,
       pushTopicUsesSessionId: pushTopicUsesSessionId,
       pickupModes: pickupModes,
     );

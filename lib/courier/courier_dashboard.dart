@@ -362,6 +362,15 @@ class _DashboardContentState extends State<_DashboardContent> {
                                       onTap: () =>
                                           context.push(AppRoutes.history),
                                     ),
+                                    QuickAction(
+                                      label: 'ver_estado_cuenta'
+                                          .tr()
+                                          .replaceAll('\n', ' '),
+                                      icon: BrandIcons.missingInvoice,
+                                      enabled: capabilities.accountStatement,
+                                      onTap: () => context
+                                          .push(AppRoutes.accountStatement),
+                                    ),
                                   ],
                                 ),
                               ],

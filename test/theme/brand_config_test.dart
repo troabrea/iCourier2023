@@ -22,6 +22,7 @@ void main() {
       expect(config.currency, r'RD$');
       expect(config.capabilities.prealerts, isTrue);
       expect(config.capabilities.delivery, isFalse);
+      expect(config.capabilities.accountStatement, isFalse);
       expect(config.calculator.showContactEmail, isFalse);
       expect(config.capabilities.pushTopicUsesSessionId, isFalse);
       expect(config.capabilities.pickupModes, isEmpty);
@@ -146,6 +147,8 @@ void main() {
       expect(picknSend.calculator.showContactEmail, isTrue);
       expect(tupaq.name, 'TUPAQ');
       expect(tls.capabilities.pushTopicUsesSessionId, isTrue);
+      expect(_config('taino').capabilities.accountStatement, isTrue);
+      expect(tls.capabilities.accountStatement, isFalse);
       expect(tls.passwordReset.enabled, isTrue);
       expect(caribepack.navigation.tabs[3], TabModule.services);
       expect(

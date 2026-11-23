@@ -11,6 +11,9 @@ class EstadoResponse {
   double balance;
   int diasVencidos;
 
+  /// Legacy rule: a document counts as overdue only past 30 days.
+  bool get vencido => diasVencidos > 30;
+
   String soloFecha() {
     if (!fecha.contains("12:00:00 AM")) {
       return fecha;

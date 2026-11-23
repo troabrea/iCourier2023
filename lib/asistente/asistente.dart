@@ -414,8 +414,8 @@ class _Conversation extends StatelessWidget {
       AppRoutes.tracking,
       AppRoutes.calculator,
       AppRoutes.invoices,
-      AppRoutes.accountStatement,
       AppRoutes.history,
+      if (capabilities.accountStatement) AppRoutes.accountStatement,
       if (capabilities.prealerts) AppRoutes.prealert,
       if (company.hasPreguntas) AppRoutes.faq,
     };

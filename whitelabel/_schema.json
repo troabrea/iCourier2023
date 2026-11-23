@@ -91,6 +91,7 @@
         "prealerts": { "type": "boolean", "default": true },
         "widgets": { "type": "boolean", "default": false },
         "notifications": { "type": "boolean", "default": true },
+        "accountStatement": { "type": "boolean", "default": false },
         "pushTopicUsesSessionId": { "type": "boolean", "default": false },
         "loyaltyLabel": { "type": "string", "default": "Puntos disponibles" },
         "pickupModes": {
