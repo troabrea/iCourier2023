@@ -21,6 +21,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,6 +65,7 @@ class _AsistentePageState extends State<AsistentePage> {
   final TextEditingController _composer = TextEditingController();
   final FocusNode _composerFocus = FocusNode();
   final ScrollController _document = ScrollController();
+  late final ValueListenable<bool> _access;
   late Future<_AssistantContext> _context;
 
   /// Kept so a handoff can be opened after the answer arrives, not only while
@@ -73,17 +75,22 @@ class _AsistentePageState extends State<AsistentePage> {
   @override
   void initState() {
     super.initState();
+    _access = GetIt.I<CourierService>().assistantEnabled;
+    _access.addListener(_onAccessChanged);
     _context = _loadContext();
   }
 
   @override
   void dispose() {
+    _access.removeListener(_onAccessChanged);
     _bloc?.close();
     _composer.dispose();
     _composerFocus.dispose();
     _document.dispose();
     super.dispose();
   }
+
+  void _onAccessChanged() => setState(() {});
 
   Future<_AssistantContext> _loadContext() async {
     final courier = GetIt.I<CourierService>();
@@ -197,10 +204,7 @@ class _AsistentePageState extends State<AsistentePage> {
           final assistantName = data.settings.displayName(
             GetIt.I<BrandConfig>().name,
           );
-          // Every way in is hidden for a courier without the module, so this
-          // only catches a restored route or a deep link. It says so plainly
-          // rather than opening a composer whose questions nobody will answer.
-          if (!data.company.hasAssistantModule) {
+          if (!_access.value) {
             return _frame(
               context,
               title: assistantName,

@@ -23,6 +23,7 @@ final class AssistantSettings {
     this.avatarSvg = '',
     this.serviceUrl = '',
     this.apiKey = '',
+    this.mobileAccessUrl = '',
     this.sessionDailyLimit = unlimited,
     this.companyMonthlyLimit = unlimited,
   });
@@ -48,6 +49,7 @@ final class AssistantSettings {
       avatarSvg: _readAvatar(record['avatarsvg']),
       serviceUrl: _readText(service['serviceurl']),
       apiKey: _readText(service['apikey']),
+      mobileAccessUrl: _readText(record['mobileaccessurl']),
       sessionDailyLimit: _readLimit(service['sessiondailyratelimit']),
       companyMonthlyLimit: _readLimit(service['companymonthlyratelimit']),
     );
@@ -63,6 +65,22 @@ final class AssistantSettings {
 
   /// Sent as `X-Api-Key` so the workflow can tell the couriers apart.
   final String apiKey;
+
+  /// The portal's visibility endpoint for couriers in the mobile pilot.
+  final String mobileAccessUrl;
+
+  /// A pilot account is sent only to a configured HTTPS endpoint.
+  Uri? get mobileAccessEndpoint {
+    final uri = Uri.tryParse(mobileAccessUrl);
+    if (uri == null ||
+        uri.scheme != 'https' ||
+        uri.host.isEmpty ||
+        uri.userInfo.isNotEmpty ||
+        uri.hasFragment) {
+      return null;
+    }
+    return uri;
+  }
 
   /// How many questions one customer may ask per day.
   ///

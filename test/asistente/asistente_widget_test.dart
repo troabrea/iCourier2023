@@ -673,6 +673,24 @@ void main() {
     expect(find.text('Escribe tu pregunta'), findsNothing);
   });
 
+  testWidgets('pilot access opens the chat with the global switch off',
+      (tester) async {
+    await GetIt.I.unregister<CourierService>();
+    final courier = _AssistantCourierService(assistant: false);
+    GetIt.I.registerSingleton<CourierService>(courier);
+
+    await open(tester);
+    expect(find.text('Escribe tu pregunta'), findsNothing);
+
+    courier.assistantEnabled.value = true;
+    await tester.pumpAndSettle();
+    expect(find.text('Escribe tu pregunta'), findsOneWidget);
+
+    courier.assistantEnabled.value = false;
+    await tester.pumpAndSettle();
+    expect(find.text('Escribe tu pregunta'), findsNothing);
+  });
+
   testWidgets('sends the customer back to sign in when the session ended',
       (tester) async {
     await open(tester);

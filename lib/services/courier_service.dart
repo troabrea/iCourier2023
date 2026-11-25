@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
@@ -140,15 +141,12 @@ class CourierService {
   ShortCutToRun shortCutToRun = ShortCutToRun.none;
   Map? optionsMap;
 
-  /// Whether the assistant module is on for this courier, as the backend last
-  /// reported it.
-  ///
-  /// A notifier rather than a plain flag because the header actions build
-  /// before the first company record lands. They start on the safe answer — a
-  /// paid module is off until the backend says otherwise — and are corrected
-  /// in place, instead of offering the assistant to a courier who never
-  /// bought it.
+  /// Whether the assistant is visible for the courier or active pilot account.
   final ValueNotifier<bool> assistantEnabled = ValueNotifier<bool>(false);
+
+  bool _assistantAvailableToAll = false;
+  String _assistantAccount = '';
+  int _assistantAccessRevision = 0;
 
   /// The assistant's configuration, parsed once per company record.
   ///
@@ -404,11 +402,67 @@ class CourierService {
 
   /// Keeps the assistant module reachable without awaiting [getEmpresa].
   void _rememberAssistant(Empresa empresa) {
+    if (empresa.assistantSettings == _assistantRecord &&
+        empresa.hasAssistantModule == _assistantAvailableToAll) {
+      return;
+    }
+    _assistantAvailableToAll = empresa.hasAssistantModule;
     if (empresa.assistantSettings != _assistantRecord) {
       _assistantRecord = empresa.assistantSettings;
       assistantSettings.value = AssistantSettings.parse(_assistantRecord);
     }
-    assistantEnabled.value = empresa.hasAssistantModule;
+    assistantEnabled.value = _assistantAvailableToAll;
+    unawaited(refreshAssistantAccess());
+  }
+
+  /// Updates pilot visibility after session restore, login or account changes.
+  Future<void> setAssistantAccount(String account) async {
+    final activeAccount = account.trim();
+    if (activeAccount == _assistantAccount) {
+      return;
+    }
+    _assistantAccount = activeAccount;
+    assistantEnabled.value = _assistantAvailableToAll;
+    await refreshAssistantAccess();
+  }
+
+  /// Checks pilot visibility for the current account when the app resumes.
+  Future<void> refreshAssistantAccess() async {
+    final revision = ++_assistantAccessRevision;
+    final settings = assistantSettings.value;
+    final endpoint = settings.mobileAccessEndpoint;
+    if (_assistantAvailableToAll ||
+        _assistantAccount.isEmpty ||
+        endpoint == null ||
+        settings.apiKey.isEmpty) {
+      assistantEnabled.value = _assistantAvailableToAll;
+      return;
+    }
+
+    var enabled = false;
+    try {
+      final response = await post(
+        endpoint,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Api-Key': settings.apiKey,
+        },
+        body: jsonEncode({
+          'empresaId': companyId,
+          'userAccount': _assistantAccount,
+        }),
+      ).timeout(const Duration(seconds: 5));
+      if (response.statusCode == HttpStatus.ok) {
+        final Object? result = jsonDecode(response.body);
+        enabled = result is Map<String, Object?> && result['enabled'] == true;
+      }
+    } on Exception {
+      // A failed lookup leaves pilot access hidden.
+    }
+
+    if (revision == _assistantAccessRevision) {
+      assistantEnabled.value = enabled;
+    }
   }
 
   Future<void> _refreshEmpresa() async {

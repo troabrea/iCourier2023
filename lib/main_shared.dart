@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -115,15 +116,26 @@ Future<void> mainShared(AppInfo appInfo) async {
   //final fcmToken = await FirebaseMessaging.instance.getToken();
   GetIt.I.registerSingleton<AppInfo>(appInfo);
   GetIt.I.registerSingleton<BrandConfig>(brandConfig);
-  GetIt.I.registerSingleton<CourierService>(CourierService());
+  final courierService = CourierService();
+  GetIt.I.registerSingleton<CourierService>(courierService);
   GetIt.I.registerSingleton<AssistantService>(AssistantService());
   await GetIt.I<CourierService>().clearDataCache();
   GetIt.I.registerSingleton<event.Event<UnreadMessagesChanged>>(
       event.Event<UnreadMessagesChanged>());
   GetIt.I.registerSingleton<event.Event<UserPrealertaRequested>>(
       event.Event<UserPrealertaRequested>());
-  GetIt.I.registerSingleton<event.Event<LoginChanged>>(
-      event.Event<LoginChanged>());
+  final loginChanges = event.Event<LoginChanged>();
+  GetIt.I.registerSingleton<event.Event<LoginChanged>>(loginChanges);
+  loginChanges.subscribe((change) {
+    unawaited(courierService.setAssistantAccount(
+      change != null && change.loggedIn ? change.account : '',
+    ));
+  });
+  if (initiallyLoggedIn) {
+    await courierService.setAssistantAccount(
+      (await cache.load('userAccount', '')).toString(),
+    );
+  }
   GetIt.I.registerSingleton<event.Event<LogoutRequested>>(
       event.Event<LogoutRequested>());
   GetIt.I.registerSingleton<event.Event<CourierRefreshRequested>>(
@@ -264,6 +276,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       widgetSyncCoordinator.refreshAfterForeground();
+      unawaited(GetIt.I<CourierService>().refreshAssistantAccess());
     }
   }
 
